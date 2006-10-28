@@ -1,0 +1,2 @@
+<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.UI.Containers.Icon" CodeFile="Icon.ascx.cs" %>
+<asp:Image BorderWidth="0" runat=server ID="imgIcon" enableviewstate="False"/>

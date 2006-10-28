@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="lbLocales.Text">
+		<value>Available Locales</value>
+	</data>
+	<data name="ResourceName.Text">
+		<value>Resource Name:</value>
+	</data>
+	<data name="Value.Text">
+		<value>Localized Value</value>
+	</data>
+	<data name="RequiredField.ErrorMessage">
+		<value>&lt;br&gt;Required Field</value>
+	</data>
+	<data name="lbLocales.Help">
+		<value>Select the Language</value>
+	</data>
+	<data name="DefaultValue.Text">
+		<value>Default Value</value>
+	</data>
+	<data name="DeleteItem.Text">
+		<value>Are You Sure You Wish To Delete This Localized File?</value>
+	</data>
+	<data name="Delete.ErrorMessage">
+		<value>System Locale (en-US) Cannot Be Deleted</value>
+	</data>
+	<data name="Save.ErrorMessage">
+		<value>A File Operation Failed. Please Check Resource File Permissions So Files Can Be Edited.</value>
+	</data>
+	<data name="SelectedFile.Text">
+		<value>Selected Resource File:</value>
+	</data>
+	<data name="SaveWarning.Text">
+		<value>All unsaved changes will be lost if you continue. Are you sure you want to continue?</value>
+	</data>
+	<data name="ControlTitle_.Text">
+		<value>Custom Portal Locale</value>
+	</data>
+	<data name="ControlTitle_language.Text">
+		<value>Language Editor</value>
+	</data>
+	<data name="DuplicateEntry.Text">
+		<value>This file contains more than one entry for: &lt;b&gt;{0}&lt;/b&gt;. You should edit the file and remove the duplicates.</value>
+	</data>
+	<data name="Highlight.Text">
+		<value>Highlight Pending Translations</value>
+	</data>
+	<data name="ModuleHelp.Text">
+		<value>&lt;h1&gt;About Languages&lt;/h1&gt;&lt;p&gt;The Super User can manage the suported languages installed on the system.&lt;/p&gt;</value>
+	</data>
+	<data name="ModeHost.Text">
+		<value>Host</value>
+	</data>
+	<data name="ModeSystem.Text">
+		<value>System</value>
+	</data>
+	<data name="ModePortal.Text">
+		<value>Portal</value>
+	</data>
+	<data name="lbMode.Text">
+		<value>Mode:</value>
+	</data>
+	<data name="lbMode.Help">
+		<value>Select System to edit the base file for a given language; Host will create a custom version of the localized file for this installation.</value>
+	</data>
+	<data name="Deleted.Text">
+		<value>File {0} was correctly deleted</value>
+	</data>
+	<data name="Obsolete.Text">
+		<value>This files contains obsolete resources which are no more needed. Click save to remove these items permanently.</value>
+	</data>
+	<data name="DisplayEnglish.Text">
+		<value>Display English Name</value>
+	</data>
+	<data name="DisplayNative.Text">
+		<value>Display Native Name</value>
+	</data>
+</root>

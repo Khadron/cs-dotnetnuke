@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="plSource.Text">
+		<value>Banner Source</value>
+	</data>
+	<data name="plSource.Help">
+		<value>Specify whether to display banners defined for the Site or for the Portal</value>
+	</data>
+	<data name="plType.Text">
+		<value>Banner Type</value>
+	</data>
+	<data name="plType.Help">
+		<value>Specify the banner type</value>
+	</data>
+	<data name="plGroup.Text">
+		<value>Banner Group</value>
+	</data>
+	<data name="plGroup.Help">
+		<value>Specify the banner group name</value>
+	</data>
+	<data name="plCount.Text">
+		<value>Banner Count</value>
+	</data>
+	<data name="plCount.Help">
+		<value>Specify the maximum number of Banner ads to display</value>
+	</data>
+	<data name="plOrientation.Text">
+		<value>Orientation</value>
+	</data>
+	<data name="plOrientation.Help">
+		<value>Specify whether the banners should be displayed vertically or horizontally</value>
+	</data>
+	<data name="plBorder.Text">
+		<value>Border Width</value>
+	</data>
+	<data name="plBorder.Help">
+		<value>Specify the border width</value>
+	</data>
+	<data name="plBorderColor.Text">
+		<value>Border Color</value>
+	</data>
+	<data name="plBorderColor.Help">
+		<value>Specify the border color</value>
+	</data>
+	<data name="plRowHeight.Text">
+		<value>Row Height</value>
+	</data>
+	<data name="plRowHeight.Help">
+		<value>Specify the height for each banner cell</value>
+	</data>
+	<data name="plColWidth.Text">
+		<value>Column Width</value>
+	</data>
+	<data name="plColWidth.Help">
+		<value>Specify the width for each banner cell</value>
+	</data>
+	<data name="cmdUpdate.Text">
+		<value>Update</value>
+	</data>
+	<data name="cmdCancel.Text">
+		<value>Cancel</value>
+	</data>
+	<data name="ControlTitle_edit.Text">
+		<value>Edit Banner</value>
+	</data>
+	<data name="plPadding.Text">
+		<value>Cell Padding</value>
+	</data>
+	<data name="plPadding.Help">
+		<value>Space between the banners and the border</value>
+	</data>
+	<data name="AllTypes.Text">
+		<value>&lt;All Types&gt;</value>
+	</data>
+	<data name="Host.Text">
+		<value>Host</value>
+	</data>
+	<data name="Site.Text">
+		<value>Site</value>
+	</data>
+	<data name="valCount.ErrorMessage">
+		<value>&lt;br&gt;Banner Count Must Be A Valid Integer</value>
+	</data>
+	<data name="Horizontal.Text">
+		<value>Horizontal</value>
+	</data>
+	<data name="Vertical.Text">
+		<value>Vertical</value>
+	</data>
+	<data name="valBorder.ErrorMessage">
+		<value>&lt;br&gt;Border Width Must Be A Valid Integer</value>
+	</data>
+	<data name="valPadding.ErrorMessage">
+		<value>&lt;br&gt;Cell padding Must Be A Valid Integer</value>
+	</data>
+	<data name="valRowHeight.ErrorMessage">
+		<value>&lt;br&gt;Row Height Must Be A Valid Integer</value>
+	</data>
+	<data name="valColWidth.ErrorMessage">
+		<value>&lt;br&gt;Column Width Must Be A Valid Integer</value>
+	</data>
+</root>

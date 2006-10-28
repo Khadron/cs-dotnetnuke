@@ -1,0 +1,123 @@
+using System.Web;
+using DotNetNuke.Common;
+using DotNetNuke.Common.Utilities;
+using DotNetNuke.Entities.Portals;
+using DotNetNuke.Entities.Tabs;
+using DotNetNuke.Entities.Users;
+
+namespace DotNetNuke.Services.FileSystem
+{
+    public class FileServerHandler : IHttpHandler
+    {
+        public virtual bool IsReusable
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        /// <Summary>
+        /// This handler handles requests for LinkClick.aspx, but only those specifc
+        /// to file serving
+        /// </Summary>
+        /// <Param name="context">System.Web.HttpContext)</Param>
+        public virtual void ProcessRequest( HttpContext context )
+        {
+            PortalSettings portalSettings = PortalController.GetCurrentPortalSettings();
+
+            // get TabId
+            int tabId = -1;
+            if (context.Request.QueryString["tabid"] != null)
+            {
+                tabId = int.Parse(context.Request.QueryString["tabid"]);
+            }
+
+            // get ModuleId
+            int moduleId = -1;
+            if (context.Request.QueryString["mid"] != null)
+            {
+                moduleId = int.Parse(context.Request.QueryString["mid"]);
+            }
+
+            // get UserId
+            int UserId = -1;
+            UserInfo objUserInfo = UserController.GetCurrentUserInfo();
+            if (context.Request.IsAuthenticated)
+            {
+                UserId = objUserInfo.UserID;
+            }
+
+            // get the URL
+            string URL = "";
+            bool blnClientCache = true;
+            bool blnForceDownload = false;
+
+            if (context.Request.QueryString["fileticket"] != null)
+            {
+                URL = "FileID=" + UrlUtils.DecryptParameter(context.Request.QueryString["fileticket"]);
+            }
+            if (context.Request.QueryString["userticket"] != null)
+            {
+                URL = "UserId=" + UrlUtils.DecryptParameter(context.Request.QueryString["userticket"]);
+            }
+            if (context.Request.QueryString["link"] != null)
+            {
+                URL = context.Request.QueryString["link"];
+                if (URL.ToLower().StartsWith("fileid="))
+                {
+                    URL = ""; // restrict direct access by FileID
+                }
+            }
+
+            if (URL != "")
+            {
+                TabType UrlType = Globals.GetURLType(URL);
+
+                if (UrlType != TabType.File)
+                {
+                    URL = Globals.LinkClick(URL, tabId, moduleId, false);
+                }
+
+                if (UrlType == TabType.File && URL.ToLower().StartsWith("fileid=") == false)
+                {
+                    // to handle legacy scenarios before the introduction of the FileServerHandler
+                    FileController objFiles = new FileController();
+                    URL = "FileID=" + objFiles.ConvertFilePathToFileId(URL, portalSettings.PortalId);
+                }
+
+                // get optional parameters
+                if (context.Request.QueryString["clientcache"] != null)
+                {
+                    blnClientCache = bool.Parse(context.Request.QueryString["clientcache"]);
+                }
+
+                if ((context.Request.QueryString["forcedownload"] != null) || (context.Request.QueryString["contenttype"] != null))
+                {
+                    blnForceDownload = bool.Parse(context.Request.QueryString["forcedownload"]);
+                }
+
+                // update clicks
+                UrlController objUrls = new UrlController();
+                objUrls.UpdateUrlTracking(portalSettings.PortalId, URL, moduleId, UserId);
+
+                // clear the current response
+                context.Response.Clear();
+
+                if (UrlType == TabType.File)
+                {
+                    // serve the file
+                    if (!FileSystemUtils.DownloadFile(portalSettings, int.Parse(UrlUtils.GetParameterValue(URL)), blnClientCache, blnForceDownload))
+                    {
+                        context.Response.Write(Localization.Localization.GetString("FilePermission.Error"));
+                    }
+                }
+                else
+                {
+                    // redirect to URL
+                    context.Response.Redirect(URL, true);
+                }
+            }
+        }
+    }
+}

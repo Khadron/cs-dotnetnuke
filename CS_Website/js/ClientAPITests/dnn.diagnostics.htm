@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>dnn.diagnostics</title>
+<meta name=vs_defaultClientScript content="JavaScript">
+<meta name=vs_targetSchema content="http://schemas.microsoft.com/intellisense/ie3-2nav3-0">
+<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+<meta name=ProgId content=VisualStudio.HTML>
+<meta name=Originator content="Microsoft Visual Studio .NET 7.1">
+	<link href="dnnunittest.css" rel="stylesheet" type="text/css">
+
+	<script src="../dnn.js"></script>
+	<script src="../dnn.diagnostics.js"></script>
+	<script language=javascript>
+	<!--
+		__dnn.prototype.UnitTests = function()
+		{
+			if (dnn.diagnostics != null)
+			{
+				dnn.diagnostics.assert('assert 1=1', 1==1);
+				dnn.diagnostics.assertTrue('asserting 1=1', 1==1);
+				dnn.diagnostics.assertFalse('asserting 1=2 is false', 1==2);
+				dnn.diagnostics.assertNotNaN('asserting 1 is a number', '1');
+				dnn.diagnostics.assertNaN('asserting a is NOT a number', 'a');				
+				dnn.diagnostics.assertEquals('asserting 3 Equals 3', 3, 3);
+				dnn.diagnostics.assertNotEquals('asserting 3 does Not Equal 4', 3, 4);
+				dnn.diagnostics.assertNull('asserting null', null);
+				dnn.diagnostics.assertNotNull('asserting not null', '');
+				dnn.diagnostics.assertStringLength('asserting string length', 'a');
+				
+				dnn.diagnostics.assert('assert 1=2 (failure=good)', 1==2);
+				dnn.diagnostics.assertTrue('asserting 1=2 (failure=good)', 1==2);
+				dnn.diagnostics.assertFalse('asserting 1=1 is false (failure=good)', 1==1);
+				dnn.diagnostics.assertNotNaN('asserting a is a number (failure=good)', 'a');
+				dnn.diagnostics.assertNaN('asserting 1 is NOT a number (failure=good)', '1');				
+				dnn.diagnostics.assertEquals('asserting 3 Equals 4 (failure=good)', 3, 4);
+				dnn.diagnostics.assertNotEquals('asserting 3 does Not Equal 3 (failure=good)', 3, 3);
+				dnn.diagnostics.assertNull('asserting null \'\' (failure=good)', '');
+				dnn.diagnostics.assertNotNull('asserting not null (failure=good)', null);
+				dnn.diagnostics.assertStringLength('asserting string length (failure=good)', '');
+				dnn.diagnostics.assertStringLength('asserting string length null (failure=good)', null);
+
+				
+			}		
+		}
+	var m_sName = '<%=User.Name%>';
+	//-->
+	</script>
+	
+</head>
+<body>
+	<form>
+	<img src="poweredbydnn537x36.gif">	
+	<h1>DotNetNuke Client API - dnn.diagnostics Namespace</h1>	
+	<p class="summary">This object is responsible for the execution the the Unit Tests.</p>
+	<div class="funccontent">
+		<table>
+			<tr>
+				<td class="funcname">assert</td>
+				<td class="funcdesc">Same as assertTrue, simply passes bVal to assertCheck.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sCom</td>
+				<td class="paramdesc">Comment for alert being checked</td>
+			</tr>
+			<tr>
+				<td class="paramname">bVal</td>
+				<td class="paramdesc">Result from assert. Expecting a true here for a passing mark.</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">assertTrue</td>
+				<td class="funcdesc">Simply passes bVal to assertCheck.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sCom</td>
+				<td class="paramdesc">Comment for alert being checked</td>
+			</tr>
+			<tr>
+				<td class="paramname">bVal</td>
+				<td class="paramdesc">Result from assert. Expecting a true here for a passing mark.</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">assertFalse</td>
+				<td class="funcdesc">simply passes the NOT value of bVal to assertCheck.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sCom</td>
+				<td class="paramdesc">Comment for alert being checked</td>
+			</tr>
+			<tr>
+				<td class="paramname">bVal</td>
+				<td class="paramdesc">Result from assert. Expecting a false here for a passing mark.</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">assertEquals</td>
+				<td class="funcdesc">Compares the second and third parameters to see if they are equal.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sCom</td>
+				<td class="paramdesc">Comment for alert being checked</td>
+			</tr>
+			<tr>
+				<td class="paramname">sVal1</td>
+				<td class="paramdesc">Value of any type that will be used to compare against sVal2.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sVal2</td>
+				<td class="paramdesc">Value of any type that will be used to compare against sVal1.</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">assertNotEquals</td>
+				<td class="funcdesc">Compares the second and third parameters to see if they are NOT equal.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sCom</td>
+				<td class="paramdesc">Comment for alert being checked</td>
+			</tr>
+			<tr>
+				<td class="paramname">sVal1</td>
+				<td class="paramdesc">Value of any type that will be used to compare against sVal2.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sVal2</td>
+				<td class="paramdesc">Value of any type that will be used to compare against sVal1.</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">assertNull</td>
+				<td class="funcdesc">Checks for a null value and passes true to assertCheck when found.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sCom</td>
+				<td class="paramdesc">Comment for alert being checked</td>
+			</tr>
+			<tr>
+				<td class="paramname">bVal</td>
+				<td class="paramdesc">Result from assert. Expecting a null here for a passing mark.</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">assertNotNull</td>
+				<td class="funcdesc">Checks for a non-null value and passes true to assertCheck when not found.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sCom</td>
+				<td class="paramdesc">Comment for alert being checked</td>
+			</tr>
+			<tr>
+				<td class="paramname">bVal</td>
+				<td class="paramdesc">Result from assert. Expecting any value but null here for a passing mark.</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">assertNaN</td>
+				<td class="funcdesc">Checks for a non-numeric value and passes true to assertCheck when not a number.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sCom</td>
+				<td class="paramdesc">Comment for alert being checked</td>
+			</tr>
+			<tr>
+				<td class="paramname">bVal</td>
+				<td class="paramdesc">Result from assert. Expecting any value but a number here for a passing mark.</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">assertNotNaN</td>
+				<td class="funcdesc">Checks for a numeric value and passes true to assertCheck when a number is found.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sCom</td>
+				<td class="paramdesc">Comment for alert being checked</td>
+			</tr>
+			<tr>
+				<td class="paramname">bVal</td>
+				<td class="paramdesc">Result from assert. Expecting a number here for a passing mark.</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">assertStringLength</td>
+				<td class="funcdesc">Checks for a string value with a length > 0 and passes true to assertCheck when a sting has 1 or more characters.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sCom</td>
+				<td class="paramdesc">Comment for alert being checked</td>
+			</tr>
+			<tr>
+				<td class="paramname">bVal</td>
+				<td class="paramdesc">Result from assert. Expecting a string with a length > 0 here for a passing mark.</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">assertCheck</td>
+				<td class="funcdesc">Called by all asserts.  Responsible for writing output to debug control.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sCom</td>
+				<td class="paramdesc">Comment for alert being checked</td>
+			</tr>
+			<tr>
+				<td class="paramname">bVal</td>
+				<td class="paramdesc">Result from assert. Expecting a true here for a passing mark.</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">sMsg</td>
+				<td class="paramdesc">Reason for failure</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">clearDebug</td>
+				<td class="funcdesc">Clears debug text output.</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">true when successful</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">displayDebug</td>
+				<td class="funcdesc">Writes output to the debug control.  If no control found it will attempt to create a new control and append it to the document body.  This brings about an interesting problem with IE since it will yield an "Operation Aborted" error if done before the page loads so there is custom code to wait until the page is loaded until the control is added.</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">true when successful</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+		</table>
+	</div>
+	<textarea id="__dnnDebugOutput" rows="10" cols="100" class="unittestcontent" NAME="__dnnDebugOutput"></textarea>
+	<br>
+	<input type="button" onclick="dnn_diagnosticTests(dnn);" value="Unit Tests" ID="Button1" NAME="Button1">
+	</form>
+</body>
+</html>

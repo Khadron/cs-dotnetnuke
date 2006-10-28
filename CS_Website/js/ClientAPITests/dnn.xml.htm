@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>dnn.xml</title>
+<meta name=vs_defaultClientScript content="JavaScript">
+<meta name=vs_targetSchema content="http://schemas.microsoft.com/intellisense/ie3-2nav3-0">
+<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+<meta name=ProgId content=VisualStudio.HTML>
+<meta name=Originator content="Microsoft Visual Studio .NET 7.1">
+	<link href="dnnunittest.css" rel="stylesheet" type="text/css">
+
+	<script src="../dnn.js"></script>
+	<script src="../dnn.xml.js"></script>
+	<script src="../dnn.diagnostics.js"></script>
+	<script language=javascript>
+	<!--
+		dnn_xml.prototype.UnitTests = function()
+		{
+			var oXML = dnn.xml.createDocument();
+			dnn.diagnostics.assertNotNull('createDocument()', oXML);
+			oXML.loadXML('<root><test nm="t1"/><test nm="t2"/></root>');
+			dnn.diagnostics.assertNotNull('childNodes()', oXML.childNodes[0]);
+			dnn.diagnostics.assertStringLength('xml property', oXML.childNodes[0].xml);
+			var sStyle = '<?xml version="1.0"?><xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:template match="/"><p><xsl:for-each select="//test"><xsl:apply-templates select="." /></xsl:for-each></p></xsl:template><xsl:template match="test"><b>test: </b><xsl:value-of select="@nm"/></xsl:template></xsl:stylesheet>';
+			var sHTML = oXML.applyStyle(sStyle);
+			dnn.diagnostics.assertStringLength('XSL Transform results', sHTML);
+			oXML.loadXML(sHTML);
+			dnn.diagnostics.assertNotNull('transformed xml childNodes()', oXML.childNodes[0]);
+			dnn.diagnostics.assertStringLength('transformed xml property', oXML.childNodes[0].xml);
+			
+			//dnn.diagnostics.displayDebug('browser.toString(): ' + dnn.dom.browser.toString());			
+		}
+
+	//-->
+	</script>
+	
+</head>
+<body>
+	<form ID="Form1">
+	<img src="poweredbydnn537x36.gif">	
+	<h1>DotNetNuke Client API - dnn.xml Namespace</h1>	
+	<p class="summary">Still under construction.  This object will provide a uniform way to interact with each browser's XML DOM.</p>
+	<div class="funccontent">
+		<table ID="Table1">
+			<tr>
+				<td class="funcname">createDocument</td>
+				<td class="funcdesc">creates XML Document</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">loadXML</td>
+				<td class="funcdesc">loads XML string into Document</td>
+			</tr>
+			<tr>
+				<td class="paramname">sXML</td>
+				<td class="paramdesc">XML string</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">applyStyle</td>
+				<td class="funcdesc">Applies XSL style to Document</td>
+			</tr>
+			<tr>
+				<td class="paramname">sXSL</td>
+				<td class="paramdesc">XSL string to apply</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+		</table>
+	</div>
+	<textarea id="__dnnDebugOutput" rows="10" cols="100" class="unittestcontent" NAME="__dnnDebugOutput"></textarea>
+	<br>
+	<input type="button" onclick="dnn_diagnosticTests(dnn);" value="Unit Tests" ID="Button1" NAME="Button1">
+	</form>
+</body>
+</html>
+
