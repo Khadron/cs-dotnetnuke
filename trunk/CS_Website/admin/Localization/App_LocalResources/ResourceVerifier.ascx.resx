@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="ModuleHelp.Text">
+		<value>&lt;P&gt;With this module you can verify all the installed language packs in the portal and check their status against the default system language. The verificacion process will look at all the system default resource files and compare them to the localized version for all supported languages.&lt;/P&gt;
+&lt;P&gt;Once you get the report, and if any issues are found, you can use the &lt;STRONG&gt;Languages Localization Editor&lt;/STRONG&gt; to solve all the issues reported.&lt;/P&gt;
+&lt;P&gt;There are three different issues that can be found for any resource file:&lt;/P&gt;
+&lt;UL&gt;
+&lt;LI&gt;&lt;SPAN class=SubHead&gt;Missing File&lt;/SPAN&gt;: The localized version for a given resource file is missing. To correct this issue select the resource file on the &lt;STRONG&gt;Languages Localization Editor&lt;/STRONG&gt; and the language where the error is given. The localized file will be automatically created. 
+&lt;LI&gt;&lt;SPAN class=SubHead&gt;Missing Entry:&lt;/SPAN&gt; The localized version for a given resource file does not include some entries that are present on the default system resource file. To correct this issue select the resource file on the &lt;STRONG&gt;Languages Localization Editor&lt;/STRONG&gt; and the language where the error is given. You will be given the option to add all missing keys to the localized resource file. 
+&lt;LI&gt;&lt;SPAN class=SubHead&gt;Obsolete Entry&lt;/SPAN&gt;: The localized version for a given resource file includes some entries that are not present on the default system resource file. To correct this issue select the resource file on the &lt;STRONG&gt;Languages Localization Editor&lt;/STRONG&gt; and the language where the error is given. All keys that are not necessary will be automatically deleted.&lt;/LI&gt;&lt;/UL&gt;</value>
+	</data>
+	<data name="cmdVerify.Text">
+		<value>Verify Resource Files</value>
+	</data>
+	<data name="Locale.Text">
+		<value>Locale:&amp;nbsp; </value>
+	</data>
+	<data name="MissingFiles.Text">
+		<value>Missing Resource files:&amp;nbsp;</value>
+	</data>
+	<data name="MissingEntries.Text">
+		<value>Files With Missing Entries:&amp;nbsp;</value>
+	</data>
+	<data name="ObsoleteEntries.Text">
+		<value>Files With Obsolete Entries:&amp;nbsp;</value>
+	</data>
+	<data name="ControlTitle_verify.Text">
+		<value>Resource File Verifier</value>
+	</data>
+	<data name="OldFiles.Text">
+		<value>Files Older Than System Default:&amp;nbsp;</value>
+	</data>
+	<data name="DuplicateEntries.Text">
+		<value>Files With Duplicate Entries:&amp;nbsp;</value>
+	</data>
+</root>

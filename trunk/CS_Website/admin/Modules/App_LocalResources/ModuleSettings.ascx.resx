@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            <xsd:complexType>
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" />
+                            <xsd:attribute name="type" type="xsd:string" />
+                            <xsd:attribute name="mimetype" type="xsd:string" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" />
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:complexType>
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="ResMimeType">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="Version">
+        <value>1.0.0.0</value>
+    </resheader>
+    <resheader name="Reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="Writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ModuleSettings.Text">
+        <value>Module Settings</value>
+    </data>
+    <data name="ModuleSettingsHelp.Text">
+        <value>In this section, you can define the settings that relate to the Module content and permissions (ie. those settings that will be the same on all pages that the Module appears ).</value>
+    </data>
+    <data name="plTitle.Text">
+        <value>Module Title:</value>
+    </data>
+    <data name="plTitle.Help">
+        <value>Enter a title for the Module.  This will appear in the Title Bar of the Container for this Module, if supported by the Container.</value>
+    </data>
+    <data name="PageSettings.Text">
+        <value>Page Settings</value>
+    </data>
+    <data name="PageSettingsHelp.Text">
+        <value>In this section, you can define settings specific to this particular occurrence of the Module for this Page.</value>
+    </data>
+    <data name="Security.Text">
+        <value>Advanced Settings</value>
+    </data>
+    <data name="plAllTabs.Text">
+        <value>Display Module On All Pages?</value>
+    </data>
+    <data name="plAllTabs.Help">
+        <value>Select whether the module should appear in the same location on all pages of the site</value>
+    </data>
+    <data name="plVisibility.Text">
+        <value>Visibility:</value>
+    </data>
+    <data name="plVisibility.Help">
+        <value>Choose the default visibility for this Module</value>
+    </data>
+    <data name="plTab.Text">
+        <value>Move To Page:</value>
+    </data>
+    <data name="plTab.Help">
+        <value>Move this module instance to another Page.</value>
+    </data>
+    <data name="plHeader.Text">
+        <value>Header:</value>
+    </data>
+    <data name="plHeader.Help">
+        <value>Enter header text for this Module</value>
+    </data>
+    <data name="plFooter.Text">
+        <value>Footer:</value>
+    </data>
+    <data name="plFooter.Help">
+        <value>Enter footer text for this Module</value>
+    </data>
+    <data name="plIcon.Text">
+        <value>Icon:</value>
+    </data>
+    <data name="plIcon.Help">
+        <value>Select an Icon for this Module to display in the Title Bar</value>
+    </data>
+    <data name="plAlign.Text">
+        <value>Alignment:</value>
+    </data>
+    <data name="plAlign.Help">
+        <value>Select the Alignment of the Module</value>
+    </data>
+    <data name="plColor.Text">
+        <value>Color:</value>
+    </data>
+    <data name="plColor.Help">
+        <value>Enter a Color for the module</value>
+    </data>
+    <data name="plBorder.Text">
+        <value>Border:</value>
+    </data>
+    <data name="plBorder.Help">
+        <value>Enter a Border width for the Module</value>
+    </data>
+    <data name="plModuleContainer.Text">
+        <value>Module Container:</value>
+    </data>
+    <data name="plModuleContainer.Help">
+        <value>Select a Container for the Module ( to add a new Container go to the File Manager)</value>
+    </data>
+    <data name="plPermissions.Text">
+        <value>Permissions:</value>
+    </data>
+    <data name="plPermissions.Help">
+        <value>Select the View and Edit permissions by checking/unchecking the boxes in the grid.  The module can inherit its permissions from the Page.  To do this check the Inherit View Permissions checkbox.</value>
+    </data>
+    <data name="plCacheTime.Text">
+        <value>Cache Time (secs):</value>
+    </data>
+    <data name="plCacheTime.Help">
+        <value>Enter the time this object is kept in the Cache</value>
+    </data>
+    <data name="plStartDate.Text">
+        <value>Start Date:</value>
+    </data>
+    <data name="plStartDate.Help">
+        <value>Enter the start date for displaying this module.  You may use the Calendar to pick a date.</value>
+    </data>
+    <data name="plEndDate.Text">
+        <value>End Date:</value>
+    </data>
+    <data name="plEndDate.Help">
+        <value>Enter the end date for displaying this module.  You may use the Calendar to pick a date.</value>
+    </data>
+    <data name="plDefault.Text">
+        <value>Set As Default Settings?</value>
+    </data>
+    <data name="plDefault.Help">
+        <value>Select this option if you would like the Page Settings for this module to be used as the default settings when adding new modules.</value>
+    </data>
+    <data name="plAllModules.Text">
+        <value>Apply To All Modules?</value>
+    </data>
+    <data name="plAllModules.Help">
+        <value>Select this option if you would like the Page Settings for this module to be applied to all existing modules in the site.</value>
+    </data>
+    <data name="SpecificSettings.Text">
+        <value>Module Specific Settings</value>
+    </data>
+    <data name="SpecificSettingsHelp.Text">
+        <value>In this section, you can set up settings that are specific for this module.</value>
+    </data>
+    <data name="GeneralDetails.Text">
+        <value>Basic Settings</value>
+    </data>
+    <data name="Appearance.Text">
+        <value>Basic Settings</value>
+    </data>
+    <data name="OtherSettings.Text">
+        <value>Advanced Settings</value>
+    </data>
+    <data name="InheritPermissions.Text">
+        <value>Inherit &lt;b&gt;View&lt;/b&gt; permissions from &lt;b&gt;Page&lt;/b&gt;</value>
+    </data>
+    <data name="ControlTitle_module.Text">
+        <value>Module</value>
+    </data>
+    <data name="plDisplayTitle.Text">
+        <value>Display Container?</value>
+    </data>
+    <data name="plDisplayTitle.Help">
+        <value>Select this option if you would like to display the Module container.</value>
+    </data>
+    <data name="plDisplaySyndicate.Text">
+        <value>Allow Syndicate?</value>
+    </data>
+    <data name="plDisplayPrint.Help">
+        <value>Select this option if you would like to enable printing on this module</value>
+    </data>
+    <data name="plDisplaySyndicate.Help">
+        <value>Select this option if you would like to enable RSS on this module</value>
+    </data>
+    <data name="plDisplayPrint.Text">
+        <value>Allow Print?</value>
+    </data>
+    <resheader name="valStartDate">
+        <value>&lt;br&gt;Invalid Start Date</value>
+    </resheader>
+    <resheader name="valEndDate">
+        <value>&lt;br&gt;Invalid End Date</value>
+    </resheader>
+    <data name="valStartDate.ErrorMessage">
+        <value>&lt;br&gt;Invalid Start Date</value>
+    </data>
+    <data name="valEndDate.ErrorMessage">
+        <value>&lt;br&gt;Invalid End Date</value>
+    </data>
+    <data name="valCacheTime.ErrorMessage">
+        <value>&lt;br&gt;Invalid Cache Time</value>
+    </data>
+    <data name="ModuleHelp.Text">
+        <value>&lt;h1&gt;Module Settings&lt;/h1&gt;&lt;p&gt;Administrators can manage the Module Settings for the current Page. This allows you to specify characteristics of the module including content, permissions, and display properties.&lt;/p&gt;</value>
+    </data>
+    <data name="valBorder.ErrorMessage">
+        <value>&lt;br&gt;Invalid Border (must be a number between 0 and 9)</value>
+    </data>
+</root>

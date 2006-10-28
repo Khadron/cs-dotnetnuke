@@ -1,0 +1,105 @@
+html, body 
+{ 	
+	background-color: #ECE9D8; 	
+	color: #000000; 	
+	font: 11px Tahoma,Verdana,sans-serif; 	
+	padding: 0px; 
+} 
+body 
+{ 
+	margin: 5px; 
+} 
+form 
+{ 
+	margin: 0px; 
+	padding: 0px;
+} 
+table 
+{   
+	font: 11px Tahoma,Verdana,sans-serif; 
+} 
+form p 
+{   
+	margin-top: 5px;   
+	margin-bottom: 5px; 
+} 
+h3 
+{ 
+	margin: 0; 
+	margin-top: 4px;  
+	margin-bottom: 5px; 
+	font-size: 12px; 
+	border-bottom: 2px solid #90A8F0; 
+	color: #90A8F0;
+} 
+.fl 
+{ 
+	width: 9em; 
+	float: left; 
+	padding: 2px 5px; 
+	text-align: right; 
+} 
+.fr 
+{ 
+	width: 7em; 
+	float: left; 
+	padding: 2px 5px; 
+	text-align: right; 
+} 
+fieldset 
+{
+	padding: 0px 10px 5px 5px; 
+} 
+button 
+{
+	width: 75px; 
+} 
+select, input, button 
+{
+	font: 11px Tahoma,Verdana,sans-serif; 
+} 
+.space 
+{ 
+	padding: 2px; 
+} 
+.title 
+{ 
+	background: #ddf; 
+	color: #000; 
+	font-weight: bold; 
+	font-size: 120%; 
+	padding: 3px 10px; 
+	margin-bottom: 10px; 
+	border-bottom: 1px solid black; 
+	letter-spacing: 2px; 
+} 
+.f_title 
+{ 
+	text-align:right; 
+}
+.footer 
+{ 
+	border-top:2px solid #90A8F0; 
+	padding-top: 3px; 
+	margin-top: 4px; 
+	text-align:right; 
+}
+
+.smiley
+{
+	padding-right: 5px;
+	padding-left: 5px;
+	padding-bottom: 5px;
+	padding-top: 5px;
+}
+.smileyTable
+{
+	border-right: black 1px solid;
+	padding-right: 5px;
+	border-top: black 1px solid;
+	padding-left: 5px;
+	padding-bottom: 5px;
+	border-left: black 1px solid;
+	padding-top: 5px;
+	border-bottom: black 1px solid;
+}

@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>dnn</title>
+<meta name=vs_defaultClientScript content="JavaScript">
+<meta name=vs_targetSchema content="http://schemas.microsoft.com/intellisense/ie3-2nav3-0">
+<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+<meta name=ProgId content=VisualStudio.HTML>
+<meta name=Originator content="Microsoft Visual Studio .NET 7.1">
+	<link href="dnnunittest.css" rel="stylesheet" type="text/css">
+
+	<script src="../dnn.js"></script>
+	<script src="../dnn.diagnostics.js"></script>
+	<script language=javascript>
+	<!--
+		dnn_dom.prototype.UnitTests = function()
+		{
+			if (dnn.diagnostics != null)
+			{
+				var oBody = dnn.dom.getByTagName("body");
+				dnn.diagnostics.assertNotNull('(getByTagName)', oBody);
+				dnn.diagnostics.assertTrue('getting body', oBody.length > 0);
+				oBody = oBody[0];
+				var oCtl = dnn.dom.createElement('SPAN');
+				dnn.diagnostics.assertNotNull('createElement', oCtl);
+				oCtl = dnn.dom.appendChild(oBody, oCtl);
+				oCtl.id = '__UnitTestSpan';
+				dnn.diagnostics.assertNotNull('appendChild', oCtl);
+				dnn.diagnostics.assertNotNull('getById', dnn.dom.getById('__UnitTestSpan'));
+				
+				dnn.diagnostics.assertTrue('Setting cookie', dnn.dom.setCookie('unitTestCookie', 'unitTestCookieValue'));
+				dnn.diagnostics.assertEquals('Getting cookie', dnn.dom.getCookie('unitTestCookie'), 'unitTestCookieValue');
+				dnn.diagnostics.assertTrue('Deleting cookie', dnn.dom.deleteCookie('unitTestCookie'));
+			}		
+		}
+
+		dnn_dom_browser.prototype.UnitTests = function()
+		{
+			dnn.diagnostics.displayDebug('browser.toString(): ' + dnn.dom.browser.toString());
+			dnn.diagnostics.assertStringLength('browser.toString() length', dnn.dom.browser.toString());
+			//dnn.diagnostics.displayDebug('browser.toString(): ' + dnn.dom.browser.toString());			
+		}
+
+	//-->
+	</script>
+	
+</head>
+<body>
+	<form>
+	<img src="poweredbydnn537x36.gif">	
+	<h1>DotNetNuke Client API - dnn.dom Namespace</h1>	
+	<p class="summary">This object is responsible for providing a uniform API to interact with the different DOMs that the browsers supply.</p>
+	<div class="funccontent">
+		<table>
+			<tr>
+				<td class="funcname">appendChild</td>
+				<td class="funcdesc">wrapper for appendChild</td>
+			</tr>
+			<tr>
+				<td class="paramname">oParent</td>
+				<td class="paramdesc">Parent element to append to</td>
+			</tr>
+			<tr>
+				<td class="paramname">oChild</td>
+				<td class="paramdesc">Child element to append</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Returns reference to control appended or null if fails</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">attatchEvent</td>
+				<td class="funcdesc">Attatches an event to an element</td>
+			</tr>
+			<tr>
+				<td class="paramname">oCtl</td>
+				<td class="paramdesc">Control that raises the event</td>
+			</tr>
+			<tr>
+				<td class="paramname">sType</td>
+				<td class="paramdesc">Event name to attatch to</td>
+			</tr>
+			<tr>
+				<td class="paramname">fHandler</td>
+				<td class="paramdesc">Reference to the function that will react to event</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Returns true when successful</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">createElement</td>
+				<td class="funcdesc">wrapper for createElement</td>
+			</tr>
+			<tr>
+				<td class="paramname">sTagName</td>
+				<td class="paramdesc">TagName to create</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Returns reference to control created or null if fails</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">deleteCookie</td>
+				<td class="funcdesc">deletes a cookie</td>
+			</tr>
+			<tr>
+				<td class="paramname">sName</td>
+				<td class="paramdesc">name of the desired cookie to delete</td>
+			</tr>
+			<tr>
+				<td class="paramnameopt">sPath</td>
+				<td class="paramdesc">(optional) Path for which the cookie is valid</td>
+			</tr>
+			<tr>
+				<td class="paramnameopt">sDomain</td>
+				<td class="paramdesc">(optional) Domain for which the cookie is valid</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Returns true when cookie was found or false if not found</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">getById</td>
+				<td class="funcdesc">wrapper for getElementById</td>
+			</tr>
+			<tr>
+				<td class="paramname">sID</td>
+				<td class="paramdesc">ID of element to retrieve</td>
+			</tr>
+			<tr>
+				<td class="paramnameopt">oCtl</td>
+				<td class="paramdesc">(optional) Used to narrow search down, more efficient</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Returns reference to control or null if fails</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">getByTagName</td>
+				<td class="funcdesc">wrapper for getElementsByTagName</td>
+			</tr>
+			<tr>
+				<td class="paramname">sID</td>
+				<td class="paramdesc">ID of element to retrieve</td>
+			</tr>
+			<tr>
+				<td class="paramnameopt">oCtl</td>
+				<td class="paramdesc">(optional) Used to narrow search down, more efficient</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Returns reference to control or null if fails</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">getCookie</td>
+				<td class="funcdesc">gets cookie</td>
+			</tr>
+			<tr>
+				<td class="paramname">sName</td>
+				<td class="paramdesc">name of the desired cookie</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Return string containing value of specified cookie or if not found returns null</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">setCookie</td>
+				<td class="funcdesc">sets cookie</td>
+			</tr>
+			<tr>
+				<td class="paramname">sName</td>
+				<td class="paramdesc">name of the desired cookie</td>
+			</tr>
+			<tr>
+				<td class="paramname">sValue</td>
+				<td class="paramdesc">value of cookie</td>
+			</tr>
+			<tr>
+				<td class="paramnameopt">iDays</td>
+				<td class="paramdesc">(optional) Number of days until it expires</td>
+			</tr>
+			<tr>
+				<td class="paramnameopt">sPath</td>
+				<td class="paramdesc">(optional) Path for which the cookie is valid</td>
+			</tr>
+			<tr>
+				<td class="paramnameopt">sDomain</td>
+				<td class="paramdesc">(optional) Domain for which the cookie is valid</td>
+			</tr>
+			<tr>
+				<td class="paramnameopt">bSecure</td>
+				<td class="paramdesc">(optional) Indicates if cookie transmission requires a secure connection</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Return string containing value of specified cookie or if not found returns null</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+		</table>
+	</div>
+	<textarea id="__dnnDebugOutput" rows="10" cols="100" class="unittestcontent"></textarea>
+	<br>
+	<input type="button" onclick="dnn_diagnosticTests(dnn);" value="Unit Tests" ID="Button1" NAME="Button1">
+	</form>
+</body>
+</html>
+
