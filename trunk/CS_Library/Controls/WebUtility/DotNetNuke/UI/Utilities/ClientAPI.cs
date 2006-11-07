@@ -1,3 +1,22 @@
+#region DotNetNuke License
+// DotNetNuke® - http://www.dotnetnuke.com
+// Copyright (c) 2002-2006
+// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
+// documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
+// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and 
+// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions 
+// of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+// TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+// DEALINGS IN THE SOFTWARE.
+#endregion
 using System;
 using System.Configuration;
 using System.IO;
@@ -192,19 +211,19 @@ namespace DotNetNuke.UI.Utilities
             {
                 return true;
             }
-            HttpRequest httpRequest1 = HttpContext.Current.Request;
+            HttpRequest httpRequest = HttpContext.Current.Request;
             if( ClientAPIDisabled() )
             {
                 return false;
             }
-            XmlDocument xmlDocument1 = GetClientAPICapsDOM();
-            string string1 = httpRequest1.Browser.Browser;
-            double double1 = ( httpRequest1.Browser.MajorVersion + httpRequest1.Browser.MinorVersion );
-            string string2 = Enum.GetName( eFunctionality.GetType(), eFunctionality );
-            bool b1 = CapsMatchFound( xmlDocument1.SelectSingleNode( ( "/capabilities/functionality[@nm=\'" + string2 + "\']/supports" ) ), httpRequest1.UserAgent, string1, double1 );
-            if( ! CapsMatchFound( xmlDocument1.SelectSingleNode( ( "/capabilities/functionality[@nm=\'" + string2 + "\']/excludes" ) ), httpRequest1.UserAgent, string1, double1 ) )
+            XmlDocument xmlDocument = GetClientAPICapsDOM();
+            string browser = httpRequest.Browser.Browser;
+            double dblVersion = ( httpRequest.Browser.MajorVersion + httpRequest.Browser.MinorVersion );
+            string s = Enum.GetName( eFunctionality.GetType(), eFunctionality );
+            bool supportsFunctionality = CapsMatchFound( xmlDocument.SelectSingleNode( ( "/capabilities/functionality[@nm=\'" + s + "\']/supports" ) ), httpRequest.UserAgent, browser, dblVersion );
+            if( ! CapsMatchFound( xmlDocument.SelectSingleNode( ( "/capabilities/functionality[@nm=\'" + s + "\']/excludes" ) ), httpRequest.UserAgent, browser, dblVersion ) )
             {
-                return b1;
+                return supportsFunctionality;
             }
             else
             {
@@ -234,9 +253,9 @@ namespace DotNetNuke.UI.Utilities
             {
                 return true;
             }
-            foreach( XmlNode xmlNode1 in objNode.SelectNodes( "browser[@contains]" ) )
+            foreach( XmlNode xmlNode in objNode.SelectNodes( "browser[@contains]" ) )
             {
-                if( strAgent.ToLower().IndexOf( GetSafeXMLAttr( xmlNode1, "contains", "\0" ).ToLower() ) > -1 )
+                if( strAgent.ToLower().IndexOf( GetSafeXMLAttr( xmlNode, "contains", "\0" ).ToLower() ) > -1 )
                 {
                     return true;
                 }
@@ -266,7 +285,7 @@ namespace DotNetNuke.UI.Utilities
         /// </Param>
         public static void EnableClientSideReorder( Control objButton, Page objPage, bool blnUp, string strKey )
         {
-            Control control1;
+            Control parent;
             if( ! BrowserSupportsFunctionality( ClientFunctionality.DHTML ) )
             {
                 return;
@@ -276,13 +295,13 @@ namespace DotNetNuke.UI.Utilities
             {
                 RegisterClientScriptBlock( objPage, "dnn.util.tablereorder.js", ( "<script src=\"" + ScriptPath + "dnn.util.tablereorder.js\"></script>" ) );
             }
-            string[] stringArray1 = new string[] {"if (dnn.util.tableReorderMove(this,", Convert.ToString( ( - ( blnUp ? 1 : 0 ) ) ), ",\'", strKey, "\')) return false;"};
-            AddAttribute( objButton, "onclick", string.Concat( stringArray1 ) );
-            for( control1 = objButton.Parent; ( control1 != null ); control1 = control1.Parent )
+            string[] args = new string[] {"if (dnn.util.tableReorderMove(this,", Convert.ToString( ( - ( blnUp ? 1 : 0 ) ) ), ",\'", strKey, "\')) return false;"};
+            AddAttribute( objButton, "onclick", string.Concat( args ) );
+            for( parent = objButton.Parent; ( parent != null ); parent = parent.Parent )
             {
-                if( control1 is TableRow )
+                if( parent is TableRow )
                 {
-                    AddAttribute( control1, "origidx", "-1" );
+                    AddAttribute( parent, "origidx", "-1" );
                 }
             }
         }
@@ -379,31 +398,31 @@ namespace DotNetNuke.UI.Utilities
         /// </Summary>
         private static XmlDocument GetClientAPICapsDOM()
         {
-            string string1 = "";
-            XmlDocument xmlDocument2 = ( (XmlDocument)DataCache.GetCache( "ClientAPICaps" ) );
-            if( xmlDocument2 != null )
+            string mapPath = "";
+            XmlDocument clientAPICapsDOM = ( (XmlDocument)DataCache.GetCache( "ClientAPICaps" ) );
+            if( clientAPICapsDOM != null )
             {
-                return xmlDocument2;
+                return clientAPICapsDOM;
             }
             try
             {
-                xmlDocument2 = new XmlDocument();
-                string1 = HttpContext.Current.Server.MapPath( ( ScriptPath + "/ClientAPICaps.config" ) );
+                clientAPICapsDOM = new XmlDocument();
+                mapPath = HttpContext.Current.Server.MapPath( ( ScriptPath + "/ClientAPICaps.config" ) );
             }
             catch( Exception )
             {
             }
-            if( string1 == null )
+            if( mapPath == null )
             {
-                return xmlDocument2;
+                return clientAPICapsDOM;
             }
-            if( ! File.Exists( string1 ) )
+            if( ! File.Exists( mapPath ) )
             {
-                return xmlDocument2;
+                return clientAPICapsDOM;
             }
-            xmlDocument2.Load( string1 );
-            DataCache.SetCache( "ClientAPICaps", xmlDocument2, new CacheDependency( string1 ) );
-            return xmlDocument2;
+            if( clientAPICapsDOM != null ) clientAPICapsDOM.Load( mapPath );
+            DataCache.SetCache( "ClientAPICaps", clientAPICapsDOM, new CacheDependency( mapPath ) );
+            return clientAPICapsDOM;
         }
 
         /// <Summary>Retrieves an array of the new order for the rows</Summary>
@@ -419,8 +438,8 @@ namespace DotNetNuke.UI.Utilities
             {
                 return new string[0];
             }
-            char[] charArray1 = new char[] {','};
-            return GetClientVariable( objPage, strKey ).Split( charArray1 );
+            char[] separator = new char[] {','};
+            return GetClientVariable( objPage, strKey ).Split( separator );
         }
 
         /// <Summary>Retrieves DNN Client Variable value</Summary>
@@ -429,15 +448,15 @@ namespace DotNetNuke.UI.Utilities
         /// <Returns>Value of variable</Returns>
         public static string GetClientVariable( Page objPage, string strVar )
         {
-            string string2 = GetClientVariableNameValuePair( objPage, strVar );
-            if( string2.IndexOf( COLUMN_DELIMITER ) <= -1 )
+            string s = GetClientVariableNameValuePair( objPage, strVar );
+            if( s.IndexOf( COLUMN_DELIMITER ) <= -1 )
             {
                 return "";
             }
             else
             {
                 string[] splitter = { COLUMN_DELIMITER };
-                return string2.Split(splitter, StringSplitOptions.None)[0];                  
+                return s.Split(splitter, StringSplitOptions.None)[0];                  
             }
         }
 
@@ -448,15 +467,15 @@ namespace DotNetNuke.UI.Utilities
         /// <Returns>Value of variable</Returns>
         public static string GetClientVariable( Page objPage, string strVar, string strDefaultValue )
         {
-            string string2 = GetClientVariableNameValuePair( objPage, strVar );
-            if( string2.IndexOf( COLUMN_DELIMITER ) <= -1 )
+            string s = GetClientVariableNameValuePair( objPage, strVar );
+            if( s.IndexOf( COLUMN_DELIMITER ) <= -1 )
             {
                 return strDefaultValue;
             }
             else
             {
                 string[] splitter = {COLUMN_DELIMITER};
-                return string2.Split( splitter, StringSplitOptions.None )[0];                
+                return s.Split( splitter, StringSplitOptions.None )[0];                
             }
         }
 
@@ -468,35 +487,35 @@ namespace DotNetNuke.UI.Utilities
         /// <Returns>Delimited name/value pair string</Returns>
         private static string GetClientVariableNameValuePair( Page objPage, string strVar )
         {
-            HtmlInputHidden htmlInputHidden1 = get_ClientVariableControl( objPage );
-            string string2 = "";
-            if( htmlInputHidden1 != null )
+            HtmlInputHidden htmlInputHidden = get_ClientVariableControl( objPage );
+            string replace = "";
+            if( htmlInputHidden != null )
             {
-                string2 = htmlInputHidden1.Value;
+                replace = htmlInputHidden.Value;
             }
-            if( string2.Length == 0 )
+            if( replace.Length == 0 )
             {
-                string2 = HttpContext.Current.Request["__dnnVariable"];
+                replace = HttpContext.Current.Request["__dnnVariable"];
             }
-            if( string2.Length <= 0 )
-            {
-                return "";
-            }
-            string2 = string2.Replace( QUOTE_REPLACEMENT, "\"" );
-            int i1 = string2.IndexOf( ( ROW_DELIMITER + strVar + COLUMN_DELIMITER ) );
-            if( i1 <= -1 )
+            if( replace.Length <= 0 )
             {
                 return "";
             }
-            i1 += COLUMN_DELIMITER.Length;
-            int i2 = string2.IndexOf( ROW_DELIMITER, i1 );
+            replace = replace.Replace( QUOTE_REPLACEMENT, "\"" );
+            int ii = replace.IndexOf( ( ROW_DELIMITER + strVar + COLUMN_DELIMITER ) );
+            if( ii <= -1 )
+            {
+                return "";
+            }
+            ii += COLUMN_DELIMITER.Length;
+            int i2 = replace.IndexOf( ROW_DELIMITER, ii );
             if( i2 <= -1 )
             {
-                return string2.Substring( i1 );
+                return replace.Substring( ii );
             }
             else
             {
-                return string2.Substring( i1, i2 - i1 );
+                return replace.Substring( ii, i2 - ii );
             }
         }
 
@@ -571,64 +590,67 @@ namespace DotNetNuke.UI.Utilities
 
         public static void HandleClientAPICallbackEvent( Page objPage )
         {
-            Control control1;
-            IClientAPICallbackEventHandler iClientAPICallbackEventHandler1;
-            Exception exception1;
-            Exception exception2;
-            if( objPage.Request["__DNNCAPISCI"].Length <= 0 )
+            if (objPage.Request["__DNNCAPISCI"] == null)
             {
                 return;
             }
-            char[] charArray1 = new char[] {' '};
-            string[] stringArray1 = objPage.Request["__DNNCAPISCI"].Split( charArray1 );
-            string string2 = stringArray1[0];
-            string string1 = "";
-            if( stringArray1.Length > 1 )
+            
+            if (objPage.Request["__DNNCAPISCI"].Length <= 0)
             {
-                string1 = stringArray1[1];
+                return;
             }
-            string string3 = objPage.Server.UrlDecode( objPage.Request["__DNNCAPISCP"] );
+            char[] separator = new char[] {' '};
+            string[] strings = objPage.Request["__DNNCAPISCI"].Split( separator );
+            string controlName = strings[0];
+            string clientID = "";
+            if( strings.Length > 1 )
+            {
+                clientID = strings[1];
+            }
+            string eventArgument = objPage.Server.UrlDecode( objPage.Request["__DNNCAPISCP"] );
             ClientAPICallBackResponse clientAPICallBackResponse1 = new ClientAPICallBackResponse( objPage, ClientAPICallBackResponse.CallBackTypeCode.Simple );
             try
             {
                 try
                 {
                     objPage.Response.Clear();
-                    if( String.Compare( string2, "__DNNCAPISCPAGEID", false ) == 0 )
+                    Control control;
+                    if( String.Compare( controlName, "__DNNCAPISCPAGEID", false ) == 0 )
                     {
-                        control1 = objPage;
+                        control = objPage;
                     }
                     else
                     {
-                        control1 = Globals.FindControlRecursive( objPage, string2, string1 );
+                        control = Globals.FindControlRecursive( objPage, controlName, clientID );
                     }
-                    if( control1 == null )
+                    if( control == null )
                     {
                         clientAPICallBackResponse1.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.ControlNotFound;
                         clientAPICallBackResponse1.StatusDesc = "Control Not Found";
                         return;
                     }
-                    if( control1 is HtmlForm )
+                    IClientAPICallbackEventHandler callbackEventHandler;
+                    if( control is HtmlForm )
                     {
-                        iClientAPICallbackEventHandler1 = ( (IClientAPICallbackEventHandler)objPage );
+                        callbackEventHandler = ( (IClientAPICallbackEventHandler)objPage );
                     }
                     else
                     {
-                        iClientAPICallbackEventHandler1 = ( (IClientAPICallbackEventHandler)control1 );
+                        callbackEventHandler = ( (IClientAPICallbackEventHandler)control );
                     }
-                    if( iClientAPICallbackEventHandler1 != null )
+                    if( callbackEventHandler != null )
                     {
                         try
                         {
-                            clientAPICallBackResponse1.Response = iClientAPICallbackEventHandler1.RaiseClientAPICallbackEvent( string3 );
+                            clientAPICallBackResponse1.Response = callbackEventHandler.RaiseClientAPICallbackEvent( eventArgument );
                             clientAPICallBackResponse1.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.OK;
                             return;
                         }
-                        catch( Exception exception3 )
+                        catch( Exception exception )
                         {
-                            exception1 = exception3;
+                            
                             clientAPICallBackResponse1.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.GenericFailure;
-                            clientAPICallBackResponse1.StatusDesc = exception1.Message;
+                            clientAPICallBackResponse1.StatusDesc = exception.Message;
                             return;
                         }
                     }
@@ -639,11 +661,11 @@ namespace DotNetNuke.UI.Utilities
                         return;
                     }
                 }
-                catch( Exception exception4 )
+                catch( Exception exception )
                 {
-                    exception2 = exception4;
+                    
                     clientAPICallBackResponse1.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.GenericFailure;
-                    clientAPICallBackResponse1.StatusDesc = exception2.Message;
+                    clientAPICallBackResponse1.StatusDesc = exception.Message;
                     return;
                 }
             }

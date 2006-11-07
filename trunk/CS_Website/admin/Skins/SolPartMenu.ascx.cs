@@ -1,3 +1,22 @@
+#region DotNetNuke License
+// DotNetNuke® - http://www.dotnetnuke.com
+// Copyright (c) 2002-2006
+// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
+// documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
+// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and 
+// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions 
+// of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+// TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+// DEALINGS IN THE SOFTWARE.
+#endregion
 using System;
 using System.Diagnostics;
 using DotNetNuke.Common;
@@ -927,13 +946,12 @@ namespace DotNetNuke.UI.Skins.Controls
                 m_strRootOnly = value;
             }
         }
-
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
+        
+        protected void InitializeComponent()
         {
         }
 
-        private void Page_Init( Object sender, EventArgs e )
+        protected void Page_Init( Object sender, EventArgs e )
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
@@ -1095,7 +1113,7 @@ namespace DotNetNuke.UI.Skins.Controls
                     this.PathSystemImage = Globals.ApplicationPath + "/images/";
                     this.IndicateChildImageSub = "spacer.gif";
                 }
-                if( this.PathSystemScript.Length == 0 )
+                if( String.IsNullOrEmpty(PathSystemScript) )
                 {
                     this.PathSystemScript = Globals.ApplicationPath + "/controls/SolpartMenu/";
                 }
@@ -1134,85 +1152,86 @@ namespace DotNetNuke.UI.Skins.Controls
             }
             else //these defaults used to be on the page HTML
             {
-                if( this.MouseOutHideDelay.Length == 0 )
+                if( String.IsNullOrEmpty(MouseOutHideDelay) )
                 {
                     this.MouseOutHideDelay = "500";
                 }
-                if( this.MouseOverAction.Length == 0 )
+                if( String.IsNullOrEmpty(MouseOverAction) )
                 {
                     this.MouseOverAction = true.ToString(); //NavigationProvider.NavigationProvider.HoverAction.Expand
                 }
-                if( this.StyleBorderWidth.Length == 0 )
+                if( String.IsNullOrEmpty(StyleBorderWidth) )
                 {
                     this.StyleBorderWidth = "0";
                 }
-                if( this.StyleControlHeight.Length == 0 )
+                if( String.IsNullOrEmpty(StyleControlHeight) )
                 {
                     this.StyleControlHeight = "16";
                 }
-                if( this.StyleNodeHeight.Length == 0 )
+                if( String.IsNullOrEmpty(StyleNodeHeight) )
                 {
                     this.StyleNodeHeight = "21";
                 }
-                if( this.StyleIconWidth.Length == 0 )
+                if( String.IsNullOrEmpty(StyleIconWidth) )
                 {
                     this.StyleIconWidth = "0";
                 }
                 //Me.StyleSelectionBorderColor = "#333333" 'cleared above
-                if( this.StyleSelectionColor.Length == 0 )
+                if( String.IsNullOrEmpty(StyleSelectionColor) )
                 {
                     this.StyleSelectionColor = "#CCCCCC";
                 }
-                if( this.StyleSelectionForeColor.Length == 0 )
+                if( String.IsNullOrEmpty(StyleSelectionForeColor) )
                 {
                     this.StyleSelectionForeColor = "White";
                 }
-                if( this.StyleHighlightColor.Length == 0 )
+                if( String.IsNullOrEmpty(StyleHighlightColor) )
                 {
                     this.StyleHighlightColor = "#FF8080";
                 }
-                if( this.StyleIconBackColor.Length == 0 )
+                if( String.IsNullOrEmpty(StyleIconBackColor) )
                 {
                     this.StyleIconBackColor = "#333333";
                 }
-                if( this.EffectsShadowColor.Length == 0 )
+                if( String.IsNullOrEmpty(EffectsShadowColor) )
                 {
                     this.EffectsShadowColor = "#404040";
                 }
-                if( this.MouseOverDisplay.Length == 0 )
+                if( String.IsNullOrEmpty(MouseOverDisplay) )
                 {
                     this.MouseOverDisplay = "highlight"; //NavigationProvider.NavigationProvider.HoverDisplay.Highlight
                 }
-                if( this.EffectsStyle.Length == 0 )
+                if( String.IsNullOrEmpty(EffectsStyle) )
                 {
                     this.EffectsStyle = "filter:progid:DXImageTransform.Microsoft.Shadow(color=\'DimGray\', Direction=135, Strength=3);";
                 }
-                if( this.StyleFontSize.Length == 0 )
+                if( String.IsNullOrEmpty(StyleFontSize) )
                 {
                     this.StyleFontSize = "9";
                 }
-                if( this.StyleFontBold.Length == 0 )
+                if( String.IsNullOrEmpty(StyleFontBold) )
                 {
                     this.StyleFontBold = "True";
                 }
-                if( this.StyleFontNames.Length == 0 )
+                if( String.IsNullOrEmpty(StyleFontNames) )
                 {
                     this.StyleFontNames = "Tahoma,Arial,Helvetica";
                 }
-                if( this.StyleForeColor.Length == 0 )
+                if( String.IsNullOrEmpty(StyleForeColor) )
                 {
                     this.StyleForeColor = "White";
                 }
-                if( this.StyleBackColor.Length == 0 )
+                if( String.IsNullOrEmpty(StyleBackColor) )
                 {
                     this.StyleBackColor = "#333333";
                 }
-                if( this.PathSystemImage.Length == 0 )
+                if( String.IsNullOrEmpty(PathSystemImage) )
                 {
                     this.PathSystemImage = "/";
                 }
             }
-            if( Convert.ToBoolean( SeparateCss ) == true )
+            
+            if(SeparateCss != null && Convert.ToBoolean(Int32.Parse( SeparateCss )) )
             {
                 if( MenuBarCssClass != "" )
                 {

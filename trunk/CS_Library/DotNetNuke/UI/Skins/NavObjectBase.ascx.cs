@@ -1,3 +1,22 @@
+#region DotNetNuke License
+// DotNetNuke® - http://www.dotnetnuke.com
+// Copyright (c) 2002-2006
+// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
+// documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
+// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and 
+// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions 
+// of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+// TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+// DEALINGS IN THE SOFTWARE.
+#endregion
 using System;
 using System.Web.UI;
 using DotNetNuke.Modules.NavigationProvider;
@@ -2340,7 +2359,7 @@ namespace DotNetNuke.UI.Skins
 
         protected string GetValue( string strVal, string strDefault )
         {
-            if( strVal.Length == 0 )
+            if( string.IsNullOrEmpty(strVal) )
             {
                 return strDefault;
             }
@@ -2357,23 +2376,23 @@ namespace DotNetNuke.UI.Skins
         /// </summary>
         private void AssignControlProperties()
         {
-            if( m_strPathSystemImage.Length > 0 )
+            if( m_strPathSystemImage != null ) if( m_strPathSystemImage.Length > 0 )
             {
                 Control.PathSystemImage = m_strPathSystemImage;
             }
-            if( m_strPathImage.Length > 0 )
+            if (m_strPathImage != null && m_strPathImage.Length > 0)
             {
                 Control.PathImage = m_strPathImage;
             }
-            if( m_strPathSystemScript.Length > 0 )
+            if (m_strPathSystemScript != null && m_strPathSystemScript.Length > 0)
             {
                 Control.PathSystemScript = m_strPathSystemScript;
             }
-            if( m_strWorkImage.Length > 0 )
+            if (m_strWorkImage!= null && m_strWorkImage.Length > 0)
             {
                 Control.WorkImage = m_strWorkImage;
             }
-            if( m_strControlOrientation.Length > 0 )
+            if (m_strControlOrientation!= null && m_strControlOrientation.Length > 0)
             {
                 switch( m_strControlOrientation.ToLower() )
                 {
@@ -2387,7 +2406,7 @@ namespace DotNetNuke.UI.Skins
                         break;
                 }
             }
-            if( m_strControlAlignment.Length > 0 )
+            if( m_strControlAlignment != null ) if( m_strControlAlignment.Length > 0 )
             {
                 switch( m_strControlAlignment.ToLower() )
                 {
@@ -2411,11 +2430,11 @@ namespace DotNetNuke.UI.Skins
             }
             Control.ForceCrawlerDisplay = GetValue( m_strForceCrawlerDisplay, "False" );
             Control.ForceDownLevel = GetValue( m_strForceDownLevel, "False" );
-            if( m_strMouseOutHideDelay.Length > 0 )
+            if( m_strMouseOutHideDelay != null ) if( m_strMouseOutHideDelay.Length > 0 )
             {
                 Control.MouseOutHideDelay = Convert.ToDecimal( m_strMouseOutHideDelay );
             }
-            if( m_strMouseOverDisplay.Length > 0 )
+            if( m_strMouseOverDisplay != null ) if( m_strMouseOverDisplay.Length > 0 )
             {
                 switch( m_strMouseOverDisplay.ToLower() )
                 {
@@ -2442,251 +2461,251 @@ namespace DotNetNuke.UI.Skins
                 Control.MouseOverAction = NavigationProvider.HoverAction.None;
             }
             Control.IndicateChildren = Convert.ToBoolean( GetValue( m_strIndicateChildren, "True" ) );
-            if( m_strIndicateChildImageRoot.Length > 0 )
+            if( m_strIndicateChildImageRoot != null ) if( m_strIndicateChildImageRoot.Length > 0 )
             {
                 Control.IndicateChildImageRoot = m_strIndicateChildImageRoot;
             }
-            if( m_strIndicateChildImageSub.Length > 0 )
+            if( m_strIndicateChildImageSub != null ) if( m_strIndicateChildImageSub.Length > 0 )
             {
                 Control.IndicateChildImageSub = m_strIndicateChildImageSub;
             }
-            if( m_strIndicateChildImageExpandedRoot.Length > 0 )
+            if( m_strIndicateChildImageExpandedRoot != null ) if( m_strIndicateChildImageExpandedRoot.Length > 0 )
             {
                 Control.IndicateChildImageExpandedRoot = m_strIndicateChildImageExpandedRoot;
             }
-            if( m_strIndicateChildImageExpandedSub.Length > 0 )
+            if( m_strIndicateChildImageExpandedSub != null ) if( m_strIndicateChildImageExpandedSub.Length > 0 )
             {
                 Control.IndicateChildImageExpandedSub = m_strIndicateChildImageExpandedSub;
             }
-            if( m_strNodeLeftHTMLRoot.Length > 0 )
+            if( m_strNodeLeftHTMLRoot != null ) if( m_strNodeLeftHTMLRoot.Length > 0 )
             {
                 Control.NodeLeftHTMLRoot = m_strNodeLeftHTMLRoot;
             }
-            if( m_strNodeRightHTMLRoot.Length > 0 )
+            if( m_strNodeRightHTMLRoot != null ) if( m_strNodeRightHTMLRoot.Length > 0 )
             {
                 Control.NodeRightHTMLRoot = m_strNodeRightHTMLRoot;
             }
-            if( m_strNodeLeftHTMLSub.Length > 0 )
+            if( m_strNodeLeftHTMLSub != null ) if( m_strNodeLeftHTMLSub.Length > 0 )
             {
                 Control.NodeLeftHTMLSub = m_strNodeLeftHTMLSub;
             }
-            if( m_strNodeRightHTMLSub.Length > 0 )
+            if( m_strNodeRightHTMLSub != null ) if( m_strNodeRightHTMLSub.Length > 0 )
             {
                 Control.NodeRightHTMLSub = m_strNodeRightHTMLSub;
             }
-            if( m_strNodeLeftHTMLBreadCrumbRoot.Length > 0 )
+            if( m_strNodeLeftHTMLBreadCrumbRoot != null ) if( m_strNodeLeftHTMLBreadCrumbRoot.Length > 0 )
             {
                 Control.NodeLeftHTMLBreadCrumbRoot = m_strNodeLeftHTMLBreadCrumbRoot;
             }
-            if( m_strNodeLeftHTMLBreadCrumbSub.Length > 0 )
+            if( m_strNodeLeftHTMLBreadCrumbSub != null ) if( m_strNodeLeftHTMLBreadCrumbSub.Length > 0 )
             {
                 Control.NodeLeftHTMLBreadCrumbSub = m_strNodeLeftHTMLBreadCrumbSub;
             }
-            if( m_strNodeRightHTMLBreadCrumbRoot.Length > 0 )
+            if( m_strNodeRightHTMLBreadCrumbRoot != null ) if( m_strNodeRightHTMLBreadCrumbRoot.Length > 0 )
             {
                 Control.NodeRightHTMLBreadCrumbRoot = m_strNodeRightHTMLBreadCrumbRoot;
             }
-            if( m_strNodeRightHTMLBreadCrumbSub.Length > 0 )
+            if( m_strNodeRightHTMLBreadCrumbSub != null ) if( m_strNodeRightHTMLBreadCrumbSub.Length > 0 )
             {
                 Control.NodeRightHTMLBreadCrumbSub = m_strNodeRightHTMLBreadCrumbSub;
             }
-            if( m_strSeparatorHTML.Length > 0 )
+            if( m_strSeparatorHTML != null ) if( m_strSeparatorHTML.Length > 0 )
             {
                 Control.SeparatorHTML = m_strSeparatorHTML;
             }
-            if( m_strSeparatorLeftHTML.Length > 0 )
+            if( m_strSeparatorLeftHTML != null ) if( m_strSeparatorLeftHTML.Length > 0 )
             {
                 Control.SeparatorLeftHTML = m_strSeparatorLeftHTML;
             }
-            if( m_strSeparatorRightHTML.Length > 0 )
+            if( m_strSeparatorRightHTML != null ) if( m_strSeparatorRightHTML.Length > 0 )
             {
                 Control.SeparatorRightHTML = m_strSeparatorRightHTML;
             }
-            if( m_strSeparatorLeftHTMLActive.Length > 0 )
+            if( m_strSeparatorLeftHTMLActive != null ) if( m_strSeparatorLeftHTMLActive.Length > 0 )
             {
                 Control.SeparatorLeftHTMLActive = m_strSeparatorLeftHTMLActive;
             }
-            if( m_strSeparatorRightHTMLActive.Length > 0 )
+            if( m_strSeparatorRightHTMLActive != null ) if( m_strSeparatorRightHTMLActive.Length > 0 )
             {
                 Control.SeparatorRightHTMLActive = m_strSeparatorRightHTMLActive;
             }
-            if( m_strSeparatorLeftHTMLBreadCrumb.Length > 0 )
+            if( m_strSeparatorLeftHTMLBreadCrumb != null ) if( m_strSeparatorLeftHTMLBreadCrumb.Length > 0 )
             {
                 Control.SeparatorLeftHTMLBreadCrumb = m_strSeparatorLeftHTMLBreadCrumb;
             }
-            if( m_strSeparatorRightHTMLBreadCrumb.Length > 0 )
+            if( m_strSeparatorRightHTMLBreadCrumb != null ) if( m_strSeparatorRightHTMLBreadCrumb.Length > 0 )
             {
                 Control.SeparatorRightHTMLBreadCrumb = m_strSeparatorRightHTMLBreadCrumb;
             }
-            if( m_strCSSControl.Length > 0 )
+            if( m_strCSSControl != null ) if( m_strCSSControl.Length > 0 )
             {
                 Control.CSSControl = m_strCSSControl;
             }
-            if( m_strCSSContainerRoot.Length > 0 )
+            if( m_strCSSContainerRoot != null ) if( m_strCSSContainerRoot.Length > 0 )
             {
                 Control.CSSContainerRoot = m_strCSSContainerRoot;
             }
-            if( m_strCSSNode.Length > 0 )
+            if( m_strCSSNode != null ) if( m_strCSSNode.Length > 0 )
             {
                 Control.CSSNode = m_strCSSNode;
             }
-            if( m_strCSSIcon.Length > 0 )
+            if( m_strCSSIcon != null ) if( m_strCSSIcon.Length > 0 )
             {
                 Control.CSSIcon = m_strCSSIcon;
             }
-            if( m_strCSSContainerSub.Length > 0 )
+            if( m_strCSSContainerSub != null ) if( m_strCSSContainerSub.Length > 0 )
             {
                 Control.CSSContainerSub = m_strCSSContainerSub;
             }
-            if( m_strCSSNodeHover.Length > 0 )
+            if( m_strCSSNodeHover != null ) if( m_strCSSNodeHover.Length > 0 )
             {
                 Control.CSSNodeHover = m_strCSSNodeHover;
             }
-            if( m_strCSSBreak.Length > 0 )
+            if( m_strCSSBreak != null ) if( m_strCSSBreak.Length > 0 )
             {
                 Control.CSSBreak = m_strCSSBreak;
             }
-            if( m_strCSSIndicateChildSub.Length > 0 )
+            if( m_strCSSIndicateChildSub != null ) if( m_strCSSIndicateChildSub.Length > 0 )
             {
                 Control.CSSIndicateChildSub = m_strCSSIndicateChildSub;
             }
-            if( m_strCSSIndicateChildRoot.Length > 0 )
+            if( m_strCSSIndicateChildRoot != null ) if( m_strCSSIndicateChildRoot.Length > 0 )
             {
                 Control.CSSIndicateChildRoot = m_strCSSIndicateChildRoot;
             }
-            if( m_strCSSBreadCrumbRoot.Length > 0 )
+            if( m_strCSSBreadCrumbRoot != null ) if( m_strCSSBreadCrumbRoot.Length > 0 )
             {
                 Control.CSSBreadCrumbRoot = m_strCSSBreadCrumbRoot;
             }
-            if( m_strCSSBreadCrumbSub.Length > 0 )
+            if( m_strCSSBreadCrumbSub != null ) if( m_strCSSBreadCrumbSub.Length > 0 )
             {
                 Control.CSSBreadCrumbSub = m_strCSSBreadCrumbSub;
             }
-            if( m_strCSSNodeRoot.Length > 0 )
+            if( m_strCSSNodeRoot != null ) if( m_strCSSNodeRoot.Length > 0 )
             {
                 Control.CSSNodeRoot = m_strCSSNodeRoot;
             }
-            if( m_strCSSNodeSelectedRoot.Length > 0 )
+            if( m_strCSSNodeSelectedRoot != null ) if( m_strCSSNodeSelectedRoot.Length > 0 )
             {
                 Control.CSSNodeSelectedRoot = m_strCSSNodeSelectedRoot;
             }
-            if( m_strCSSNodeSelectedSub.Length > 0 )
+            if( m_strCSSNodeSelectedSub != null ) if( m_strCSSNodeSelectedSub.Length > 0 )
             {
                 Control.CSSNodeSelectedSub = m_strCSSNodeSelectedSub;
             }
-            if( m_strCSSNodeHoverRoot.Length > 0 )
+            if( m_strCSSNodeHoverRoot != null ) if( m_strCSSNodeHoverRoot.Length > 0 )
             {
                 Control.CSSNodeHoverRoot = m_strCSSNodeHoverRoot;
             }
-            if( m_strCSSNodeHoverSub.Length > 0 )
+            if( m_strCSSNodeHoverSub != null ) if( m_strCSSNodeHoverSub.Length > 0 )
             {
                 Control.CSSNodeHoverSub = m_strCSSNodeHoverSub;
             }
-            if( m_strCSSSeparator.Length > 0 )
+            if( m_strCSSSeparator != null ) if( m_strCSSSeparator.Length > 0 )
             {
                 Control.CSSSeparator = m_strCSSSeparator;
             }
-            if( m_strCSSLeftSeparator.Length > 0 )
+            if( m_strCSSLeftSeparator != null ) if( m_strCSSLeftSeparator.Length > 0 )
             {
                 Control.CSSLeftSeparator = m_strCSSLeftSeparator;
             }
-            if( m_strCSSRightSeparator.Length > 0 )
+            if( m_strCSSRightSeparator != null ) if( m_strCSSRightSeparator.Length > 0 )
             {
                 Control.CSSRightSeparator = m_strCSSRightSeparator;
             }
-            if( m_strCSSLeftSeparatorSelection.Length > 0 )
+            if( m_strCSSLeftSeparatorSelection != null ) if( m_strCSSLeftSeparatorSelection.Length > 0 )
             {
                 Control.CSSLeftSeparatorSelection = m_strCSSLeftSeparatorSelection;
             }
-            if( m_strCSSRightSeparatorSelection.Length > 0 )
+            if( m_strCSSRightSeparatorSelection != null ) if( m_strCSSRightSeparatorSelection.Length > 0 )
             {
                 Control.CSSRightSeparatorSelection = m_strCSSRightSeparatorSelection;
             }
-            if( m_strCSSLeftSeparatorBreadCrumb.Length > 0 )
+            if( m_strCSSLeftSeparatorBreadCrumb != null ) if( m_strCSSLeftSeparatorBreadCrumb.Length > 0 )
             {
                 Control.CSSLeftSeparatorBreadCrumb = m_strCSSLeftSeparatorBreadCrumb;
             }
-            if( m_strCSSRightSeparatorBreadCrumb.Length > 0 )
+            if( m_strCSSRightSeparatorBreadCrumb != null ) if( m_strCSSRightSeparatorBreadCrumb.Length > 0 )
             {
                 Control.CSSRightSeparatorBreadCrumb = m_strCSSRightSeparatorBreadCrumb;
             }
-            if( m_strStyleBackColor.Length > 0 )
+            if( m_strStyleBackColor != null ) if( m_strStyleBackColor.Length > 0 )
             {
                 Control.StyleBackColor = m_strStyleBackColor;
             }
-            if( m_strStyleForeColor.Length > 0 )
+            if( m_strStyleForeColor != null ) if( m_strStyleForeColor.Length > 0 )
             {
                 Control.StyleForeColor = m_strStyleForeColor;
             }
-            if( m_strStyleHighlightColor.Length > 0 )
+            if( m_strStyleHighlightColor != null ) if( m_strStyleHighlightColor.Length > 0 )
             {
                 Control.StyleHighlightColor = m_strStyleHighlightColor;
             }
-            if( m_strStyleIconBackColor.Length > 0 )
+            if( m_strStyleIconBackColor != null ) if( m_strStyleIconBackColor.Length > 0 )
             {
                 Control.StyleIconBackColor = m_strStyleIconBackColor;
             }
-            if( m_strStyleSelectionBorderColor.Length > 0 )
+            if( m_strStyleSelectionBorderColor != null ) if( m_strStyleSelectionBorderColor.Length > 0 )
             {
                 Control.StyleSelectionBorderColor = m_strStyleSelectionBorderColor;
             }
-            if( m_strStyleSelectionColor.Length > 0 )
+            if( m_strStyleSelectionColor != null ) if( m_strStyleSelectionColor.Length > 0 )
             {
                 Control.StyleSelectionColor = m_strStyleSelectionColor;
             }
-            if( m_strStyleSelectionForeColor.Length > 0 )
+            if( m_strStyleSelectionForeColor != null ) if( m_strStyleSelectionForeColor.Length > 0 )
             {
                 Control.StyleSelectionForeColor = m_strStyleSelectionForeColor;
             }
-            if( m_strStyleControlHeight.Length > 0 )
+            if( m_strStyleControlHeight != null ) if( m_strStyleControlHeight.Length > 0 )
             {
                 Control.StyleControlHeight = Convert.ToDecimal( m_strStyleControlHeight );
             }
-            if( m_strStyleBorderWidth.Length > 0 )
+            if( m_strStyleBorderWidth != null ) if( m_strStyleBorderWidth.Length > 0 )
             {
                 Control.StyleBorderWidth = Convert.ToDecimal( m_strStyleBorderWidth );
             }
-            if( m_strStyleNodeHeight.Length > 0 )
+            if( m_strStyleNodeHeight != null ) if( m_strStyleNodeHeight.Length > 0 )
             {
                 Control.StyleNodeHeight = Convert.ToDecimal( m_strStyleNodeHeight );
             }
-            if( m_strStyleIconWidth.Length > 0 )
+            if( m_strStyleIconWidth != null ) if( m_strStyleIconWidth.Length > 0 )
             {
                 Control.StyleIconWidth = Convert.ToDecimal( m_strStyleIconWidth );
             }
-            if( m_strStyleFontNames.Length > 0 )
+            if( m_strStyleFontNames != null ) if( m_strStyleFontNames.Length > 0 )
             {
                 Control.StyleFontNames = m_strStyleFontNames;
             }
-            if( m_strStyleFontSize.Length > 0 )
+            if( m_strStyleFontSize != null ) if( m_strStyleFontSize.Length > 0 )
             {
                 Control.StyleFontSize = Convert.ToDecimal( m_strStyleFontSize );
             }
-            if( m_strStyleFontBold.Length > 0 )
+            if( m_strStyleFontBold != null ) if( m_strStyleFontBold.Length > 0 )
             {
                 Control.StyleFontBold = m_strStyleFontBold;
             }
-            if( m_strEffectsShadowColor.Length > 0 )
+            if( m_strEffectsShadowColor != null ) if( m_strEffectsShadowColor.Length > 0 )
             {
                 Control.EffectsShadowColor = m_strEffectsShadowColor;
             }
-            if( m_strEffectsStyle.Length > 0 )
+            if( m_strEffectsStyle != null ) if( m_strEffectsStyle.Length > 0 )
             {
                 Control.EffectsStyle = m_strEffectsStyle;
             }
-            if( m_strEffectsShadowStrength.Length > 0 )
+            if( m_strEffectsShadowStrength != null ) if( m_strEffectsShadowStrength.Length > 0 )
             {
                 Control.EffectsShadowStrength = Convert.ToInt32( m_strEffectsShadowStrength );
             }
-            if( m_strEffectsTransition.Length > 0 )
+            if( m_strEffectsTransition != null ) if( m_strEffectsTransition.Length > 0 )
             {
                 Control.EffectsTransition = m_strEffectsTransition;
             }
-            if( m_strEffectsDuration.Length > 0 )
+            if( m_strEffectsDuration != null ) if( m_strEffectsDuration.Length > 0 )
             {
                 Control.EffectsDuration = Convert.ToDouble( m_strEffectsDuration );
             }
-            if( m_strEffectsShadowDirection.Length > 0 )
+            if( m_strEffectsShadowDirection != null ) if( m_strEffectsShadowDirection.Length > 0 )
             {
                 Control.EffectsShadowDirection = m_strEffectsShadowDirection;
             }
