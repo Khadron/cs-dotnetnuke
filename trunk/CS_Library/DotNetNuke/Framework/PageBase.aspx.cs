@@ -134,39 +134,37 @@ namespace DotNetNuke.Framework
                         {
                             try
                             {
-                                foreach (string userLang in HttpContext.Current.Request.UserLanguages)
+                                for( int i = 0; i < HttpContext.Current.Request.UserLanguages.Length; i++ )
                                 {
+                                    string userLang = HttpContext.Current.Request.UserLanguages[i];
                                     //split userlanguage by ";"... all but the first language will contain a preferrence index eg. ;q=.5
-                                    string userlanguage = userLang.Split(';')[0];
-                                    if (Localization.LocaleIsEnabled(ref userlanguage))
+                                    string userlanguage = userLang.Split( ';' )[0];
+                                    if( Localization.LocaleIsEnabled( ref userlanguage ) )
                                     {
-                                        ci = new CultureInfo(userlanguage);
+                                        ci = new CultureInfo( userlanguage );
                                     }
-                                    else if (userLang.Split(';')[0].IndexOf("-") != -1)
+                                    else if( userLang.Split( ';' )[0].IndexOf( "-" ) != -1 )
                                     {
                                         //if userLang is neutral we don't need to do this part since
                                         //it has already been done in LocaleIsEnabled( )
-                                        string templang = userLang.Split(';')[0];
-                                        foreach (string _localeCode in enabledLocales.AllKeys)
+                                        string templang = userLang.Split( ';' )[0];
+                                        for( int i1 = 0; i1 < enabledLocales.AllKeys.Length; i1++ )
                                         {
-                                            if (_localeCode.Split('-')[0] == templang.Split('-')[0])
+                                            string _localeCode = enabledLocales.AllKeys[i1];
+                                            if( _localeCode.Split( '-' )[0] == templang.Split( '-' )[0] )
                                             {
                                                 //the preferredLanguage was found in the enabled locales collection, so we are going to use this one
                                                 //eg, requested locale is en-GB, requested language is en, enabled locale is en-US, so en is a match for en-US
-                                                ci = new CultureInfo(_localeCode);
-                                                goto endOfForLoop;
+                                                ci = new CultureInfo( _localeCode );
+                                                break;
                                             }
                                         }
-                                    endOfForLoop:
-                                        1.GetHashCode(); //nop
                                     }
-                                    if (ci != null)
+                                    if( ci != null )
                                     {
-                                        goto endOfForLoop1;
+                                        break;
                                     }
                                 }
-                            endOfForLoop1:
-                                1.GetHashCode(); //nop
                             }
                             catch
                             {
@@ -185,11 +183,10 @@ namespace DotNetNuke.Framework
                             //the preferredLanguage was found in the enabled locales collection, so we are going to use this one
                             //eg, requested locale is en-GB, requested language is en, enabled locale is en-US, so en is a match for en-US
                             ci = new CultureInfo(_localeCode);
-                            goto endOfForLoop2;
+                            
+                            break;
                         }
                     }
-                endOfForLoop2:
-                    1.GetHashCode(); //nop
                 }
 
                 //we still have no culture info set, so we are going to use the fallback method
@@ -237,10 +234,8 @@ namespace DotNetNuke.Framework
         public PortalSettings PortalSettings
         {
             get
-            {
-                PortalSettings returnValue;
-                returnValue = PortalController.GetCurrentPortalSettings();
-                return returnValue;
+            {                
+                return PortalController.GetCurrentPortalSettings();                
             }
         }
 
@@ -250,7 +245,7 @@ namespace DotNetNuke.Framework
         public PageBase()
         {
             _localizedControls = new ArrayList();
-        } //New
+        }
 
         /// <summary>
         /// <para>GetControlAttribute looks a the type of control and does it's best to find an AttributeCollection.</para>
@@ -311,7 +306,7 @@ namespace DotNetNuke.Framework
                 affectedControls.Add(ac);
             }
             return key;
-        } //GetControlAttribute
+        } 
 
         public bool HasTabPermission(string PermissionKey)
         {
@@ -324,7 +319,7 @@ namespace DotNetNuke.Framework
         private void IterateControls(ArrayList affectedControls)
         {
             IterateControls(Controls, affectedControls, null);
-        } //IterateControls
+        } 
 
         private void IterateControls(ControlCollection controls, ArrayList affectedControls, string ResourceFileRoot)
         {
@@ -332,7 +327,7 @@ namespace DotNetNuke.Framework
             {
                 ProcessControl(c, affectedControls, true, ResourceFileRoot);
             }
-        } //IterateControls
+        } 
 
         protected override void OnInit(EventArgs e)
         {
@@ -351,19 +346,19 @@ namespace DotNetNuke.Framework
         protected override void OnPreRender(EventArgs evt)
         {
             base.OnPreRender(evt);
-        } //OnPreRender
+        }
 
-        private void Page_Error(object Source, EventArgs e)
+        protected void Page_Error(object Source, EventArgs e)
         {
             Exception exc = Server.GetLastError();
             string strURL = Globals.ApplicationURL();
             if (Request.QueryString["error"] != null)
             {
-                strURL += ((strURL.IndexOf("?") == -1) ? "?" : "&").ToString() + "error=terminate";
+                strURL += ((strURL.IndexOf("?") == -1) ? "?" : "&") + "error=terminate";
             }
             else
             {
-                strURL += ((strURL.IndexOf("?") == -1) ? "?" : "&").ToString() + "error=" + Server.UrlEncode(exc.Message);
+                strURL += ((strURL.IndexOf("?") == -1) ? "?" : "&") + "error=" + Server.UrlEncode(exc.Message);
                 if (!Globals.IsAdminControl())
                 {
                     strURL += "&content=0";
@@ -378,7 +373,7 @@ namespace DotNetNuke.Framework
         /// <param name="c">Control to find the AttributeCollection on</param>
         /// <param name="affectedControls">ArrayList that hold the controls that have been localized. This is later used for the removal of the key attribute.</param>
         /// <param name="includeChildren">If true, causes this method to process children of this controls.</param>
-        internal void ProcessControl(Control c, ArrayList affectedControls, bool includeChildren, string ResourceFileRoot)
+        internal void ProcessControl(Control c, ArrayList affectedControls, bool includeChildren, string resourceFileRoot)
         {
             // Perform the substitution if a key was found
             string key = GetControlAttribute(c, affectedControls);
@@ -386,7 +381,7 @@ namespace DotNetNuke.Framework
             {
                 //Translation starts here ....
                 string value;
-                value = Localization.GetString(key, ResourceFileRoot);
+                value = Localization.GetString(key, resourceFileRoot);
 
                 if (c is Label)
                 {
@@ -497,7 +492,7 @@ namespace DotNetNuke.Framework
                     key = ac[Localization.KeyName];
                     if (key != null)
                     {
-                        string value = Localization.GetString(key, ResourceFileRoot);
+                        string value = Localization.GetString(key, resourceFileRoot);
                         if (value != "")
                         {
                             ctrl.Items[i].Text = value;
@@ -519,7 +514,7 @@ namespace DotNetNuke.Framework
                     key = ac[Localization.KeyName];
                     if (key != null)
                     {
-                        string value = Localization.GetString(key, ResourceFileRoot);
+                        string value = Localization.GetString(key, resourceFileRoot);
                         if (value != "")
                         {
                             ctrl.Items[i].Text = value;
@@ -589,11 +584,11 @@ namespace DotNetNuke.Framework
                     else
                     {
                         //Pass Resource File Root through
-                        IterateControls(c.Controls, affectedControls, ResourceFileRoot);
+                        IterateControls(c.Controls, affectedControls, resourceFileRoot);
                     }
                 }
             }
-        } //ProcessControl
+        } 
 
         /// <summary>
         /// <para>RemoveKeyAttribute remove the key attribute from the control. If this isn't done, then the HTML output will have
@@ -612,7 +607,7 @@ namespace DotNetNuke.Framework
                 AttributeCollection ac = (AttributeCollection)affectedControls[i];
                 ac.Remove(Localization.KeyName);
             }
-        } //RemoveKeyAttribute
+        } 
 
         // This method overrides the Render() method for the page and moves the ViewState
         // from its default location at the top of the page to the bottom of the page. This
@@ -651,5 +646,5 @@ namespace DotNetNuke.Framework
         {
             Localization.SetLanguage(value);
         }
-    } //PageBase
+    } 
 }

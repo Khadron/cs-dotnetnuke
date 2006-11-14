@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Common.Controls.Logoff" CodeFile="Logoff.aspx.cs" %>
+<%@ Page Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Common.Controls.Logoff" CodeFile="Logoff.aspx.cs" %>
 <%--
 
    The Logoff page is responsible for signing out a user from the cookie authentication, and

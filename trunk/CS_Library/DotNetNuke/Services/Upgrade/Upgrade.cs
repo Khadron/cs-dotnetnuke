@@ -42,7 +42,6 @@ using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Services.Log.EventLog;
 using DotNetNuke.Services.Personalization;
 using DotNetNuke.Services.Scheduling;
-using Microsoft.VisualBasic;
 using Globals=DotNetNuke.Common.Globals;
 using TabInfo=DotNetNuke.Entities.Tabs.TabInfo;
 
@@ -355,7 +354,8 @@ namespace DotNetNuke.Services.Upgrade
 
                 if (isChild)
                 {
-                    strChildPath = strPortalAlias.Substring(Strings.InStrRev(strPortalAlias, "/", -1, 0) + 1 - 1);
+
+                    strChildPath = strPortalAlias.Substring(strPortalAlias.LastIndexOf("/") + 1 - 1);
                 }
 
                 //Create Portal
@@ -407,7 +407,7 @@ namespace DotNetNuke.Services.Upgrade
             {
                 hasRows = true;
                 sbWarnings.Append("<tr>");
-                sbWarnings.Append("<td class=\'Norma\'>" + dr.GetInt32(0).ToString() + "</td>");
+                sbWarnings.Append("<td class=\'Norma\'>" + dr.GetInt32(0) + "</td>");
                 sbWarnings.Append("<td class=\'Norma\'>" + dr.GetString(1) + "</td>");
                 sbWarnings.Append("<td class=\'Norma\'>" + dr.GetString(2) + "</td>");
                 sbWarnings.Append("<td class=\'Norma\'>" + dr.GetString(3) + "</td>");
@@ -464,7 +464,7 @@ namespace DotNetNuke.Services.Upgrade
                 double time = userCount / 10834;
                 if (userCount > 1000)
                 {
-                    strWarnings += "<br/><h3>More than 1000 Users</h3><p>This DotNetNuke Database has " + userCount.ToString() + " users. As the users and their profiles are transferred to a new format, it is estimated that the script will take ~" + time.ToString("F2") + " minutes to execute.</p>";
+                    strWarnings += "<br/><h3>More than 1000 Users</h3><p>This DotNetNuke Database has " + userCount + " users. As the users and their profiles are transferred to a new format, it is estimated that the script will take ~" + time.ToString("F2") + " minutes to execute.</p>";
                 }
             }
             catch (Exception ex)
@@ -520,7 +520,7 @@ namespace DotNetNuke.Services.Upgrade
                     // read list file
                     StreamReader objStreamReader;
                     objStreamReader = File.OpenText(strListFile);
-                    Array arrPaths = objStreamReader.ReadToEnd().Split(ControlChars.CrLf.ToCharArray());
+                    Array arrPaths = objStreamReader.ReadToEnd().Split("\r\n".ToCharArray());
                     objStreamReader.Close();
 
                     // loop through path list
@@ -738,9 +738,6 @@ namespace DotNetNuke.Services.Upgrade
 
             TabController objTabController = new TabController();
             TabInfo HostPage = objTabController.GetTabByName("Host", Null.NullInteger);
-            TabInfo newPage;
-
-            int ModuleDefID;
 
             try
             {
@@ -752,100 +749,102 @@ namespace DotNetNuke.Services.Upgrade
                 }
 
                 // add the log viewer module to the admin tab
+                int moduleDefId;
                 if (CoreModuleExists("Log Viewer") == false)
                 {
-                    ModuleDefID = AddModuleDefinition("Log Viewer", "Allows you to view log entries for portal events.", "Log Viewer");
-                    AddModuleControl(ModuleDefID, "", "", "Admin/Logging/LogViewer.ascx", "", SecurityAccessLevel.Admin, 0);
-                    AddModuleControl(ModuleDefID, "Edit", "Edit Log Settings", "Admin/Logging/EditLogTypes.ascx", "", SecurityAccessLevel.Host, 0);
+                    moduleDefId = AddModuleDefinition("Log Viewer", "Allows you to view log entries for portal events.", "Log Viewer");
+                    AddModuleControl(moduleDefId, "", "", "Admin/Logging/LogViewer.ascx", "", SecurityAccessLevel.Admin, 0);
+                    AddModuleControl(moduleDefId, "Edit", "Edit Log Settings", "Admin/Logging/EditLogTypes.ascx", "", SecurityAccessLevel.Host, 0);
 
                     //Add the Module/Page to all configured portals
-                    AddAdminPages("Log Viewer", "icon_viewstats_16px.gif", true, ModuleDefID, "Log Viewer", "icon_viewstats_16px.gif");
+                    AddAdminPages("Log Viewer", "icon_viewstats_16px.gif", true, moduleDefId, "Log Viewer", "icon_viewstats_16px.gif");
                 }
 
                 if (CoreModuleExists("Authentication") == false)
                 {
-                    ModuleDefID = AddModuleDefinition("Windows Authentication", "Allows you to manage authentication settings for sites using Windows Authentication.", "Windows Authentication");
-                    AddModuleControl(ModuleDefID, "", "", "Admin/Security/AuthenticationSettings.ascx", "", SecurityAccessLevel.Admin, 0);
+                    moduleDefId = AddModuleDefinition("Windows Authentication", "Allows you to manage authentication settings for sites using Windows Authentication.", "Windows Authentication");
+                    AddModuleControl(moduleDefId, "", "", "Admin/Security/AuthenticationSettings.ascx", "", SecurityAccessLevel.Admin, 0);
 
                     //Add the Module/Page to all configured portals
-                    AddAdminPages("Authentication", "icon_authentication_16px.gif", true, ModuleDefID, "Authentication", "icon_authentication_16px.gif");
+                    AddAdminPages("Authentication", "icon_authentication_16px.gif", true, moduleDefId, "Authentication", "icon_authentication_16px.gif");
                 }
 
                 // add the schedule module to the host tab
+                TabInfo newPage;
                 if (CoreModuleExists("Schedule") == false)
                 {
-                    ModuleDefID = AddModuleDefinition("Schedule", "Allows you to schedule tasks to be run at specified intervals.", "Schedule");
-                    AddModuleControl(ModuleDefID, "", "", "Admin/Scheduling/ViewSchedule.ascx", "", SecurityAccessLevel.Admin, 0);
-                    AddModuleControl(ModuleDefID, "Edit", "Edit Schedule", "Admin/Scheduling/EditSchedule.ascx", "", SecurityAccessLevel.Host, 0);
-                    AddModuleControl(ModuleDefID, "History", "Schedule History", "Admin/Scheduling/ViewScheduleHistory.ascx", "", SecurityAccessLevel.Host, 0);
-                    AddModuleControl(ModuleDefID, "Status", "Schedule Status", "Admin/Scheduling/ViewScheduleStatus.ascx", "", SecurityAccessLevel.Host, 0);
+                    moduleDefId = AddModuleDefinition("Schedule", "Allows you to schedule tasks to be run at specified intervals.", "Schedule");
+                    AddModuleControl(moduleDefId, "", "", "Admin/Scheduling/ViewSchedule.ascx", "", SecurityAccessLevel.Admin, 0);
+                    AddModuleControl(moduleDefId, "Edit", "Edit Schedule", "Admin/Scheduling/EditSchedule.ascx", "", SecurityAccessLevel.Host, 0);
+                    AddModuleControl(moduleDefId, "History", "Schedule History", "Admin/Scheduling/ViewScheduleHistory.ascx", "", SecurityAccessLevel.Host, 0);
+                    AddModuleControl(moduleDefId, "Status", "Schedule Status", "Admin/Scheduling/ViewScheduleStatus.ascx", "", SecurityAccessLevel.Host, 0);
 
                     //Create New Host Page (or get existing one)
                     newPage = AddHostPage("Schedule", "icon_scheduler_16px.gif", true);
 
                     //Add Module To Page
-                    AddModuleToPage(newPage, ModuleDefID, "Schedule", "icon_scheduler_16px.gif");
+                    AddModuleToPage(newPage, moduleDefId, "Schedule", "icon_scheduler_16px.gif");
                 }
 
                 // add the skins module to the admin tab
                 if (CoreModuleExists("Skins") == false)
                 {
-                    ModuleDefID = AddModuleDefinition("Skins", "Allows you to manage your skins and containers.", "Skins");
-                    AddModuleControl(ModuleDefID, "", "", "Admin/Skins/EditSkins.ascx", "", SecurityAccessLevel.Admin, 0);
+                    moduleDefId = AddModuleDefinition("Skins", "Allows you to manage your skins and containers.", "Skins");
+                    AddModuleControl(moduleDefId, "", "", "Admin/Skins/EditSkins.ascx", "", SecurityAccessLevel.Admin, 0);
 
                     //Add the Module/Page to all configured portals
-                    AddAdminPages("Skins", "icon_skins_16px.gif", true, ModuleDefID, "Skins", "icon_skins_16px.gif");
+                    AddAdminPages("Skins", "icon_skins_16px.gif", true, moduleDefId, "Skins", "icon_skins_16px.gif");
                 }
 
                 // add the template module to the portals tab
                 if (!CoreModuleExists("Template"))
                 {
-                    ModuleDefID = AddModuleDefinition("Template", "Allows you to export a portal template to be used to build new portals.", "Export Template");
-                    AddModuleControl(ModuleDefID, "", "Export Template", "Admin/Portal/Template.ascx", "", SecurityAccessLevel.Host, 1);
+                    moduleDefId = AddModuleDefinition("Template", "Allows you to export a portal template to be used to build new portals.", "Export Template");
+                    AddModuleControl(moduleDefId, "", "Export Template", "Admin/Portal/Template.ascx", "", SecurityAccessLevel.Host, 1);
 
                     //Create New Host Page (or get existing one)
                     newPage = AddHostPage("Portals", "", true);
 
                     //Add Module To Page
-                    AddModuleToPage(newPage, ModuleDefID, "Export Template", "");
+                    AddModuleToPage(newPage, moduleDefId, "Export Template", "");
                 }
 
                 // add the language editor module to the host tab
                 if (!CoreModuleExists("Languages"))
                 {
-                    ModuleDefID = AddModuleDefinition("Languages", "The Super User can manage the suported languages installed on the system.", "Languages");
-                    AddModuleControl(ModuleDefID, "", "", "Admin/Localization/Languages.ascx", "", SecurityAccessLevel.Host, 0);
-                    AddModuleControl(ModuleDefID, "TimeZone", "TimeZone Editor", "Admin/Localization/TimeZoneEditor.ascx", "", SecurityAccessLevel.Host, 0);
-                    AddModuleControl(ModuleDefID, "Language", "Language Editor", "Admin/Localization/LanguageEditor.ascx", "", SecurityAccessLevel.Host, 0);
-                    AddModuleControl(ModuleDefID, "FullEditor", "Language Editor", "Admin/Localization/LanguageEditorExt.ascx", "", SecurityAccessLevel.Host, 0);
-                    AddModuleControl(ModuleDefID, "Verify", "Resource File Verifier", "Admin/Localization/ResourceVerifier.ascx", "", SecurityAccessLevel.Host, 0);
-                    AddModuleControl(ModuleDefID, "Package", "Create Language Pack", "Admin/Localization/LanguagePack.ascx", "", SecurityAccessLevel.Host, 0);
+                    moduleDefId = AddModuleDefinition("Languages", "The Super User can manage the suported languages installed on the system.", "Languages");
+                    AddModuleControl(moduleDefId, "", "", "Admin/Localization/Languages.ascx", "", SecurityAccessLevel.Host, 0);
+                    AddModuleControl(moduleDefId, "TimeZone", "TimeZone Editor", "Admin/Localization/TimeZoneEditor.ascx", "", SecurityAccessLevel.Host, 0);
+                    AddModuleControl(moduleDefId, "Language", "Language Editor", "Admin/Localization/LanguageEditor.ascx", "", SecurityAccessLevel.Host, 0);
+                    AddModuleControl(moduleDefId, "FullEditor", "Language Editor", "Admin/Localization/LanguageEditorExt.ascx", "", SecurityAccessLevel.Host, 0);
+                    AddModuleControl(moduleDefId, "Verify", "Resource File Verifier", "Admin/Localization/ResourceVerifier.ascx", "", SecurityAccessLevel.Host, 0);
+                    AddModuleControl(moduleDefId, "Package", "Create Language Pack", "Admin/Localization/LanguagePack.ascx", "", SecurityAccessLevel.Host, 0);
 
                     //Create New Host Page (or get existing one)
                     newPage = AddHostPage("Languages", "icon_language_16px.gif", true);
 
                     //Add Module To Page
-                    AddModuleToPage(newPage, ModuleDefID, "Languages", "icon_language_16px.gif");
+                    AddModuleToPage(newPage, moduleDefId, "Languages", "icon_language_16px.gif");
 
-                    ModuleDefID = AddModuleDefinition("Custom Locales", "Administrator can manage custom translations for portal.", "Custom Portal Locale");
-                    AddModuleControl(ModuleDefID, "", "", "Admin/Localization/LanguageEditor.ascx", "", SecurityAccessLevel.Admin, 0);
-                    AddModuleControl(ModuleDefID, "FullEditor", "Language Editor", "Admin/Localization/LanguageEditorExt.ascx", "", SecurityAccessLevel.Admin, 0);
+                    moduleDefId = AddModuleDefinition("Custom Locales", "Administrator can manage custom translations for portal.", "Custom Portal Locale");
+                    AddModuleControl(moduleDefId, "", "", "Admin/Localization/LanguageEditor.ascx", "", SecurityAccessLevel.Admin, 0);
+                    AddModuleControl(moduleDefId, "FullEditor", "Language Editor", "Admin/Localization/LanguageEditorExt.ascx", "", SecurityAccessLevel.Admin, 0);
 
                     //Add the Module/Page to all configured portals
-                    AddAdminPages("Languages", "icon_language_16px.gif", true, ModuleDefID, "Languages", "icon_language_16px.gif");
+                    AddAdminPages("Languages", "icon_language_16px.gif", true, moduleDefId, "Languages", "icon_language_16px.gif");
                 }
 
                 // add the Search Admin module to the host tab
                 if (CoreModuleExists("Search Admin") == false)
                 {
-                    ModuleDefID = AddModuleDefinition("Search Admin", "The Search Admininstrator provides the ability to manage search settings.", "Search Admin");
-                    AddModuleControl(ModuleDefID, "", "", "Admin/Search/SearchAdmin.ascx", "", SecurityAccessLevel.Host, 0);
+                    moduleDefId = AddModuleDefinition("Search Admin", "The Search Admininstrator provides the ability to manage search settings.", "Search Admin");
+                    AddModuleControl(moduleDefId, "", "", "Admin/Search/SearchAdmin.ascx", "", SecurityAccessLevel.Host, 0);
 
                     //Create New Host Page (or get existing one)
                     newPage = AddHostPage("Search Admin", "icon_search_16px.gif", true);
 
                     //Add Module To Page
-                    AddModuleToPage(newPage, ModuleDefID, "Search Admin", "icon_search_16px.gif");
+                    AddModuleToPage(newPage, moduleDefId, "Search Admin", "icon_search_16px.gif");
 
                     //Add the Module/Page to all configured portals
                     //AddAdminPages("Search Admin", "icon_search_16px.gif", True, ModuleDefID, "Search Admin", "icon_search_16px.gif")
@@ -854,59 +853,59 @@ namespace DotNetNuke.Services.Upgrade
                 // add the Search Input module
                 if (CoreModuleExists("Search Input") == false)
                 {
-                    ModuleDefID = AddModuleDefinition("Search Input", "The Search Input module provides the ability to submit a search to a given search results module.", "Search Input", false, false);
-                    AddModuleControl(ModuleDefID, "", "", "DesktopModules/SearchInput/SearchInput.ascx", "", SecurityAccessLevel.Anonymous, 0);
-                    AddModuleControl(ModuleDefID, "Settings", "Search Input Settings", "DesktopModules/SearchInput/Settings.ascx", "", SecurityAccessLevel.Edit, 0);
+                    moduleDefId = AddModuleDefinition("Search Input", "The Search Input module provides the ability to submit a search to a given search results module.", "Search Input", false, false);
+                    AddModuleControl(moduleDefId, "", "", "DesktopModules/SearchInput/SearchInput.ascx", "", SecurityAccessLevel.Anonymous, 0);
+                    AddModuleControl(moduleDefId, "Settings", "Search Input Settings", "DesktopModules/SearchInput/Settings.ascx", "", SecurityAccessLevel.Edit, 0);
                 }
 
                 // add the Search Results module
                 if (CoreModuleExists("Search Results") == false)
                 {
-                    ModuleDefID = AddModuleDefinition("Search Results", "The Search Reasults module provides the ability to display search results.", "Search Results", false, false);
-                    AddModuleControl(ModuleDefID, "", "", "DesktopModules/SearchResults/SearchResults.ascx", "", SecurityAccessLevel.Anonymous, 0);
-                    AddModuleControl(ModuleDefID, "Settings", "Search Results Settings", "DesktopModules/SearchResults/Settings.ascx", "", SecurityAccessLevel.Edit, 0);
+                    moduleDefId = AddModuleDefinition("Search Results", "The Search Reasults module provides the ability to display search results.", "Search Results", false, false);
+                    AddModuleControl(moduleDefId, "", "", "DesktopModules/SearchResults/SearchResults.ascx", "", SecurityAccessLevel.Anonymous, 0);
+                    AddModuleControl(moduleDefId, "Settings", "Search Results Settings", "DesktopModules/SearchResults/Settings.ascx", "", SecurityAccessLevel.Edit, 0);
 
                     //Add the Search Module/Page to all configured portals
-                    AddSearchResults(ModuleDefID);
+                    AddSearchResults(moduleDefId);
                 }
 
                 // add the site wizard module to the admin tab (but make it hidden, only available from icon bar)
                 if (CoreModuleExists("Site Wizard") == false)
                 {
-                    ModuleDefID = AddModuleDefinition("Site Wizard", "The Administrator can use this user-friendly wizard to set up the common features of the Portal/Site.", "Site Wizard");
-                    AddModuleControl(ModuleDefID, "", "", "Admin/Portal/Sitewizard.ascx", "", SecurityAccessLevel.Admin, 0);
-                    AddAdminPages("Site Wizard", "icon_sitesettings_16px.gif", false, ModuleDefID, "Site Wizard", "icon_sitesettings_16px.gif");
+                    moduleDefId = AddModuleDefinition("Site Wizard", "The Administrator can use this user-friendly wizard to set up the common features of the Portal/Site.", "Site Wizard");
+                    AddModuleControl(moduleDefId, "", "", "Admin/Portal/Sitewizard.ascx", "", SecurityAccessLevel.Admin, 0);
+                    AddAdminPages("Site Wizard", "icon_sitesettings_16px.gif", false, moduleDefId, "Site Wizard", "icon_sitesettings_16px.gif");
                 }
 
                 // add portal alias module
                 if (CoreModuleExists("Portal Aliases") == false)
                 {
-                    ModuleDefID = AddModuleDefinition("Portal Aliases", "Allows you to view portal aliases.", "Portal Aliases");
-                    AddModuleControl(ModuleDefID, "", "", "Admin/Portal/PortalAlias.ascx", "", SecurityAccessLevel.Host, 0);
-                    AddModuleControl(ModuleDefID, "Edit", "Portal Aliases", "Admin/Portal/EditPortalAlias.ascx", "", SecurityAccessLevel.Host, 0);
+                    moduleDefId = AddModuleDefinition("Portal Aliases", "Allows you to view portal aliases.", "Portal Aliases");
+                    AddModuleControl(moduleDefId, "", "", "Admin/Portal/PortalAlias.ascx", "", SecurityAccessLevel.Host, 0);
+                    AddModuleControl(moduleDefId, "Edit", "Portal Aliases", "Admin/Portal/EditPortalAlias.ascx", "", SecurityAccessLevel.Host, 0);
 
                     //Add the Module/Page to all configured portals (with InheritViewPermissions = False)
-                    AddAdminPages("Site Settings", "icon_sitesettings_16px.gif", false, ModuleDefID, "Portal Aliases", "icon_sitesettings_16px.gif", false);
+                    AddAdminPages("Site Settings", "icon_sitesettings_16px.gif", false, moduleDefId, "Portal Aliases", "icon_sitesettings_16px.gif", false);
                 }
 
                 //add Lists module and tab
                 if (HostTabExists("Lists") == false)
                 {
-                    ModuleDefID = AddModuleDefinition("Lists", "Allows you to edit common lists.", "Lists");
-                    AddModuleControl(ModuleDefID, "", "", "Admin/Lists/ListEditor.ascx", "", SecurityAccessLevel.Host, 0);
+                    moduleDefId = AddModuleDefinition("Lists", "Allows you to edit common lists.", "Lists");
+                    AddModuleControl(moduleDefId, "", "", "Admin/Lists/ListEditor.ascx", "", SecurityAccessLevel.Host, 0);
 
                     //Create New Host Page (or get existing one)
                     newPage = AddHostPage("Lists", "icon_lists_16px.gif", true);
 
                     //Add Module To Page
-                    AddModuleToPage(newPage, ModuleDefID, "Lists", "icon_lists_16px.gif");
+                    AddModuleToPage(newPage, moduleDefId, "Lists", "icon_lists_16px.gif");
                 }
 
                 // add the feedback settings control
                 if (CoreModuleExists("Feedback") == true)
                 {
-                    ModuleDefID = GetModuleDefinition("Feedback", "Feedback");
-                    AddModuleControl(ModuleDefID, "Settings", "Feedback Settings", "DesktopModules/Feedback/Settings.ascx", "", SecurityAccessLevel.Edit, 0);
+                    moduleDefId = GetModuleDefinition("Feedback", "Feedback");
+                    AddModuleControl(moduleDefId, "Settings", "Feedback Settings", "DesktopModules/Feedback/Settings.ascx", "", SecurityAccessLevel.Edit, 0);
                 }
 
                 if (HostTabExists("Superuser Accounts") == false)
@@ -916,13 +915,13 @@ namespace DotNetNuke.Services.Upgrade
                     DesktopModuleInfo objDesktopModuleInfo;
                     objDesktopModuleInfo = objDesktopModuleController.GetDesktopModuleByName("User Accounts");
                     ModuleDefinitionController objModuleDefController = new ModuleDefinitionController();
-                    ModuleDefID = objModuleDefController.GetModuleDefinitionByName(objDesktopModuleInfo.DesktopModuleID, "User Accounts").ModuleDefID;
+                    moduleDefId = objModuleDefController.GetModuleDefinitionByName(objDesktopModuleInfo.DesktopModuleID, "User Accounts").ModuleDefID;
 
                     //Create New Host Page (or get existing one)
                     newPage = AddHostPage("Superuser Accounts", "icon_users_16px.gif", true);
 
                     //Add Module To Page
-                    AddModuleToPage(newPage, ModuleDefID, "Superuser Accounts", "icon_users_32px.gif");
+                    AddModuleToPage(newPage, moduleDefId, "Superuser Accounts", "icon_users_32px.gif");
                 }
 
                 //add Skins module and tab to Host menu
@@ -932,13 +931,13 @@ namespace DotNetNuke.Services.Upgrade
                     DesktopModuleInfo objDesktopModuleInfo;
                     objDesktopModuleInfo = objDesktopModuleController.GetDesktopModuleByName("Skins");
                     ModuleDefinitionController objModuleDefController = new ModuleDefinitionController();
-                    ModuleDefID = objModuleDefController.GetModuleDefinitionByName(objDesktopModuleInfo.DesktopModuleID, "Skins").ModuleDefID;
+                    moduleDefId = objModuleDefController.GetModuleDefinitionByName(objDesktopModuleInfo.DesktopModuleID, "Skins").ModuleDefID;
 
                     //Create New Host Page (or get existing one)
                     newPage = AddHostPage("Skins", "icon_skins_16px.gif", true);
 
                     //Add Module To Page
-                    AddModuleToPage(newPage, ModuleDefID, "Skins", "");
+                    AddModuleToPage(newPage, moduleDefId, "Skins", "");
                 }
 
                 //Add Search Skin Object
@@ -948,19 +947,19 @@ namespace DotNetNuke.Services.Upgrade
                 AddModuleControl(Null.NullInteger, "TREEVIEW", Null.NullString, "Admin/Skins/TreeViewMenu.ascx", "", SecurityAccessLevel.SkinObject, Null.NullInteger);
 
                 //Add Private Assembly Packager
-                ModuleDefID = GetModuleDefinition("Module Definitions", "Module Definitions");
-                AddModuleControl(ModuleDefID, "Package", "Create Private Assembly", "Admin/ModuleDefinitions/PrivateAssembly.ascx", "icon_moduledefinitions_32px.gif", SecurityAccessLevel.Edit, Null.NullInteger);
+                moduleDefId = GetModuleDefinition("Module Definitions", "Module Definitions");
+                AddModuleControl(moduleDefId, "Package", "Create Private Assembly", "Admin/ModuleDefinitions/PrivateAssembly.ascx", "icon_moduledefinitions_32px.gif", SecurityAccessLevel.Edit, Null.NullInteger);
 
                 //Add Edit Role Groups
-                ModuleDefID = GetModuleDefinition("Security Roles", "Security Roles");
-                AddModuleControl(ModuleDefID, "EditGroup", "Edit Role Groups", "Admin/Security/EditGroups.ascx", "icon_securityroles_32px.gif", SecurityAccessLevel.Edit, Null.NullInteger);
-                AddModuleControl(ModuleDefID, "UserSettings", "Manage User Settings", "Admin/Users/UserSettings.ascx", "~/images/settings.gif", SecurityAccessLevel.Edit, Null.NullInteger);
+                moduleDefId = GetModuleDefinition("Security Roles", "Security Roles");
+                AddModuleControl(moduleDefId, "EditGroup", "Edit Role Groups", "Admin/Security/EditGroups.ascx", "icon_securityroles_32px.gif", SecurityAccessLevel.Edit, Null.NullInteger);
+                AddModuleControl(moduleDefId, "UserSettings", "Manage User Settings", "Admin/Users/UserSettings.ascx", "~/images/settings.gif", SecurityAccessLevel.Edit, Null.NullInteger);
 
                 //Add User Accounts Controls
-                ModuleDefID = GetModuleDefinition("User Accounts", "User Accounts");
-                AddModuleControl(ModuleDefID, "ManageProfile", "Manage Profile Definition", "Admin/Users/ProfileDefinitions.ascx", "icon_users_32px.gif", SecurityAccessLevel.Edit, Null.NullInteger);
-                AddModuleControl(ModuleDefID, "EditProfileProperty", "Edit Profile Property Definition", "Admin/Users/EditProfileDefinition.ascx", "icon_users_32px.gif", SecurityAccessLevel.Edit, Null.NullInteger);
-                AddModuleControl(ModuleDefID, "UserSettings", "Manage User Settings", "Admin/Users/UserSettings.ascx", "~/images/settings.gif", SecurityAccessLevel.Edit, Null.NullInteger);
+                moduleDefId = GetModuleDefinition("User Accounts", "User Accounts");
+                AddModuleControl(moduleDefId, "ManageProfile", "Manage Profile Definition", "Admin/Users/ProfileDefinitions.ascx", "icon_users_32px.gif", SecurityAccessLevel.Edit, Null.NullInteger);
+                AddModuleControl(moduleDefId, "EditProfileProperty", "Edit Profile Property Definition", "Admin/Users/EditProfileDefinition.ascx", "icon_users_32px.gif", SecurityAccessLevel.Edit, Null.NullInteger);
+                AddModuleControl(moduleDefId, "UserSettings", "Manage User Settings", "Admin/Users/UserSettings.ascx", "~/images/settings.gif", SecurityAccessLevel.Edit, Null.NullInteger);
                 AddModuleControl(Null.NullInteger, "Profile", "Profile", "Admin/Users/ManageUsers.ascx", "icon_users_32px.gif", SecurityAccessLevel.Anonymous, Null.NullInteger);
                 AddModuleControl(Null.NullInteger, "SendPassword", "Send Password", "Admin/Security/SendPassword.ascx", "", SecurityAccessLevel.Anonymous, Null.NullInteger);
                 AddModuleControl(Null.NullInteger, "ViewProfile", "View Profile", "Admin/Users/ViewProfile.ascx", "icon_users_32px.gif", SecurityAccessLevel.Anonymous, Null.NullInteger);
@@ -1194,7 +1193,8 @@ namespace DotNetNuke.Services.Upgrade
                                 roles = objModule.AuthorizedViewRoles.Split(';');
                                 for (k = 0; k <= roles.Length - 1; k++)
                                 {
-                                    if (Information.IsNumeric(roles[k]))
+
+                                    if (Int32.TryParse(roles[k], out intViewModulePermissionID))
                                     {
                                         objModulePermission.PermissionID = intViewModulePermissionID;
                                         objModulePermission.AllowAccess = true;
@@ -1208,7 +1208,7 @@ namespace DotNetNuke.Services.Upgrade
                                 roles = objModule.AuthorizedEditRoles.Split(';');
                                 for (k = 0; k <= roles.Length - 1; k++)
                                 {
-                                    if (Information.IsNumeric(roles[k]))
+                                    if (Int32.TryParse(roles[k], out intEditModulePermissionID))
                                     {
                                         objModulePermission.PermissionID = intEditModulePermissionID;
                                         objModulePermission.AllowAccess = true;
@@ -1236,7 +1236,7 @@ namespace DotNetNuke.Services.Upgrade
                                 roles = objTab.AuthorizedRoles.Split(';');
                                 for (k = 0; k <= roles.Length - 1; k++)
                                 {
-                                    if (Information.IsNumeric(roles[k]))
+                                    if (Int32.TryParse(roles[k], out intViewTabPermissionID))
                                     {
                                         objTabPermission.PermissionID = intViewTabPermissionID;
                                         objTabPermission.AllowAccess = true;
@@ -1250,7 +1250,7 @@ namespace DotNetNuke.Services.Upgrade
                                 roles = objTab.AdministratorRoles.Split(';');
                                 for (k = 0; k <= roles.Length - 1; k++)
                                 {
-                                    if (Information.IsNumeric(roles[k]))
+                                    if (Int32.TryParse(roles[k], out intEditTabPermissionID))
                                     {
                                         objTabPermission.PermissionID = intEditTabPermissionID;
                                         objTabPermission.AllowAccess = true;
@@ -1497,18 +1497,16 @@ namespace DotNetNuke.Services.Upgrade
         private static void AddAdminPages(string TabName, string TabIconFile, bool IsVisible, int ModuleDefId, string ModuleTitle, string ModuleIconFile, bool InheritPermissions)
         {
             PortalController objPortals = new PortalController();
-            PortalInfo objPortal;
             ArrayList arrPortals = objPortals.GetPortals();
             int intPortal;
-            TabInfo newPage;
 
             //Add Page to Admin Menu of all configured Portals
             for (intPortal = 0; intPortal <= arrPortals.Count - 1; intPortal++)
             {
-                objPortal = (PortalInfo)arrPortals[intPortal];
+                PortalInfo objPortal = (PortalInfo)arrPortals[intPortal];
 
                 //Create New Admin Page (or get existing one)
-                newPage = AddAdminPage(objPortal, TabName, TabIconFile, IsVisible);
+                TabInfo newPage = AddAdminPage(objPortal, TabName, TabIconFile, IsVisible);
 
                 //Add Module To Page
                 AddModuleToPage(newPage, ModuleDefId, ModuleTitle, ModuleIconFile, InheritPermissions);
@@ -1666,24 +1664,22 @@ namespace DotNetNuke.Services.Upgrade
         private static void AddSearchResults(int ModuleDefId)
         {
             PortalController objPortals = new PortalController();
-            PortalInfo objPortal;
             ArrayList arrPortals = objPortals.GetPortals();
             int intPortal;
-            TabInfo newPage;
 
             //Add Page to Admin Menu of all configured Portals
             for (intPortal = 0; intPortal <= arrPortals.Count - 1; intPortal++)
             {
                 TabPermissionCollection objTabPermissions = new TabPermissionCollection();
 
-                objPortal = (PortalInfo)arrPortals[intPortal];
+                PortalInfo objPortal = (PortalInfo)arrPortals[intPortal];
 
                 AddPagePermission(ref objTabPermissions, "View", Convert.ToInt32(Globals.glbRoleAllUsers));
                 AddPagePermission(ref objTabPermissions, "View", Convert.ToInt32(objPortal.AdministratorRoleId));
                 AddPagePermission(ref objTabPermissions, "Edit", Convert.ToInt32(objPortal.AdministratorRoleId));
 
                 //Create New Page (or get existing one)
-                newPage = AddPage(objPortal.PortalID, Null.NullInteger, "Search Results", "", false, objTabPermissions, false);
+                TabInfo newPage = AddPage(objPortal.PortalID, Null.NullInteger, "Search Results", "", false, objTabPermissions, false);
 
                 //Add Module To Page
                 AddModuleToPage(newPage, ModuleDefId, "Search Results", "");
@@ -1721,15 +1717,13 @@ namespace DotNetNuke.Services.Upgrade
             // Get the name of the data provider
             ProviderConfiguration objProviderConfiguration = ProviderConfiguration.GetProviderConfiguration("data");
 
-            string[] arrFiles;
-            string strFile;
             string ScriptPath = Globals.ApplicationMapPath + "\\Install\\Scripts\\";
             if (Directory.Exists(ScriptPath))
             {
-                arrFiles = Directory.GetFiles(ScriptPath);
+                string[] arrFiles = Directory.GetFiles(ScriptPath);
                 foreach (string tempLoopVar_strFile in arrFiles)
                 {
-                    strFile = tempLoopVar_strFile;
+                    string strFile = tempLoopVar_strFile;
                     //Execute if script is a provider script
                     if (strFile.IndexOf("." + objProviderConfiguration.DefaultProvider) != -1)
                     {
@@ -1924,16 +1918,12 @@ namespace DotNetNuke.Services.Upgrade
         private static void ParseDesktopModules(XmlNode node)
         {
             //TODO - This method is obsolete since the modules are now seperated from the core
-            XmlNode desktopModuleNode;
-            XmlNode moduleNode;
-            XmlNode controlNode;
-            int ModuleDefID;
             SecurityAccessLevel controlType = SecurityAccessLevel.View;
 
             // Parse the desktopmodule nodes
             foreach (XmlNode tempLoopVar_desktopModuleNode in node.SelectNodes("desktopmodule"))
             {
-                desktopModuleNode = tempLoopVar_desktopModuleNode;
+                XmlNode desktopModuleNode = tempLoopVar_desktopModuleNode;
                 string strDescription = XmlUtils.GetNodeValue(desktopModuleNode, "description", "");
                 string strVersion = XmlUtils.GetNodeValue(desktopModuleNode, "version", "");
                 string strControllerClass = XmlUtils.GetNodeValue(desktopModuleNode, "businesscontrollerclass", "");
@@ -1941,16 +1931,16 @@ namespace DotNetNuke.Services.Upgrade
                 // Parse the module nodes
                 foreach (XmlNode tempLoopVar_moduleNode in desktopModuleNode.SelectNodes("modules/module"))
                 {
-                    moduleNode = tempLoopVar_moduleNode;
+                    XmlNode moduleNode = tempLoopVar_moduleNode;
                     string strName = XmlUtils.GetNodeValue(moduleNode, "friendlyname", "");
 
                     HtmlUtils.WriteFeedback(HttpContext.Current.Response, 2, "Installing " + strName + ":<br>");
-                    ModuleDefID = AddModuleDefinition(strName, strDescription, strName, false, false, strControllerClass, strVersion);
+                    int ModuleDefID = AddModuleDefinition(strName, strDescription, strName, false, false, strControllerClass, strVersion);
 
                     // Parse the control nodes
                     foreach (XmlNode tempLoopVar_controlNode in moduleNode.SelectNodes("controls/control"))
                     {
-                        controlNode = tempLoopVar_controlNode;
+                        XmlNode controlNode = tempLoopVar_controlNode;
                         string strKey = XmlUtils.GetNodeValue(controlNode, "key", "");
                         string strTitle = XmlUtils.GetNodeValue(controlNode, "title", "");
                         string strSrc = XmlUtils.GetNodeValue(controlNode, "src", "");
@@ -1985,13 +1975,12 @@ namespace DotNetNuke.Services.Upgrade
         ///	<param name="portalId">The PortalId (-1 for Host Files)</param>
         private static void ParseFiles(XmlNode node, int portalId)
         {
-            XmlNode fileNode;
             FileController objController = new FileController();
 
             //Parse the File nodes
             foreach (XmlNode tempLoopVar_fileNode in node.SelectNodes("file"))
             {
-                fileNode = tempLoopVar_fileNode;
+                XmlNode fileNode = tempLoopVar_fileNode;
                 string strFileName = XmlUtils.GetNodeValue(fileNode, "filename", "");
                 string strExtenstion = XmlUtils.GetNodeValue(fileNode, "extension", "");
                 long fileSize = long.Parse(XmlUtils.GetNodeValue(fileNode, "size", ""));
@@ -2012,13 +2001,12 @@ namespace DotNetNuke.Services.Upgrade
         ///	<param name="node">The settings node</param>
         private static void ParseSettings(XmlNode node)
         {
-            XmlNode settingNode;
             HostSettingsController objController = new HostSettingsController();
 
             //Parse the Settings nodes
             foreach (XmlNode tempLoopVar_settingNode in node.ChildNodes)
             {
-                settingNode = tempLoopVar_settingNode;
+                XmlNode settingNode = tempLoopVar_settingNode;
                 string strSettingName = settingNode.Name;
                 string strSettingValue = settingNode.InnerText;
                 XmlAttribute SecureAttrib = settingNode.Attributes["Secure"];
@@ -2109,10 +2097,8 @@ namespace DotNetNuke.Services.Upgrade
         private static void RemoveCoreModule(string DesktopModuleName, string ParentTabName, string TabName, bool TabRemove)
         {
             TabController objTabs = new TabController();
-            TabInfo objTab;
             ModuleController objModules = new ModuleController();
             ModuleInfo objModule = new ModuleInfo();
-            int ParentId;
             int intIndex;
             int intModuleDefId = 0;
             int intDesktopModuleId;
@@ -2127,7 +2113,6 @@ namespace DotNetNuke.Services.Upgrade
                 case "Admin":
 
                     PortalController objPortals = new PortalController();
-                    PortalInfo objPortal;
 
                     ArrayList arrPortals = objPortals.GetPortals();
                     int intPortal;
@@ -2135,10 +2120,10 @@ namespace DotNetNuke.Services.Upgrade
                     //Iterate through the Portals to remove the Module from the Tab
                     for (intPortal = 0; intPortal <= arrPortals.Count - 1; intPortal++)
                     {
-                        objPortal = (PortalInfo)arrPortals[intPortal];
+                        PortalInfo objPortal = (PortalInfo)arrPortals[intPortal];
 
-                        ParentId = objPortal.AdminTabId;
-                        objTab = objTabs.GetTabByName(TabName, objPortal.PortalID, ParentId);
+                        int ParentId = objPortal.AdminTabId;
+                        TabInfo objTab = objTabs.GetTabByName(TabName, objPortal.PortalID, ParentId);
 
                         //Get the Modules on the Tab
                         ArrayList arrModules = objModules.GetPortalTabModules(objPortal.PortalID, objTab.TabID);
@@ -2169,10 +2154,9 @@ namespace DotNetNuke.Services.Upgrade
             //Delete all the Module Controls for this Definition
             ModuleControlController objModuleControls = new ModuleControlController();
             ArrayList arrModuleControls = objModuleControls.GetModuleControls(intModuleDefId);
-            ModuleControlInfo objModuleControl;
             for (intIndex = 0; intIndex <= arrModuleControls.Count - 1; intIndex++)
             {
-                objModuleControl = (ModuleControlInfo)arrModuleControls[intIndex];
+                ModuleControlInfo objModuleControl = (ModuleControlInfo)arrModuleControls[intIndex];
                 objModuleControls.DeleteModuleControl(objModuleControl.ModuleControlID);
             }
 
@@ -2221,17 +2205,16 @@ namespace DotNetNuke.Services.Upgrade
             // get list of script files
             string strScriptVersion;
             ArrayList arrScriptFiles = new ArrayList();
-            string strFile;
             string[] arrFiles = Directory.GetFiles(strProviderPath, "*." + objProviderConfiguration.DefaultProvider);
             foreach (string tempLoopVar_strFile in arrFiles)
             {
-                strFile = tempLoopVar_strFile;
+                string strFile = tempLoopVar_strFile;
                 // script file name must conform to ##.##.##.DefaultProviderName
                 if (Path.GetFileName(strFile).Length == 9 + objProviderConfiguration.DefaultProvider.Length)
                 {
                     strScriptVersion = Path.GetFileNameWithoutExtension(strFile);
                     // check if script file is relevant for upgrade
-                    if (strScriptVersion.Replace(".", "").Length > strDatabaseVersion.Length && strScriptVersion.Replace(".", "").Length <= strAssemblyVersion.Length)
+                    if (Convert.ToInt32(strScriptVersion.Replace(".", "")) > Convert.ToInt32(strDatabaseVersion) && Convert.ToInt32(strScriptVersion.Replace(".", "")) <= Convert.ToInt32(strAssemblyVersion))
                     {
                         arrScriptFiles.Add(strFile);
                     }
@@ -2239,10 +2222,9 @@ namespace DotNetNuke.Services.Upgrade
             }
             arrScriptFiles.Sort();
 
-            string strScriptFile;
             foreach (string tempLoopVar_strScriptFile in arrScriptFiles)
             {
-                strScriptFile = tempLoopVar_strScriptFile;
+                string strScriptFile = tempLoopVar_strScriptFile;
                 strScriptVersion = Path.GetFileNameWithoutExtension(strScriptFile);
 
                 Array arrVersion = strScriptVersion.Split(Convert.ToChar("."));
@@ -2250,7 +2232,7 @@ namespace DotNetNuke.Services.Upgrade
                 int intMinor = Convert.ToInt32(arrVersion.GetValue(1));
                 int intBuild = Convert.ToInt32(arrVersion.GetValue(2));
 
-                HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Upgrading to Version: " + intMajor.ToString() + "." + intMinor.ToString() + "." + intBuild.ToString() + "<br>");
+                HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, string.Format( "Upgrading to Version: {0}.{1}.{2}<br>", intMajor, intMinor, intBuild ));
 
                 // verify script has not already been run
                 if (!PortalSettings.FindDatabaseVersion(intMajor, intMinor, intBuild))
@@ -2266,7 +2248,7 @@ namespace DotNetNuke.Services.Upgrade
 
                     EventLogController objEventLog = new EventLogController();
                     LogInfo objEventLogInfo = new LogInfo();
-                    objEventLogInfo.AddProperty("Upgraded DotNetNuke", "Version: " + intMajor.ToString() + "." + intMinor.ToString() + "." + intBuild.ToString());
+                    objEventLogInfo.AddProperty("Upgraded DotNetNuke", "Version: " + intMajor + "." + intMinor + "." + intBuild);
                     if (strExceptions.Length > 0)
                     {
                         objEventLogInfo.AddProperty("Warnings", strExceptions);

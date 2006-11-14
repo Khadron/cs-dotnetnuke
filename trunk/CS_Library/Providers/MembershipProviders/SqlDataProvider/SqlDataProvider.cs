@@ -120,12 +120,12 @@ namespace DotNetNuke.Security.Membership.Data
         //Security
         public override IDataReader UserLogin( string Username, string Password )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "UserLogin" ), Username, Password ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "UserLogin" ), Username, Password );
         }
 
         public override IDataReader GetAuthRoles( int PortalId, int ModuleId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetAuthRoles" ), PortalId, ModuleId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetAuthRoles" ), PortalId, ModuleId );
         }
 
         //Users
@@ -158,22 +158,22 @@ namespace DotNetNuke.Security.Membership.Data
 
         public override IDataReader GetAllUsers( int PortalID, int pageIndex, int pageSize )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetAllUsers" ), GetNull( PortalID ), pageIndex, pageSize ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetAllUsers" ), GetNull( PortalID ), pageIndex, pageSize );
         }
 
         public override IDataReader GetUnAuthorizedUsers( int portalId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUnAuthorizedUsers" ), GetNull( portalId ) ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUnAuthorizedUsers" ), GetNull( portalId ) );
         }
 
         public override IDataReader GetUser( int PortalId, int UserId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUser" ), PortalId, UserId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUser" ), PortalId, UserId );
         }
 
         public override IDataReader GetUserByUsername( int PortalId, string Username )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUserByUsername" ), GetNull( PortalId ), Username ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUserByUsername" ), GetNull( PortalId ), Username );
         }
 
         public override int GetUserCountByPortal( int portalId )
@@ -183,58 +183,58 @@ namespace DotNetNuke.Security.Membership.Data
 
         public override IDataReader GetUsersByEmail( int PortalID, string Email, int pageIndex, int pageSize )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUsersByEmail" ), GetNull( PortalID ), Email, pageIndex, pageSize ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUsersByEmail" ), GetNull( PortalID ), Email, pageIndex, pageSize );
         }
 
         public override IDataReader GetUsersByProfileProperty( int PortalID, string propertyName, string propertyValue, int pageIndex, int pageSize )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUsersByProfileProperty" ), GetNull( PortalID ), propertyName, propertyValue, pageIndex, pageSize ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUsersByProfileProperty" ), GetNull( PortalID ), propertyName, propertyValue, pageIndex, pageSize );
         }
 
         public override IDataReader GetUsersByRolename( int PortalID, string Rolename )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUsersByRolename" ), GetNull( PortalID ), Rolename ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUsersByRolename" ), GetNull( PortalID ), Rolename );
         }
 
         public override IDataReader GetUsersByUsername( int PortalID, string Username, int pageIndex, int pageSize )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUsersByUsername" ), GetNull( PortalID ), Username, pageIndex, pageSize ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUsersByUsername" ), GetNull( PortalID ), Username, pageIndex, pageSize );
         }
 
         public override IDataReader GetSuperUsers()
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetSuperUsers" ), null ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetSuperUsers" ), null );
         }
 
         //Roles
         public override IDataReader GetRolesByUser( int UserId, int PortalId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRolesByUser" ), UserId, PortalId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRolesByUser" ), UserId, PortalId );
         }
 
         public override IDataReader GetPortalRoles( int PortalId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetPortalRoles" ), PortalId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetPortalRoles" ), PortalId );
         }
 
         public override IDataReader GetRoles()
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRoles" ), null ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRoles" ), null );
         }
 
         public override IDataReader GetRole( int RoleId, int PortalId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRole" ), RoleId, PortalId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRole" ), RoleId, PortalId );
         }
 
         public override IDataReader GetRoleByName( int PortalId, string RoleName )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRoleByName" ), PortalId, RoleName ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRoleByName" ), PortalId, RoleName );
         }
 
         public override IDataReader GetRolesByGroup( int RoleGroupId, int PortalId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRolesByGroup" ), GetNull( RoleGroupId ), PortalId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRolesByGroup" ), GetNull( RoleGroupId ), PortalId );
         }
 
         public override int AddRole( int PortalId, int RoleGroupId, string RoleName, string Description, float ServiceFee, string BillingPeriod, string BillingFrequency, float TrialFee, int TrialPeriod, string TrialFrequency, bool IsPublic, bool AutoAssignment, string RSVPCode, string IconFile )
@@ -265,12 +265,12 @@ namespace DotNetNuke.Security.Membership.Data
 
         public override IDataReader GetRoleGroup( int portalId, int roleGroupId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRoleGroup" ), portalId, roleGroupId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRoleGroup" ), portalId, roleGroupId );
         }
 
         public override IDataReader GetRoleGroups( int portalId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRoleGroups" ), portalId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetRoleGroups" ), portalId );
         }
 
         public override void UpdateRoleGroup( int RoleGroupId, string GroupName, string Description )
@@ -281,17 +281,17 @@ namespace DotNetNuke.Security.Membership.Data
         //User Roles
         public override IDataReader GetUserRole( int PortalID, int UserId, int RoleId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUserRole" ), PortalID, UserId, RoleId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUserRole" ), PortalID, UserId, RoleId );
         }
 
         public override IDataReader GetUserRoles( int PortalID, int UserId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUserRoles" ), PortalID, UserId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUserRoles" ), PortalID, UserId );
         }
 
         public override IDataReader GetUserRolesByUsername( int PortalID, string Username, string Rolename )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUserRolesByUsername" ), PortalID, GetNull( Username ), GetNull( Rolename ) ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUserRolesByUsername" ), PortalID, GetNull( Username ), GetNull( Rolename ) );
         }
 
         public override int AddUserRole( int PortalId, int UserId, int RoleId, DateTime EffectiveDate, DateTime ExpiryDate )
@@ -311,18 +311,18 @@ namespace DotNetNuke.Security.Membership.Data
 
         public override IDataReader GetServices( int PortalId, int UserId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetServices" ), PortalId, GetNull( UserId ) ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetServices" ), PortalId, GetNull( UserId ) );
         }
 
         public override IDataReader GetUsers( int PortalId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUsers" ), GetNull( PortalId ) ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUsers" ), GetNull( PortalId ) );
         }
 
         //Profile
         public override IDataReader GetUserProfile( int UserId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUserProfile" ), UserId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, GetFullyQualifiedName( "GetUserProfile" ), UserId );
         }
 
         public override void UpdateProfileProperty( int ProfileId, int UserId, int PropertyDefinitionID, string PropertyValue, int Visibility, DateTime LastUpdatedDate )
@@ -338,12 +338,12 @@ namespace DotNetNuke.Security.Membership.Data
 
         public override IDataReader GetOnlineUser( int UserId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetOnlineUser", UserId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetOnlineUser", UserId );
         }
 
         public override IDataReader GetOnlineUsers( int PortalId )
         {
-            return ( (IDataReader)SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetOnlineUsers", PortalId ) );
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetOnlineUsers", PortalId );
         }
 
         public override void UpdateUsersOnline( Hashtable UserList )

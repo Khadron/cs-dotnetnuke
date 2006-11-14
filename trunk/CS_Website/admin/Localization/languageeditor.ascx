@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" CodeFile="LanguageEditor.ascx.cs" Inherits="DotNetNuke.Services.Localization.LanguageEditor" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="LanguageEditor.ascx.cs" Inherits="DotNetNuke.Services.Localization.LanguageEditor" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnntv" Namespace="DotNetNuke.UI.WebControls" Assembly="DotNetNuke.WebControls" %>

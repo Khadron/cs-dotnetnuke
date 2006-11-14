@@ -34,7 +34,7 @@ namespace DotNetNuke.Services.Url.FriendlyUrl
         private const string ProviderType = "friendlyUrl";
         private const string RegexMatchExpression = "[^a-zA-Z0-9 ]";
 
-        private ProviderConfiguration _providerConfiguration;
+        private ProviderConfiguration _providerConfiguration = ProviderConfiguration.GetProviderConfiguration(ProviderType);
         private bool _includePageName;
         private string _regexMatch;
 

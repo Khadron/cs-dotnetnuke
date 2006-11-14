@@ -284,8 +284,8 @@ namespace DotNetNuke.UI.UserControls
 
         public TextEditor()
         {
-            base.Load += new EventHandler( this.Page_Load );
-            base.Init += new EventHandler( this.Page_Init );
+            Load += new EventHandler( this.Page_Load );
+            Init += new EventHandler( this.Page_Init );
             this._ChooseMode = true;
             this._ChooseRender = true;
             this._HtmlEncode = true;
@@ -328,7 +328,7 @@ namespace DotNetNuke.UI.UserControls
         /// <Returns>The formatted html</Returns>
         private string FormatHtml( string strText )
         {
-            Exception exception1;
+            
             string strHtml = strText;
             try
             {
@@ -376,7 +376,7 @@ namespace DotNetNuke.UI.UserControls
         /// <Summary>
         /// optRender_SelectedIndexChanged runs when Basic Text Box mode is changed
         /// </Summary>
-        private void optRender_SelectedIndexChanged( object sender, EventArgs e )
+        protected void optRender_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (optRender.SelectedIndex != -1)
             {
@@ -400,7 +400,7 @@ namespace DotNetNuke.UI.UserControls
         /// <Summary>
         /// optView_SelectedIndexChanged runs when Editor Mode is changed
         /// </Summary>
-        private void optView_SelectedIndexChanged( object sender, EventArgs e )
+        protected void optView_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (optView.SelectedIndex != -1)
             {
@@ -432,7 +432,7 @@ namespace DotNetNuke.UI.UserControls
             SetPanels();
         }
 
-        private void Page_Init( object sender, EventArgs e )
+        protected void Page_Init(object sender, EventArgs e)
         {
             this.RichTextEditor = HtmlEditorProvider.Instance();
             this.RichTextEditor.ControlID = this.ID;
@@ -440,7 +440,7 @@ namespace DotNetNuke.UI.UserControls
         }
 
         /// <Summary>Page_Load runs when the control is loaded</Summary>
-        private void Page_Load( object sender, EventArgs e )
+        protected void Page_Load(object sender, EventArgs e)
         {
             try
             {

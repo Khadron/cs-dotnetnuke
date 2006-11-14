@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Modules.Admin.ModuleDefinitions.ModuleDefValidator" CodeFile="ModuleDefValidator.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.ModuleDefinitions.ModuleDefValidator" CodeFile="ModuleDefValidator.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <br>
 <div align="center">

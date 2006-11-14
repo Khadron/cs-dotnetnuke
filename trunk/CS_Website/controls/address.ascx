@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" Inherits="DotNetNuke.UI.UserControls.Address" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="true" Inherits="DotNetNuke.UI.UserControls.Address" %>
 <%@ Register TagPrefix="wc" Namespace="DotNetNuke.UI.WebControls" Assembly="CountryListBox" %>
 <%@ Register TagPrefix="dnn" TagName="label" Src="~/controls/labelControl.ascx" %>
 <table cellSpacing="0" cellPadding="1" border="0" summary="Address Design Table">

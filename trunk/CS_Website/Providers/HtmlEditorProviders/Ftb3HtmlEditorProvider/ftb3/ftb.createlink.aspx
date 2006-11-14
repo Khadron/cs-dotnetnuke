@@ -1,4 +1,4 @@
-<%@ Page Language="C#" ValidateRequest="false" Trace="false" AutoEventWireup="false" Inherits="DotNetNuke.HtmlEditor.FTBCreateLink" %>
+<%@ Page Language="C#" ValidateRequest="false" Trace="false" AutoEventWireup="true" Inherits="DotNetNuke.HtmlEditor.FTBCreateLink" %>
 <%@ Register TagPrefix="Portal" TagName="URL" Src="~/controls/URLControl.ascx" %>
 <%@ Import Namespace="DotNetNuke.UI.Utilities" %>
 <%@ Import Namespace="DotNetNuke.Services.Localization" %>

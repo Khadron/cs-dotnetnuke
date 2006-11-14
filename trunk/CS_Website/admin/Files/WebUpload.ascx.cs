@@ -309,11 +309,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
             return Globals.NavigateURL( TabID );
         }
 
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-        }
 
         /// <summary>
         /// The Page_Load runs when the page loads

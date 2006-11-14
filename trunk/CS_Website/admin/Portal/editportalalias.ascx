@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Portals.EditPortalAlias" CodeFile="EditPortalAlias.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Portals.EditPortalAlias" CodeFile="EditPortalAlias.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <br>
 <table border="0" cellspacing="2" cellpadding="2">

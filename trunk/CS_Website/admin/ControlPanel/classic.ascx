@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.UI.ControlPanels.Classic" CodeFile="Classic.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.UI.ControlPanels.Classic" CodeFile="Classic.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <table width="100%" border="0" summary="Table for design" id="Table2" style="BORDER-RIGHT:#cccccc 1px dotted; BORDER-TOP:#cccccc 1px dotted; BORDER-LEFT:#cccccc 1px dotted; BORDER-BOTTOM:#cccccc 1px dotted">
     <tr valign="top">

@@ -244,7 +244,7 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                bool blnHas = Convert.ToBoolean( CustomAttribute( "hasNodes", "0" ) );
+                bool blnHas = Convert.ToBoolean( CustomAttribute( "hasNodes", "false" ) );
                 if( blnHas == false )
                 {
                     return this.DNNNodes.Count > 0;
@@ -257,7 +257,7 @@ namespace DotNetNuke.UI.WebControls
             set
             {
                 //CustomAttribute("hasNodes", 0) = Value
-                this.SetCustomAttribute( "hasNodes", ( value ? "1" : "0" ).ToString() );
+                this.SetCustomAttribute( "hasNodes", ( value ? "true" : "false" ).ToString() );
             }
         }
 
@@ -390,7 +390,8 @@ namespace DotNetNuke.UI.WebControls
         /// </history>
         public string CustomAttribute( string Key, string DefaultValue )
         {
-            if( CustomAttribute( Key ).Length == 0 )
+            string value = CustomAttribute( Key );
+            if(( value == null ) || ( value.Length == 0 ))
             {
                 return DefaultValue;
             }
@@ -603,11 +604,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return Convert.ToBoolean( CustomAttribute( "enabled", "1" ) );
+                return Convert.ToBoolean( CustomAttribute( "enabled", "true" ) );
             }
             set
             {
-                SetCustomAttribute( "enabled", ( value ? "1" : "0" ).ToString() );
+                SetCustomAttribute( "enabled", ( value ? "true" : "false" ).ToString() );
             }
         }
 
@@ -729,11 +730,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return Convert.ToBoolean( this.CustomAttribute( "selected", "0" ) );
+                return Convert.ToBoolean(this.CustomAttribute("selected", "false"));
             }
             set
             {
-                this.SetCustomAttribute( "selected", ( value ? "1" : "0" ).ToString() );
+                this.SetCustomAttribute("selected", (value ? "true" : "false").ToString());
             }
         }
 
@@ -750,11 +751,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return Convert.ToBoolean( this.CustomAttribute( "bcrumb", "0" ) );
+                return Convert.ToBoolean( this.CustomAttribute( "bcrumb", "false" ) );
             }
             set
             {
-                this.SetCustomAttribute( "bcrumb", ( value ? "1" : "0" ).ToString() );
+                this.SetCustomAttribute("bcrumb", (value ? "true" : "false").ToString());
             }
         }
 
@@ -782,11 +783,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return Convert.ToBoolean( this.CustomAttribute( "break", "0" ) );
+                return Convert.ToBoolean(this.CustomAttribute("break", "false"));
             }
             set
             {
-                this.SetCustomAttribute( "break", ( value ? "1" : "0" ).ToString() );
+                this.SetCustomAttribute("break", (value ? "true" : "false").ToString());
             }
         }
 

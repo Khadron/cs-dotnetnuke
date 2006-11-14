@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Modules.Admin.SQL.SQL" CodeFile="SQL.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.SQL.SQL" CodeFile="SQL.ascx.cs" %>
 <br>
 <asp:TextBox ID="txtQuery" Runat="server" TextMode="MultiLine" Columns="50" Rows="10" EnableViewState="False"></asp:TextBox>
 <br>

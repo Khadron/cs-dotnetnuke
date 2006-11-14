@@ -95,164 +95,7 @@ namespace DotNetNuke.UI.UserControls
 
         protected HtmlTableRow URLRow;
 
-        protected HtmlTableRow UserRow;
-
-       
-//
-//        protected virtual DropDownList cboFolders
-//        {
-//            get
-//            {
-//                return this._cboFolders;
-//            }
-//            set
-//            {
-//                if( this._cboFolders != null )
-//                {
-//                    this._cboFolders.SelectedIndexChanged -= new EventHandler( this.cboFolders_SelectedIndexChanged );
-//                }
-//                this._cboFolders = value;
-//                if( this._cboFolders == null )
-//                {
-//                    return;
-//                }
-//                this._cboFolders.SelectedIndexChanged += new EventHandler( this.cboFolders_SelectedIndexChanged );
-//            }
-//        }
-
-       
-
-       
-
-       
-
-//        protected virtual LinkButton cmdAdd
-//        {
-//            get
-//            {
-//                return this._cmdAdd;
-//            }
-//            set
-//            {
-//                if( this._cmdAdd != null )
-//                {
-//                    this._cmdAdd.Click -= new EventHandler( this.cmdAdd_Click );
-//                }
-//                this._cmdAdd = value;
-//                if( this._cmdAdd == null )
-//                {
-//                    return;
-//                }
-//                this._cmdAdd.Click += new EventHandler( this.cmdAdd_Click );
-//            }
-//        }
-
-//        protected virtual LinkButton cmdCancel
-//        {
-//            get
-//            {
-//                return this._cmdCancel;
-//            }
-//            set
-//            {
-//                if( this._cmdCancel != null )
-//                {
-//                    this._cmdCancel.Click -= new EventHandler( this.cmdCancel_Click );
-//                }
-//                this._cmdCancel = value;
-//                if( this._cmdCancel == null )
-//                {
-//                    return;
-//                }
-//                this._cmdCancel.Click += new EventHandler( this.cmdCancel_Click );
-//            }
-//        }
-//
-//        protected virtual LinkButton cmdDelete
-//        {
-//            get
-//            {
-//                return this._cmdDelete;
-//            }
-//            set
-//            {
-//                if( this._cmdDelete != null )
-//                {
-//                    this._cmdDelete.Click -= new EventHandler( this.cmdDelete_Click );
-//                }
-//                this._cmdDelete = value;
-//                if( this._cmdDelete == null )
-//                {
-//                    return;
-//                }
-//                this._cmdDelete.Click += new EventHandler( this.cmdDelete_Click );
-//            }
-//        }
-
-//        protected virtual LinkButton cmdSave
-//        {
-//            get
-//            {
-//                return this._cmdSave;
-//            }
-//            set
-//            {
-//                if( this._cmdSave != null )
-//                {
-//                    this._cmdSave.Click -= new EventHandler( this.cmdSave_Click );
-//                }
-//                this._cmdSave = value;
-//                if( this._cmdSave == null )
-//                {
-//                    return;
-//                }
-//                this._cmdSave.Click += new EventHandler( this.cmdSave_Click );
-//            }
-//        }
-//
-//        protected virtual LinkButton cmdSelect
-//        {
-//            get
-//            {
-//                return this._cmdSelect;
-//            }
-//            set
-//            {
-//                if( this._cmdSelect != null )
-//                {
-//                    this._cmdSelect.Click -= new EventHandler( this.cmdSelect_Click );
-//                }
-//                this._cmdSelect = value;
-//                if( this._cmdSelect == null )
-//                {
-//                    return;
-//                }
-//                this._cmdSelect.Click += new EventHandler( this.cmdSelect_Click );
-//            }
-//        }
-//
-//        protected virtual LinkButton cmdUpload
-//        {
-//            get
-//            {
-//                return this._cmdUpload;
-//            }
-//            set
-//            {
-//                if( this._cmdUpload != null )
-//                {
-//                    this._cmdUpload.Click -= new EventHandler( this.cmdUpload_Click );
-//                }
-//                this._cmdUpload = value;
-//                if( this._cmdUpload == null )
-//                {
-//                    return;
-//                }
-//                this._cmdUpload.Click += new EventHandler( this.cmdUpload_Click );
-//            }
-//        }
-
-       
+        protected HtmlTableRow UserRow;         
 
         public string FileFilter
         {
@@ -272,12 +115,6 @@ namespace DotNetNuke.UI.UserControls
                 this.ViewState["_FileFilter"] = value;
             }
         }
-
-       
-
-       
-
-       
 
         public string LocalResourceFile
         {
@@ -351,27 +188,6 @@ namespace DotNetNuke.UI.UserControls
                 }
             }
         }
-
-//        protected virtual RadioButtonList optType
-//        {
-//            get
-//            {
-//                return this._optType;
-//            }
-//            set
-//            {
-//                if( this._optType != null )
-//                {
-//                    this._optType.SelectedIndexChanged -= new EventHandler( this.optType_SelectedIndexChanged );
-//                }
-//                this._optType = value;
-//                if( this._optType == null )
-//                {
-//                    return;
-//                }
-//                this._optType.SelectedIndexChanged += new EventHandler( this.optType_SelectedIndexChanged );
-//            }
-//        }
 
         public bool Required
         {
@@ -483,10 +299,7 @@ namespace DotNetNuke.UI.UserControls
                     return false;
                 }
             }
-        }
-
-        
-
+        }        
        
         public string Url
         {
@@ -585,7 +398,9 @@ namespace DotNetNuke.UI.UserControls
 
         public UrlControl()
         {
-            base.Load += new EventHandler( this.Page_Load );
+            Load += new EventHandler( this.Page_Load );
+            Init += new EventHandler(UrlControl_Init);
+
             this._ModuleID = -2;
             this._Required = true;
             this._ShowDatabase = true;
@@ -602,6 +417,18 @@ namespace DotNetNuke.UI.UserControls
             this._Url = "";
             this._UrlType = "";
             this._Width = "";
+        }
+
+        protected void UrlControl_Init(object sender, EventArgs e)
+        {
+            this.cmdDelete.Click += new EventHandler(this.cmdDelete_Click);
+            this.cmdAdd.Click += new EventHandler(this.cmdAdd_Click);
+            this.cboFolders.SelectedIndexChanged += new EventHandler(this.cboFolders_SelectedIndexChanged);
+            this.cmdCancel.Click += new EventHandler(this.cmdCancel_Click);
+            this.cmdSave.Click += new EventHandler(this.cmdSave_Click);
+            this.cmdSelect.Click += new EventHandler(this.cmdSelect_Click);
+            this.cmdUpload.Click += new EventHandler(this.cmdUpload_Click);
+            this.optType.SelectedIndexChanged += new EventHandler(this.optType_SelectedIndexChanged);
         }
 
         private ArrayList GetFileList( string strExtensions, bool NoneSpecified, string Folder )
@@ -626,7 +453,7 @@ namespace DotNetNuke.UI.UserControls
             return FileSystemUtils.GetRoles( Folder, this._objPortal.PortalID, "WRITE" );
         }
 
-        private void cboFolders_SelectedIndexChanged( object sender, EventArgs e )
+        protected void cboFolders_SelectedIndexChanged(object sender, EventArgs e)
         {
             string strWriteRoles = GetWriteRoles(cboFolders.SelectedValue);
             if (PortalSecurity.IsInRoles(strWriteRoles))
@@ -654,7 +481,7 @@ namespace DotNetNuke.UI.UserControls
             SetStorageLocationType();
         }
 
-        private void cmdAdd_Click( object sender, EventArgs e )
+        protected void cmdAdd_Click(object sender, EventArgs e)
         {
             this.cboUrls.Visible = false;
             this.cmdSelect.Visible = true;
@@ -663,7 +490,7 @@ namespace DotNetNuke.UI.UserControls
             this.cmdDelete.Visible = false;
         }
 
-        private void cmdCancel_Click( object sender, EventArgs e )
+        protected void cmdCancel_Click(object sender, EventArgs e)
         {
             this.cboFiles.Visible = true;
             this.cmdUpload.Visible = true;
@@ -672,7 +499,7 @@ namespace DotNetNuke.UI.UserControls
             this.cmdCancel.Visible = false;
         }
 
-        private void cmdDelete_Click( object sender, EventArgs e )
+        protected void cmdDelete_Click(object sender, EventArgs e)
         {
             if (cboUrls.SelectedItem != null)
             {
@@ -683,7 +510,7 @@ namespace DotNetNuke.UI.UserControls
             }
         }
 
-        private void cmdSave_Click( object sender, EventArgs e )
+        protected void cmdSave_Click(object sender, EventArgs e)
         {
             // if no file is selected exit
             if (txtFile.PostedFile.FileName == "")
@@ -734,7 +561,7 @@ namespace DotNetNuke.UI.UserControls
             }
         }
 
-        private void cmdSelect_Click( object sender, EventArgs e )
+        protected void cmdSelect_Click(object sender, EventArgs e)
         {
             this.cboUrls.Visible = true;
             this.cmdSelect.Visible = false;
@@ -743,7 +570,7 @@ namespace DotNetNuke.UI.UserControls
             this.cmdDelete.Visible = PortalSecurity.IsInRole( this._objPortal.AdministratorRoleName );
         }
 
-        private void cmdUpload_Click( object sender, EventArgs e )
+        protected void cmdUpload_Click(object sender, EventArgs e)
         {
             this.cboFiles.Visible = false;
             this.cmdUpload.Visible = false;
@@ -805,12 +632,12 @@ namespace DotNetNuke.UI.UserControls
             }
         }
 
-        private void optType_SelectedIndexChanged( object sender, EventArgs e )
+        protected void optType_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.ShowControls();
         }
 
-        private void Page_Load( object sender, EventArgs e )
+        protected void Page_Load(object sender, EventArgs e)
         {
             try
             {

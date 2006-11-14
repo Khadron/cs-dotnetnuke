@@ -39,11 +39,11 @@ namespace DotNetNuke.UI.UserControls
         public Help()
         {
             this.cmdCancel.Click += new EventHandler( this.cmdCancel_Click );
-            base.Load += new EventHandler( this.Page_Load );
+            Load += new EventHandler( this.Page_Load );
         }
 
         /// <Summary>cmdCancel_Click runs when the cancel Button is clicked</Summary>
-        private void cmdCancel_Click( object sender, EventArgs e )
+        protected void cmdCancel_Click(object sender, EventArgs e)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace DotNetNuke.UI.UserControls
         }
 
         /// <Summary>Page_Load runs when the control is loaded.</Summary>
-        private void Page_Load( object sender, EventArgs e )
+        protected void Page_Load(object sender, EventArgs e)
         {
             string FriendlyName = "";
 
@@ -79,10 +79,10 @@ namespace DotNetNuke.UI.UserControls
             if( objModuleControl != null )
             {
                 string FileName = Path.GetFileName( objModuleControl.ControlSrc );
-                string LocalResourceFile = objModuleControl.ControlSrc.Replace( FileName, Localization.LocalResourceDirectory + "/" + FileName );
-                if( Localization.GetString( ModuleActionType.HelpText, LocalResourceFile ) != "" )
+                string localResourceFile = objModuleControl.ControlSrc.Replace( FileName, Localization.LocalResourceDirectory + "/" + FileName );
+                if( Localization.GetString( ModuleActionType.HelpText, localResourceFile ) != "" )
                 {
-                    lblHelp.Text = Localization.GetString( ModuleActionType.HelpText, LocalResourceFile );
+                    lblHelp.Text = Localization.GetString( ModuleActionType.HelpText, localResourceFile );
                 }
                 _key = objModuleControl.ControlKey;
 

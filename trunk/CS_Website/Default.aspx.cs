@@ -173,7 +173,12 @@ namespace DotNetNuke.Framework
             // page comment
             if( Globals.GetHashValue( Globals.HostSettings["Copyright"], "Y" ) == "Y" )
             {
-                Comment += "\r\n" + "<!--**********************************************************************************-->" + "\r\n" + "<!-- DotNetNuke® - http://www.dotnetnuke.com                                          -->" + "\r\n" + "<!-- Copyright (c) 2002-2006                                                          -->" + "\r\n" + "<!-- by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )   -->" + "\r\n" + "<!--**********************************************************************************-->" + "\r\n";
+                Comment += "\r\n" + "<!--**********************************************************************************-->" 
+                           + "\r\n" + "<!-- DotNetNuke® - http://www.dotnetnuke.com                                          -->" 
+                           + "\r\n" + "<!-- Copyright (c) 2002-2006                                                          -->" 
+                           + "\r\n" + "<!-- by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )   -->" 
+                           + "\r\n" + "<!--**********************************************************************************-->" 
+                           + "\r\n";
             }
             Page.Header.Controls.AddAt( 0, new LiteralControl( Comment ) );
 
@@ -213,11 +218,12 @@ namespace DotNetNuke.Framework
             // META Refresh
             if( PortalSettings.ActiveTab.RefreshInterval > 0 && Request.QueryString["ctl"] == null )
             {
-                MetaRefresh.Content = PortalSettings.ActiveTab.RefreshInterval.ToString();
+                                
+                metaRefresh.Content = PortalSettings.ActiveTab.RefreshInterval.ToString();
             }
             else
             {
-                MetaRefresh.Visible = false;
+                metaRefresh.Visible = false;
             }
 
             // META description
@@ -365,7 +371,7 @@ namespace DotNetNuke.Framework
         private void ManageStyleSheets( bool PortalCSS )
         {
             // initialize reference paths to load the cascading style sheets
-            string ID;
+            string id;
 
             Hashtable objCSSCache = (Hashtable)DataCache.GetCache( "CSS" );
             if( objCSSCache == null )
@@ -376,58 +382,58 @@ namespace DotNetNuke.Framework
             if( PortalCSS == false )
             {
                 // default style sheet ( required )
-                ID = Globals.CreateValidID( Globals.HostPath );
-                AddStyleSheet( ID, Globals.HostPath + "default.css" );
+                id = Globals.CreateValidID( Globals.HostPath );
+                AddStyleSheet( id, Globals.HostPath + "default.css" );
 
                 // skin package style sheet
-                ID = Globals.CreateValidID( PortalSettings.ActiveTab.SkinPath );
-                if( objCSSCache.ContainsKey( ID ) == false )
+                id = Globals.CreateValidID( PortalSettings.ActiveTab.SkinPath );
+                if( objCSSCache.ContainsKey( id ) == false )
                 {
                     if( File.Exists( Server.MapPath( PortalSettings.ActiveTab.SkinPath ) + "skin.css" ) )
                     {
-                        objCSSCache[ID] = PortalSettings.ActiveTab.SkinPath + "skin.css";
+                        objCSSCache[id] = PortalSettings.ActiveTab.SkinPath + "skin.css";
                     }
                     else
                     {
-                        objCSSCache[ID] = "";
+                        objCSSCache[id] = "";
                     }
                     if( Globals.PerformanceSetting != Globals.PerformanceSettings.NoCaching )
                     {
                         DataCache.SetCache( "CSS", objCSSCache );
                     }
                 }
-                if( objCSSCache[ID].ToString() != "" )
+                if( objCSSCache[id].ToString() != "" )
                 {
-                    AddStyleSheet( ID, objCSSCache[ID].ToString() );
+                    AddStyleSheet( id, objCSSCache[id].ToString() );
                 }
 
                 // skin file style sheet
-                ID = Globals.CreateValidID( PortalSettings.ActiveTab.SkinSrc.Replace(".ascx", ".css") );
-                if( objCSSCache.ContainsKey( ID ) == false )
+                id = Globals.CreateValidID( PortalSettings.ActiveTab.SkinSrc.Replace(".ascx", ".css") );
+                if( objCSSCache.ContainsKey( id ) == false )
                 {
                     if( File.Exists( Server.MapPath( PortalSettings.ActiveTab.SkinSrc.Replace(".ascx", ".css")) ))
                     {
-                        objCSSCache[ID] = PortalSettings.ActiveTab.SkinSrc.Replace(".ascx", ".css" );
+                        objCSSCache[id] = PortalSettings.ActiveTab.SkinSrc.Replace(".ascx", ".css" );
                     }
                     else
                     {
-                        objCSSCache[ID] = "";
+                        objCSSCache[id] = "";
                     }
                     if( Globals.PerformanceSetting != Globals.PerformanceSettings.NoCaching )
                     {
                         DataCache.SetCache( "CSS", objCSSCache );
                     }
                 }
-                if( objCSSCache[ID].ToString() != "" )
+                if( objCSSCache[id].ToString() != "" )
                 {
-                    AddStyleSheet( ID, objCSSCache[ID].ToString() );
+                    AddStyleSheet( id, objCSSCache[id].ToString() );
                 }
             }
             else
             {
                 // portal style sheet
-                ID = Globals.CreateValidID( PortalSettings.HomeDirectory );
-                AddStyleSheet( ID, PortalSettings.HomeDirectory + "portal.css" );
+                id = Globals.CreateValidID( PortalSettings.HomeDirectory );
+                AddStyleSheet( id, PortalSettings.HomeDirectory + "portal.css" );
             }
         }
 
@@ -488,11 +494,11 @@ namespace DotNetNuke.Framework
             // load user skin ( based on cookie )
             if( ctlSkin == null )
             {
-                if( Request.Cookies["_SkinSrc" + PortalSettings.PortalId.ToString()] != null )
+                if( Request.Cookies["_SkinSrc" + PortalSettings.PortalId] != null )
                 {
-                    if( Request.Cookies["_SkinSrc" + PortalSettings.PortalId.ToString()].Value != "" )
+                    if( Request.Cookies["_SkinSrc" + PortalSettings.PortalId].Value != "" )
                     {
-                        PortalSettings.ActiveTab.SkinSrc = SkinController.FormatSkinSrc( Request.Cookies["_SkinSrc" + PortalSettings.PortalId.ToString()].Value + ".ascx", PortalSettings );
+                        PortalSettings.ActiveTab.SkinSrc = SkinController.FormatSkinSrc( Request.Cookies["_SkinSrc" + PortalSettings.PortalId].Value + ".ascx", PortalSettings );
                         ctlSkin = LoadSkin( PortalSettings.ActiveTab.SkinSrc );
                     }
                 }
@@ -589,13 +595,12 @@ namespace DotNetNuke.Framework
             }
 
             //Set the Head tags
-            Page.Header.Title = Title;
-            
-            MetaGenerator.Content = Generator;
-            MetaAuthor.Content = PortalSettings.PortalName;
-            MetaCopyright.Content = Copyright;
-            MetaKeywords.Content = KeyWords;
-            MetaDescription.Content = Description;
+            Page.Header.Title = Title;            
+            metaGenerator.Content = Generator;
+            metaAuthor.Content = PortalSettings.PortalName;
+            metaCopyright.Content = Copyright;
+            metaKeywords.Content = KeyWords;
+            metaDescription.Content = Description;
         }
     }
 }

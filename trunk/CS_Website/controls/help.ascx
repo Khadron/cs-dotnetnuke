@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.UI.UserControls.Help" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.UI.UserControls.Help" %>
 <div align="left">
 	<asp:Label ID="lblHelp" Runat="server" CssClass="Normal" Width="100%" enableviewstate="False"></asp:Label>
     <br><br>

@@ -89,20 +89,6 @@ namespace DotNetNuke.Modules.Admin.Security
             AddLocalizedModuleMessage( Localization.GetString( message, LocalResourceFile ), type, display );
         }
 
-        /// <summary>
-        /// Page_Init runs when the control is initialised
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <history>
-        /// 	[cnurse]	03/21/2006  Created
-        /// </history>
-        private void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
 
         /// <summary>
         /// Page_Load runs when the control is loaded
@@ -226,10 +212,6 @@ namespace DotNetNuke.Modules.Admin.Security
             }
         }
 
-        //This call is required by the Web Form Designer.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
+
     }
 }

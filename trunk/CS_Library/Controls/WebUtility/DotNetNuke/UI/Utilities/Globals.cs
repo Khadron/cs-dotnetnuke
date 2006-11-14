@@ -34,42 +34,41 @@ namespace DotNetNuke.UI.Utilities
         /// <Param name="strControlName">Name of control to look for</Param>
         public static Control FindControlRecursive( Control objParent, string strControlName )
         {
-            return Globals.FindControlRecursive( objParent, strControlName, "" );
+            return FindControlRecursive( objParent, strControlName, "" );
         }
 
         public static Control FindControlRecursive( Control objParent, string strControlName, string strClientID )
         {
-            Control control3 = objParent.FindControl( strControlName );
-            if( control3 != null )
+            Control control = objParent.FindControl( strControlName );
+            if( control != null )
             {
-                return control3;
+                return control;
             }
-            foreach( Control control2 in objParent.Controls )
+            foreach( Control parent in objParent.Controls )
             {
-                if( control2.HasControls() )
+                if( parent.HasControls() )
                 {
-                    control3 = Globals.FindControlRecursive( control2, strControlName, strClientID );
+                    control = FindControlRecursive( parent, strControlName, strClientID );
                 }
-                if( ( ( control3 != null ) && ( strClientID.Length > 0 ) ) && ( String.Compare( control3.ClientID, strClientID, false ) != 0 ) )
+                if( ( ( control != null ) && ( strClientID.Length > 0 ) ) && ( String.Compare( control.ClientID, strClientID, false ) != 0 ) )
                 {
-                    control3 = null;
+                    control = null;
                 }
-                if( control3 != null )
+                if( control != null )
                 {
-                    return control3;
+                    return control;
                 }
             }
-            return control3;
+            return control;
         }
 
         public static string GetAttribute( Control objControl, string strAttr )
-        {
-            bool b1 = true;
-            if( b1 == ( objControl is WebControl ) )
+        {            
+            if(  objControl is WebControl ) 
             {
                 return ( (WebControl)objControl ).Attributes[strAttr];
             }
-            if( b1 != ( objControl is HtmlControl ) )
+            if( !( objControl is HtmlControl ) )
             {
                 return null;
             }
@@ -81,35 +80,33 @@ namespace DotNetNuke.UI.Utilities
 
         public static void SetAttribute( Control objControl, string strAttr, string strValue )
         {
-            WebControl webControl1;
-            string string1 = Globals.GetAttribute( objControl, strAttr );
-            if( string1.Length > 0 )
+            string s = GetAttribute( objControl, strAttr );
+            if( s != null ) if( s.Length > 0 )
             {
-                strValue = ( string1 + strValue );
-            }
-            bool b1 = true;
-            if( b1 == ( objControl is WebControl ) )
+                strValue = ( s + strValue );
+            }            
+            if(  objControl is WebControl ) 
             {
-                webControl1 = ( (WebControl)objControl );
-                if( webControl1.Attributes[strAttr] == null )
+                WebControl webControl = ( (WebControl)objControl );
+                if( webControl.Attributes[strAttr] == null )
                 {
-                    webControl1.Attributes.Add( strAttr, strValue );
+                    webControl.Attributes.Add( strAttr, strValue );
                     return;
                 }
-                webControl1.Attributes[strAttr] = strValue;
+                webControl.Attributes[strAttr] = strValue;
                 return;
             }
-            if( b1 != ( objControl is HtmlControl ) )
+            if( ! ( objControl is HtmlControl ) )
             {
                 return;
             }
-            HtmlControl htmlControl1 = ( (HtmlControl)objControl );
-            if( htmlControl1.Attributes[strAttr] == null )
+            HtmlControl htmlControl = ( (HtmlControl)objControl );
+            if( htmlControl.Attributes[strAttr] == null )
             {
-                htmlControl1.Attributes.Add( strAttr, strValue );
+                htmlControl.Attributes.Add( strAttr, strValue );
                 return;
             }
-            htmlControl1.Attributes[strAttr] = strValue;
+            htmlControl.Attributes[strAttr] = strValue;
         }
     }
 }

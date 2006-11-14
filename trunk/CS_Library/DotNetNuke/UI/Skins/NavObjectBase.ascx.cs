@@ -1183,7 +1183,7 @@ namespace DotNetNuke.UI.Skins
         {
             get
             {
-                return m_strLevel;
+                if (m_strLevel != null) return m_strLevel; else return String.Empty;
             }
             set
             {
@@ -2216,7 +2216,7 @@ namespace DotNetNuke.UI.Skins
         {
             get
             {
-                return m_strToolTip;
+                if (m_strToolTip != null) return m_strToolTip; else return String.Empty;
             }
             set
             {
@@ -2282,7 +2282,6 @@ namespace DotNetNuke.UI.Skins
             else
             {
                 //root
-
                 intRootParent = -1;
                 intNavNodeOptions = (int)Navigation.NavNodeOptions.IncludeSiblings + (int)Navigation.NavNodeOptions.IncludeSelf;
             }

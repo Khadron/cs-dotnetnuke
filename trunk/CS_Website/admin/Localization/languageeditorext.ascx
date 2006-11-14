@@ -1,5 +1,5 @@
 <%@ Register TagPrefix="dnn" TagName="TextEditor" Src="~/controls/TextEditor.ascx"%>
-<%@ Control Language="C#" AutoEventWireup="false" CodeFile="LanguageEditorExt.ascx.cs" Inherits="DotNetNuke.Services.Localization.LanguageEditorExt" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="LanguageEditorExt.ascx.cs" Inherits="DotNetNuke.Services.Localization.LanguageEditorExt" %>
 <table cellspacing="2" cellpadding="2" border="0">
 	<tr>
 		<td class="SubHead">

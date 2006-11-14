@@ -1,6 +1,6 @@
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
-<%@ Control Language="C#" CodeFile="EditGroups.ascx.cs" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Security.EditGroups" %>
+<%@ Control Language="C#" CodeFile="EditGroups.ascx.cs" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Security.EditGroups" %>
 <table class="Settings" cellspacing="2" cellpadding="2" summary="Edit Roles Design Table" border="0">
 	<tr>
 		<td width="560" valign="top">

@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.UI.UserControls.URLTrackingControl" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.UI.UserControls.URLTrackingControl" %>
 <table width="750" cellSpacing="0" cellPadding="2" summary="URL Tracking Design Table" border="0">
 	<tr>
 		<td class="SubHead" valign="middle" width="150"><asp:Label id="Label1" resourcekey="Url" runat="server" enableviewstate="False">URL</asp:Label>:</td>

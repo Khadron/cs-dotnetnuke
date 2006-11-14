@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Inherits="DotNetNuke.Services.Localization.Languages" CodeFile="Languages.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Inherits="DotNetNuke.Services.Localization.Languages" CodeFile="Languages.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <dnn:sectionhead id="dshBasic" runat="server" cssclass="Head" text="Suported Locales" section="tblBasic"

@@ -278,23 +278,12 @@ namespace DotNetNuke.Modules.SearchResults
         /// <history>
         ///     [cnurse]    12/13/2004  created
         /// </history>
-        private void dgResults_PageIndexChanged( object source, DataGridPageChangedEventArgs e )
+        protected void dgResults_PageIndexChanged( object source, DataGridPageChangedEventArgs e )
         {
             dgResults.CurrentPageIndex = e.NewPageIndex;
             BindData();
         }
 
-        //This call is required by the Web Form Designer.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
 
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
     }
 }

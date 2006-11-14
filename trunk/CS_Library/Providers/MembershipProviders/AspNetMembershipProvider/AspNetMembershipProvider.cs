@@ -1003,7 +1003,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/10/2005	created
         /// </history>
-        private MembershipUser GetMembershipUser(UserInfo user)
+        private AspNetSecurity.MembershipUser GetMembershipUser(UserInfo user)
         {
             return GetMembershipUser( user.Username );
         }
@@ -1016,7 +1016,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	04/25/2006	created
         /// </history>
-        private System.Web.Security.MembershipUser GetMembershipUser( string userName )
+        private AspNetSecurity.MembershipUser GetMembershipUser(string userName)
         {
             return AspNetSecurity.Membership.GetUser( userName );
         }

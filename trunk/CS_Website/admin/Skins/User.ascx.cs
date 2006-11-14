@@ -43,7 +43,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _text;
+                if (_text != null) return _text; else return String.Empty;
             }
             set
             {
@@ -55,7 +55,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _cssClass;
+                if (_cssClass != null) return _cssClass; else return String.Empty;
             }
             set
             {
@@ -132,16 +132,5 @@ namespace DotNetNuke.UI.Skins.Controls
             }
         }
 
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
-
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
     }
 }

@@ -1,5 +1,5 @@
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
-<%@ Control Language="C#" AutoEventWireup="false" Inherits="DotNetNuke.Modules.SearchInput.SearchInput" CodeFile="SearchInput.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Inherits="DotNetNuke.Modules.SearchInput.SearchInput" CodeFile="SearchInput.ascx.cs" %>
 <table cellSpacing="0" cellPadding="4" summary="Search Input Table" border="0">
 	<tr>
 		<td nowrap><dnn:label id="plSearch" runat="server" controlname="cboModule" suffix=":"></dnn:label><asp:image id="imgSearch" runat="server"></asp:image></td>

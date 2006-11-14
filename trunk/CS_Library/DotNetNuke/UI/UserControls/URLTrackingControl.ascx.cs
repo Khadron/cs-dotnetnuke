@@ -68,7 +68,7 @@ namespace DotNetNuke.UI.UserControls
 
         public URLTrackingControl()
         {
-            base.Load += new EventHandler( this.Page_Load );
+            Load += new EventHandler( this.Page_Load );
             this.cmdDisplay.Click += new EventHandler(cmdDisplay_Click);
             this._URL = "";
             this._FormattedURL = "";
@@ -187,7 +187,7 @@ namespace DotNetNuke.UI.UserControls
         /// <summary>
         /// The Page_Load server event handler on this page is used to populate the role information for the page
         /// </summary>
-        private void Page_Load( object sender, EventArgs e )
+        protected void Page_Load( object sender, EventArgs e )
         {
             try
             {

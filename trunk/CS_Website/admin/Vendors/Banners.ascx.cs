@@ -173,7 +173,7 @@ namespace DotNetNuke.Modules.Admin.Vendors
         /// 	[cnurse]	9/17/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
-        internal void Page_Load( Object sender, EventArgs e )
+        protected void Page_Load( Object sender, EventArgs e )
         {
             try
             {

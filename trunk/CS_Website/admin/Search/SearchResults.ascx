@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Modules.SearchResults.SearchResults" CodeFile="SearchResults.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.SearchResults.SearchResults" CodeFile="SearchResults.ascx.cs" %>
 <asp:Datagrid id="dgResults" runat="server" AutoGenerateColumns="False" AllowPaging="True" BorderStyle="None"
 	PagerStyle-CssClass="NormalBold" ShowHeader="False" CellPadding="4" GridLines="None">
 	<Columns>

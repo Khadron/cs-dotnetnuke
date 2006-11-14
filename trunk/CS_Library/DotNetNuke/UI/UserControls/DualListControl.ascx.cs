@@ -53,13 +53,12 @@ namespace DotNetNuke.UI.UserControls
             get
             {
                 ArrayList returnValue;
-                ListItem objListItem;
 
                 ArrayList objList = new ArrayList();
 
                 foreach (ListItem tempLoopVar_objListItem in lstAssigned.Items)
                 {
-                    objListItem = tempLoopVar_objListItem;
+                    ListItem objListItem = tempLoopVar_objListItem;
                     objList.Add(objListItem);
                 }
 
@@ -150,7 +149,7 @@ namespace DotNetNuke.UI.UserControls
 
         public DualListControl()
         {
-            base.Load += new EventHandler( this.Page_Load );
+            Load += new EventHandler( this.Page_Load );
             this._ListBoxWidth = "";
             this._ListBoxHeight = "";
             this._DataTextField = "";
@@ -162,7 +161,7 @@ namespace DotNetNuke.UI.UserControls
             this._Enabled = true;
         }
 
-        private void cmdAdd_Click( object sender, EventArgs e )
+        protected void cmdAdd_Click(object sender, EventArgs e)
         {
             ListItem objListItem;
 
@@ -190,7 +189,7 @@ namespace DotNetNuke.UI.UserControls
             Sort(lstAssigned);
         }
 
-        private void cmdAddAll_Click( object sender, EventArgs e )
+        protected void cmdAddAll_Click(object sender, EventArgs e)
         {
             ListItem objListItem;
 
@@ -208,7 +207,7 @@ namespace DotNetNuke.UI.UserControls
             Sort(lstAssigned);
         }
 
-        private void cmdRemove_Click( object sender, EventArgs e )
+        protected void cmdRemove_Click(object sender, EventArgs e)
         {
             ListItem objListItem;
 
@@ -236,13 +235,11 @@ namespace DotNetNuke.UI.UserControls
             Sort(lstAvailable);
         }
 
-        private void cmdRemoveAll_Click( object sender, EventArgs e )
+        protected void cmdRemoveAll_Click(object sender, EventArgs e)
         {
-            ListItem objListItem;
-
             foreach (ListItem tempLoopVar_objListItem in lstAssigned.Items)
             {
-                objListItem = tempLoopVar_objListItem;
+                ListItem objListItem = tempLoopVar_objListItem;
                 lstAvailable.Items.Add(objListItem);
             }
 
@@ -254,7 +251,7 @@ namespace DotNetNuke.UI.UserControls
             Sort(lstAvailable);
         }
 
-        private void Page_Load( object sender, EventArgs e )
+        protected void Page_Load(object sender, EventArgs e)
         {
             try
             {

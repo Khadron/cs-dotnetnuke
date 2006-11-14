@@ -142,7 +142,7 @@ namespace DotNetNuke.UI.Skins
             }
         }
 
-        private void cmdPreview_Click( object sender, EventArgs e )
+        protected void cmdPreview_Click( object sender, EventArgs e )
         {
             if( SkinSrc != "" )
             {
@@ -266,17 +266,17 @@ namespace DotNetNuke.UI.Skins
             }
         }
 
-        private void optHost_CheckedChanged( object sender, EventArgs e )
+        protected void optHost_CheckedChanged( object sender, EventArgs e )
         {
             this.LoadSkins();
         }
 
-        private void optSite_CheckedChanged( object sender, EventArgs e )
+        protected void optSite_CheckedChanged( object sender, EventArgs e )
         {
             this.LoadSkins();
         }
 
-        private void Page_Load( object sender, EventArgs e )
+        protected void Page_Load( object sender, EventArgs e )
         {
             try
             {

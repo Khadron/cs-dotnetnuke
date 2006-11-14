@@ -270,7 +270,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strCSSLeftSeparator;
+                if (m_strCSSLeftSeparator != null) return m_strCSSLeftSeparator; else return String.Empty;
             }
             set
             {
@@ -282,7 +282,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strCSSLeftSeparatorBreadCrumb;
+                if (m_strCSSLeftSeparatorBreadCrumb != null) return m_strCSSLeftSeparatorBreadCrumb; else return String.Empty;
             }
             set
             {
@@ -294,7 +294,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strCSSLeftSeparatorSelection;
+                if (m_strCSSLeftSeparatorSelection != null) return m_strCSSLeftSeparatorSelection; else return String.Empty;
             }
             set
             {
@@ -330,7 +330,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strCSSNodeHoverRoot;
+                if (m_strCSSNodeHoverRoot != null) return m_strCSSNodeHoverRoot; else return String.Empty;
             }
             set
             {
@@ -342,7 +342,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strCSSNodeHoverSub;
+                if (m_strCSSNodeHoverSub != null) return m_strCSSNodeHoverSub; else return String.Empty;
             }
             set
             {
@@ -354,7 +354,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strCSSNodeRoot;
+                if (m_strCSSNodeRoot != null) return m_strCSSNodeRoot; else return String.Empty;
             }
             set
             {
@@ -366,7 +366,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strNodeSelectedRoot;
+                if (m_strNodeSelectedRoot != null) return m_strNodeSelectedRoot; else return String.Empty;
             }
             set
             {
@@ -378,7 +378,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strNodeSelectedSub;
+                if (m_strNodeSelectedSub != null) return m_strNodeSelectedSub; else return String.Empty;
             }
             set
             {
@@ -390,7 +390,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strCSSRightSeparator;
+                if (m_strCSSRightSeparator != null) return m_strCSSRightSeparator; else return String.Empty;
             }
             set
             {
@@ -402,7 +402,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strCSSRightSeparatorBreadCrumb;
+                if (m_strCSSRightSeparatorBreadCrumb != null) return m_strCSSRightSeparatorBreadCrumb; else return String.Empty;
             }
             set
             {
@@ -414,7 +414,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strCSSRightSeparatorSelection;
+                if (m_strCSSRightSeparatorSelection != null) return m_strCSSRightSeparatorSelection; else return String.Empty;
             }
             set
             {
@@ -426,7 +426,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strCSSSeparator;
+                if (m_strCSSSeparator != null) return m_strCSSSeparator; else return String.Empty;
             }
             set
             {
@@ -1010,7 +1010,7 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                return m_strStyleRoot;
+                if( m_strStyleRoot != null ) return m_strStyleRoot;else return String.Empty;
             }
             set
             {
@@ -1211,7 +1211,8 @@ namespace DotNetNuke.NavigationControl
                         }
                         else
                         {
-                            if( objNode.JSFunction.Length > 0 )
+                            string jsFunction = objNode.JSFunction;
+                            if ((jsFunction != null) && (jsFunction.Length > 0))
                             {
                                 objMenuItem = new SPMenuItemNode( Menu.AddMenuItem( objNode.ID.ToString(), objNode.Text, GetClientScriptURL( objNode.JSFunction, objNode.ID ) ) );
                             }
@@ -1274,7 +1275,8 @@ namespace DotNetNuke.NavigationControl
                             }
                             else
                             {
-                                if( objNode.JSFunction.Length > 0 )
+                                string jsFunction = objNode.JSFunction;
+                                if(( jsFunction != null ) && (jsFunction.Length > 0))
                                 {
                                     objMenuItem = new SPMenuItemNode( Menu.AddMenuItem( objNode.ParentNode.ID.ToString(), objNode.ID.ToString(), "&nbsp;" + objNode.Text, GetClientScriptURL( objNode.JSFunction, objNode.ID ) ) );
                                 }
@@ -1328,7 +1330,8 @@ namespace DotNetNuke.NavigationControl
                         //	objMenuItem = Nothing
                     }
 
-                    if( objNode.Image.Length > 0 )
+                    string imangeName = objNode.Image;
+                    if ((imangeName != null) && (imangeName.Length > 0))                    
                     {
                         if( objNode.Image.IndexOf( "/" ) > - 1 ) //if image contains a path
                         {
@@ -1359,7 +1362,8 @@ namespace DotNetNuke.NavigationControl
                             objMenuItem.Image = objNode.Image;
                         }
                     }
-                    if( objNode.ToolTip.Length > 0 )
+                    string toolTipName = objNode.ToolTip;
+                    if ((toolTipName != null) && (toolTipName.Length > 0))                    
                     {
                         objMenuItem.ToolTip = objNode.ToolTip;
                     }
@@ -1382,9 +1386,9 @@ namespace DotNetNuke.NavigationControl
             }
         }
 
-        private void ctlActions_MenuClick( string ID )
+        private void ctlActions_MenuClick( string id )
         {
-            RaiseEvent_NodeClick( ID );
+            RaiseEvent_NodeClick( id );
         }
 
         public override void Initialize()

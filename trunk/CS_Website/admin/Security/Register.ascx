@@ -1,4 +1,4 @@
-<%@ Control Language="C#" CodeFile="Register.ascx.cs" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Security.Register" %>
+<%@ Control Language="C#" CodeFile="Register.ascx.cs" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Security.Register" %>
 <%@ Register TagPrefix="dnn" TagName="Address" Src="~/controls/Address.ascx"%>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="Sectionhead" Src="~/controls/SectionHeadControl.ascx" %>

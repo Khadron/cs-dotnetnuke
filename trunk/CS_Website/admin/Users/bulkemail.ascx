@@ -1,7 +1,7 @@
 <%@ Register TagPrefix="dnn" TagName="TextEditor" Src="~/controls/TextEditor.ascx"%>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
-<%@ Control Inherits="DotNetNuke.Modules.Admin.Users.BulkEmail" CodeFile="BulkEmail.ascx.cs" Language="C#" AutoEventWireup="false" Explicit="True" %>
+<%@ Control Inherits="DotNetNuke.Modules.Admin.Users.BulkEmail" CodeFile="BulkEmail.ascx.cs" Language="C#" AutoEventWireup="true" Explicit="True" %>
 <%@ Register TagPrefix="dnn" TagName="URLControl" Src="~/controls/URLControl.ascx" %>
 <table class="Settings" cellspacing="2" cellpadding="2" summary="Edit Roles Design Table"
 	border="0">

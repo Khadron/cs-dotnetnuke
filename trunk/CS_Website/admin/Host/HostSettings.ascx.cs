@@ -59,20 +59,6 @@ namespace DotNetNuke.Modules.Admin.Host
         //Configuration Section
         protected LabelControl plFrameowrk;
 
-        //Host Section
-
-        //Appearance Section
-
-        //Payment Section
-
-        //Advanced Settings Section
-
-        //Proxy Section
-
-        //SMTP Section
-
-        //Other Section
-
         /// <summary>
         /// BindData fetches the data from the database and updates the controls
         /// </summary>

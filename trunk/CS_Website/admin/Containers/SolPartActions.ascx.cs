@@ -147,7 +147,7 @@ namespace DotNetNuke.UI.WebControls
             }
         }
 
-        private void ctlActions_MenuClick( NavigationEventArgs args ) //Handles ctlActions.MenuClick
+        protected void ctlActions_MenuClick( NavigationEventArgs args ) //Handles ctlActions.MenuClick
         {
             try
             {
@@ -220,7 +220,7 @@ namespace DotNetNuke.UI.WebControls
             }
         }
 
-        private void Page_PreRender( object sender, EventArgs e )
+        protected void Page_PreRender( object sender, EventArgs e )
         {
             try
             {

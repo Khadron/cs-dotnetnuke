@@ -263,7 +263,7 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
-        internal void cboSource_SelectedIndexChanged( object sender, EventArgs e )
+        protected void cboSource_SelectedIndexChanged( object sender, EventArgs e )
         {
             LoadIcons();
         }
@@ -423,15 +423,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
             }
         }
 
-        private void InitializeComponent()
-        {
-        }
 
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
     }
 }

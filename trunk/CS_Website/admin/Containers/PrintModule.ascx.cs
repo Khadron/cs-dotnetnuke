@@ -58,17 +58,6 @@ namespace DotNetNuke.UI.Containers
             }
         }
 
-        private void InitializeComponent()
-        {
-        }
-
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
-
         protected void Page_Load( Object sender, EventArgs e )
         {
             try
@@ -128,7 +117,7 @@ namespace DotNetNuke.UI.Containers
             }
         }
 
-        private void IconAction_Click( object sender, ImageClickEventArgs e )
+        protected void IconAction_Click( object sender, ImageClickEventArgs e )
         {
             try
             {

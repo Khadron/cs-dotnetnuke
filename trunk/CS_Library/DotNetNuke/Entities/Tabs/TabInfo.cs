@@ -478,7 +478,7 @@ namespace DotNetNuke.Entities.Tabs
         {
             get
             {
-                string strUrl = "";
+                string strUrl = String.Empty;
 
                 switch (TabType)
                 {
@@ -505,7 +505,7 @@ namespace DotNetNuke.Entities.Tabs
                         break;
                 }
 
-                return strUrl;
+                if (strUrl != null) return strUrl; else return String.Empty;
             }
         }
 

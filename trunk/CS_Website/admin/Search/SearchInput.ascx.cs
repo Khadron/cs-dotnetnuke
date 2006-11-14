@@ -107,7 +107,7 @@ namespace DotNetNuke.Modules.SearchInput
             cmdGo.Text = Localization.GetString( "cmdGo.Text", this.LocalResourceFile );
         }
 
-        private void imgGo_Click( Object sender, ImageClickEventArgs e )
+        protected void imgGo_Click( Object sender, ImageClickEventArgs e )
         {
             SearchExecute();
         }
@@ -117,17 +117,6 @@ namespace DotNetNuke.Modules.SearchInput
             SearchExecute();
         }
 
-        //This call is required by the Web Form Designer.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
 
-        private void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
     }
 }

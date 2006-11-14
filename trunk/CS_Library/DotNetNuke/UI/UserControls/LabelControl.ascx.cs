@@ -145,7 +145,7 @@ namespace DotNetNuke.UI.UserControls
 
         public LabelControl()
         {
-            base.Load += new EventHandler( this.Page_Load );
+            Load += new EventHandler( this.Page_Load );
             this.cmdHelp.Click += new EventHandler(this.imageClick);
         }
 
@@ -192,7 +192,7 @@ namespace DotNetNuke.UI.UserControls
         }
 
         /// <Summary>Page_Load runs when the control is loaded</Summary>
-        private void Page_Load( object sender, EventArgs e )
+        protected void Page_Load(object sender, EventArgs e)
         {
             try
             {

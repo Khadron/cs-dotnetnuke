@@ -432,7 +432,7 @@ namespace DotNetNuke.UI.UserControls
 
         public Address()
         {
-            base.Load += new EventHandler( this.Page_Load );
+            Load += new EventHandler( this.Page_Load );
             this._LabelColumnWidth = "";
             this._ControlColumnWidth = "";
             this._StartTabIndex = 1;

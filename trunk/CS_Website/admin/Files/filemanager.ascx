@@ -3,7 +3,7 @@
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Security.Permissions.Controls"
     Assembly="DotNetNuke" %>
 <%@ Control Inherits="DotNetNuke.Modules.Admin.FileSystem.FileManager" Language="C#"
-    AutoEventWireup="false" Explicit="True" CodeFile="FileManager.ascx.cs" %>
+    AutoEventWireup="true" Explicit="True" CodeFile="FileManager.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnntv" Namespace="DotNetNuke.UI.WebControls" Assembly="DotNetNuke.WebControls" %>

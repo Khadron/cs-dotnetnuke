@@ -64,7 +64,7 @@ namespace DotNetNuke.Framework
             // the Web.config with any configuration settings - which forces an application restart.
             // The second step finishes the installation process and provisions the site.
             string installationDate = Config.GetSetting( "InstallationDate" );
-            string backupFolder = Globals.glbConfigFolder + "Backup_" + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + "\\";
+            string backupFolder = Globals.glbConfigFolder + "Backup_" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + "\\";
 
             if( installationDate == null || installationDate == "" )
             {
@@ -183,8 +183,6 @@ namespace DotNetNuke.Framework
             string strProviderPath = PortalSettings.GetProviderPath();
             if( ! strProviderPath.StartsWith( "ERROR:" ) )
             {
-                string strDatabaseVersion;
-
                 // get current database version
                 IDataReader dr = PortalSettings.GetDatabaseVersion();
                 if( dr.Read() )
@@ -194,7 +192,7 @@ namespace DotNetNuke.Framework
                     int majVersion = Convert.ToInt32( dr["Major"] );
                     int minVersion = Convert.ToInt32( dr["Minor"] );
                     int buildVersion = Convert.ToInt32( dr["Build"] );
-                    strDatabaseVersion = String.Format( majVersion.ToString(), "00" ) + "." + String.Format( minVersion.ToString(), "00" ) + "." + String.Format( buildVersion.ToString(), "00" );
+                    string strDatabaseVersion = String.Format( majVersion.ToString(), "00" ) + "." + String.Format( minVersion.ToString(), "00" ) + "." + String.Format( buildVersion.ToString(), "00" );
 
                     Response.Write( "<h2>Current Database Version: " + strDatabaseVersion + "</h2>" );
                     Response.Flush();

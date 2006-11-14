@@ -1,5 +1,5 @@
 <%@ Import namespace="DotNetNuke.Common"%>
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Portals.PortalAlias" CodeFile="PortalAlias.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Portals.PortalAlias" CodeFile="PortalAlias.ascx.cs" %>
 <asp:DataGrid BorderWidth="0px" Width="500" AutoGenerateColumns="false" ID="dgPortalAlias" Runat="server"
 	EnableViewState="False" GridLines="None">
 	<Columns>
