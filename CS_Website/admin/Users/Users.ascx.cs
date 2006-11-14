@@ -673,18 +673,18 @@ namespace DotNetNuke.Modules.Admin.Users
         {
             get
             {
-                ModuleActionCollection Actions = new ModuleActionCollection();
-                Actions.Add( GetNextActionID(), Localization.GetString( ModuleActionType.AddContent, LocalResourceFile ), ModuleActionType.AddContent, "", "add.gif", EditUrl(), false, SecurityAccessLevel.Admin, true, false );
+                ModuleActionCollection actions = new ModuleActionCollection();
+                actions.Add( GetNextActionID(), Localization.GetString( ModuleActionType.AddContent, LocalResourceFile ), ModuleActionType.AddContent, "", "add.gif", EditUrl(), false, SecurityAccessLevel.Admin, true, false );
                 if( ! IsSuperUser )
                 {
-                    Actions.Add( GetNextActionID(), Localization.GetString( "DeleteUnAuthorized.Action", LocalResourceFile ), ModuleActionType.AddContent, "Delete", "delete.gif", "", "confirm(\'" + ClientAPI.GetSafeJSString( Localization.GetString( "DeleteItems.Confirm" ) ) + "\')", true, SecurityAccessLevel.Admin, true, false );
+                    actions.Add( GetNextActionID(), Localization.GetString( "DeleteUnAuthorized.Action", LocalResourceFile ), ModuleActionType.AddContent, "Delete", "delete.gif", "", "confirm(\'" + ClientAPI.GetSafeJSString( Localization.GetString( "DeleteItems.Confirm" ) ) + "\')", true, SecurityAccessLevel.Admin, true, false );
                 }
                 if( ProfileProviderConfig.CanEditProviderProperties )
                 {
-                    Actions.Add( GetNextActionID(), Localization.GetString( "ManageProfile.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "icon_profile_16px.gif", EditUrl( "ManageProfile" ), false, SecurityAccessLevel.Admin, true, false );
+                    actions.Add( GetNextActionID(), Localization.GetString( "ManageProfile.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "icon_profile_16px.gif", EditUrl( "ManageProfile" ), false, SecurityAccessLevel.Admin, true, false );
                 }
-                Actions.Add( GetNextActionID(), Localization.GetString( "UserSettings.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "settings.gif", EditUrl( "UserSettings" ), false, SecurityAccessLevel.Admin, true, false );
-                return Actions;
+                actions.Add( GetNextActionID(), Localization.GetString( "UserSettings.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "settings.gif", EditUrl( "UserSettings" ), false, SecurityAccessLevel.Admin, true, false );
+                return actions;
             }
         }
     }

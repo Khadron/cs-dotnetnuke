@@ -37,7 +37,7 @@ namespace DotNetNuke.UI.UserControls
 
         public ModuleAuditControl()
         {
-            base.Load += new EventHandler( this.Page_Load );
+            Load += new EventHandler( this.Page_Load );
             this._CreatedDate = "";
             this._CreatedByUser = "";
             
@@ -59,7 +59,7 @@ namespace DotNetNuke.UI.UserControls
             }
         }
 
-        private void Page_Load( object sender, EventArgs e )
+        protected void Page_Load(object sender, EventArgs e)
         {
             try
             {

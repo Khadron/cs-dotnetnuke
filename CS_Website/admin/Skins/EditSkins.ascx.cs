@@ -251,10 +251,9 @@ namespace DotNetNuke.Modules.Admin.Skins
 
             if( ! Page.IsPostBack )
             {
-                string strURL;
                 if( Request.QueryString["Name"] != null )
                 {
-                    strURL = Request.MapPath( GetSkinPath( Convert.ToString( Request.QueryString["Type"] ), Convert.ToString( Request.QueryString["Root"] ), Convert.ToString( Request.QueryString["Name"] ) ) );
+                    string strURL = Request.MapPath( GetSkinPath( Convert.ToString( Request.QueryString["Type"] ), Convert.ToString( Request.QueryString["Root"] ), Convert.ToString( Request.QueryString["Name"] ) ) );
                     strSkin = strURL.Replace( Globals.ApplicationMapPath, "" );
                     if( cboContainers.Items.FindByValue( strSkin.ToLower() ) != null )
                     {
@@ -267,16 +266,12 @@ namespace DotNetNuke.Modules.Admin.Skins
 
         private string ProcessSkins( string strFolderPath )
         {
-            string strFile;
-            string strFolder;
-            string[] arrFiles;
             string strGallery = "";
-            string strSkinType = "";
-            string strURL;
             int intIndex = 0;
 
             if( Directory.Exists( strFolderPath ) )
             {
+                string strSkinType;
                 if( strFolderPath.IndexOf( Globals.HostMapPath.ToLower() ) != - 1 )
                 {
                     strSkinType = "G";
@@ -291,16 +286,16 @@ namespace DotNetNuke.Modules.Admin.Skins
                 strGallery += "<tr><td align=\"center\">";
                 strGallery += "<table border=\"0\" cellspacing=\"4\" cellpadding=\"4\"><tr>";
 
-                arrFiles = Directory.GetFiles( strFolderPath, "*.ascx" );
+                string[] arrFiles = Directory.GetFiles( strFolderPath, "*.ascx" );
                 if( arrFiles.Length == 0 )
                 {
                     strGallery += "<td align=\"center\" valign=\"bottom\" class=\"NormalBold\">" + Localization.GetString( "NoSkin.ErrorMessage", this.LocalResourceFile ) + "</td>";
                 }
 
-                strFolder = strFolderPath.Substring( strFolderPath.LastIndexOf( "\\" ) + 1 - 1 );
+                string strFolder = strFolderPath.Substring( strFolderPath.LastIndexOf( "\\" ) + 1 - 1 );
                 foreach( string tempLoopVar_strFile in arrFiles )
                 {
-                    strFile = tempLoopVar_strFile;
+                    string strFile = tempLoopVar_strFile;
                     intIndex++;
                     if( intIndex == 4 )
                     {
@@ -313,6 +308,7 @@ namespace DotNetNuke.Modules.Admin.Skins
                     strGallery += "<td align=\"center\" valign=\"bottom\" class=\"NormalBold\">";
                     strGallery += Path.GetFileNameWithoutExtension( strFile ) + "<br>";
                     // thumbnail
+                    string strURL;
                     if( File.Exists( strFile.Replace( ".ascx", ".jpg" ) ) )
                     {
                         strURL = strFile.Substring( strFile.IndexOf( "\\portals\\" ) );
@@ -328,7 +324,7 @@ namespace DotNetNuke.Modules.Admin.Skins
                     strGallery += "<br><a class=\"CommandButton\" href=\"" + Globals.NavigateURL( PortalSettings.HomeTabId ) + "?SkinSrc=[" + strSkinType + "]" + Globals.QueryStringEncode( strURL.Replace( ".ascx", "" ).Replace( "\\", "/" ) ) + "\" target=\"_new\">" + Localization.GetString( "cmdPreview", this.LocalResourceFile ) + "</a>";
                     strGallery += "&nbsp;&nbsp;|&nbsp;&nbsp;";
                     strGallery += "<a class=\"CommandButton\" href=\"" + Globals.ApplicationPath + Globals.ApplicationURL().Replace( "~", "" ) + "&Root=" + SkinInfo.RootSkin + "&Type=" + strSkinType + "&Name=" + strFolder + "&Src=" + Path.GetFileName( strFile ) + "&action=apply\">" + Localization.GetString( "cmdApply", this.LocalResourceFile ) + "</a>";
-                    if( UserInfo.IsSuperUser == true || strSkinType == "L" )
+                    if( UserInfo.IsSuperUser || strSkinType == "L" )
                     {
                         strGallery += "&nbsp;&nbsp;|&nbsp;&nbsp;";
                         strGallery += "<a class=\"CommandButton\" href=\"" + Globals.ApplicationPath + Globals.ApplicationURL().Replace( "~", "" ) + "&Root=" + SkinInfo.RootSkin + "&Type=" + strSkinType + "&Name=" + strFolder + "&Src=" + Path.GetFileName( strFile ) + "&action=delete\">" + Localization.GetString( "cmdDelete" ) + "</a>";
@@ -349,9 +345,6 @@ namespace DotNetNuke.Modules.Admin.Skins
 
         private string ProcessContainers( string strFolderPath )
         {
-            string strFile;
-            string strFolder;
-            string[] arrFiles;
             string strGallery = "";
             string strContainerType = "";
             string strURL;
@@ -378,15 +371,15 @@ namespace DotNetNuke.Modules.Admin.Skins
                 strGallery += "<tr><td align=\"center\">";
                 strGallery += "<table border=\"0\" cellspacing=\"4\" cellpadding=\"4\"><tr>";
 
-                arrFiles = Directory.GetFiles( strFolderPath, "*.ascx" );
+                string[] arrFiles = Directory.GetFiles( strFolderPath, "*.ascx" );
                 if( arrFiles.Length == 0 )
                 {
                     strGallery += "<td align=\"center\" valign=\"bottom\" class=\"NormalBold\">" + Localization.GetString( "NoContainer.ErrorMessage", this.LocalResourceFile ) + "</td>";
                 }
-                strFolder = strFolderPath.Substring( strFolderPath.LastIndexOf( "\\" ) + 1 - 1 );
+                string strFolder = strFolderPath.Substring( strFolderPath.LastIndexOf( "\\" ) + 1 - 1 );
                 foreach( string tempLoopVar_strFile in arrFiles )
                 {
-                    strFile = tempLoopVar_strFile;
+                    string strFile = tempLoopVar_strFile;
                     intIndex++;
                     if( intIndex == 4 )
                     {
@@ -414,7 +407,7 @@ namespace DotNetNuke.Modules.Admin.Skins
                     strGallery += "<br><a class=\"CommandButton\" href=\"" + Globals.NavigateURL( PortalSettings.HomeTabId ) + "?ContainerSrc=[" + strContainerType + "]" + Globals.QueryStringEncode( strURL.Replace( ".ascx", "" ).Replace( "\\", "/" ) ) + "\" target=\"_new\">" + Localization.GetString( "cmdPreview", this.LocalResourceFile ) + "</a>";
                     strGallery += "&nbsp;&nbsp;|&nbsp;&nbsp;";
                     strGallery += "<a class=\"CommandButton\" href=\"" + Globals.ApplicationPath + Globals.ApplicationURL().Replace( "~", "" ) + "&Root=" + SkinInfo.RootContainer + "&Type=" + strContainerType + "&Name=" + strFolder + "&Src=" + Path.GetFileName( strFile ) + "&action=apply\">" + Localization.GetString( "cmdApply", this.LocalResourceFile ) + "</a>";
-                    if( UserInfo.IsSuperUser == true || strContainerType == "L" )
+                    if( UserInfo.IsSuperUser || strContainerType == "L" )
                     {
                         strGallery += "&nbsp;&nbsp;|&nbsp;&nbsp;";
                         strGallery += "<a class=\"CommandButton\" href=\"" + Globals.ApplicationPath + Globals.ApplicationURL().Replace( "~", "" ) + "&Root=" + SkinInfo.RootContainer + "&Type=" + strContainerType + "&Name=" + strFolder + "&Src=" + Path.GetFileName( strFile ) + "&action=delete\">" + Localization.GetString( "cmdDelete" ) + "</a>";
@@ -455,8 +448,8 @@ namespace DotNetNuke.Modules.Admin.Skins
             // check if image has changed
             if( File.Exists( strThumbnail ) )
             {
-                DateTime d1 = File.GetLastWriteTime( strThumbnail );
-                DateTime d2 = File.GetLastWriteTime( strImage );
+                File.GetLastWriteTime( strThumbnail );
+                File.GetLastWriteTime( strImage );
                 if( File.GetLastWriteTime( strThumbnail ) == File.GetLastWriteTime( strImage ) )
                 {
                     blnCreate = false;
@@ -465,18 +458,16 @@ namespace DotNetNuke.Modules.Admin.Skins
 
             if( blnCreate )
             {
-                double dblScale;
-                int intHeight;
-                int intWidth;
-
                 int intSize = 150; // size of the thumbnail
 
-                Image objImage;
                 try
                 {
-                    objImage = Image.FromFile( strImage );
+                    Image objImage = Image.FromFile( strImage );
 
                     // scale the image to prevent distortion
+                    double dblScale;
+                    int intWidth;
+                    int intHeight;
                     if( objImage.Height > objImage.Width )
                     {
                         //The height was larger, so scale the width
@@ -543,15 +534,12 @@ namespace DotNetNuke.Modules.Admin.Skins
             SkinFileProcessor objSkinFiles = new SkinFileProcessor( strRootPath, strRoot, strName );
             ArrayList arrSkinFiles = new ArrayList();
 
-            string strFile;
-            string[] arrFiles;
-
             if( Directory.Exists( strFolder ) )
             {
-                arrFiles = Directory.GetFiles( strFolder );
+                string[] arrFiles = Directory.GetFiles( strFolder );
                 foreach( string tempLoopVar_strFile in arrFiles )
                 {
-                    strFile = tempLoopVar_strFile;
+                    string strFile = tempLoopVar_strFile;
                     switch( Path.GetExtension( strFile ) )
                     {
                         case ".htm":
@@ -588,12 +576,12 @@ namespace DotNetNuke.Modules.Admin.Skins
 
             if( strParse == "L" )
             {
-// localized
+                // localized
                 return objSkinFiles.ProcessList( arrSkinFiles, SkinParser.Localized );
             }
             else if( strParse == "P" )
             {
-// portable
+                // portable
                 return objSkinFiles.ProcessList( arrSkinFiles, SkinParser.Portable );
             }
             return strParse;
@@ -739,11 +727,9 @@ namespace DotNetNuke.Modules.Admin.Skins
             string strSkinPath = Globals.ApplicationMapPath.ToLower() + cboSkins.SelectedItem.Value;
             string strContainerPath = Globals.ApplicationMapPath.ToLower() + cboContainers.SelectedItem.Value;
 
-            string strMessage;
-
             if( UserInfo.IsSuperUser == false && cboSkins.SelectedItem.Value.IndexOf( "\\portals\\_default\\", 0 ) != - 1 )
             {
-                strMessage = Localization.GetString( "SkinDeleteFailure", this.LocalResourceFile );
+                string strMessage = Localization.GetString( "SkinDeleteFailure", this.LocalResourceFile );
                 UI.Skins.Skin.AddModuleMessage( this, strMessage, ModuleMessage.ModuleMessageType.RedError );
             }
             else
@@ -854,28 +840,16 @@ namespace DotNetNuke.Modules.Admin.Skins
                     string[] args = new string[3];
 
                     args[0] = "mid=" + FileManagerModule.ModuleID;
-                    args[1] = "ftype=" + UploadType.Skin.ToString();
+                    args[1] = "ftype=" + UploadType.Skin;
                     args[2] = "rtab=" + this.TabId;
                     actions.Add( GetNextActionID(), Localization.GetString( "SkinUpload.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "", Globals.NavigateURL( FileManagerModule.TabID, "Edit", args ), false, SecurityAccessLevel.Admin, true, false );
 
-                    args[1] = "ftype=" + UploadType.Container.ToString();
+                    args[1] = "ftype=" + UploadType.Container;
                     actions.Add( GetNextActionID(), Localization.GetString( "ContainerUpload.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "", Globals.NavigateURL( FileManagerModule.TabID, "Edit", args ), false, SecurityAccessLevel.Admin, true, false );
                 }
                 return actions;
             }
         }
 
-        //This call is required by the Web Form Designer.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
-
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
     }
 }

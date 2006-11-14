@@ -50,22 +50,10 @@ namespace DotNetNuke.Modules.Admin.Modules
     /// </history>
     public partial class ModuleSettingsPage : PortalModuleBase
     {
-        //Module Section
 
-        //General Section
-
-        //Security Section
-
-        //Specific Settings Section
         protected ModuleSettingsBase ctlSpecific;
 
-        //Page Settings Section
 
-        //Appearance Section
-
-        //Other Section
-
-        //tasks
 
         private int moduleId = - 1;
         private int tabModuleId = -1;
@@ -513,15 +501,10 @@ namespace DotNetNuke.Modules.Admin.Modules
         }
 
 
-        private void InitializeComponent()
-        {
-        }
 
         protected void Page_Init( Object sender, EventArgs e )
         {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
+          
 
             ModuleController objModules = new ModuleController();
             ModuleControlController objModuleControlController = new ModuleControlController();

@@ -1,5 +1,5 @@
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
-<%@ Control Inherits="DotNetNuke.Modules.Admin.SiteLog.SiteLog" Language="C#" AutoEventWireup="false" Explicit="True" CodeFile="SiteLog.ascx.cs" %>
+<%@ Control Inherits="DotNetNuke.Modules.Admin.SiteLog.SiteLog" Language="C#" AutoEventWireup="true" Explicit="True" CodeFile="SiteLog.ascx.cs" %>
 <table class="Settings" cellspacing="2" cellpadding="2" summary="Site Log Design Table" border="0" width="450">
 	<tr vAlign="top">
     <td class="SubHead" width="150"><dnn:label id="plReportType" runat="server" controlname="cboReportType" suffix=":"></dnn:label></td>

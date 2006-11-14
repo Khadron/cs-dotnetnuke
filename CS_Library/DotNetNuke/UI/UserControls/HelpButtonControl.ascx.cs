@@ -106,7 +106,7 @@ namespace DotNetNuke.UI.UserControls
         public HelpButtonControl()
         {
             this.cmdHelp.Click += new EventHandler( this.cmdHelp_Click );
-            base.Load += new EventHandler( this.Page_Load );
+            Load += new EventHandler( this.Page_Load );
         }
 
         /// <Summary>
@@ -145,13 +145,13 @@ namespace DotNetNuke.UI.UserControls
             return localizedText;
         }
 
-        private void cmdHelp_Click( object sender, EventArgs e )
+        protected void cmdHelp_Click(object sender, EventArgs e)
         {
             this.pnlHelp.Visible = true;
         }
 
         /// <Summary>Page_Load runs when the control is loaded</Summary>
-        private void Page_Load( object sender, EventArgs e )
+        protected void Page_Load(object sender, EventArgs e)
         {
             try
             {

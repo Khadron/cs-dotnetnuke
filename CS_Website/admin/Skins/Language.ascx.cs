@@ -1,4 +1,5 @@
 #region DotNetNuke License
+
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
 // by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
@@ -16,9 +17,10 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
+
 #endregion
+
 using System;
-using System.Diagnostics;
 using DotNetNuke.Framework;
 using DotNetNuke.Services.Localization;
 
@@ -35,24 +37,19 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _cssClass;
+                if( _cssClass != null )
+                {
+                    return _cssClass;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
                 _cssClass = value;
             }
-        }
-
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
-
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
         }
 
         //*******************************************************

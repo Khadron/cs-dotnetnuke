@@ -40,17 +40,6 @@ namespace DotNetNuke.UI.Skins.Controls
     public partial class TreeViewMenu : NavObjectBase
     {
         
-        private void InitializeComponent()
-        {
-        }
-
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
-
         private enum eImageType
         {
             FolderClosed = 0,
@@ -87,7 +76,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _bodyCssClass;
+                if (_bodyCssClass != null) return _bodyCssClass; else return String.Empty;
             }
             set
             {
@@ -99,7 +88,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _cssClass;
+                if (_cssClass != null) return _cssClass; else return String.Empty;
             }
             set
             {
@@ -111,7 +100,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _headerCssClass;
+                if (_headerCssClass != null) return _headerCssClass; else return String.Empty;
             }
             set
             {
@@ -123,7 +112,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _headerTextCssClass;
+                if (_headerTextCssClass != null) return _headerTextCssClass; else return String.Empty;
             }
             set
             {
@@ -135,7 +124,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _headerText;
+                if (_headerText != null) return _headerText; else return String.Empty;
             }
             set
             {
@@ -159,7 +148,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _nodeChildCssClass;
+                if (_nodeChildCssClass != null) return _nodeChildCssClass; else return String.Empty;
             }
             set
             {
@@ -171,7 +160,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _nodeClosedImage;
+                if (_nodeClosedImage != null) return _nodeClosedImage; else return String.Empty;
             }
             set
             {
@@ -183,7 +172,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _nodeCollapseImage;
+                if (_nodeCollapseImage != null) return _nodeCollapseImage; else return String.Empty;
             }
             set
             {
@@ -195,7 +184,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _nodeCssClass;
+                if (_nodeCssClass != null) return _nodeCssClass; else return String.Empty;
             }
             set
             {
@@ -207,7 +196,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _nodeExpandImage;
+                if (_nodeExpandImage != null) return _nodeExpandImage; else return String.Empty;
             }
             set
             {
@@ -219,7 +208,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _nodeLeafImage;
+                if (_nodeLeafImage != null) return _nodeLeafImage; else return String.Empty;
             }
             set
             {
@@ -231,7 +220,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _nodeOpenImage;
+                if (_nodeOpenImage != null) return _nodeOpenImage; else return String.Empty;
             }
             set
             {
@@ -243,7 +232,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _nodeOverCssClass;
+                if (_nodeOverCssClass != null) return _nodeOverCssClass; else return String.Empty;
             }
             set
             {
@@ -255,7 +244,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _nodeSelectedCssClass;
+                if (_nodeSelectedCssClass != null) return _nodeSelectedCssClass; else return String.Empty;
             }
             set
             {
@@ -279,7 +268,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _resourceKey;
+                if (_resourceKey != null) return _resourceKey; else return String.Empty;
             }
             set
             {
@@ -291,7 +280,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _treeCssClass;
+                if (_treeCssClass != null) return _treeCssClass; else return String.Empty;
             }
             set
             {
@@ -303,7 +292,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _treeGoUpImage;
+                if (_treeGoUpImage != null) return _treeGoUpImage; else return String.Empty;
             }
             set
             {
@@ -327,7 +316,7 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _width;
+                if (_width != null) return _width; else return String.Empty;
             }
             set
             {

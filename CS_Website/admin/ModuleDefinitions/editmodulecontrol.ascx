@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Modules.Admin.ModuleDefinitions.EditModuleControl" CodeFile="EditModuleControl.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.ModuleDefinitions.EditModuleControl" CodeFile="EditModuleControl.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <table cellspacing="0" cellpadding="4" border="0" summary="Module Controls Design Table">
 	<tr>

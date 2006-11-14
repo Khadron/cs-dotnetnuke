@@ -38,7 +38,7 @@ namespace DotNetNuke.Security.Membership
     /// </history>
     public class DNNRoleProvider : RoleProvider
     {
-        private static DotNetNuke.Security.Membership.Data.DataProvider dataProvider;
+        private static DataProvider dataProvider;
 
         static DNNRoleProvider()
         {

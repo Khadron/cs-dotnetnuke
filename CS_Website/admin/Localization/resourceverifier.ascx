@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Inherits="DotNetNuke.Services.Localization.ResourceVerifier" CodeFile="ResourceVerifier.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Inherits="DotNetNuke.Services.Localization.ResourceVerifier" CodeFile="ResourceVerifier.ascx.cs" %>
 <%@ Register TagPrefix="dnntv" Namespace="DotNetNuke.UI.WebControls" Assembly="DotNetNuke.WebControls" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>

@@ -3,7 +3,7 @@
 <%@ Register TagPrefix="dnn" TagName="Skin" Src="~/controls/SkinControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
-<%@ Control Inherits="DotNetNuke.Modules.Admin.PortalManagement.SiteSettings" Language="C#" AutoEventWireup="false" Explicit="True" enableViewState="True" debug="False" CodeFile="SiteSettings.ascx.cs" %>
+<%@ Control Inherits="DotNetNuke.Modules.Admin.PortalManagement.SiteSettings" Language="C#" AutoEventWireup="true" Explicit="True" enableViewState="True" debug="False" CodeFile="SiteSettings.ascx.cs" %>
 <!-- Settings Tables -->
 <table class="Settings" cellspacing="2" cellpadding="2" width="560" summary="Site Settings Design Table"
 	border="0">

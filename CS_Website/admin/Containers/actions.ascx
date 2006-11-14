@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Inherits="DotNetNuke.UI.WebControls.SolPartActions" CodeFile="SolPartActions.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Inherits="DotNetNuke.UI.WebControls.SolPartActions" CodeFile="SolPartActions.ascx.cs" %>
 <%@ Register TagPrefix="solpart" Namespace="Solpart.WebControls" Assembly="SolpartWebControls" %>
 <solpart:SolpartMenu id="ctlActions" runat="server"
  MenuEffects-MenuTransitionStyle=" " 

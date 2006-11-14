@@ -1,3 +1,5 @@
-<%@ Control Language="C#" CodeFile="Search.ascx.cs" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.UI.Skins.Controls.Search" %>
-<asp:TextBox id="txtSearch" runat="server" CssClass="NormalTextBox" Columns="20" maxlength="255" enableviewstate="False"></asp:TextBox>&nbsp;<asp:LinkButton ID="cmdSearch" Runat="server" CausesValidation="False" CssClass="SkinObject"></asp:LinkButton>
-
+<%@ Control Language="C#" CodeFile="Search.ascx.cs" AutoEventWireup="true" Explicit="True"
+    Inherits="DotNetNuke.UI.Skins.Controls.Search" %>
+<asp:TextBox ID="txtSearch" runat="server" CssClass="NormalTextBox" Columns="20"
+    MaxLength="255" EnableViewState="False"></asp:TextBox>&nbsp;<asp:LinkButton ID="cmdSearch"
+        runat="server" CausesValidation="False" CssClass="SkinObject"></asp:LinkButton>

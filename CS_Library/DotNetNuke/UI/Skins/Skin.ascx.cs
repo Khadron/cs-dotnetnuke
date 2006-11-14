@@ -851,14 +851,9 @@ namespace DotNetNuke.UI.Skins
             }
         }
 
-        private void InitializeComponent()
-        {
-        }
 
-        private void Page_Init( object sender, EventArgs e )
+        protected void Page_Init( object sender, EventArgs e )
         {
-            InitializeComponent();
-
             ModuleController objModules = new ModuleController();
             ModuleInfo objModule = null;
             Control ctlPane;

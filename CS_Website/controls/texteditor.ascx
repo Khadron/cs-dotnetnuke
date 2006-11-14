@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.UI.UserControls.TextEditor" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.UI.UserControls.TextEditor" %>
 <table cellSpacing="2" cellPadding="2" summary="Edit HTML Design Table" border="0">
 	<tr vAlign="top">
 		<td align="center"><asp:panel id="pnlOption" Visible="True" Runat="server">

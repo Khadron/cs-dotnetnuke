@@ -1,4 +1,5 @@
 #region DotNetNuke License
+
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
 // by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
@@ -16,9 +17,10 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
+
 #endregion
+
 using System;
-using System.Diagnostics;
 using DotNetNuke.Entities.Tabs;
 using DotNetNuke.Security;
 
@@ -45,7 +47,14 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _separator;
+                if( _separator != null )
+                {
+                    return _separator;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
@@ -57,7 +66,14 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _cssClass;
+                if( _cssClass != null )
+                {
+                    return _cssClass;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
@@ -69,7 +85,14 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _level;
+                if( _level != null )
+                {
+                    return _level;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
@@ -81,7 +104,14 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _alignment;
+                if( _alignment != null )
+                {
+                    return _alignment;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
@@ -89,16 +119,8 @@ namespace DotNetNuke.UI.Skins.Controls
             }
         }
 
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
-
         private void Page_Init( Object sender, EventArgs e )
         {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
         }
 
         //*******************************************************
@@ -139,9 +161,8 @@ namespace DotNetNuke.UI.Skins.Controls
             }
 
             // build links
-            string strLinks = "";
 
-            strLinks = BuildLinks( Level, Alignment, strSeparator, strCssClass );
+            string strLinks = BuildLinks( Level, Alignment, strSeparator, strCssClass );
 
             if( strLinks == "" )
             {
@@ -151,24 +172,23 @@ namespace DotNetNuke.UI.Skins.Controls
             lblLinks.Text = strLinks;
         }
 
-        private string BuildLinks( string Level, string Alignment, string strSeparator, string strCssClass )
+        private string BuildLinks( string level, string alignment, string strSeparator, string strCssClass )
         {
             string strLinks = "";
-            string strLoop;
             int intIndex;
 
             for( intIndex = 0; intIndex <= PortalSettings.DesktopTabs.Count - 1; intIndex++ )
             {
                 TabInfo objTab = (TabInfo)PortalSettings.DesktopTabs[intIndex];
 
-                if( objTab.IsVisible == true && objTab.IsDeleted == false )
+                if( objTab.IsVisible && objTab.IsDeleted == false )
                 {
-                    if( ( objTab.StartDate < DateTime.Now && objTab.EndDate > DateTime.Now ) || AdminMode == true )
+                    if( ( objTab.StartDate < DateTime.Now && objTab.EndDate > DateTime.Now ) || AdminMode )
                     {
-                        if( PortalSecurity.IsInRoles( objTab.AuthorizedRoles ) == true )
+                        if( PortalSecurity.IsInRoles( objTab.AuthorizedRoles ) )
                         {
-                            strLoop = "";
-                            if( Alignment == "Vertical" )
+                            string strLoop = "";
+                            if( alignment == "Vertical" )
                             {
                                 if( strLinks != "" )
                                 {
@@ -187,7 +207,7 @@ namespace DotNetNuke.UI.Skins.Controls
                                 }
                             }
 
-                            switch( Level )
+                            switch( level )
                             {
                                 case "Same":
                                     if( objTab.ParentId == PortalSettings.ActiveTab.ParentId )

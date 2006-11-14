@@ -475,17 +475,17 @@ namespace DotNetNuke.Modules.Admin.Tabs
                     {
                         //cannot delete tab, stop deleting and exit
                         bDeleted = false;
-                        goto endOfForLoop;
+                        break;
                     }
                 }
                 else
                 {
                     //cannot delete tab, stop deleting and exit
                     bDeleted = false;
-                    goto endOfForLoop;
+                    break;
                 }
             }
-            endOfForLoop:
+            
 
             return bDeleted;
         }

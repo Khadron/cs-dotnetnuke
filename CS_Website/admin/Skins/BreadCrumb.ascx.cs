@@ -1,4 +1,5 @@
 #region DotNetNuke License
+
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
 // by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
@@ -16,9 +17,10 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
+
 #endregion
+
 using System;
-using System.Diagnostics;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Tabs;
 using DotNetNuke.Services.Localization;
@@ -47,7 +49,14 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _separator;
+                if( _separator != null )
+                {
+                    return _separator;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
@@ -59,7 +68,14 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _cssClass;
+                if( _cssClass != null )
+                {
+                    return _cssClass;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
@@ -71,32 +87,20 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _rootLevel;
+                if( _rootLevel != null )
+                {
+                    return _rootLevel;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
                 _rootLevel = value;
             }
         }
-
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
-
-        private void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
-
-        //*******************************************************
-        //
-        // The Page_Load server event handler on this page is used
-        // to populate the role information for the page
-        //
-        //*******************************************************
 
         protected void Page_Load( Object sender, EventArgs e )
         {
@@ -139,7 +143,7 @@ namespace DotNetNuke.UI.Skins.Controls
 
             if( intRootLevel == - 1 )
             {
-                strBreadCrumbs += string.Format(Localization.GetString("Root", Localization.GetResourceFile(this, MyFileName)), Globals.GetPortalDomainName(PortalSettings.PortalAlias.HTTPAlias, Request, true), strCssClass);
+                strBreadCrumbs += string.Format( Localization.GetString( "Root", Localization.GetResourceFile( this, MyFileName ) ), Globals.GetPortalDomainName( PortalSettings.PortalAlias.HTTPAlias, Request, true ), strCssClass );
                 strBreadCrumbs += strSeparator;
                 intRootLevel = 0;
             }
@@ -152,13 +156,13 @@ namespace DotNetNuke.UI.Skins.Controls
                 {
                     strBreadCrumbs += strSeparator;
                 }
-                TabInfo objTab = (TabInfo)PortalSettings.ActiveTab.BreadCrumbs[ intTab ];
+                TabInfo objTab = (TabInfo)PortalSettings.ActiveTab.BreadCrumbs[intTab];
                 if( objTab.DisableLink )
                 {
                     strBreadCrumbs += "<span class=\"" + strCssClass + "\">" + objTab.TabName + "</span>";
                 }
                 else
-                {
+                {                    
                     strBreadCrumbs += "<a href=\"" + objTab.FullUrl + "\" class=\"" + strCssClass + "\">" + objTab.TabName + "</a>";
                 }
             }

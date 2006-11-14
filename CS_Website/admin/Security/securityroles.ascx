@@ -1,4 +1,4 @@
-<%@ Control Language="C#" CodeFile="SecurityRoles.ascx.cs" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Security.SecurityRoles" %>
+<%@ Control Language="C#" CodeFile="SecurityRoles.ascx.cs" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Security.SecurityRoles" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke" Namespace="DotNetNuke.UI.WebControls"%>
 <table class="Settings" cellspacing="2" cellpadding="2" summary="Security Roles Design Table" border="0">

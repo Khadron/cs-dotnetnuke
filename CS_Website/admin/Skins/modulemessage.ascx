@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.UI.Skins.Controls.ModuleMessage" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.UI.Skins.Controls.ModuleMessage" %>
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>
 		<td valign="top" align="left"><asp:image id="imgIcon" borderwidth="0" runat="server" visible="False" enableviewstate="False"/></td>

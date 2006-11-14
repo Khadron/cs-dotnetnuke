@@ -43,7 +43,16 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _text;
+                
+                if( _text != null )
+                {
+                    return _text;
+                    
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
@@ -55,7 +64,15 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _cssClass;
+                
+                if( _cssClass != null )
+                {
+                    return _cssClass;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
@@ -67,7 +84,14 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _logoffText;
+                if( _logoffText != null )
+                {
+                    return _logoffText;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
@@ -75,12 +99,6 @@ namespace DotNetNuke.UI.Skins.Controls
             }
         }
 
-        //*******************************************************
-        //
-        // The Page_Load server event handler on this page is used
-        // to populate the role information for the page
-        //
-        //*******************************************************
         protected void Page_Load( Object sender, EventArgs e )
         {
             // public attributes
@@ -89,7 +107,7 @@ namespace DotNetNuke.UI.Skins.Controls
                 hypLogin.CssClass = CssClass;
             }
 
-            if( Request.IsAuthenticated == true )
+            if( Request.IsAuthenticated )
             {
                 if( LogoffText != "" )
                 {
@@ -106,11 +124,11 @@ namespace DotNetNuke.UI.Skins.Controls
 
                 if( HostSettings.GetHostSetting( "UseFriendlyUrls" ) == "Y" )
                 {
-                    hypLogin.NavigateUrl = Globals.FriendlyUrl(PortalSettings.ActiveTab, Globals.ApplicationURL(PortalSettings.ActiveTab.TabID) + "&portalid=" + PortalSettings.PortalId.ToString(), "Logoff.aspx");
+                    hypLogin.NavigateUrl = Globals.FriendlyUrl(PortalSettings.ActiveTab, Globals.ApplicationURL(PortalSettings.ActiveTab.TabID) + "&portalid=" + PortalSettings.PortalId, "Logoff.aspx");
                 }
                 else
                 {
-                    hypLogin.NavigateUrl = ResolveUrl( "~/Admin/Security/Logoff.aspx?tabid=" + PortalSettings.ActiveTab.TabID + "&portalid=" + PortalSettings.PortalId.ToString() );
+                    hypLogin.NavigateUrl = ResolveUrl( "~/Admin/Security/Logoff.aspx?tabid=" + PortalSettings.ActiveTab.TabID + "&portalid=" + PortalSettings.PortalId );
                 }
             }
             else

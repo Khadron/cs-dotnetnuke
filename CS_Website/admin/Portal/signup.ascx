@@ -1,6 +1,6 @@
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Modules.Admin.PortalManagement.Signup" CodeFile="Signup.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.PortalManagement.Signup" CodeFile="Signup.ascx.cs" %>
 <table class="Settings" cellSpacing="2" cellPadding="2" width="560" summary="Host Settings Design Table"
 	border="0">
 	<tr>

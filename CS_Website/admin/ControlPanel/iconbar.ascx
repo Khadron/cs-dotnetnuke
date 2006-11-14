@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.UI.ControlPanels.IconBar" CodeFile="IconBar.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.UI.ControlPanels.IconBar" CodeFile="IconBar.ascx.cs" %>
 <table class="ControlPanel" cellspacing="0" cellpadding="0" border="0">
 	<tr>
 		<td>

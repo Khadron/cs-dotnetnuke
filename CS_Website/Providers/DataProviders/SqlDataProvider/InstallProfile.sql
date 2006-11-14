@@ -16,28 +16,34 @@ PRINT 'Starting execution of InstallProfile.SQL'
 PRINT '------------------------------------------------'
 GO
 
--- In the area between the ASP.NET SPECIAL REGION "BEGIN" and "END" marker
--- comments, ASP.NET SQL Registration Tool will optionally:
--- 1. Replace the name of the database in all "USE" statements.
--- 2. Replace the value of the local variable @dbname
--- The replacement happens only in memory when the tool is running.
-
--- Inside such regions, user can only modify the name of the database.
-
-
--- Explicitly set the options that the server stores with the object in sysobjects.status
--- so that it doesn't matter IF the script is run using a DBLib or ODBC based client.
 SET QUOTED_IDENTIFIER OFF -- We don't use quoted identifiers
 SET ANSI_NULLS ON         -- We don't want (NULL = NULL) == TRUE
 GO
 SET ANSI_PADDING ON
 GO
+SET ANSI_NULL_DFLT_ON ON
+GO
 
 /*************************************************************/
 /*************************************************************/
 /*************************************************************/
 /*************************************************************/
 /*************************************************************/
+
+DECLARE @dbname nvarchar(128)
+
+SET @dbname = N'aspnetdb'
+
+IF (NOT EXISTS (SELECT name
+                FROM master.dbo.sysdatabases
+                WHERE ('[' + name + ']' = @dbname OR name = @dbname)))
+BEGIN
+  RAISERROR('The database ''%s'' cannot be found. Please run InstallCommon.sql first.', 18, 1, @dbname)
+END
+GO
+
+USE [aspnetdb]
+GO
 
 IF (NOT EXISTS (SELECT name
                 FROM sysobjects
@@ -92,13 +98,12 @@ IF (NOT EXISTS (SELECT name
 BEGIN
   PRINT 'Creating the aspnet_Profile table...'
   CREATE TABLE dbo.aspnet_Profile (
-        UserId                   UNIQUEIDENTIFIER   PRIMARY KEY FOREIGN KEY REFERENCES dbo.aspnet_Users(UserId),
-        PropertyNames            NTEXT NOT NULL,
-        PropertyValuesString     NTEXT NOT NULL,
-        PropertyValuesBinary     IMAGE NOT NULL,
-        LastUpdatedDate          DATETIME NOT NULL)
+        UserId                   uniqueidentifier   PRIMARY KEY FOREIGN KEY REFERENCES dbo.aspnet_Users(UserId),
+        PropertyNames            ntext NOT NULL,
+        PropertyValuesString     ntext NOT NULL,
+        PropertyValuesBinary     image NOT NULL,
+        LastUpdatedDate          datetime NOT NULL)
 END
-GO
 
 /*************************************************************/
 /*************************************************************/
@@ -113,21 +118,19 @@ DROP PROCEDURE dbo.aspnet_Profile_GetProperties
 GO
 
 CREATE PROCEDURE dbo.aspnet_Profile_GetProperties
-    @ApplicationName      NVARCHAR(256),
-    @UserName             NVARCHAR(256),
-    @TimeZoneAdjustment   INT
+    @ApplicationName      nvarchar(256),
+    @UserName             nvarchar(256),
+    @CurrentTimeUtc       datetime
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
     SELECT  @ApplicationId = ApplicationId FROM dbo.aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
     IF (@ApplicationId IS NULL)
         RETURN
 
-    DECLARE @UserId UNIQUEIDENTIFIER
+    DECLARE @UserId uniqueidentifier
     SELECT  @UserId = NULL
-    DECLARE @DateTimeNowUTC DATETIME
-    EXEC dbo.aspnet_GetUtcDate @TimeZoneAdjustment, @DateTimeNowUTC OUTPUT
 
     SELECT @UserId = UserId
     FROM   dbo.aspnet_Users
@@ -142,7 +145,7 @@ BEGIN
     IF (@@ROWCOUNT > 0)
     BEGIN
         UPDATE dbo.aspnet_Users
-        SET    LastActivityDate=@DateTimeNowUTC
+        SET    LastActivityDate=@CurrentTimeUtc
         WHERE  UserId = @UserId
     END
 END
@@ -159,22 +162,22 @@ DROP PROCEDURE dbo.aspnet_Profile_SetProperties
 GO
 
 CREATE PROCEDURE dbo.aspnet_Profile_SetProperties
-    @ApplicationName        NVARCHAR(256),
-    @PropertyNames          NTEXT,
-    @PropertyValuesString   NTEXT,
-    @PropertyValuesBinary   IMAGE,
-    @UserName               NVARCHAR(256),
-    @IsUserAnonymous        BIT,
-    @TimeZoneAdjustment     INT
+    @ApplicationName        nvarchar(256),
+    @PropertyNames          ntext,
+    @PropertyValuesString   ntext,
+    @PropertyValuesBinary   image,
+    @UserName               nvarchar(256),
+    @IsUserAnonymous        bit,
+    @CurrentTimeUtc         datetime
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
 
-    DECLARE @ErrorCode     INT
+    DECLARE @ErrorCode     int
     SET @ErrorCode = 0
 
-    DECLARE @TranStarted   BIT
+    DECLARE @TranStarted   bit
     SET @TranStarted = 0
 
     IF( @@TRANCOUNT = 0 )
@@ -193,12 +196,10 @@ BEGIN
         GOTO Cleanup
     END
 
-    DECLARE @DateTimeNowUTC DATETIME
-    EXEC dbo.aspnet_GetUtcDate @TimeZoneAdjustment, @DateTimeNowUTC OUTPUT
-    DECLARE @UserId UNIQUEIDENTIFIER
-    DECLARE @LastActivityDate DATETIME
+    DECLARE @UserId uniqueidentifier
+    DECLARE @LastActivityDate datetime
     SELECT  @UserId = NULL
-    SELECT @LastActivityDate = @DateTimeNowUTC
+    SELECT  @LastActivityDate = @CurrentTimeUtc
 
     SELECT @UserId = UserId
     FROM   dbo.aspnet_Users
@@ -212,16 +213,9 @@ BEGIN
         GOTO Cleanup
     END
 
-    IF (EXISTS( SELECT *
-               FROM   dbo.aspnet_Profile
-               WHERE  UserId = @UserId))
-        UPDATE dbo.aspnet_Profile
-        SET    PropertyNames=@PropertyNames, PropertyValuesString = @PropertyValuesString,
-               PropertyValuesBinary = @PropertyValuesBinary, LastUpdatedDate=@DateTimeNowUTC
-        WHERE  UserId = @UserId
-    ELSE
-        INSERT INTO dbo.aspnet_Profile(UserId, PropertyNames, PropertyValuesString, PropertyValuesBinary, LastUpdatedDate)
-             VALUES (@UserId, @PropertyNames, @PropertyValuesString, @PropertyValuesBinary, @DateTimeNowUTC)
+    UPDATE dbo.aspnet_Users
+    SET    LastActivityDate=@CurrentTimeUtc
+    WHERE  UserId = @UserId
 
     IF( @@ERROR <> 0 )
     BEGIN
@@ -229,9 +223,16 @@ BEGIN
         GOTO Cleanup
     END
 
-    UPDATE dbo.aspnet_Users
-    SET    LastActivityDate=@DateTimeNowUTC
-    WHERE  UserId = @UserId
+    IF (EXISTS( SELECT *
+               FROM   dbo.aspnet_Profile
+               WHERE  UserId = @UserId))
+        UPDATE dbo.aspnet_Profile
+        SET    PropertyNames=@PropertyNames, PropertyValuesString = @PropertyValuesString,
+               PropertyValuesBinary = @PropertyValuesBinary, LastUpdatedDate=@CurrentTimeUtc
+        WHERE  UserId = @UserId
+    ELSE
+        INSERT INTO dbo.aspnet_Profile(UserId, PropertyNames, PropertyValuesString, PropertyValuesBinary, LastUpdatedDate)
+             VALUES (@UserId, @PropertyNames, @PropertyValuesString, @PropertyValuesBinary, @CurrentTimeUtc)
 
     IF( @@ERROR <> 0 )
     BEGIN
@@ -269,17 +270,17 @@ DROP PROCEDURE dbo.aspnet_Profile_DeleteProfiles
 GO
 
 CREATE PROCEDURE dbo.aspnet_Profile_DeleteProfiles
-    @ApplicationName        NVARCHAR(256),
-    @UserNames              NVARCHAR(4000)
+    @ApplicationName        nvarchar(256),
+    @UserNames              nvarchar(4000)
 AS
 BEGIN
-    DECLARE @UserName     NVARCHAR(256)
-    DECLARE @CurrentPos   INT
-    DECLARE @NextPos      INT
-    DECLARE @NumDeleted   INT
-    DECLARE @DeletedUser  INT
-    DECLARE @TranStarted  BIT
-    DECLARE @ErrorCode    INT
+    DECLARE @UserName     nvarchar(256)
+    DECLARE @CurrentPos   int
+    DECLARE @NextPos      int
+    DECLARE @NumDeleted   int
+    DECLARE @DeletedUser  int
+    DECLARE @TranStarted  bit
+    DECLARE @ErrorCode    int
 
     SET @ErrorCode = 0
     SET @CurrentPos = 1
@@ -346,13 +347,12 @@ DROP PROCEDURE dbo.aspnet_Profile_DeleteInactiveProfiles
 GO
 
 CREATE PROCEDURE dbo.aspnet_Profile_DeleteInactiveProfiles
-    @ApplicationName        NVARCHAR(256),
-    @ProfileAuthOptions     INT,
-    @InactiveSinceDate      DATETIME,
-    @TimeZoneAdjustment     INT
+    @ApplicationName        nvarchar(256),
+    @ProfileAuthOptions     int,
+    @InactiveSinceDate      datetime
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
     SELECT  @ApplicationId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
     IF (@ApplicationId IS NULL)
@@ -360,9 +360,6 @@ BEGIN
         SELECT  0
         RETURN
     END
-
-    IF (@InactiveSinceDate > CONVERT(DATETIME, '17540101', 112) AND  @InactiveSinceDate < CONVERT(DATETIME, '99980101', 112))
-        SELECT @InactiveSinceDate = DATEADD(n, -@TimeZoneAdjustment, @InactiveSinceDate)
 
     DELETE
     FROM    dbo.aspnet_Profile
@@ -392,13 +389,12 @@ DROP PROCEDURE dbo.aspnet_Profile_GetNumberOfInactiveProfiles
 GO
 
 CREATE PROCEDURE dbo.aspnet_Profile_GetNumberOfInactiveProfiles
-    @ApplicationName        NVARCHAR(256),
-    @ProfileAuthOptions     INT,
-    @InactiveSinceDate      DATETIME,
-    @TimeZoneAdjustment     INT
+    @ApplicationName        nvarchar(256),
+    @ProfileAuthOptions     int,
+    @InactiveSinceDate      datetime
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
     SELECT  @ApplicationId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
     IF (@ApplicationId IS NULL)
@@ -406,9 +402,6 @@ BEGIN
         SELECT 0
         RETURN
     END
-
-    IF (@InactiveSinceDate > CONVERT(DATETIME, '17540101', 112) AND  @InactiveSinceDate < CONVERT(DATETIME,'99980101', 112))
-        SELECT @InactiveSinceDate = DATEADD(n, -@TimeZoneAdjustment, @InactiveSinceDate)
 
     SELECT  COUNT(*)
     FROM    dbo.aspnet_Users u, dbo.aspnet_Profile p
@@ -434,28 +427,24 @@ DROP PROCEDURE dbo.aspnet_Profile_GetProfiles
 GO
 
 CREATE PROCEDURE dbo.aspnet_Profile_GetProfiles
-    @ApplicationName        NVARCHAR(256),
-    @ProfileAuthOptions     INT,
-    @PageIndex              INT,
-    @PageSize               INT,
-    @TimeZoneAdjustment     INT,
-    @UserNameToMatch        NVARCHAR(256) = NULL,
-    @InactiveSinceDate      DATETIME      = NULL
+    @ApplicationName        nvarchar(256),
+    @ProfileAuthOptions     int,
+    @PageIndex              int,
+    @PageSize               int,
+    @UserNameToMatch        nvarchar(256) = NULL,
+    @InactiveSinceDate      datetime      = NULL
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
     SELECT  @ApplicationId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
     IF (@ApplicationId IS NULL)
         RETURN
 
-    IF ((NOT(@InactiveSinceDate IS NULL)) AND (@InactiveSinceDate > CONVERT(DATETIME, '17540101', 112)) AND  (@InactiveSinceDate < CONVERT(DATETIME, '99980101', 112)))
-        SELECT @InactiveSinceDate = DATEADD(n, -@TimeZoneAdjustment, @InactiveSinceDate)
-
     -- Set the page bounds
-    DECLARE @PageLowerBound INT
-    DECLARE @PageUpperBound INT
-    DECLARE @TotalRecords   INT
+    DECLARE @PageLowerBound int
+    DECLARE @PageUpperBound int
+    DECLARE @TotalRecords   int
     SET @PageLowerBound = @PageSize * @PageIndex
     SET @PageUpperBound = @PageSize - 1 + @PageLowerBound
 
@@ -463,7 +452,7 @@ BEGIN
     CREATE TABLE #PageIndexForUsers
     (
         IndexId int IDENTITY (0, 1) NOT NULL,
-        UserId UNIQUEIDENTIFIER
+        UserId uniqueidentifier
     )
 
     -- Insert into our temp table
@@ -518,9 +507,9 @@ GO
 --Create Profile schema version
 --
 
-declare @command nvarchar(4000)
-set @command = 'grant execute on [dbo].aspnet_RegisterSchemaVersion to ' + QUOTENAME(user)
-exec (@command)
+DECLARE @command nvarchar(4000)
+SET @command = 'GRANT EXECUTE ON [dbo].aspnet_RegisterSchemaVersion TO ' + QUOTENAME(user)
+EXECUTE (@command)
 GO
 
 EXEC [dbo].aspnet_RegisterSchemaVersion N'Profile', N'1', 1, 1
@@ -593,11 +582,11 @@ GO
 --- Version specific install
 -------------------------------------------------------------------------
 
-DECLARE @ver INT
-DECLARE @version NCHAR(100)
-DECLARE @dot INT
-DECLARE @hyphen INT
-DECLARE @SqlToExec NCHAR(400)
+DECLARE @ver int
+DECLARE @version nchar(100)
+DECLARE @dot int
+DECLARE @hyphen int
+DECLARE @SqlToExec nchar(400)
 
 SELECT @ver = 8
 SELECT @version = @@Version
@@ -609,7 +598,7 @@ BEGIN
     IF (NOT(@dot IS NULL) AND @dot > @hyphen)
     BEGIN
         SELECT @version = SUBSTRING(@version, @hyphen, @dot - @hyphen)
-        SELECT @ver     = CONVERT(INT, @version)
+        SELECT @ver     = CONVERT(int, @version)
     END
 END
 
@@ -624,9 +613,9 @@ GO
 /*************************************************************/
 
 
-declare @command nvarchar(4000)
-set @command = 'revoke execute on [dbo].aspnet_RegisterSchemaVersion from ' + QUOTENAME(user)
-exec (@command)
+DECLARE @command nvarchar(4000)
+SET @command = 'REVOKE EXECUTE ON [dbo].aspnet_RegisterSchemaVersion FROM ' + QUOTENAME(user)
+EXECUTE (@command)
 GO
 
 PRINT '-------------------------------------------------'

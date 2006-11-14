@@ -1,15 +1,15 @@
-<%@ Page Language="C#" AutoEventWireup="true" Inherits="DotNetNuke.Framework.DefaultPage" CodeFile="Default.aspx.cs" %>
+<%@ Page Language="C#" AutoEventWireup="true" Explicit="true" Inherits="DotNetNuke.Framework.DefaultPage" CodeFile="Default.aspx.cs" %>
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Common.Controls" Assembly="DotNetNuke" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN""http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head id="Head" runat="server">
-    <meta id="MetaRefresh" runat="server" name="Refresh" />
-    <meta id="MetaDescription" runat="server" name="DESCRIPTION" />
-    <meta id="MetaKeywords" runat="server" name="KEYWORDS" />
-    <meta id="MetaCopyright" runat="server" name="COPYRIGHT" />
-    <meta id="MetaGenerator" runat="server" name="GENERATOR" />
-    <meta id="MetaAuthor" runat="server" name="AUTHOR" />
+    <meta id="metaRefresh" runat="server" name="Refresh" />
+    <meta id="metaDescription" runat="server" name="DESCRIPTION" />
+    <meta id="metaKeywords" runat="server" name="KEYWORDS" />
+    <meta id="metaCopyright" runat="server" name="COPYRIGHT" />
+    <meta id="metaGenerator" runat="server" name="GENERATOR" />
+    <meta id="metaAuthor" runat="server" name="AUTHOR" />
     <meta name="RESOURCE-TYPE" content="DOCUMENT">
     <meta name="DISTRIBUTION" content="GLOBAL">
     <meta name="ROBOTS" content="INDEX, FOLLOW">

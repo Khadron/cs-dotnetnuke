@@ -66,9 +66,6 @@
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
-    <Reference Include="System.Windows.Forms">
-      <Name>System.Windows.Forms</Name>
-    </Reference>
     <Reference Include="System.Xml">
       <Name>System.Xml</Name>
     </Reference>
@@ -1280,51 +1277,39 @@
     </Compile>
     <Compile Include="DotNetNuke\UI\UserControls\Address.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>
-      <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\UserControls\DualListControl.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>
-      <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\UserControls\Help.ascx.cs">
-      <Name>Compile</Name>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="DotNetNuke\UI\UserControls\HelpButtonControl.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>
-      <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\UserControls\LabelControl.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>
-      <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\UserControls\ListItemComparer.cs">
       <SubType>Code</SubType>
-      <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\UserControls\ModuleAuditControl.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>
-      <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\UserControls\SectionHeadControl.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>
-      <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\UserControls\TextEditor.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>
-      <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\UserControls\UrlControl.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>
-      <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\UserControls\URLTrackingControl.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>
-      <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\UserControls\User.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>
-      <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\Utilities\DNNClientAPI.cs">
       <SubType>Code</SubType>

@@ -1,5 +1,5 @@
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.UI.WebControls" Assembly="DotNetNuke" %>
-<%@ Control Language="C#" AutoEventWireup="false" CodeFile="ListEditor.ascx.cs" Inherits="DotNetNuke.Common.Lists.ListEditor" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ListEditor.ascx.cs" Inherits="DotNetNuke.Common.Lists.ListEditor" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnntv" Namespace="DotNetNuke.UI.WebControls" Assembly="DotNetNuke.WebControls" %>

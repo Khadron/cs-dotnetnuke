@@ -533,10 +533,9 @@ namespace DotNetNuke.Entities.Portals
                 if( objTab.TabID == intTabId )
                 {
                     blnFound = true;
-                    goto endOfForLoop;
+                    break;
                 }
-            }
-            endOfForLoop:
+            }            
 
             // if tab was found
             if( blnFound )
@@ -904,33 +903,31 @@ namespace DotNetNuke.Entities.Portals
         /// <returns></returns>
         /// <remarks>
         /// </remarks>
-        ///	<param name="PortalId">The Portal's id</param>
-        ///	<param name="TabId">The current tab's id</param>
-        private int VerifyPortalTab( int PortalId, int TabId )
+        ///	<param name="portalId">The Portal's id</param>
+        ///	<param name="tabId">The current tab's id</param>
+        private int VerifyPortalTab( int portalId, int tabId )
         {
             int returnValue;
 
             TabInfo objTab;
             returnValue = -1;
 
-            if( TabId != -1 )
+            if( tabId != -1 )
             {
                 // find the tab in the desktoptabs collection
                 foreach( TabInfo tempLoopVar_objTab in this.DesktopTabs )
                 {
                     objTab = tempLoopVar_objTab;
-                    if( objTab.TabID == TabId )
+                    if( objTab.TabID == tabId )
                     {
                         //Check if Tab has been deleted (is in recycle bin)
                         if( !( objTab.IsDeleted ) )
                         {
                             returnValue = objTab.TabID;
-                            goto endOfForLoop;
+                            break;            
                         }
                     }
                 }
-                endOfForLoop:
-                1.GetHashCode(); //nop
             }
 
             // if tab was not found

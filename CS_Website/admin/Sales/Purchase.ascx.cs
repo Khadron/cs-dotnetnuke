@@ -35,16 +35,6 @@ namespace DotNetNuke.Modules.Admin.Sales
     {
         private int RoleID = - 1;
 
-        private void InitializeComponent()
-        {
-        }
-
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
 
         protected void Page_Load( Object sender, EventArgs e )
         {
@@ -137,7 +127,7 @@ namespace DotNetNuke.Modules.Admin.Sales
             }
         }
 
-        private void PurchaseBtn_Click( Object sender, EventArgs e )
+        protected void PurchaseBtn_Click( Object sender, EventArgs e )
         {
             try
             {

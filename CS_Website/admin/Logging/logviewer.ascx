@@ -1,7 +1,7 @@
 <%@ Register TagPrefix="dnnsc" Namespace="DotNetNuke.UI.WebControls" Assembly="DotNetNuke" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
-<%@ Control CodeFile="LogViewer.ascx.cs" Language="C#" AutoEventWireup="false" Explicit="true" Inherits="DotNetNuke.Modules.Admin.Log.LogViewer" targetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
+<%@ Control CodeFile="LogViewer.ascx.cs" Language="C#" AutoEventWireup="true" Explicit="true" Inherits="DotNetNuke.Modules.Admin.Log.LogViewer" targetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
 <STYLE type="text/css">  
 	.Exception { COLOR: #ffffff; BACKGROUND-COLOR: #ff1414 }  
 	.ItemCreated { COLOR: #ffffff; BACKGROUND-COLOR: #009900 }  

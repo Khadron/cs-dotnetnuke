@@ -202,7 +202,7 @@ CREATE PROCEDURE {databaseOwner}{objectQualifier}GetPropertyDefinitionByName
 
 AS
 SELECT	*
-	FROM	dnn_ProfilePropertyDefinition
+	FROM	{objectQualifier}ProfilePropertyDefinition
 	WHERE  (PortalId = @PortalId OR (PortalId IS NULL AND @PortalId IS NULL))
 		AND PropertyName = @Name
 	ORDER BY ViewOrder

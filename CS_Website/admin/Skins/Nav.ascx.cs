@@ -28,27 +28,6 @@ namespace DotNetNuke.UI.Skins.Controls
 {
     public partial class Nav : NavObjectBase
     {
-        // protected controls
-
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
-
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
-
-        //*******************************************************
-        //
-        // The Page_Load server event handler on this page is used
-        // to populate the role information for the page
-        //
-        //*******************************************************
-
         protected void Page_Load( Object sender, EventArgs e )
         {
             try
@@ -206,7 +185,7 @@ namespace DotNetNuke.UI.Skins.Controls
             base.OnInit( e );
         }
 
-        private void Control_NodeClick( NavigationEventArgs args )
+        protected void Control_NodeClick( NavigationEventArgs args )
         {
             if( args.Node == null )
             {
@@ -215,7 +194,7 @@ namespace DotNetNuke.UI.Skins.Controls
             Response.Redirect( Globals.ApplicationURL( int.Parse( args.Node.Key ) ), true );
         }
 
-        private void Control_PopulateOnDemand( NavigationEventArgs args )
+        protected void Control_PopulateOnDemand( NavigationEventArgs args )
         {
             if( args.Node == null )
             {

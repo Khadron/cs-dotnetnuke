@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.UI.Skins.Controls.TreeViewMenu" CodeFile="TreeViewMenu.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.UI.Skins.Controls.TreeViewMenu" CodeFile="TreeViewMenu.ascx.cs" %>
 <table id="tblMain" runat="server" border="0" cellpadding="5" cellspacing="0">
 	<tr>
 		<td id="cellHeader" runat="server" valign="top">

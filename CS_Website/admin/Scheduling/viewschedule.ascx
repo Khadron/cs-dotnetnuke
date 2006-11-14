@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Scheduling.ViewSchedule" CodeFile="ViewSchedule.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Scheduling.ViewSchedule" CodeFile="ViewSchedule.ascx.cs" %>
 <asp:datagrid id="dgSchedule" runat="server" autogeneratecolumns="false" cellpadding="4" datakeyfield="ScheduleID" enableviewstate="false" border="0" summary="This table shows the schedule of events for the portal." BorderStyle="None" BorderWidth="0px" GridLines="None">
 <Columns>
 <asp:TemplateColumn>

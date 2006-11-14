@@ -1,4 +1,4 @@
-<%@ Page Language="C#" ValidateRequest="false" Trace="false" AutoEventWireup="false" Inherits="DotNetNuke.HtmlEditor.FTBInsertSmiley" %>
+<%@ Page Language="C#" ValidateRequest="false" Trace="false" AutoEventWireup="true" Inherits="DotNetNuke.HtmlEditor.FTBInsertSmiley" %>
 <%@ Import Namespace="DotNetNuke.UI.Utilities" %>
 <%@ Import Namespace="DotNetNuke.Services.Localization" %>
 <html>

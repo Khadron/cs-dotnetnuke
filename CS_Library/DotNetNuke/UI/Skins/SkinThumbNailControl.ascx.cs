@@ -154,7 +154,7 @@ namespace DotNetNuke.UI.Skins
 
         public SkinThumbNailControl()
         {
-            base.Load += new EventHandler( this.Page_Load );
+            Load += new EventHandler( this.Page_Load );
             this._Columns = -1;
         }
 
@@ -423,7 +423,7 @@ namespace DotNetNuke.UI.Skins
         }
 
         /// <Summary>Page_Load runs when the control is loaded</Summary>
-        private void Page_Load( object sender, EventArgs e )
+        protected void Page_Load( object sender, EventArgs e )
         {
         }
     }

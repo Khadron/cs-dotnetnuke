@@ -197,7 +197,7 @@ Begin
 	From {objectQualifier}Lists E (nolock)
 	where  ([ListName] = @ListName or @ListName='')
 	and (DefinitionID = @DefinitionID or @DefinitionID = -1)
-	Order By E.[Level], E.[DisplayName]
+	Order By E.[Level], [DisplayName]
 End
 Else
 Begin
@@ -222,7 +222,7 @@ Begin
 	From {objectQualifier}Lists E (nolock)
 	where  [ListName] = @ListName And
 	[ParentID] = (SELECT [EntryID] From {objectQualifier}Lists Where [ListName] = @ParentListName And [Value] = @ParentValue)	
-	Order By E.[Level], E.[DisplayName]
+	Order By E.[Level], [DisplayName]
 
 End
 GO

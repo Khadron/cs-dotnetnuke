@@ -51,16 +51,9 @@ namespace DotNetNuke.UI.Skins.Controls
             }
         }
 
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
-
         protected void Page_Init( Object sender, EventArgs e )
         {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
+            
         }
 
         //*******************************************************
@@ -75,12 +68,12 @@ namespace DotNetNuke.UI.Skins.Controls
             try
             {
                 // public attributes
-                if( BorderWidth != "" )
+                if( BorderWidth != null ) if( BorderWidth != "" )
                 {
                     imgLogo.BorderWidth = Unit.Parse( BorderWidth );
                 }
 
-                if( PortalSettings.LogoFile != "" )
+                if( PortalSettings.LogoFile != null ) if( PortalSettings.LogoFile != "" )
                 {
                     imgLogo.ImageUrl = PortalSettings.HomeDirectory + PortalSettings.LogoFile;
                 }

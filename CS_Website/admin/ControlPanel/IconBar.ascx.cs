@@ -691,15 +691,9 @@ namespace DotNetNuke.UI.ControlPanels
             cboModules.DataBind();
         }
 
-        private void InitializeComponent()
-        {
-        }
-
         protected void Page_Init( Object sender, EventArgs e )
         {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
+
 
             this.ID = "IconBar.ascx";
         }

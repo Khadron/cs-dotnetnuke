@@ -187,15 +187,15 @@ namespace DotNetNuke.UI.UserControls
 
         public SectionHeadControl()
         {
-            base.Load += new EventHandler( this.Page_Load );
-            base.PreRender += new EventHandler( this.Page_PreRender );
+            Load += new EventHandler( this.Page_Load );
+            PreRender += new EventHandler( this.Page_PreRender );
             this.imgIcon.Click += new ImageClickEventHandler(this.imgIcon_Click);
             this._includeRule = false;
             this._isExpanded = true;
 
         }
 
-        private void imgIcon_Click( object sender, ImageClickEventArgs e )
+        protected void imgIcon_Click(object sender, ImageClickEventArgs e)
         {
             HtmlControl ctl = (HtmlControl)this.Parent.FindControl(Section);
             if (ctl != null)
@@ -205,7 +205,7 @@ namespace DotNetNuke.UI.UserControls
         }
 
         /// <Summary>Assign resource key to label for localization</Summary>
-        private void Page_Load( object sender, EventArgs e )
+        protected void Page_Load(object sender, EventArgs e)
         {
             try
             {
@@ -222,7 +222,7 @@ namespace DotNetNuke.UI.UserControls
         }
 
         /// <Summary>Renders the SectionHeadControl</Summary>
-        private void Page_PreRender( object sender, EventArgs e )
+        protected void Page_PreRender(object sender, EventArgs e)
         {
             try
             {

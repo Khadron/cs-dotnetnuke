@@ -1,4 +1,5 @@
 #region DotNetNuke License
+
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
 // by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
@@ -16,9 +17,10 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
+
 #endregion
+
 using System;
-using System.Diagnostics;
 using DotNetNuke.Entities.Users;
 using Microsoft.VisualBasic;
 
@@ -43,7 +45,14 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _cssClass;
+                if( _cssClass != null )
+                {
+                    return _cssClass;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
@@ -55,32 +64,20 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             get
             {
-                return _dateFormat;
+                if( _dateFormat != null )
+                {
+                    return _dateFormat;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }
             set
             {
                 _dateFormat = value;
             }
         }
-
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
-
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
-
-        //*******************************************************
-        //
-        // The Page_Load server event handler on this page is used
-        // to populate the role information for the page
-        //
-        //*******************************************************
 
         protected void Page_Load( Object sender, EventArgs e )
         {

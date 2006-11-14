@@ -1,4 +1,4 @@
-<%@ Control Language="C#" CodeFile="MemberServices.ascx.cs" AutoEventWireup="false" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Security.MemberServices" %>
+<%@ Control Language="C#" CodeFile="MemberServices.ascx.cs" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Security.MemberServices" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <table id="tblServices" cellspacing="0" cellpadding="4" width="600" summary="Register Design Table" border="0" runat="server">
 	<tr>

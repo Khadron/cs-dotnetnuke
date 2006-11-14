@@ -1,4 +1,4 @@
-<%@ Page Language="C#" ValidateRequest="false" Trace="false" AutoEventWireup="false" Inherits="DotNetNuke.HtmlEditor.FTBImageGallery" %>
+<%@ Page Language="C#" ValidateRequest="false" Trace="false" AutoEventWireup="true" Inherits="DotNetNuke.HtmlEditor.FTBImageGallery" %>
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.HtmlEditor" Assembly="DotNetNuke.Ftb3HtmlEditorProvider" %>
 <html>
 <head runat="server">

@@ -40,16 +40,6 @@ namespace DotNetNuke.Services.Localization
     /// </history>
     public partial class ResourceVerifier : PortalModuleBase
     {
-        private void InitializeComponent()
-        {
-        }
-
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
 
         /// <summary>
         /// Verifies all resource files for all currently supported locales
