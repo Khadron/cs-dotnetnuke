@@ -31,13 +31,13 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
     public class ResourceInstaller
     {
 
-        private void DeleteFile(string strFile)
+        private void DeleteFile(string fileName)
         {
             // delete the file
             try
             {
-                File.SetAttributes(strFile, FileAttributes.Normal);
-                File.Delete(strFile);
+                File.SetAttributes(fileName, FileAttributes.Normal);
+                File.Delete(fileName);
             }
             catch
             {
@@ -56,132 +56,121 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
 
         public void Install(bool status, int indent, string type)
         {
-            string[] arrFolders;
-            string strFolder;
-            string[] arrFiles;
-            string strFile;
-
             string InstallPath = Globals.ApplicationMapPath + "\\Install";
 
             if (Directory.Exists(InstallPath))
             {
-                arrFolders = Directory.GetDirectories(InstallPath);
-                foreach (string tempLoopVar_strFolder in arrFolders)
+                string[] folders = Directory.GetDirectories(InstallPath);
+                foreach (string folder in folders)
                 {
-                    strFolder = tempLoopVar_strFolder;
-                    arrFiles = Directory.GetFiles(strFolder);
-                    foreach (string tempLoopVar_strFile in arrFiles)
+                    string[] files = Directory.GetFiles(folder);
+                    foreach (string file in files)
                     {
-                        strFile = tempLoopVar_strFile;
-
                         switch (type.ToLower())
                         {
                             case "modules":
 
                                 // install custom module
-                                InstallModules(strFile, status, indent);
+                                InstallModules(file, status, indent);
                                 break;
 
                             default:
 
                                 // install custom module
-                                InstallModules(strFile, status, indent);
+                                InstallModules(file, status, indent);
 
                                 // install skin
-                                if (strFile.ToLower().IndexOf("\\skin\\") != -1)
+                                if (file.ToLower().IndexOf("\\skin\\") != -1)
                                 {
                                     // check if valid skin
-                                    if (Path.GetExtension(strFile.ToLower()) == ".zip")
+                                    if (Path.GetExtension(file.ToLower()) == ".zip")
                                     {
                                         if (status)
                                         {
-                                            HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Skin File " + strFile + ":<br>");
+                                            HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Skin File " + file + ":<br>");
                                         }
-                                        SkinController.UploadSkin(Globals.HostMapPath, SkinInfo.RootSkin, Path.GetFileNameWithoutExtension(strFile), strFile);
+                                        SkinController.UploadSkin(Globals.HostMapPath, SkinInfo.RootSkin, Path.GetFileNameWithoutExtension(file), file);
                                         // delete file
-                                        DeleteFile(strFile);
+                                        DeleteFile(file);
                                     }
                                 }
 
                                 // install container
-                                if (strFile.ToLower().IndexOf("\\container\\") != -1)
+                                if (file.ToLower().IndexOf("\\container\\") != -1)
                                 {
                                     // check if valid container
-                                    if (Path.GetExtension(strFile.ToLower()) == ".zip")
+                                    if (Path.GetExtension(file.ToLower()) == ".zip")
                                     {
                                         if (status)
                                         {
-                                            HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Container File " + strFile + ":<br>");
+                                            HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Container File " + file + ":<br>");
                                         }
-                                        SkinController.UploadSkin(Globals.HostMapPath, SkinInfo.RootContainer, Path.GetFileNameWithoutExtension(strFile), strFile);
+                                        SkinController.UploadSkin(Globals.HostMapPath, SkinInfo.RootContainer, Path.GetFileNameWithoutExtension(file), file);
                                         // delete file
-                                        DeleteFile(strFile);
+                                        DeleteFile(file);
                                     }
                                 }
 
                                 // install language pack
-                                if (strFile.ToLower().IndexOf("\\language\\") != -1)
+                                if (file.ToLower().IndexOf("\\language\\") != -1)
                                 {
                                     // check if valid language pack
-                                    if (Path.GetExtension(strFile.ToLower()) == ".zip")
+                                    if (Path.GetExtension(file.ToLower()) == ".zip")
                                     {
                                         if (status)
                                         {
-                                            HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Language File " + strFile + ":<br>");
+                                            HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Language File " + file + ":<br>");
                                         }
                                         LocaleFilePackReader objLocaleFilePackReader = new LocaleFilePackReader();
-                                        objLocaleFilePackReader.Install(strFile);
+                                        objLocaleFilePackReader.Install(file);
                                         // delete file
-                                        DeleteFile(strFile);
+                                        DeleteFile(file);
                                     }
                                 }
 
                                 // install template
-                                if (strFile.ToLower().IndexOf("\\template\\") != -1)
+                                if (file.ToLower().IndexOf("\\template\\") != -1)
                                 {
                                     // check if valid template file ( .template or .template.resources )
-                                    if (strFile.ToLower().IndexOf(".template") != -1)
+                                    if (file.ToLower().IndexOf(".template") != -1)
                                     {
                                         if (status)
                                         {
-                                            HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Template " + strFile + ":<br>");
+                                            HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Template " + file + ":<br>");
                                         }
-                                        string strNewFile = Globals.HostMapPath + "\\" + Path.GetFileName(strFile);
+                                        string strNewFile = Globals.HostMapPath + "\\" + Path.GetFileName(file);
                                         if (File.Exists(strNewFile))
                                         {
                                             File.Delete(strNewFile);
                                         }
-                                        File.Move(strFile, strNewFile);
+                                        File.Move(file, strNewFile);
                                     }
                                 }
 
                                 //Install Portal(s)
-                                if (strFile.ToLower().IndexOf("\\portal\\") != -1)
+                                if (file.ToLower().IndexOf("\\portal\\") != -1)
                                 {
                                     //Check if valid portals file
-                                    if (strFile.ToLower().IndexOf(".resources") != -1)
+                                    if (file.ToLower().IndexOf(".resources") != -1)
                                     {
                                         XmlDocument xmlDoc = new XmlDocument();
-                                        XmlNode node;
                                         XmlNodeList nodes;
-                                        int intPortalId;
-                                        xmlDoc.Load(strFile);
+                                        xmlDoc.Load(file);
 
                                         // parse portal(s) if available
                                         nodes = xmlDoc.SelectNodes("//dotnetnuke/portals/portal");
-                                        foreach (XmlNode tempLoopVar_node in nodes)
+                                        foreach (XmlNode node in nodes)
                                         {
-                                            node = tempLoopVar_node;
                                             if (node != null)
                                             {
                                                 if (status)
                                                 {
                                                     HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Portals:<br>");
                                                 }
-                                                intPortalId = Upgrade.AddPortal(node, true, indent);
-                                                if (intPortalId > -1)
+                                                int portalId = Upgrade.AddPortal(node, true, indent);
+                                                if (portalId > -1)
                                                 {
-                                                    HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent + 2, "Successfully Installed Portal " + intPortalId + ":<br>");
+                                                    HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent + 2, "Successfully Installed Portal " + portalId + ":<br>");
                                                 }
                                                 else
                                                 {
@@ -190,14 +179,14 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                                             }
                                         }
                                         // delete file
-                                        DeleteFile(strFile);
+                                        DeleteFile(file);
                                     }
                                 }
                                 break;
                         } 
-                    } 
-                } 
-            } 
+                    }
+                }
+            }
         }
 
         private void InstallModules(string strFile, bool status, int indent)
@@ -212,8 +201,8 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                     {
                         HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Module File " + strFile + ":<br>");
                     }
-                    PaInstaller objPaInstaller = new PaInstaller(strFile, Globals.ApplicationMapPath);
-                    objPaInstaller.Install();
+                    PaInstaller paInstaller = new PaInstaller(strFile, Globals.ApplicationMapPath);
+                    paInstaller.Install();
                     // delete file
                     DeleteFile(strFile);
                 }

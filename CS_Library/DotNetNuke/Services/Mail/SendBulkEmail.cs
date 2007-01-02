@@ -74,7 +74,7 @@ namespace DotNetNuke.Services.Mail
             {
                 this.BodyFormat = MailFormat.Html;
                 // Add Base Href for any images inserted in to the email.
-                this.Body = "<Base Href=\'" + portalAlias + "\'>";
+                this.Body = "<Base Href='" + portalAlias + "'>";
             }
         }
 
@@ -110,7 +110,7 @@ namespace DotNetNuke.Services.Mail
                         foreach( ListItem tempLoopVar_objRecipient in Recipients )
                         {
                             objRecipient = tempLoopVar_objRecipient;
-                            if( objRecipient.Text != "" )
+                            if( !String.IsNullOrEmpty(objRecipient.Text) )
                             {
                                 intRecipients++;
                                 strBody = Heading + objRecipient.Value + "," + endDelimit + endDelimit + Body;
@@ -124,7 +124,7 @@ namespace DotNetNuke.Services.Mail
                         foreach( ListItem tempLoopVar_objRecipient in Recipients )
                         {
                             objRecipient = tempLoopVar_objRecipient;
-                            if( objRecipient.Text != "" )
+                            if( !String.IsNullOrEmpty(objRecipient.Text) )
                             {
                                 intRecipients++;
                                 strDistributionList += "; " + objRecipient.Text;

@@ -19,7 +19,7 @@
 #endregion
 using System;
 using System.Collections;
-using Microsoft.VisualBasic;
+
 
 namespace DotNetNuke.Services.Search
 {
@@ -65,7 +65,7 @@ namespace DotNetNuke.Services.Search
         public SearchCriteriaCollection( string value )
         {
             // split search criteria into words
-            string[] Words = Strings.Split( value, " ", -1, 0 );
+            string[] Words = value.Split( ' ' );            
             string word;
             // Add all criteria without modifiers
             foreach( string tempLoopVar_word in Words )
@@ -218,8 +218,7 @@ namespace DotNetNuke.Services.Search
         /// <returns>Array of type SearchCriteria</returns>
         public SearchCriteria[] ToArray()
         {
-            SearchCriteria[] arr = null;
-            arr = (SearchCriteria[])Microsoft.VisualBasic.CompilerServices.Utils.CopyArray( arr, new SearchCriteria[Count - 1 + 1] );
+            SearchCriteria[] arr = new SearchCriteria[Count - 1 + 1];            
             CopyTo( arr, 0 );
 
             return arr;

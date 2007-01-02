@@ -93,7 +93,7 @@ namespace DotNetNuke.UI.WebControls
         /// <Summary>
         /// Gets and sets the value of the Field that is bound to the Label
         /// </Summary>
-        [BrowsableAttribute( true ), DescriptionAttribute( "Enter the name of the field that is data bound to the Label\'s Text property." ), DefaultValueAttribute( "" ), CategoryAttribute( "Data" )]
+        [BrowsableAttribute( true ), DescriptionAttribute( "Enter the name of the field that is data bound to the Label's Text property." ), DefaultValueAttribute( "" ), CategoryAttribute( "Data" )]
         public string NameDataField
         {
             get
@@ -125,7 +125,7 @@ namespace DotNetNuke.UI.WebControls
         /// <Summary>
         /// Gets and sets the value of the Field that is bound to the EditControl
         /// </Summary>
-        [BrowsableAttribute( true ), CategoryAttribute( "Data" ), DescriptionAttribute( "Enter the name of the field that is data bound to the EditControl\'s Type." ), DefaultValueAttribute( "" )]
+        [BrowsableAttribute( true ), CategoryAttribute( "Data" ), DescriptionAttribute( "Enter the name of the field that is data bound to the EditControl's Type." ), DefaultValueAttribute( "" )]
         public string TypeDataField
         {
             get
@@ -155,7 +155,7 @@ namespace DotNetNuke.UI.WebControls
         /// Gets and sets the value of the Field that is bound to the EditControl's
         /// Expression Validator
         /// </Summary>
-        [DefaultValueAttribute( "" ), DescriptionAttribute( "Enter the name of the field that is data bound to the EditControl\'s Expression Validator." ), CategoryAttribute( "Data" ), BrowsableAttribute( true )]
+        [DefaultValueAttribute( "" ), DescriptionAttribute( "Enter the name of the field that is data bound to the EditControl's Expression Validator." ), CategoryAttribute( "Data" ), BrowsableAttribute( true )]
         public string ValidationExpressionDataField
         {
             get
@@ -171,7 +171,7 @@ namespace DotNetNuke.UI.WebControls
         /// <Summary>
         /// Gets and sets the value of the Field that is bound to the EditControl
         /// </Summary>
-        [DefaultValueAttribute( "" ), BrowsableAttribute( true ), CategoryAttribute( "Data" ), DescriptionAttribute( "Enter the name of the field that is data bound to the EditControl\'s Value property." )]
+        [DefaultValueAttribute( "" ), BrowsableAttribute( true ), CategoryAttribute( "Data" ), DescriptionAttribute( "Enter the name of the field that is data bound to the EditControl's Value property." )]
         public string ValueDataField
         {
             get
@@ -223,7 +223,7 @@ namespace DotNetNuke.UI.WebControls
             string _Category = Null.NullString;
 
             //Get Category Field
-            if (CategoryDataField != "")
+            if (!String.IsNullOrEmpty(CategoryDataField))
             {
                 objProperty = obj.GetType().GetProperty(CategoryDataField);
                 if (!((objProperty == null) || (objProperty.GetValue(obj, null) == null)))
@@ -247,7 +247,7 @@ namespace DotNetNuke.UI.WebControls
             foreach (object obj in arrObjects)
             {
                 //Get Category Field
-                if (CategoryDataField != "")
+                if (!String.IsNullOrEmpty(CategoryDataField))
                 {
                     objProperty = obj.GetType().GetProperty(CategoryDataField);
                     if (!((objProperty == null) || (objProperty.GetValue(obj, null) == null)))

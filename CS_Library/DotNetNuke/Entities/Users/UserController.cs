@@ -828,7 +828,7 @@ namespace DotNetNuke.Entities.Users
             }
 
             //Validate Regex
-            if (MembershipProviderConfig.PasswordStrengthRegularExpression != "")
+            if (!String.IsNullOrEmpty(MembershipProviderConfig.PasswordStrengthRegularExpression))
             {
                 rx = new Regex(MembershipProviderConfig.PasswordStrengthRegularExpression);
                 isValid = rx.IsMatch(password);

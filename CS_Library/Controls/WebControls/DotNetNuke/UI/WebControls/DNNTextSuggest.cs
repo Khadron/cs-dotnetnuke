@@ -802,7 +802,7 @@ namespace DotNetNuke.UI.WebControls
                 {
                     ClientAPI.RegisterClientScriptBlock( this.Page, "dnn.controls.dnnTextSuggest.js", "<script src=\"" + TextSuggestScriptPath + "dnn.controls.dnnTextSuggest.js\"></script>" );
                 }
-                ClientAPI.RegisterStartUpScript( Page, this.ClientID + "_startup", "<script>dnn.controls.initTextSuggest($(\'" + this.ClientID + "\'));</script>" );
+                ClientAPI.RegisterStartUpScript( Page, this.ClientID + "_startup", "<script>dnn.controls.initTextSuggest($('" + this.ClientID + "'));</script>" );
             }
         }
 

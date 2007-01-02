@@ -193,7 +193,7 @@ namespace DotNetNuke.UI.WebControls
 
         public new MenuNode FindNode( string ID )
         {
-            XmlNode objNode = this.XMLNode.SelectSingleNode( "//n[@id=\'" + ID + "\']" );
+            XmlNode objNode = this.XMLNode.SelectSingleNode( "//n[@id='" + ID + "']" );
             if( objNode != null )
             {
                 return new MenuNode( objNode, m_objDNNMenu );
@@ -206,7 +206,7 @@ namespace DotNetNuke.UI.WebControls
 
         public new MenuNode FindNodeByKey( string Key )
         {
-            XmlNode objNode = this.XMLNode.SelectSingleNode( "//n[@key=\'" + Key + "\']" );
+            XmlNode objNode = this.XMLNode.SelectSingleNode( "//n[@key='" + Key + "']" );
             if( objNode != null )
             {
                 return new MenuNode( objNode, m_objDNNMenu );
@@ -222,7 +222,7 @@ namespace DotNetNuke.UI.WebControls
             ArrayList colMenuNodes = new ArrayList(); //MenuNodeCollection = New MenuNodeCollection(m_strNamespace, m_objDNNMenu)
             if( this.XMLNode != null )
             {
-                XmlNodeList objNodeList = this.XMLNode.SelectNodes( "//n[@selected=\'1\']" );
+                XmlNodeList objNodeList = this.XMLNode.SelectNodes( "//n[@selected='1']" );
                 XmlNode objNode;
                 foreach( XmlNode tempLoopVar_objNode in objNodeList )
                 {

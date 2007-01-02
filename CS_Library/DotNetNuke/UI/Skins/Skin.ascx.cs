@@ -89,7 +89,7 @@ namespace DotNetNuke.UI.Skins
 
         public Skin()
         {
-            base.Init += new EventHandler( this.Page_Init );
+            Init += new EventHandler( this.Page_Init );
         }
 
         public static ModuleMessage GetModuleMessageControl( string Heading, string Message, string IconImage )
@@ -101,16 +101,16 @@ namespace DotNetNuke.UI.Skins
             objModuleMessage = (ModuleMessage)s.LoadControl( "~/admin/skins/ModuleMessage.ascx" );
             objModuleMessage.Heading = Heading;
             objModuleMessage.Text = Message;
+
             objModuleMessage.IconImage = IconImage;
             return objModuleMessage;
         }
 
-        public static ModuleMessage GetModuleMessageControl( string Heading, string Message, ModuleMessage.ModuleMessageType objModuleMessageType )
+        public static ModuleMessage GetModuleMessageControl( string Heading, string Message, ModuleMessageType objModuleMessageType )
         {
-            //Use this to get a module message control
-            //with a standard DotNetNuke icon
+            //Use this to get a module message control with a standard DotNetNuke icon
             Skin skin = new Skin();
-            ModuleMessage moduleMessage = ( (ModuleMessage)skin.LoadControl( "~/admin/skins/ModuleMessage.ascx" ) );
+            ModuleMessage moduleMessage = ( (ModuleMessage)skin.LoadControl( "~/Admin/Skins/ModuleMessage.ascx" ) );
             moduleMessage.Heading = Heading;
             moduleMessage.Text = Message;
             moduleMessage.IconType = objModuleMessageType;
@@ -163,7 +163,7 @@ namespace DotNetNuke.UI.Skins
             {
                 // could not load user control
                 ModuleLoadException lex = new ModuleLoadException( MODULELOAD_ERROR, exc );
-                if( PortalSecurity.IsInRoles( PortalSettings.AdministratorRoleName ) == true || PortalSecurity.IsInRoles( PortalSettings.ActiveTab.AdministratorRoles.ToString() ) == true )
+//                if( PortalSecurity.IsInRoles( PortalSettings.AdministratorRoleName ) || PortalSecurity.IsInRoles( PortalSettings.ActiveTab.AdministratorRoles.ToString() ) )
                 {
                     // only display the error to administrators
                     objPane.Controls.Add( new ErrorContainer( PortalSettings, string.Format( CONTAINERLOAD_ERROR, ContainerPath ), lex ).Container );
@@ -174,11 +174,11 @@ namespace DotNetNuke.UI.Skins
             return ctlContainer;
         }
 
-        public static void AddModuleMessage( PortalModuleBase objPortalModuleBase, string Heading, string Message, ModuleMessage.ModuleMessageType objModuleMessageType )
+        public static void AddModuleMessage( PortalModuleBase objPortalModuleBase, string Heading, string Message, ModuleMessageType objModuleMessageType )
         {
             if( objPortalModuleBase != null )
             {
-                if( Message != "" )
+                if( !String.IsNullOrEmpty(Message) )
                 {
                     PlaceHolder MessagePlaceHolder = (PlaceHolder)objPortalModuleBase.Parent.FindControl( "MessagePlaceHolder" );
                     if( MessagePlaceHolder != null )
@@ -197,7 +197,7 @@ namespace DotNetNuke.UI.Skins
         {
             if( objPortalModuleBase != null )
             {
-                if( Message != "" )
+                if( !String.IsNullOrEmpty(Message) )
                 {
                     PlaceHolder MessagePlaceHolder = (PlaceHolder)objPortalModuleBase.Parent.FindControl( "MessagePlaceHolder" );
                     if( MessagePlaceHolder != null )
@@ -211,16 +211,16 @@ namespace DotNetNuke.UI.Skins
             }
         }
 
-        public static void AddModuleMessage( PortalModuleBase objPortalModuleBase, string Message, ModuleMessage.ModuleMessageType objModuleMessageType )
+        public static void AddModuleMessage( PortalModuleBase objPortalModuleBase, string Message, ModuleMessageType objModuleMessageType )
         {
             AddModuleMessage( objPortalModuleBase, "", Message, objModuleMessageType );
         }
 
         public static void AddPageMessage( Page objPage, string Heading, string Message, string IconSrc )
         {
-            if( Message != "" )
+            if( !String.IsNullOrEmpty(Message) )
             {
-                Control ContentPane = (Control)objPage.FindControl( Globals.glbDefaultPane );
+                Control ContentPane = objPage.FindControl( Globals.glbDefaultPane );
                 if( ContentPane != null )
                 {
                     ModuleMessage objModuleMessage;
@@ -230,11 +230,11 @@ namespace DotNetNuke.UI.Skins
             }
         }
 
-        public static void AddPageMessage( Skin objSkin, string Heading, string Message, ModuleMessage.ModuleMessageType objModuleMessageType )
+        public static void AddPageMessage( Skin objSkin, string Heading, string Message, ModuleMessageType objModuleMessageType )
         {
-            if (Message != "")
+            if (!String.IsNullOrEmpty(Message))
             {
-                Control ContentPane = (Control)objSkin.FindControl(Globals.glbDefaultPane);
+                Control ContentPane = objSkin.FindControl(Globals.glbDefaultPane);
                 if (ContentPane != null)
                 {
                     ModuleMessage objModuleMessage;
@@ -244,11 +244,11 @@ namespace DotNetNuke.UI.Skins
             }
         }
 
-        public static void AddPageMessage( Page objPage, string Heading, string Message, ModuleMessage.ModuleMessageType objModuleMessageType )
+        public static void AddPageMessage( Page objPage, string Heading, string Message, ModuleMessageType objModuleMessageType )
         {
-            if (Message != "")
+            if (!String.IsNullOrEmpty(Message))
             {
-                Control ContentPane = (Control)objPage.FindControl(Globals.glbDefaultPane);
+                Control ContentPane = objPage.FindControl(Globals.glbDefaultPane);
                 if (ContentPane != null)
                 {
                     ModuleMessage objModuleMessage;
@@ -260,9 +260,9 @@ namespace DotNetNuke.UI.Skins
 
         public static void AddPageMessage( Skin objSkin, string Heading, string Message, string IconSrc )
         {
-            if (Message != "")
+            if (!String.IsNullOrEmpty(Message))
             {
-                Control ContentPane = (Control)objSkin.FindControl(Globals.glbDefaultPane);
+                Control ContentPane = objSkin.FindControl(Globals.glbDefaultPane);
                 if (ContentPane != null)
                 {
                     ModuleMessage objModuleMessage;
@@ -279,12 +279,9 @@ namespace DotNetNuke.UI.Skins
             //the visiblity of a pane to false. Setting the visibility of a pane to
             //false where there are colspans and rowspans can render the skin incorrectly.
 
-            Control ctlPane;
-            string strPane;
-            foreach (string tempLoopVar_strPane in PortalSettings.ActiveTab.Panes)
-            {
-                strPane = tempLoopVar_strPane;
-                ctlPane = this.FindControl(strPane);
+            foreach (string strPane in PortalSettings.ActiveTab.Panes)
+            {                
+                Control ctlPane = this.FindControl(strPane);
                 if (ctlPane != null)
                 {
                     if (!ctlPane.HasControls())
@@ -325,7 +322,7 @@ namespace DotNetNuke.UI.Skins
         }
 
        
-        public void InjectModule( Control objPane, ModuleInfo objModule, PortalSettings PortalSettings )
+        public void InjectModule( Control objPane, ModuleInfo objModule, PortalSettings portalSettings )
         {
             bool bSuccess = true;
 
@@ -352,18 +349,18 @@ namespace DotNetNuke.UI.Skins
                 }
                 if ((Request.QueryString["ContainerSrc"] != null) && (objModule.ModuleID == PreviewModuleId || PreviewModuleId == -1))
                 {
-                    objModule.ContainerSrc = SkinController.FormatSkinSrc(Globals.QueryStringDecode(Request.QueryString["ContainerSrc"]) + ".ascx", PortalSettings);
+                    objModule.ContainerSrc = SkinController.FormatSkinSrc(Globals.QueryStringDecode(Request.QueryString["ContainerSrc"]) + ".ascx", portalSettings);
                     ctlContainer = LoadContainer(objModule.ContainerSrc, objPane);
                 }
 
                 // load user container ( based on cookie )
                 if (ctlContainer == null)
                 {
-                    if (Request.Cookies["_ContainerSrc" + PortalSettings.PortalId.ToString()] != null)
+                    if (Request.Cookies["_ContainerSrc" + portalSettings.PortalId] != null)
                     {
-                        if (Request.Cookies["_ContainerSrc" + PortalSettings.PortalId.ToString()].Value != "")
+                        if (!String.IsNullOrEmpty( Request.Cookies["_ContainerSrc" + portalSettings.PortalId].Value))
                         {
-                            objModule.ContainerSrc = SkinController.FormatSkinSrc(Request.Cookies["_ContainerSrc" + PortalSettings.PortalId.ToString()].Value + ".ascx", PortalSettings);
+                            objModule.ContainerSrc = SkinController.FormatSkinSrc(Request.Cookies["_ContainerSrc" + portalSettings.PortalId].Value + ".ascx", portalSettings);
                             ctlContainer = LoadContainer(objModule.ContainerSrc, objPane);
                         }
                     }
@@ -375,18 +372,19 @@ namespace DotNetNuke.UI.Skins
                     if (objModule.DisplayTitle == false)
                     {
                         // always display container if the current user is the administrator or the module is being used in an admin case
-                        bool blnDisplayTitle = (PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName) || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString())) || Globals.IsAdminSkin(PortalSettings.ActiveTab.IsAdminTab);
+//AC                        bool blnDisplayTitle = (PortalSecurity.IsInRoles(portalSettings.AdministratorRoleName) || PortalSecurity.IsInRoles(portalSettings.ActiveTab.AdministratorRoles.ToString())) || Globals.IsAdminSkin(portalSettings.ActiveTab.IsAdminTab);
+                        bool blnDisplayTitle = true;
                         // unless the administrator has selected the Page Preview option
-                        if (blnDisplayTitle == true)
+                        if (blnDisplayTitle)
                         {
-                            if (Request.Cookies["_Tab_Admin_Preview" + PortalSettings.PortalId.ToString()] != null)
+                            if (Request.Cookies["_Tab_Admin_Preview" + portalSettings.PortalId] != null)
                             {
-                                blnDisplayTitle = !bool.Parse(Request.Cookies["_Tab_Admin_Preview" + PortalSettings.PortalId.ToString()].Value);
+                                blnDisplayTitle = !bool.Parse(Request.Cookies["_Tab_Admin_Preview" + portalSettings.PortalId].Value);
                             }
                         }
                         if (blnDisplayTitle == false)
                         {
-                            objModule.ContainerSrc = SkinController.FormatSkinSrc("[G]" + SkinInfo.RootContainer + "/_default/No Container.ascx", PortalSettings);
+                            objModule.ContainerSrc = SkinController.FormatSkinSrc("[G]" + SkinInfo.RootContainer + "/_default/No Container.ascx", portalSettings);
                             ctlContainer = LoadContainer(objModule.ContainerSrc, objPane);
                         }
                     }
@@ -395,7 +393,7 @@ namespace DotNetNuke.UI.Skins
                 if (ctlContainer == null)
                 {
                     // if this is not a container assigned to a module
-                    if (objModule.ContainerSrc == PortalSettings.ActiveTab.ContainerSrc)
+                    if (objModule.ContainerSrc == portalSettings.ActiveTab.ContainerSrc)
                     {
                         // look for a container specification in the skin pane
                         if (objPane is HtmlControl)
@@ -413,7 +411,7 @@ namespace DotNetNuke.UI.Skins
                                     // 3.0 container specification in skin pane
                                     objModule.ContainerSrc = objHtmlControl.Attributes["ContainerSrc"];
                                 }
-                                objModule.ContainerSrc = SkinController.FormatSkinSrc(objModule.ContainerSrc, PortalSettings);
+                                objModule.ContainerSrc = SkinController.FormatSkinSrc(objModule.ContainerSrc, portalSettings);
                                 ctlContainer = LoadContainer(objModule.ContainerSrc, objPane);
                             }
                         }
@@ -423,9 +421,9 @@ namespace DotNetNuke.UI.Skins
                 // else load assigned container
                 if (ctlContainer == null)
                 {
-                    if (Globals.IsAdminSkin(PortalSettings.ActiveTab.IsAdminTab))
+                    if (Globals.IsAdminSkin(portalSettings.ActiveTab.IsAdminTab))
                     {
-                        SkinInfo objSkin = SkinController.GetSkin(SkinInfo.RootContainer, PortalSettings.PortalId, SkinType.Admin);
+                        SkinInfo objSkin = SkinController.GetSkin(SkinInfo.RootContainer, portalSettings.PortalId, SkinType.Admin);
                         if (objSkin != null)
                         {
                             objModule.ContainerSrc = objSkin.SkinSrc;
@@ -436,9 +434,9 @@ namespace DotNetNuke.UI.Skins
                         }
                     }
 
-                    if (objModule.ContainerSrc != "")
+                    if (!String.IsNullOrEmpty(objModule.ContainerSrc))
                     {
-                        objModule.ContainerSrc = SkinController.FormatSkinSrc(objModule.ContainerSrc, PortalSettings);
+                        objModule.ContainerSrc = SkinController.FormatSkinSrc(objModule.ContainerSrc, portalSettings);
                         ctlContainer = LoadContainer(objModule.ContainerSrc, objPane);
                     }
                 }
@@ -446,7 +444,7 @@ namespace DotNetNuke.UI.Skins
                 // error loading container - load default
                 if (ctlContainer == null)
                 {
-                    if (Globals.IsAdminSkin(PortalSettings.ActiveTab.IsAdminTab))
+                    if (Globals.IsAdminSkin(portalSettings.ActiveTab.IsAdminTab))
                     {
                         objModule.ContainerSrc = Globals.HostPath + SkinInfo.RootContainer + Globals.glbDefaultContainerFolder + Globals.glbDefaultAdminContainer;
                     }
@@ -460,7 +458,7 @@ namespace DotNetNuke.UI.Skins
                 // set container path
                 objModule.ContainerPath = SkinController.FormatSkinPath(objModule.ContainerSrc);
 
-                string ID;
+                string validID;
                 Hashtable objCSSCache = null;
                 if (Globals.PerformanceSetting != Globals.PerformanceSettings.NoCaching)
                 {
@@ -472,53 +470,53 @@ namespace DotNetNuke.UI.Skins
                 }
 
                 // container package style sheet
-                ID = Globals.CreateValidID(objModule.ContainerPath);
-                if (objCSSCache.ContainsKey(ID) == false)
+                validID = Globals.CreateValidID(objModule.ContainerPath);
+                if (objCSSCache.ContainsKey(validID) == false)
                 {
                     if (File.Exists(Server.MapPath(objModule.ContainerPath) + "container.css"))
                     {
-                        objCSSCache[ID] = objModule.ContainerPath + "container.css";
+                        objCSSCache[validID] = objModule.ContainerPath + "container.css";
                     }
                     else
                     {
-                        objCSSCache[ID] = "";
+                        objCSSCache[validID] = "";
                     }
                     if (Globals.PerformanceSetting != Globals.PerformanceSettings.NoCaching)
                     {
                         DataCache.SetCache("CSS", objCSSCache);
                     }
                 }
-                if (objCSSCache[ID].ToString() != "")
+                if (objCSSCache[validID].ToString() != "")
                 {
-                    DefaultPage.AddStyleSheet(ID, objCSSCache[ID].ToString());
+                    DefaultPage.AddStyleSheet(validID, objCSSCache[validID].ToString());
                 }
 
                 // container file style sheet
-                ID = Globals.CreateValidID(objModule.ContainerSrc.Replace(".ascx", ".css"));
-                if (objCSSCache.ContainsKey(ID) == false)
+                validID = Globals.CreateValidID(objModule.ContainerSrc.Replace(".ascx", ".css"));
+                if (objCSSCache.ContainsKey(validID) == false)
                 {
                     if (File.Exists(Server.MapPath(objModule.ContainerSrc.Replace(".ascx", ".css"))))
                     {
-                        objCSSCache[ID] = objModule.ContainerSrc.Replace(".ascx", ".css");
+                        objCSSCache[validID] = objModule.ContainerSrc.Replace(".ascx", ".css");
                     }
                     else
                     {
-                        objCSSCache[ID] = "";
+                        objCSSCache[validID] = "";
                     }
                     if (Globals.PerformanceSetting != Globals.PerformanceSettings.NoCaching)
                     {
                         DataCache.SetCache("CSS", objCSSCache);
                     }
                 }
-                if (objCSSCache[ID].ToString() != "")
+                if (objCSSCache[validID].ToString() != "")
                 {
-                    DefaultPage.AddStyleSheet(ID, objCSSCache[ID].ToString());
+                    DefaultPage.AddStyleSheet(validID, objCSSCache[validID].ToString());
                 }
 
                 if (!Globals.IsAdminControl())
                 {
                     // inject an anchor tag to allow navigation to the module content
-                    objPane.Controls.Add(new LiteralControl("<a name=\"" + objModule.ModuleID.ToString() + "\"></a>"));
+                    objPane.Controls.Add(new LiteralControl("<a name=\"" + objModule.ModuleID + "\"></a>"));
                 }
 
                 // get container pane
@@ -531,15 +529,15 @@ namespace DotNetNuke.UI.Skins
                     // set container content pane display properties ( could be <TD>,<DIV>,<SPAN>,<P> )
                     if (objCell is HtmlContainerControl)
                     {
-                        if (objModule.Alignment != "")
+                        if (!String.IsNullOrEmpty(objModule.Alignment))
                         {
                             ((HtmlContainerControl)objCell).Attributes.Add("align", objModule.Alignment);
                         }
-                        if (objModule.Color != "")
+                        if (!String.IsNullOrEmpty(objModule.Color))
                         {
                             ((HtmlContainerControl)objCell).Style["background"] = objModule.Color;
                         }
-                        if (objModule.Border != "")
+                        if (!String.IsNullOrEmpty(objModule.Border))
                         {
                             ((HtmlContainerControl)objCell).Style["border-top"] = objModule.Border + "px #000000 solid";
                             ((HtmlContainerControl)objCell).Style["border-bottom"] = objModule.Border + "px #000000 solid";
@@ -548,9 +546,9 @@ namespace DotNetNuke.UI.Skins
                         }
 
                         // display visual indicator if module is only visible to administrators
-                        if (Globals.IsAdminControl() == false && PortalSettings.ActiveTab.IsAdminTab == false)
+                        if (Globals.IsAdminControl() == false && portalSettings.ActiveTab.IsAdminTab == false)
                         {
-                            if ((objModule.StartDate >= DateTime.Now || objModule.EndDate <= DateTime.Now) || (objModule.AuthorizedViewRoles.ToLower() == ";" + PortalSettings.AdministratorRoleName.ToLower() + ";"))
+                            if ((objModule.StartDate >= DateTime.Now || objModule.EndDate <= DateTime.Now) || (objModule.AuthorizedViewRoles.ToLower() == ";" + portalSettings.AdministratorRoleName.ToLower() + ";"))
                             {
                                 ((HtmlContainerControl)objCell).Style["border-top"] = "2px #FF0000 solid";
                                 ((HtmlContainerControl)objCell).Style["border-bottom"] = "2px #FF0000 solid";
@@ -564,11 +562,11 @@ namespace DotNetNuke.UI.Skins
                     if (!Globals.IsAdminControl())
                     {
                         // inject a start comment around the module content
-                        objCell.Controls.Add(new LiteralControl("<!-- Start_Module_" + objModule.ModuleID.ToString() + " -->"));
+                        objCell.Controls.Add(new LiteralControl("<!-- Start_Module_" + objModule.ModuleID + " -->"));
                     }
 
                     // inject the header
-                    if (objModule.Header != "")
+                    if (!String.IsNullOrEmpty(objModule.Header))
                     {
                         Label objLabel = new Label();
                         objLabel.Text = objModule.Header;
@@ -588,9 +586,9 @@ namespace DotNetNuke.UI.Skins
 
                     // module content visibility options
                     bool blnContent = true;
-                    if (Request.Cookies["_Tab_Admin_Content" + PortalSettings.PortalId.ToString()] != null)
+                    if (Request.Cookies["_Tab_Admin_Content" + portalSettings.PortalId] != null)
                     {
-                        blnContent = bool.Parse(Request.Cookies["_Tab_Admin_Content" + PortalSettings.PortalId.ToString()].Value);
+                        blnContent = bool.Parse(Request.Cookies["_Tab_Admin_Content" + portalSettings.PortalId].Value);
                     }
                     if (Request.QueryString["content"] != null)
                     {
@@ -614,7 +612,7 @@ namespace DotNetNuke.UI.Skins
                                 break;
                         }
                     }
-                    if (Globals.IsAdminControl() == true || PortalSettings.ActiveTab.IsAdminTab)
+                    if (Globals.IsAdminControl() || portalSettings.ActiveTab.IsAdminTab)
                     {
                         blnContent = true;
                     }
@@ -662,7 +660,7 @@ namespace DotNetNuke.UI.Skins
                         //' add module settings
                         objPortalModuleBase.ModuleConfiguration = objModule;
 
-                        if (PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName) == true || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()) == true)
+//                        if (PortalSecurity.IsInRoles(portalSettings.AdministratorRoleName) || PortalSecurity.IsInRoles(portalSettings.ActiveTab.AdministratorRoles.ToString()))
                         {
                             // only display the error to administrators
                             if (objPortalModuleBase == null)
@@ -700,7 +698,7 @@ namespace DotNetNuke.UI.Skins
                     }
 
                     // inject the footer
-                    if (objModule.Footer != "")
+                    if (!String.IsNullOrEmpty(objModule.Footer))
                     {
                         Label objLabel = new Label();
                         objLabel.Text = objModule.Footer;
@@ -711,7 +709,7 @@ namespace DotNetNuke.UI.Skins
                     // inject an end comment around the module content
                     if (!Globals.IsAdminControl())
                     {
-                        objPanel.Controls.Add(new LiteralControl("<!-- End_Module_" + objModule.ModuleID.ToString() + " -->"));
+                        objPanel.Controls.Add(new LiteralControl("<!-- End_Module_" + objModule.ModuleID + " -->"));
                     }
                 }
 
@@ -763,26 +761,26 @@ namespace DotNetNuke.UI.Skins
                 if (objPortalModuleBase != null)
                 {
                     // module stylesheet
-                    ID = Globals.CreateValidID(Globals.ApplicationPath + "/" + objModule.ControlSrc.Substring(0, objModule.ControlSrc.LastIndexOf("/")));
-                    if (objCSSCache.ContainsKey(ID) == false)
+                    validID = Globals.CreateValidID(Globals.ApplicationPath + "/" + objModule.ControlSrc.Substring(0, objModule.ControlSrc.LastIndexOf("/")));
+                    if (objCSSCache.ContainsKey(validID) == false)
                     {
                         if (File.Exists(Server.MapPath(Globals.ApplicationPath + "/" + objModule.ControlSrc.Substring(0, objModule.ControlSrc.LastIndexOf("/") + 1)) + "module.css"))
                         {
-                            objCSSCache[ID] = Globals.ApplicationPath + "/" + objModule.ControlSrc.Substring(0, objModule.ControlSrc.LastIndexOf("/") + 1) + "module.css";
+                            objCSSCache[validID] = Globals.ApplicationPath + "/" + objModule.ControlSrc.Substring(0, objModule.ControlSrc.LastIndexOf("/") + 1) + "module.css";
                         }
                         else
                         {
-                            objCSSCache[ID] = "";
+                            objCSSCache[validID] = "";
                         }
                         if (Globals.PerformanceSetting != Globals.PerformanceSettings.NoCaching)
                         {
                             DataCache.SetCache("CSS", objCSSCache);
                         }
                     }
-                    if (objCSSCache[ID].ToString() != "")
+                    if (objCSSCache[validID].ToString() != "")
                     {
                         //Add it to beginning of style list
-                        DefaultPage.AddStyleSheet(ID, objCSSCache[ID].ToString(), true);
+                        DefaultPage.AddStyleSheet(validID, objCSSCache[validID].ToString(), true);
                     }
                 }
 
@@ -799,11 +797,11 @@ namespace DotNetNuke.UI.Skins
             catch (Exception exc)
             {
                 ModuleLoadException lex;
-                lex = new ModuleLoadException(string.Format(MODULEADD_ERROR, objPane.ID.ToString()), exc);
-                if (PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName) == true || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()) == true)
+                lex = new ModuleLoadException(string.Format(MODULEADD_ERROR, objPane.ID), exc);
+//                if (PortalSecurity.IsInRoles(portalSettings.AdministratorRoleName) || PortalSecurity.IsInRoles(portalSettings.ActiveTab.AdministratorRoles.ToString()))
                 {
                     // only display the error to administrators
-                    objPane.Controls.Add(new ErrorContainer(PortalSettings, MODULELOAD_ERROR, lex).Container);
+                    objPane.Controls.Add(new ErrorContainer(portalSettings, MODULELOAD_ERROR, lex).Container);
                 }
                 Exceptions.LogException(lex);
                 bSuccess = false;
@@ -835,24 +833,23 @@ namespace DotNetNuke.UI.Skins
 
         private void ModuleMoveToPanePostBack( ClientAPIPostBackEventArgs args )
         {
-            PortalSettings PortalSettings = (PortalSettings)HttpContext.Current.Items["PortalSettings"];
-            if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString()) == true || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()) == true)
+            PortalSettings portalSettings = (PortalSettings)HttpContext.Current.Items["PortalSettings"];
+//            if (PortalSecurity.IsInRole(portalSettings.AdministratorRoleName.ToString()) || PortalSecurity.IsInRoles(portalSettings.ActiveTab.AdministratorRoles.ToString()))
             {
                 int intModuleID = Convert.ToInt32(args.EventArguments["moduleid"]);
                 string strPaneName = args.EventArguments["pane"].ToString();
                 int intOrder = Convert.ToInt32(args.EventArguments["order"]);
                 ModuleController objModules = new ModuleController();
 
-                objModules.UpdateModuleOrder(PortalSettings.ActiveTab.TabID, intModuleID, intOrder, strPaneName);
-                objModules.UpdateTabModuleOrder(PortalSettings.ActiveTab.TabID, PortalSettings.ActiveTab.PortalID);
+                objModules.UpdateModuleOrder(portalSettings.ActiveTab.TabID, intModuleID, intOrder, strPaneName);
+                objModules.UpdateTabModuleOrder(portalSettings.ActiveTab.TabID, portalSettings.ActiveTab.PortalID);
 
                 // Redirect to the same page to pick up changes
                 Response.Redirect(Request.RawUrl, true);
             }
         }
 
-
-        protected void Page_Init( object sender, EventArgs e )
+        private void Page_Init( object sender, EventArgs e )
         {
             ModuleController objModules = new ModuleController();
             ModuleInfo objModule = null;
@@ -862,15 +859,14 @@ namespace DotNetNuke.UI.Skins
             bool bSuccess = true;
 
             // iterate page controls
-            Control ctlControl;
-            HtmlControl objHtmlControl;
-            foreach (Control tempLoopVar_ctlControl in this.Controls)
+
+            foreach (Control ctlControl in this.Controls)
             {
-                ctlControl = tempLoopVar_ctlControl;
+                
                 // load the skin panes
                 if (ctlControl is HtmlControl)
                 {
-                    objHtmlControl = (HtmlControl)ctlControl;
+                    HtmlControl objHtmlControl = (HtmlControl)ctlControl;
                     if (objHtmlControl.ID != null)
                     {
                         switch (objHtmlControl.TagName.ToUpper())
@@ -916,7 +912,7 @@ namespace DotNetNuke.UI.Skins
             if (Request.QueryString["dnnprintmode"] != "true")
             {
                 // ControlPanel processing
-                if (PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName.ToString()) == true || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()) == true)
+                if (PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName.ToString()) || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()))
                 {
                     UserControl objControlPanel = null;
                     if (Convert.ToString(PortalSettings.HostSettings["ControlPanel"]) != "")
@@ -963,10 +959,8 @@ namespace DotNetNuke.UI.Skins
                             // process panes
                             if (blnLayoutMode)
                             {
-                                string strPane;
-                                foreach (string tempLoopVar_strPane in PortalSettings.ActiveTab.Panes)
-                                {
-                                    strPane = tempLoopVar_strPane;
+                                foreach (string strPane in PortalSettings.ActiveTab.Panes)
+                                {                                    
                                     ctlPane = this.FindControl(strPane);
                                     ctlPane.Visible = true;
 
@@ -1047,12 +1041,12 @@ namespace DotNetNuke.UI.Skins
                         }
                         else
                         {
-                            Skin.AddPageMessage(this, "", TABACCESS_ERROR, ModuleMessage.ModuleMessageType.YellowWarning);
+                            Skin.AddPageMessage(this, "", TABACCESS_ERROR, ModuleMessageType.YellowWarning);
                         }
                     }
                     else
                     {
-                        Skin.AddPageMessage(this, "", string.Format(CONTRACTEXPIRED_ERROR, PortalSettings.PortalName, Globals.GetMediumDate(PortalSettings.ExpiryDate.ToString()), PortalSettings.Email), ModuleMessage.ModuleMessageType.RedError);
+                        Skin.AddPageMessage(this, "", string.Format(CONTRACTEXPIRED_ERROR, PortalSettings.PortalName, Globals.GetMediumDate(PortalSettings.ExpiryDate.ToString()), PortalSettings.Email), ModuleMessageType.RedError);
                     }
                 }
                 else
@@ -1151,14 +1145,13 @@ namespace DotNetNuke.UI.Skins
 
                 // load the controls
                 ModuleControlController objModuleControls = new ModuleControlController();
-                ModuleControlInfo objModuleControl;
                 int intCounter;
 
                 ArrayList arrModuleControls = objModuleControls.GetModuleControlsByKey(Key, objModule.ModuleDefID);
 
                 for (intCounter = 0; intCounter <= arrModuleControls.Count - 1; intCounter++)
                 {
-                    objModuleControl = (ModuleControlInfo)arrModuleControls[intCounter];
+                    ModuleControlInfo objModuleControl = (ModuleControlInfo)arrModuleControls[intCounter];
 
                     // initialize control values
                     objModule.ModuleControlId = objModuleControl.ModuleControlID;
@@ -1250,29 +1243,27 @@ namespace DotNetNuke.UI.Skins
 
             if (Request.QueryString["error"] != null)
             {
-                Skin.AddPageMessage(this, CRITICAL_ERROR, Server.HtmlEncode(Request.QueryString["error"]), ModuleMessage.ModuleMessageType.RedError);
+                Skin.AddPageMessage(this, CRITICAL_ERROR, Server.HtmlEncode(Request.QueryString["error"]), ModuleMessageType.RedError);
             }
 
-            if (!(PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName) == true || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()) == true))
+            if (!(PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName) || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString())))
             {
                 // only display the warning to non-administrators (adminsitrators will see the errors)
                 if (!bSuccess)
                 {
-                    Skin.AddPageMessage(this, MODULELOAD_WARNING, string.Format(MODULELOAD_WARNINGTEXT, PortalSettings.Email), ModuleMessage.ModuleMessageType.YellowWarning);
+                    Skin.AddPageMessage(this, MODULELOAD_WARNING, string.Format(MODULELOAD_WARNINGTEXT, PortalSettings.Email), ModuleMessageType.YellowWarning);
                 }
             }
         }
 
         private void ProcessActionControls( PortalModuleBase objPortalModuleBase, Control objContainer )
         {
-            ActionBase objActions;
-
             foreach (Control objChildControl in objContainer.Controls)
             {
                 // check if control is an action control
                 if (objChildControl is ActionBase)
                 {
-                    objActions = (ActionBase)objChildControl;
+                    ActionBase objActions = (ActionBase)objChildControl;
                     objActions.PortalModule = objPortalModuleBase;
                     objActions.MenuActions.AddRange(objPortalModuleBase.Actions);
                     objActions.Action += new ActionEventHandler(ModuleAction_Click);

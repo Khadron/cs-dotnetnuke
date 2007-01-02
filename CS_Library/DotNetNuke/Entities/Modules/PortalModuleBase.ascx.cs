@@ -115,7 +115,7 @@ namespace DotNetNuke.Entities.Modules
             get
             {
                 string strCacheKey = "TabModule:";
-                strCacheKey += TabModuleId.ToString() + ":";
+                strCacheKey += TabModuleId + ":";
                 strCacheKey += Thread.CurrentThread.CurrentCulture.ToString();
                 return strCacheKey;
             }
@@ -140,7 +140,7 @@ namespace DotNetNuke.Entities.Modules
         {
             get
             {
-                return Globals.FindControlRecursive(this, "ctr" + ModuleId.ToString());
+                return Globals.FindControlRecursive(this, "ctr" + ModuleId);
             }
         }
 
@@ -167,7 +167,7 @@ namespace DotNetNuke.Entities.Modules
             }
         }
 
-        [ObsoleteAttribute("The HelpFile() property was deprecated in version 2.2. Help files are now stored in the /App_LocalResources folder beneath the module with the following resource key naming convention: ModuleHelp.Text")]
+        [Obsolete("The HelpFile() property was deprecated in version 2.2. Help files are now stored in the /App_LocalResources folder beneath the module with the following resource key naming convention: ModuleHelp.Text")]
         public string HelpFile
         {
             get
@@ -202,10 +202,10 @@ namespace DotNetNuke.Entities.Modules
                 if (_isEditable == 0)
                 {
                     bool blnPreview = false;
-                    HttpRequest Request = HttpContext.Current.Request;
-                    if (Request.Cookies["_Tab_Admin_Preview" + PortalId.ToString()] != null)
+                    HttpRequest httpRequest = HttpContext.Current.Request;
+                    if (httpRequest.Cookies["_Tab_Admin_Preview" + PortalId] != null)
                     {
-                        blnPreview = bool.Parse(Request.Cookies["_Tab_Admin_Preview" + PortalId.ToString()].Value);
+                        blnPreview = bool.Parse(httpRequest.Cookies["_Tab_Admin_Preview" + PortalId].Value);
                     }
                     if (PortalSettings.ActiveTab.ParentId == PortalSettings.AdminTabId || PortalSettings.ActiveTab.ParentId == PortalSettings.SuperTabId)
                     {
@@ -215,10 +215,10 @@ namespace DotNetNuke.Entities.Modules
                     bool blnHasModuleEditPermissions = false;
                     if (_moduleConfiguration != null)
                     {
-                        blnHasModuleEditPermissions = (PortalSecurity.IsInRoles(_moduleConfiguration.AuthorizedEditRoles) == true) || (PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles) == true) || (PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName) == true);
+                        blnHasModuleEditPermissions = PortalSecurity.IsInRoles(_moduleConfiguration.AuthorizedEditRoles) || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles) || PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName);
                     }
 
-                    if (blnPreview == false && blnHasModuleEditPermissions == true)
+                    if (blnPreview == false && blnHasModuleEditPermissions)
                     {
                         _isEditable = 1;
                     }
@@ -238,7 +238,7 @@ namespace DotNetNuke.Entities.Modules
             {
                 string fileRoot;
 
-                if (_localResourceFile == "")
+                if (String.IsNullOrEmpty( _localResourceFile ))
                 {
                     fileRoot = this.TemplateSourceDirectory + "/" + Localization.LocalResourceDirectory + "/" + this.ID;
                 }
@@ -409,13 +409,13 @@ namespace DotNetNuke.Entities.Modules
                 key = "Edit";
             }
 
-            if (KeyName != "" && KeyValue != "")
+            if (!String.IsNullOrEmpty(KeyName) && !String.IsNullOrEmpty(KeyValue))
             {
-                return Globals.NavigateURL(PortalSettings.ActiveTab.TabID, key, "mid=" + ModuleId.ToString(), KeyName + "=" + KeyValue);
+                return Globals.NavigateURL(PortalSettings.ActiveTab.TabID, key, "mid=" + ModuleId, KeyName + "=" + KeyValue);
             }
             else
             {
-                return Globals.NavigateURL(PortalSettings.ActiveTab.TabID, key, "mid=" + ModuleId.ToString());
+                return Globals.NavigateURL(PortalSettings.ActiveTab.TabID, key, "mid=" + ModuleId);
             }
         }
 
@@ -429,11 +429,11 @@ namespace DotNetNuke.Entities.Modules
                 key = "Edit";
             }
 
-            if (KeyName != "" && KeyValue != "")
+            if (!String.IsNullOrEmpty(KeyName) && !String.IsNullOrEmpty(KeyValue))
             {
                 string[] parameters = new string[AdditionalParameters.Length + 1 + 1];
 
-                parameters[0] = "mid=" + ModuleId.ToString();
+                parameters[0] = "mid=" + ModuleId;
                 parameters[1] = KeyName + "=" + KeyValue;
 
                 for (int i = 0; i <= AdditionalParameters.Length - 1; i++)
@@ -447,7 +447,7 @@ namespace DotNetNuke.Entities.Modules
             {
                 string[] parameters = new string[AdditionalParameters.Length + 1];
 
-                parameters[0] = "mid=" + ModuleId.ToString();
+                parameters[0] = "mid=" + ModuleId;
 
                 for (int i = 0; i <= AdditionalParameters.Length - 1; i++)
                 {
@@ -616,16 +616,16 @@ namespace DotNetNuke.Entities.Modules
             }
 
             // check if module implements IPortable interface
-            if (this.ModuleConfiguration.IsPortable && !Globals.IsAdminControl() && this.ModuleConfiguration.BusinessControllerClass != "")
+            if (this.ModuleConfiguration.IsPortable && !Globals.IsAdminControl() && !String.IsNullOrEmpty(this.ModuleConfiguration.BusinessControllerClass))
             {
-                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ImportModule, Localization.GlobalResourceFile), "", "", "rt.gif", Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "ImportModule", "moduleid=" + ModuleId.ToString()), "", false, SecurityAccessLevel.Admin, EditMode, false);
-                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ExportModule, Localization.GlobalResourceFile), "", "", "lt.gif", Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "ExportModule", "moduleid=" + ModuleId.ToString()), "", false, SecurityAccessLevel.Admin, EditMode, false);
+                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ImportModule, Localization.GlobalResourceFile), "", "", "rt.gif", Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "ImportModule", "moduleid=" + ModuleId), "", false, SecurityAccessLevel.Admin, EditMode, false);
+                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ExportModule, Localization.GlobalResourceFile), "", "", "lt.gif", Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "ExportModule", "moduleid=" + ModuleId), "", false, SecurityAccessLevel.Admin, EditMode, false);
             }
 
             //If TypeOf objPortalModuleBase Is ISearchable Then
-            if (this.ModuleConfiguration.IsSearchable && !Globals.IsAdminControl() && this.ModuleConfiguration.BusinessControllerClass != "")
+            if (this.ModuleConfiguration.IsSearchable && !Globals.IsAdminControl() && !String.IsNullOrEmpty(this.ModuleConfiguration.BusinessControllerClass))
             {
-                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.SyndicateModule, Localization.GlobalResourceFile), ModuleActionType.SyndicateModule, "", "xml.gif", Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "", "moduleid=" + ModuleId.ToString()).Replace(Globals.glbDefaultPage, "RSS.aspx"), "", false, SecurityAccessLevel.Anonymous, true, true);
+                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.SyndicateModule, Localization.GlobalResourceFile), ModuleActionType.SyndicateModule, "", "xml.gif", Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "", "moduleid=" + ModuleId).Replace(Globals.glbDefaultPage, "RSS.aspx"), "", false, SecurityAccessLevel.Anonymous, true, true);
             }
 
             // help module actions available to content editors and administrators
@@ -638,16 +638,16 @@ namespace DotNetNuke.Entities.Modules
             if (ModuleConfiguration.DisplayPrint)
             {
                 // print module action available to everyone
-                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.PrintModule, Localization.GlobalResourceFile), ModuleActionType.PrintModule, "", "print.gif", Globals.NavigateURL(TabId, "", "mid=" + ModuleId.ToString(), "SkinSrc=" + Globals.QueryStringEncode("[G]" + SkinInfo.RootSkin + "/" + Globals.glbHostSkinFolder + "/" + "No Skin"), "ContainerSrc=" + Globals.QueryStringEncode("[G]" + SkinInfo.RootContainer + "/" + Globals.glbHostSkinFolder + "/" + "No Container"), "dnnprintmode=true"), "", false, SecurityAccessLevel.Anonymous, true, true);
+                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.PrintModule, Localization.GlobalResourceFile), ModuleActionType.PrintModule, "", "print.gif", Globals.NavigateURL(TabId, "", "mid=" + ModuleId, "SkinSrc=" + Globals.QueryStringEncode("[G]" + SkinInfo.RootSkin + "/" + Globals.glbHostSkinFolder + "/" + "No Skin"), "ContainerSrc=" + Globals.QueryStringEncode("[G]" + SkinInfo.RootContainer + "/" + Globals.glbHostSkinFolder + "/" + "No Container"), "dnnprintmode=true"), "", false, SecurityAccessLevel.Anonymous, true, true);
             }
 
             // core module actions only available to administrators
-            if (EditMode == true && ModuleConfiguration.IsAdmin == false && Globals.IsAdminControl() == false)
+            if (EditMode && ModuleConfiguration.IsAdmin == false && Globals.IsAdminControl() == false)
             {
                 // module settings
                 _actions.Add(GetNextActionID(), "~", "", "", "", "", false, SecurityAccessLevel.Anonymous, true, false);
-                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ModuleSettings, Localization.GlobalResourceFile), ModuleActionType.ModuleSettings, "", "settings.gif", Globals.NavigateURL(TabId, "Module", "ModuleId=" + ModuleId.ToString()), false, SecurityAccessLevel.Admin, true, false);
-                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.DeleteModule, Localization.GlobalResourceFile), ModuleActionType.DeleteModule, ModuleConfiguration.ModuleID.ToString(), "delete.gif", "", "confirm(\'" + ClientAPI.GetSafeJSString(Localization.GetString("DeleteModule.Confirm")) + "\')", false, SecurityAccessLevel.Admin, true, false);
+                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ModuleSettings, Localization.GlobalResourceFile), ModuleActionType.ModuleSettings, "", "settings.gif", Globals.NavigateURL(TabId, "Module", "ModuleId=" + ModuleId), false, SecurityAccessLevel.Admin, true, false);
+                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.DeleteModule, Localization.GlobalResourceFile), ModuleActionType.DeleteModule, ModuleConfiguration.ModuleID.ToString(), "delete.gif", "", "confirm('" + ClientAPI.GetSafeJSString(Localization.GetString("DeleteModule.Confirm")) + "')", false, SecurityAccessLevel.Admin, true, false);
                 if (ModuleConfiguration.CacheTime != 0)
                 {
                     _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ClearCache, Localization.GlobalResourceFile), ModuleActionType.ClearCache, ModuleConfiguration.ModuleID.ToString(), "restore.gif", "", false, SecurityAccessLevel.Admin, true, false);
@@ -698,7 +698,7 @@ namespace DotNetNuke.Entities.Modules
             if (_moduleConfiguration != null)
             {
                 // If no caching is specified or in admin mode, render the child tree and return
-                if (_moduleConfiguration.CacheTime == 0 || (PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName) == true || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()) == true))
+                if (_moduleConfiguration.CacheTime == 0 || (PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName) || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString())))
                 {
                     base.Render(output);
                 }
@@ -760,7 +760,7 @@ namespace DotNetNuke.Entities.Modules
             helpAction.CommandName = ModuleActionType.ModuleHelp;
             helpAction.CommandArgument = "";
             helpAction.Icon = "help.gif";
-            helpAction.Url = Globals.NavigateURL(TabId, "Help", "ctlid=" + ModuleConfiguration.ModuleControlId.ToString(), "moduleid=" + ModuleId);
+            helpAction.Url = Globals.NavigateURL(TabId, "Help", "ctlid=" + ModuleConfiguration.ModuleControlId, "moduleid=" + ModuleId);
             helpAction.Secure = SecurityAccessLevel.Edit;
             helpAction.Visible = true;
             helpAction.NewWindow = false;

@@ -30,6 +30,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
 
         public PaInstallInfo()
         {
+            
             this._Log = new PaLogger();
             this._Path = "";
             this._FileTable = new Hashtable();

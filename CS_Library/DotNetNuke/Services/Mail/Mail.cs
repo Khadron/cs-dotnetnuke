@@ -39,18 +39,18 @@ namespace DotNetNuke.Services.Mail
             string returnValue;
 
             MailMessage objMail = new MailMessage(MailFrom, MailTo);
-            if (Cc != "")
+            if (!String.IsNullOrEmpty(Cc))
             {
                 objMail.CC.Add(Cc);
             }
-            if (Bcc != "")
+            if (!String.IsNullOrEmpty(Bcc))
             {
                 objMail.Bcc.Add(Bcc);
             }
             objMail.Priority = (System.Net.Mail.MailPriority)Priority;
             objMail.IsBodyHtml = Convert.ToBoolean(BodyFormat == MailFormat.Html ? true : false);
 
-            if (Attachment != "")
+            if (!String.IsNullOrEmpty(Attachment))
             {
                 objMail.Attachments.Add(new Attachment(Attachment));
             }
@@ -71,7 +71,7 @@ namespace DotNetNuke.Services.Mail
 
             SmtpClient smtpClient = new SmtpClient();
 
-            if (SMTPServer != "")
+            if (!String.IsNullOrEmpty(SMTPServer))
             {
                 smtpClient.Host = SMTPServer;
                 if (SmtpPort > Null.NullInteger)
@@ -88,7 +88,7 @@ namespace DotNetNuke.Services.Mail
                         break;
                     case "1": // basic
 
-                        if (SMTPUsername != "" && SMTPPassword != "")
+                        if (!String.IsNullOrEmpty(SMTPUsername) && !String.IsNullOrEmpty(SMTPPassword))
                         {
                             smtpClient.Credentials = new NetworkCredential(SMTPUsername, SMTPPassword);
                         }
@@ -150,7 +150,7 @@ namespace DotNetNuke.Services.Mail
 
             // here we check if we want to format the email as html or plain text.
             MailFormat objBodyFormat = MailFormat.Html;
-            if( BodyType != "" )
+            if( !String.IsNullOrEmpty(BodyType) )
             {
                 switch( BodyType.ToLower() )
                 {

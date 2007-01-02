@@ -126,7 +126,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             //IsPortable by Reflection
             try
             {
-                if (objDesktopModule.BusinessControllerClass != "")
+                if (!String.IsNullOrEmpty(objDesktopModule.BusinessControllerClass))
                 {
                     object objController = Reflection.CreateObject(objDesktopModule.BusinessControllerClass, objDesktopModule.BusinessControllerClass);
                     if (objController is ISearchable)
@@ -151,7 +151,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
 
         protected override string UpgradeModule(DesktopModuleInfo ModuleInfo)
         {
-            if (ModuleInfo.BusinessControllerClass != "")
+            if (!String.IsNullOrEmpty(ModuleInfo.BusinessControllerClass))
             {
                 string UpgradeVersionsList = "";
 

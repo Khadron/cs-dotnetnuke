@@ -381,9 +381,9 @@ namespace DotNetNuke.Services.Search
         /// </summary>
         /// <remarks>
         /// </remarks>
-        /// <param name="IndexId">The Id of the SearchItem</param>
-        /// <param name="SearchItem">The SearchItem</param>
-        /// <param name="Language">The Language of the current Item</param>
+        /// <param name="indexId">The Id of the SearchItem</param>
+        /// <param name="searchItem">The SearchItem</param>
+        /// <param name="language">The Language of the current Item</param>
         /// <history>
         ///		[cnurse]	11/15/2004	documented
         ///     [cnurse]    11/16/2004  replaced calls to separate content clean-up
@@ -391,21 +391,20 @@ namespace DotNetNuke.Services.Search
         ///                             replaced logic to determine whether word should
         ///                             be indexed by call to CanIndexWord()
         /// </history>
-        private void AddIndexWords(int IndexId, SearchItemInfo SearchItem, string Language)
+        private void AddIndexWords(int indexId, SearchItemInfo searchItem, string language)
         {
             Hashtable IndexWords = new Hashtable();
             Hashtable IndexPositions = new Hashtable();
-            string setting;
 
             //Get the Settings for this Module
-            _settings = SearchDataStoreController.GetSearchSettings( SearchItem.ModuleId );
-            setting = GetSetting( "MaxSearchWordLength" );
-            if( setting != "" )
+            _settings = SearchDataStoreController.GetSearchSettings( searchItem.ModuleId );
+            string setting = GetSetting( "MaxSearchWordLength" );
+            if( !String.IsNullOrEmpty(setting) )
             {
                 maxWordLength = int.Parse( setting );
             }
             setting = GetSetting( "MinSearchWordLength" );
-            if( setting != "" )
+            if( !String.IsNullOrEmpty(setting) )
             {
                 minWordLength = int.Parse( setting );
             }
@@ -420,7 +419,7 @@ namespace DotNetNuke.Services.Search
                 includeNumbers = false;
             }
 
-            string Content = SearchItem.Content;
+            string Content = searchItem.Content;
 
             // clean content
             Content = HtmlUtils.Clean( Content, true );
@@ -435,7 +434,7 @@ namespace DotNetNuke.Services.Search
             foreach( string tempLoopVar_strWord in ContentWords )
             {
                 strWord = tempLoopVar_strWord;
-                if( CanIndexWord( strWord, Language ) )
+                if( CanIndexWord( strWord, language ) )
                 {
                     intWord++;
                     if( IndexWords.ContainsKey( strWord ) == false )
@@ -472,7 +471,7 @@ namespace DotNetNuke.Services.Search
                     Words.Add( strWord, WordId );
                 }
                 // add the indexword
-                int SearchItemWordID = DataProvider.Instance().AddSearchItemWord( IndexId, WordId, System.Convert.ToInt32( IndexWords[strWord] ) );
+                int SearchItemWordID = DataProvider.Instance().AddSearchItemWord( indexId, WordId, System.Convert.ToInt32( IndexWords[strWord] ) );
                 DataProvider.Instance().AddSearchItemWordPosition( SearchItemWordID, System.Convert.ToString( IndexPositions[strWord] ) );
             }
         }

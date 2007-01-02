@@ -675,7 +675,7 @@ namespace DotNetNuke.UI.WebControls
             }
 
             //Add Regular Expression Validators
-            if (editInfo.ValidationExpression != "")
+            if (!String.IsNullOrEmpty(editInfo.ValidationExpression))
             {
                 RegularExpressionValidator regExValidator = new RegularExpressionValidator();
                 regExValidator.ID = editInfo.Name + "_RegEx";

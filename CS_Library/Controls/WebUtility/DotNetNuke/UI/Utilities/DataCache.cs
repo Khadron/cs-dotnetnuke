@@ -25,54 +25,50 @@ namespace DotNetNuke.UI.Utilities
 {
     public class DataCache
     {
-        public DataCache()
+        public static object GetCache( string cacheKey )
         {
+            Cache cache = HttpRuntime.Cache;
+            return cache[cacheKey];
         }
 
-        public static object GetCache( string CacheKey )
+        public static void RemoveCache( string cacheKey )
         {
-            Cache cache1 = HttpRuntime.Cache;
-            return cache1[CacheKey];
-        }
-
-        public static void RemoveCache( string CacheKey )
-        {
-            Cache cache1 = HttpRuntime.Cache;
-            if( cache1[CacheKey] == null )
+            Cache cache = HttpRuntime.Cache;
+            if( cache[cacheKey] == null )
             {
                 return;
             }
-            object object1 = cache1.Remove( CacheKey );
+            cache.Remove( cacheKey );
         }
 
-        public static void SetCache( string CacheKey, object objObject, DateTime AbsoluteExpiration )
+        public static void SetCache( string cacheKey, object objObject, DateTime absoluteExpiration )
         {
-            Cache cache1 = HttpRuntime.Cache;
-            cache1.Insert( CacheKey, objObject, ( (CacheDependency)null ), AbsoluteExpiration, Cache.NoSlidingExpiration );
+            Cache cache = HttpRuntime.Cache;
+            cache.Insert( cacheKey, objObject, null, absoluteExpiration, Cache.NoSlidingExpiration );
         }
 
-        public static void SetCache( string CacheKey, object objObject )
+        public static void SetCache( string cacheKey, object objObject )
         {
-            Cache cache1 = HttpRuntime.Cache;
-            cache1.Insert( CacheKey, objObject );
+            Cache cache = HttpRuntime.Cache;
+            cache.Insert( cacheKey, objObject );
         }
 
-        public static void SetCache( string CacheKey, object objObject, int SlidingExpiration )
+        public static void SetCache( string cacheKey, object objObject, int slidingExpiration )
         {
-            Cache cache1 = HttpRuntime.Cache;
-            cache1.Insert( CacheKey, objObject, ( (CacheDependency)null ), Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds( ( (double)SlidingExpiration ) ) );
+            Cache cache = HttpRuntime.Cache;
+            cache.Insert( cacheKey, objObject, null, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds( slidingExpiration ) );
         }
 
-        public static void SetCache( string CacheKey, object objObject, CacheDependency objDependency )
+        public static void SetCache( string cacheKey, object objObject, CacheDependency cacheDependency )
         {
-            Cache cache1 = HttpRuntime.Cache;
-            cache1.Insert( CacheKey, objObject, objDependency );
+            Cache cache = HttpRuntime.Cache;
+            cache.Insert( cacheKey, objObject, cacheDependency );
         }
 
-        public static void SetCache( string CacheKey, object objObject, CacheDependency objDependency, DateTime AbsoluteExpiration, TimeSpan SlidingExpiration )
+        public static void SetCache( string cacheKey, object objObject, CacheDependency cacheDependency, DateTime absoluteExpiration, TimeSpan slidingExpiration )
         {
-            Cache cache1 = HttpRuntime.Cache;
-            cache1.Insert( CacheKey, objObject, objDependency, AbsoluteExpiration, SlidingExpiration );
+            Cache cache = HttpRuntime.Cache;
+            cache.Insert( cacheKey, objObject, cacheDependency, absoluteExpiration, slidingExpiration );
         }
     }
 }

@@ -38,17 +38,6 @@ namespace DotNetNuke.Services.Exceptions
     /// </history>
     public partial class ErrorPage : Page
     {
-        private void InitializeComponent()
-        {
-        }
-
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
-
         protected void Page_Load( Object sender, EventArgs e )
         {
             //get the last server error
@@ -61,7 +50,7 @@ namespace DotNetNuke.Services.Exceptions
                 //process this error using the Exception Management Application Block
                 Exceptions.LogException( lex );
                 //add to a placeholder and place on page
-                ErrorPlaceHolder.Controls.Add( new ErrorContainer( _portalSettings, "An error has occurred.", lex ).Container );
+                ErrorPlaceHolder.Controls.Add( new ErrorContainer( _portalSettings, "An error has occurred.", lex ).Container );                
             }
             catch
             {

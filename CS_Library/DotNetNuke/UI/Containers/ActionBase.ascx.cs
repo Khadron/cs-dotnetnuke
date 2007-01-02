@@ -152,11 +152,11 @@ namespace DotNetNuke.UI.Containers
             set
             {
                 this._portalModule = value;
-                if( ( this.Request.Cookies[( "_Tab_Admin_Preview" + this.PortalModule.PortalSettings.PortalId.ToString() )] == null ) || this.PortalModule.PortalSettings.ActiveTab.IsAdminTab )
+                if( ( this.Request.Cookies[( "_Tab_Admin_Preview" + this.PortalModule.PortalSettings.PortalId )] == null ) || this.PortalModule.PortalSettings.ActiveTab.IsAdminTab )
                 {
                     return;
                 }
-                this.m_tabPreview = bool.Parse( this.Request.Cookies[( "_Tab_Admin_Preview" + this.PortalModule.PortalSettings.PortalId.ToString() )].Value );
+                this.m_tabPreview = bool.Parse( this.Request.Cookies[( "_Tab_Admin_Preview" + this.PortalModule.PortalSettings.PortalId )].Value );
             }
         }
 
@@ -170,8 +170,8 @@ namespace DotNetNuke.UI.Containers
 
         public ActionBase()
         {
-            base.Init += new EventHandler( this.Page_Init );
-            base.Load += new EventHandler( this.Page_Load );
+            Init += new EventHandler( this.Page_Init );
+            Load += new EventHandler( this.Page_Load );
             this._editMode = false;
             this.m_adminControl = false;
             this.m_adminModule = false;
@@ -189,10 +189,9 @@ namespace DotNetNuke.UI.Containers
             ModuleAction retAction = null;
             if (ParentAction != null)
             {
-                ModuleAction modaction;
                 foreach (ModuleAction tempLoopVar_modaction in ParentAction.Actions)
                 {
-                    modaction = tempLoopVar_modaction;
+                    ModuleAction modaction = tempLoopVar_modaction;
                     if (modaction.ID == Index)
                     {
                         retAction = modaction;
@@ -250,14 +249,14 @@ namespace DotNetNuke.UI.Containers
             this.AddAction( Title, CmdName, CmdArg, "", "", false, SecurityAccessLevel.Anonymous, false, false );
         }
 
-        public void AddAction( string Title, string CmdName, string CmdArg, string Icon, string Url, bool UseActionEvent, SecurityAccessLevel Secure, bool Visible )
+        public void AddAction( string Title, string CmdName, string CmdArg, string Icon, string Url, bool UseActionEvent, SecurityAccessLevel Secure, bool visible )
         {
-            this.AddAction( Title, CmdName, CmdArg, Icon, Url, UseActionEvent, Secure, Visible, false );
+            this.AddAction( Title, CmdName, CmdArg, Icon, Url, UseActionEvent, Secure, visible, false );
         }
 
-        public void AddAction( string Title, string CmdName, string CmdArg, string Icon, string Url, bool UseActionEvent, SecurityAccessLevel Secure, bool Visible, bool NewWindow )
+        public void AddAction( string Title, string CmdName, string CmdArg, string Icon, string Url, bool UseActionEvent, SecurityAccessLevel Secure, bool visible, bool NewWindow )
         {
-            ModuleAction moduleAction1 = this.MenuActions.Add( this.GetNextActionID(), Title, CmdName, CmdArg, Icon, Url, UseActionEvent, Secure, Visible, NewWindow );
+            this.MenuActions.Add( this.GetNextActionID(), Title, CmdName, CmdArg, Icon, Url, UseActionEvent, Secure, visible, NewWindow );
         }
 
         public void AddAction( string Title, string CmdName, string CmdArg, string Icon, string Url, bool UseActionEvent )
@@ -301,7 +300,7 @@ namespace DotNetNuke.UI.Containers
         {
             if (Command.NewWindow)
             {
-                Response.Write("<script>window.open(\'" + Command.Url + "\',\'_blank\')</script>");
+                Response.Write("<script>window.open('" + Command.Url + "','_blank')</script>");
             }
             else
             {
@@ -357,12 +356,12 @@ namespace DotNetNuke.UI.Containers
             }
         }
 
-        private void Page_Init( object sender, EventArgs e )
+        protected void Page_Init( object sender, EventArgs e )
         {
         }
 
         /// <Summary>Page_Load runs when the class is loaded</Summary>
-        private void Page_Load( object sender, EventArgs e )
+        protected void Page_Load( object sender, EventArgs e )
         {
             try
             {
@@ -374,11 +373,11 @@ namespace DotNetNuke.UI.Containers
             }
         }
 
-        public void ProcessAction( string ActionID )
+        public void ProcessAction( string actionID )
         {
-            if (Versioned.IsNumeric(ActionID))
+            if (Versioned.IsNumeric(actionID))
             {
-                ModuleAction action = GetAction(Convert.ToInt32(ActionID));
+                ModuleAction action = GetAction(Convert.ToInt32(actionID));
                 if (action.CommandName == ModuleActionType.ModuleHelp)
                 {
                     DoAction(action);

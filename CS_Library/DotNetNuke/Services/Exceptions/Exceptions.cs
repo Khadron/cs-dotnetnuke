@@ -317,7 +317,7 @@ namespace DotNetNuke.Services.Exceptions
                 objExceptionLog.AddLog( lex );
                 // redirect
 
-                if( URL != "" )
+                if( !String.IsNullOrEmpty(URL) )
                 {
                     if( URL.IndexOf( "error=terminate" ) != -1 )
                     {

@@ -111,7 +111,7 @@ namespace DotNetNuke.UI.WebControls
             {
                 if( ClientAPI.BrowserSupportsFunctionality( ClientAPI.ClientFunctionality.XMLHTTP ) )
                 {
-                    writer.AddAttribute( "callback", ClientAPI.GetCallbackEventReference( _tree, "\'[NODEXML]\'", "this.callBackSuccess", "oTNode", "this.callBackFail", "this.callBackStatus" ) );
+                    writer.AddAttribute( "callback", ClientAPI.GetCallbackEventReference( _tree, "'[NODEXML]'", "this.callBackSuccess", "oTNode", "this.callBackFail", "this.callBackStatus" ) );
                 }
                 else
                 {

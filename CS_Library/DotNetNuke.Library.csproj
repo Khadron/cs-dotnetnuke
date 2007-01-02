@@ -6,6 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <AssemblyName>DotNetNuke</AssemblyName>
     <OutputType>Library</OutputType>
+    <RootNamespace>DotNetNuke</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -1027,6 +1028,7 @@
       <SubType>Code</SubType>
       <Name>Compile</Name>
     </Compile>
+    <Compile Include="DotNetNuke\Services\ResourceLoader.cs" />
     <Compile Include="DotNetNuke\Services\Scheduling\EventName.cs">
       <SubType>Code</SubType>
       <Name>Compile</Name>
@@ -1216,8 +1218,8 @@
       <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\Containers\ActionBase.ascx.cs">
-      <SubType>ASPXCodeBehind</SubType>
       <Name>Compile</Name>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="DotNetNuke\UI\Containers\Container.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -1232,8 +1234,8 @@
       <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\UI\Skins\Controls\ModuleMessage.ascx.cs">
-      <SubType>ASPXCodeBehind</SubType>
       <Name>Compile</Name>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="DotNetNuke\UI\Skins\NavObjectBase.ascx.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -1638,11 +1640,27 @@
       <Name>WebUtility</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\GlobalResources.de-DE.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\GlobalResources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SharedResources.de-DE.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SharedResources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Template.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>rem copy $(TargetPath) %25CSDNN%25</PostBuildEvent>
   </PropertyGroup>
 </Project>

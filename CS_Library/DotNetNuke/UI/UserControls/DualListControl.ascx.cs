@@ -52,18 +52,15 @@ namespace DotNetNuke.UI.UserControls
         {
             get
             {
-                ArrayList returnValue;
 
                 ArrayList objList = new ArrayList();
 
-                foreach (ListItem tempLoopVar_objListItem in lstAssigned.Items)
+                foreach (ListItem objListItem in lstAssigned.Items)
                 {
-                    ListItem objListItem = tempLoopVar_objListItem;
                     objList.Add(objListItem);
                 }
 
-                returnValue = objList;
-                return returnValue;
+                return objList;
             }
             set
             {
@@ -74,20 +71,16 @@ namespace DotNetNuke.UI.UserControls
         public ArrayList Available
         {
             get
-            {
-                ArrayList returnValue;
-                ListItem objListItem;
-
+            {                
                 ArrayList objList = new ArrayList();
 
-                foreach (ListItem tempLoopVar_objListItem in lstAvailable.Items)
-                {
-                    objListItem = tempLoopVar_objListItem;
+                foreach (ListItem objListItem in lstAvailable.Items)
+                {                    
                     objList.Add(objListItem);
                 }
 
-                returnValue = objList;
-                return returnValue;
+                
+                return objList;
             }
             set
             {
@@ -150,15 +143,21 @@ namespace DotNetNuke.UI.UserControls
         public DualListControl()
         {
             Load += new EventHandler( this.Page_Load );
+            Init += new EventHandler(DualListControl_Init);
             this._ListBoxWidth = "";
             this._ListBoxHeight = "";
             this._DataTextField = "";
             this._DataValueField = "";
+            this._Enabled = true;
+        }
+
+        void DualListControl_Init(object sender, EventArgs e)
+        {
             this.cmdRemove.Click += new EventHandler(this.cmdRemove_Click);
             this.cmdRemoveAll.Click += new EventHandler(this.cmdRemoveAll_Click);
             this.cmdAddAll.Click += new EventHandler(this.cmdAddAll_Click);
             this.cmdAdd.Click += new EventHandler(this.cmdAdd_Click);
-            this._Enabled = true;
+
         }
 
         protected void cmdAdd_Click(object sender, EventArgs e)
@@ -266,12 +265,12 @@ namespace DotNetNuke.UI.UserControls
                 if (!Page.IsPostBack)
                 {
                     // set dimensions of control
-                    if (_ListBoxWidth != "")
+                    if (!String.IsNullOrEmpty(_ListBoxWidth))
                     {
                         lstAvailable.Width = Unit.Parse(_ListBoxWidth);
                         lstAssigned.Width = Unit.Parse(_ListBoxWidth);
                     }
-                    if (_ListBoxHeight != "")
+                    if (!String.IsNullOrEmpty(_ListBoxHeight))
                     {
                         lstAvailable.Height = Unit.Parse(_ListBoxHeight);
                         lstAssigned.Height = Unit.Parse(_ListBoxHeight);

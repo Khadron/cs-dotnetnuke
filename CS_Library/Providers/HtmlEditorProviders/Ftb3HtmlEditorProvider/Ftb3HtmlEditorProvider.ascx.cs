@@ -32,7 +32,6 @@ using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Utilities;
 using FreeTextBoxControls;
 using FreeTextBoxControls.Support;
-using Microsoft.VisualBasic;
 using BulletedList=FreeTextBoxControls.BulletedList;
 using Globals=DotNetNuke.Common.Globals;
 
@@ -56,13 +55,13 @@ namespace DotNetNuke.HtmlEditor
 
         private ArrayList _AdditionalToolbars = new ArrayList();
         private string _ControlID;
-        private bool _enableProFeatures;
-        private ProviderConfiguration _providerConfiguration;
-        private string _providerPath;
+        private bool enableProFeatures;
+        private ProviderConfiguration providerConfiguration = ProviderConfiguration.GetProviderConfiguration( ProviderType );
+        private string providerPath;
         private string _RootImageDirectory;
-        private string _spellCheck;
-        private SortedList _styles;
-        private string _toolbarStyle;
+        private string spellCheck;
+        private SortedList styles;
+        private string toolbarStyle;
 
         /// <summary>
         /// Creates the Provider
@@ -74,15 +73,15 @@ namespace DotNetNuke.HtmlEditor
         /// </history>
         public Ftb3HtmlEditorProvider()
         {
-            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
+//            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
 
             // Read the configuration specific information for this provider
-            Provider objProvider = (Provider)_providerConfiguration.Providers[_providerConfiguration.DefaultProvider];
+            Provider objProvider = (Provider)providerConfiguration.Providers[providerConfiguration.DefaultProvider];
 
-            _providerPath = objProvider.Attributes["providerPath"];
-            _spellCheck = objProvider.Attributes["spellCheck"];
-            _enableProFeatures = bool.Parse( objProvider.Attributes["enableProFeatures"] );
-            _toolbarStyle = objProvider.Attributes["toolbarStyle"];
+            providerPath = objProvider.Attributes["providerPath"];
+            spellCheck = objProvider.Attributes["spellCheck"];
+            enableProFeatures = bool.Parse( objProvider.Attributes["enableProFeatures"] );
+            toolbarStyle = objProvider.Attributes["toolbarStyle"];
         }
 
         public override ArrayList AdditionalToolbars
@@ -138,7 +137,7 @@ namespace DotNetNuke.HtmlEditor
                     PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
 
                     //Remove the Application Path from the Home Directory
-                    if( Globals.ApplicationPath != "" )
+                    if( !String.IsNullOrEmpty(Globals.ApplicationPath) )
                     {
                         //Remove the Application Path from the Home Directory
                         return _portalSettings.HomeDirectory.Replace( Globals.ApplicationPath, "" );
@@ -195,7 +194,7 @@ namespace DotNetNuke.HtmlEditor
         {
             get
             {
-                return _providerPath;
+                return providerPath;
             }
         }
 
@@ -331,7 +330,7 @@ namespace DotNetNuke.HtmlEditor
             Toolbar tb = new Toolbar();
             tb.Items.Add( new Preview() );
             tb.Items.Add( new SelectAll() );
-            switch( _spellCheck )
+            switch( spellCheck )
             {
                 case "NetSpell":
 
@@ -342,7 +341,7 @@ namespace DotNetNuke.HtmlEditor
                     tb.Items.Add( new IeSpellCheck() );
                     break;
             }
-            if( _enableProFeatures )
+            if( enableProFeatures )
             {
                 tb.Items.Add( new WordClean() ); //pro only
             }
@@ -365,27 +364,26 @@ namespace DotNetNuke.HtmlEditor
         /// </history>
         private StylesMenu AddStylesMenu()
         {
-            PortalSettings _portalSettings = (PortalSettings)HttpContext.Current.Items["PortalSettings"];
-            StylesMenu styleMenu = new StylesMenu();
-            int i;
+//            PortalSettings _portalSettings = (PortalSettings)HttpContext.Current.Items["PortalSettings"];
+            StylesMenu styleMenu = new StylesMenu();            
 
-            _styles = new SortedList();
+            styles = new SortedList();
 
             //Parse default css
             ParseStyleSheet( Globals.HostPath + "default.css" );
 
             //Parse skin stylesheet(s)
             ParseStyleSheet( PortalSettings.ActiveTab.SkinPath + "skin.css" );
-            ParseStyleSheet( Strings.Replace( PortalSettings.ActiveTab.SkinSrc, ".ascx", ".css", 1, -1, 0 ) );
+            ParseStyleSheet( PortalSettings.ActiveTab.SkinSrc.Replace( ".ascx", ".css") );
 
             //Parse portal stylesheet
             ParseStyleSheet( PortalSettings.HomeDirectory + "portal.css" );
 
-            for( i = 0; i <= _styles.Count - 1; i++ )
+            for( int i = 0; i <= styles.Count - 1; i++ )
             {
                 ToolbarListItem myListItem = new ToolbarListItem();
-                myListItem.Text = Convert.ToString( _styles.GetByIndex( i ) );
-                myListItem.Value = Convert.ToString( _styles.GetKey( i ) );
+                myListItem.Text = Convert.ToString( styles.GetByIndex( i ) );
+                myListItem.Value = Convert.ToString( styles.GetKey( i ) );
                 styleMenu.Items.Add( myListItem );
             }
 
@@ -427,7 +425,7 @@ namespace DotNetNuke.HtmlEditor
             Toolbar tb = new Toolbar();
             tb.Items.Add( new InsertTable() );
             tb.Items.Add( new EditTable() );
-            if( _enableProFeatures )
+            if( enableProFeatures )
             {
                 tb.Items.Add( new InsertTableColumnAfter() ); //pro only
                 tb.Items.Add( new InsertTableColumnBefore() ); //pro only
@@ -494,7 +492,7 @@ namespace DotNetNuke.HtmlEditor
             {
                 //Use the StyleSheetParser provided by the FreeTextBox control to obtain the styles
                 // this returns all styles including styles with a :hover, :link etc
-                if( Globals.ApplicationPath != "" )
+                if( !String.IsNullOrEmpty(Globals.ApplicationPath) )
                 {
                     strCssFile = strCssFile.Replace( Globals.ApplicationPath, "" );
                 }
@@ -503,11 +501,11 @@ namespace DotNetNuke.HtmlEditor
                 foreach( string styleDefinition in styleDefinitions )
                 {
                     //First split single lines that contain multiple styles (separated by ",")
-                    string[] styles = styleDefinition.Split( ',' );
+                    string[] styleDefs = styleDefinition.Split( ',' );
 
-                    for( int i = 0; i < styles.Length; i++ )
+                    for( int i = 0; i < styleDefs.Length; i++ )
                     {
-                        string style = styles[i];
+                        string style = styleDefs[i];
                         
                         //First strip any white space
                         style = HtmlUtils.StripWhiteSpace( style, false );
@@ -524,9 +522,9 @@ namespace DotNetNuke.HtmlEditor
                         //Only add styles that can apply to any content (ie do not add A.CommandButton etc)
                         if( style.IndexOf( "." ) == - 1 )
                         {
-                            if( ! _styles.ContainsKey( style.ToLower() ) )
+                            if( ! this.styles.ContainsKey( style.ToLower() ) )
                             {
-                                _styles.Add( style.ToLower(), style );
+                                this.styles.Add( style.ToLower(), style );
                             }
                         }
                     }
@@ -555,11 +553,11 @@ namespace DotNetNuke.HtmlEditor
             string DesignModeCss = Globals.HostPath + "default.css";
 
             //Add skin css
-            DesignModeCss += "\\\' type=\\\'text/css\\\' /><link rel=\\\'stylesheet\\\' href=\\\'" + PortalSettings.ActiveTab.SkinPath + "skin.css";
-            DesignModeCss += "\\\' type=\\\'text/css\\\' /><link rel=\\\'stylesheet\\\' href=\\\'" + Strings.Replace( PortalSettings.ActiveTab.SkinSrc, ".ascx", ".css", 1, -1, 0 );
+            DesignModeCss += "\' type=\'text/css\' /><link rel=\'stylesheet\' href=\'" + PortalSettings.ActiveTab.SkinPath + "skin.css";
+            DesignModeCss += "\' type=\'text/css\' /><link rel=\'stylesheet\' href=\'" + PortalSettings.ActiveTab.SkinSrc.Replace(".ascx", ".css" );
 
             //Add portal css
-            DesignModeCss += "\\\' type=\\\'text/css\\\' /><link rel=\\\'stylesheet\\\' href=\\\'" + PortalSettings.HomeDirectory + "portal.css";
+            DesignModeCss += "\' type=\'text/css\' /><link rel=\'stylesheet\' href=\'" + PortalSettings.HomeDirectory + "portal.css";
 
             cntlFtb.DesignModeCss = DesignModeCss;
         }
@@ -592,11 +590,8 @@ namespace DotNetNuke.HtmlEditor
         /// </history>
         public override void AddToolbar()
         {
-            Toolbar tb = new Toolbar();
-
-            foreach( Toolbar tempLoopVar_tb in AdditionalToolbars )
+            foreach( Toolbar tb in AdditionalToolbars )
             {
-                tb = tempLoopVar_tb;
                 cntlFtb.Toolbars.Add( tb );
             }
         }
@@ -640,7 +635,7 @@ namespace DotNetNuke.HtmlEditor
             cntlFtb.Toolbars.Add( AddEditToolBar() );
             cntlFtb.Toolbars.Add( AddInsertToolBar() );
             cntlFtb.Toolbars.Add( AddTableToolBar() );
-            if( _enableProFeatures )
+            if( enableProFeatures )
             {
                 cntlFtb.Toolbars.Add( AddFormToolBar() );
             }
@@ -648,7 +643,7 @@ namespace DotNetNuke.HtmlEditor
 
             cntlFtb.ImageGalleryUrl = Globals.ResolveUrl( "~/Providers/HtmlEditorProviders/Ftb3HtmlEditorProvider/ftb3/ftb.imagegallery.aspx?cif=~" + RootImageDirectory + "&rif=~" + RootImageDirectory + "&portalid=" + PortalSettings.PortalId );
             cntlFtb.SupportFolder = Globals.ResolveUrl( "~/Providers/HtmlEditorProviders/Ftb3HtmlEditorProvider/ftb3/" );
-            switch( _toolbarStyle )
+            switch( toolbarStyle )
             {
                 case "OfficeMac":
 

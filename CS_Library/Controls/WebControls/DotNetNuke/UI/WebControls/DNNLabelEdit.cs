@@ -334,7 +334,7 @@ namespace DotNetNuke.UI.WebControls
 
                 if( ClientAPI.BrowserSupportsFunctionality( ClientAPI.ClientFunctionality.XMLHTTP ) )
                 {
-                    writer.AddAttribute( "callback", ClientAPI.GetCallbackEventReference( this, "\'[TEXT]\'", "this.callBackSuccess", "this", "this.callBackFail", "this.callBackStatus" ) );
+                    writer.AddAttribute( "callback", ClientAPI.GetCallbackEventReference( this, "'[TEXT]'", "this.callBackSuccess", "this", "this.callBackFail", "this.callBackStatus" ) );
                 }
 
                 if( this.CallbackStatusFunction.Length > 0 )
@@ -435,11 +435,11 @@ namespace DotNetNuke.UI.WebControls
                 {
                     ClientAPI.RegisterClientScriptBlock( this.Page, "dnn.controls.dnnlabeledit.js", "<script src=\"" + LabelEditScriptPath + "dnn.controls.dnnlabeledit.js\"></script>" );
                 }
-                ClientAPI.RegisterStartUpScript( Page, this.ClientID + "_startup", "<script>dnn.controls.initLabelEdit(dnn.dom.getById(\'" + this.ClientID + "\'));</script>" ); //wrong place
+                ClientAPI.RegisterStartUpScript( Page, this.ClientID + "_startup", "<script>dnn.controls.initLabelEdit(dnn.dom.getById('" + this.ClientID + "'));</script>" ); //wrong place
             }
         }
 
-        private void DNNLabelEdit_PreRender( object sender, EventArgs e )
+        protected void DNNLabelEdit_PreRender( object sender, EventArgs e )
         {
             RegisterClientScript();
         }

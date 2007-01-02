@@ -1,0 +1,184 @@
+﻿<!-- 
+  Microsoft Visual Studio 2005 Web Deployment Project 
+  http://go.microsoft.com/fwlink/?LinkId=55111
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.60403</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7EBE0B62-E96A-4EA9-99A2-C1BF30C2250E}</ProjectGuid>
+    <SourceWebPhysicalPath>..\CS_Website</SourceWebPhysicalPath>
+    <SourceWebProject>{D9A541D6-A0AA-4849-9146-3AA74B151C7C}|http://localhost/CS_DotNetNuke</SourceWebProject>
+    <SourceWebVirtualPath>/CS_DotNetNuke</SourceWebVirtualPath>
+    <SourceWebMetabasePath>/LM/W3SVC/1/ROOT/CS_DotNetNuke/</SourceWebMetabasePath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.\Debug</OutputPath>
+    <EnableUpdateable>true</EnableUpdateable>
+    <UseMerge>true</UseMerge>
+    <SingleAssemblyName>CS_DotNetNuke</SingleAssemblyName>
+    <DeleteAppCodeCompiledFiles>true</DeleteAppCodeCompiledFiles>
+    <UseWebConfigReplacement>false</UseWebConfigReplacement>
+    <UseMetabasePath>false</UseMetabasePath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>.\Release</OutputPath>
+    <EnableUpdateable>true</EnableUpdateable>
+    <UseMerge>true</UseMerge>
+    <SingleAssemblyName>CS_DotNetNuke</SingleAssemblyName>
+    <DeleteAppCodeCompiledFiles>true</DeleteAppCodeCompiledFiles>
+    <UseWebConfigReplacement>false</UseWebConfigReplacement>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CS_Library\Components\ADSI\Authentication.ADSI.csproj">
+      <Project>{2F6470AF-AF81-4F6B-AA16-A87A700B18DB}</Project>
+      <Name>Authentication.ADSI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Controls\CountryListBox\CountryListBox.csproj">
+      <Project>{89093FD0-076F-48CD-9232-B665226CDBF0}</Project>
+      <Name>CountryListBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Controls\WebControls\WebControls.csproj">
+      <Project>{2C2FC1EF-C61F-448A-AD25-87391E1208F6}</Project>
+      <Name>WebControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\DotNetNuke.Library.csproj">
+      <Project>{BD54C946-FE71-4E5F-B4B0-61BE98FCBF35}</Project>
+      <Name>DotNetNuke.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\HttpModules\Authentication\HttpModule.Authentication.csproj">
+      <Project>{42E4A15C-198C-49CE-BCD8-9E5EB1168D00}</Project>
+      <Name>HttpModule.Authentication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\HttpModules\DNNMembership\HttpModule.DNNMembership.csproj">
+      <Project>{6F0A5B23-E09F-431A-879A-993CB77E23D8}</Project>
+      <Name>HttpModule.DNNMembership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\HttpModules\Exception\HttpModule.Exception.csproj">
+      <Project>{24AEAE9B-99C5-487C-9962-EFF88A3C6230}</Project>
+      <Name>HttpModule.Exception</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\HttpModules\Personalization\HttpModule.Personalization.csproj">
+      <Project>{565221D8-79DC-483C-A92F-23E7A77F4197}</Project>
+      <Name>HttpModule.Personalization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\HttpModules\UrlRewrite\HttpModule.UrlRewrite.csproj">
+      <Project>{F336D16D-E512-42CC-876A-9E0118F87514}</Project>
+      <Name>HttpModule.UrlRewrite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\HttpModules\UsersOnline\HttpModule.UsersOnline.csproj">
+      <Project>{7B7C5C9A-23B0-492C-8E9B-EDA4DF6BA101}</Project>
+      <Name>HttpModule.UsersOnline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\AuthenticationProviders\ADSIProvider\Provider.Authentication.ADSI.csproj">
+      <Project>{EB5D23A1-7E8C-43BA-BD20-F43398D60D26}</Project>
+      <Name>Provider.Authentication.ADSI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\CachingProviders\BroadcastPollingCachingProvider\Provider.Caching.BroadcastPollingCachingProvider.csproj">
+      <Project>{282FB137-A43A-42B8-AC9E-B8B39CC2B636}</Project>
+      <Name>Provider.Caching.BroadcastPollingCachingProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\CachingProviders\BroadcastPollingCachingProvider\Providers\SQLDataProvider\Provider.Caching.BroadcastPollingCachingProvider.SQLDataProvider.csproj">
+      <Project>{E50121FB-510D-415B-81AC-4CE768070EF1}</Project>
+      <Name>Provider.Caching.BroadcastPollingCachingProvider.SQLDataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\CachingProviders\FileBasedCachingProvider\Provider.Caching.FileBasedCachingProvider.csproj">
+      <Project>{D206D80A-DE26-4441-A8CD-0C70D2EB0C38}</Project>
+      <Name>Provider.Caching.FileBasedCachingProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\DataProviders\SqlDataProvider\Provider.SqlDataProvider.csproj">
+      <Project>{F8623BD1-92F0-40D8-A32C-364D26B228FE}</Project>
+      <Name>Provider.SqlDataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\HtmlEditorProviders\Ftb3HtmlEditorProvider\Provider.Ftb3HtmlEditorProvider.csproj">
+      <Project>{0D7E8101-E36A-4904-AD9F-567D5F396A02}</Project>
+      <Name>Provider.Ftb3HtmlEditorProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\LoggingProviders\Provider.DBLoggingProvider\Provider.DBLoggingProvider.csproj">
+      <Project>{A566C3FB-176F-4EF7-A2EB-CB22F2741082}</Project>
+      <Name>Provider.DBLoggingProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\LoggingProviders\Provider.DBLoggingProvider\Providers\SqlDataProvider\Provider.DBLoggingProvider.SqlDataProvider.csproj">
+      <Project>{7A901229-482F-41AE-B43E-1B2B77560822}</Project>
+      <Name>Provider.DBLoggingProvider.SqlDataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\LoggingProviders\XMLLoggingProvider\Provider.XMLLoggingProvider.csproj">
+      <Project>{4EB18E71-DB16-4E61-9493-7DB3EBDF3D2B}</Project>
+      <Name>Provider.XMLLoggingProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\MembershipProviders\AspNetMembershipProvider\Provider.Membership.AspNetProvider.csproj">
+      <Project>{6A2C6160-2905-407B-9575-16210528F4C8}</Project>
+      <Name>Provider.Membership.AspNetProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\MembershipProviders\DataProvider\Provider.Membership.DataProvider.csproj">
+      <Project>{B15A45FA-02F8-4F09-A04B-13B7920CABCE}</Project>
+      <Name>Provider.Membership.DataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\MembershipProviders\DNNMembershipProvider\Provider.Membership.DNNProvider.csproj">
+      <Project>{DE2B348A-1DAD-4630-9F55-788F8CCBAD02}</Project>
+      <Name>Provider.Membership.DNNProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\MembershipProviders\SqlDataProvider\Provider.Membership.SqlDataProvider.csproj">
+      <Project>{C2F70937-7E98-489C-8675-29E12790A471}</Project>
+      <Name>Provider.Membership.SqlDataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\NavigationProviders\ASP2MenuNavigationProvider\Provider.ASP2MenuNavigationProvider.csproj">
+      <Project>{1012996F-79CF-4175-81D7-B3B131A81489}</Project>
+      <Name>Provider.ASP2MenuNavigationProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\NavigationProviders\DNNDropDownNavigationProvider\Provider.DNNDropDownNavigationProvider.csproj">
+      <Project>{982CB668-91F8-43BB-AC80-D4E178E6D2B4}</Project>
+      <Name>Provider.DNNDropDownNavigationProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\NavigationProviders\DNNMenuNavigationProvider\Provider.DNNMenuNavigationProvider.csproj">
+      <Project>{78BC5861-5023-4370-A30A-EC7629E93ED1}</Project>
+      <Name>Provider.DNNMenuNavigationProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\NavigationProviders\DNNTreeNavigationProvider\Provider.DNNTreeNavigationProvider.csproj">
+      <Project>{4F30AA90-BE74-4354-B3E1-DE0004F5E395}</Project>
+      <Name>Provider.DNNTreeNavigationProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\NavigationProviders\SolpartMenuNavigationProvider\Provider.SolpartMenuNavigationProvider.csproj">
+      <Project>{1A19AB44-33A4-4222-A420-7B213E91C647}</Project>
+      <Name>Provider.SolpartMenuNavigationProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\SchedulingProviders\DNNScheduler\Provider.DNNScheduler.csproj">
+      <Project>{6F610B3E-218D-4209-8028-E8978A76CFB9}</Project>
+      <Name>Provider.DNNScheduler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\SchedulingProviders\DNNScheduler\Providers\SqlDataProvider\Provider.DNNScheduler.SQLDataProvider.csproj">
+      <Project>{31B8EEE0-1302-44AB-ABBF-6BF2F1D6EC60}</Project>
+      <Name>Provider.DNNScheduler.SQLDataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\SearchProviders\ModuleIndexer\Provider.Search.Index.csproj">
+      <Project>{FD8FCDFF-64FC-4EAE-BECC-A9546E1DCB44}</Project>
+      <Name>Provider.Search.Index</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CS_Library\Providers\SearchProviders\SearchDataStore\Provider.Search.DataStore.csproj">
+      <Project>{A45415E3-625B-4C90-9345-8E8C7DD9D28D}</Project>
+      <Name>Provider.Search.DataStore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WebDeployment\v8.0\Microsoft.WebDeployment.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.WebDeployment.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="BeforeMerge">
+  </Target>
+  <Target Name="AfterMerge">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

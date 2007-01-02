@@ -26,7 +26,7 @@ namespace DotNetNuke.HttpModules
 
         public void OnAuthenticateRequest( object s, EventArgs e )
         {
-            PortalSettings _portalSettings = Globals.GetPortalSettings();
+            PortalSettings portalSettings = Globals.GetPortalSettings();
             Configuration config = Configuration.GetConfig();
 
             if( config.WindowsAuthentication )
@@ -35,30 +35,30 @@ namespace DotNetNuke.HttpModules
                 HttpResponse Response = HttpContext.Current.Response;
 
                 bool blnWinLogon = Request.RawUrl.ToLower().IndexOf( ( Configuration.AUTHENTICATION_LOGON_PAGE ).ToLower() ) > - 1;
-                bool blnWinLogoff = ( AuthenticationController.GetStatus( _portalSettings.PortalId ) == AuthenticationStatus.WinLogon ) && ( Request.RawUrl.ToLower().IndexOf( ( Configuration.AUTHENTICATION_LOGOFF_PAGE ).ToLower() ) > - 1 );
+                bool blnWinLogoff = ( AuthenticationController.GetStatus( portalSettings.PortalId ) == AuthenticationStatus.WinLogon ) && ( Request.RawUrl.ToLower().IndexOf( ( Configuration.AUTHENTICATION_LOGOFF_PAGE ).ToLower() ) > - 1 );
 
-                if( AuthenticationController.GetStatus( _portalSettings.PortalId ) == AuthenticationStatus.Undefined ) //OrElse (blnWinLogon) Then
+                if( AuthenticationController.GetStatus( portalSettings.PortalId ) == AuthenticationStatus.Undefined ) //OrElse (blnWinLogon) Then
                 {
-                    AuthenticationController.SetStatus( _portalSettings.PortalId, AuthenticationStatus.WinProcess );
+                    AuthenticationController.SetStatus( portalSettings.PortalId, AuthenticationStatus.WinProcess );
                     string url;
                     if( Request.ApplicationPath == "/" )
                     {
-                        url = "/Admin/Security/WindowsSignin.aspx?tabid=" + _portalSettings.ActiveTab.TabID.ToString();
+                        url = "/Admin/Security/WindowsSignin.aspx?tabid=" + portalSettings.ActiveTab.TabID;
                     }
                     else
                     {
-                        url = Request.ApplicationPath + "/Admin/Security/WindowsSignin.aspx?tabid=" + _portalSettings.ActiveTab.TabID.ToString();
+                        url = Request.ApplicationPath + "/Admin/Security/WindowsSignin.aspx?tabid=" + portalSettings.ActiveTab.TabID;
                     }
                     Response.Redirect( url );
                 }
-                else if( (  AuthenticationController.GetStatus( _portalSettings.PortalId ) != AuthenticationStatus.WinLogoff ) && blnWinLogoff )
+                else if( (  AuthenticationController.GetStatus( portalSettings.PortalId ) != AuthenticationStatus.WinLogoff ) && blnWinLogoff )
                 {
                     AuthenticationController objAuthentication = new AuthenticationController();
                     objAuthentication.AuthenticationLogoff();
                 }
-                else if( ( AuthenticationController.GetStatus( _portalSettings.PortalId ) == AuthenticationStatus.WinLogoff ) && blnWinLogon ) // has been logoff before
+                else if( ( AuthenticationController.GetStatus( portalSettings.PortalId ) == AuthenticationStatus.WinLogoff ) && blnWinLogon ) // has been logoff before
                 {
-                    AuthenticationController.SetStatus( _portalSettings.PortalId, AuthenticationStatus.Undefined );
+                    AuthenticationController.SetStatus( portalSettings.PortalId, AuthenticationStatus.Undefined );
                     Response.Redirect( Request.RawUrl );
                 }
             }

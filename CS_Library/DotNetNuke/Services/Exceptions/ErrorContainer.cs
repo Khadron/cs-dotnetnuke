@@ -30,7 +30,7 @@ namespace DotNetNuke.Services.Exceptions
         private ModuleMessage _Container;
 
         public ErrorContainer( string strError )
-        {
+        {            
             this.Container = this.FormatException( strError );
         }
 
@@ -46,8 +46,9 @@ namespace DotNetNuke.Services.Exceptions
             {
                 this.Container = this.FormatException( strError, exc );
                 return;
-            }
-            this.Container = this.FormatException( strError );
+            }            
+            //this.Container = this.FormatException( strError );
+            this.Container = this.FormatException( strError, exc );
         }
 
         public ModuleMessage Container
@@ -63,19 +64,19 @@ namespace DotNetNuke.Services.Exceptions
         }
 
         private ModuleMessage FormatException( string strError )
-        {
-            return UI.Skins.Skin.GetModuleMessageControl( DotNetNuke.Services.Localization.Localization.GetString( "ErrorOccurred" ), strError, DotNetNuke.UI.Skins.Controls.ModuleMessage.ModuleMessageType.RedError );
+        {            
+            return UI.Skins.Skin.GetModuleMessageControl( DotNetNuke.Services.Localization.Localization.GetString( "ErrorOccurred" ), strError, ModuleMessageType.RedError );
         }
 
         private ModuleMessage FormatException( string strError, Exception exc )
         {
             if( exc != null )
-            {
-                return UI.Skins.Skin.GetModuleMessageControl( strError, exc.ToString(), DotNetNuke.UI.Skins.Controls.ModuleMessage.ModuleMessageType.RedError );
+            {                
+                return UI.Skins.Skin.GetModuleMessageControl( strError, exc.ToString(), ModuleMessageType.RedError );
             }
             else
-            {
-                return UI.Skins.Skin.GetModuleMessageControl( DotNetNuke.Services.Localization.Localization.GetString( "ErrorOccurred" ), strError, DotNetNuke.UI.Skins.Controls.ModuleMessage.ModuleMessageType.RedError );
+            {                
+                return UI.Skins.Skin.GetModuleMessageControl( DotNetNuke.Services.Localization.Localization.GetString( "ErrorOccurred" ), strError, ModuleMessageType.RedError );
             }
         }
     }

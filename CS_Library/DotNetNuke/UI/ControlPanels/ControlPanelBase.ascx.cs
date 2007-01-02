@@ -17,6 +17,8 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
+using System;
 using System.Web;
 using System.Web.UI;
 using DotNetNuke.Entities.Portals;
@@ -29,24 +31,24 @@ namespace DotNetNuke.UI.ControlPanels
     /// </Summary>
     public class ControlPanelBase : UserControl
     {
-        private string _localResourceFile;
+        private string m_localResourceFile;
 
         public string LocalResourceFile
         {
             get
             {
-                if( _localResourceFile == "" )
+                if( String.IsNullOrEmpty( m_localResourceFile ) )
                 {
                     return ( this.TemplateSourceDirectory + "/App_LocalResources/" + this.ID );
                 }
                 else
                 {
-                    return this._localResourceFile;
+                    return this.m_localResourceFile;
                 }
             }
             set
             {
-                this._localResourceFile = value;
+                this.m_localResourceFile = value;
             }
         }
 

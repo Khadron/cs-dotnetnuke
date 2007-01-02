@@ -216,7 +216,7 @@ namespace DotNetNuke.Services.Vendors
 
                     strBanner += "<a href=\"" + strURL + "\" class=\"NormalBold\" target=\"" + strWindow + "\"><u>" + BannerName + "</u></a><br>";
                     strBanner += "<span class=\"Normal\">" + Description + "</span><br>";
-                    if (ImageFile != "")
+                    if (!String.IsNullOrEmpty(ImageFile))
                     {
                         URL = ImageFile;
                     }
@@ -289,7 +289,7 @@ namespace DotNetNuke.Services.Vendors
             string Image = "";
 
             Image += "<img src=\"" + File + "\" border=\"0\"";
-            if (Description != "")
+            if (!String.IsNullOrEmpty(Description))
             {
                 Image += " alt=\"" + Description + "\"";
             }

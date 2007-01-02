@@ -17,6 +17,8 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
+using System;
 using System.Web.UI;
 using DotNetNuke.Framework;
 using DotNetNuke.UI.WebControls;
@@ -84,7 +86,10 @@ namespace DotNetNuke.Modules.NavigationProvider
 
         private PopulateOnDemandEventHandler PopulateOnDemandEvent;
 
-        public virtual Alignment ControlAlignment //MenuAlignment
+        /// <summary>
+        /// MenuAlignment
+        /// </summary>
+        public virtual Alignment ControlAlignment 
         {
             get
             {
@@ -97,7 +102,10 @@ namespace DotNetNuke.Modules.NavigationProvider
 
         public abstract string ControlID { get; set; }
 
-        public virtual Orientation ControlOrientation //Display
+        /// <summary>
+        /// Display
+        /// </summary>
+        public virtual Orientation ControlOrientation
         {
             get
             {
@@ -107,56 +115,72 @@ namespace DotNetNuke.Modules.NavigationProvider
             {
             }
         }
-
-        public virtual string CSSBreadCrumbRoot //RootMenuItemBreadCrumbCssClass
+       
+        /// <summary>
+        /// RootMenuItemBreadCrumbCssClass
+        /// </summary>
+        public virtual string CSSBreadCrumbRoot
         {
             get
             {
-                return "";
+                return String.Empty;
+            }
+            set
+            {
+                
+            }
+        }
+
+        /// <summary>
+        /// SubMenuItemBreadCrumbCssClass
+        /// </summary>
+        public virtual string CSSBreadCrumbSub 
+        {
+            get
+            {
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSBreadCrumbSub //SubMenuItemBreadCrumbCssClass
+        /// <summary>
+        /// MenuBreakCssClass
+        /// </summary>
+        public virtual string CSSBreak 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSBreak //MenuBreakCssClass
+        /// <summary>
+        /// MenuContainerCssClass
+        /// </summary>
+        public virtual string CSSContainerRoot 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSContainerRoot //MenuContainerCssClass
+        /// <summary>
+        /// SubMenuCssClass
+        /// </summary>
+        public virtual string CSSContainerSub 
         {
             get
             {
-                return "";
-            }
-            set
-            {
-            }
-        }
-
-        public virtual string CSSContainerSub //SubMenuCssClass
-        {
-            get
-            {
-                return "";
+                return String.Empty;
             }
             set
             {
@@ -182,197 +206,256 @@ namespace DotNetNuke.Modules.NavigationProvider
         //	End Set
         //End Property
 
-        public abstract string CSSControl { //MenuBarCSSClass
-            get; set; }
+        /// <summary>
+        /// MenuBarCSSClass
+        /// </summary>
+        public abstract string CSSControl 
+        { 
+            get; set; 
+        }
 
-        public virtual string CSSIcon //MenuIconCssClass
+        /// <summary>
+        /// MenuIconCssClass
+        /// </summary>
+        public virtual string CSSIcon 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSIndicateChildRoot //MenuRootArrowCssClass
+        /// <summary>
+        /// MenuRootArrowCssClass
+        /// </summary>
+        public virtual string CSSIndicateChildRoot 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSIndicateChildSub //MenuArrowCssClass
+        /// <summary>
+        /// MenuArrowCssClass
+        /// </summary>
+        public virtual string CSSIndicateChildSub 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSLeftSeparator //LeftSeparatorCssClass
+        /// <summary>
+        /// LeftSeparatorCssClass
+        /// </summary>
+        public virtual string CSSLeftSeparator 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSLeftSeparatorBreadCrumb //LeftSeparatorCssClassBreadCrumb
+        /// <summary>
+        /// LeftSeparatorCssClassBreadCrumb
+        /// </summary>
+        public virtual string CSSLeftSeparatorBreadCrumb 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSLeftSeparatorSelection //LeftSeparatorActiveCssClass
+        /// <summary>
+        /// LeftSeparatorActiveCssClass
+        /// </summary>
+        public virtual string CSSLeftSeparatorSelection 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSNode //MenuItemCssClass
+        /// <summary>
+        /// MenuItemCssClass
+        /// </summary>
+        public virtual string CSSNode 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSNodeHover //MenuItemSelCssClass
+        /// <summary>
+        /// MenuItemSelCssClass
+        /// </summary>
+        public virtual string CSSNodeHover 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSNodeHoverRoot //RootMenuItemSelectedCssClass
+        /// <summary>
+        /// RootMenuItemSelectedCssClass
+        /// </summary>
+        public virtual string CSSNodeHoverRoot 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSNodeHoverSub //SubMenuItemSelectedCssClass
+        /// <summary>
+        /// SubMenuItemSelectedCssClass
+        /// </summary>
+        public virtual string CSSNodeHoverSub 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSNodeRoot //RootMenuItemCssClass
+        /// <summary>
+        /// RootMenuItemCssClass
+        /// </summary>
+        public virtual string CSSNodeRoot 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSNodeSelectedRoot //RootMenuItemActiveCssClass
+        /// <summary>
+        /// RootMenuItemActiveCssClass
+        /// </summary>
+        public virtual string CSSNodeSelectedRoot 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSNodeSelectedSub //SubMenuItemActiveCssClass
+        /// <summary>
+        /// SubMenuItemActiveCssClass
+        /// </summary>
+        public virtual string CSSNodeSelectedSub 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSRightSeparator //RightSeparatorCssClass
+        /// <summary>
+        /// RightSeparatorCssClass
+        /// </summary>
+        public virtual string CSSRightSeparator 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSRightSeparatorBreadCrumb //RightSeparatorCssClassBreadCrumb
+        /// <summary>
+        /// RightSeparatorCssClassBreadCrumb
+        /// </summary>
+        public virtual string CSSRightSeparatorBreadCrumb 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSRightSeparatorSelection //RightSeparatorActiveCssClass
+        /// <summary>
+        /// RightSeparatorActiveCssClass
+        /// </summary>
+        public virtual string CSSRightSeparatorSelection 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string CSSSeparator //SeparatorCssClass
+        /// <summary>
+        /// SeparatorCssClass
+        /// </summary>
+        public virtual string CSSSeparator 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual double EffectsDuration //MenuEffectsMenuTransitionLength
+        /// <summary>
+        /// MenuEffectsMenuTransitionLength
+        /// </summary>
+        public virtual double EffectsDuration 
         {
             get
             {
@@ -383,29 +466,38 @@ namespace DotNetNuke.Modules.NavigationProvider
             }
         }
 
-        public virtual string EffectsShadowColor //MenuEffectsShadowColor
+        /// <summary>
+        /// MenuEffectsShadowColor
+        /// </summary>
+        public virtual string EffectsShadowColor 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string EffectsShadowDirection //MenuEffectsShadowDirection
+        /// <summary>
+        /// MenuEffectsShadowDirection
+        /// </summary>
+        public virtual string EffectsShadowDirection 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual int EffectsShadowStrength //MenuEffectsShadowStrength
+        /// <summary>
+        /// MenuEffectsShadowStrength
+        /// </summary>
+        public virtual int EffectsShadowStrength 
         {
             get
             {
@@ -416,40 +508,52 @@ namespace DotNetNuke.Modules.NavigationProvider
             }
         }
 
-        public virtual string EffectsStyle //MenuEffectsStyle
+        /// <summary>
+        /// MenuEffectsStyle
+        /// </summary>
+        public virtual string EffectsStyle 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string EffectsTransition //MenuEffectsTransition
+        /// <summary>
+        /// MenuEffectsTransition
+        /// </summary>
+        public virtual string EffectsTransition 
         {
             get
             {
-                return "\'";
+                return "'";
             }
             set
             {
             }
         }
 
-        public virtual string ForceCrawlerDisplay //ForceFullMenuList
+        /// <summary>
+        /// ForceFullMenuList
+        /// </summary>
+        public virtual string ForceCrawlerDisplay 
         {
             get
             {
-                return "False";
+                return "false";
             }
             set
             {
             }
         }
 
-        public virtual string ForceDownLevel //ForceDownLevel
+        /// <summary>
+        /// ForceDownLevel
+        /// </summary>
+        public virtual string ForceDownLevel 
         {
             get
             {
@@ -460,22 +564,28 @@ namespace DotNetNuke.Modules.NavigationProvider
             }
         }
 
-        public virtual string IndicateChildImageExpandedRoot //for tree
+        /// <summary>
+        /// for tree
+        /// </summary>
+        public virtual string IndicateChildImageExpandedRoot 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string IndicateChildImageExpandedSub //for tree
+        /// <summary>
+        /// for tree
+        /// </summary>
+        public virtual string IndicateChildImageExpandedSub 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
@@ -486,7 +596,7 @@ namespace DotNetNuke.Modules.NavigationProvider
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
@@ -497,14 +607,17 @@ namespace DotNetNuke.Modules.NavigationProvider
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual bool IndicateChildren //UseIndicateChilds
+        /// <summary>
+        /// UseIndicateChilds
+        /// </summary>
+        public virtual bool IndicateChildren 
         {
             get
             {
@@ -515,7 +628,10 @@ namespace DotNetNuke.Modules.NavigationProvider
             }
         }
 
-        public virtual decimal MouseOutHideDelay //MenuEffectsMouseOutHideDelay, MouseOutHideDelay
+        /// <summary>
+        /// MouseOutHideDelay
+        /// </summary>
+        public virtual decimal MouseOutHideDelay //MenuEffectsMouseOutHideDelay, 
         {
             get
             {
@@ -526,7 +642,10 @@ namespace DotNetNuke.Modules.NavigationProvider
             }
         }
 
-        public virtual HoverAction MouseOverAction //MenuEffectsMouseOverExpand
+        /// <summary>
+        /// MenuEffectsMouseOverExpand
+        /// </summary>
+        public virtual HoverAction MouseOverAction 
         {
             get
             {
@@ -537,7 +656,10 @@ namespace DotNetNuke.Modules.NavigationProvider
             }
         }
 
-        public virtual HoverDisplay MouseOverDisplay //MenuEffectsMouseOverDisplay
+        /// <summary>
+        /// MenuEffectsMouseOverDisplay
+        /// </summary>
+        public virtual HoverDisplay MouseOverDisplay 
         {
             get
             {
@@ -551,88 +673,100 @@ namespace DotNetNuke.Modules.NavigationProvider
         // Properties
         public abstract Control NavigationControl { get; }
 
-        public virtual string NodeLeftHTMLBreadCrumbRoot //New
+        public virtual string NodeLeftHTMLBreadCrumbRoot
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string NodeLeftHTMLBreadCrumbSub //New
+        public virtual string NodeLeftHTMLBreadCrumbSub
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string NodeLeftHTMLRoot //RootMenuItemLeftHtml
+        /// <summary>
+        /// RootMenuItemLeftHtml
+        /// </summary>
+        public virtual string NodeLeftHTMLRoot 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string NodeLeftHTMLSub //SubMenuItemLeftHtml
+        /// <summary>
+        /// SubMenuItemLeftHtml
+        /// </summary>
+        public virtual string NodeLeftHTMLSub 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string NodeRightHTMLBreadCrumbRoot //New
+        public virtual string NodeRightHTMLBreadCrumbRoot 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string NodeRightHTMLBreadCrumbSub //New
+        public virtual string NodeRightHTMLBreadCrumbSub 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string NodeRightHTMLRoot //RootMenuItemRightHtml
+        /// <summary>
+        /// RootMenuItemRightHtml
+        /// </summary>
+        public virtual string NodeRightHTMLRoot 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string NodeRightHTMLSub //SubMenuItemRightHtml
+        /// <summary>
+        /// SubMenuItemRightHtml
+        /// </summary>
+        public virtual string NodeRightHTMLSub 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
@@ -643,7 +777,7 @@ namespace DotNetNuke.Modules.NavigationProvider
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
@@ -654,7 +788,7 @@ namespace DotNetNuke.Modules.NavigationProvider
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
@@ -665,7 +799,7 @@ namespace DotNetNuke.Modules.NavigationProvider
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
@@ -685,95 +819,122 @@ namespace DotNetNuke.Modules.NavigationProvider
 
         //Public MustOverride Property Moveable() As String		  'Moveable
 
-        public virtual string SeparatorHTML //Separator
+        /// <summary>
+        /// Separator
+        /// </summary>
+        public virtual string SeparatorHTML 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string SeparatorLeftHTML //LeftSeparator
+        /// <summary>
+        /// LeftSeparator
+        /// </summary>
+        public virtual string SeparatorLeftHTML 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string SeparatorLeftHTMLActive //LeftSeparatorActive
+        /// <summary>
+        /// LeftSeparatorActive
+        /// </summary>
+        public virtual string SeparatorLeftHTMLActive 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string SeparatorLeftHTMLBreadCrumb //LeftSeparatorBreadCrumb
+        /// <summary>
+        /// LeftSeparatorBreadCrumb
+        /// </summary>
+        public virtual string SeparatorLeftHTMLBreadCrumb 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string SeparatorRightHTML //RightSeparator
+        /// <summary>
+        /// RightSeparator
+        /// </summary>
+        public virtual string SeparatorRightHTML 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string SeparatorRightHTMLActive //RightSeparatorActive
+        /// <summary>
+        /// RightSeparatorActive
+        /// </summary>
+        public virtual string SeparatorRightHTMLActive 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string SeparatorRightHTMLBreadCrumb //RightSeparatorBreadCrumb
+        /// <summary>
+        /// RightSeparatorBreadCrumb
+        /// </summary>
+        public virtual string SeparatorRightHTMLBreadCrumb 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string StyleBackColor //BackColor
+        /// <summary>
+        /// BackColor
+        /// </summary>
+        public virtual string StyleBackColor 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual decimal StyleBorderWidth //MenuBorderWidth
+        /// <summary>
+        /// MenuBorderWidth
+        /// </summary>
+        public virtual decimal StyleBorderWidth 
         {
             get
             {
@@ -784,7 +945,10 @@ namespace DotNetNuke.Modules.NavigationProvider
             }
         }
 
-        public virtual decimal StyleControlHeight //MenuBarHeight
+        /// <summary>
+        /// MenuBarHeight
+        /// </summary>
+        public virtual decimal StyleControlHeight 
         {
             get
             {
@@ -795,73 +959,38 @@ namespace DotNetNuke.Modules.NavigationProvider
             }
         }
 
-        public virtual string StyleFontBold //FontBold
+        /// <summary>
+        /// FontBold
+        /// </summary>
+        public virtual string StyleFontBold 
         {
             get
             {
-                return "False";
+                return "false";
             }
             set
             {
             }
         }
 
-        public virtual string StyleFontNames //FontNames
+        /// <summary>
+        /// FontNames
+        /// </summary>
+        public virtual string StyleFontNames 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual decimal StyleFontSize //FontSize
-        {
-            get
-            {
-                return 0;
-            }
-            set
-            {
-            }
-        }
-
-        public virtual string StyleForeColor //ForeColor
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-            }
-        }
-
-        public virtual string StyleHighlightColor //HighlightColor
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-            }
-        }
-
-        public virtual string StyleIconBackColor //IconBackgroundColor
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-            }
-        }
-
-        public virtual decimal StyleIconWidth //IconWidth
+        /// <summary>
+        /// FontSize
+        /// </summary>
+        public virtual decimal StyleFontSize 
         {
             get
             {
@@ -872,7 +1001,66 @@ namespace DotNetNuke.Modules.NavigationProvider
             }
         }
 
-        public virtual decimal StyleNodeHeight //MenuItemHeight
+        /// <summary>
+        /// ForeColor
+        /// </summary>
+        public virtual string StyleForeColor 
+        {
+            get
+            {
+                return String.Empty;
+            }
+            set
+            {
+            }
+        }
+
+        /// <summary>
+        /// HighlightColor
+        /// </summary>
+        public virtual string StyleHighlightColor 
+        {
+            get
+            {
+                return String.Empty;
+            }
+            set
+            {
+            }
+        }
+
+        /// <summary>
+        /// IconBackgroundColor
+        /// </summary>
+        public virtual string StyleIconBackColor 
+        {
+            get
+            {
+                return String.Empty;
+            }
+            set
+            {
+            }
+        }
+
+        /// <summary>
+        /// IconWidth
+        /// </summary>
+        public virtual decimal StyleIconWidth 
+        {
+            get
+            {
+                return 0;
+            }
+            set
+            {
+            }
+        }
+
+        /// <summary>
+        /// MenuItemHeight
+        /// </summary>
+        public virtual decimal StyleNodeHeight 
         {
             get
             {
@@ -883,55 +1071,70 @@ namespace DotNetNuke.Modules.NavigationProvider
             }
         }
 
-        public virtual string StyleRoot //For action menu backwards compatibility
+        /// <summary>
+        /// For action menu backwards compatibility
+        /// </summary>
+        public virtual string StyleRoot 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string StyleSelectionBorderColor //SelectedBorderColor
+        /// <summary>
+        /// SelectedBorderColor
+        /// </summary>
+        public virtual string StyleSelectionBorderColor 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string StyleSelectionColor //SelectedColor
+        /// <summary>
+        /// SelectedColor
+        /// </summary>
+        public virtual string StyleSelectionColor 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string StyleSelectionForeColor //SelectedForeColor
+        /// <summary>
+        /// SelectedForeColor
+        /// </summary>
+        public virtual string StyleSelectionForeColor 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
             }
         }
 
-        public virtual string StyleSub //For action menu backwards compatibility (actually this is new, but since we needed the root...)
+        /// <summary>
+        /// For action menu backwards compatibility (actually this is new, but since we needed the root...)
+        /// </summary>
+        public virtual string StyleSub 
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {
@@ -944,7 +1147,7 @@ namespace DotNetNuke.Modules.NavigationProvider
         {
             get
             {
-                return "";
+                return String.Empty;
             }
             set
             {

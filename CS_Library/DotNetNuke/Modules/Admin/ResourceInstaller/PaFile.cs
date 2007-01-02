@@ -102,7 +102,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
         public PaFile( ZipInputStream unzip, ZipEntry entry )
         {
             string s = entry.Name;
-            int i = s.LastIndexOf( '/' );
+            int i = s.LastIndexOf( "/" );
             if( i < 0 )
             {
                 _Name = s.Substring( 0, s.Length );

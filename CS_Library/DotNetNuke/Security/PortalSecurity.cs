@@ -95,7 +95,7 @@ namespace DotNetNuke.Security
         {
             string strValue = "";
 
-            if( strKey != "" )
+            if( !String.IsNullOrEmpty(strKey) )
             {
                 // convert key to 16 characters for simplicity
                 int ii = strKey.Length;
@@ -156,7 +156,7 @@ namespace DotNetNuke.Security
         {
             string strValue = "";
 
-            if( strKey != "" )
+            if( !String.IsNullOrEmpty(strKey) )
             {
                 // convert key to 16 characters for simplicity
                 int ii = strKey.Length;
@@ -283,7 +283,7 @@ namespace DotNetNuke.Security
                 }
 
                 // convert any single quotes
-                strCleanSQL = strCleanSQL.Replace( "\'", "\'\'" );
+                strCleanSQL = strCleanSQL.Replace( "'", "''" );
             }
 
             return strCleanSQL;
@@ -462,7 +462,7 @@ namespace DotNetNuke.Security
             UserInfo objUserInfo = UserController.GetCurrentUserInfo();
             HttpContext context = HttpContext.Current;
 
-            if( role != "" && role != null && ( context.Request.IsAuthenticated == false && role == Globals.glbRoleUnauthUserName ) )
+            if( !String.IsNullOrEmpty(role) && role != null && ( context.Request.IsAuthenticated == false && role == Globals.glbRoleUnauthUserName ) )
             {
                 return true;
             }
@@ -483,7 +483,7 @@ namespace DotNetNuke.Security
                 foreach( string tempLoopVar_role in roles.Split( new char[] {';'} ) )
                 {
                     role = tempLoopVar_role;
-                    if( objUserInfo.IsSuperUser || ( role != "" && role != null && ( ( context.Request.IsAuthenticated == false && role == Globals.glbRoleUnauthUserName ) || role == Globals.glbRoleAllUsersName || objUserInfo.IsInRole( role ) == true ) ) )
+                    if( objUserInfo.IsSuperUser || ( !String.IsNullOrEmpty(role) && role != null && ( ( context.Request.IsAuthenticated == false && role == Globals.glbRoleUnauthUserName ) || role == Globals.glbRoleAllUsersName || objUserInfo.IsInRole( role ) == true ) ) )
                     {
                         return true;
                     }

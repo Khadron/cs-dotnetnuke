@@ -50,16 +50,14 @@ namespace DotNetNuke.Common.Utilities
 
                 ArrayList props = GetPropertyInfo( newObject.GetType() );
 
-                int i = 0;
-
-                for( i = 0; i <= GetPropertyInfo( ObjectToClone.GetType() ).Count - 1; i++ )
+                for( int i = 0; i < GetPropertyInfo( ObjectToClone.GetType() ).Count; i++ )
                 {
                     PropertyInfo p = (PropertyInfo)GetPropertyInfo( ObjectToClone.GetType() )[i];
 
                     Type ICloneType = p.PropertyType.GetInterface( "ICloneable", true );
                     if( ( (PropertyInfo)props[i] ).CanWrite )
                     {
-                        if( !( ICloneType == null ) )
+                        if( ICloneType != null )
                         {
                             ICloneable IClone = (ICloneable)p.GetValue( ObjectToClone, null );
                             ( (PropertyInfo)props[i] ).SetValue( newObject, IClone.Clone(), null );
@@ -70,7 +68,7 @@ namespace DotNetNuke.Common.Utilities
                         }
 
                         Type IEnumerableType = p.PropertyType.GetInterface( "IEnumerable", true );
-                        if( !( IEnumerableType == null ) )
+                        if( IEnumerableType != null )
                         {
                             IEnumerable IEnum = (IEnumerable)p.GetValue( ObjectToClone, null );
 
@@ -78,17 +76,15 @@ namespace DotNetNuke.Common.Utilities
                             Type IDicType = ( (PropertyInfo)props[i] ).PropertyType.GetInterface( "IDictionary", true );
 
                             int j = 0;
-                            if( !( IListType == null ) )
+                            if( IListType != null )
                             {
                                 IList list = (IList)( ( (PropertyInfo)props[i] ).GetValue( newObject, null ) );
 
-                                object obj;
-                                foreach( object tempLoopVar_obj in IEnum )
+                                foreach( object obj in IEnum )
                                 {
-                                    obj = tempLoopVar_obj;
                                     ICloneType = obj.GetType().GetInterface( "ICloneable", true );
 
-                                    if( !( ICloneType == null ) )
+                                    if( ICloneType != null )
                                     {
                                         ICloneable tmpClone = (ICloneable)obj;
                                         list[j] = tmpClone.Clone();
@@ -99,19 +95,16 @@ namespace DotNetNuke.Common.Utilities
                             }
                             else
                             {
-                                if( !( IDicType == null ) )
+                                if( IDicType != null )
                                 {
                                     IDictionary dic = (IDictionary)( ( (PropertyInfo)props[i] ).GetValue( newObject, null ) );
                                     j = 0;
 
-                                    DictionaryEntry de;
-                                    foreach( DictionaryEntry tempLoopVar_de in IEnum )
+                                    foreach( DictionaryEntry de in IEnum )
                                     {
-                                        de = tempLoopVar_de;
-
                                         ICloneType = de.Value.GetType().GetInterface( "ICloneable", true );
 
-                                        if( !( ICloneType == null ) )
+                                        if( ICloneType != null )
                                         {
                                             ICloneable tmpClone = (ICloneable)de.Value;
                                             dic[de.Key] = tmpClone.Clone();
@@ -134,20 +127,17 @@ namespace DotNetNuke.Common.Utilities
 
         private static object CreateObject( Type objType, IDataReader dr, ArrayList objProperties, int[] arrOrdinals )
         {
-            PropertyInfo objPropertyInfo;
-            object objValue;
             Type objPropertyType = null;
-            int intProperty;
 
             object objObject = Activator.CreateInstance( objType, null );
 
             // fill object with values from datareader
-            for( intProperty = 0; intProperty <= objProperties.Count - 1; intProperty++ )
+            for( int intProperty = 0; intProperty <= objProperties.Count - 1; intProperty++ )
             {
-                objPropertyInfo = (PropertyInfo)objProperties[intProperty];
+                PropertyInfo objPropertyInfo = (PropertyInfo)objProperties[intProperty];
                 if( objPropertyInfo.CanWrite )
                 {
-                    objValue = Null.SetNull( objPropertyInfo );
+                    object objValue = Null.SetNull( objPropertyInfo );
                     if( arrOrdinals[intProperty] != -1 )
                     {
                         if( Information.IsDBNull( dr.GetValue( arrOrdinals[intProperty] ) ) )
@@ -214,10 +204,7 @@ namespace DotNetNuke.Common.Utilities
         /// <remarks></remarks>
         private static T CreateObject< T >( IDataReader dr )
         {
-            PropertyInfo objPropertyInfo;
-            object objValue;
             Type objPropertyType = null;
-            int intProperty;
 
             T objObject = Activator.CreateInstance<T>();
 
@@ -228,12 +215,12 @@ namespace DotNetNuke.Common.Utilities
             int[] arrOrdinals = GetOrdinals( objProperties, dr );
 
             // fill object with values from datareader
-            for( intProperty = 0; intProperty <= objProperties.Count - 1; intProperty++ )
+            for( int intProperty = 0; intProperty <= objProperties.Count - 1; intProperty++ )
             {
-                objPropertyInfo = (PropertyInfo)objProperties[intProperty];
+                PropertyInfo objPropertyInfo = (PropertyInfo)objProperties[intProperty];
                 if( objPropertyInfo.CanWrite )
                 {
-                    objValue = Null.SetNull( objPropertyInfo );
+                    object objValue = Null.SetNull( objPropertyInfo );
                     if( arrOrdinals[intProperty] != -1 )
                     {
                         if( Information.IsDBNull( dr.GetValue( arrOrdinals[intProperty] ) ) )
@@ -293,26 +280,25 @@ namespace DotNetNuke.Common.Utilities
         public static ArrayList FillCollection( IDataReader dr, Type objType )
         {
             ArrayList objFillCollection = new ArrayList();
-            object objFillObject;
 
             // get properties for type
             ArrayList objProperties = GetPropertyInfo( objType );
 
             // get ordinal positions in datareader
             int[] arrOrdinals = GetOrdinals( objProperties, dr );
-
-            // iterate datareader
-            while( dr.Read() )
-            {
-                // fill business object
-                objFillObject = CreateObject( objType, dr, objProperties, arrOrdinals );
-                // add to collection
-                objFillCollection.Add( objFillObject );
-            }
-
-            // close datareader
+            
             if( dr != null )
             {
+                // iterate datareader
+                while (dr.Read())
+                {
+                    // fill business object
+                    object objFillObject = CreateObject(objType, dr, objProperties, arrOrdinals);
+                    // add to collection
+                    objFillCollection.Add(objFillObject);
+                }
+
+                // close datareader
                 dr.Close();
             }
 
@@ -321,26 +307,24 @@ namespace DotNetNuke.Common.Utilities
 
         public static IList FillCollection( IDataReader dr, Type objType, ref IList objToFill )
         {
-            object objFillObject;
-
             // get properties for type
             ArrayList objProperties = GetPropertyInfo( objType );
 
             // get ordinal positions in datareader
             int[] arrOrdinals = GetOrdinals( objProperties, dr );
-
-            // iterate datareader
-            while( dr.Read() )
-            {
-                // fill business object
-                objFillObject = CreateObject( objType, dr, objProperties, arrOrdinals );
-                // add to collection
-                objToFill.Add( objFillObject );
-            }
-
-            // close datareader
+                       
             if( dr != null )
             {
+                // iterate datareader
+                while (dr.Read())
+                {
+                    // fill business object
+                    object objFillObject = CreateObject(objType, dr, objProperties, arrOrdinals);
+                    // add to collection
+                    objToFill.Add(objFillObject);
+                }
+
+                // close datareader
                 dr.Close();
             }
 
@@ -358,20 +342,19 @@ namespace DotNetNuke.Common.Utilities
         public static List<T> FillCollection< T >( IDataReader dr )
         {
             List<T> objFillCollection = new List<T>();
-            T objFillObject;
-
-            // iterate datareader
-            while( dr.Read() )
-            {
-                // fill business object
-                objFillObject = CreateObject<T>( dr );
-                // add to collection
-                objFillCollection.Add( objFillObject );
-            }
-
-            // close datareader
+            
             if( dr != null )
             {
+                // iterate datareader
+                while (dr.Read())
+                {
+                    // fill business object
+                    T objFillObject = CreateObject<T>(dr);
+                    // add to collection
+                    objFillCollection.Add(objFillObject);
+                }
+
+                // close datareader
                 dr.Close();
             }
 
@@ -388,21 +371,19 @@ namespace DotNetNuke.Common.Utilities
         /// <returns>An IList of custom business objects</returns>
         /// <remarks></remarks>
         public static IList<T> FillCollection< T >( IDataReader dr, ref IList<T> objToFill )
-        {
-            T objFillObject;
-
-            // iterate datareader
-            while( dr.Read() )
-            {
-                // fill business object
-                objFillObject = CreateObject<T>( dr );
-                // add to collection
-                objToFill.Add( objFillObject );
-            }
-
-            // close datareader
+        {            
             if( dr != null )
             {
+                // iterate datareader
+                while (dr.Read())
+                {
+                    // fill business object
+                    T objFillObject = CreateObject<T>(dr);
+                    // add to collection
+                    objToFill.Add(objFillObject);
+                }
+
+                // close datarader
                 dr.Close();
             }
 
@@ -414,7 +395,7 @@ namespace DotNetNuke.Common.Utilities
             return FillObject( dr, objType, true );
         }
 
-        public static object FillObject( IDataReader dr, Type objType, bool ManageDataReader )
+        public static object FillObject( IDataReader dr, Type objType, bool manageDataReader )
         {
             object objFillObject;
 
@@ -424,22 +405,22 @@ namespace DotNetNuke.Common.Utilities
             // get ordinal positions in datareader
             int[] arrOrdinals = GetOrdinals( objProperties, dr );
 
-            bool @Continue;
-            if( ManageDataReader )
+            bool isContinue;
+            if( manageDataReader )
             {
-                @Continue = false;
+                isContinue = false;
                 // read datareader
-                if( dr.Read() )
+                if( dr != null && dr.Read() )
                 {
-                    @Continue = true;
+                    isContinue = true;
                 }
             }
             else
             {
-                @Continue = true;
+                isContinue = true;
             }
 
-            if( @Continue )
+            if( isContinue )
             {
                 // create custom business object
                 objFillObject = CreateObject( objType, dr, objProperties, arrOrdinals );
@@ -449,7 +430,7 @@ namespace DotNetNuke.Common.Utilities
                 objFillObject = null;
             }
 
-            if( ManageDataReader )
+            if( manageDataReader )
             {
                 // close datareader
                 if( dr != null )
@@ -481,21 +462,21 @@ namespace DotNetNuke.Common.Utilities
         /// </summary>
         /// <typeparam name="T">The type of the object</typeparam>
         /// <param name="dr">The IDataReader to use to fill the object</param>
-        /// <param name="ManageDataReader">A boolean that determines whether the DatReader
+        /// <param name="manageDataReader">A boolean that determines whether the DatReader
         /// is managed</param>
         /// <returns>The object</returns>
         /// <remarks>This overloads allows the caller to determine whether the ManageDataReader
         /// parameter is set</remarks>
-        public static T FillObject< T >( IDataReader dr, bool ManageDataReader )
+        public static T FillObject< T >( IDataReader dr, bool manageDataReader )
         {
             T objFillObject;
 
             bool doContinue;
-            if( ManageDataReader )
+            if( manageDataReader )
             {
                 doContinue = false;
                 // read datareader
-                if( dr.Read() )
+                if (dr != null && dr.Read())
                 {
                     doContinue = true;
                 }
@@ -515,7 +496,7 @@ namespace DotNetNuke.Common.Utilities
                 objFillObject = default( T );
             }
 
-            if( ManageDataReader )
+            if( manageDataReader )
             {
                 // close datareader
                 if( dr != null )
@@ -530,20 +511,19 @@ namespace DotNetNuke.Common.Utilities
         private static int[] GetOrdinals( ArrayList objProperties, IDataReader dr )
         {
             int[] arrOrdinals = new int[objProperties.Count + 1];
-            int intProperty;
-
+            
             if( dr != null )
             {
-                for( intProperty = 0; intProperty <= objProperties.Count - 1; intProperty++ )
+                for( int intProperty = 0; intProperty < objProperties.Count; intProperty++ )
                 {
                     arrOrdinals[intProperty] = -1;
                     try
                     {
                         arrOrdinals[intProperty] = dr.GetOrdinal( ( (PropertyInfo)objProperties[intProperty] ).Name );
                     }
-                    catch
+                    catch(Exception exc)
                     {
-                        // property does not exist in datareader
+                        // property does not exist in datareader                        
                     }
                 }
             }
@@ -559,10 +539,8 @@ namespace DotNetNuke.Common.Utilities
             if( objProperties == null )
             {
                 objProperties = new ArrayList();
-                PropertyInfo objProperty;
-                foreach( PropertyInfo tempLoopVar_objProperty in objType.GetProperties() )
+                foreach (PropertyInfo objProperty in objType.GetProperties())
                 {
-                    objProperty = tempLoopVar_objProperty;
                     objProperties.Add( objProperty );
                 }
                 DataCache.SetCache( objType.FullName, objProperties );
@@ -573,20 +551,16 @@ namespace DotNetNuke.Common.Utilities
 
         public static object InitializeObject( object objObject, Type objType )
         {
-            PropertyInfo objPropertyInfo;
-            object objValue;
-            int intProperty;
-
             // get properties for type
             ArrayList objProperties = GetPropertyInfo( objType );
 
             // initialize properties
-            for( intProperty = 0; intProperty <= objProperties.Count - 1; intProperty++ )
+            for( int intProperty = 0; intProperty < objProperties.Count; intProperty++ )
             {
-                objPropertyInfo = (PropertyInfo)objProperties[intProperty];
+                PropertyInfo objPropertyInfo = (PropertyInfo)objProperties[intProperty];
                 if( objPropertyInfo.CanWrite )
                 {
-                    objValue = Null.SetNull( objPropertyInfo );
+                    object objValue = Null.SetNull( objPropertyInfo );
                     objPropertyInfo.SetValue( objObject, objValue, null );
                 }
             }

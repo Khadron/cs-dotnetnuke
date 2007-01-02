@@ -94,7 +94,7 @@ namespace DotNetNuke.UI.UserControls
             {
                 string fileRoot;
 
-                if( _localResourceFile == "" )
+                if( String.IsNullOrEmpty( _localResourceFile ) )
                 {
                     fileRoot = this.TemplateSourceDirectory + "/" + Localization.LocalResourceDirectory + "/URLTrackingControl.ascx";
                 }
@@ -161,13 +161,13 @@ namespace DotNetNuke.UI.UserControls
             try
             {
                 string strStartDate = txtStartDate.Text;
-                if( strStartDate != "" )
+                if( !String.IsNullOrEmpty(strStartDate) )
                 {
                     strStartDate = strStartDate + " 00:00";
                 }
 
                 string strEndDate = txtEndDate.Text;
-                if( strEndDate != "" )
+                if( !String.IsNullOrEmpty(strEndDate) )
                 {
                     strEndDate = strEndDate + " 23:59";
                 }
@@ -197,7 +197,7 @@ namespace DotNetNuke.UI.UserControls
 
                 if( !Page.IsPostBack )
                 {
-                    if( _URL != "" )
+                    if( !String.IsNullOrEmpty(_URL) )
                     {
                         lblLogURL.Text = URL; // saved for loading Log grid
 
@@ -206,7 +206,7 @@ namespace DotNetNuke.UI.UserControls
                         {
                             // to handle legacy scenarios before the introduction of the FileServerHandler
                             FileController objFiles = new FileController();
-                            lblLogURL.Text = "FileID=" + objFiles.ConvertFilePathToFileId( _URL, PortalSettings.PortalId ).ToString();
+                            lblLogURL.Text = "FileID=" + objFiles.ConvertFilePathToFileId( _URL, PortalSettings.PortalId );
                         }
 
                         UrlController objUrls = new UrlController();

@@ -389,16 +389,16 @@ namespace DotNetNuke.NavigationControl
                         objTreeItem.ClickAction = eClickAction.Expand;
                     }
 
-                    if( this.CSSNodeRoot != "" )
+                    if( !String.IsNullOrEmpty(this.CSSNodeRoot) )
                     {
                         objTreeItem.CssClass = this.CSSNodeRoot;
                     }
-                    if( this.CSSNodeHoverRoot != "" )
+                    if( !String.IsNullOrEmpty(this.CSSNodeHoverRoot) )
                     {
                         objTreeItem.CSSClassHover = this.CSSNodeHoverRoot;
                     }
 
-                    if( this.NodeLeftHTMLRoot != "" )
+                    if( !String.IsNullOrEmpty(this.NodeLeftHTMLRoot) )
                     {
                         //objTreeItem.LeftHTML = Me.NodeLeftHTMLRoot
                     }
@@ -419,7 +419,7 @@ namespace DotNetNuke.NavigationControl
                         //End If
                     }
 
-                    if( this.NodeRightHTMLRoot != "" )
+                    if( !String.IsNullOrEmpty(this.NodeRightHTMLRoot) )
                     {
                         //objTreeItem.RightHTML = NodeRightHTMLRoot
                     }
@@ -447,11 +447,11 @@ namespace DotNetNuke.NavigationControl
                         }
                         //objTreeItem.Selected = objNode.Selected
 
-                        if( CSSNodeHover != "" )
+                        if( !String.IsNullOrEmpty(CSSNodeHover) )
                         {
                             objTreeItem.CSSClassHover = CSSNodeHover;
                         }
-                        if( NodeLeftHTMLSub != "" )
+                        if( !String.IsNullOrEmpty(NodeLeftHTMLSub) )
                         {
                             //objTreeItem.LeftHTML = NodeLeftHTML
                         }
@@ -471,7 +471,7 @@ namespace DotNetNuke.NavigationControl
                             //End If
                         }
 
-                        if( this.NodeRightHTMLSub != "" )
+                        if( !String.IsNullOrEmpty(this.NodeRightHTMLSub) )
                         {
                             //objTreeItem.RightHTML = Me.NodeRightHTML
                         }

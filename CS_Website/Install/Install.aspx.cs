@@ -117,10 +117,9 @@ namespace DotNetNuke.Framework
                 else
                 {
                     // error saving web.config
-                    StreamReader objStreamReader;
-                    objStreamReader = File.OpenText( HttpContext.Current.Server.MapPath( "~/403-3.htm" ) );
-                    string strHTML = objStreamReader.ReadToEnd();
-                    objStreamReader.Close();
+                    StreamReader reader = File.OpenText( HttpContext.Current.Server.MapPath( "~/403-3.htm" ) );
+                    string strHTML = reader.ReadToEnd();
+                    reader.Close();
                     strHTML = strHTML.Replace( "[MESSAGE]", strError );
                     HttpContext.Current.Response.Write( strHTML );
                     HttpContext.Current.Response.End();
@@ -135,8 +134,8 @@ namespace DotNetNuke.Framework
                 HtmlUtils.WriteHeader( Response, "install" );
 
                 // get path to script files
-                string strProviderPath = PortalSettings.GetProviderPath();
-                if( ! strProviderPath.StartsWith( "ERROR:" ) )
+                string providerPath = PortalSettings.GetProviderPath();
+                if( ! providerPath.StartsWith( "ERROR:" ) )
                 {
                     Response.Write( "<h2>Version: " + Globals.glbAppVersion + "</h2>" );
                     Response.Flush();
@@ -144,16 +143,16 @@ namespace DotNetNuke.Framework
                     Response.Write( "<br><br>" );
                     Response.Write( "<h2>Installation Status Report</h2>" );
                     Response.Flush();
-                    Upgrade.InstallDNN( strProviderPath );
+                    Upgrade.InstallDNN( providerPath );
 
                     Response.Write( "<h2>Installation Complete</h2>" );
-                    Response.Write( "<br><br><h2><a href=\'../Default.aspx\'>Click Here To Access Your Portal</a></h2><br><br>" );
+                    Response.Write( "<br><br><h2><a href='../Default.aspx'>Click Here To Access Your Portal</a></h2><br><br>" );
                     Response.Flush();
                 }
                 else
                 {
                     // upgrade error
-                    Response.Write( "<h2>Upgrade Error: " + strProviderPath + "</h2>" );
+                    Response.Write( "<h2>Upgrade Error: " + providerPath + "</h2>" );
                     Response.Flush();
                 }
 
@@ -180,8 +179,8 @@ namespace DotNetNuke.Framework
             Response.Flush();
 
             // get path to script files
-            string strProviderPath = PortalSettings.GetProviderPath();
-            if( ! strProviderPath.StartsWith( "ERROR:" ) )
+            string providerPath = PortalSettings.GetProviderPath();
+            if( ! providerPath.StartsWith( "ERROR:" ) )
             {
                 // get current database version
                 IDataReader dr = PortalSettings.GetDatabaseVersion();
@@ -204,10 +203,10 @@ namespace DotNetNuke.Framework
                         //Users and profile have not been transferred
 
                         // Get the name of the data provider
-                        ProviderConfiguration objProviderConfiguration = ProviderConfiguration.GetProviderConfiguration( "data" );
+                        ProviderConfiguration providerConfiguration = ProviderConfiguration.GetProviderConfiguration( "data" );
 
                         //Execute Special Script
-                        Upgrade.ExecuteScript( strProviderPath + "Upgrade." + objProviderConfiguration.DefaultProvider );
+                        Upgrade.ExecuteScript( providerPath + "Upgrade." + providerConfiguration.DefaultProvider );
 
                         if( ( Request.QueryString["ignoreWarning"] != null ) )
                         {
@@ -227,20 +226,20 @@ namespace DotNetNuke.Framework
                         Response.Write( "<br><br>" );
                         Response.Write( "<h2>Upgrade Status Report</h2>" );
                         Response.Flush();
-                        Upgrade.UpgradeDNN( strProviderPath, strDatabaseVersion.Replace( ".", "" ) );
+                        Upgrade.UpgradeDNN( providerPath, strDatabaseVersion.Replace( ".", "" ) );
 
                         //Install Resources
                         ResourceInstaller objResourceInstaller = new ResourceInstaller();
                         objResourceInstaller.Install( true, 0 );
 
                         Response.Write( "<h2>Upgrade Complete</h2>" );
-                        Response.Write( "<br><br><h2><a href=\'../Default.aspx\'>Click Here To Access Your Portal</a></h2><br><br>" );
+                        Response.Write( "<br><br><h2><a href='../Default.aspx'>Click Here To Access Your Portal</a></h2><br><br>" );
                     }
                     else
                     {
                         Response.Write( "<h2>Warning:</h2>" + strWarning.Replace( "\r\n", "<br />" ) );
 
-                        Response.Write( "<br><br><a href=\'Install.aspx?mode=Install&ignoreWarning=true\'>Click Here To Proceed With The Upgrade.</a>" );
+                        Response.Write( "<br><br><a href='Install.aspx?mode=Install&ignoreWarning=true'>Click Here To Proceed With The Upgrade.</a>" );
                     }
                     Response.Flush();
                 }
@@ -248,7 +247,7 @@ namespace DotNetNuke.Framework
             }
             else
             {
-                Response.Write( "<h2>Upgrade Error: " + strProviderPath + "</h2>" );
+                Response.Write( "<h2>Upgrade Error: " + providerPath + "</h2>" );
                 Response.Flush();
             }
 
@@ -272,16 +271,14 @@ namespace DotNetNuke.Framework
             if( File.Exists( strNewFile ) )
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                XmlNode node;
                 XmlNodeList nodes;
                 int intPortalId;
                 xmlDoc.Load( strNewFile );
 
                 // parse portal(s) if available
                 nodes = xmlDoc.SelectNodes( "//dotnetnuke/portals/portal" );
-                foreach( XmlNode tempLoopVar_node in nodes )
+                foreach( XmlNode node in nodes )
                 {
-                    node = tempLoopVar_node;
                     if( node != null )
                     {
                         intPortalId = Upgrade.AddPortal( node, true, 0 );
@@ -300,7 +297,7 @@ namespace DotNetNuke.Framework
                 }
 
                 Response.Write( "<h2>Installation Complete</h2>" );
-                Response.Write( "<br><br><h2><a href=\'../Default.aspx\'>Click Here To Access Your Portal</a></h2><br><br>" );
+                Response.Write( "<br><br><h2><a href='../Default.aspx'>Click Here To Access Your Portal</a></h2><br><br>" );
                 Response.Flush();
             }
 
@@ -320,8 +317,8 @@ namespace DotNetNuke.Framework
             Response.Flush();
 
             // install new resources(s)
-            ResourceInstaller objResourceInstaller = new ResourceInstaller();
-            objResourceInstaller.Install( true, 0 );
+            ResourceInstaller resourceInstaller = new ResourceInstaller();
+            resourceInstaller.Install( true, 0 );
 
             Response.Write( "<h2>Installation Complete</h2>" );
             Response.Flush();
@@ -336,7 +333,6 @@ namespace DotNetNuke.Framework
             string strProviderPath = PortalSettings.GetProviderPath();
             if( ! strProviderPath.StartsWith( "ERROR:" ) )
             {
-                string strDatabaseVersion;
                 // get current database version
                 try
                 {
@@ -349,11 +345,11 @@ namespace DotNetNuke.Framework
 
                         //Call Upgrade with the current DB Version to upgrade an
                         //existing DNN installation
-                        strDatabaseVersion = String.Format( (string)dr["Major"], "00" ) + "." + String.Format( (string)dr["Minor"], "00" ) + "." + String.Format( (string)dr["Build"], "00" );
+                        string strDatabaseVersion = String.Format( (string)dr["Major"], "00" ) + "." + String.Format( (string)dr["Minor"], "00" ) + "." + String.Format( (string)dr["Build"], "00" );
 
                         Response.Write( "<h2>Current Database Version: " + strDatabaseVersion + "</h2>" );
 
-                        Response.Write( "<br><br><a href=\'Install.aspx?mode=Install\'>Click Here To Upgrade DotNetNuke</a>" );
+                        Response.Write( "<br><br><a href='Install.aspx?mode=Install'>Click Here To Upgrade DotNetNuke</a>" );
                         Response.Flush();
                     }
                     else
@@ -363,7 +359,7 @@ namespace DotNetNuke.Framework
                         Response.Write( "<h2>Current Assembly Version: " + Globals.glbAppVersion + "</h2>" );
 
                         Response.Write( "<h2>Current Database Version: N/A</h2>" );
-                        Response.Write( "<br><br><h2><a href=\'Install.aspx?mode=Install\'>Click Here To Install DotNetNuke</a></h2>" );
+                        Response.Write( "<br><br><h2><a href='Install.aspx?mode=Install'>Click Here To Install DotNetNuke</a></h2>" );
                         Response.Flush();
                     }
                     dr.Close();
@@ -455,15 +451,5 @@ namespace DotNetNuke.Framework
             }
         }
 
-        private void InitializeComponent()
-        {
-        }
-
-        protected void Page_Init( Object sender, EventArgs e )
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
     }
 }

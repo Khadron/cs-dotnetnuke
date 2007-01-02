@@ -20,7 +20,6 @@
 using System;
 using System.Collections;
 using System.Text;
-using DotNetNuke.Entities.Portals;
 using DotNetNuke.Security.Roles;
 
 namespace DotNetNuke.Security.Permissions.Controls
@@ -67,14 +66,13 @@ namespace DotNetNuke.Security.Permissions.Controls
         /// <param name="permissionID">The Id of the Permission to check</param>
         /// <param name="roleid">The role id to check</param>
         private FolderPermissionInfo FolderHasPermission(int permissionID, int roleid)
-        {
-            int i;
-            for (i = 0; i <= FolderPermissions.Count - 1; i++)
+        {            
+            for (int i = 0; i < FolderPermissions.Count; i++)
             {
-                FolderPermissionInfo objFolderPermission = FolderPermissions[i];
-                if (objFolderPermission.RoleID == roleid && permissionID == objFolderPermission.PermissionID)
+                FolderPermissionInfo folderPermission = FolderPermissions[i];
+                if (folderPermission.RoleID == roleid && permissionID == folderPermission.PermissionID)
                 {
-                    return objFolderPermission;
+                    return folderPermission;
                 }
             }
             return null;
@@ -139,8 +137,7 @@ namespace DotNetNuke.Security.Permissions.Controls
         protected override ArrayList GetPermissions()
         {
             PermissionController objPermissionController = new PermissionController();
-            return objPermissionController.GetPermissionsByFolder(PortalId, this.FolderPath)
-            ;
+            return objPermissionController.GetPermissionsByFolder( PortalId, this.FolderPath );
         }
 
         /// <summary>
@@ -159,17 +156,20 @@ namespace DotNetNuke.Security.Permissions.Controls
             //Persist the TabPermisisons
             StringBuilder sb = new StringBuilder();
             bool addDelimiter = false;
-            foreach (FolderPermissionInfo objFolderPermission in FolderPermissions)
+            if( FolderPermissions != null )
             {
-                if (addDelimiter)
+                foreach (FolderPermissionInfo objFolderPermission in FolderPermissions)
                 {
-                    sb.Append("##");
+                    if (addDelimiter)
+                    {
+                        sb.Append("##");
+                    }
+                    else
+                    {
+                        addDelimiter = true;
+                    }
+                    sb.Append(BuildKey(objFolderPermission.AllowAccess, objFolderPermission.PermissionID, objFolderPermission.FolderPermissionID, objFolderPermission.RoleID, objFolderPermission.RoleName));
                 }
-                else
-                {
-                    addDelimiter = true;
-                }
-                sb.Append(BuildKey(objFolderPermission.AllowAccess, objFolderPermission.PermissionID, objFolderPermission.FolderPermissionID, objFolderPermission.RoleID, objFolderPermission.RoleName));
             }
             allStates[2] = sb.ToString();
 
@@ -221,7 +221,7 @@ namespace DotNetNuke.Security.Permissions.Controls
                 {
                     ArrayList arrPermissions = new ArrayList();
                     string state = myState[2].ToString();
-                    if (state != "")
+                    if (!String.IsNullOrEmpty(state))
                     {
                         //First Break the String into individual Keys
                         string[] permissionKeys = state.Split("##".ToCharArray()[0]);
@@ -239,31 +239,28 @@ namespace DotNetNuke.Security.Permissions.Controls
         /// <summary>
         /// Parse the Permission Keys used to persist the Permissions in the ViewState
         /// </summary>
-        /// <param name="Settings">A string array of settings</param>
-        /// <param name="arrPermisions">An Arraylist to add the Permission object to</param>
-        private void ParsePermissionKeys(string[] Settings, ArrayList arrPermisions)
+        /// <param name="settings">A string array of settings</param>
+        /// <param name="permisions">An Arraylist to add the Permission object to</param>
+        private void ParsePermissionKeys(string[] settings, ArrayList permisions)
         {
-            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
-            FolderPermissionInfo objFolderPermission;
+            FolderPermissionInfo pi = new FolderPermissionInfo();
+            pi.PermissionID = Convert.ToInt32(settings[1]);
+            pi.RoleID = Convert.ToInt32(settings[4]);
+            pi.RoleName = settings[3];
+            pi.AllowAccess = true;
 
-            objFolderPermission = new FolderPermissionInfo();
-            objFolderPermission.PermissionID = Convert.ToInt32(Settings[1]);
-            objFolderPermission.RoleID = Convert.ToInt32(Settings[4]);
-            objFolderPermission.RoleName = Settings[3];
-            objFolderPermission.AllowAccess = true;
-
-            if (Settings[2] == "")
+            if (settings[2] == "")
             {
-                objFolderPermission.FolderPermissionID = -1;
+                pi.FolderPermissionID = -1;
             }
             else
             {
-                objFolderPermission.FolderPermissionID = Convert.ToInt32(Settings[2]);
+                pi.FolderPermissionID = Convert.ToInt32(settings[2]);
             }
-            objFolderPermission.FolderPath = FolderPath;
+            pi.FolderPath = FolderPath;
 
             //Add FolderPermission to array
-            arrPermisions.Add(objFolderPermission);
+            permisions.Add(pi);
         }
 
         /// <summary>
@@ -276,37 +273,37 @@ namespace DotNetNuke.Security.Permissions.Controls
         protected override void UpdatePermission(PermissionInfo permission, int roleid, string roleName, bool allowAccess)
         {
             bool isMatch = false;
-            FolderPermissionInfo objPermission;
             int permissionId = permission.PermissionID;
 
             //Search FolderPermission Collection for the permission to Update
-            foreach (FolderPermissionInfo tempLoopVar_objPermission in FolderPermissions)
+            if( FolderPermissions != null )
             {
-                objPermission = tempLoopVar_objPermission;
-                if (objPermission.PermissionID == permissionId && objPermission.RoleID == roleid)
+                foreach (FolderPermissionInfo info in FolderPermissions)
                 {
-                    //FolderPermission is in collection
-                    if (!allowAccess)
+                    if (info.PermissionID == permissionId && info.RoleID == roleid)
                     {
-                        //Remove from collection as we only keep AllowAccess permissions
-                        FolderPermissions.Remove(objPermission);
+                        //FolderPermission is in collection
+                        if (!allowAccess)
+                        {
+                            //Remove from collection as we only keep AllowAccess permissions
+                            FolderPermissions.Remove(info);
+                        }
+                        isMatch = true;
+                        break;
                     }
-                    isMatch = true;
-                    break;
                 }
             }
-        
 
             //FolderPermission not found so add new
             if (!isMatch && allowAccess)
             {
-                objPermission = new FolderPermissionInfo();
-                objPermission.PermissionID = permissionId;
-                objPermission.RoleName = roleName;
-                objPermission.RoleID = roleid;
-                objPermission.AllowAccess = allowAccess;
-                objPermission.FolderPath = FolderPath;
-                FolderPermissions.Add(objPermission);
+                FolderPermissionInfo folderPermissionInfo = new FolderPermissionInfo();
+                folderPermissionInfo.PermissionID = permissionId;
+                folderPermissionInfo.RoleName = roleName;
+                folderPermissionInfo.RoleID = roleid;
+                folderPermissionInfo.AllowAccess = allowAccess;
+                folderPermissionInfo.FolderPath = FolderPath;
+                FolderPermissions.Add(folderPermissionInfo);
             }
         }
     }

@@ -67,7 +67,7 @@ namespace DotNetNuke.UI.WebControls
             //Get the Name of the property
             editInfo.Name = string.Empty;
             //Get Name Field
-            if (NameDataField != "")
+            if (!String.IsNullOrEmpty(NameDataField))
             {
                 objProperty = DataSource.GetType().GetProperty(NameDataField);
                 if (!((objProperty == null) || (objProperty.GetValue(DataSource, null) == null)))
@@ -79,7 +79,7 @@ namespace DotNetNuke.UI.WebControls
             //Get the Category of the property
             editInfo.Category = string.Empty;
             //Get Category Field
-            if (CategoryDataField != "")
+            if (!String.IsNullOrEmpty(CategoryDataField))
             {
                 objProperty = DataSource.GetType().GetProperty(CategoryDataField);
                 if (!((objProperty == null) || (objProperty.GetValue(DataSource, null) == null)))
@@ -90,7 +90,7 @@ namespace DotNetNuke.UI.WebControls
 
             //Get Value Field
             editInfo.Value = string.Empty;
-            if (ValueDataField != "")
+            if (!String.IsNullOrEmpty(ValueDataField))
             {
                 objProperty = DataSource.GetType().GetProperty(ValueDataField);
                 if (!((objProperty == null) || (objProperty.GetValue(DataSource, null) == null)))
@@ -101,7 +101,7 @@ namespace DotNetNuke.UI.WebControls
 
             //Get the type of the property
             editInfo.Type = "System.String";
-            if (TypeDataField != "")
+            if (!String.IsNullOrEmpty(TypeDataField))
             {
                 objProperty = DataSource.GetType().GetProperty(TypeDataField);
                 if (!((objProperty == null) || (objProperty.GetValue(DataSource, null) == null)))
@@ -112,7 +112,7 @@ namespace DotNetNuke.UI.WebControls
 
             //Get Editor Field
             editInfo.Editor = "DotNetNuke.UI.WebControls.TextEditControl, DotNetNuke";
-            if (EditorDataField != "")
+            if (!String.IsNullOrEmpty(EditorDataField))
             {
                 objProperty = DataSource.GetType().GetProperty(EditorDataField);
                 if (!((objProperty == null) || (objProperty.GetValue(DataSource, null) == null)))
@@ -126,7 +126,7 @@ namespace DotNetNuke.UI.WebControls
 
             //Get Required Field
             editInfo.Required = false;
-            if (RequiredDataField != "")
+            if (!String.IsNullOrEmpty(RequiredDataField))
             {
                 objProperty = DataSource.GetType().GetProperty(RequiredDataField);
                 if (!((objProperty == null) || (objProperty.GetValue(DataSource, null) == null)))
@@ -144,7 +144,7 @@ namespace DotNetNuke.UI.WebControls
 
             //Get Visibility Field
             editInfo.Visibility = UserVisibilityMode.AllUsers;
-            if (VisibilityDataField != "")
+            if (!String.IsNullOrEmpty(VisibilityDataField))
             {
                 objProperty = DataSource.GetType().GetProperty(VisibilityDataField);
                 if (!((objProperty == null) || (objProperty.GetValue(DataSource, null) == null)))
@@ -155,7 +155,7 @@ namespace DotNetNuke.UI.WebControls
 
             //Get Validation Expression Field
             editInfo.ValidationExpression = string.Empty;
-            if (ValidationExpressionDataField != "")
+            if (!String.IsNullOrEmpty(ValidationExpressionDataField))
             {
                 objProperty = DataSource.GetType().GetProperty(ValidationExpressionDataField);
                 if (!((objProperty == null) || (objProperty.GetValue(DataSource, null) == null)))

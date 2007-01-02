@@ -92,7 +92,7 @@ namespace DotNetNuke.UI.WebControls
             int intIndex = base.Add( objNode );
             objNode.SetDNNTree( m_objDNNTree );
             //ChildNodes.count is not guaranteed to be unique... GetHashCode should be a little safer (I assume it is medium trust safe...
-            if( objNode.ID.Length == 0 )
+            if (String.IsNullOrEmpty(objNode.ID))
             {
                 objNode.ID = objNode.ParentNameSpace + "_" + objNode.GetHashCode(); //Me.XmlNode.ChildNodes.Count
             }
@@ -194,7 +194,7 @@ namespace DotNetNuke.UI.WebControls
 
         public new TreeNode FindNode( string ID )
         {
-            XmlNode objNode = this.XMLNode.SelectSingleNode( "//n[@id=\'" + ID + "\']" );
+            XmlNode objNode = this.XMLNode.SelectSingleNode( "//n[@id='" + ID + "']" );
             if( objNode != null )
             {
                 return new TreeNode( objNode, m_objDNNTree );
@@ -207,7 +207,7 @@ namespace DotNetNuke.UI.WebControls
 
         public new TreeNode FindNodeByKey( string Key )
         {
-            XmlNode objNode = this.XMLNode.SelectSingleNode( "//n[@key=\'" + Key + "\']" );
+            XmlNode objNode = this.XMLNode.SelectSingleNode( "//n[@key='" + Key + "']" );
             if( objNode != null )
             {
                 return new TreeNode( objNode, m_objDNNTree );
@@ -223,7 +223,7 @@ namespace DotNetNuke.UI.WebControls
             ArrayList colTreeNodes = new ArrayList(); //TreeNodeCollection = New TreeNodeCollection(m_strNamespace, m_objDNNTree)
             if( this.XMLNode != null )
             {
-                XmlNodeList objNodeList = this.XMLNode.SelectNodes( "//n[@selected=\'1\']" );
+                XmlNodeList objNodeList = this.XMLNode.SelectNodes( "//n[@selected='1']" );
                 XmlNode objNode;
                 foreach( XmlNode tempLoopVar_objNode in objNodeList )
                 {

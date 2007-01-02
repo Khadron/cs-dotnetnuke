@@ -416,8 +416,8 @@ namespace DotNetNuke.NavigationControl
             if( objNode.JSFunction.Length > 0 )
             {
                 //HACK...  The postback event needs to have the entire ValuePath to the menu item, not just the unique id
-                //__doPostBack('dnn:ctr365:dnnACTIONS:ctldnnACTIONS','6') -> __doPostBack('dnn:ctr365:dnnACTIONS:ctldnnACTIONS','0\\6')}
-                objItem.NavigateUrl = "javascript:" + objNode.JSFunction.Replace( Menu.ID + "\',\'" + objNode.Key + "\'", Menu.ID + "\',\'" + GetValuePath( objNode ).Replace( "/", "\\\\" ) + "\'" ) + objNode.NavigateURL; //TODO!
+                //__doPostBack('dnn:ctr365:dnnACTIONS:ctldnnACTIONS','6') -> __doPostBack('dnn:ctr365:dnnACTIONS:ctldnnACTIONS','0\\6')}                
+                objItem.NavigateUrl = "javascript:" + objNode.JSFunction.Replace( Menu.ID + "','" + objNode.Key + "'", Menu.ID + "','" + GetValuePath( objNode ).Replace( "/", "\\" ) + "'" ) + objNode.NavigateURL; //TODO!
             }
             else
             {
@@ -466,23 +466,16 @@ namespace DotNetNuke.NavigationControl
         /// <param name="objNodes">Node hierarchy used in control population</param>
         /// <remarks></remarks>
         public override void Bind( DNNNodeCollection objNodes )
-        {
-            DNNNode objNode;
-            MenuItem objMenuItem = null;
-            DNNNode objPrevNode;
-
+        {           
             if( IndicateChildren == false )
             {
                 IndicateChildImageSub = "";
                 IndicateChildImageRoot = "";
             }
 
-            string strLeftHTML = "";
-            string strRightHTML = "";
-
             foreach( DNNNode tempLoopVar_objNode in objNodes )
             {
-                objNode = tempLoopVar_objNode;
+                DNNNode objNode = tempLoopVar_objNode;
                 if( objNode.IsBreak )
                 {
                     //Not sure how to make breaks work...
@@ -492,32 +485,33 @@ namespace DotNetNuke.NavigationControl
                 }
                 else
                 {
-                    strLeftHTML = "";
-                    strRightHTML = "";
+                    string strLeftHTML = "";
+                    string strRightHTML = "";
 
+                    MenuItem objMenuItem;
                     if( objNode.Level == 0 ) // root menu
                     {
                         Menu.Items.Add( GetMenuItem( objNode ) );
                         objMenuItem = Menu.Items[Menu.Items.Count - 1];
 
-                        if( this.NodeLeftHTMLRoot != "" )
+                        if( !String.IsNullOrEmpty(this.NodeLeftHTMLRoot) )
                         {
                             strLeftHTML = this.NodeLeftHTMLRoot;
                         }
 
                         if( objNode.BreadCrumb )
                         {
-                            if( NodeLeftHTMLBreadCrumbRoot != "" )
+                            if( !String.IsNullOrEmpty(NodeLeftHTMLBreadCrumbRoot) )
                             {
                                 strLeftHTML = NodeLeftHTMLBreadCrumbRoot;
                             }
-                            if( NodeRightHTMLBreadCrumbRoot != "" )
+                            if( !String.IsNullOrEmpty(NodeRightHTMLBreadCrumbRoot) )
                             {
                                 strRightHTML = NodeRightHTMLBreadCrumbRoot;
                             }
                         }
 
-                        if( this.NodeRightHTMLRoot != "" )
+                        if( !String.IsNullOrEmpty(this.NodeRightHTMLRoot) )
                         {
                             strRightHTML = NodeRightHTMLRoot;
                         }
@@ -530,24 +524,24 @@ namespace DotNetNuke.NavigationControl
                             objParent.ChildItems.Add( GetMenuItem( objNode ) );
                             objMenuItem = objParent.ChildItems[objParent.ChildItems.Count - 1];
 
-                            if( NodeLeftHTMLSub != "" )
+                            if( !String.IsNullOrEmpty(NodeLeftHTMLSub) )
                             {
                                 strLeftHTML = NodeLeftHTMLSub;
                             }
 
                             if( objNode.BreadCrumb )
                             {
-                                if( NodeLeftHTMLBreadCrumbSub != "" )
+                                if( !String.IsNullOrEmpty(NodeLeftHTMLBreadCrumbSub) )
                                 {
                                     strLeftHTML = NodeLeftHTMLBreadCrumbSub;
                                 }
-                                if( NodeRightHTMLBreadCrumbSub != "" )
+                                if( !String.IsNullOrEmpty(NodeRightHTMLBreadCrumbSub) )
                                 {
                                     strRightHTML = NodeRightHTMLBreadCrumbSub;
                                 }
                             }
 
-                            if( this.NodeRightHTMLSub != "" )
+                            if( !String.IsNullOrEmpty(this.NodeRightHTMLSub) )
                             {
                                 strRightHTML = this.NodeRightHTMLSub;
                             }
@@ -579,11 +573,14 @@ namespace DotNetNuke.NavigationControl
                         {
                             objNode.Image = this.PathImage + objNode.Image;
                         }
-                        objMenuItem.ImageUrl = objNode.Image;
+                        if( objMenuItem != null )
+                        {
+                            objMenuItem.ImageUrl = objNode.Image;
+                        }
                     }
 
                     Bind( objNode.DNNNodes );
-                    objPrevNode = objNode;
+                    //DNNNode objPrevNode = objNode;
                 }
             }
         }
@@ -619,7 +616,7 @@ namespace DotNetNuke.NavigationControl
 
         private void Menu_NodeClick( object source, MenuEventArgs e )
         {
-            base.RaiseEvent_NodeClick( e.Item.Value );
+            RaiseEvent_NodeClick( e.Item.Value );
         }
 
         private void Menu_PreRender( object sender, EventArgs e )

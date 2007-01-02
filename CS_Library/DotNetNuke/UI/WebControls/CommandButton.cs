@@ -41,8 +41,6 @@ namespace DotNetNuke.UI.WebControls
                 this.ClickEvent -= value;
             }
         }
-        private string _onClick;
-        private string _resourceKey;
         private EventHandler ClickEvent;
         private ImageButton icon;
         private LinkButton link;
@@ -202,7 +200,7 @@ namespace DotNetNuke.UI.WebControls
         /// </Summary>
         protected override void CreateChildControls()
         {
-            if (CssClass == "")
+            if (String.IsNullOrEmpty( CssClass ))
             {
                 CssClass = "CommandButton";
             }
@@ -219,7 +217,7 @@ namespace DotNetNuke.UI.WebControls
             link.Click += new EventHandler(RaiseClick);
             this.Controls.Add(link);
 
-            if (DisplayIcon == true && ImageUrl != "")
+            if (DisplayIcon && !String.IsNullOrEmpty(ImageUrl))
             {
                 icon.EnableViewState = this.EnableViewState;
             }

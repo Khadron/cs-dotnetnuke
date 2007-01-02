@@ -312,7 +312,7 @@ namespace DotNetNuke.UI.WebControls
                         }
                         if( m_objNode.DNNMenu.Target.Length > 0 )
                         {
-                            strJS += "window.frames." + m_objNode.DNNMenu.Target + ".location.href=\'" + m_objNode.NavigateURL + "\'; void(0);"; //FOR SOME REASON THIS DOESNT WORK UNLESS WE HAVE CODE AFTER THE SETTING OF THE HREF...
+                            strJS += "window.frames." + m_objNode.DNNMenu.Target + ".location.href='" + m_objNode.NavigateURL + "'; void(0);"; //FOR SOME REASON THIS DOESNT WORK UNLESS WE HAVE CODE AFTER THE SETTING OF THE HREF...
                         }
                         else
                         {
@@ -322,7 +322,7 @@ namespace DotNetNuke.UI.WebControls
                             }
                             else
                             {
-                                strJS += "window.location.href=\'" + m_objNode.NavigateURL + "\';";
+                                strJS += "window.location.href='" + m_objNode.NavigateURL + "';";
                             }
                         }
                         break;

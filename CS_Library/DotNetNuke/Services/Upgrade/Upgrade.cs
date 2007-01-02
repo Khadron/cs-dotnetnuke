@@ -366,7 +366,7 @@ namespace DotNetNuke.Services.Upgrade
                     //Add Extra Aliases
                     foreach (XmlNode portalAlias in portalAliases)
                     {
-                        if (portalAlias.InnerText != "")
+                        if (!String.IsNullOrEmpty(portalAlias.InnerText))
                         {
                             if (status)
                             {
@@ -395,23 +395,23 @@ namespace DotNetNuke.Services.Upgrade
 
             sbWarnings.Append("<h3>" + header + "</h3>");
             sbWarnings.Append("<p>" + message + "</p>");
-            sbWarnings.Append("<table cellspacing=\'4\' cellpadding=\'4\' border=\'0\'>");
+            sbWarnings.Append("<table cellspacing='4' cellpadding='4' border='0'>");
             sbWarnings.Append("<tr>");
-            sbWarnings.Append("<td class=\'NormalBold\'>ID</td>");
-            sbWarnings.Append("<td class=\'NormalBold\'>UserName</td>");
-            sbWarnings.Append("<td class=\'NormalBold\'>First Name</td>");
-            sbWarnings.Append("<td class=\'NormalBold\'>Last Name</td>");
-            sbWarnings.Append("<td class=\'NormalBold\'>Email</td>");
+            sbWarnings.Append("<td class='NormalBold'>ID</td>");
+            sbWarnings.Append("<td class='NormalBold'>UserName</td>");
+            sbWarnings.Append("<td class='NormalBold'>First Name</td>");
+            sbWarnings.Append("<td class='NormalBold'>Last Name</td>");
+            sbWarnings.Append("<td class='NormalBold'>Email</td>");
             sbWarnings.Append("</tr>");
             while (dr.Read())
             {
                 hasRows = true;
                 sbWarnings.Append("<tr>");
-                sbWarnings.Append("<td class=\'Norma\'>" + dr.GetInt32(0) + "</td>");
-                sbWarnings.Append("<td class=\'Norma\'>" + dr.GetString(1) + "</td>");
-                sbWarnings.Append("<td class=\'Norma\'>" + dr.GetString(2) + "</td>");
-                sbWarnings.Append("<td class=\'Norma\'>" + dr.GetString(3) + "</td>");
-                sbWarnings.Append("<td class=\'Norma\'>" + dr.GetString(4) + "</td>");
+                sbWarnings.Append("<td class='Norma'>" + dr.GetInt32(0) + "</td>");
+                sbWarnings.Append("<td class='Norma'>" + dr.GetString(1) + "</td>");
+                sbWarnings.Append("<td class='Norma'>" + dr.GetString(2) + "</td>");
+                sbWarnings.Append("<td class='Norma'>" + dr.GetString(3) + "</td>");
+                sbWarnings.Append("<td class='Norma'>" + dr.GetString(4) + "</td>");
                 sbWarnings.Append("</tr>");
             }
 
@@ -440,7 +440,7 @@ namespace DotNetNuke.Services.Upgrade
             {
                 dr = dataProvider.ExecuteReader("CheckUpgrade", null);
 
-                strWarnings = BuildUserTable(dr, "Duplicate SuperUsers", "We have detected that the following SuperUsers have duplicate entries as Portal Users.  Although, no longer supported, these users may have been created in early Betas of DNN v3.0.  You need to be aware that after the upgrade, these users will only be able to log in using the Super User Account\'s password.");
+                strWarnings = BuildUserTable(dr, "Duplicate SuperUsers", "We have detected that the following SuperUsers have duplicate entries as Portal Users.  Although, no longer supported, these users may have been created in early Betas of DNN v3.0.  You need to be aware that after the upgrade, these users will only be able to log in using the Super User Account's password.");
 
                 if (dr.NextResult())
                 {
@@ -600,7 +600,7 @@ namespace DotNetNuke.Services.Upgrade
             strExceptions = PortalSettings.ExecuteScript(strScript);
 
             //' perform version specific application upgrades
-            if (version != "")
+            if (!String.IsNullOrEmpty(version))
             {
                 strExceptions += UpgradeApplication(version);
 
@@ -2266,7 +2266,7 @@ namespace DotNetNuke.Services.Upgrade
             // perform general application upgrades
             HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Performing General Upgrades<br>");
             strExceptions = UpgradeApplication();
-            if (strExceptions != "")
+            if (!String.IsNullOrEmpty(strExceptions))
             {
                 EventLogController objEventLog = new EventLogController();
                 LogInfo objEventLogInfo = new LogInfo();

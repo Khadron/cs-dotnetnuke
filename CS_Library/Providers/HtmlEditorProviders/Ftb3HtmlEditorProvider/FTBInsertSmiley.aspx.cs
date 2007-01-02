@@ -22,12 +22,7 @@ using System.IO;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using DotNetNuke.Common;
-using DotNetNuke.Entities.Portals;
 using DotNetNuke.Framework;
-//using Common;
-//using Utilities;
-//using Portals;
-//using Security;
 
 namespace DotNetNuke.HtmlEditor
 {
@@ -44,12 +39,10 @@ namespace DotNetNuke.HtmlEditor
         protected PlaceHolder phHidden;
         protected DataList lstSmileys;
 
-        private void Page_Load( Object sender, EventArgs e )
+        protected void Page_Load( Object sender, EventArgs e )
         {
             // set page title
             string strTitle = PortalSettings.PortalName + " > Insert Smiley";
-            string strSmileyPath;
-            string strSmileyMapPath;
 
             // show copyright credits?
             if( Globals.GetHashValue( Globals.HostSettings["Copyright"], "Y" ) == "Y" )
@@ -59,15 +52,14 @@ namespace DotNetNuke.HtmlEditor
             Title = strTitle;
 
             HtmlInputHidden htmlhidden = new HtmlInputHidden();
-            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
 
             htmlhidden.ID = "TargetFreeTextBox";
             htmlhidden.Value = Request.Params["ftb"];
             phHidden.Controls.Add( htmlhidden );
 
             //Get Host level Smileys
-            strSmileyPath = Globals.HostPath + "Smileys/";
-            strSmileyMapPath = Globals.HostMapPath + "Smileys\\";
+            string strSmileyPath = Globals.HostPath + "Smileys/";
+            string strSmileyMapPath = Globals.HostMapPath + "Smileys\\";
 
             DirectoryInfo folder = new DirectoryInfo( strSmileyMapPath );
             FileInfo[] arrFiles = folder.GetFiles();
@@ -75,9 +67,9 @@ namespace DotNetNuke.HtmlEditor
             lstSmileys.DataBind();
         }
 
-        public string FormatUrl( string Url )
+        public string FormatUrl( string url )
         {
-            return Globals.HostPath + "Smileys/" + Url;
+            return Globals.HostPath + "Smileys/" + url;
         }
     }
 }

@@ -112,7 +112,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             //TODO: Transactions are removed temporarily.
             string strSQLExceptions = PortalSettings.ExecuteScript(strScript, false);
 
-            if (strSQLExceptions != "")
+            if (!String.IsNullOrEmpty(strSQLExceptions))
             {
                 InstallerInfo.Log.AddFailure(string.Format(SQL_Exceptions, "\r\n", strSQLExceptions));
                 WasSuccessful = false;
@@ -406,7 +406,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
 
                 // if install script includes version number will be used a base version for upgrades
                 // otherwise it is assigned an initial version of 000000
-                if (strInstallVersion != "")
+                if (!String.IsNullOrEmpty(strInstallVersion))
                 {
                     strModuleVersion = strInstallVersion;
                 }

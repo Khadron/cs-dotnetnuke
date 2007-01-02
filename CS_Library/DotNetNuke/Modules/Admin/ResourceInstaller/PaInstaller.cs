@@ -46,15 +46,15 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             }
         }
 
-        public PaInstaller( string Path, string SitePath )
+        public PaInstaller( string path, string sitePath )
         {
-            InstallerInfo.SitePath = SitePath;
-            _zipStream = new FileStream( Path, FileMode.Open, FileAccess.Read );
+            InstallerInfo.SitePath = sitePath;
+            _zipStream = new FileStream( path, FileMode.Open, FileAccess.Read );            
         }
 
-        public PaInstaller( Stream inputStream, string SitePath )
+        public PaInstaller( Stream inputStream, string sitePath )
         {
-            InstallerInfo.SitePath = SitePath;
+            InstallerInfo.SitePath = sitePath;
             _zipStream = inputStream;
         }
 
@@ -90,17 +90,17 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             // log installation event
             try
             {
-                LogInfo objEventLogInfo = new LogInfo();
-                objEventLogInfo.LogTypeKey = EventLogController.EventLogType.HOST_ALERT.ToString();
-                objEventLogInfo.LogProperties.Add( new LogDetailInfo( "Install Module:", InstallerInfo.DnnFile.Name.Replace( ".dnn", "" ) ) );
-                PaLogEntry objLogEntry;
-                foreach( PaLogEntry tempLoopVar_objLogEntry in InstallerInfo.Log.Logs )
+                LogInfo logInfo = new LogInfo();
+                logInfo.LogTypeKey = EventLogController.EventLogType.HOST_ALERT.ToString();
+                logInfo.LogProperties.Add( new LogDetailInfo( "Install Module:", InstallerInfo.DnnFile.Name.Replace( ".dnn", "" ) ) );
+
+                foreach( PaLogEntry objLogEntry in InstallerInfo.Log.Logs )
                 {
-                    objLogEntry = tempLoopVar_objLogEntry;
-                    objEventLogInfo.LogProperties.Add( new LogDetailInfo( "Info:", objLogEntry.Description ) );
+                    logInfo.LogProperties.Add( new LogDetailInfo( "Info:", objLogEntry.Description ) );
                 }
-                EventLogController objEventLog = new EventLogController();
-                objEventLog.AddLog( objEventLogInfo );
+
+                EventLogController eventLog = new EventLogController();
+                eventLog.AddLog( logInfo );
             }
             catch( Exception )
             {
@@ -118,7 +118,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
 
             ZipEntry entry = unzip.GetNextEntry();
 
-            while( !( entry == null ) )
+            while( entry != null )
             {
                 if( !entry.IsDirectory )
                 {
@@ -131,13 +131,13 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
 
                     if( file.Type == PaFileType.Dnn )
                     {
-                        if( !( InstallerInfo.DnnFile == null ) )
+                        if( InstallerInfo.DnnFile == null )
                         {
-                            InstallerInfo.Log.AddFailure( EXCEPTION_MultipleDnn + InstallerInfo.DnnFile.Name + " and " + file.Name );
+                            InstallerInfo.DnnFile = file;
                         }
                         else
                         {
-                            InstallerInfo.DnnFile = file;
+                            InstallerInfo.Log.AddFailure( EXCEPTION_MultipleDnn + InstallerInfo.DnnFile.Name + " and " + file.Name );
                         }
                     }
                     InstallerInfo.Log.AddInfo( string.Format( FILE_ReadSuccess, file.FullName ) );

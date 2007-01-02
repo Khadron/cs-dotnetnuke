@@ -69,7 +69,6 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="FreeTextBox">
       <Name>FreeTextBox</Name>
       <HintPath>bin\FreeTextBox.dll</HintPath>
@@ -134,4 +133,7 @@
     </PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)/Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) %25CSDNN%25</PostBuildEvent>
+  </PropertyGroup>
 </Project>

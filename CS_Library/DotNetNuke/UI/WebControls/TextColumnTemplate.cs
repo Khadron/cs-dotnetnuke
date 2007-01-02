@@ -114,7 +114,7 @@ namespace DotNetNuke.UI.WebControls
         private string GetValue( DataGridItem container )
         {
             string itemValue = DotNetNuke.Common.Utilities.Null.NullString;
-            if (DataField != "")
+            if (!String.IsNullOrEmpty(DataField))
             {
                 if (DesignMode)
                 {

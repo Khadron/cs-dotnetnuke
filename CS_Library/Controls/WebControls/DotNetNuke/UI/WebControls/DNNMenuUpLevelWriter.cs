@@ -166,7 +166,7 @@ namespace DotNetNuke.UI.WebControls
             {
                 if( ClientAPI.BrowserSupportsFunctionality( ClientAPI.ClientFunctionality.XMLHTTP ) )
                 {
-                    writer.AddAttribute( "callback", ClientAPI.GetCallbackEventReference( m_objMenu, "\'[NODEXML]\'", "this.callBackSuccess", "oMNode", "this.callBackFail", "this.callBackStatus" ) );
+                    writer.AddAttribute( "callback", ClientAPI.GetCallbackEventReference( m_objMenu, "'[NODEXML]'", "this.callBackSuccess", "oMNode", "this.callBackFail", "this.callBackStatus" ) );
                 }
                 else
                 {

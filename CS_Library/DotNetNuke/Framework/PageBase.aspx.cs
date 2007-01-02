@@ -52,7 +52,7 @@ namespace DotNetNuke.Framework
                 string fileRoot;
                 string[] page = Request.ServerVariables["SCRIPT_NAME"].Split('/');
 
-                if (_localResourceFile == "")
+                if (String.IsNullOrEmpty( _localResourceFile ))
                 {
                     fileRoot = this.TemplateSourceDirectory + "/" + Localization.LocalResourceDirectory + "/" + page[page.GetUpperBound(0)] + ".resx";
                 }
@@ -80,12 +80,12 @@ namespace DotNetNuke.Framework
                 string preferredLanguage = "";
 
                 //first try if a specific language is requested by cookie, querystring, or form
-                if ((HttpContext.Current != null))
+                if (HttpContext.Current != null)
                 {
                     try
                     {
                         preferredLocale = HttpContext.Current.Request["language"];
-                        if (preferredLocale != "")
+                        if (!String.IsNullOrEmpty( preferredLocale))
                         {
                             if (Localization.LocaleIsEnabled(ref preferredLocale))
                             {
@@ -97,8 +97,9 @@ namespace DotNetNuke.Framework
                             }
                         }
                     }
-                    catch
+                    catch(Exception exc)
                     {
+                        Exceptions.ProcessModuleLoadException(this, exc);
                     }
                 }
 
@@ -108,7 +109,7 @@ namespace DotNetNuke.Framework
                     UserInfo objUserInfo = UserController.GetCurrentUserInfo();
                     if (objUserInfo.UserID != -1)
                     {
-                        if (objUserInfo.Profile.PreferredLocale != "")
+                        if (!String.IsNullOrEmpty(objUserInfo.Profile.PreferredLocale))
                         {
                             if (Localization.LocaleIsEnabled(ref preferredLocale))
                             {
@@ -128,9 +129,9 @@ namespace DotNetNuke.Framework
                 if (ci == null)
                 {
                     // use Request.UserLanguages to get the preferred language
-                    if ((HttpContext.Current != null))
+                    if (HttpContext.Current != null)
                     {
-                        if ((HttpContext.Current.Request.UserLanguages != null))
+                        if (HttpContext.Current.Request.UserLanguages != null)
                         {
                             try
                             {
@@ -166,23 +167,24 @@ namespace DotNetNuke.Framework
                                     }
                                 }
                             }
-                            catch
+                            catch(Exception exc)
                             {
+                                Exceptions.ProcessModuleLoadException( this, exc );
                             }
                         }
                     }
                 }
 
-                if (ci == null && preferredLanguage != "")
+                if (ci == null && !String.IsNullOrEmpty(preferredLanguage))
                 {
                     //we still don't have a good culture, so we are going to try to get a culture with the preferredlanguage instead
-                    foreach (string _localeCode in enabledLocales.AllKeys)
+                    foreach (string code in enabledLocales.AllKeys)
                     {
-                        if (_localeCode.Split('-')[0] == preferredLanguage)
+                        if (code.Split('-')[0] == preferredLanguage)
                         {
                             //the preferredLanguage was found in the enabled locales collection, so we are going to use this one
                             //eg, requested locale is en-GB, requested language is en, enabled locale is en-US, so en is a match for en-US
-                            ci = new CultureInfo(_localeCode);
+                            ci = new CultureInfo(code);
                             
                             break;
                         }
@@ -339,15 +341,6 @@ namespace DotNetNuke.Framework
             base.OnInit(e);
         }
 
-        /// <summary>
-        /// <seealso cref="System.Web.UI.Control.Render" />
-        /// </summary>
-        /// <param name="evt">An EventArgs that controls the event data.</param>
-        protected override void OnPreRender(EventArgs evt)
-        {
-            base.OnPreRender(evt);
-        }
-
         protected void Page_Error(object Source, EventArgs e)
         {
             Exception exc = Server.GetLastError();
@@ -358,7 +351,8 @@ namespace DotNetNuke.Framework
             }
             else
             {
-                strURL += ((strURL.IndexOf("?") == -1) ? "?" : "&") + "error=" + Server.UrlEncode(exc.Message);
+//                strURL += ((strURL.IndexOf("?") == -1) ? "?" : "&") + "error=" + Server.UrlEncode(exc.Message);
+                strURL += ((strURL.IndexOf("?") == -1) ? "?" : "&") + "error=" + Server.UrlEncode("Message: " + exc.Message + "---" + "StackTrace: " + exc.StackTrace);
                 if (!Globals.IsAdminControl())
                 {
                     strURL += "&content=0";
@@ -373,6 +367,7 @@ namespace DotNetNuke.Framework
         /// <param name="c">Control to find the AttributeCollection on</param>
         /// <param name="affectedControls">ArrayList that hold the controls that have been localized. This is later used for the removal of the key attribute.</param>
         /// <param name="includeChildren">If true, causes this method to process children of this controls.</param>
+        /// <param name="resourceFileRoot"></param>
         internal void ProcessControl(Control c, ArrayList affectedControls, bool includeChildren, string resourceFileRoot)
         {
             // Perform the substitution if a key was found
@@ -387,7 +382,7 @@ namespace DotNetNuke.Framework
                 {
                     Label ctrl;
                     ctrl = (Label)c;
-                    if (value != "")
+                    if (!String.IsNullOrEmpty(value))
                     {
                         ctrl.Text = value;
                     }
@@ -396,7 +391,7 @@ namespace DotNetNuke.Framework
                 {
                     LinkButton ctrl;
                     ctrl = (LinkButton)c;
-                    if (value != "")
+                    if (!String.IsNullOrEmpty(value))
                     {
                         MatchCollection imgMatches = Regex.Matches(value, "<(a|link|img|script|input|form).[^>]*(href|src|action)=(\\\"|\'|)(.[^\\\"\']*)(\\\"|\'|)[^>]*>", RegexOptions.IgnoreCase);
 
@@ -417,7 +412,7 @@ namespace DotNetNuke.Framework
                 {
                     HyperLink ctrl;
                     ctrl = (HyperLink)c;
-                    if (value != "")
+                    if (!String.IsNullOrEmpty(value))
                     {
                         ctrl.Text = value;
                     }
@@ -426,7 +421,7 @@ namespace DotNetNuke.Framework
                 {
                     ImageButton ctrl;
                     ctrl = (ImageButton)c;
-                    if (value != "")
+                    if (!String.IsNullOrEmpty(value))
                     {
                         ctrl.AlternateText = value;
                     }
@@ -435,7 +430,7 @@ namespace DotNetNuke.Framework
                 {
                     Button ctrl;
                     ctrl = (Button)c;
-                    if (value != "")
+                    if (!String.IsNullOrEmpty(value))
                     {
                         ctrl.Text = value;
                     }
@@ -444,7 +439,7 @@ namespace DotNetNuke.Framework
                 {
                     HtmlImage ctrl;
                     ctrl = (HtmlImage)c;
-                    if (value != "")
+                    if (!String.IsNullOrEmpty(value))
                     {
                         ctrl.Alt = value;
                     }
@@ -453,7 +448,7 @@ namespace DotNetNuke.Framework
                 {
                     CheckBox ctrl;
                     ctrl = (CheckBox)c;
-                    if (value != "")
+                    if (!String.IsNullOrEmpty(value))
                     {
                         ctrl.Text = value;
                     }
@@ -462,7 +457,7 @@ namespace DotNetNuke.Framework
                 {
                     BaseValidator ctrl;
                     ctrl = (BaseValidator)c;
-                    if (value != "")
+                    if (!String.IsNullOrEmpty(value))
                     {
                         ctrl.ErrorMessage = value;
                     }
@@ -471,7 +466,7 @@ namespace DotNetNuke.Framework
                 {
                     Image ctrl;
                     ctrl = (Image)c;
-                    if (value != "")
+                    if (!String.IsNullOrEmpty(value))
                     {
                         ctrl.AlternateText = value;
                         ctrl.ToolTip = value;
@@ -483,17 +478,15 @@ namespace DotNetNuke.Framework
             if (c is RadioButtonList)
             {
                 RadioButtonList ctrl;
-                ctrl = (RadioButtonList)c;
-                int i;
-                for (i = 0; i <= ctrl.Items.Count - 1; i++)
+                ctrl = (RadioButtonList)c;                
+                for (int i = 0; i <= ctrl.Items.Count - 1; i++)
                 {
-                    AttributeCollection ac = null;
-                    ac = ctrl.Items[i].Attributes;
+                    AttributeCollection ac = ctrl.Items[i].Attributes;
                     key = ac[Localization.KeyName];
                     if (key != null)
                     {
                         string value = Localization.GetString(key, resourceFileRoot);
-                        if (value != "")
+                        if (!String.IsNullOrEmpty(value))
                         {
                             ctrl.Items[i].Text = value;
                         }
@@ -505,17 +498,15 @@ namespace DotNetNuke.Framework
             if (c is DropDownList)
             {
                 DropDownList ctrl;
-                ctrl = (DropDownList)c;
-                int i;
-                for (i = 0; i <= ctrl.Items.Count - 1; i++)
+                ctrl = (DropDownList)c;                
+                for (int i = 0; i <= ctrl.Items.Count - 1; i++)
                 {
-                    AttributeCollection ac = null;
-                    ac = ctrl.Items[i].Attributes;
+                    AttributeCollection ac = ctrl.Items[i].Attributes;
                     key = ac[Localization.KeyName];
                     if (key != null)
                     {
                         string value = Localization.GetString(key, resourceFileRoot);
-                        if (value != "")
+                        if (!String.IsNullOrEmpty(value))
                         {
                             ctrl.Items[i].Text = value;
                         }
@@ -564,7 +555,7 @@ namespace DotNetNuke.Framework
             }
 
             // Process child controls
-            if (includeChildren == true && c.HasControls())
+            if (includeChildren && c.HasControls())
             {
                 if (c is PortalModuleBase)
                 {

@@ -31,7 +31,7 @@ namespace DotNetNuke.UI.Skins
         private bool m_blnPopulateNodesFromClient = true; //JH - POD
         private int m_intExpandDepth = -1; //JH - POD
         private int m_intStartTabId = -1;
-        private NavigationProvider m_objControl;
+        private NavigationProvider m_objControl = null; 
         private string m_strControlAlignment;
         private string m_strControlOrientation;
         private string m_strCSSBreadCrumbRoot;
@@ -1248,16 +1248,13 @@ namespace DotNetNuke.UI.Skins
                 {
                     m_strMouseOverAction = value;
                 }
+                else if( Convert.ToBoolean( value ) )
+                {
+                    Control.MouseOverAction = NavigationProvider.HoverAction.Expand;
+                }
                 else
                 {
-                    if( Convert.ToBoolean( value ) == true )
-                    {
-                        Control.MouseOverAction = NavigationProvider.HoverAction.Expand;
-                    }
-                    else
-                    {
-                        Control.MouseOverAction = NavigationProvider.HoverAction.None;
-                    }
+                    Control.MouseOverAction = NavigationProvider.HoverAction.None;
                 }
             }
         }
@@ -2375,23 +2372,23 @@ namespace DotNetNuke.UI.Skins
         /// </summary>
         private void AssignControlProperties()
         {
-            if( m_strPathSystemImage != null ) if( m_strPathSystemImage.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strPathSystemImage))
             {
                 Control.PathSystemImage = m_strPathSystemImage;
             }
-            if (m_strPathImage != null && m_strPathImage.Length > 0)
+            if (!String.IsNullOrEmpty(m_strPathImage))
             {
                 Control.PathImage = m_strPathImage;
             }
-            if (m_strPathSystemScript != null && m_strPathSystemScript.Length > 0)
+            if (!String.IsNullOrEmpty(m_strPathSystemScript))
             {
                 Control.PathSystemScript = m_strPathSystemScript;
             }
-            if (m_strWorkImage!= null && m_strWorkImage.Length > 0)
+            if (!String.IsNullOrEmpty(m_strWorkImage))
             {
                 Control.WorkImage = m_strWorkImage;
             }
-            if (m_strControlOrientation!= null && m_strControlOrientation.Length > 0)
+            if (!String.IsNullOrEmpty(m_strControlOrientation))
             {
                 switch( m_strControlOrientation.ToLower() )
                 {
@@ -2405,7 +2402,7 @@ namespace DotNetNuke.UI.Skins
                         break;
                 }
             }
-            if( m_strControlAlignment != null ) if( m_strControlAlignment.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strControlAlignment))
             {
                 switch( m_strControlAlignment.ToLower() )
                 {
@@ -2429,11 +2426,11 @@ namespace DotNetNuke.UI.Skins
             }
             Control.ForceCrawlerDisplay = GetValue( m_strForceCrawlerDisplay, "False" );
             Control.ForceDownLevel = GetValue( m_strForceDownLevel, "False" );
-            if( m_strMouseOutHideDelay != null ) if( m_strMouseOutHideDelay.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strMouseOutHideDelay))
             {
                 Control.MouseOutHideDelay = Convert.ToDecimal( m_strMouseOutHideDelay );
             }
-            if( m_strMouseOverDisplay != null ) if( m_strMouseOverDisplay.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strMouseOverDisplay))
             {
                 switch( m_strMouseOverDisplay.ToLower() )
                 {
@@ -2460,251 +2457,251 @@ namespace DotNetNuke.UI.Skins
                 Control.MouseOverAction = NavigationProvider.HoverAction.None;
             }
             Control.IndicateChildren = Convert.ToBoolean( GetValue( m_strIndicateChildren, "True" ) );
-            if( m_strIndicateChildImageRoot != null ) if( m_strIndicateChildImageRoot.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strIndicateChildImageRoot))
             {
                 Control.IndicateChildImageRoot = m_strIndicateChildImageRoot;
             }
-            if( m_strIndicateChildImageSub != null ) if( m_strIndicateChildImageSub.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strIndicateChildImageSub))
             {
                 Control.IndicateChildImageSub = m_strIndicateChildImageSub;
             }
-            if( m_strIndicateChildImageExpandedRoot != null ) if( m_strIndicateChildImageExpandedRoot.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strIndicateChildImageExpandedRoot))
             {
                 Control.IndicateChildImageExpandedRoot = m_strIndicateChildImageExpandedRoot;
             }
-            if( m_strIndicateChildImageExpandedSub != null ) if( m_strIndicateChildImageExpandedSub.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strIndicateChildImageExpandedSub))
             {
                 Control.IndicateChildImageExpandedSub = m_strIndicateChildImageExpandedSub;
             }
-            if( m_strNodeLeftHTMLRoot != null ) if( m_strNodeLeftHTMLRoot.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strNodeLeftHTMLRoot))
             {
                 Control.NodeLeftHTMLRoot = m_strNodeLeftHTMLRoot;
             }
-            if( m_strNodeRightHTMLRoot != null ) if( m_strNodeRightHTMLRoot.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strNodeRightHTMLRoot))
             {
                 Control.NodeRightHTMLRoot = m_strNodeRightHTMLRoot;
             }
-            if( m_strNodeLeftHTMLSub != null ) if( m_strNodeLeftHTMLSub.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strNodeLeftHTMLSub))
             {
                 Control.NodeLeftHTMLSub = m_strNodeLeftHTMLSub;
             }
-            if( m_strNodeRightHTMLSub != null ) if( m_strNodeRightHTMLSub.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strNodeRightHTMLSub))
             {
                 Control.NodeRightHTMLSub = m_strNodeRightHTMLSub;
             }
-            if( m_strNodeLeftHTMLBreadCrumbRoot != null ) if( m_strNodeLeftHTMLBreadCrumbRoot.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strNodeLeftHTMLBreadCrumbRoot))
             {
                 Control.NodeLeftHTMLBreadCrumbRoot = m_strNodeLeftHTMLBreadCrumbRoot;
             }
-            if( m_strNodeLeftHTMLBreadCrumbSub != null ) if( m_strNodeLeftHTMLBreadCrumbSub.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strNodeLeftHTMLBreadCrumbSub))
             {
                 Control.NodeLeftHTMLBreadCrumbSub = m_strNodeLeftHTMLBreadCrumbSub;
             }
-            if( m_strNodeRightHTMLBreadCrumbRoot != null ) if( m_strNodeRightHTMLBreadCrumbRoot.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strNodeRightHTMLBreadCrumbRoot))
             {
                 Control.NodeRightHTMLBreadCrumbRoot = m_strNodeRightHTMLBreadCrumbRoot;
             }
-            if( m_strNodeRightHTMLBreadCrumbSub != null ) if( m_strNodeRightHTMLBreadCrumbSub.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strNodeRightHTMLBreadCrumbSub))
             {
                 Control.NodeRightHTMLBreadCrumbSub = m_strNodeRightHTMLBreadCrumbSub;
             }
-            if( m_strSeparatorHTML != null ) if( m_strSeparatorHTML.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strSeparatorHTML))
             {
                 Control.SeparatorHTML = m_strSeparatorHTML;
             }
-            if( m_strSeparatorLeftHTML != null ) if( m_strSeparatorLeftHTML.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strSeparatorLeftHTML))
             {
                 Control.SeparatorLeftHTML = m_strSeparatorLeftHTML;
             }
-            if( m_strSeparatorRightHTML != null ) if( m_strSeparatorRightHTML.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strSeparatorRightHTML))
             {
                 Control.SeparatorRightHTML = m_strSeparatorRightHTML;
             }
-            if( m_strSeparatorLeftHTMLActive != null ) if( m_strSeparatorLeftHTMLActive.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strSeparatorLeftHTMLActive))
             {
                 Control.SeparatorLeftHTMLActive = m_strSeparatorLeftHTMLActive;
             }
-            if( m_strSeparatorRightHTMLActive != null ) if( m_strSeparatorRightHTMLActive.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strSeparatorRightHTMLActive))
             {
                 Control.SeparatorRightHTMLActive = m_strSeparatorRightHTMLActive;
             }
-            if( m_strSeparatorLeftHTMLBreadCrumb != null ) if( m_strSeparatorLeftHTMLBreadCrumb.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strSeparatorLeftHTMLBreadCrumb))
             {
                 Control.SeparatorLeftHTMLBreadCrumb = m_strSeparatorLeftHTMLBreadCrumb;
             }
-            if( m_strSeparatorRightHTMLBreadCrumb != null ) if( m_strSeparatorRightHTMLBreadCrumb.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strSeparatorRightHTMLBreadCrumb))
             {
                 Control.SeparatorRightHTMLBreadCrumb = m_strSeparatorRightHTMLBreadCrumb;
             }
-            if( m_strCSSControl != null ) if( m_strCSSControl.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSControl))
             {
                 Control.CSSControl = m_strCSSControl;
             }
-            if( m_strCSSContainerRoot != null ) if( m_strCSSContainerRoot.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSContainerRoot))
             {
                 Control.CSSContainerRoot = m_strCSSContainerRoot;
             }
-            if( m_strCSSNode != null ) if( m_strCSSNode.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSNode))
             {
                 Control.CSSNode = m_strCSSNode;
             }
-            if( m_strCSSIcon != null ) if( m_strCSSIcon.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSIcon))
             {
                 Control.CSSIcon = m_strCSSIcon;
             }
-            if( m_strCSSContainerSub != null ) if( m_strCSSContainerSub.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSContainerSub))
             {
                 Control.CSSContainerSub = m_strCSSContainerSub;
             }
-            if( m_strCSSNodeHover != null ) if( m_strCSSNodeHover.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSNodeHover))
             {
                 Control.CSSNodeHover = m_strCSSNodeHover;
             }
-            if( m_strCSSBreak != null ) if( m_strCSSBreak.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSBreak))
             {
                 Control.CSSBreak = m_strCSSBreak;
             }
-            if( m_strCSSIndicateChildSub != null ) if( m_strCSSIndicateChildSub.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSIndicateChildSub))
             {
                 Control.CSSIndicateChildSub = m_strCSSIndicateChildSub;
             }
-            if( m_strCSSIndicateChildRoot != null ) if( m_strCSSIndicateChildRoot.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSIndicateChildRoot))
             {
                 Control.CSSIndicateChildRoot = m_strCSSIndicateChildRoot;
             }
-            if( m_strCSSBreadCrumbRoot != null ) if( m_strCSSBreadCrumbRoot.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSBreadCrumbRoot))
             {
                 Control.CSSBreadCrumbRoot = m_strCSSBreadCrumbRoot;
             }
-            if( m_strCSSBreadCrumbSub != null ) if( m_strCSSBreadCrumbSub.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSBreadCrumbSub))
             {
                 Control.CSSBreadCrumbSub = m_strCSSBreadCrumbSub;
             }
-            if( m_strCSSNodeRoot != null ) if( m_strCSSNodeRoot.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSNodeRoot))
             {
                 Control.CSSNodeRoot = m_strCSSNodeRoot;
             }
-            if( m_strCSSNodeSelectedRoot != null ) if( m_strCSSNodeSelectedRoot.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSNodeSelectedRoot))
             {
                 Control.CSSNodeSelectedRoot = m_strCSSNodeSelectedRoot;
             }
-            if( m_strCSSNodeSelectedSub != null ) if( m_strCSSNodeSelectedSub.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSNodeSelectedSub))
             {
                 Control.CSSNodeSelectedSub = m_strCSSNodeSelectedSub;
             }
-            if( m_strCSSNodeHoverRoot != null ) if( m_strCSSNodeHoverRoot.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSNodeHoverRoot))
             {
                 Control.CSSNodeHoverRoot = m_strCSSNodeHoverRoot;
             }
-            if( m_strCSSNodeHoverSub != null ) if( m_strCSSNodeHoverSub.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSNodeHoverSub))
             {
                 Control.CSSNodeHoverSub = m_strCSSNodeHoverSub;
             }
-            if( m_strCSSSeparator != null ) if( m_strCSSSeparator.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSSeparator))
             {
                 Control.CSSSeparator = m_strCSSSeparator;
             }
-            if( m_strCSSLeftSeparator != null ) if( m_strCSSLeftSeparator.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSLeftSeparator))
             {
                 Control.CSSLeftSeparator = m_strCSSLeftSeparator;
             }
-            if( m_strCSSRightSeparator != null ) if( m_strCSSRightSeparator.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSRightSeparator))
             {
                 Control.CSSRightSeparator = m_strCSSRightSeparator;
             }
-            if( m_strCSSLeftSeparatorSelection != null ) if( m_strCSSLeftSeparatorSelection.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSLeftSeparatorSelection))
             {
                 Control.CSSLeftSeparatorSelection = m_strCSSLeftSeparatorSelection;
             }
-            if( m_strCSSRightSeparatorSelection != null ) if( m_strCSSRightSeparatorSelection.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSRightSeparatorSelection))
             {
                 Control.CSSRightSeparatorSelection = m_strCSSRightSeparatorSelection;
             }
-            if( m_strCSSLeftSeparatorBreadCrumb != null ) if( m_strCSSLeftSeparatorBreadCrumb.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSLeftSeparatorBreadCrumb))
             {
                 Control.CSSLeftSeparatorBreadCrumb = m_strCSSLeftSeparatorBreadCrumb;
             }
-            if( m_strCSSRightSeparatorBreadCrumb != null ) if( m_strCSSRightSeparatorBreadCrumb.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strCSSRightSeparatorBreadCrumb))
             {
                 Control.CSSRightSeparatorBreadCrumb = m_strCSSRightSeparatorBreadCrumb;
             }
-            if( m_strStyleBackColor != null ) if( m_strStyleBackColor.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleBackColor))
             {
                 Control.StyleBackColor = m_strStyleBackColor;
             }
-            if( m_strStyleForeColor != null ) if( m_strStyleForeColor.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleForeColor))
             {
                 Control.StyleForeColor = m_strStyleForeColor;
             }
-            if( m_strStyleHighlightColor != null ) if( m_strStyleHighlightColor.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleHighlightColor))
             {
                 Control.StyleHighlightColor = m_strStyleHighlightColor;
             }
-            if( m_strStyleIconBackColor != null ) if( m_strStyleIconBackColor.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleIconBackColor))
             {
                 Control.StyleIconBackColor = m_strStyleIconBackColor;
             }
-            if( m_strStyleSelectionBorderColor != null ) if( m_strStyleSelectionBorderColor.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleSelectionBorderColor))
             {
                 Control.StyleSelectionBorderColor = m_strStyleSelectionBorderColor;
             }
-            if( m_strStyleSelectionColor != null ) if( m_strStyleSelectionColor.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleSelectionColor))
             {
                 Control.StyleSelectionColor = m_strStyleSelectionColor;
             }
-            if( m_strStyleSelectionForeColor != null ) if( m_strStyleSelectionForeColor.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleSelectionForeColor))
             {
                 Control.StyleSelectionForeColor = m_strStyleSelectionForeColor;
             }
-            if( m_strStyleControlHeight != null ) if( m_strStyleControlHeight.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleControlHeight))
             {
                 Control.StyleControlHeight = Convert.ToDecimal( m_strStyleControlHeight );
             }
-            if( m_strStyleBorderWidth != null ) if( m_strStyleBorderWidth.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleBorderWidth))
             {
                 Control.StyleBorderWidth = Convert.ToDecimal( m_strStyleBorderWidth );
             }
-            if( m_strStyleNodeHeight != null ) if( m_strStyleNodeHeight.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleNodeHeight))
             {
                 Control.StyleNodeHeight = Convert.ToDecimal( m_strStyleNodeHeight );
             }
-            if( m_strStyleIconWidth != null ) if( m_strStyleIconWidth.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleIconWidth))
             {
                 Control.StyleIconWidth = Convert.ToDecimal( m_strStyleIconWidth );
             }
-            if( m_strStyleFontNames != null ) if( m_strStyleFontNames.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleFontNames))
             {
                 Control.StyleFontNames = m_strStyleFontNames;
             }
-            if( m_strStyleFontSize != null ) if( m_strStyleFontSize.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleFontSize))
             {
                 Control.StyleFontSize = Convert.ToDecimal( m_strStyleFontSize );
             }
-            if( m_strStyleFontBold != null ) if( m_strStyleFontBold.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strStyleFontBold))
             {
                 Control.StyleFontBold = m_strStyleFontBold;
             }
-            if( m_strEffectsShadowColor != null ) if( m_strEffectsShadowColor.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strEffectsShadowColor))
             {
                 Control.EffectsShadowColor = m_strEffectsShadowColor;
             }
-            if( m_strEffectsStyle != null ) if( m_strEffectsStyle.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strEffectsStyle))
             {
                 Control.EffectsStyle = m_strEffectsStyle;
             }
-            if( m_strEffectsShadowStrength != null ) if( m_strEffectsShadowStrength.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strEffectsShadowStrength))
             {
                 Control.EffectsShadowStrength = Convert.ToInt32( m_strEffectsShadowStrength );
             }
-            if( m_strEffectsTransition != null ) if( m_strEffectsTransition.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strEffectsTransition))
             {
                 Control.EffectsTransition = m_strEffectsTransition;
             }
-            if( m_strEffectsDuration != null ) if( m_strEffectsDuration.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strEffectsDuration))
             {
                 Control.EffectsDuration = Convert.ToDouble( m_strEffectsDuration );
             }
-            if( m_strEffectsShadowDirection != null ) if( m_strEffectsShadowDirection.Length > 0 )
+            if( !String.IsNullOrEmpty(m_strEffectsShadowDirection))
             {
                 Control.EffectsShadowDirection = m_strEffectsShadowDirection;
             }

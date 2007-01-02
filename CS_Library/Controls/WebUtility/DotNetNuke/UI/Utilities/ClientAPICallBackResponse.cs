@@ -73,15 +73,14 @@ namespace DotNetNuke.UI.Utilities
 
         public void Write()
         {
-            string string1;
-            int i1;
+
             switch( this.TransportType )
             {
                 case TransportTypeCode.IFRAMEPost:
                     {
-                        string1 = this.m_objPage.Request.Form["ctx"];
-                        this.m_objPage.Response.Write( ( "<html><head></head><body onload=\"window.parent.dnn.xmlhttp.requests[\'" + string1 + "\'].complete(window.parent.dnn.dom.getById(\'txt\', document).value);\"><form>" ) );
-                        this.m_objPage.Response.Write( ( "<input type=\"hidden\" id=\"__DNNCAPISCSI\" value=\"" + ( i1 = ( (int)this.StatusCode ) ).ToString() + "\">" ) );
+                        string s = this.m_objPage.Request.Form["ctx"];
+                        this.m_objPage.Response.Write( ( "<html><head></head><body onload=\"window.parent.dnn.xmlhttp.requests['" + s + "'].complete(window.parent.dnn.dom.getById('txt', document).value);\"><form>" ) );
+                        this.m_objPage.Response.Write( ( "<input type=\"hidden\" id=\"__DNNCAPISCSI\" value=\"" + (int)this.StatusCode + "\">" ) );
                         this.m_objPage.Response.Write( ( "<input type=\"hidden\" id=\"__DNNCAPISCSDI\" value=\"" + this.StatusDesc + "\">" ) );
                         this.m_objPage.Response.Write( "<textarea id=\"txt\">" );
                         this.m_objPage.Response.Write( this.Response );
@@ -90,8 +89,8 @@ namespace DotNetNuke.UI.Utilities
                     }
                 case TransportTypeCode.XMLHTTP:
                     {
-                        i1 = ( (int)this.StatusCode );
-                        this.m_objPage.Response.AppendHeader( "__DNNCAPISCSI", i1.ToString() );
+                        int statusCode = ( (int)this.StatusCode );
+                        this.m_objPage.Response.AppendHeader( "__DNNCAPISCSI", statusCode.ToString() );
                         this.m_objPage.Response.AppendHeader( "__DNNCAPISCSDI", this.StatusDesc );
                         this.m_objPage.Response.Write( this.Response );
                         return;

@@ -164,7 +164,7 @@ namespace DotNetNuke.UI.UserControls
         {
             get
             {
-                return Localization.GetResourceFile( ( (Control)this ), this.MyFileName );
+                return Localization.GetResourceFile( this, this.MyFileName );
             }
         }
 
@@ -267,7 +267,7 @@ namespace DotNetNuke.UI.UserControls
                     txtWebsite.Text = _Website;
                     txtIM.Text = _IM;
 
-                    if( _ControlColumnWidth != "" )
+                    if( !String.IsNullOrEmpty(_ControlColumnWidth) )
                     {
                         txtFirstName.Width = Unit.Parse( _ControlColumnWidth );
                         txtLastName.Width = Unit.Parse( _ControlColumnWidth );

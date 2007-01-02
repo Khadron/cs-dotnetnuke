@@ -25,7 +25,6 @@ using DotNetNuke.Entities.Users;
 using DotNetNuke.Security;
 using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Localization;
-using Microsoft.VisualBasic;
 
 namespace DotNetNuke.HttpModules
 {
@@ -64,20 +63,19 @@ namespace DotNetNuke.HttpModules
             }
 
             // Obtain PortalSettings from Current Context
-            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
+            PortalSettings portalSettings = PortalController.GetCurrentPortalSettings();
 
-            if( Request.IsAuthenticated == true && _portalSettings != null )
+            if( Request.IsAuthenticated && portalSettings != null )
             {
-                string[] arrPortalRoles;
                 RoleController objRoleController = new RoleController();
 
-                UserInfo objUser = UserController.GetCachedUser( _portalSettings.PortalId, Context.User.Identity.Name );
+                UserInfo objUser = UserController.GetCachedUser( portalSettings.PortalId, Context.User.Identity.Name );
 
                 if( !Convert.ToBoolean( Request.Cookies["portalaliasid"] == null ) )
                 {
                     FormsAuthenticationTicket PortalCookie = FormsAuthentication.Decrypt( Context.Request.Cookies["portalaliasid"].Value );
                     // check if user has switched portals
-                    if( _portalSettings.PortalAlias.PortalAliasID != int.Parse( PortalCookie.UserData ) )
+                    if( portalSettings.PortalAlias.PortalAliasID != int.Parse( PortalCookie.UserData ) )
                     {
                         // expire cookies if portal has changed
                         Response.Cookies["portalaliasid"].Value = null;
@@ -91,7 +89,7 @@ namespace DotNetNuke.HttpModules
                 }
 
                 // authenticate user and set last login ( this is necessary for users who have a permanent Auth cookie set )
-                if( objUser == null || objUser.Membership.LockedOut == true || objUser.Membership.Approved == false )
+                if( objUser == null || objUser.Membership.LockedOut || objUser.Membership.Approved == false )
                 {
                     PortalSecurity objPortalSecurity = new PortalSecurity();
                     objPortalSecurity.SignOut();
@@ -108,7 +106,7 @@ namespace DotNetNuke.HttpModules
                         DateTime CurrentDateTime = DateTime.Now;
 
                         // create a cookie authentication ticket ( version, user name, issue time, expires every hour, don't persist cookie, roles )
-                        FormsAuthenticationTicket PortalTicket = new FormsAuthenticationTicket( 1, objUser.Username, CurrentDateTime, CurrentDateTime.AddHours( 1 ), false, _portalSettings.PortalAlias.PortalAliasID.ToString() );
+                        FormsAuthenticationTicket PortalTicket = new FormsAuthenticationTicket( 1, objUser.Username, CurrentDateTime, CurrentDateTime.AddHours( 1 ), false, portalSettings.PortalAlias.PortalAliasID.ToString() );
                         // encrypt the ticket
                         string strPortalAliasID = FormsAuthentication.Encrypt( PortalTicket );
                         // send portal cookie to client
@@ -117,25 +115,25 @@ namespace DotNetNuke.HttpModules
                         Response.Cookies["portalaliasid"].Expires = CurrentDateTime.AddMinutes( 1 );
 
                         // get roles from UserRoles table
-                        arrPortalRoles = objRoleController.GetRolesByUser( objUser.UserID, _portalSettings.PortalId );
+                        string[] arrPortalRoles = objRoleController.GetRolesByUser( objUser.UserID, portalSettings.PortalId );
 
                         // create a string to persist the roles
-                        string strPortalRoles = Strings.Join( arrPortalRoles, new string( new char[] {';'} ) );
+                        string strPortalRoles = String.Join(";", arrPortalRoles);
 
                         // create a cookie authentication ticket ( version, user name, issue time, expires every hour, don't persist cookie, roles )
-                        FormsAuthenticationTicket RolesTicket = new FormsAuthenticationTicket( 1, objUser.Username, CurrentDateTime, CurrentDateTime.AddHours( 1 ), false, strPortalRoles );
+                        FormsAuthenticationTicket rolesTicket = new FormsAuthenticationTicket( 1, objUser.Username, CurrentDateTime, CurrentDateTime.AddHours( 1 ), false, strPortalRoles );
                         // encrypt the ticket
-                        string strRoles = FormsAuthentication.Encrypt( RolesTicket );
+                        string strRoles = FormsAuthentication.Encrypt( rolesTicket );
                         // send roles cookie to client
                         Response.Cookies["portalroles"].Value = strRoles;
                         Response.Cookies["portalroles"].Path = "/";
                         Response.Cookies["portalroles"].Expires = CurrentDateTime.AddMinutes( 1 );
                     }
 
-                    if( !Convert.ToBoolean( Request.Cookies["portalroles"] == null ) )
+                    if( Request.Cookies["portalroles"] != null )
                     {
                         // get roles from roles cookie
-                        if( Request.Cookies["portalroles"].Value != "" )
+                        if( !String.IsNullOrEmpty( Request.Cookies["portalroles"].Value ))
                         {
                             FormsAuthenticationTicket RoleTicket = FormsAuthentication.Decrypt( Context.Request.Cookies["portalroles"].Value );
 
@@ -143,15 +141,15 @@ namespace DotNetNuke.HttpModules
                             // and store it in the Roles Property of the User
                             objUser.Roles = RoleTicket.UserData.Split( ';' );
                         }
-                        Context.Items.Add( "UserInfo", (object)objUser );
+                        Context.Items.Add( "UserInfo", objUser );
                         Localization.SetLanguage( objUser.Profile.PreferredLocale );
                     }
                 }
             }
 
-            if( ( (UserInfo)HttpContext.Current.Items["UserInfo"] ) == null )
+            if( HttpContext.Current.Items["UserInfo"] == null )
             {
-                Context.Items.Add( "UserInfo", (object)( new UserInfo() ) );
+                Context.Items.Add( "UserInfo", new UserInfo() );
             }
         }
 

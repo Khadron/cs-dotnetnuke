@@ -23,8 +23,6 @@ using System.Text;
 using System.Threading;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Services.Log.EventLog;
-using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.CompilerServices;
 using Globals=DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Services.Scheduling.DNNScheduling
@@ -274,10 +272,11 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                 }
                 NumberOfProcessGroups = MaxThreads;
                 MaxThreadCount = MaxThreads;
-                int i;
-                for( i = 0; i <= NumberOfProcessGroups - 1; i++ )
+                
+                for(int i = 0; i < NumberOfProcessGroups; i++ )
                 {
-                    arrProcessGroup = (ProcessGroup[])Utils.CopyArray( (Array)arrProcessGroup, new ProcessGroup[i + 1] );
+                    arrProcessGroup = new ProcessGroup[i + 1];
+                    
                     arrProcessGroup[i] = new ProcessGroup();
                 }
                 ThreadPoolInitialized = true;
@@ -344,20 +343,18 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
             {
                 if( SchedulingProvider.SchedulerMode != SchedulerMode.REQUEST_METHOD )
                 {
-                    EventLogController objEventLog = new EventLogController();
-                    LogInfo objEventLogInfo = new LogInfo();
+                    EventLogController controller = new EventLogController();
                     SetScheduleStatus( ScheduleStatus.SHUTTING_DOWN );
-                    objEventLogInfo = new LogInfo();
-                    objEventLogInfo.AddProperty( "Initiator", SourceOfHalt );
-                    objEventLogInfo.LogTypeKey = "SCHEDULER_SHUTTING_DOWN";
-                    objEventLog.AddLog( objEventLogInfo );
+                    LogInfo logInfo = new LogInfo();
+                    logInfo.AddProperty( "Initiator", SourceOfHalt );
+                    logInfo.LogTypeKey = "SCHEDULER_SHUTTING_DOWN";
+                    controller.AddLog( logInfo );
 
                     KeepRunning = false;
 
                     //wait for up to 120 seconds for thread
                     //to shut down
-                    int i;
-                    for( i = 0; i <= 120; i++ )
+                    for( int i = 0; i <= 120; i++ )
                     {
                         if( GetScheduleStatus() == ScheduleStatus.STOPPED )
                         {
@@ -438,12 +435,11 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
 
             private static bool ScheduleQueueContains( ScheduleItem objScheduleItem )
             {
-                int i;
-
-                for( i = 1; i <= GetScheduleQueueCount(); i++ )
+                int schedulerCount = GetScheduleQueueCount();
+                for( int i = 0; i < schedulerCount; i++ )
                 {
-                    ScheduleItem objScheduleItem2 = (ScheduleItem)ScheduleQueue[i];
-                    if( objScheduleItem2.ScheduleID == objScheduleItem.ScheduleID )
+                    ScheduleItem scheduleItem = ScheduleQueue[i] as ScheduleItem;
+                    if (scheduleItem!=null && scheduleItem.ScheduleID == objScheduleItem.ScheduleID)
                     {
                         return true;
                     }
@@ -496,16 +492,15 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
             {
                 try
                 {
-                    int intCount = GetScheduleQueueCount();
-                    if( intCount == 0 )
+                    int queueCount = GetScheduleQueueCount();
+                    if( queueCount == 0 )
                     {
                         return;
                     }
                     objQueueReadWriteLock.AcquireWriterLock( WriteTimeout );
                     try
                     {
-                        int i;
-                        for( i = 1; i <= intCount; i++ )
+                        for( int i = 0; i < queueCount; i++ )
                         {
                             ScheduleQueue.Remove( i );
                         }
@@ -818,7 +813,7 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                     }
                     else
                     {
-                        if( objScheduleHistoryItem.CatchUpEnabled == true )
+                        if( objScheduleHistoryItem.CatchUpEnabled )
                         {
                             switch( objScheduleHistoryItem.TimeLapseMeasurement )
                             {
@@ -1106,14 +1101,14 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                     //This is where the action begins.
                     //Loop until KeepRunning = false
                     ///''''''''''''''''''''''''''''''''''''''''''''''''
-                    if( SchedulingProvider.SchedulerMode != SchedulerMode.REQUEST_METHOD || Debug == true )
+                    if( SchedulingProvider.SchedulerMode != SchedulerMode.REQUEST_METHOD || Debug )
                     {
                         EventLogController objEventLog = new EventLogController();
                         LogInfo objEventLogInfo = new LogInfo();
                         objEventLogInfo.LogTypeKey = "SCHEDULER_STARTED";
                         objEventLog.AddLog( objEventLogInfo );
                     }
-                    while( KeepRunning == true )
+                    while( KeepRunning )
                     {
                         try
                         {
@@ -1146,7 +1141,7 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                             //and we don't have to refresh the queue, continue
                             //to loop.
                             ///''''''''''''''''''''''''''''''''''''''''''''''''
-                            while( FreeThreads > 0 && RefreshQueueSchedule == false && KeepRunning == true && ForceReloadSchedule == false )
+                            while( FreeThreads > 0 && RefreshQueueSchedule == false && KeepRunning && ForceReloadSchedule == false )
                             {
                                 ///''''''''''''''''''''''''''''''''''''''''''''''''
                                 //Fire off the events that need running.
@@ -1195,7 +1190,7 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                                     //Some kind of deadlock on a resource.
                                     //Wait for 10 minutes so we don't fill up the logs
                                     ///''''''''''''''''''''''''''''''''''''''''''''''''
-                                    if( KeepRunning == true )
+                                    if( KeepRunning )
                                     {
                                         Thread.Sleep( 600000 ); //sleep for 10 minutes
                                     }
@@ -1209,7 +1204,7 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                                     ///''''''''''''''''''''''''''''''''''''''''''''''''
                                     //Wait for 10 seconds to avoid cpu overutilization
                                     ///''''''''''''''''''''''''''''''''''''''''''''''''
-                                    if( KeepRunning == true )
+                                    if( KeepRunning )
                                     {
                                         Thread.Sleep( 10000 ); //sleep for 10 seconds
                                     }
@@ -1231,7 +1226,7 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                             //There are no available threads, all threads are being
                             //used.  Wait 10 seconds until one is available
                             ///''''''''''''''''''''''''''''''''''''''''''''''''
-                            if( KeepRunning == true )
+                            if( KeepRunning )
                             {
                                 if( RefreshQueueSchedule == false )
                                 {
@@ -1264,7 +1259,7 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                     {
                         SetScheduleStatus( ScheduleStatus.WAITING_FOR_REQUEST );
                     }
-                    if( SchedulingProvider.SchedulerMode != SchedulerMode.REQUEST_METHOD || Debug == true )
+                    if( SchedulingProvider.SchedulerMode != SchedulerMode.REQUEST_METHOD || Debug )
                     {
                         EventLogController objEventLog = new EventLogController();
                         LogInfo objEventLogInfo = new LogInfo();
@@ -1297,15 +1292,20 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                 //	numToRun = FreeThreads
                 //End If
 
-                int i;
-                for( i = 0; i <= intScheduleQueueCount - 1; i++ )
+                for( int i = 0; i < intScheduleQueueCount; i++ )
                 {
                     if( KeepRunning == false )
                     {
                         return;
                     }
+
+                    if(i > ScheduleQueue.Count)
+                    {
+                        continue;
+                    }
                     int ProcessGroup = GetProcessGroup();
-                    ScheduleItem objScheduleItem = (ScheduleItem)ScheduleQueue[i + 1];
+                    
+                    ScheduleItem objScheduleItem = (ScheduleItem)ScheduleQueue[i];
 
                     if( objScheduleItem.NextStart <= DateTime.Now && objScheduleItem.Enabled && ! IsInProgress( objScheduleItem ) && ! HasDependenciesConflict( objScheduleItem ) && numRun < numToRun )
                     {
@@ -1318,7 +1318,7 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                         {
                             objScheduleItem.ScheduleSource = ScheduleSource.STARTED_FROM_BEGIN_REQUEST;
                         }
-                        if( Asynchronous == true )
+                        if( Asynchronous )
                         {
                             arrProcessGroup[ProcessGroup].AddQueueUserWorkItem( objScheduleItem );
                         }
@@ -1326,11 +1326,11 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                         {
                             arrProcessGroup[ProcessGroup].RunSingleTask( objScheduleItem );
                         }
-                        if( Debug == true )
+                        if( Debug )
                         {
                             EventLogController objEventLog = new EventLogController();
                             LogInfo objEventLogInfo = new LogInfo();
-                            objEventLogInfo.AddProperty( "EVENT ADDED TO PROCESS GROUP " + objScheduleItem.ProcessGroup.ToString(), objScheduleItem.TypeFullName );
+                            objEventLogInfo.AddProperty( "EVENT ADDED TO PROCESS GROUP " + objScheduleItem.ProcessGroup, objScheduleItem.TypeFullName );
                             objEventLogInfo.AddProperty( "SCHEDULE ID", objScheduleItem.ScheduleID.ToString() );
                             objEventLogInfo.LogTypeKey = "DEBUG";
                             objEventLog.AddLog( objEventLogInfo );
@@ -1339,13 +1339,13 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                     }
                     else
                     {
-                        if( Debug == true )
+                        if( Debug )
                         {
                             bool appended = false;
                             StringBuilder strDebug = new StringBuilder( "Task not run because " );
                             if( objScheduleItem.NextStart > DateTime.Now )
                             {
-                                strDebug.Append( " task is scheduled for " + objScheduleItem.NextStart.ToString() );
+                                strDebug.Append( " task is scheduled for " + objScheduleItem.NextStart );
                                 appended = true;
                             }
                             //If Not (objScheduleItem.NextStart <> Null.NullDate And objScheduleItem.ScheduleSource <> ScheduleSource.STARTED_FROM_EVENT) Then
@@ -1399,8 +1399,7 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                 SchedulingController s = new SchedulingController();
                 ArrayList a = s.GetSchedule( Globals.ServerName );
 
-                int i;
-                for( i = 0; i <= a.Count - 1; i++ )
+                for( int i = 0; i < a.Count; i++ )
                 {
                     ScheduleHistoryItem objScheduleHistoryItem;
                     objScheduleHistoryItem = (ScheduleHistoryItem)( a[i] );
@@ -1425,16 +1424,14 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                 SchedulingController s = new SchedulingController();
                 ArrayList a = s.GetScheduleByEvent( EventName.ToString(), Globals.ServerName );
 
-                int i;
-                for( i = 0; i <= a.Count - 1; i++ )
+                for( int i = 0; i < a.Count; i++ )
                 {
-                    ScheduleHistoryItem objScheduleHistoryItem;
-                    objScheduleHistoryItem = (ScheduleHistoryItem)( a[i] );
+                    ScheduleHistoryItem scheduleItem = (ScheduleHistoryItem)( a[i] );
 
-                    if( ! IsInQueue( objScheduleHistoryItem ) && ! IsInProgress( objScheduleHistoryItem ) && ! HasDependenciesConflict( objScheduleHistoryItem ) && objScheduleHistoryItem.Enabled )
+                    if( ! IsInQueue( scheduleItem ) && ! IsInProgress( scheduleItem ) && ! HasDependenciesConflict( scheduleItem ) && scheduleItem.Enabled )
                     {
-                        objScheduleHistoryItem.ScheduleSource = ScheduleSource.STARTED_FROM_EVENT;
-                        AddToScheduleQueue( objScheduleHistoryItem );
+                        scheduleItem.ScheduleSource = ScheduleSource.STARTED_FROM_EVENT;
+                        AddToScheduleQueue( scheduleItem );
                     }
                 }
             }
@@ -1448,7 +1445,6 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
 
             internal static bool IsInQueue( ScheduleItem objScheduleItem )
             {
-                int i;
                 bool objReturn = false;
                 try
                 {
@@ -1457,13 +1453,13 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                     {
                         // It is safe for this thread to read from
                         // the shared resource.
-                        if( GetScheduleQueueCount() > 0 )
+                        int schedulerCount = GetScheduleQueueCount();
+                        if( schedulerCount > 0 )
                         {
-                            for( i = 1; i <= GetScheduleQueueCount(); i++ )
+                            for( int i = 0; i < schedulerCount; i++ )
                             {
-                                ScheduleItem obj;
-                                obj = (ScheduleItem)ScheduleQueue[i];
-                                if( obj.ScheduleID == objScheduleItem.ScheduleID )
+                                ScheduleItem obj = ScheduleQueue[i] as ScheduleItem;
+                                if( obj!=null && obj.ScheduleID == objScheduleItem.ScheduleID )
                                 {
                                     objReturn = true;
                                 }
@@ -1487,7 +1483,7 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
 
             private static bool IsInProgress( ScheduleItem objScheduleItem )
             {
-                int i;
+                
                 bool objReturn = false;
                 try
                 {
@@ -1496,13 +1492,13 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                     {
                         // It is safe for this thread to read from
                         // the shared resource.
-                        if( ScheduleInProgress.Count > 0 )
+                        int inProcCount = ScheduleInProgress.Count;
+                        if( inProcCount > 0 )
                         {
-                            for( i = 1; i <= ScheduleInProgress.Count; i++ )
+                            for( int i = 0; i < inProcCount; i++ )
                             {
-                                ScheduleItem obj;
-                                obj = (ScheduleItem)ScheduleInProgress[i];
-                                if( obj.ScheduleID == objScheduleItem.ScheduleID )
+                                ScheduleItem obj = ScheduleInProgress[i] as ScheduleItem;
+                                if( obj!= null && obj.ScheduleID == objScheduleItem.ScheduleID )
                                 {
                                     objReturn = true;
                                 }
@@ -1526,7 +1522,7 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
 
             public static bool HasDependenciesConflict( ScheduleItem objScheduleItem )
             {
-                int i;
+                
                 bool objReturn = false;
                 try
                 {
@@ -1537,11 +1533,11 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                         // the shared resource.
                         if( ScheduleInProgress != null && objScheduleItem.ObjectDependencies.Length > 0 )
                         {
-                            for( i = 1; i <= ScheduleInProgress.Count; i++ )
+                            int inProgressCount = ScheduleInProgress.Count;
+                            for( int i = 0; i < inProgressCount; i++ )
                             {
-                                ScheduleItem obj;
-                                obj = (ScheduleItem)ScheduleInProgress[i];
-                                if( obj.ObjectDependencies.Length > 0 )
+                                ScheduleItem obj = ScheduleInProgress[i] as ScheduleItem;
+                                if( obj!=null &&  obj.ObjectDependencies.Length > 0 )
                                 {
                                     if( obj.HasObjectDependencies( objScheduleItem.ObjectDependencies ) )
                                     {
@@ -1572,11 +1568,10 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
             {
                 try
                 {
-                    SchedulingController objSchedulingController = new SchedulingController();
-                    int intScheduleHistoryID;
-                    intScheduleHistoryID = objSchedulingController.AddScheduleHistory( objScheduleHistoryItem );
+                    SchedulingController controller = new SchedulingController();
+                    int historyID = controller.AddScheduleHistory( objScheduleHistoryItem );
 
-                    objScheduleHistoryItem.ScheduleHistoryID = intScheduleHistoryID;
+                    objScheduleHistoryItem.ScheduleHistoryID = historyID;
                 }
                 catch( Exception exc )
                 {
@@ -1589,8 +1584,8 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
             {
                 try
                 {
-                    SchedulingController objSchedulingController = new SchedulingController();
-                    objSchedulingController.UpdateScheduleHistory( objScheduleHistoryItem );
+                    SchedulingController controller = new SchedulingController();
+                    controller.UpdateScheduleHistory( objScheduleHistoryItem );
                 }
                 catch( Exception exc )
                 {

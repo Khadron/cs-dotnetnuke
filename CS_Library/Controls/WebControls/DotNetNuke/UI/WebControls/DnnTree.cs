@@ -133,14 +133,17 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                if( ((string)ViewState["IsCrawler"]).Length == 0 )
+                object isCrawler = ViewState["IsCrawler"];
+
+                if (isCrawler == null /*&& ((string)isCrawler).Length == 0*/)
                 {
                     return HttpContext.Current.Request.Browser.Crawler;
                 }
                 else
                 {
-                    return Convert.ToBoolean( ViewState["IsCrawler"] );
+                    return Convert.ToBoolean(ViewState["IsCrawler"]);
                 }
+                
             }
             set
             {
@@ -1054,7 +1057,7 @@ namespace DotNetNuke.UI.WebControls
                 {
                     ClientAPI.RegisterClientScriptBlock( this.Page, "dnn.controls.dnntree.js", "<script src=\"" + TreeScriptPath + "dnn.controls.dnntree.js\"></script>" );
                 }
-                ClientAPI.RegisterStartUpScript( Page, this.ClientID + "_startup", "<script>dnn.controls.initTree($(\'" + this.ClientID + "\'));</script>" ); //wrong place
+                ClientAPI.RegisterStartUpScript( Page, this.ClientID + "_startup", "<script>dnn.controls.initTree($('" + this.ClientID + "'));</script>" ); //wrong place
             }
         }
 

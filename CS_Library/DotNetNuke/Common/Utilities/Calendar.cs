@@ -67,7 +67,7 @@ namespace DotNetNuke.Common.Utilities
                 ClientAPI.RegisterClientScriptBlock(Field.Page, "PopupCalendar.js", "<script src=\"" + ClientAPI.ScriptPath + "PopupCalendar.js\"></script>");
             }
 
-            return "javascript:popupCal(\'Cal\',\'" + Field.ClientID + "\',\'" + FormatString + "\',\'" + MonthNameString + "\',\'" + DayNameString + "\',\'" + Localization.GetString("Today") + "\',\'" + Localization.GetString("Close") + "\',\'" + Localization.GetString("Calendar") + "\'," + DateTimeFormatInfo.CurrentInfo.FirstDayOfWeek + ");";
+            return "javascript:popupCal('Cal','" + Field.ClientID + "','" + FormatString + "','" + MonthNameString + "','" + DayNameString + "','" + Localization.GetString("Today") + "','" + Localization.GetString("Close") + "','" + Localization.GetString("Calendar") + "'," + DateTimeFormatInfo.CurrentInfo.FirstDayOfWeek + ");";
         }
     }
 }

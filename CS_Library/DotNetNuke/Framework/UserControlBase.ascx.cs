@@ -33,12 +33,7 @@ namespace DotNetNuke.Framework
         {
             get
             {
-                bool _IsAdmin = false;
-                if (PortalSettings.ActiveTab.ParentId == PortalSettings.AdminTabId)
-                {
-                    _IsAdmin = true;
-                }
-                return _IsAdmin;
+                return ( PortalSettings.ActiveTab.ParentId == PortalSettings.AdminTabId );
             }
         }
 
@@ -46,12 +41,7 @@ namespace DotNetNuke.Framework
         {
             get
             {
-                bool _IsHost = false;
-                if (PortalSettings.ActiveTab.ParentId == PortalSettings.SuperTabId)
-                {
-                    _IsHost = true;
-                }
-                return _IsHost;
+                return ( PortalSettings.ActiveTab.ParentId == PortalSettings.SuperTabId );                
             }
         }
 
@@ -60,9 +50,7 @@ namespace DotNetNuke.Framework
         {
             get
             {
-                PortalSettings returnValue;
-                returnValue = PortalController.GetCurrentPortalSettings();
-                return returnValue;
+                return PortalController.GetCurrentPortalSettings();                
             }
         }
     }

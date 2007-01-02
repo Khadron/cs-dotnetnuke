@@ -174,7 +174,7 @@ namespace DotNetNuke.Framework
             if( Globals.GetHashValue( Globals.HostSettings["Copyright"], "Y" ) == "Y" )
             {
                 Comment += "\r\n" + "<!--**********************************************************************************-->" 
-                           + "\r\n" + "<!-- DotNetNuke® - http://www.dotnetnuke.com                                          -->" 
+                           + "\r\n" + "<!-- DotNetNuke - http://www.dotnetnuke.com                                           -->" 
                            + "\r\n" + "<!-- Copyright (c) 2002-2006                                                          -->" 
                            + "\r\n" + "<!-- by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )   -->" 
                            + "\r\n" + "<!--**********************************************************************************-->" 
@@ -200,7 +200,7 @@ namespace DotNetNuke.Framework
                 strTitle += " ( DNN " + PortalSettings.Version + " )";
             }
             // tab title override
-            if( PortalSettings.ActiveTab.Title != "" )
+            if( !String.IsNullOrEmpty(PortalSettings.ActiveTab.Title) )
             {
                 strTitle = PortalSettings.ActiveTab.Title;
             }
@@ -209,7 +209,7 @@ namespace DotNetNuke.Framework
             //set the background image if there is one selected
             if( this.FindControl( "Body" ) != null )
             {
-                if( PortalSettings.BackgroundFile != "" )
+                if( !String.IsNullOrEmpty(PortalSettings.BackgroundFile) )
                 {
                     ( (HtmlGenericControl)this.FindControl( "Body" ) ).Attributes["background"] = PortalSettings.HomeDirectory + PortalSettings.BackgroundFile;
                 }
@@ -219,15 +219,15 @@ namespace DotNetNuke.Framework
             if( PortalSettings.ActiveTab.RefreshInterval > 0 && Request.QueryString["ctl"] == null )
             {
                                 
-                metaRefresh.Content = PortalSettings.ActiveTab.RefreshInterval.ToString();
+                MetaRefresh.Content = PortalSettings.ActiveTab.RefreshInterval.ToString();
             }
             else
             {
-                metaRefresh.Visible = false;
+                MetaRefresh.Visible = false;
             }
 
             // META description
-            if( PortalSettings.ActiveTab.Description != "" )
+            if( !String.IsNullOrEmpty(PortalSettings.ActiveTab.Description) )
             {
                 Description = PortalSettings.ActiveTab.Description;
             }
@@ -237,7 +237,7 @@ namespace DotNetNuke.Framework
             }
 
             // META keywords
-            if( PortalSettings.ActiveTab.KeyWords != "" )
+            if( !String.IsNullOrEmpty(PortalSettings.ActiveTab.KeyWords) )
             {
                 KeyWords = PortalSettings.ActiveTab.KeyWords;
             }
@@ -251,7 +251,7 @@ namespace DotNetNuke.Framework
             }
 
             // META copyright
-            if( PortalSettings.FooterText != "" )
+            if( !String.IsNullOrEmpty(PortalSettings.FooterText) )
             {
                 
                 Copyright = PortalSettings.FooterText;
@@ -292,7 +292,7 @@ namespace DotNetNuke.Framework
             {
                 // could not load user control
                 PageLoadException lex = new PageLoadException( "Unhandled error loading page.", exc );
-                if( PortalSecurity.IsInRoles( PortalSettings.AdministratorRoleName ) == true || PortalSecurity.IsInRoles( PortalSettings.ActiveTab.AdministratorRoles.ToString() ) == true )
+                if( PortalSecurity.IsInRoles( PortalSettings.AdministratorRoleName ) || PortalSecurity.IsInRoles( PortalSettings.ActiveTab.AdministratorRoles.ToString() ) )
                 {
                     // only display the error to administrators
                     SkinError.Text += "<center>Could Not Load Skin: " + SkinPath + " Error: " + Server.HtmlEncode( exc.Message ) + "</center><br>";
@@ -439,7 +439,7 @@ namespace DotNetNuke.Framework
 
         private void ManageFavicon()
         {
-            string strFavicon = Convert.ToString( DataCache.GetCache( "FAVICON" + PortalSettings.PortalId.ToString() ) );
+            string strFavicon = Convert.ToString( DataCache.GetCache( "FAVICON" + PortalSettings.PortalId ) );
             if( strFavicon == "" )
             {
                 if( File.Exists( PortalSettings.HomeDirectoryMapPath + "favicon.ico" ) )
@@ -447,11 +447,11 @@ namespace DotNetNuke.Framework
                     strFavicon = PortalSettings.HomeDirectory + "favicon.ico";
                     if( Globals.PerformanceSetting != Globals.PerformanceSettings.NoCaching )
                     {
-                        DataCache.SetCache( "FAVICON" + PortalSettings.PortalId.ToString(), strFavicon );
+                        DataCache.SetCache( "FAVICON" + PortalSettings.PortalId, strFavicon );
                     }
                 }
             }
-            if( strFavicon != "" )
+            if( !String.IsNullOrEmpty(strFavicon) )
             {
                 HtmlLink objLink = new HtmlLink();
                 objLink.Attributes["rel"] = "SHORTCUT ICON";
@@ -496,7 +496,7 @@ namespace DotNetNuke.Framework
             {
                 if( Request.Cookies["_SkinSrc" + PortalSettings.PortalId] != null )
                 {
-                    if( Request.Cookies["_SkinSrc" + PortalSettings.PortalId].Value != "" )
+                    if( !String.IsNullOrEmpty( Request.Cookies["_SkinSrc" + PortalSettings.PortalId].Value ))
                     {
                         PortalSettings.ActiveTab.SkinSrc = SkinController.FormatSkinSrc( Request.Cookies["_SkinSrc" + PortalSettings.PortalId].Value + ".ascx", PortalSettings );
                         ctlSkin = LoadSkin( PortalSettings.ActiveTab.SkinSrc );
@@ -509,8 +509,7 @@ namespace DotNetNuke.Framework
             {
                 if( Globals.IsAdminSkin( PortalSettings.ActiveTab.IsAdminTab ) )
                 {
-                    SkinInfo objSkin;
-                    objSkin = SkinController.GetSkin( SkinInfo.RootSkin, PortalSettings.PortalId, SkinType.Admin );
+                    SkinInfo objSkin = SkinController.GetSkin( SkinInfo.RootSkin, PortalSettings.PortalId, SkinType.Admin );
                     if( objSkin != null )
                     {
                         PortalSettings.ActiveTab.SkinSrc = objSkin.SkinSrc;
@@ -521,7 +520,7 @@ namespace DotNetNuke.Framework
                     }
                 }
 
-                if( PortalSettings.ActiveTab.SkinSrc != "" )
+                if( !String.IsNullOrEmpty(PortalSettings.ActiveTab.SkinSrc) )
                 {
                     PortalSettings.ActiveTab.SkinSrc = SkinController.FormatSkinSrc( PortalSettings.ActiveTab.SkinSrc, PortalSettings );
                     ctlSkin = LoadSkin( PortalSettings.ActiveTab.SkinSrc );
@@ -578,11 +577,11 @@ namespace DotNetNuke.Framework
         /// </history>
         protected void Page_Load( Object sender, EventArgs e )
         {
-            HtmlInputHidden Scrolltop = (HtmlInputHidden)Page.FindControl( "ScrollTop" );
-            if( Scrolltop.Value != "" )
+            HtmlInputHidden scrolltop = (HtmlInputHidden)Page.FindControl( "ScrollTop" );
+            if( !String.IsNullOrEmpty(scrolltop.Value) )
             {
                 DNNClientAPI.AddBodyOnloadEventHandler( Page, "__dnn_setScrollTop();" );
-                Scrolltop.Value = Scrolltop.Value;
+                scrolltop.Value = scrolltop.Value;
             }
         }
 
@@ -596,11 +595,11 @@ namespace DotNetNuke.Framework
 
             //Set the Head tags
             Page.Header.Title = Title;            
-            metaGenerator.Content = Generator;
-            metaAuthor.Content = PortalSettings.PortalName;
-            metaCopyright.Content = Copyright;
-            metaKeywords.Content = KeyWords;
-            metaDescription.Content = Description;
+            MetaGenerator.Content = Generator;
+            MetaAuthor.Content = PortalSettings.PortalName;
+            MetaCopyright.Content = Copyright;
+            MetaKeywords.Content = KeyWords;
+            MetaDescription.Content = Description;
         }
     }
 }

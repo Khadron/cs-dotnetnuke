@@ -23,31 +23,32 @@ using DotNetNuke.Services.Exceptions;
 
 namespace DotNetNuke.UI.Skins.Controls
 {
-    public class ModuleMessage : SkinObjectBase
+    public enum ModuleMessageType
     {
+        GreenSuccess = 0,
+        YellowWarning = 1,
+        RedError = 2,
+    }
+
+    public partial class ModuleMessage : SkinObjectBase
+    {
+        protected Image imgIcon;
+        protected Image imgLogo;
+        protected Label lblHeading;
+        protected Label lblMessage;
+
         private string _heading;
         private string _iconImage;
         private ModuleMessageType _iconType;
 
         // private members
-        private string _text;
-        protected Image imgIcon;
-        protected Image imgLogo;
-        protected Label lblHeading;
+        private string _text;      
 
-        // protected controls
-        protected Label lblMessage;
-
-        public enum ModuleMessageType
-        {
-            GreenSuccess = 0,
-            YellowWarning = 1,
-            RedError = 2,
-        }
+        
 
         public ModuleMessage()
         {
-           
+           this._text = String.Empty;
            Load += new EventHandler( this.Page_Load );
         }
 
@@ -105,13 +106,13 @@ namespace DotNetNuke.UI.Skins.Controls
         {
             try
             {
-                string strMessage = "";
+                string strMessage = String.Empty;
 
-                //check to see if a url
-                //was passed in for an icon
-                if (IconImage != "")
+                //check to see if a url was passed in for an icon
+                
+                if (!String.IsNullOrEmpty(IconImage) )
                 {
-                    strMessage += this.Text;
+                    strMessage = this.Text;
                     lblHeading.CssClass = "SubHead";
                     lblMessage.CssClass = "Normal";
                     imgIcon.ImageUrl = IconImage;
@@ -123,7 +124,7 @@ namespace DotNetNuke.UI.Skins.Controls
                     {
                         case ModuleMessageType.GreenSuccess:
 
-                            strMessage += this.Text;
+                            strMessage = this.Text;
                             lblHeading.CssClass = "SubHead";
                             lblMessage.CssClass = "Normal";
                             imgIcon.ImageUrl = "~/images/green-ok.gif";
@@ -131,7 +132,7 @@ namespace DotNetNuke.UI.Skins.Controls
                             break;
                         case ModuleMessageType.YellowWarning:
 
-                            strMessage += this.Text;
+                            strMessage = this.Text;
                             lblHeading.CssClass = "Normal";
                             lblMessage.CssClass = "Normal";
                             imgIcon.ImageUrl = "~/images/yellow-warning.gif";
@@ -139,7 +140,7 @@ namespace DotNetNuke.UI.Skins.Controls
                             break;
                         case ModuleMessageType.RedError:
 
-                            strMessage += this.Text;
+                            strMessage = this.Text;
                             lblHeading.CssClass = "NormalRed";
                             lblMessage.CssClass = "Normal";
                             imgIcon.ImageUrl = "~/images/red-error.gif";
@@ -148,7 +149,7 @@ namespace DotNetNuke.UI.Skins.Controls
                     }
                 }
                 lblMessage.Text = strMessage;
-                if (Heading != "")
+                if (!String.IsNullOrEmpty(Heading))
                 {
                     lblHeading.Visible = true;
                     lblHeading.Text = Heading + "<br/>";

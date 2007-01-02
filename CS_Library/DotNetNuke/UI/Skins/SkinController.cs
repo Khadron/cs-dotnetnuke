@@ -34,16 +34,16 @@ namespace DotNetNuke.UI.Skins
     /// <Summary>Handles the Business Control Layer for Skins</Summary>
     public class SkinController
     {
-        public static string FormatMessage( string Title, string Body, int Level, bool IsError )
+        public static string FormatMessage( string title, string body, int level, bool isError )
         {
-            string Message = Title;
+            string Message = title;
 
-            if (IsError)
+            if (isError)
             {
-                Message = "<font class=\"NormalRed\">" + Title + "</font>";
+                Message = "<font class=\"NormalRed\">" + title + "</font>";
             }
 
-            switch (Level)
+            switch (level)
             {
                 case -1:
 
@@ -63,26 +63,32 @@ namespace DotNetNuke.UI.Skins
                     break;
             }
 
-            return Message + ": " + Body + "\r\n";
+            return Message + ": " + body + "\r\n";
         }
 
-        public static string FormatSkinPath( string SkinSrc )
+        public static string FormatSkinPath( string skinSrc )
         {
-            string strSkinSrc = SkinSrc;
+            string strSkinSrc = skinSrc;
 
-            if (strSkinSrc != "")
+            if (!String.IsNullOrEmpty(strSkinSrc))
             {
                 strSkinSrc = strSkinSrc.Substring(0, Strings.InStrRev(strSkinSrc, "/", -1, 0));
+                // AC could not get the following lines to work. no skin is displayed if used.
+                //                int lastIndexOf = strSkinSrc.LastIndexOf( "/" );
+                //                if(lastIndexOf >= 0)
+                //                {
+                //                    strSkinSrc = strSkinSrc.Substring(0, lastIndexOf);                    
+                //                }
             }
 
             return strSkinSrc;
         }
 
-        public static string FormatSkinSrc( string SkinSrc, PortalSettings PortalSettings )
+        public static string FormatSkinSrc( string skinSrc, PortalSettings portalSettings )
         {
-            string strSkinSrc = SkinSrc;
+            string strSkinSrc = skinSrc;
 
-            if (strSkinSrc != "")
+            if (!String.IsNullOrEmpty(strSkinSrc))
             {
                 switch (strSkinSrc.Substring(0, 3))
                 {
@@ -92,7 +98,7 @@ namespace DotNetNuke.UI.Skins
                         break;
                     case "[L]":
 
-                        strSkinSrc = strSkinSrc.Replace("[L]", PortalSettings.HomeDirectory);
+                        strSkinSrc = strSkinSrc.Replace("[L]", portalSettings.HomeDirectory);
                         break;
                 }
             }
@@ -100,35 +106,30 @@ namespace DotNetNuke.UI.Skins
             return strSkinSrc;
         }
 
-        public static SkinInfo GetSkin( string SkinRoot, int PortalId, SkinType SkinType )
+        public static SkinInfo GetSkin( string skinRoot, int portalId, SkinType skinType )
         {
-            return ( (SkinInfo)CBO.FillObject( DataProvider.Instance().GetSkin( SkinRoot, PortalId, ( (int)SkinType ) ), typeof( SkinInfo ) ) );
+            return ( (SkinInfo)CBO.FillObject( DataProvider.Instance().GetSkin( skinRoot, portalId, ( (int)skinType ) ), typeof( SkinInfo ) ) );
         }
 
-        public static string UploadSkin( string RootPath, string SkinRoot, string SkinName, string Path )
+        public static string UploadSkin( string rootPath, string skinRoot, string skinName, string path )
         {
-            string strMessage = "";
-
             FileStream objFileStream;
-            objFileStream = new FileStream(Path, FileMode.Open, FileAccess.Read);
+            objFileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
 
-            strMessage = UploadSkin(RootPath, SkinRoot, SkinName, ((Stream)objFileStream));
+            string strMessage = UploadSkin(rootPath, skinRoot, skinName, objFileStream);
 
             objFileStream.Close();
 
             return strMessage;
         }
 
-        public static string UploadSkin( string RootPath, string SkinRoot, string SkinName, Stream objInputStream )
+        public static string UploadSkin( string rootPath, string skinRoot, string skinName, Stream objInputStream )
         {
             ZipInputStream objZipInputStream = new ZipInputStream(objInputStream);
 
             ZipEntry objZipEntry;
-            string strExtension;
-            string strFileName;
-            FileStream objFileStream;
-            int intSize = 2048;
-            byte[] arrData = new byte[2049];
+            int intSize = 2049;
+            byte[] arrData = new byte[intSize];
             string strMessage = "";
             ArrayList arrSkinFiles = new ArrayList();
 
@@ -141,7 +142,7 @@ namespace DotNetNuke.UI.Skins
             string END_MESSAGE = Localization.GetString("EndZip", ResourcePortalSettings);
             string FILE_RESTICTED = Localization.GetString("FileRestricted", ResourcePortalSettings);
 
-            strMessage += FormatMessage(BEGIN_MESSAGE, SkinName, -1, false);
+            strMessage += FormatMessage(BEGIN_MESSAGE, skinName, -1, false);
 
             objZipEntry = objZipInputStream.GetNextEntry();
             while (objZipEntry != null)
@@ -149,7 +150,7 @@ namespace DotNetNuke.UI.Skins
                 if (!objZipEntry.IsDirectory)
                 {
                     // validate file extension
-                    strExtension = objZipEntry.Name.Substring(objZipEntry.Name.LastIndexOf(".") + 1);
+                    string strExtension = objZipEntry.Name.Substring(objZipEntry.Name.LastIndexOf(".") + 1);
                     if (Strings.InStr(1, ",ASCX,HTM,HTML,CSS,SWF,RESX," + Globals.HostSettings["FileExtensions"].ToString().ToUpper(), "," + strExtension.ToUpper(), 0) != 0)
                     {
                         // process embedded zip files
@@ -163,7 +164,7 @@ namespace DotNetNuke.UI.Skins
                                 intSize = objZipInputStream.Read(arrData, 0, arrData.Length);
                             }
                             objMemoryStream.Seek(0, SeekOrigin.Begin);
-                            strMessage += UploadSkin(RootPath, SkinInfo.RootSkin, SkinName, ((Stream)objMemoryStream));
+                            strMessage += UploadSkin(rootPath, SkinInfo.RootSkin, skinName, objMemoryStream);
                         }
                         else if (objZipEntry.Name.ToLower() == SkinInfo.RootContainer.ToLower() + ".zip")
                         {
@@ -175,11 +176,11 @@ namespace DotNetNuke.UI.Skins
                                 intSize = objZipInputStream.Read(arrData, 0, arrData.Length);
                             }
                             objMemoryStream.Seek(0, SeekOrigin.Begin);
-                            strMessage += UploadSkin(RootPath, SkinInfo.RootContainer, SkinName, ((Stream)objMemoryStream));
+                            strMessage += UploadSkin(rootPath, SkinInfo.RootContainer, skinName, objMemoryStream);
                         }
                         else
                         {
-                            strFileName = RootPath + SkinRoot + "\\" + SkinName + "\\" + objZipEntry.Name;
+                            string strFileName = rootPath + skinRoot + "\\" + skinName + "\\" + objZipEntry.Name;
 
                             // create the directory if it does not exist
                             if (!Directory.Exists(Path.GetDirectoryName(strFileName)))
@@ -195,7 +196,7 @@ namespace DotNetNuke.UI.Skins
                                 File.Delete(strFileName);
                             }
                             // create the new file
-                            objFileStream = File.Create(strFileName);
+                            FileStream objFileStream = File.Create(strFileName);
 
                             // unzip the file
                             strMessage += FormatMessage(WRITE_FILE, Path.GetFileName(strFileName), 2, false);
@@ -248,24 +249,23 @@ namespace DotNetNuke.UI.Skins
                 }
                 objZipEntry = objZipInputStream.GetNextEntry();
             }
-            strMessage += FormatMessage(END_MESSAGE, SkinName + ".zip", 1, false);
+            strMessage += FormatMessage(END_MESSAGE, skinName + ".zip", 1, false);
             objZipInputStream.Close();
 
             // process the list of skin files
-            SkinFileProcessor NewSkin = new SkinFileProcessor(RootPath, SkinRoot, SkinName);
+            SkinFileProcessor NewSkin = new SkinFileProcessor(rootPath, skinRoot, skinName);
             strMessage += NewSkin.ProcessList(arrSkinFiles, SkinParser.Portable);
 
             // log installation event
             try
-            {
+            {                
                 LogInfo objEventLogInfo = new LogInfo();
                 objEventLogInfo.LogTypeKey = EventLogController.EventLogType.HOST_ALERT.ToString();
-                objEventLogInfo.LogProperties.Add(new LogDetailInfo("Install Skin:", SkinName));
+                objEventLogInfo.LogProperties.Add(new LogDetailInfo("Install Skin:", skinName));
                 Array arrMessage = strMessage.Split("<br>".ToCharArray()[0]);
-                string strRow;
                 foreach (string tempLoopVar_strRow in arrMessage)
                 {
-                    strRow = tempLoopVar_strRow;
+                    string strRow = tempLoopVar_strRow;
                     objEventLogInfo.LogProperties.Add(new LogDetailInfo("Info:", HtmlUtils.StripTags(strRow, true)));
                 }
                 EventLogController objEventLog = new EventLogController();
@@ -279,15 +279,15 @@ namespace DotNetNuke.UI.Skins
             return strMessage;
         }
 
-        public static void SetSkin( string SkinRoot, int PortalId, SkinType SkinType, string SkinSrc )
+        public static void SetSkin( string skinRoot, int portalId, SkinType skinType, string skinSrc )
         {
             // remove skin assignment
-            DataProvider.Instance().DeleteSkin(SkinRoot, PortalId, (int)SkinType);
+            DataProvider.Instance().DeleteSkin(skinRoot, portalId, (int)skinType);
 
             // add new skin assignment if specified
-            if (SkinSrc != "")
+            if (!String.IsNullOrEmpty(skinSrc))
             {
-                DataProvider.Instance().AddSkin(SkinRoot, PortalId, (int)SkinType, SkinSrc);
+                DataProvider.Instance().AddSkin(skinRoot, portalId, (int)skinType, skinSrc);
             }
         }
     }

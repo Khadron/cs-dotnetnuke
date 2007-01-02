@@ -275,7 +275,8 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                if( m_strParentNS.Length == 0 )
+                
+                if (m_strParentNS == null || m_strParentNS.Length == 0)
                 {
                     m_strParentNS = "";
                     if( XmlNode.ParentNode != null && ( XmlNode.ParentNode ) is XmlElement )
@@ -283,6 +284,7 @@ namespace DotNetNuke.UI.WebControls
                         m_strParentNS = XmlNode.ParentNode.Attributes.GetNamedItem( "id" ).Value;
                     }
                 }
+                
                 return m_strParentNS;
             }
         }

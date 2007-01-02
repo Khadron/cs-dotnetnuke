@@ -2,7 +2,7 @@
 <%@ Register TagPrefix="Portal" TagName="URL" Src="~/controls/URLControl.ascx" %>
 <%@ Import Namespace="DotNetNuke.UI.Utilities" %>
 <%@ Import Namespace="DotNetNuke.Services.Localization" %>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 	<head runat="server">
 		<title><%= Title %></title>
 		<link rel="stylesheet" type="text/css" href="FTBPopUp.css" />

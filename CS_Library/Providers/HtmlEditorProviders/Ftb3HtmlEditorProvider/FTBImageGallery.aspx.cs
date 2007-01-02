@@ -26,11 +26,6 @@ using DotNetNuke.Security;
 using DotNetNuke.Services.FileSystem;
 using FreeTextBoxControls;
 using FileInfo=System.IO.FileInfo;
-//using Common;
-//using Utilities;
-//using Portals;
-//using Security;
-//using Services.FileSystem;
 
 namespace DotNetNuke.HtmlEditor
 {
@@ -121,7 +116,7 @@ namespace DotNetNuke.HtmlEditor
             }
         }
 
-        private void Page_Load( Object sender, EventArgs e )
+        protected void Page_Load( Object sender, EventArgs e )
         {
             // set page title
             string strTitle = PortalSettings.PortalName + " > Image Gallery";
@@ -138,7 +133,7 @@ namespace DotNetNuke.HtmlEditor
             imgGallery.SupportFolder = Globals.ResolveUrl( "~/Providers/HtmlEditorProviders/Ftb3HtmlEditorProvider/ftb3/" );
         }
 
-        private void Page_PreRender( object sender, EventArgs e )
+        protected void Page_PreRender( object sender, EventArgs e )
         {
             InitFolderAccess();
 

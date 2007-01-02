@@ -18,15 +18,15 @@
 		{
 			var oXML = dnn.xml.createDocument();
 			dnn.diagnostics.assertNotNull('createDocument()', oXML);
-			oXML.loadXML('<root><test nm="t1"/><test nm="t2"/></root>');
-			dnn.diagnostics.assertNotNull('childNodes()', oXML.childNodes[0]);
-			dnn.diagnostics.assertStringLength('xml property', oXML.childNodes[0].xml);
+			oXML.loadXml('<root><test nm="t1"/><test nm="t2"/></root>');
+			dnn.diagnostics.assertNotNull('childNodes()', oXML.childNodes(0));
+			dnn.diagnostics.assertStringLength('xml property', oXML.childNodes(0).xml);
 			var sStyle = '<?xml version="1.0"?><xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:template match="/"><p><xsl:for-each select="//test"><xsl:apply-templates select="." /></xsl:for-each></p></xsl:template><xsl:template match="test"><b>test: </b><xsl:value-of select="@nm"/></xsl:template></xsl:stylesheet>';
-			var sHTML = oXML.applyStyle(sStyle);
-			dnn.diagnostics.assertStringLength('XSL Transform results', sHTML);
-			oXML.loadXML(sHTML);
-			dnn.diagnostics.assertNotNull('transformed xml childNodes()', oXML.childNodes[0]);
-			dnn.diagnostics.assertStringLength('transformed xml property', oXML.childNodes[0].xml);
+			//var sHTML = oXML.applyStyle(sStyle);
+			//dnn.diagnostics.assertStringLength('XSL Transform results', sHTML);
+			//oXML.loadXML(sHTML);
+			//dnn.diagnostics.assertNotNull('transformed xml childNodes()', oXML.childNodes(0));
+			//dnn.diagnostics.assertStringLength('transformed xml property', oXML.childNodes(0).xml);
 			
 			//dnn.diagnostics.displayDebug('browser.toString(): ' + dnn.dom.browser.toString());			
 		}

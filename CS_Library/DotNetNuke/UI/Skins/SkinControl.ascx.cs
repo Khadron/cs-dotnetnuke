@@ -47,7 +47,7 @@ namespace DotNetNuke.UI.Skins
         {
             get
             {
-                if( _localResourceFile == "" )
+                if( String.IsNullOrEmpty( _localResourceFile ))
                 {
                     return ( this.TemplateSourceDirectory + "/App_LocalResources/SkinControl.ascx" );
                 }
@@ -84,7 +84,7 @@ namespace DotNetNuke.UI.Skins
                 }
                 else
                 {
-                    return "";
+                    return String.Empty;
                 }
             }
             set
@@ -107,11 +107,17 @@ namespace DotNetNuke.UI.Skins
 
         public SkinControl()
         {
-            base.Load += new EventHandler( this.Page_Load );
-            this.optSite.CheckedChanged += new EventHandler( this.optSite_CheckedChanged );
-            this.optHost.CheckedChanged += new EventHandler( this.optHost_CheckedChanged );
-            this.cmdPreview.Click += new EventHandler( this.cmdPreview_Click );
-            this._Width = "";
+            Load += new EventHandler( this.Page_Load );
+            Init += new EventHandler(SkinControl_Init);
+            this._Width = String.Empty;
+        }
+
+        void SkinControl_Init(object sender, EventArgs e)
+        {
+            this.optSite.CheckedChanged += new EventHandler(this.optSite_CheckedChanged);
+            this.optHost.CheckedChanged += new EventHandler(this.optHost_CheckedChanged);
+            this.cmdPreview.Click += new EventHandler(this.cmdPreview_Click);
+
         }
 
         /// <Summary>format skin name</Summary>
@@ -144,7 +150,7 @@ namespace DotNetNuke.UI.Skins
 
         protected void cmdPreview_Click( object sender, EventArgs e )
         {
-            if( SkinSrc != "" )
+            if( !String.IsNullOrEmpty(SkinSrc) )
             {
                 string strType = SkinRoot.Substring( 0, SkinRoot.Length - 1 );
 
@@ -164,11 +170,11 @@ namespace DotNetNuke.UI.Skins
                 {
                     if( Request.QueryString["ModuleId"] != null )
                     {
-                        strURL += "&ModuleId=" + Request.QueryString["ModuleId"].ToString();
+                        strURL += "&ModuleId=" + Request.QueryString["ModuleId"];
                     }
                 }
 
-                Response.Write( "<script>window.open(\'" + strURL + "\',\'_blank\')</script>" );
+                Response.Write( "<script>window.open('" + strURL + "','_blank')</script>" );
             }
         }
 
@@ -204,7 +210,7 @@ namespace DotNetNuke.UI.Skins
                                 strFolder = strFolder.Substring( Strings.InStrRev( strFolder, "\\", -1, 0 ) + 1 - 1 );
                                 if( strLastFolder != strFolder )
                                 {
-                                    if( strLastFolder != "" )
+                                    if( !String.IsNullOrEmpty(strLastFolder) )
                                     {
                                         cboSkin.Items.Add( new ListItem( strSeparator, "" ) );
                                     }
@@ -235,7 +241,7 @@ namespace DotNetNuke.UI.Skins
                             strFolder = strFolder.Substring( Strings.InStrRev( strFolder, "\\", -1, 0 ) + 1 - 1 );
                             if( strLastFolder != strFolder )
                             {
-                                if( strLastFolder != "" )
+                                if( !String.IsNullOrEmpty(strLastFolder) )
                                 {
                                     cboSkin.Items.Add( new ListItem( strSeparator, "" ) );
                                 }
@@ -281,7 +287,7 @@ namespace DotNetNuke.UI.Skins
             try
             {
                 PortalController objPortals = new PortalController();
-                if( !( Request.QueryString["pid"] == null ) && ( PortalSettings.ActiveTab.ParentId == PortalSettings.SuperTabId || UserController.GetCurrentUserInfo().IsSuperUser ) )
+                if( Request.QueryString["pid"] != null && ( PortalSettings.ActiveTab.ParentId == PortalSettings.SuperTabId || UserController.GetCurrentUserInfo().IsSuperUser ) )
                 {
                     _objPortal = objPortals.GetPortal( int.Parse( Request.QueryString["pid"] ) );
                 }
@@ -298,13 +304,13 @@ namespace DotNetNuke.UI.Skins
                     ViewState["SkinSrc"] = _SkinSrc;
 
                     // set width of control
-                    if( _Width != "" )
+                    if( !String.IsNullOrEmpty(_Width) )
                     {
                         cboSkin.Width = Unit.Parse( _Width );
                     }
 
                     // set selected skin
-                    if( _SkinSrc != "" )
+                    if( !String.IsNullOrEmpty(_SkinSrc) )
                     {
                         switch( _SkinSrc.Substring( 0, 3 ) )
                         {

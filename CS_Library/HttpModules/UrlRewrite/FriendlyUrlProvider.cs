@@ -200,7 +200,7 @@ namespace DotNetNuke.Services.Url.FriendlyUrl
                 }
             }
 
-            if( matchString != "" )
+            if( !String.IsNullOrEmpty(matchString) )
             {
                 if( path.IndexOf( "~" ) != - 1 )
                 {

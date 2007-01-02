@@ -30,12 +30,10 @@ namespace DotNetNuke.Common.Lists
 
         public ArrayList GetChild( string ParentKey )
         {
-            object child;
             ArrayList childList = new ArrayList();
-            foreach( object tempLoopVar_child in List )
-            {
-                child = tempLoopVar_child;
-                if( ( (ListInfo)child ).@Key.IndexOf( ParentKey.ToLower() ) > -1 )
+            foreach( object child in List )
+            {                
+                if( ( (ListInfo)child ).Key.IndexOf( ParentKey.ToLower() ) > -1 )
                 {
                     childList.Add( child );
                 }
@@ -51,10 +49,8 @@ namespace DotNetNuke.Common.Lists
         public object Item( int index )
         {
             try
-            {
-                object obj;
-                obj = base.List[index];
-                return obj;
+            {                
+                return List[index];                
             }
             catch( Exception )
             {
@@ -64,8 +60,7 @@ namespace DotNetNuke.Common.Lists
 
         public object Item( string key )
         {
-            int index;
-            object obj;
+            int index;            
 
             try // Do validation first
             {
@@ -80,9 +75,8 @@ namespace DotNetNuke.Common.Lists
             }
 
             index = Convert.ToInt32( mKeyIndexLookup[key.ToLower()] );
-            obj = base.List[index];
-
-            return obj;
+            return List[index];
+            
         }
 
         // Another method, get Lists on demand
