@@ -1,33 +1,26 @@
-#summary One-sentence summary of this page.
+#summary A conversion of the popular open source DotNetNuke CMS web application framework for c#.
 
-= Introduction = A conversion of the popular open source DotNetNuke CMS web application framework for c#. 
+=Introduction =
 
-ntroduction
+DotNetNuke is an open source web application framework ideal for creating, deploying and managing interactive web, intranet and extranet sites. It is very well supported; just take a look at http://www.snowcovered.com. Unfortunately, VB and C# programmers don't cooperate as best they should, and take a mutually exclusive choice between the languages. This is unfortunate because DotNetNuke is a very well developed framework for ASP.NET that a lot of C# programmers do not want to look at.
 
-DotNetNuke is an open source web application framework ideal for creating, deploying and managing interactive web, intranet and extranet sites. It is very well supported; just take a look at Snow Covered. Unfortunately, VB and C# programmers don't cooperate as best they should, and take a mutually exclusive choice between the languages. This is unfortunate because DotNetNuke is a very well developed framework for ASP.NET that a lot of C# programmers do not want to look at.
-Purpose
+== Purpose ==
 
-In an attempt to open DotNetNuke to a wider audience, I have converted the original VB code into C#. Today, Oct. 28, 2006 we have released the first successful build in C#. Please support the authors at DotNetNuke for all their work, and report bugs in the C# code base to us. To avoid forking the code, we will only update the code when a new release of the VB code is made available.
-Lessons Learned
+In an attempt to open DotNetNuke to a wider audience, I have converted the original VB code into C#. Please support the authors at DotNetNuke for all their work, and report bugs in the C# code base to us, not them. To avoid forking the code, we will only update the code when a new release of the VB code is made available.
 
-Throughout the course of translating the code I learned many lessons. At first guess, you might think that translating the VB code would be easy, as did I. It wasn’t more than ten minutes into this project that I learned otherwise. First, I attempted to translate the code using VB Conversions v2.03 and compiled the resultant source code with over 3,000 errors. This obviously wasn’t going to work out. Second, I tried to use Lutz Roeder’s Reflector to look at the code from the compiled binary. Although this resulted in slightly better results, it wasn’t a solution. If I was ever to complete this in time to be deemed useful I needed an alternative route. Finally I came up with a combination between the first two methods, merging the results and huge amount of regular expressions.
+== Lessons Learned ==
 
-As a result of converting the code, I discovered many errors in the original code through the use of great tools like ReSharper 2.0 from JetBrains. Their productivity tool greatly increased the time to market of this project, by highlighting errors in the C# code as well as in the ASP.NET content pages. No, unfortunately their code doesn’t support on-the-fly error checking of VB code, so this tool wasn’t available to the original authors.
+Throughout the course of translating the code I learned many lessons. At first guess, you might think that translating the VB code would be easy, as did I. It wasn’t more than ten minutes into this project that I learned otherwise. First, I attempted to translate the code using VB Conversions and compiled the resultant source code with over 3,000 errors. This obviously wasn’t going to work out. Second, I tried to use Lutz Roeder’s Reflector to look at the code from the compiled binary. Although this resulted in slightly better results, it wasn’t a viable solution. If I was ever to complete this in time to be deemed useful I needed an alternative route. Finally I came up with a solution that was a combination of the first two methods, and some specialized tools I made specifically for this project to get it done.
+
+== Results ==
+
+As a result of converting the code, the new C# version runs incredibly much faster than its vb cousin. . Their productivity tool greatly increased the time to market of this project, by highlighting errors in the C# code as well as in the ASP.NET content pages. No, unfortunately their code doesn’t support on-the-fly error checking of VB code, so this tool wasn’t available to the original authors.
 
 Tools are great for us programmers. It helps us keep our productivity up and get the job done. Personally, I will not jump to a new language or framework till it has been adopted in the marketplace and has great support. Visual Basic was Microsoft’s greatest success story, and for some odd reason they decided not to support it anymore and released VB.Net. This alienated a lot of programmers, and as a result, there are not as many tools available to VB.Net programmers as there is C# programmers. A lot of the Java open source projects are being converted to C#, but not VB. My background has always been C/C++/Java and now I’m in love with C# for its great increases to my productivity. I converted this project to make it more readable by myself and other C# programmers and open the DotNetNuke to a larger audience.
 SVN Repository
 
-In addition to posting the first public release to this article on Code Project, v4.3.4, we also created a SVN Repository at Google Code. Please visit the Google Code website for the latest bug fixes and releases. Use this article’s message board to post messages in for and against the decision of the author to post the C# code.
-Important Links
 
-http://code.google.com/p/cs-dotnetnuke/ is the project home at Google code.
+== History ==
 
-https://cs-dotnetnuke.googlecode.com/svn/trunk/ is the SVN repository
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Oct. 28, 2006 I released the first successful build in C#.
+Jan. 1, 2006 I have fixed most of the bugs and have a workable copy of DNN in C#.
