@@ -2,11 +2,11 @@
 
 =Introduction =
 
-DotNetNuke is an open source web application framework ideal for creating, deploying and managing interactive web, intranet and extranet sites. It is very well supported; just take a look at [http://www.snowcovered.com SnowCovered]. Unfortunately, VB and C# programmers don't cooperate as best they should, and take a mutually exclusive choice between the languages. This is unfortunate because DotNetNuke is a very well developed framework for ASP.NET that a lot of C# programmers do not want to look at.
+[http://www.dotnetnuke.com DotNetNuke] is an open source web application framework ideal for creating, deploying and managing interactive web, intranet and extranet sites. It is very well supported; just take a look at [http://www.snowcovered.com SnowCovered]. Unfortunately, VB and C# programmers don't cooperate as best they should, and take a mutually exclusive choice between the languages. This is unfortunate because [http://www.dotnetnuke.com DotNetNuke]is a very well developed framework for ASP.NET that a lot of C# programmers do not want to look at.
 
 == Purpose ==
 
-In an attempt to open DotNetNuke to a wider audience, I have converted the original VB code into C#. Please support the authors at DotNetNuke for all their work, and report bugs in the C# code base to us, not them. To avoid forking the code, we will only update the code when a new release of the VB code is made available.
+In an attempt to open [http://www.dotnetnuke.com DotNetNuke]to a wider audience, I have converted the original VB code into C#. Please support the authors at [http://www.dotnetnuke.com DotNetNuke]for all their work, and report bugs in the C# code base to us, not them. To avoid forking the code, we will only update the code when a new release of the VB code is made available.
 
 == Lessons Learned ==
 
@@ -21,7 +21,7 @@ As a result of converting the code, the new C# version runs incredibly much fast
 
 Productivity tools seem to be lacking for vb code which is not true for c# code. They help so much and I wanted to use them when working on the source code. I wanted to feel more in control of the codebase. I wanted to understand the framework better. And many, many more.
 
-== Summary == 
+== Conclusion ==
 
 I converted this project to make it more readable by myself and other C# programmers and open the DotNetNuke to a larger audience.
 
