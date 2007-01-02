@@ -21,11 +21,9 @@ using System;
 using System.IO;
 using System.Web;
 using System.Xml;
-using System.Xml.Schema;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Services.Localization;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace DotNetNuke.Entities.Modules.Definitions
 {
@@ -33,10 +31,10 @@ namespace DotNetNuke.Entities.Modules.Definitions
     {
         private string GetDnnSchemaPath(Stream xmlStream)
         {
-            ModuleDefinitionVersion Version = GetModuleDefinitionVersion(xmlStream);
+            ModuleDefinitionVersion version = GetModuleDefinitionVersion(xmlStream);
             string schemaPath = "";
 
-            switch (Version)
+            switch (version)
             {
                 case ModuleDefinitionVersion.V2:
 
@@ -57,22 +55,21 @@ namespace DotNetNuke.Entities.Modules.Definitions
                 case ModuleDefinitionVersion.VUnknown:
 
                     throw (new Exception(GetLocalizedString("EXCEPTION_LoadFailed")));
-                    break;
             }
             return Path.Combine(Globals.ApplicationMapPath, schemaPath);
         }
 
         private string GetLocalizedString(string key)
         {
-            PortalSettings objPortalSettings = (PortalSettings)HttpContext.Current.Items["PortalSettings"];
+            PortalSettings portalSettings = (PortalSettings)HttpContext.Current.Items["PortalSettings"];
 
-            if (objPortalSettings == null)
+            if (portalSettings == null)
             {
                 return key;
             }
             else
             {
-                return Localization.GetString(key, objPortalSettings);
+                return Localization.GetString(key, portalSettings);
             }
         }
 

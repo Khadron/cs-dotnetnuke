@@ -22,7 +22,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DotNetNuke.Modules.NavigationProvider;
 using DotNetNuke.UI.WebControls;
-using Microsoft.VisualBasic;
 
 namespace DotNetNuke.NavigationControl
 {
@@ -88,17 +87,15 @@ namespace DotNetNuke.NavigationControl
 
         public override void Bind( DNNNodeCollection objNodes )
         {
-            DNNNode objNode;
-            string strLevelPrefix;
-
-            foreach( DNNNode tempLoopVar_objNode in objNodes )
+            foreach( DNNNode dnnNode in objNodes )
             {
-                objNode = tempLoopVar_objNode;
+                DNNNode objNode = dnnNode;
                 if( objNode.ClickAction == eClickAction.PostBack )
                 {
                     DropDown.AutoPostBack = true; //its all or nothing...
                 }
-                strLevelPrefix = Strings.Space( objNode.Level ).Replace( " ", "_" );
+
+                string strLevelPrefix = new String( '_', objNode.Level );
                 if( objNode.IsBreak )
                 {
                     DropDown.Items.Add( "-------------------" );
@@ -115,7 +112,7 @@ namespace DotNetNuke.NavigationControl
         {
             if( DropDown.SelectedIndex > - 1 )
             {
-                base.RaiseEvent_NodeClick( DropDown.SelectedItem.Value );
+                RaiseEvent_NodeClick( DropDown.SelectedItem.Value );
             }
         }
     }

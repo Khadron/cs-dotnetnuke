@@ -1,6 +1,6 @@
 <%@ Page Language="C#" ValidateRequest="false" Trace="false" AutoEventWireup="true" Inherits="DotNetNuke.HtmlEditor.FTBImageGallery" %>
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.HtmlEditor" Assembly="DotNetNuke.Ftb3HtmlEditorProvider" %>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 	<title>
 		<%=Title%>

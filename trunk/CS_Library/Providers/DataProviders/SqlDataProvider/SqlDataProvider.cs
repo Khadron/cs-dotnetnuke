@@ -34,11 +34,11 @@ namespace DotNetNuke.Data
         private const string ProviderType = "data";
 
         private ProviderConfiguration _providerConfiguration = ProviderConfiguration.GetProviderConfiguration(ProviderType);
-        private string _connectionString;
-        private string _providerPath;
-        private string _objectQualifier;
-        private string _databaseOwner;
-        private string _upgradeConnectionString;
+        private string connectionString;
+        private string providerPath;
+        private string objectQualifier;
+        private string databaseOwner;
+        private string upgradeConnectionString;
 
         public SqlDataProvider()
         {
@@ -48,35 +48,35 @@ namespace DotNetNuke.Data
             // Read the attributes for this provider
 
             //Get Connection string from web.config
-            _connectionString = Config.GetConnectionString();
+            connectionString = Config.GetConnectionString();
 
-            if( _connectionString == "" )
+            if( connectionString == "" )
             {
                 // Use connection string specified in provider
-                _connectionString = objProvider.Attributes["connectionString"];
+                connectionString = objProvider.Attributes["connectionString"];
             }
 
-            _providerPath = objProvider.Attributes["providerPath"];
+            providerPath = objProvider.Attributes["providerPath"];
 
-            _objectQualifier = objProvider.Attributes["objectQualifier"];
-            if( _objectQualifier != "" && _objectQualifier.EndsWith( "_" ) == false )
+            objectQualifier = objProvider.Attributes["objectQualifier"];
+            if( !String.IsNullOrEmpty(objectQualifier) && objectQualifier.EndsWith( "_" ) == false )
             {
-                _objectQualifier += "_";
+                objectQualifier += "_";
             }
 
-            _databaseOwner = objProvider.Attributes["databaseOwner"];
-            if( _databaseOwner != "" && _databaseOwner.EndsWith( "." ) == false )
+            databaseOwner = objProvider.Attributes["databaseOwner"];
+            if( !String.IsNullOrEmpty(databaseOwner) && databaseOwner.EndsWith( "." ) == false )
             {
-                _databaseOwner += ".";
+                databaseOwner += ".";
             }
 
             if( Convert.ToString( objProvider.Attributes["upgradeConnectionString"] ) != "" )
             {
-                _upgradeConnectionString = objProvider.Attributes["upgradeConnectionString"];
+                upgradeConnectionString = objProvider.Attributes["upgradeConnectionString"];
             }
             else
             {
-                _upgradeConnectionString = _connectionString;
+                upgradeConnectionString = connectionString;
             }
         }
 
@@ -84,7 +84,7 @@ namespace DotNetNuke.Data
         {
             get
             {
-                return _connectionString;
+                return connectionString;
             }
         }
 
@@ -92,7 +92,7 @@ namespace DotNetNuke.Data
         {
             get
             {
-                return _providerPath;
+                return providerPath;
             }
         }
 
@@ -100,7 +100,7 @@ namespace DotNetNuke.Data
         {
             get
             {
-                return _objectQualifier;
+                return objectQualifier;
             }
         }
 
@@ -108,7 +108,7 @@ namespace DotNetNuke.Data
         {
             get
             {
-                return _databaseOwner;
+                return databaseOwner;
             }
         }
 
@@ -116,7 +116,7 @@ namespace DotNetNuke.Data
         {
             get
             {
-                return _upgradeConnectionString;
+                return upgradeConnectionString;
             }
         }
 
@@ -193,7 +193,7 @@ namespace DotNetNuke.Data
 
             returnValue = ProviderPath;
 
-            if( returnValue != "" )
+            if( !String.IsNullOrEmpty(returnValue) )
             {
                 returnValue = objHttpContext.Server.MapPath( returnValue );
 
@@ -240,7 +240,7 @@ namespace DotNetNuke.Data
         {
             string SQL = "";
             string Exceptions = "";
-            string Delimiter = "GO" + ControlChars.CrLf;
+            string Delimiter = "GO" + "\r\n";
 
             string[] arrSQL = Strings.Split( Script, Delimiter, -1, CompareMethod.Text );
 
@@ -363,15 +363,15 @@ namespace DotNetNuke.Data
                 SQL += "declare @name varchar(150) ";
                 SQL += "declare sp_cursor cursor for select o.name as name ";
                 SQL += "from dbo.sysobjects o ";
-                SQL += "where ( OBJECTPROPERTY(o.id, N\'IsProcedure\') = 1 or OBJECTPROPERTY(o.id, N\'IsExtendedProc\') = 1 or OBJECTPROPERTY(o.id, N\'IsReplProc\') = 1 ) ";
-                SQL += "and OBJECTPROPERTY(o.id, N\'IsMSShipped\') = 0 ";
-                SQL += "and o.name not like N\'#%%\' ";
-                SQL += "and (left(o.name,len(\'" + ObjectQualifier + "\')) = \'" + ObjectQualifier + "\' or left(o.name,7) = \'aspnet_\') ";
+                SQL += "where ( OBJECTPROPERTY(o.id, N'IsProcedure') = 1 or OBJECTPROPERTY(o.id, N'IsExtendedProc') = 1 or OBJECTPROPERTY(o.id, N'IsReplProc') = 1 ) ";
+                SQL += "and OBJECTPROPERTY(o.id, N'IsMSShipped') = 0 ";
+                SQL += "and o.name not like N'#%%' ";
+                SQL += "and (left(o.name,len('" + ObjectQualifier + "')) = '" + ObjectQualifier + "' or left(o.name,7) = 'aspnet_') ";
                 SQL += "open sp_cursor ";
                 SQL += "fetch sp_cursor into @name ";
                 SQL += "while @@fetch_status >= 0 ";
                 SQL += "begin";
-                SQL += "  select @exec = \'grant " + Permission + " on \' +  @name  + \' to " + LoginOrRole + "\'";
+                SQL += "  select @exec = 'grant " + Permission + " on ' +  @name  + ' to " + LoginOrRole + "'";
                 SQL += "  execute (@exec)";
                 SQL += "  fetch sp_cursor into @name ";
                 SQL += "end ";
@@ -396,25 +396,25 @@ namespace DotNetNuke.Data
                 SQL += "declare @name varchar(150) ";
                 SQL += "declare @isscalarfunction int ";
                 SQL += "declare @istablefunction int ";
-                SQL += "declare sp_cursor cursor for select o.name as name, OBJECTPROPERTY(o.id, N\'IsScalarFunction\') as IsScalarFunction ";
+                SQL += "declare sp_cursor cursor for select o.name as name, OBJECTPROPERTY(o.id, N'IsScalarFunction') as IsScalarFunction ";
                 SQL += "from dbo.sysobjects o ";
-                SQL += "where ( OBJECTPROPERTY(o.id, N\'IsScalarFunction\') = 1 OR OBJECTPROPERTY(o.id, N\'IsTableFunction\') = 1 ) ";
-                SQL += "and OBJECTPROPERTY(o.id, N\'IsMSShipped\') = 0 ";
-                SQL += "and o.name not like N\'#%%\' ";
-                SQL += "and (left(o.name,len(\'" + ObjectQualifier + "\')) = \'" + ObjectQualifier + "\' or left(o.name,7) = \'aspnet_\') ";
+                SQL += "where ( OBJECTPROPERTY(o.id, N'IsScalarFunction') = 1 OR OBJECTPROPERTY(o.id, N'IsTableFunction') = 1 ) ";
+                SQL += "and OBJECTPROPERTY(o.id, N'IsMSShipped') = 0 ";
+                SQL += "and o.name not like N'#%%' ";
+                SQL += "and (left(o.name,len('" + ObjectQualifier + "')) = '" + ObjectQualifier + "' or left(o.name,7) = 'aspnet_') ";
                 SQL += "open sp_cursor ";
                 SQL += "fetch sp_cursor into @name, @isscalarfunction ";
                 SQL += "while @@fetch_status >= 0 ";
                 SQL += "begin ";
                 SQL += "if @IsScalarFunction = 1 ";
                 SQL += "begin";
-                SQL += "  select @exec = \'grant " + ScalarPermission + " on \' +  @name  + \' to " + LoginOrRole + "\'";
+                SQL += "  select @exec = 'grant " + ScalarPermission + " on ' +  @name  + ' to " + LoginOrRole + "'";
                 SQL += "  execute (@exec)";
                 SQL += "  fetch sp_cursor into @name, @isscalarfunction  ";
                 SQL += "end ";
                 SQL += "else ";
                 SQL += "begin";
-                SQL += "  select @exec = \'grant " + TablePermission + " on \' +  @name  + \' to " + LoginOrRole + "\'";
+                SQL += "  select @exec = 'grant " + TablePermission + " on ' +  @name  + ' to " + LoginOrRole + "'";
                 SQL += "  execute (@exec)";
                 SQL += "  fetch sp_cursor into @name, @isscalarfunction  ";
                 SQL += "end ";

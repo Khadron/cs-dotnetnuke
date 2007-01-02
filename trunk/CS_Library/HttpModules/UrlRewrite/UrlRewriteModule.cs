@@ -87,7 +87,7 @@ namespace DotNetNuke.HttpModules
             // save and remove the querystring as it gets added back on later
             // path parameter specifications will take precedence over querystring parameters
             string strQueryString = "";
-            if( app.Request.Url.Query != "" )
+            if( !String.IsNullOrEmpty(app.Request.Url.Query) )
             {
                 strQueryString = Request.QueryString.ToString();
                 requestedPath = requestedPath.Replace( app.Request.Url.Query, "" );
@@ -169,15 +169,14 @@ namespace DotNetNuke.HttpModules
             }
 
             // add querystring parameters back to SendTo
-            if( strQueryString != "" )
+            if( !String.IsNullOrEmpty(strQueryString) )
             {
                 string[] arrParameters = strQueryString.Split( '&' );
-                string strParameterName;
                 // iterate through the array of parameters
                 for( int intParameter = 0; intParameter <= arrParameters.Length - 1; intParameter++ )
                 {
                     // get parameter name
-                    strParameterName = arrParameters[intParameter];
+                    string strParameterName = arrParameters[intParameter];
                     if( strParameterName.IndexOf( "=" ) != - 1 )
                     {
                         strParameterName = strParameterName.Substring( 0, strParameterName.IndexOf( "=" ) );

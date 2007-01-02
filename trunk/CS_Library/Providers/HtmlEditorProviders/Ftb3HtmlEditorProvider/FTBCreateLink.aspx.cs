@@ -23,7 +23,6 @@ using System.Web.UI.WebControls;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Framework;
 using DotNetNuke.UI.UserControls;
-using Microsoft.VisualBasic;
 using Globals=DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.HtmlEditor
@@ -41,7 +40,7 @@ namespace DotNetNuke.HtmlEditor
         protected UrlControl ctlURL;
         protected PlaceHolder phHidden;
 
-        private void Page_Load( Object sender, EventArgs e )
+        protected void Page_Load( Object sender, EventArgs e )
         {
             // set page title
             string strTitle = PortalSettings.PortalName + " > Insert Link";
@@ -67,7 +66,7 @@ namespace DotNetNuke.HtmlEditor
 
             htmlhidden = new HtmlInputHidden();
             htmlhidden.ID = "DNNDomainNameFilePath";
-            htmlhidden.Value = "http://" + Globals.GetDomainName( Request ) + Strings.Replace( _portalSettings.HomeDirectory, Request.ApplicationPath, "", 1, -1, 0 );
+            htmlhidden.Value = "http://" + Globals.GetDomainName( Request ) + _portalSettings.HomeDirectory.Replace( Request.ApplicationPath, "" );
             phHidden.Controls.Add( htmlhidden );
         }
     }

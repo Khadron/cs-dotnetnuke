@@ -219,7 +219,7 @@ namespace DotNetNuke.Security.Permissions.Controls
                 {
                     ArrayList arrPermissions = new ArrayList();
                     string state = myState[2].ToString();
-                    if( state != "" )
+                    if( !String.IsNullOrEmpty(state) )
                     {
                         //First Break the String into individual Keys
                         string[] permissionKeys = state.Split( "##".ToCharArray()[0] );

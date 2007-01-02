@@ -64,7 +64,7 @@ namespace DotNetNuke.Services.FileSystem
                 dt = GetAllFiles();
                 DataRow[] dr;
                 DataRow OriginalFile;
-                dr = dt.Select("FileName=\'" + FileName + "\' and PortalId " + (PortalId == Null.NullInteger ? "IS NULL" : "=" + PortalId.ToString()).ToString() + " and Folder=\'" + FolderPath + "\'");
+                dr = dt.Select("FileName='" + FileName + "' and PortalId " + (PortalId == Null.NullInteger ? "IS NULL" : "=" + PortalId.ToString()).ToString() + " and Folder='" + FolderPath + "'");
 
                 if (dr.Length > 0)
                 {
@@ -105,7 +105,7 @@ namespace DotNetNuke.Services.FileSystem
             string FolderName = "";
             int FileId = -1;
 
-            if (FilePath != "")
+            if (!String.IsNullOrEmpty(FilePath))
             {
                 FileName = FilePath.Substring(FilePath.LastIndexOf("/") + 1);
                 FolderName = FilePath.Replace(FileName, "");
@@ -304,7 +304,7 @@ namespace DotNetNuke.Services.FileSystem
                 dt = GetAllFiles();
                 DataRow[] dr;
                 DataRow OriginalFile;
-                dr = dt.Select("FileName=\'" + OriginalFileName + "\' and PortalId" + (PortalId == Null.NullInteger ? "IS NULL" : "=" + PortalId.ToString()).ToString() + " and Folder=\'" + SourceFolder + "\'");
+                dr = dt.Select("FileName='" + OriginalFileName + "' and PortalId" + (PortalId == Null.NullInteger ? "IS NULL" : "=" + PortalId.ToString()).ToString() + " and Folder='" + SourceFolder + "'");
 
                 int FileId;
                 if (dr.Length > 0)

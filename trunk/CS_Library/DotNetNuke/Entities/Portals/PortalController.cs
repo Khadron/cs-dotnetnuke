@@ -615,11 +615,10 @@ namespace DotNetNuke.Entities.Portals
             int intTabId = 0;
             PortalInfo objportal;
             bool tabExists = true;
-            string tabName;
 
             objportal = GetPortal(PortalId);
 
-            if (strName != "")
+            if (!String.IsNullOrEmpty(strName))
             {
                 if (!IsNewPortal) // running from wizard: try to find the tab by path
                 {
@@ -672,7 +671,7 @@ namespace DotNetNuke.Entities.Portals
 
                     // process of parent tab
                     objTab.ParentId = Null.NullInteger;
-                    tabName = objTab.TabName;
+                    string tabName = objTab.TabName;
 
                     if (XmlUtils.GetNodeValue(nodeTab, "parent", "") != "")
                     {
@@ -1063,7 +1062,7 @@ namespace DotNetNuke.Entities.Portals
                 ParseFolderPermissions(nodeFolderPermissions, PortalId, FolderId, folderPath);
 
                 XmlNodeList nodeFiles = node.SelectNodes("files/file");
-                if (folderPath != "")
+                if (!String.IsNullOrEmpty(folderPath))
                 {
                     folderPath += "/";
                 }
@@ -1301,7 +1300,7 @@ namespace DotNetNuke.Entities.Portals
                                             strcontent = strcontent.Substring(9, strcontent.Length - 12);
                                             strcontent = HttpContext.Current.Server.HtmlDecode(strcontent);
 
-                                            if (objModule.BusinessControllerClass != "" && objModule.IsPortable)
+                                            if (!String.IsNullOrEmpty(objModule.BusinessControllerClass) && objModule.IsPortable)
                                             {
                                                 try
                                                 {

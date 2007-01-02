@@ -67,7 +67,7 @@ namespace DotNetNuke.Common.Utilities
 
         public void UpdateUrl( int PortalID, string Url, string UrlType, int Clicks, DateTime LastClick, DateTime CreatedDate, bool LogActivity, bool TrackClicks, int ModuleID, bool NewWindow )
         {
-            if( Url != "" )
+            if( !String.IsNullOrEmpty(Url) )
             {
                 if( UrlType == "U" )
                 {

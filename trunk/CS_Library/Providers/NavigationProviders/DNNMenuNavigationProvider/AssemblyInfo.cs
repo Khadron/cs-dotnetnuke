@@ -23,6 +23,17 @@
 
 // Review the values of the assembly attributes
 
+using System;
+using System.Reflection;
+[assembly: AssemblyTitle("DotNetNuke.DNNMenuNavigationProvider")]
+[assembly: AssemblyDescription("DotNetNuke Menu Navigation Provider")]
+[assembly: AssemblyCompany("Perpetual Motion Interactive Systems Inc.")]
+[assembly: AssemblyProduct("http://www.dotnetnuke.com")]
+[assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2006 by Perpetual Motion Interactive Systems Inc. All Rights Reserved.")]
+[assembly: AssemblyTrademark("DotNetNuke")]
+[assembly: CLSCompliant(true)]
+[assembly: AssemblyVersion("4.3.4.*")]
+
 //The following GUID is for the ID of the typelib if this project is exposed to COM
 
 // Version information for an assembly consists of the following four values:

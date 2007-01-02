@@ -240,7 +240,7 @@ namespace DotNetNuke.UI.UserControls
             set
             {
 
-                if (value != "")
+                if (!String.IsNullOrEmpty(value))
                 {
                     txtDesktopHTML.Text = Decode(FormatText(value));
                     RichTextEditor.Text = Decode(value);
@@ -284,13 +284,12 @@ namespace DotNetNuke.UI.UserControls
 
         public TextEditor()
         {
+            Init += new EventHandler(this.Page_Init);
             Load += new EventHandler( this.Page_Load );
-            Init += new EventHandler( this.Page_Init );
+            
             this._ChooseMode = true;
             this._ChooseRender = true;
             this._HtmlEncode = true;
-            this.optRender.SelectedIndexChanged += new EventHandler(this.optRender_SelectedIndexChanged);
-            this.optView.SelectedIndexChanged += new EventHandler(this.optView_SelectedIndexChanged);
         }
 
         /// <Summary>Decodes the html</Summary>
@@ -332,10 +331,10 @@ namespace DotNetNuke.UI.UserControls
             string strHtml = strText;
             try
             {
-                if (strHtml != "")
+                if (!String.IsNullOrEmpty(strHtml))
                 {
                     strHtml = strHtml.Replace("\r", "");
-                    strHtml = strHtml.Replace(ControlChars.Lf.ToString(), "<br />");
+                    strHtml = strHtml.Replace("\n", "<br />");
                 }
             }
             catch (Exception exc) //Module failed to load
@@ -355,7 +354,7 @@ namespace DotNetNuke.UI.UserControls
             string strText = strHtml;
             try
             {
-                if (strText != "")
+                if (!String.IsNullOrEmpty(strText))
                 {
                     //First remove white space (html does not render white space anyway and it screws up the conversion to text)
                     //Replace it by a single space
@@ -437,6 +436,9 @@ namespace DotNetNuke.UI.UserControls
             this.RichTextEditor = HtmlEditorProvider.Instance();
             this.RichTextEditor.ControlID = this.ID;
             this.RichTextEditor.Initialize();
+
+            this.optRender.SelectedIndexChanged += new EventHandler(this.optRender_SelectedIndexChanged);
+            this.optView.SelectedIndexChanged += new EventHandler(this.optView_SelectedIndexChanged);            
         }
 
         /// <Summary>Page_Load runs when the control is loaded</Summary>
@@ -448,7 +450,7 @@ namespace DotNetNuke.UI.UserControls
                 PopulateLists();
 
                 //Get the current user
-                UserInfo objUserInfo = UserController.GetCurrentUserInfo();
+//                UserInfo objUserInfo = UserController.GetCurrentUserInfo();
 
                 //Set the width and height of the controls
                 RichTextEditor.Width = Width;
@@ -500,7 +502,7 @@ namespace DotNetNuke.UI.UserControls
             {
                 Mode = optView.SelectedItem.Value;
             }
-            if (Mode != "")
+            if (!String.IsNullOrEmpty(Mode))
             {
                 optView.Items.FindByValue(Mode).Selected = true;
             }
@@ -514,7 +516,7 @@ namespace DotNetNuke.UI.UserControls
             {
                 TextRenderMode = optRender.SelectedItem.Value;
             }
-            if (TextRenderMode != "")
+            if (!String.IsNullOrEmpty(TextRenderMode))
             {
                 optRender.Items.FindByValue(TextRenderMode).Selected = true;
             }

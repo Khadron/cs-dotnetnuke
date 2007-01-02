@@ -99,8 +99,7 @@ namespace DotNetNuke.UI.WebControls
 
         protected override void OnDataBinding( EventArgs e )
         {
-            bool IsLocal = false;
-            string IP;
+            bool isLocal = false;
 
             if( ! Page.IsPostBack )
             {
@@ -113,22 +112,23 @@ namespace DotNetNuke.UI.WebControls
                 EnsureChildControls();
 
                 //Check to see if a TestIP is specified
-                if( _TestIP != "" )
+                string ipAddress;
+                if( !String.IsNullOrEmpty(_TestIP) )
                 {
                     //TestIP is specified, let's use it
-                    IP = _TestIP;
+                    ipAddress = _TestIP;
                 }
                 else if( this.Page.Request.UserHostAddress == "127.0.0.1" )
                 {
                     //The country cannot be detected because the user is local.
-                    IsLocal = true;
+                    isLocal = true;
                     //Set the IP address in case they didn't specify LocalhostCountryCode
-                    IP = this.Page.Request.UserHostAddress;
+                    ipAddress = this.Page.Request.UserHostAddress;
                 }
                 else
                 {
                     //Set the IP address so we can find the country
-                    IP = this.Page.Request.UserHostAddress;
+                    ipAddress = this.Page.Request.UserHostAddress;
                 }
 
                 //Check to see if we need to generate the Cache for the GeoIPData file
@@ -140,7 +140,7 @@ namespace DotNetNuke.UI.WebControls
 
                 //Check to see if the request is a localhost request
                 //and see if the LocalhostCountryCode is specified
-                if( IsLocal && _LocalhostCountryCode != "" )
+                if( isLocal && !String.IsNullOrEmpty(_LocalhostCountryCode) )
                 {
                     //Bing the data
                     base.OnDataBinding( e );
@@ -171,7 +171,7 @@ namespace DotNetNuke.UI.WebControls
                     }
 
                     //Get the country code based on the IP address
-                    string _UserCountryCode = _CountryLookup.LookupCountryCode( IP );
+                    string _UserCountryCode = _CountryLookup.LookupCountryCode( ipAddress );
 
                     //Bind the datasource
                     base.OnDataBinding( e );
@@ -187,7 +187,7 @@ namespace DotNetNuke.UI.WebControls
                     {
                         //No it's not there.  Let's get the Country description
                         //and add a new list item for the Country detected
-                        string _UserCountry = _CountryLookup.LookupCountryName( IP );
+                        string _UserCountry = _CountryLookup.LookupCountryName( ipAddress );
                         if( _UserCountry != "N/A" )
                         {
                             ListItem newItem = new ListItem();

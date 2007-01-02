@@ -978,7 +978,7 @@ namespace DotNetNuke.UI.WebControls
                 }
                 if( this.Visible )
                 {
-                    ClientAPI.RegisterStartUpScript( this.Page, this.ClientID + "_startup", "<script>dnn.controls.initMenu($(\'" + this.ClientID + "\'));</script>" ); //wrong place
+                    ClientAPI.RegisterStartUpScript( this.Page, this.ClientID + "_startup", "<script>dnn.controls.initMenu($('" + this.ClientID + "'));</script>" ); //wrong place
                 }
             }
         }

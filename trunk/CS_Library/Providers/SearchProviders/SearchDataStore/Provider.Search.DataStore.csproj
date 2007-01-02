@@ -70,7 +70,6 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>

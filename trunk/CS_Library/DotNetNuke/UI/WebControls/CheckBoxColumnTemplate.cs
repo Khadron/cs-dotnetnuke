@@ -192,7 +192,7 @@ namespace DotNetNuke.UI.WebControls
             box.DataBinding += new EventHandler(Item_DataBinding);
             box.CheckedChanged += new EventHandler(OnCheckChanged);
 
-            if (Text != "")
+            if (!String.IsNullOrEmpty(Text))
             {
                 container.Controls.Add(new LiteralControl(Text + "<br/>"));
             }
@@ -205,7 +205,7 @@ namespace DotNetNuke.UI.WebControls
             CheckBox box = (CheckBox)sender;
             DataGridItem container = (DataGridItem)box.NamingContainer;
 
-            if (DataField != "" && ItemType != ListItemType.Header)
+            if (!String.IsNullOrEmpty(DataField) && ItemType != ListItemType.Header)
             {
                 if (DesignMode)
                 {
@@ -221,7 +221,7 @@ namespace DotNetNuke.UI.WebControls
                 box.Checked = this.Checked;
             }
 
-            if (EnabledField != "")
+            if (!String.IsNullOrEmpty(EnabledField))
             {
                 if (DesignMode)
                 {

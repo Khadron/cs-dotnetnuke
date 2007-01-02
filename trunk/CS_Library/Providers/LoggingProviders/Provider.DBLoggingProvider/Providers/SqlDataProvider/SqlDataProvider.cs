@@ -28,39 +28,39 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider.Data
     public class SqlDataProvider : DataProvider
     {
         private const string ProviderType = "data";
-        private ProviderConfiguration _providerConfiguration = ProviderConfiguration.GetProviderConfiguration(ProviderType);
-        private string _connectionString;
-        private string _providerPath;
-        private string _objectQualifier;
-        private string _databaseOwner;
+        private ProviderConfiguration providerConfiguration = ProviderConfiguration.GetProviderConfiguration(ProviderType);
+        private string connectionString;
+        private string providerPath;
+        private string objectQualifier;
+        private string databaseOwner;
 
         public SqlDataProvider()
         {
             // Read the configuration specific information for this provider
-            Provider objProvider = (Provider)_providerConfiguration.Providers[_providerConfiguration.DefaultProvider];
+            Provider objProvider = (Provider)providerConfiguration.Providers[providerConfiguration.DefaultProvider];
 
             // Read the attributes for this provider
             //Get Connection string from web.config
-            _connectionString = Config.GetConnectionString();
+            connectionString = Config.GetConnectionString();
 
-            if( _connectionString == "" )
+            if( connectionString == "" )
             {
                 // Use connection string specified in provider
-                _connectionString = objProvider.Attributes["connectionString"];
+                connectionString = objProvider.Attributes["connectionString"];
             }
 
-            _providerPath = objProvider.Attributes["providerPath"];
+            providerPath = objProvider.Attributes["providerPath"];
 
-            _objectQualifier = objProvider.Attributes["objectQualifier"];
-            if( _objectQualifier != "" && _objectQualifier.EndsWith( "_" ) == false )
+            objectQualifier = objProvider.Attributes["objectQualifier"];
+            if( !String.IsNullOrEmpty(objectQualifier) && objectQualifier.EndsWith( "_" ) == false )
             {
-                _objectQualifier += "_";
+                objectQualifier += "_";
             }
 
-            _databaseOwner = objProvider.Attributes["databaseOwner"];
-            if( _databaseOwner != "" && _databaseOwner.EndsWith( "." ) == false )
+            databaseOwner = objProvider.Attributes["databaseOwner"];
+            if( !String.IsNullOrEmpty(databaseOwner) && databaseOwner.EndsWith( "." ) == false )
             {
-                _databaseOwner += ".";
+                databaseOwner += ".";
             }
         }
 
@@ -68,7 +68,7 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider.Data
         {
             get
             {
-                return _connectionString;
+                return connectionString;
             }
         }
 
@@ -76,7 +76,7 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider.Data
         {
             get
             {
-                return _providerPath;
+                return providerPath;
             }
         }
 
@@ -84,7 +84,7 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider.Data
         {
             get
             {
-                return _objectQualifier;
+                return objectQualifier;
             }
         }
 
@@ -92,7 +92,7 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider.Data
         {
             get
             {
-                return _databaseOwner;
+                return databaseOwner;
             }
         }
 

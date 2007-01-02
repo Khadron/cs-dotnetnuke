@@ -30,10 +30,10 @@ namespace DotNetNuke.UI.Utilities
 
         public delegate void PostBackEvent( ClientAPIPostBackEventArgs Args );
 
-        public ClientAPIPostBackControl( System.Web.UI.Page objPage, string strEventName, PostBackEvent objDelegate )
+        public ClientAPIPostBackControl( Page objPage, string strEventName, PostBackEvent objDelegate )
         {
             this.m_oEventHandlers = new Hashtable();
-            string string1 = ClientAPI.GetPostBackClientEvent( objPage, ( (Control)this ), "" );
+            ClientAPI.GetPostBackClientEvent( objPage, this, "" );
             this.AddEventHandler( strEventName, objDelegate );
         }
 
@@ -61,7 +61,7 @@ namespace DotNetNuke.UI.Utilities
                 this.m_oEventHandlers.Add( strEventName, objDelegate );
                 return;
             }
-            this.m_oEventHandlers[strEventName] = ( (PostBackEvent)Delegate.Combine( ( (Delegate)( (PostBackEvent)this.m_oEventHandlers[strEventName] ) ), ( (Delegate)objDelegate ) ) );
+            this.m_oEventHandlers[strEventName] = Delegate.Combine( (PostBackEvent)this.m_oEventHandlers[strEventName], objDelegate );
         }
 
         /// <Summary>

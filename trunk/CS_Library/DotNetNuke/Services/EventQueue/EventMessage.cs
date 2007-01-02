@@ -189,7 +189,7 @@ namespace DotNetNuke.Services.EventQueue
             {
                 xmlNodeString.Append( "/>" );
             }
-            else if( xmlNodeValue.IndexOfAny( "<\'>\"&".ToCharArray() ) > - 1 )
+            else if( xmlNodeValue.IndexOfAny( "<'>\"&".ToCharArray() ) > - 1 )
             {
                 xmlNodeString.Append( ">" );
                 xmlNodeString.Append( "<![CDATA[" );

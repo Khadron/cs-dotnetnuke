@@ -122,7 +122,7 @@ namespace DotNetNuke.UI.UserControls
             {
                 string fileRoot;
 
-                if (_localResourceFile == "")
+                if (String.IsNullOrEmpty( _localResourceFile ))
                 {
                     fileRoot = this.TemplateSourceDirectory + "/" + Localization.LocalResourceDirectory + "/URLControl.ascx";
                 }
@@ -338,7 +338,7 @@ namespace DotNetNuke.UI.UserControls
 
                         if (cboFiles.SelectedItem != null)
                         {
-                            if (cboFiles.SelectedItem.Value != "")
+                            if (!String.IsNullOrEmpty(cboFiles.SelectedItem.Value))
                             {
                                 returnValue = "FileID=" + cboFiles.SelectedItem.Value;
                             }
@@ -350,12 +350,12 @@ namespace DotNetNuke.UI.UserControls
                         break;
                     case "M":
 
-                        if (txtUser.Text != "")
+                        if (!String.IsNullOrEmpty(txtUser.Text))
                         {
                             UserInfo objUser = UserController.GetUserByName(_objPortal.PortalID, txtUser.Text, false);
                             if (objUser != null)
                             {
-                                returnValue = "UserID=" + objUser.UserID.ToString();
+                                returnValue = "UserID=" + objUser.UserID;
                             }
                         }
                         break;
@@ -530,7 +530,7 @@ namespace DotNetNuke.UI.UserControls
             ParentFolderName += cboFolders.SelectedItem.Value;
 
             string strExtension = Path.GetExtension(txtFile.PostedFile.FileName).Replace(".", "");
-            if (FileFilter != "" && Strings.InStr("," + FileFilter.ToLower(), "," + strExtension.ToLower(), 0) == 0)
+            if (!String.IsNullOrEmpty(FileFilter) && Strings.InStr("," + FileFilter.ToLower(), "," + strExtension.ToLower(), 0) == 0)
             {
                 // trying to upload a file not allowed for current filter
                 lblMessage.Text = string.Format(Localization.GetString("UploadError", this.LocalResourceFile), FileFilter, strExtension);
@@ -656,7 +656,7 @@ namespace DotNetNuke.UI.UserControls
                     ClientAPI.AddButtonConfirm(cmdDelete, Localization.GetString("DeleteItem"));
 
                     // set width of control
-                    if (_Width != "")
+                    if (!String.IsNullOrEmpty(_Width))
                     {
                         cboUrls.Width = Unit.Parse(_Width);
                         txtUrl.Width = Unit.Parse(_Width);
@@ -750,7 +750,7 @@ namespace DotNetNuke.UI.UserControls
             // set url type
             if (optType.SelectedItem == null)
             {
-                if (_Url != "")
+                if (!String.IsNullOrEmpty(_Url))
                 {
                     string TrackingUrl = _Url;
 
@@ -805,7 +805,7 @@ namespace DotNetNuke.UI.UserControls
                 }
                 else
                 {
-                    if (_UrlType != "")
+                    if (!String.IsNullOrEmpty(_UrlType))
                     {
                         if (optType.Items.FindByValue(_UrlType) != null)
                         {

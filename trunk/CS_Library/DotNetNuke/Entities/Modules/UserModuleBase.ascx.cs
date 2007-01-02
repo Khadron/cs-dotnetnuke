@@ -31,7 +31,7 @@ namespace DotNetNuke.Entities.Modules
     /// </Summary>
     public class UserModuleBase : PortalModuleBase
     {
-        private UserInfo _User;
+        private UserInfo m_User;
 
         /// <summary>
         /// Gets whether we are in Add User mode
@@ -73,16 +73,16 @@ namespace DotNetNuke.Entities.Modules
         {
             get
             {
-                bool _IsEdit = false;
-                if (!(Request.QueryString["ctl"] == null))
+                bool m_IsEdit = false;
+                if (Request.QueryString["ctl"] != null)
                 {
                     string ctl = Request.QueryString["ctl"];
                     if (ctl == "Edit")
                     {
-                        _IsEdit = true;
+                        m_IsEdit = true;
                     }
                 }
-                return _IsEdit;
+                return m_IsEdit;
             }
         }
 
@@ -104,7 +104,7 @@ namespace DotNetNuke.Entities.Modules
         {
             get
             {
-                bool _IsProfile = false;
+                bool m_IsProfile = false;
                 if (IsUser)
                 {
                     if (PortalSettings.UserTabId != -1)
@@ -112,7 +112,7 @@ namespace DotNetNuke.Entities.Modules
                         // user defined tab
                         if (PortalSettings.ActiveTab.TabID == PortalSettings.UserTabId)
                         {
-                            _IsProfile = true;
+                            m_IsProfile = true;
                         }
                     }
                     else
@@ -123,12 +123,12 @@ namespace DotNetNuke.Entities.Modules
                             string ctl = Request.QueryString["ctl"];
                             if (ctl == "Profile")
                             {
-                                _IsProfile = true;
+                                m_IsProfile = true;
                             }
                         }
                     }
                 }
-                return _IsProfile;
+                return m_IsProfile;
             }
         }
 
@@ -139,7 +139,7 @@ namespace DotNetNuke.Entities.Modules
         {
             get
             {
-                bool _IsRegister = false;
+                bool m_IsRegister = false;
                 if (!IsAdmin && !IsUser)
                 {
                     if (PortalSettings.UserTabId != -1)
@@ -147,23 +147,23 @@ namespace DotNetNuke.Entities.Modules
                         // user defined tab
                         if (PortalSettings.ActiveTab.TabID == PortalSettings.UserTabId)
                         {
-                            _IsRegister = true;
+                            m_IsRegister = true;
                         }
                     }
                     else
                     {
                         // admin tab
-                        if (!(Request.QueryString["ctl"] == null))
+                        if (Request.QueryString["ctl"] != null)
                         {
                             string ctl = Request.QueryString["ctl"];
                             if (ctl == "Register")
                             {
-                                _IsRegister = true;
+                                m_IsRegister = true;
                             }
                         }
                     }
                 }
-                return _IsRegister;
+                return m_IsRegister;
             }
         }
 
@@ -174,12 +174,12 @@ namespace DotNetNuke.Entities.Modules
         {
             get
             {
-                bool _IsUser = false;
+                bool m_IsUser = false;
                 if (Request.IsAuthenticated)
                 {
-                    _IsUser = User.UserID == UserInfo.UserID;
+                    m_IsUser = User.UserID == UserInfo.UserID;
                 }
-                return _IsUser;
+                return m_IsUser;
             }
         }
 
@@ -190,25 +190,25 @@ namespace DotNetNuke.Entities.Modules
         {
             get
             {
-                if (_User == null)
+                if (m_User == null)
                 {
                     if (AddUser)
                     {
-                        _User = InitialiseUser();
+                        m_User = InitialiseUser();
                     }
                     else
                     {
-                        _User = UserController.GetUser(PortalId, UserId, false);
+                        m_User = UserController.GetUser(PortalId, UserId, false);
                     }
                 }
-                return _User;
+                return m_User;
             }
             set
             {
-                _User = value;
-                if (_User != null)
+                m_User = value;
+                if (m_User != null)
                 {
-                    UserId = _User.UserID;
+                    UserId = m_User.UserID;
                 }
             }
         }
@@ -220,20 +220,20 @@ namespace DotNetNuke.Entities.Modules
         {
             get
             {
-                int _UserId = Null.NullInteger;
+                int userId = Null.NullInteger;
                 if (ViewState["UserId"] == null)
                 {
-                    if (!(Request.QueryString["userid"] == null))
+                    if (Request.QueryString["userid"] != null)
                     {
-                        _UserId = int.Parse(Request.QueryString["userid"]);
-                        ViewState["UserId"] = _UserId;
+                        userId = int.Parse(Request.QueryString["userid"]);
+                        ViewState["UserId"] = userId;
                     }
                 }
                 else
                 {
-                    _UserId = Convert.ToInt32(ViewState["UserId"]);
+                    userId = Convert.ToInt32(ViewState["UserId"]);
                 }
-                return _UserId;
+                return userId;
             }
             set
             {
@@ -411,20 +411,18 @@ namespace DotNetNuke.Entities.Modules
         /// </remarks>
         public static void UpdateSettings(int portalId, Hashtable settings)
         {
-            ModuleController objModuleController = new ModuleController();
-            string key;
-            string setting;
+            ModuleController moduleController = new ModuleController();
 
             //Now save the values
             IDictionaryEnumerator settingsEnumerator = settings.GetEnumerator();
             while (settingsEnumerator.MoveNext())
             {
-                key = Convert.ToString(settingsEnumerator.Key);
-                setting = Convert.ToString(settingsEnumerator.Value);
+                string key = Convert.ToString(settingsEnumerator.Key);
+                string setting = Convert.ToString(settingsEnumerator.Value);
 
                 //This settings page is loaded from two locations - so make sure we use the correct ModuleId
-                ModuleInfo objModule = objModuleController.GetModuleByDefinition(portalId, "User Accounts");
-                objModuleController.UpdateModuleSetting(objModule.ModuleID, key, setting);
+                ModuleInfo moduleInfo = moduleController.GetModuleByDefinition(portalId, "User Accounts");
+                moduleController.UpdateModuleSetting(moduleInfo.ModuleID, key, setting);
             }
 
             //Clear the UserSettings Cache

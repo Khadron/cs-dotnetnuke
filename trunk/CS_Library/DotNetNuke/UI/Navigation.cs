@@ -522,14 +522,14 @@ namespace DotNetNuke.UI
                 //admin tabs have their images found in a different location, since the DNNNode has no concept of an admin tab, this must be set here
                 if( objTab.IsAdminTab )
                 {
-                    if( objTab.IconFile != "" )
+                    if( !String.IsNullOrEmpty(objTab.IconFile) )
                     {
                         objNode.Image = Common.Globals.ApplicationPath + "/images/" + objTab.IconFile;
                     }
                 }
                 else
                 {
-                    if( objTab.IconFile != "" )
+                    if( !String.IsNullOrEmpty(objTab.IconFile) )
                     {
                         objNode.Image = objTab.IconFile;
                     }

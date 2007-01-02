@@ -21,7 +21,6 @@ using System;
 using System.Collections;
 using System.Threading;
 using DotNetNuke.Common.Utilities;
-using Microsoft.VisualBasic;
 
 namespace DotNetNuke.Services.Scheduling.DNNScheduling
 {

@@ -118,7 +118,7 @@ namespace DotNetNuke.Framework
             ProviderConfiguration objProviderConfiguration = ProviderConfiguration.GetProviderConfiguration( ObjectProviderType );
 
             // if both the Namespace and AssemblyName are provided then we will construct an "assembly qualified typename" - ie. "NameSpace.ClassName, AssemblyName"
-            if( ObjectNamespace != "" && ObjectAssemblyName != "" )
+            if( !String.IsNullOrEmpty(ObjectNamespace) && !String.IsNullOrEmpty(ObjectAssemblyName) )
             {
                 if( ObjectProviderName == "" )
                 {
@@ -134,7 +134,7 @@ namespace DotNetNuke.Framework
             else
             {
                 // if only the Namespace is provided then we will construct an "full typename" - ie. "NameSpace.ClassName"
-                if( ObjectNamespace != "" )
+                if( !String.IsNullOrEmpty(ObjectNamespace) )
                 {
                     if( ObjectProviderName == "" )
                     {

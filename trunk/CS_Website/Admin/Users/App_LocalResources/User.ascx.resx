@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="UserInfo_Username.Text">
+		<value>User Name:</value>
+	</data>
+	<data name="UserInfo_Username.Help">
+		<value>Enter a username</value>
+	</data>
+	<data name="UserInfo_FirstName.Text">
+		<value>First Name:</value>
+	</data>
+	<data name="UserInfo_FirstName.Help">
+		<value>Enter a First Name</value>
+	</data>
+	<data name="UserInfo_LastName.Text">
+		<value>Last Name:</value>
+	</data>
+	<data name="UserInfo_LastName.Help">
+		<value>Enter a Last Name</value>
+	</data>
+	<data name="UserInfo_Email.Text">
+		<value>Email Address:</value>
+	</data>
+	<data name="UserInfo_Email.Help">
+		<value>Enter a valid Email address</value>
+	</data>
+	<data name="UserInfo_DisplayName.Text">
+		<value>Display Name:</value>
+	</data>
+	<data name="UserInfo_DisplayName.Help">
+		<value>Provide a Display Name</value>
+	</data>
+	<data name="cmdAdd.Text">
+		<value>Add New User</value>
+	</data>
+	<data name="UserInfo_Username.Required">
+		<value>User name is required</value>
+	</data>
+	<data name="UserInfo_FirstName.Required">
+		<value>First name is required</value>
+	</data>
+	<data name="UserInfo_LastName.Required">
+		<value>Last name is required</value>
+	</data>
+	<data name="UserInfo_Email.Required">
+		<value>Email is required</value>
+	</data>
+	<data name="plAuthorize.Text">
+		<value>Authorize:</value>
+	</data>
+	<data name="plAuthorize.Help">
+		<value>Authorize this user</value>
+	</data>
+	<data name="plNotify.Text">
+		<value>Notify:</value>
+	</data>
+	<data name="plNotify.Help">
+		<value>Send an email to the user's email address</value>
+	</data>
+	<data name="CreateUser.Text">
+		<value>Create User</value>
+	</data>
+	<data name="plPassword.Text">
+		<value>Password:</value>
+	</data>
+	<data name="plPassword.Help">
+		<value>Enter a password for this user</value>
+	</data>
+	<data name="plConfirm.Text">
+		<value>Confirm Password:</value>
+	</data>
+	<data name="plConfirm.Help">
+		<value>Re-Enter the password to confirm you typed it correctly</value>
+	</data>
+	<data name="Password.Text">
+		<value>Password</value>
+	</data>
+	<data name="PasswordHelpUser.Text">
+		<value>Enter a password.</value>
+	</data>
+	<data name="PasswordHelpAdmin.Text">
+		<value>Optionally enter a password for this user, or allow the system to generate a random password</value>
+	</data>
+	<data name="plCaptcha.Text">
+		<value>Security Code:</value>
+	</data>
+	<data name="plCaptcha.Help">
+		<value>Enter the security code</value>
+	</data>
+	<data name="plRandom.Text">
+		<value>Random Password</value>
+	</data>
+	<data name="plRandom.Help">
+		<value>Check this box to generate a random password</value>
+	</data>
+	<data name="InvalidCaptcha.Text">
+		<value>Incorrect Security Code</value>
+	</data>
+	<data name="CaptchaText.Text">
+		<value>Enter the code shown above in the box below</value>
+	</data>
+	<data name="UserInfo_Email.Validation">
+		<value>You must enter a valid email address</value>
+	</data>
+	<data name="UserInfo_DisplayName.Required">
+		<value>Display Name is required</value>
+	</data>
+  <data name="UnRegister.Text">
+    <value>UnRegister</value>
+  </data>
+  <data name="Delete.Text">
+    <value>Delete</value>
+  </data>
+  <data name="ConfirmUnRegister.Text">
+    <value>Are you sure you want to un-register</value>
+  </data>
+</root>

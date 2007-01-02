@@ -225,7 +225,7 @@ namespace DotNetNuke.UI.Skins
                     if( this.Attributes.DocumentElement != null )
                     {
                         // look for the the node of this instance of the token
-                        XmlNode xmlSkinAttributeRoot = this.Attributes.DocumentElement.SelectSingleNode( "descendant::Object[Token=\'[" + AttributeNode + "]\']" );
+                        XmlNode xmlSkinAttributeRoot = this.Attributes.DocumentElement.SelectSingleNode( "descendant::Object[Token='[" + AttributeNode + "]']" );
                         // if the token is found
                         if( xmlSkinAttributeRoot != null )
                         {

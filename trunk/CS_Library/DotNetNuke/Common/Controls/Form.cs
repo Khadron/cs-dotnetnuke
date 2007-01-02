@@ -38,24 +38,24 @@ namespace DotNetNuke.Common.Controls
             string html = stringWriter.ToString();
 
             // Locate and replace action attribute
-            int StartPoint = html.IndexOf( "action=\"" );
-            if( StartPoint >= 0 ) //does action exist?
+            int startPoint = html.IndexOf( "action=\"" );
+            if( startPoint >= 0 ) //does action exist?
             {
-                int EndPoint = html.IndexOf( "\"", StartPoint + 8 ) + 1;
-                html = html.Remove( StartPoint, EndPoint - StartPoint );
+                int endPoint = html.IndexOf( "\"", startPoint + 8 ) + 1;
+                html = html.Remove( startPoint, endPoint - startPoint );
                 PortalSecurity objSecurity = new PortalSecurity();
-                html = html.Insert( StartPoint, "action=\"" + objSecurity.InputFilter( HttpContext.Current.Request.RawUrl, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets ) + "\"" );
+                html = html.Insert( startPoint, "action=\"" + objSecurity.InputFilter( HttpContext.Current.Request.RawUrl, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets ) + "\"" );
             }
 
             //' Locate and replace id attribute
-            if( !( base.ID == null ) )
+            if( base.ID == null )
             {
-                StartPoint = html.IndexOf( "id=\"" );
-                if( StartPoint >= 0 ) //does id exist?
+                startPoint = html.IndexOf( "id=\"" );
+                if( startPoint >= 0 ) //does id exist?
                 {
-                    int EndPoint = html.IndexOf( "\"", StartPoint + 4 ) + 1;
-                    html = html.Remove( StartPoint, EndPoint - StartPoint );
-                    html = html.Insert( StartPoint, "id=\"" + base.ClientID + "\"" );
+                    int EndPoint = html.IndexOf( "\"", startPoint + 4 ) + 1;
+                    html = html.Remove( startPoint, EndPoint - startPoint );
+                    html = html.Insert( startPoint, "id=\"" + base.ClientID + "\"" );
                 }
             }
 

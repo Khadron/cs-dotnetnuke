@@ -86,7 +86,7 @@ namespace DotNetNuke.UI.WebControls
         /// <Summary>
         /// Gets and sets the value of the Field that is bound to the Label
         /// </Summary>
-        [BrowsableAttribute( true ), CategoryAttribute( "Data" ), DescriptionAttribute( "Enter the name of the field that is data bound to the Label\'s Text property." ), DefaultValueAttribute( "" )]
+        [BrowsableAttribute( true ), CategoryAttribute( "Data" ), DescriptionAttribute( "Enter the name of the field that is data bound to the Label's Text property." ), DefaultValueAttribute( "" )]
         public string DataField
         {
             get
@@ -274,7 +274,7 @@ namespace DotNetNuke.UI.WebControls
                 //Make sure the Child Controls are created before assigning any properties
                 this.EnsureChildControls();
 
-                if (DataField != "")
+                if (!String.IsNullOrEmpty(DataField))
                 {
                     //DataBind the Label (via the Resource Key)
                     DataRowView dataRow = (DataRowView)DataSource;

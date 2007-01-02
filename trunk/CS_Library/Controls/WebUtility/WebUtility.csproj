@@ -14,6 +14,7 @@
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -49,9 +50,6 @@
     </Reference>
     <Reference Include="System.Web">
       <Name>System.Web</Name>
-    </Reference>
-    <Reference Include="System.Windows.Forms">
-      <Name>System.Windows.Forms</Name>
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.Xml</Name>
@@ -99,7 +97,6 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) %25CSDNN%25</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -38,8 +38,14 @@ namespace DotNetNuke.UI.UserControls
 
         public Help()
         {
-            this.cmdCancel.Click += new EventHandler( this.cmdCancel_Click );
             Load += new EventHandler( this.Page_Load );
+            Init +=new EventHandler(Help_Init);
+        }
+
+        private void Help_Init( object sender, EventArgs e )
+        {
+            
+            this.cmdCancel.Click += new EventHandler(this.cmdCancel_Click);
         }
 
         /// <Summary>cmdCancel_Click runs when the cancel Button is clicked</Summary>

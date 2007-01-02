@@ -159,14 +159,14 @@ namespace DotNetNuke.UI.Utilities
         {
             get
             {
-                string string1 = "";
-                if( m_sScriptPath.Length > 0 )
+                
+                if( !String.IsNullOrEmpty( m_sScriptPath) )
                 {
                     return m_sScriptPath;
                 }
                 if( HttpContext.Current == null )
                 {
-                    return string1;
+                    return String.Empty;
                 }
                 if( HttpContext.Current.Request.ApplicationPath.EndsWith( "/" ) )
                 {
@@ -202,7 +202,7 @@ namespace DotNetNuke.UI.Utilities
         /// <Param name="strText">Text to display in confirmation</Param>
         public static void AddButtonConfirm( WebControl objButton, string strText )
         {
-            objButton.Attributes.Add( "onClick", ( "javascript:return confirm(\'" + GetSafeJSString( strText ) + "\');" ) );
+            objButton.Attributes.Add( "onClick", ( "javascript:return confirm('" + GetSafeJSString( strText ) + "');" ) );
         }
 
         public static bool BrowserSupportsFunctionality( ClientFunctionality eFunctionality )
@@ -220,8 +220,8 @@ namespace DotNetNuke.UI.Utilities
             string browser = httpRequest.Browser.Browser;
             double dblVersion = ( httpRequest.Browser.MajorVersion + httpRequest.Browser.MinorVersion );
             string s = Enum.GetName( eFunctionality.GetType(), eFunctionality );
-            bool supportsFunctionality = CapsMatchFound( xmlDocument.SelectSingleNode( ( "/capabilities/functionality[@nm=\'" + s + "\']/supports" ) ), httpRequest.UserAgent, browser, dblVersion );
-            if( ! CapsMatchFound( xmlDocument.SelectSingleNode( ( "/capabilities/functionality[@nm=\'" + s + "\']/excludes" ) ), httpRequest.UserAgent, browser, dblVersion ) )
+            bool supportsFunctionality = CapsMatchFound( xmlDocument.SelectSingleNode( ( "/capabilities/functionality[@nm='" + s + "']/supports" ) ), httpRequest.UserAgent, browser, dblVersion );
+            if( ! CapsMatchFound( xmlDocument.SelectSingleNode( ( "/capabilities/functionality[@nm='" + s + "']/excludes" ) ), httpRequest.UserAgent, browser, dblVersion ) )
             {
                 return supportsFunctionality;
             }
@@ -245,11 +245,11 @@ namespace DotNetNuke.UI.Utilities
             {
                 return false;
             }
-            if( Convert.ToDouble( Convert.ToDecimal( GetSafeXMLAttr( objNode.SelectSingleNode( ( "browser[@nm=\'" + strBrowser + "\']" ) ), "minversion", "999" ) ) ) <= dblVersion )
+            if( Convert.ToDouble( Convert.ToDecimal( GetSafeXMLAttr( objNode.SelectSingleNode( ( "browser[@nm='" + strBrowser + "']" ) ), "minversion", "999" ) ) ) <= dblVersion )
             {
                 return true;
             }
-            if( objNode.SelectSingleNode( "browser[@nm=\'*\']" ) != null )
+            if( objNode.SelectSingleNode( "browser[@nm='*']" ) != null )
             {
                 return true;
             }
@@ -295,7 +295,7 @@ namespace DotNetNuke.UI.Utilities
             {
                 RegisterClientScriptBlock( objPage, "dnn.util.tablereorder.js", ( "<script src=\"" + ScriptPath + "dnn.util.tablereorder.js\"></script>" ) );
             }
-            string[] args = new string[] {"if (dnn.util.tableReorderMove(this,", Convert.ToString( ( - ( blnUp ? 1 : 0 ) ) ), ",\'", strKey, "\')) return false;"};
+            string[] args = new string[] {"if (dnn.util.tableReorderMove(this,", Convert.ToString( ( - ( blnUp ? 1 : 0 ) ) ), ",'", strKey, "')) return false;"};
             AddAttribute( objButton, "onclick", string.Concat( args ) );
             for( parent = objButton.Parent; ( parent != null ); parent = parent.Parent )
             {
@@ -351,9 +351,9 @@ namespace DotNetNuke.UI.Utilities
             {
                 strPostChildrenOfId = "null";
             }
-            else if( ! strPostChildrenOfId.StartsWith( "\'" ) )
+            else if( ! strPostChildrenOfId.StartsWith( "'" ) )
             {
-                strPostChildrenOfId = ( "\'" + strPostChildrenOfId + "\'" );
+                strPostChildrenOfId = ( "'" + strPostChildrenOfId + "'" );
             }
             string string2 = objControl.ID;
             if( ! BrowserSupportsFunctionality( ClientFunctionality.XMLHTTP ) )
@@ -375,7 +375,7 @@ namespace DotNetNuke.UI.Utilities
                 string2 = ( string2 + " " + objControl.ClientID );
             }
             object[] objectArray1 = new object[] {string2, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, "null", strPostChildrenOfId};
-            return string.Format( "dnn.xmlhttp.doCallBack(\'{0}\',{1},{2},{3},{4},{5},{6},{7});", objectArray1 );
+            return string.Format( "dnn.xmlhttp.doCallBack('{0}',{1},{2},{3},{4},{5},{6},{7});", objectArray1 );
         }
 
         public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, Control objPostChildrenOf )
@@ -497,7 +497,7 @@ namespace DotNetNuke.UI.Utilities
             {
                 replace = HttpContext.Current.Request["__dnnVariable"];
             }
-            if( replace.Length <= 0 )
+            if( replace == null || replace.Length <= 0 )
             {
                 return "";
             }
@@ -531,7 +531,7 @@ namespace DotNetNuke.UI.Utilities
         /// <Returns>Javascript to handle key press</Returns>
         private static string GetKeyDownHandler( int intKeyAscii, string strJavascript )
         {
-            string[] stringArray1 = new string[] {"return __dnn_KeyDown(\'", Convert.ToString( intKeyAscii ), "\', \'", strJavascript.Replace( "\'", "%27" ), "\', event);"};
+            string[] stringArray1 = new string[] {"return __dnn_KeyDown('", Convert.ToString( intKeyAscii ), "', '", strJavascript.Replace( "'", "%27" ), "', event);"};
             return string.Concat( stringArray1 );
         }
 
@@ -557,13 +557,14 @@ namespace DotNetNuke.UI.Utilities
         /// <Returns>Escaped string</Returns>
         public static string GetSafeJSString( string strString )
         {
-            if( strString.Length <= 0 )
+            if( strString != null && strString.Length > 0 )
             {
-                return strString;
+                //Return System.Text.RegularExpressions.Regex.Replace(strString, "(['""\\])", "\$1")
+                return Regex.Replace( strString, "(['\"\\\\])", "\\$1" );
             }
             else
             {
-                return Regex.Replace( strString, "([\'\"\\\\])", @"\$1" );
+                return strString;
             }
         }
 
@@ -691,8 +692,6 @@ namespace DotNetNuke.UI.Utilities
 
         public static void RegisterClientReference( Page objPage, ClientNamespaceReferences eRef )
         {
-            string string1;
-            string string2;
             switch( eRef )
             {
                 case ClientNamespaceReferences.dnn:
@@ -731,7 +730,7 @@ namespace DotNetNuke.UI.Utilities
                         {
                             return;
                         }
-                        string1 = ( "<script src=\"" + ScriptPath + "dnn.xml.js\"></script>" );
+                        string string1 = ( "<script src=\"" + ScriptPath + "dnn.xml.js\"></script>" );
                         if( BrowserSupportsFunctionality( ClientFunctionality.XMLJS ) )
                         {
                             string1 = ( string1 + "<script src=\"" + ScriptPath + "dnn.xml.jsparser.js\"></script>" );
@@ -746,7 +745,7 @@ namespace DotNetNuke.UI.Utilities
                         {
                             return;
                         }
-                        string2 = ( "<script src=\"" + ScriptPath + "dnn.xmlhttp.js\"></script>" );
+                        string string2 = ( "<script src=\"" + ScriptPath + "dnn.xmlhttp.js\"></script>" );
                         if( BrowserSupportsFunctionality( ClientFunctionality.XMLHTTPJS ) )
                         {
                             string2 = ( string2 + "<script src=\"" + ScriptPath + "dnn.xmlhttp.jsxmlhttprequest.js\"></script>" );

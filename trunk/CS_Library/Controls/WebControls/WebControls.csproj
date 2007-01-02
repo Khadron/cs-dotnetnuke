@@ -73,9 +73,6 @@
     <Reference Include="System.Web.RegularExpressions">
       <Name>System.Web.RegularExpressions</Name>
     </Reference>
-    <Reference Include="System.Windows.Forms">
-      <Name>System.Windows.Forms</Name>
-    </Reference>
     <Reference Include="System.Xml">
       <Name>System.Xml</Name>
     </Reference>
@@ -260,7 +257,6 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) %25CSDNN%25</PostBuildEvent>
   </PropertyGroup>
 </Project>

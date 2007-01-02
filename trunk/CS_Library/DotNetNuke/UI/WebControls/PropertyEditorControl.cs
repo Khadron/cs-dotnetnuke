@@ -49,7 +49,6 @@ namespace DotNetNuke.UI.WebControls
         private Style _GroupHeaderStyle;
         private string _Groups;
         private Style _HelpStyle;
-        private bool _IsDirty;
         private bool _ItemChanged;
         private Style _LabelStyle;
         private Unit _LabelWidth;
@@ -368,7 +367,7 @@ namespace DotNetNuke.UI.WebControls
                 {
                     return this._UnderlyingDataSource;
                 }
-                this._UnderlyingDataSource = ( (IEnumerable)this.GetProperties() );
+                this._UnderlyingDataSource = this.GetProperties();
                 return this._UnderlyingDataSource;
             }
         }
@@ -422,7 +421,7 @@ namespace DotNetNuke.UI.WebControls
         protected virtual string[] GetGroups( IEnumerable arrObjects )
         {
             ArrayList arrGroups = new ArrayList();
-            string[] strGroups = new string[0];
+            string[] strGroups;
 
             foreach (PropertyInfo objProperty in arrObjects)
             {
@@ -439,7 +438,7 @@ namespace DotNetNuke.UI.WebControls
             }
 
             strGroups = new string[arrGroups.Count - 1 + 1];
-            for (int i = 0; i <= arrGroups.Count - 1; i++)
+            for (int i = 0; i < arrGroups.Count; i++)
             {
                 strGroups[i] = arrGroups[i].ToString();
             }
@@ -513,6 +512,7 @@ namespace DotNetNuke.UI.WebControls
         /// <remarks>This method is protected so that classes that inherit from
         /// PropertyEditor can modify how the Row is displayed</remarks>
         /// <param name="tbl">The Table Control to add the row to</param>
+        /// <param name="obj">an object</param>
         protected virtual void AddEditorRow( ref Table tbl, object obj )
         {
             PropertyInfo objProperty = (PropertyInfo)obj;
@@ -595,6 +595,7 @@ namespace DotNetNuke.UI.WebControls
         /// <remarks>This method is protected so that classes that inherit from
         /// PropertyEditor can modify how the Header is displayed</remarks>
         /// <param name="tbl">The Table Control that contains the group</param>
+        /// <param name="header">the header</param>
         protected virtual void AddHeader( ref Table tbl, string header )
         {
             Panel panel = new Panel();
@@ -631,8 +632,6 @@ namespace DotNetNuke.UI.WebControls
         protected virtual void CreateEditor()
         {
             Table tbl;
-            object obj;
-            string strGroup;
             string[] arrGroups = new string[0];
 
             Controls.Clear();
@@ -662,9 +661,8 @@ namespace DotNetNuke.UI.WebControls
                 Fields.Clear();
                 if (arrGroups.Length > 0)
                 {
-                    foreach (string tempLoopVar_strGroup in arrGroups)
+                    foreach (string strGroup in arrGroups)
                     {
-                        strGroup = tempLoopVar_strGroup;
                         if (GroupByMode == GroupByMode.Section)
                         {
                             //Create a new table
@@ -674,9 +672,8 @@ namespace DotNetNuke.UI.WebControls
                             //Add a Header
                             AddHeader(ref tbl, strGroup);
 
-                            foreach (object tempLoopVar_obj in UnderlyingDataSource)
+                            foreach (object obj in UnderlyingDataSource)
                             {
-                                obj = tempLoopVar_obj;
                                 if (GetCategory(obj) == strGroup.Trim(null))
                                 {
                                     //Add the Editor Row to the Table
@@ -698,9 +695,8 @@ namespace DotNetNuke.UI.WebControls
                     tbl = new Table();
                     tbl.ID = "tbl";
 
-                    foreach (object tempLoopVar_obj in UnderlyingDataSource)
+                    foreach (object obj in UnderlyingDataSource)
                     {
-                        obj = tempLoopVar_obj;
                         //Add the Editor Row to the Table
                         if (GetRowVisibility(obj))
                         {

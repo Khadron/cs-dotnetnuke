@@ -183,7 +183,7 @@ namespace DotNetNuke.NavigationControl
             get
             {
                 //Return Menu.MenuCSS.RootMenuArrow
-                return "";
+                return String.Empty;
             }
             set
             {
@@ -196,7 +196,7 @@ namespace DotNetNuke.NavigationControl
             get
             {
                 //Return Menu.MenuCSS.MenuArrow
-                return "";
+                return String.Empty;
             }
             set
             {
@@ -603,8 +603,8 @@ namespace DotNetNuke.NavigationControl
         private string GetSeparatorTD( string strClass, string strHTML )
         {
             string strRet = "";
-            if( strClass != "" )
-            {
+            if( !String.IsNullOrEmpty(strClass) )
+            {                
                 strRet += "<td class = \"" + strClass + "\">";
             }
             else
@@ -619,15 +619,15 @@ namespace DotNetNuke.NavigationControl
         private string GetSeparatorText( string strNormal, string strBreadCrumb, string strSelection, DNNNode objNode )
         {
             string strRet = "";
-            if( strNormal != "" )
+            if( !String.IsNullOrEmpty(strNormal) )
             {
                 strRet = strNormal;
             }
-            if( strBreadCrumb != "" && objNode != null && objNode.BreadCrumb )
+            if( !String.IsNullOrEmpty(strBreadCrumb) && objNode != null && objNode.BreadCrumb )
             {
                 strRet = strBreadCrumb;
             }
-            if( strSelection != "" && objNode != null && objNode.Selected )
+            if( !String.IsNullOrEmpty(strSelection) && objNode != null && objNode.Selected )
             {
                 strRet = strSelection;
             }
@@ -641,7 +641,7 @@ namespace DotNetNuke.NavigationControl
             string strHTML = this.SeparatorHTML + strLeftHTML + strRightHTML;
             if( strHTML.Length > 0 )
             {
-                string strSeparatorTable = "";
+                string strSeparatorTable;
                 string strSeparator = "";
                 string strSeparatorLeftHTML = "";
                 string strSeparatorRightHTML = "";
@@ -654,9 +654,9 @@ namespace DotNetNuke.NavigationControl
                     strLeftSeparatorClass = this.GetSeparatorText( CSSLeftSeparator, CSSLeftSeparatorBreadCrumb, CSSLeftSeparatorSelection, objNextNode );
                     strSeparatorLeftHTML = this.GetSeparatorText( SeparatorLeftHTML, SeparatorLeftHTMLBreadCrumb, SeparatorLeftHTMLActive, objNextNode );
                 }
-                if( SeparatorHTML != "" )
+                if( !String.IsNullOrEmpty(SeparatorHTML) )
                 {
-                    if( CSSSeparator != "" )
+                    if( !String.IsNullOrEmpty(CSSSeparator) )
                     {
                         strSeparatorClass = CSSSeparator;
                     }
@@ -669,15 +669,15 @@ namespace DotNetNuke.NavigationControl
                 }
                 strSeparatorTable = "<table summary=\"Table for menu separator design\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>";
 
-                if( strSeparatorRightHTML != "" && strType != "Left" )
+                if( !String.IsNullOrEmpty(strSeparatorRightHTML) && strType != "Left" )
                 {
                     strSeparatorTable += GetSeparatorTD( strRightSeparatorClass, strSeparatorRightHTML );
                 }
-                if( strSeparator != "" && strType != "Left" && strType != "Right" )
+                if( !String.IsNullOrEmpty(strSeparator) && strType != "Left" && strType != "Right" )
                 {
                     strSeparatorTable += GetSeparatorTD( strSeparatorClass, strSeparator );
                 }
-                if( strSeparatorLeftHTML != "" && strType != "Right" )
+                if( !String.IsNullOrEmpty(strSeparatorLeftHTML) && strType != "Right" )
                 {
                     strSeparatorTable += GetSeparatorTD( strLeftSeparatorClass, strSeparatorLeftHTML );
                 }
@@ -689,10 +689,8 @@ namespace DotNetNuke.NavigationControl
         public override void Bind( DNNNodeCollection objNodes )
         {
             DNNNode objNode = null;
-            MenuNode objMenuItem;
             DNNNode objPrevNode = null;
-            bool RootFlag = false;
-            int intIndex;
+            bool isRoot = false;
 
             if( IndicateChildren == false )
             {
@@ -706,23 +704,24 @@ namespace DotNetNuke.NavigationControl
             }
 
             //For i = 0 To objNodes.Count - 1
-            foreach( DNNNode tempLoopVar_objNode in objNodes )
+            foreach( DNNNode dnnNode in objNodes )
             {
-                objNode = tempLoopVar_objNode;
+                objNode = dnnNode;
                 //objNode = objNodes(i)
+                MenuNode objMenuItem;
                 if( objNode.Level == 0 ) // root menu
                 {
-                    if( RootFlag == true ) //first root item has already been entered
+                    if( isRoot ) //first root item has already been entered
                     {
                         AddSeparator( "All", objPrevNode, objNode );
                     }
                     else
                     {
-                        if( SeparatorLeftHTML != "" || SeparatorLeftHTMLBreadCrumb != "" || this.SeparatorLeftHTMLActive != "" )
+                        if( !String.IsNullOrEmpty(SeparatorLeftHTML) || !String.IsNullOrEmpty(SeparatorLeftHTMLBreadCrumb) || !String.IsNullOrEmpty(this.SeparatorLeftHTMLActive) )
                         {
                             AddSeparator( "Left", objPrevNode, objNode );
                         }
-                        RootFlag = true;
+                        isRoot = true;
                     }
 
                     //If objNode.Enabled = False Then
@@ -730,18 +729,18 @@ namespace DotNetNuke.NavigationControl
                     //Else
                     //	intIndex = Menu.MenuNodes.Add(objNode.ID.ToString, objNode.Key, objNode.Text & "&nbsp;", objNode.NavigateURL)
                     //End If
-                    intIndex = Menu.MenuNodes.Import( objNode, false );
+                    int intIndex = Menu.MenuNodes.Import( objNode, false );
                     objMenuItem = Menu.MenuNodes[intIndex];
-                    if( this.CSSNodeRoot != "" )
+                    if( !String.IsNullOrEmpty(this.CSSNodeRoot) )
                     {
                         objMenuItem.CSSClass = this.CSSNodeRoot;
                     }
-                    if( this.CSSNodeHoverRoot != "" && this.CSSNodeHoverRoot != this.CSSNodeHoverSub )
+                    if( !String.IsNullOrEmpty(this.CSSNodeHoverRoot) && this.CSSNodeHoverRoot != this.CSSNodeHoverSub )
                     {
                         objMenuItem.CSSClassHover = this.CSSNodeHoverRoot;
                     }
 
-                    if( this.NodeLeftHTMLRoot != "" )
+                    if( !String.IsNullOrEmpty(this.NodeLeftHTMLRoot) )
                     {
                         objMenuItem.LeftHTML = this.NodeLeftHTMLRoot;
                     }
@@ -749,15 +748,15 @@ namespace DotNetNuke.NavigationControl
                     objMenuItem.CSSIcon = " "; //< ignore for root...???
                     if( objNode.BreadCrumb )
                     {
-                        if( CSSBreadCrumbRoot != "" )
+                        if( !String.IsNullOrEmpty(CSSBreadCrumbRoot) )
                         {
                             objMenuItem.CSSClass = CSSBreadCrumbRoot;
                         }
-                        if( NodeLeftHTMLBreadCrumbRoot != "" )
+                        if( !String.IsNullOrEmpty(NodeLeftHTMLBreadCrumbRoot) )
                         {
                             objMenuItem.LeftHTML = NodeLeftHTMLBreadCrumbRoot;
                         }
-                        if( NodeRightHTMLBreadCrumbRoot != "" )
+                        if( !String.IsNullOrEmpty(NodeRightHTMLBreadCrumbRoot) )
                         {
                             objMenuItem.RightHTML = NodeRightHTMLBreadCrumbRoot;
                         }
@@ -766,7 +765,7 @@ namespace DotNetNuke.NavigationControl
                         //End If
                     }
 
-                    if( this.NodeRightHTMLRoot != "" )
+                    if( !String.IsNullOrEmpty(this.NodeRightHTMLRoot) )
                     {
                         objMenuItem.RightHTML = NodeRightHTMLRoot;
                     }
@@ -793,26 +792,26 @@ namespace DotNetNuke.NavigationControl
                         //	intIndex = objParent.MenuNodes.Add(objNode.ID.ToString, objNode.Key, objNode.Text, objNode.NavigateURL)
                         //End If
 
-                        if( CSSNodeHoverSub != "" && this.CSSNodeHoverRoot != this.CSSNodeHoverSub )
+                        if( !String.IsNullOrEmpty(CSSNodeHoverSub) && this.CSSNodeHoverRoot != this.CSSNodeHoverSub )
                         {
                             objMenuItem.CSSClassHover = CSSNodeHoverSub;
                         }
-                        if( NodeLeftHTMLSub != "" )
+                        if( !String.IsNullOrEmpty(NodeLeftHTMLSub) )
                         {
                             objMenuItem.LeftHTML = NodeLeftHTMLSub;
                         }
 
                         if( objNode.BreadCrumb )
                         {
-                            if( CSSBreadCrumbSub != "" )
+                            if( !String.IsNullOrEmpty(CSSBreadCrumbSub) )
                             {
                                 objMenuItem.CSSClass = this.CSSBreadCrumbSub;
                             }
-                            if( NodeLeftHTMLBreadCrumbSub != "" )
+                            if( !String.IsNullOrEmpty(NodeLeftHTMLBreadCrumbSub) )
                             {
                                 objMenuItem.LeftHTML = NodeLeftHTMLBreadCrumbSub;
                             }
-                            if( NodeRightHTMLBreadCrumbSub != "" )
+                            if( !String.IsNullOrEmpty(NodeRightHTMLBreadCrumbSub) )
                             {
                                 objMenuItem.RightHTML = NodeRightHTMLBreadCrumbSub;
                             }
@@ -821,7 +820,7 @@ namespace DotNetNuke.NavigationControl
                             //End If
                         }
 
-                        if( this.NodeRightHTMLSub != "" )
+                        if( !String.IsNullOrEmpty(this.NodeRightHTMLSub) )
                         {
                             objMenuItem.RightHTML = this.NodeRightHTMLSub;
                         }
@@ -834,30 +833,32 @@ namespace DotNetNuke.NavigationControl
                     //Else
                     //	objMenuItem = Nothing
                 }
-
-                if( objNode.Image.Length > 0 )
+                if(objMenuItem != null)
                 {
-                    if( objNode.Image.StartsWith( "/" ) == false && this.PathImage.Length > 0 )
+                    if( objNode.Image.Length > 0 )
                     {
-                        objNode.Image = this.PathImage + objNode.Image;
+                        if( objNode.Image.StartsWith( "/" ) == false && this.PathImage.Length > 0 )
+                        {
+                            objNode.Image = this.PathImage + objNode.Image;
+                        }
+                        objMenuItem.Image = objNode.Image;
                     }
-                    objMenuItem.Image = objNode.Image;
+
+                    if( objMenuItem.IsBreak )
+                    {
+                        objMenuItem.CSSClass = this.CSSBreak;
+                    }
+
+                    objMenuItem.ToolTip = objNode.ToolTip;
+                    
                 }
-
-                if( objMenuItem.IsBreak )
-                {
-                    objMenuItem.CSSClass = this.CSSBreak;
-                }
-
-                objMenuItem.ToolTip = objNode.ToolTip;
-
                 Bind( objNode.DNNNodes );
                 objPrevNode = objNode;
             }
 
             if( objNode != null && objNode.Level == 0 ) // root menu
             {
-                if( SeparatorRightHTML != "" || SeparatorRightHTMLBreadCrumb != "" || this.SeparatorRightHTMLActive != "" )
+                if( !String.IsNullOrEmpty(SeparatorRightHTML) || !String.IsNullOrEmpty(SeparatorRightHTMLBreadCrumb) || !String.IsNullOrEmpty(this.SeparatorRightHTMLActive) )
                 {
                     AddSeparator( "Right", objPrevNode, null );
                 }
@@ -880,12 +881,12 @@ namespace DotNetNuke.NavigationControl
 
         private void DNNMenu_NodeClick( object source, DNNMenuNodeClickEventArgs e )
         {
-            base.RaiseEvent_NodeClick( e.Node );
+            RaiseEvent_NodeClick( e.Node );
         }
 
         private void DNNMenu_PopulateOnDemand( object source, DNNMenuEventArgs e )
         {
-            base.RaiseEvent_PopulateOnDemand( e.Node );
+            RaiseEvent_PopulateOnDemand( e.Node );
         }
 
         public override void Initialize()

@@ -27,22 +27,38 @@ namespace DotNetNuke.Services.Log.EventLog
     [Serializable(), XmlInclude(typeof(LogDetailInfo))]
     public class LogProperties : ArrayList
     {
+        const int MAX_LEN = 75;
+
         public string Summary
         {
             get
             {
-                return this.ToString().Substring(0, 75);
+                string summary = this.ToString();
+                if(String.IsNullOrEmpty(summary))
+                {
+                    return "Empty Summary";
+                }
+                else if (summary.Length > MAX_LEN)
+                {
+                    return summary.Substring( 0, MAX_LEN );
+                }
+                else
+                {
+                    return summary;
+                }
             }
         }
 
         public override string ToString()
         {
             StringBuilder t = new StringBuilder();
-            int i;
-            for (i = 0; i <= this.Count - 1; i++)
+            for (int i = 0; i < this.Count; i++)
             {
-                LogDetailInfo ldi = (LogDetailInfo)this[i];
-                t.Append(ldi.ToString());
+                LogDetailInfo ldi = this[i] as LogDetailInfo;
+                if(ldi!=null)
+                {
+                    t.Append(ldi.ToString());
+                }
             }
             return t.ToString();
         }

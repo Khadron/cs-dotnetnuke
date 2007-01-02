@@ -72,12 +72,12 @@ namespace DotNetNuke.HtmlEditor
         {
             get
             {
-                int _PortalId = Null.NullInteger;
+                int portalId = Null.NullInteger;
                 if( PortalSettings.ActiveTab.ParentId != PortalSettings.SuperTabId )
                 {
-                    _PortalId = PortalSettings.PortalId;
+                    portalId = PortalSettings.PortalId;
                 }
-                return _PortalId;
+                return portalId;
             }
         }
 
@@ -85,9 +85,7 @@ namespace DotNetNuke.HtmlEditor
         {
             get
             {
-                PortalSettings returnValue;
-                returnValue = PortalController.GetCurrentPortalSettings();
-                return returnValue;
+                return PortalController.GetCurrentPortalSettings();
             }
         }
 
@@ -115,7 +113,7 @@ namespace DotNetNuke.HtmlEditor
             }
 
             //Clear the Folders Cache
-            DataCache.RemoveCache( "Folders:" + PortalId.ToString() );
+            DataCache.RemoveCache( "Folders:" + PortalId );
         }
 
         private void DeleteFolder( string filePath )
@@ -142,7 +140,7 @@ namespace DotNetNuke.HtmlEditor
             }
 
             //Clear the Folders Cache
-            DataCache.RemoveCache( "Folders:" + PortalId.ToString() );
+            DataCache.RemoveCache( "Folders:" + PortalId );
         }
 
         private void DeleteImage( string filePath )
@@ -185,7 +183,7 @@ namespace DotNetNuke.HtmlEditor
                     {
                         string strMessage = FileSystemUtils.UploadFile( parentFolder, this.inputFile.PostedFile, false );
 
-                        if( strMessage != "" )
+                        if( !String.IsNullOrEmpty(strMessage) )
                         {
                             string strFileName = parentFolder + Path.GetFileName( this.inputFile.PostedFile.FileName );
                             strMessage = strMessage.Replace( "<br>", "" );

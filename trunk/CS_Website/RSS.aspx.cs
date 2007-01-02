@@ -95,7 +95,7 @@ namespace DotNetNuke.Common.Utilities
             // we'll have to revisit.
             // sb.Append(WriteElement("link", Request.Url.Host, 2))
             sb.Append(WriteElement("link", Globals.AddHTTP(Globals.GetDomainName(HttpContext.Current.Request)), 2));
-            if( PortalSettings.Description != "" )
+            if( !String.IsNullOrEmpty(PortalSettings.Description) )
             {
                 sb.Append( WriteElement( "description", PortalSettings.Description, 2 ) );
             }
@@ -168,7 +168,7 @@ namespace DotNetNuke.Common.Utilities
             // not just a simple name.
             // sb.Append(WriteElement("author", objResult.AuthorName, Indent + 1))
             sb.Append( WriteElement( "pubDate", objResult.PubDate.ToUniversalTime().ToString( "r" ), Indent + 1 ) );
-            sb.Append( WriteElement( "guid", URL + Convert.ToString( objResult.Guid != "" ? "?" + objResult.Guid : "" ), Indent + 1 ) );
+            sb.Append( WriteElement( "guid", URL + Convert.ToString( !String.IsNullOrEmpty(objResult.Guid) ? "?" + objResult.Guid : "" ), Indent + 1 ) );
             sb.Append( WriteElement( "/item", Indent ) );
 
             return sb.ToString();

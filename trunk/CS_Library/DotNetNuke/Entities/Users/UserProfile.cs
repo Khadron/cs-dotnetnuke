@@ -61,10 +61,6 @@ namespace DotNetNuke.Entities.Users
         // collection to store all profile properties.
         private ProfilePropertyDefinitionCollection _profileProperties;
 
-        public UserProfile()
-        {
-        }
-
         /// <summary>
         /// Gets and sets the Cell/Mobile Phone
         /// </summary>

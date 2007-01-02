@@ -51,18 +51,20 @@ namespace DotNetNuke.UI.WebControls
 
             private void BindData( object sender, EventArgs e )
             {
-                Literal literal1 = ( (Literal)sender );
-                RepeaterItem repeaterItem1 = ( (RepeaterItem)literal1.NamingContainer );
-                literal1.Text = ( this._PagingControl.GetLink( Convert.ToInt32( DataBinder.Eval( repeaterItem1.DataItem, "PageNum" ) ) ) + "&nbsp;&nbsp;" );
+                Literal literal = ( (Literal)sender );
+                RepeaterItem repeaterItem = ( (RepeaterItem)literal.NamingContainer );
+                literal.Text = ( this._PagingControl.GetLink( Convert.ToInt32( DataBinder.Eval( repeaterItem.DataItem, "PageNum" ) ) ) + "&nbsp;&nbsp;" );
             }
 
             public virtual void InstantiateIn( Control container )
             {
-                Literal literal1 = new Literal();
-                literal1.DataBinding += new EventHandler( this.BindData );
-                container.Controls.Add( ( (Control)literal1 ) );
+                Literal literal = new Literal();
+                literal.DataBinding += new EventHandler( this.BindData );
+                container.Controls.Add( literal );
             }
         }
+
+
         private string _CSSClassLinkActive;
         private string _CSSClassLinkInactive;
         private string _CSSClassPagingStatus;
@@ -209,13 +211,13 @@ namespace DotNetNuke.UI.WebControls
             this.TotalPages = -1;
         }
 
-        private string CreateURL( string CurrentPage )
+        private string CreateURL( string currentPage )
         {
-            if (QuerystringParams != "")
+            if (!String.IsNullOrEmpty(QuerystringParams))
             {
-                if (CurrentPage != "")
+                if (!String.IsNullOrEmpty(currentPage))
                 {
-                    return Globals.NavigateURL(TabID, "", QuerystringParams, "currentpage=" + CurrentPage);
+                    return Globals.NavigateURL(TabID, "", QuerystringParams, "currentpage=" + currentPage);
                 }
                 else
                 {
@@ -224,9 +226,9 @@ namespace DotNetNuke.UI.WebControls
             }
             else
             {
-                if (CurrentPage != "")
+                if (!String.IsNullOrEmpty(currentPage))
                 {
-                    return Globals.NavigateURL(TabID, "", "currentpage=" + CurrentPage);
+                    return Globals.NavigateURL(TabID, "", "currentpage=" + currentPage);
                 }
                 else
                 {
@@ -266,11 +268,11 @@ namespace DotNetNuke.UI.WebControls
         {
             if (PageNum == CurrentPage)
             {
-                return "<span class=\"" + CSSClassLinkInactive + "\">[" + PageNum.ToString() + "]</span>";
+                return "<span class=\"" + CSSClassLinkInactive + "\">[" + PageNum + "]</span>";
             }
             else
             {
-                return "<a href=\"" + CreateURL(PageNum.ToString()) + "\" class=\"" + CSSClassLinkActive + "\">" + PageNum.ToString() + "</a>";
+                return "<a href=\"" + CreateURL(PageNum.ToString()) + "\" class=\"" + CSSClassLinkActive + "\">" + PageNum + "</a>";
             }
         }
 
@@ -305,12 +307,13 @@ namespace DotNetNuke.UI.WebControls
             }
         }
 
-        private void BindPageNumbers( int TotalRecords, int RecordsPerPage )
+        private void BindPageNumbers( int totalRecords, int recordsPerPage )
         {
             int PageLinksPerPage = 10;
-            if (TotalRecords / RecordsPerPage >= 1)
+            
+            if ( recordsPerPage != 0 && (totalRecords / recordsPerPage) >= 1)
             {
-                TotalPages = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(TotalRecords / RecordsPerPage)));
+                TotalPages = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(totalRecords / recordsPerPage)));
             }
             else
             {
@@ -321,10 +324,9 @@ namespace DotNetNuke.UI.WebControls
             {
                 DataTable ht = new DataTable();
                 ht.Columns.Add("PageNum");
-                DataRow tmpRow;
 
                 int LowNum = 1;
-                int HighNum = Convert.ToInt32(TotalPages);
+                int HighNum;
 
                 double tmpNum;
                 tmpNum = CurrentPage - PageLinksPerPage / 2;
@@ -368,7 +370,7 @@ namespace DotNetNuke.UI.WebControls
                 int i;
                 for (i = LowNum; i <= HighNum; i++)
                 {
-                    tmpRow = ht.NewRow();
+                    DataRow tmpRow = ht.NewRow();
                     tmpRow["PageNum"] = i;
                     ht.Rows.Add(tmpRow);
                 }
@@ -386,7 +388,7 @@ namespace DotNetNuke.UI.WebControls
             cellDisplayStatus.CssClass = "Normal";
             cellDisplayLinks.CssClass = "Normal";
 
-            if (this.CssClass == "")
+            if (String.IsNullOrEmpty( CssClass ))
             {
                 tablePageNumbers.CssClass = "PagingTable";
                 //add some defaults in case the site
@@ -418,8 +420,7 @@ namespace DotNetNuke.UI.WebControls
                 intTotalPages = 1;
             }
 
-            string str;
-            str = string.Format(Localization.GetString("Pages"), CurrentPage.ToString(), intTotalPages.ToString());
+            string str = string.Format(Localization.GetString("Pages"), CurrentPage, intTotalPages);
             LiteralControl lit = new LiteralControl(str);
             cellDisplayStatus.Controls.Add(lit);
 

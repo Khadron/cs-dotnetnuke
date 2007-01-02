@@ -46,7 +46,7 @@ namespace DotNetNuke.UI.Utilities
                     case MinMaxPersistanceType.Page:
 
                         string sExpanded = ClientAPI.GetClientVariable( objButton.Page, objButton.ClientID + ":exp" );
-                        if( sExpanded.Length > 0 )
+                        if( !String.IsNullOrEmpty( sExpanded ) )
                         {
                             return Convert.ToBoolean( sExpanded );
                         }
@@ -59,7 +59,7 @@ namespace DotNetNuke.UI.Utilities
 
                         if( intModuleId != - 1 )
                         {
-                            HttpCookie objModuleVisible = HttpContext.Current.Request.Cookies["_Module" + intModuleId.ToString() + "_Visible"];
+                            HttpCookie objModuleVisible = HttpContext.Current.Request.Cookies["_Module" + intModuleId + "_Visible"];
                             if( objModuleVisible != null )
                             {
                                 return objModuleVisible.Value != "false";
@@ -155,17 +155,14 @@ namespace DotNetNuke.UI.Utilities
             {
                 AddBodyOnloadEventHandler(objTitle.Page, "__dnn_enableDragDrop()");
                 ClientAPI.RegisterClientReference(objTitle.Page, ClientAPI.ClientNamespaceReferences.dnn_dom_positioning);
-                ClientAPI.RegisterClientVariable(objTitle.Page, "__dnn_dragDrop", objContainer.ClientID + " " + objTitle.ClientID + " " + ModuleID.ToString() + ";", false);
+                ClientAPI.RegisterClientVariable(objTitle.Page, "__dnn_dragDrop", objContainer.ClientID + " " + objTitle.ClientID + " " + ModuleID + ";", false);
 
                 string strPanes = "";
                 string strPaneNames = "";
                 PortalSettings objPortalSettings = (PortalSettings)HttpContext.Current.Items["PortalSettings"];
-                string strPane;
-                Control objCtl;
-                foreach (string tempLoopVar_strPane in objPortalSettings.ActiveTab.Panes)
-                {
-                    strPane = tempLoopVar_strPane;
-                    objCtl = Common.Globals.FindControlRecursive(objContainer.Parent, strPane);
+                foreach (string strPane in objPortalSettings.ActiveTab.Panes)
+                {                    
+                    Control objCtl = Common.Globals.FindControlRecursive(objContainer.Parent, strPane);
                     if (objCtl != null)
                     {
                         strPanes += objCtl.ClientID + ";";
@@ -197,7 +194,7 @@ namespace DotNetNuke.UI.Utilities
                 {
                     case MinMaxPersistanceType.None:
 
-                        AddAttribute(objButton, "onclick", "if (__dnn_SectionMaxMin(this,  \'" + objContent.ClientID + "\')) return false;");
+                        AddAttribute(objButton, "onclick", "if (__dnn_SectionMaxMin(this,  '" + objContent.ClientID + "')) return false;");
 
                         if (strMinIconLoc.Length > 0)
                         {
@@ -207,7 +204,7 @@ namespace DotNetNuke.UI.Utilities
                         break;
                     case MinMaxPersistanceType.Page:
 
-                        AddAttribute(objButton, "onclick", "if (__dnn_SectionMaxMin(this,  \'" + objContent.ClientID + "\')) return false;");
+                        AddAttribute(objButton, "onclick", "if (__dnn_SectionMaxMin(this,  '" + objContent.ClientID + "')) return false;");
 
                         if (strMinIconLoc.Length > 0)
                         {
@@ -219,19 +216,19 @@ namespace DotNetNuke.UI.Utilities
 
                         if (intModuleId != -1)
                         {
-                            AddAttribute(objButton, "onclick", "if (__dnn_ContainerMaxMin_OnClick(this, \'" + objContent.ClientID + "\')) return false;");
+                            AddAttribute(objButton, "onclick", "if (__dnn_ContainerMaxMin_OnClick(this, '" + objContent.ClientID + "')) return false;");
                             AddAttribute(objButton, "containerid", intModuleId.ToString());
-                            AddAttribute(objButton, "cookieid", "_Module" + intModuleId.ToString() + "_Visible"); //needed to set cookie on the client side
+                            AddAttribute(objButton, "cookieid", "_Module" + intModuleId + "_Visible"); //needed to set cookie on the client side
 
-                            ClientAPI.RegisterClientVariable(objButton.Page, "min_icon_" + intModuleId.ToString(), strMinIconLoc, true);
-                            ClientAPI.RegisterClientVariable(objButton.Page, "max_icon_" + intModuleId.ToString(), strMaxIconLoc, true);
+                            ClientAPI.RegisterClientVariable(objButton.Page, "min_icon_" + intModuleId, strMinIconLoc, true);
+                            ClientAPI.RegisterClientVariable(objButton.Page, "max_icon_" + intModuleId, strMaxIconLoc, true);
 
                             ClientAPI.RegisterClientVariable(objButton.Page, "max_text", Localization.GetString("Maximize"), true);
                             ClientAPI.RegisterClientVariable(objButton.Page, "min_text", Localization.GetString("Minimize"), true);
 
                             if (blnDefaultMin)
                             {
-                                ClientAPI.RegisterClientVariable(objButton.Page, "__dnn_" + intModuleId.ToString() + ":defminimized", "true", true);
+                                ClientAPI.RegisterClientVariable(objButton.Page, "__dnn_" + intModuleId + ":defminimized", "true", true);
                             }
                         }
                         break;
@@ -297,7 +294,7 @@ namespace DotNetNuke.UI.Utilities
                         break;
                     case MinMaxPersistanceType.Cookie:
 
-                        HttpCookie objModuleVisible = new HttpCookie("_Module" + intModuleId.ToString() + "_Visible");
+                        HttpCookie objModuleVisible = new HttpCookie("_Module" + intModuleId + "_Visible");
                         if (objModuleVisible != null)
                         {
                             objModuleVisible.Value = Value.ToString().ToLower();

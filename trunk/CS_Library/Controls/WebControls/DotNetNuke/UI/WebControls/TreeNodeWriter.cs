@@ -338,11 +338,11 @@ namespace DotNetNuke.UI.WebControls
                         }
                         if( _Node.DNNTree.Target.Length > 0 )
                         {
-                            strJS += "window.frames." + _Node.DNNTree.Target + ".location.href=\'" + _Node.NavigateUrl + "\'; void(0);"; //FOR SOME REASON THIS DOESNT WORK UNLESS WE HAVE CODE AFTER THE SETTING OF THE HREF...
+                            strJS += "window.frames." + _Node.DNNTree.Target + ".location.href='" + _Node.NavigateUrl + "'; void(0);"; //FOR SOME REASON THIS DOESNT WORK UNLESS WE HAVE CODE AFTER THE SETTING OF THE HREF...
                         }
                         else
                         {
-                            strJS += "window.location.href=\'" + _Node.NavigateUrl + "\';";
+                            strJS += "window.location.href='" + _Node.NavigateUrl + "';";
                         }
                         break;
                 }

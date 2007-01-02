@@ -20,6 +20,7 @@
 using System;
 using System.IO;
 using DotNetNuke.Entities.Modules.Definitions;
+using DotNetNuke.Services.Exceptions;
 
 namespace DotNetNuke.Modules.Admin.ResourceInstaller
 {
@@ -98,17 +99,17 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                 case ModuleDefinitionVersion.VUnknown:
 
                     throw (new Exception(EXCEPTION_Format));
-                    break;
+                    
             }
 
             return retValue;
         }
 
         private ModuleDefinitionVersion GetModuleVersion()
-        {
+        {            
             if (InstallerInfo.DnnFile != null)
             {
-                MemoryStream buffer = new MemoryStream(InstallerInfo.DnnFile.Buffer, false);
+                MemoryStream buffer = new MemoryStream(InstallerInfo.DnnFile.Buffer, true);
                 ModuleDefinitionValidator xval = new ModuleDefinitionValidator();
                 return xval.GetModuleDefinitionVersion(buffer);
             }

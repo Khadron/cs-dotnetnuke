@@ -105,8 +105,14 @@ namespace DotNetNuke.UI.UserControls
 
         public HelpButtonControl()
         {
-            this.cmdHelp.Click += new EventHandler( this.cmdHelp_Click );
+            
             Load += new EventHandler( this.Page_Load );
+            Init += new EventHandler(HelpButtonControl_Init);
+        }
+
+        void HelpButtonControl_Init(object sender, EventArgs e)
+        {
+            this.cmdHelp.Click += new EventHandler(this.cmdHelp_Click);
         }
 
         /// <Summary>
@@ -163,7 +169,7 @@ namespace DotNetNuke.UI.UserControls
                     _HelpKey = _ResourceKey + ".Help";
                 }
                 string helpText = GetLocalizedText( _HelpKey, this );
-                if( helpText != "" )
+                if( !String.IsNullOrEmpty(helpText) )
                 {
                     this.HelpText = helpText;
                 }

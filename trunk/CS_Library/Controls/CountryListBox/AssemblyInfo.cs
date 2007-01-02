@@ -35,3 +35,14 @@
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 
+using System;
+using System.Reflection;
+
+[assembly: AssemblyDescription("Country ListBox")]
+[assembly: AssemblyCompanyAttribute("Perpetual Motion Interactive Systems Inc.")]
+[assembly: AssemblyProductAttribute("http://www.dotnetnuke.com")]
+[assembly: AssemblyTitle("CountryListBox")]
+[assembly: CLSCompliant(true)]
+[assembly: AssemblyTrademark("DotNetNuke")]
+[assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2006 by Perpetual Motion Interactive Systems Inc. All Rights Reserved.")]
+[assembly: AssemblyVersion("1.2.1.*")]

@@ -243,7 +243,7 @@ namespace DotNetNuke.UI.WebControls
 
         public DNNNode FindNode( string ID )
         {
-            XmlNode objNode = this.XMLNode.SelectSingleNode( ".//n[@id=\'" + ID + "\']" );
+            XmlNode objNode = this.XMLNode.SelectSingleNode( ".//n[@id='" + ID + "']" );
             if( objNode != null )
             {
                 return new DNNNode( objNode );
@@ -256,7 +256,7 @@ namespace DotNetNuke.UI.WebControls
 
         public DNNNode FindNodeByKey( string Key )
         {
-            XmlNode objNode = this.XMLNode.SelectSingleNode( ".//n[@key=\'" + Key + "\']" );
+            XmlNode objNode = this.XMLNode.SelectSingleNode( ".//n[@key='" + Key + "']" );
             if( objNode != null )
             {
                 return new DNNNode( objNode );
@@ -272,7 +272,7 @@ namespace DotNetNuke.UI.WebControls
             ArrayList colNodes = new ArrayList();
             if( this.XMLNode != null )
             {
-                XmlNodeList objNodeList = this.XMLNode.SelectNodes( "//n[@selected=\'1\']" );
+                XmlNodeList objNodeList = this.XMLNode.SelectNodes( "//n[@selected='1']" );
                 XmlNode objNode;
                 foreach( XmlNode tempLoopVar_objNode in objNodeList )
                 {

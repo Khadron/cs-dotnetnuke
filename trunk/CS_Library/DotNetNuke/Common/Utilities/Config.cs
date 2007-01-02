@@ -41,7 +41,7 @@ namespace DotNetNuke.Common.Utilities
             if (xmlAppSettings != null)
             {
                 // get the node based on key
-                XmlNode xmlNode = xmlAppSettings.SelectSingleNode("//add[@key=\'" + Key + "\']");
+                XmlNode xmlNode = xmlAppSettings.SelectSingleNode("//add[@key='" + Key + "']");
 
                 if (xmlNode != null)
                 {
@@ -89,7 +89,7 @@ namespace DotNetNuke.Common.Utilities
             string connectionString = "";
 
             //First check if connection string is specified in <connectionstrings> (ASP.NET 2.0 / DNN v4.x)
-            if (name != "")
+            if (!String.IsNullOrEmpty(name))
             {
                 //ASP.NET 2 version connection string (in <connectionstrings>)
                 //This will be for new v4.x installs or upgrades from v4.x
@@ -100,7 +100,7 @@ namespace DotNetNuke.Common.Utilities
             {
                 //Next check if connection string is specified in <appsettings> (ASP.NET 1.1 / DNN v3.x)
                 //This will accomodate upgrades from v3.x
-                if (name != "")
+                if (!String.IsNullOrEmpty(name))
                 {
                     connectionString = GetSetting(name);
                 }

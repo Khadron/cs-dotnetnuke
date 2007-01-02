@@ -75,6 +75,7 @@ namespace DotNetNuke.Services.Log.EventLog
         private static ReaderWriterLock lockNotif = new ReaderWriterLock();
         private static ReaderWriterLock lockPurgeLog = new ReaderWriterLock();
         public static Collection LogQueue = new Collection();
+//        public static ArrayList LogQueue = new ArrayList();
         private static XmlDocument xmlConfigDoc;
 
         public XMLLoggingProvider()
@@ -176,7 +177,7 @@ namespace DotNetNuke.Services.Log.EventLog
                 //log files to be stored, othre than the DNN directory.
                 //--------------------------------------------------------------
                 HttpContext objHttpContext = HttpContext.Current;
-                if( strFolder != "" )
+                if( !String.IsNullOrEmpty(strFolder) )
                 {
                     strFileName = Globals.HostMapPath + "Logs\\" + strFolder + strFileName;
                 }
@@ -209,7 +210,7 @@ namespace DotNetNuke.Services.Log.EventLog
             else
             {
                 int records = 0;
-                return GetLogFromXPath( "logs/log[@LogPortalID=\'" + PortalID.ToString() + "\']", PortalID.ToString(), "*", int.MaxValue, 1, ref records );
+                return GetLogFromXPath( "logs/log[@LogPortalID='" + PortalID.ToString() + "']", PortalID.ToString(), "*", int.MaxValue, 1, ref records );
             }
         }
 
@@ -219,7 +220,7 @@ namespace DotNetNuke.Services.Log.EventLog
         public override LogInfoArray GetLog( string LogType )
         {
             int records = 0;
-            return GetLogFromXPath( "logs/log[@LogTypeKey=\'" + LogType + "\']", "*", LogType, int.MaxValue, 1, ref records );
+            return GetLogFromXPath( "logs/log[@LogTypeKey='" + LogType + "']", "*", LogType, int.MaxValue, 1, ref records );
         }
 
         //--------------------------------------------------------------
@@ -235,7 +236,7 @@ namespace DotNetNuke.Services.Log.EventLog
             else
             {
                 int records = 0;
-                return GetLogFromXPath( "logs/log[@LogPortalID=\'" + PortalID.ToString() + "\' and @LogTypeKey=\'" + LogTypeKey + "\']", PortalID.ToString(), LogTypeKey, int.MaxValue, 1, ref records );
+                return GetLogFromXPath( "logs/log[@LogPortalID='" + PortalID.ToString() + "' and @LogTypeKey='" + LogTypeKey + "']", PortalID.ToString(), LogTypeKey, int.MaxValue, 1, ref records );
             }
         }
 
@@ -255,7 +256,7 @@ namespace DotNetNuke.Services.Log.EventLog
             }
             else
             {
-                return GetLogFromXPath( "logs/log[@LogPortalID=\'" + PortalID.ToString() + "\']", PortalID.ToString(), "*", PageSize, PageIndex, ref TotalRecords );
+                return GetLogFromXPath( "logs/log[@LogPortalID='" + PortalID.ToString() + "']", PortalID.ToString(), "*", PageSize, PageIndex, ref TotalRecords );
             }
         }
 
@@ -264,7 +265,7 @@ namespace DotNetNuke.Services.Log.EventLog
         //--------------------------------------------------------------
         public override LogInfoArray GetLog( string LogType, int PageSize, int PageIndex, ref int TotalRecords )
         {
-            return GetLogFromXPath( "logs/log[@LogTypeKey=\'" + LogType + "\']", "*", LogType, PageSize, PageIndex, ref TotalRecords );
+            return GetLogFromXPath( "logs/log[@LogTypeKey='" + LogType + "']", "*", LogType, PageSize, PageIndex, ref TotalRecords );
         }
 
         //--------------------------------------------------------------
@@ -278,14 +279,14 @@ namespace DotNetNuke.Services.Log.EventLog
             }
             else
             {
-                return GetLogFromXPath( "logs/log[@LogPortalID=\'" + PortalID.ToString() + "\' and @LogTypeKey=\'" + LogTypeKey + "\']", PortalID.ToString(), LogTypeKey, PageSize, PageIndex, ref TotalRecords );
+                return GetLogFromXPath( "logs/log[@LogPortalID='" + PortalID.ToString() + "' and @LogTypeKey='" + LogTypeKey + "']", PortalID.ToString(), LogTypeKey, PageSize, PageIndex, ref TotalRecords );
             }
         }
 
         private string GetLogFileByLogFileID( XmlDocument xmlConfigDoc, string LogFileID )
         {
             XmlNode xmlLogFile;
-            xmlLogFile = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogFileID=\'" + LogFileID + "\']/@FileName" );
+            xmlLogFile = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogFileID='" + LogFileID + "']/@FileName" );
 
             if( xmlLogFile != null )
             {
@@ -321,15 +322,15 @@ namespace DotNetNuke.Services.Log.EventLog
             }
             else if( ConfigPortalID != "*" && LogTypeKey == "*" )
             {
-                xmlLogFiles = xmlConfigDoc.SelectNodes( "/LogConfig/LogTypeConfig[@LogTypePortalID=\'" + ConfigPortalID + "\']/@FileName" );
+                xmlLogFiles = xmlConfigDoc.SelectNodes( "/LogConfig/LogTypeConfig[@LogTypePortalID='" + ConfigPortalID + "']/@FileName" );
             }
             else if( ConfigPortalID == "*" && LogTypeKey != "*" )
             {
-                xmlLogFiles = xmlConfigDoc.SelectNodes( "/LogConfig/LogTypeConfig[@LogTypeKey=\'" + LogTypeKey + "\']/@FileName" );
+                xmlLogFiles = xmlConfigDoc.SelectNodes( "/LogConfig/LogTypeConfig[@LogTypeKey='" + LogTypeKey + "']/@FileName" );
             }
             else if( ConfigPortalID != "*" && LogTypeKey != "*" )
             {
-                xmlLogFiles = xmlConfigDoc.SelectNodes( "/LogConfig/LogTypeConfig[@LogTypePortalID=\'" + ConfigPortalID + "\' and @LogTypeKey=\'" + LogTypeKey + "\']/@FileName" );
+                xmlLogFiles = xmlConfigDoc.SelectNodes( "/LogConfig/LogTypeConfig[@LogTypePortalID='" + ConfigPortalID + "' and @LogTypeKey='" + LogTypeKey + "']/@FileName" );
             }
 
             if( xmlLogFiles != null )
@@ -354,7 +355,7 @@ namespace DotNetNuke.Services.Log.EventLog
             //This is a catch all...it gets the default log file name.
             //--------------------------------------------------------------
             XmlNode xmlDefaultLogFile;
-            xmlDefaultLogFile = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogTypeKey=\'*\' and @LogTypePortalID=\'*\']/@FileName" );
+            xmlDefaultLogFile = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogTypeKey='*' and @LogTypePortalID='*']/@FileName" );
             if( xmlDefaultLogFile != null && ht[xmlDefaultLogFile.InnerText] == null )
             {
                 //dedupe
@@ -407,10 +408,10 @@ namespace DotNetNuke.Services.Log.EventLog
                 }
                 if( FileIsCorrupt )
                 {
-                    string s = "A log file is corrupt \'" + LogFile + "\'.";
+                    string s = "A log file is corrupt '" + LogFile + "'.";
                     if( Strings.InStr( LogFile, "Exceptions.xml.resources", 0 ) > 0 )
                     {
-                        s += "  This could be due to an older exception log file being written to by the new logging provider.  Try removing \'Exceptions.xml.resources\' from the logs directory to solve the problem.";
+                        s += "  This could be due to an older exception log file being written to by the new logging provider.  Try removing 'Exceptions.xml.resources' from the logs directory to solve the problem.";
                     }
                     LogInfo objEventLogInfo = new LogInfo();
                     objEventLogInfo.AddProperty( "Note", s );
@@ -564,7 +565,7 @@ namespace DotNetNuke.Services.Log.EventLog
             //First see if there is a log file specified
             //for this log type and this PortalID
             //--------------------------------------------------------------
-            XmlNode xmlLogTypeInfo = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogTypeKey=\'" + LogTypeKey + "\' and @LogTypePortalID=\'" + ConfigPortalID + "\']" );
+            XmlNode xmlLogTypeInfo = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogTypeKey='" + LogTypeKey + "' and @LogTypePortalID='" + ConfigPortalID + "']" );
             if( xmlLogTypeInfo != null )
             {
                 return GetLogTypeConfigInfoFromXML( xmlLogTypeInfo );
@@ -576,7 +577,7 @@ namespace DotNetNuke.Services.Log.EventLog
             //if there is a log file specified for
             //all LogTypes for this PortalID
             //--------------------------------------------------------------
-            xmlLogTypeInfo = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogTypeKey=\'*\' and @LogTypePortalID=\'" + ConfigPortalID + "\']" );
+            xmlLogTypeInfo = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogTypeKey='*' and @LogTypePortalID='" + ConfigPortalID + "']" );
             if( xmlLogTypeInfo != null )
             {
                 return GetLogTypeConfigInfoFromXML( xmlLogTypeInfo );
@@ -587,7 +588,7 @@ namespace DotNetNuke.Services.Log.EventLog
             //check if there is a logfile specified
             //for this log type and all PortalIDs
             //--------------------------------------------------------------
-            xmlLogTypeInfo = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogTypeKey=\'" + LogTypeKey + "\' and @LogTypePortalID=\'*\']" );
+            xmlLogTypeInfo = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogTypeKey='" + LogTypeKey + "' and @LogTypePortalID='*']" );
             if( xmlLogTypeInfo != null )
             {
                 return GetLogTypeConfigInfoFromXML( xmlLogTypeInfo );
@@ -596,7 +597,7 @@ namespace DotNetNuke.Services.Log.EventLog
             //--------------------------------------------------------------
             //This is a catch all...it gets the default log file name.
             //--------------------------------------------------------------
-            xmlLogTypeInfo = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogTypeKey=\'*\' and @LogTypePortalID=\'*\']" );
+            xmlLogTypeInfo = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogTypeKey='*' and @LogTypePortalID='*']" );
             if( xmlLogTypeInfo != null )
             {
                 return GetLogTypeConfigInfoFromXML( xmlLogTypeInfo );
@@ -634,7 +635,7 @@ namespace DotNetNuke.Services.Log.EventLog
             XmlDocument xmlConfigDoc = GetConfigDoc();
 
             XmlNode xmlLogTypeConfigInfo;
-            xmlLogTypeConfigInfo = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogFileID=\'" + ID + "\']" );
+            xmlLogTypeConfigInfo = xmlConfigDoc.SelectSingleNode( "/LogConfig/LogTypeConfig[@LogFileID='" + ID + "']" );
 
             return GetLogTypeConfigInfoFromXML( xmlLogTypeConfigInfo );
         }
@@ -794,7 +795,7 @@ namespace DotNetNuke.Services.Log.EventLog
             }
 
             XmlNode objxmlNode;
-            objxmlNode = xmlDoc.SelectSingleNode( "/logs/log[@LogGUID=\'" + objLogInfo.LogGUID + "\']" );
+            objxmlNode = xmlDoc.SelectSingleNode( "/logs/log[@LogGUID='" + objLogInfo.LogGUID + "']" );
 
             XmlDocument xmlDocOut = new XmlDocument();
             xmlDocOut.LoadXml( "<SingleLog></SingleLog>" );
@@ -1018,7 +1019,7 @@ namespace DotNetNuke.Services.Log.EventLog
             }
 
             XmlNode xmlNode;
-            xmlNode = xmlDoc.SelectSingleNode( "/logs/log[@LogGUID=\'" + objLogInfo.LogGUID + "\']" );
+            xmlNode = xmlDoc.SelectSingleNode( "/logs/log[@LogGUID='" + objLogInfo.LogGUID + "']" );
             if( xmlNode != null )
             {
                 xmlDoc.DocumentElement.RemoveChild( xmlNode );
@@ -1029,7 +1030,7 @@ namespace DotNetNuke.Services.Log.EventLog
         public override void DeleteLogType( string LogTypeKey )
         {
             XmlDocument xmlDoc = GetConfigDoc();
-            XmlNode xmlNode = xmlDoc.DocumentElement.SelectSingleNode( "LogTypes/LogType[@LogTypeKey=\'" + LogTypeKey + "\']" );
+            XmlNode xmlNode = xmlDoc.DocumentElement.SelectSingleNode( "LogTypes/LogType[@LogTypeKey='" + LogTypeKey + "']" );
             if( xmlNode != null )
             {
                 xmlDoc.DocumentElement.RemoveChild( xmlNode );
@@ -1045,7 +1046,7 @@ namespace DotNetNuke.Services.Log.EventLog
         public override void DeleteLogTypeConfigInfo( string ID )
         {
             XmlDocument xmlDoc = GetConfigDoc();
-            XmlNode xmlNode = xmlDoc.DocumentElement.SelectSingleNode( "LogTypeConfig[@LogFileID=\'" + ID + "\']" );
+            XmlNode xmlNode = xmlDoc.DocumentElement.SelectSingleNode( "LogTypeConfig[@LogFileID='" + ID + "']" );
             if( xmlNode != null )
             {
                 xmlDoc.DocumentElement.RemoveChild( xmlNode );
@@ -1105,7 +1106,7 @@ namespace DotNetNuke.Services.Log.EventLog
 
                 if( objLogTypeInfo.EmailNotificationIsActive )
                 {
-                    XmlNodeList xmlPendingNotifications = xmlPendingNotificationsDoc.DocumentElement.SelectNodes( "log[@LogTypeKey=\'" + objLogTypeInfo.LogTypeKey + "\' and @LogTypePortalID=\'" + objLogTypeInfo.LogTypePortalID + "\' and @CreateDateNum < \'" + DateToNum( objLogTypeInfo.StartDateTime ).ToString() + "\']" );
+                    XmlNodeList xmlPendingNotifications = xmlPendingNotificationsDoc.DocumentElement.SelectNodes( "log[@LogTypeKey='" + objLogTypeInfo.LogTypeKey + "' and @LogTypePortalID='" + objLogTypeInfo.LogTypePortalID + "' and @CreateDateNum < '" + DateToNum( objLogTypeInfo.StartDateTime ).ToString() + "']" );
 
                     if( xmlPendingNotifications.Count > 0 )
                     {
@@ -1170,7 +1171,7 @@ namespace DotNetNuke.Services.Log.EventLog
                     //logs, where "x" is the value of KeepMostRecent.
                     //A value of "*" signifies to keep all log entries.
                     //--------------------------------------------------------------
-                    if( objLogTypeConfigInfo.KeepMostRecent != "*" && objLogTypeConfigInfo.LogFileName != "" )
+                    if( objLogTypeConfigInfo.KeepMostRecent != "*" && !String.IsNullOrEmpty(objLogTypeConfigInfo.LogFileName) )
                     {
                         XmlDocument xmlLog = new XmlDocument();
                         bool FileExists = false;
@@ -1208,11 +1209,11 @@ namespace DotNetNuke.Services.Log.EventLog
                             XmlNodeList objTotalNodes;
                             if( objLogTypeConfigInfo.LogTypePortalID == "*" )
                             {
-                                objTotalNodes = xmlLog.DocumentElement.SelectNodes( "log[@LogTypeKey=\'" + objLogTypeConfigInfo.LogTypeKey + "\']" );
+                                objTotalNodes = xmlLog.DocumentElement.SelectNodes( "log[@LogTypeKey='" + objLogTypeConfigInfo.LogTypeKey + "']" );
                             }
                             else
                             {
-                                objTotalNodes = xmlLog.DocumentElement.SelectNodes( "log[@LogTypeKey=\'" + objLogTypeConfigInfo.LogTypeKey + "\' and LogPortalID=\'" + objLogTypeConfigInfo.LogTypePortalID + "\']" );
+                                objTotalNodes = xmlLog.DocumentElement.SelectNodes( "log[@LogTypeKey='" + objLogTypeConfigInfo.LogTypeKey + "' and LogPortalID='" + objLogTypeConfigInfo.LogTypePortalID + "']" );
                             }
 
                             int intNodeCount = objTotalNodes.Count;
@@ -1280,7 +1281,7 @@ namespace DotNetNuke.Services.Log.EventLog
 
                     if( objLogTypeInfo.EmailNotificationIsActive )
                     {
-                        XmlNodeList xmlPendingNotifications = xmlPendingNotificationsDoc.DocumentElement.SelectNodes( "log[@NotificationLogTypeKey=\'" + objLogTypeInfo.LogTypeKey + "\' and @LogTypePortalID=\'" + objLogTypeInfo.LogTypePortalID + "\' and number(@LogCreateDateNum) > " + DateToNum( objLogTypeInfo.StartDateTime ).ToString() + "]" );
+                        XmlNodeList xmlPendingNotifications = xmlPendingNotificationsDoc.DocumentElement.SelectNodes( "log[@NotificationLogTypeKey='" + objLogTypeInfo.LogTypeKey + "' and @LogTypePortalID='" + objLogTypeInfo.LogTypePortalID + "' and number(@LogCreateDateNum) > " + DateToNum( objLogTypeInfo.StartDateTime ).ToString() + "]" );
 
                         if( xmlPendingNotifications.Count >= objLogTypeInfo.NotificationThreshold )
                         {
@@ -1305,7 +1306,7 @@ namespace DotNetNuke.Services.Log.EventLog
 
                             errSendNotif = Mail.Mail.SendMail( objLogTypeInfo.MailFromAddress, objLogTypeInfo.MailToAddress, "", "Log Notification", xmlOut.OuterXml, "", "", "", "", "", "" );
 
-                            if( errSendNotif != "" )
+                            if( !String.IsNullOrEmpty(errSendNotif) )
                             {
                                 //notification failed to send
                                 NotificationFailed = true;
@@ -1404,7 +1405,7 @@ namespace DotNetNuke.Services.Log.EventLog
 
             try
             {
-                if( objLogTypeConfigInfo.LogFileNameWithPath != "" )
+                if( !String.IsNullOrEmpty(objLogTypeConfigInfo.LogFileNameWithPath) )
                 {
                     //--------------------------------------------------------------
                     // Write the entry to the log.

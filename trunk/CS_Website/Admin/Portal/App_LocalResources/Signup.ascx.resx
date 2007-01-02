@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="ModuleHelp.Text">
+		<value>There are two types of portals which can be created using this application:&lt;br&gt;&lt;br&gt;&lt;li&gt;&lt;b&gt;Parent Portals&lt;/b&gt; are sites which have a unique URL ( ie. www.domain.com ) associated to them. This generally involves purchasing a Domain Name from an Internet Registrar, setting the Primary/Secondary DNS entries to point to the Hosting Provider's DNS Server, and having your Hosting Provider map the Domain Name to the IP Address of your account. An example of a valid Parent Portal Name is &lt;b&gt;www.mydomain.com&lt;/b&gt;. You can also use the IP Address of your site without a Domain Name ( ie. &lt;b&gt;65.174.86.217&lt;/b&gt; ). If you need to have multiple Domain Names pointing to the same portal then you can seperate them with commas ( ie. &lt;b&gt;www.domain1.com,www.domain2.com&lt;/b&gt; ). Do not create a Parent Portal until all of the DNS mappings are in place or else you will not be able to access your portal.&lt;br&gt;&lt;br&gt;&lt;li&gt;&lt;b&gt;Child Portals&lt;/b&gt; are subhosts of your Hosting Provider account. Essentially this means a directory is created on the web server which allows the site to be accessed through a URL address which includes a Parent domain name as well as the directory name ( ie. www.domain.com/directory ). A Child Portal can be converted into a Parent Portal at any time by simply modifying the Portal Alias entry.&lt;br&gt;&lt;br&gt;*Please Note: Portals will be created using the default properties defined in the Host Settings module ( HostFee, HostSpace, DemoPeriod ) or in the selected template file. Once the portal is created, these properties can be modified in the Admin tab Site Settings module.&lt;br&gt;&lt;br&gt;</value>
+	</data>
+	<data name="plType.Text">
+		<value>Portal Type:</value>
+	</data>
+	<data name="plType.Help">
+		<value>There are two types of portals which can be created using this application (see the Module Help available on the Action Menu for more details).</value>
+	</data>
+	<data name="DemoMessage.Text">
+		<value>Demo Portal Signup allows you to create your very own Portal Website and experiment with its advanced features {0}. At any time during or after the trial period, you can convert your Demo Portal into a Registered Portal by logging in as the Administrator and selecting the Renew/Extend Your Portal Subscription link in the Admin tab. Registered Portals have the added benefit of using their own domain name ( ie. www.yourdomain.com ) as their Web address.&lt;br&gt;&lt;br&gt;&lt;b&gt;*Note:&lt;/b&gt; Your Portal Name must be a simple name for your site and cannot contain spaces or punctuation characters. The URL for your portal will take the form of &lt;b&gt; {1}/portalname&lt;/b&gt;&lt;br&gt;&lt;br&gt;</value>
+	</data>
+	<data name="AdminMissing.Text">
+		<value>Your admin.template File Is Missing And Must be Uploaded To The Site.&lt;br&gt;</value>
+	</data>
+	<data name="PortalMissing.Text">
+		<value>Your portal.template File Is Missing And Must be Uploaded To The Site.&lt;br&gt;</value>
+	</data>
+	<data name="plPortalName.Text">
+		<value>Portal Name:</value>
+	</data>
+	<data name="plPortalName.Help">
+		<value>Enter a name for the Portal/Site</value>
+	</data>
+	<data name="valPortalName.ErrorMessage">
+		<value>&lt;br&gt;Portal Name Is Required.</value>
+	</data>
+	<data name="plTitle.Text">
+		<value>Title:</value>
+	</data>
+	<data name="plTitle.Help">
+		<value>Give your site a title.</value>
+	</data>
+	<data name="plDescription.Text">
+		<value>Description:</value>
+	</data>
+	<data name="plDescription.Help">
+		<value>Enter a description for your site.</value>
+	</data>
+	<data name="plKeyWords.Text">
+		<value>Keywords:</value>
+	</data>
+	<data name="plKeyWords.Help">
+		<value>Enter some keywords separated by a comma.  These are added to the Html page as MetaData and help Search Engines index your site.</value>
+	</data>
+	<data name="plTemplate.Text">
+		<value>Template:</value>
+	</data>
+	<data name="plTemplate.Help">
+		<value>Choose a template for the new Portal.</value>
+	</data>
+	<data name="plFirstName.Text">
+		<value>First Name:</value>
+	</data>
+	<data name="plFirstName.Help">
+		<value>Enter your first name.</value>
+	</data>
+	<data name="plLastName.Text">
+		<value>Last Name:</value>
+	</data>
+	<data name="plLastName.Help">
+		<value>Enter your last name.</value>
+	</data>
+	<data name="valFirstName.ErrorMessage">
+		<value>&lt;br&gt;First Name Is Required.</value>
+	</data>
+	<data name="valLastName.ErrorMessage">
+		<value>&lt;br&gt;Last Name Is Required.</value>
+	</data>
+	<data name="plUsername.Text">
+		<value>Username:</value>
+	</data>
+	<data name="plUsername.Help">
+		<value>Enter a username for the Administrator Account for this site.</value>
+	</data>
+	<data name="plPassword.Text">
+		<value>Password:</value>
+	</data>
+	<data name="plPassword.Help">
+		<value>Enter a password for the Administrator Account for this site.</value>
+	</data>
+	<data name="plConfirm.Text">
+		<value>Confirm:</value>
+	</data>
+	<data name="plConfirm.Help">
+		<value>Repeat your password to confirm it was typed correctly.</value>
+	</data>
+	<data name="valUsername.ErrorMessage">
+		<value>&lt;br&gt;Username Is Required.</value>
+	</data>
+	<data name="valPassword.ErrorMessage">
+		<value>&lt;br&gt;Password Is Required.</value>
+	</data>
+	<data name="valConfirm.ErrorMessage">
+		<value>&lt;br&gt;Password Confirmation Is Required.</value>
+	</data>
+	<data name="plEmail.Text">
+		<value>Email:</value>
+	</data>
+	<data name="plEmail.Help">
+		<value>Enter an email address for the Administrator Account for this site.</value>
+	</data>
+	<data name="valEmail.ErrorMessage">
+		<value>&lt;br&gt;Email Is Required.</value>
+	</data>
+	<data name="cmdUpdate.Text">
+		<value>Create Portal</value>
+	</data>
+	<data name="Note.Text">
+		<value>&lt;b&gt;*Note:&lt;/b&gt; Once your portal is created, you will need to login using the Administrator information specified above.</value>
+	</data>
+	<data name="InvalidTemplate.Text">
+		<value>{0} is not a valid Portal Template File.</value>
+	</data>
+	<data name="InvalidName.Text">
+		<value>The Portal Name Must Not Contain Spaces Or Punctuation.</value>
+	</data>
+	<data name="InvalidPassword.Text">
+		<value>The Password Values Entered Do Not Match.</value>
+	</data>
+	<data name="ChildExists.Text">
+		<value>The Child Portal Name You Specified Already Exists. Please Choose A Different Child Portal Name.</value>
+	</data>
+	<data name="CreateError.Text">
+		<value>An Error Was Encountered During The Creation Of Your Portal. This May Have Been Caused By Specifying An Incorrect Password For An Existing User Account. Please Verify Your Details Before You Try Again.</value>
+	</data>
+	<data name="PortalSetup.Text">
+		<value>Portal Setup</value>
+	</data>
+	<data name="SecuritySettings.Text">
+		<value>Security Settings</value>
+	</data>
+	<data name="plPortalAlias.Text">
+		<value>Portal Alias:</value>
+	</data>
+	<data name="plPortalAlias.Help">
+		<value>Enter the Alias for this Portal</value>
+	</data>
+	<data name="plHomeDirectory.Text">
+		<value>Home Directory:</value>
+	</data>
+	<data name="plHomeDirectory.Help">
+		<value>Enter the Home Directory for this Portal</value>
+	</data>
+	<data name="Customize.Text">
+		<value>Customize</value>
+	</data>
+	<data name="valTemplate.ErrorMessage">
+		<value>&lt;br&gt;Please select a template file</value>
+	</data>
+	<data name="Parent.Text">
+		<value>Parent</value>
+	</data>
+	<data name="Child.Text">
+		<value>Child</value>
+	</data>
+	<data name="AutoGenerate.Text">
+		<value>Auto Generate</value>
+	</data>
+	<data name="ControlTitle_signup.Text">
+		<value>Signup</value>
+	</data>
+	<data name="SendMail.Error">
+		<value>There was an error sending confirmation emails.  However, the website was created. &lt;a href='{0}'&gt;Click Here To Access the new site&lt;/a&gt;</value>
+	</data>
+</root>

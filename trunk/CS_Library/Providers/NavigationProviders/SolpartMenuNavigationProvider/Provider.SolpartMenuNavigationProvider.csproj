@@ -69,7 +69,6 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="SolpartWebControls">
       <Name>SolpartWebControls</Name>
       <HintPath>..\..\..\controls\SolpartMenu\bin\SolpartWebControls.dll</HintPath>
@@ -127,4 +126,7 @@
     </PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)/Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) %25CSDNN%25</PostBuildEvent>
+  </PropertyGroup>
 </Project>

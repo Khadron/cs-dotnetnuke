@@ -57,23 +57,22 @@ namespace DotNetNuke.UI.WebControls
         private const int LENGTH_DEFAULT = 6;
         private const string RENDERURL_DEFAULT = "ImageChallenge.captcha.aspx";
 
-        private bool _Authenticated;
         private Color _BackGroundColor = Color.Transparent;
         private string _BackGroundImage = "";
-        private string _CaptchaChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        private string _CaptchaChars = CHARS_DEFAULT;
         private Unit _CaptchaHeight = Unit.Pixel(100);
-        private int _CaptchaLength = 6;
+        private int _CaptchaLength = LENGTH_DEFAULT;
         private string _CaptchaText;
         private Unit _CaptchaWidth = Unit.Pixel(300);
         private string _ErrorMessage;
         private Style _ErrorStyle = new Style();
-        private int _Expiration = 120;
+        private int _Expiration = EXPIRATION_DEFAULT;
 
         private static string[] _FontFamilies = new string[] { "Arial", "Comic Sans MS", "Courier New", "Georgia", "Lucida Console", "MS Sans Serif", "Stencil", "Tahoma", "Times New Roman", "Trebuchet MS", "Verdana" };
         private Image _image;
         private bool _IsValid = false;
         private static Random _Rand = new Random();
-        private string _RenderUrl = "ImageChallenge.captcha.aspx";
+        private string _RenderUrl = RENDERURL_DEFAULT;
         private static string _Separator = ":-:";
         private string _Text = "Enter the code shown above:";
         private ServerValidateEventHandler UserValidatedEvent;
@@ -107,7 +106,7 @@ namespace DotNetNuke.UI.WebControls
         }
 
         /// <Summary>Gets and sets the list of characters</Summary>
-        [DescriptionAttribute( "Characters used to render CAPTCHA text. A character will be picked randomly from the string." ), DefaultValueAttribute( "abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789" ), CategoryAttribute( "Behavior" )]
+        [DescriptionAttribute( "Characters used to render CAPTCHA text. A character will be picked randomly from the string." ), DefaultValueAttribute( CHARS_DEFAULT ), CategoryAttribute( "Behavior" )]
         public string CaptchaChars
         {
             get
@@ -135,7 +134,7 @@ namespace DotNetNuke.UI.WebControls
         }
 
         /// <Summary>Gets and sets the length of the Captcha string</Summary>
-        [CategoryAttribute( "Behavior" ), DefaultValueAttribute( 6 ), DescriptionAttribute( "Number of CaptchaChars used in the CAPTCHA text" )]
+        [CategoryAttribute( "Behavior" ), DefaultValueAttribute( LENGTH_DEFAULT ), DescriptionAttribute( "Number of CaptchaChars used in the CAPTCHA text" )]
         public int CaptchaLength
         {
             get
@@ -203,7 +202,7 @@ namespace DotNetNuke.UI.WebControls
         }
 
         /// <Summary>Gets and sets the Expiration time in seconds</Summary>
-        [DescriptionAttribute( "The duration of time (seconds) a user has before the challenge expires." ), CategoryAttribute( "Behavior" ), DefaultValueAttribute( 120 )]
+        [DescriptionAttribute( "The duration of time (seconds) a user has before the challenge expires." ), CategoryAttribute( "Behavior" ), DefaultValueAttribute( EXPIRATION_DEFAULT )]
         public int Expiration
         {
             get
@@ -235,7 +234,7 @@ namespace DotNetNuke.UI.WebControls
         }
 
         /// <Summary>Gets and sets the Url to use to render the control</Summary>
-        [CategoryAttribute( "Behavior" ), DescriptionAttribute( "The URL used to render the image to the client." ), DefaultValueAttribute( "ImageChallenge.captcha.aspx" )]
+        [CategoryAttribute( "Behavior" ), DescriptionAttribute( "The URL used to render the image to the client." ), DefaultValueAttribute( RENDERURL_DEFAULT )]
         public string RenderUrl
         {
             get
@@ -270,11 +269,10 @@ namespace DotNetNuke.UI.WebControls
         private static Bitmap CreateImage( int width, int height )
         {
             Bitmap bmp = new Bitmap(width, height);
-            Graphics g;
             Rectangle rect = new Rectangle(0, 0, width, height);
             RectangleF rectF = new RectangleF(0, 0, width, height);
 
-            g = Graphics.FromImage(bmp);
+            Graphics g = Graphics.FromImage(bmp);
 
             Brush b = new LinearGradientBrush(rect, Color.FromArgb(_Rand.Next(192), _Rand.Next(192), _Rand.Next(192)), Color.FromArgb(_Rand.Next(192), _Rand.Next(192), _Rand.Next(192)), Convert.ToSingle(_Rand.NextDouble()) * 360, false);
             g.FillRectangle(b, rectF);
@@ -303,12 +301,11 @@ namespace DotNetNuke.UI.WebControls
             Font f = null;
             try
             {
-                SizeF measured = new SizeF(0, 0);
                 SizeF workingSize = new SizeF(width, height);
                 while (emSize > 2)
                 {
                     f = new Font(ff, emSize);
-                    measured = g.MeasureString(text, f);
+                    SizeF measured = g.MeasureString(text, f);
                     if (!(measured.Width > workingSize.Width || measured.Height > workingSize.Height))
                     {
                         break;
@@ -331,7 +328,10 @@ namespace DotNetNuke.UI.WebControls
             }
             finally
             {
-                f.Dispose();
+                if( f != null )
+                {
+                    f.Dispose();
+                }
             }
 
             return textPath;
@@ -363,7 +363,7 @@ namespace DotNetNuke.UI.WebControls
             StringBuilder sb = new StringBuilder();
 
             sb.Append(CaptchaWidth.Value.ToString());
-            sb.Append(_Separator + CaptchaHeight.Value.ToString());
+            sb.Append(_Separator + CaptchaHeight.Value);
             sb.Append(_Separator + _CaptchaText);
             sb.Append(_Separator + BackGroundImage);
 
@@ -423,33 +423,32 @@ namespace DotNetNuke.UI.WebControls
         /// <Summary>GetFont gets a random font to use for the Captcha Text</Summary>
         private static FontFamily GetFont()
         {
-            FontFamily _font = null;
-            while (_font == null)
+            FontFamily font = null;
+            while (font == null)
             {
                 try
                 {
-                    _font = new FontFamily(_FontFamilies[_Rand.Next(_FontFamilies.Length)]);
+                    font = new FontFamily(_FontFamilies[_Rand.Next(_FontFamilies.Length)]);
                 }
                 catch (Exception)
                 {
-                    _font = null;
+                    font = null;
                 }
             }
-            return _font;
+            return font;
         }
 
         /// <Summary>Gets the next Captcha</Summary>
         protected virtual string GetNextCaptcha()
         {
             StringBuilder sb = new StringBuilder();
-            Random _rand = new Random();
-            int n;
+            Random random = new Random();
 
             int intMaxLength = CaptchaChars.Length;
 
-            for (n = 0; n <= CaptchaLength - 1; n++)
+            for (int n = 0; n <= CaptchaLength; n++)
             {
-                sb.Append(CaptchaChars.Substring(_rand.Next(intMaxLength), 1));
+                sb.Append(CaptchaChars.Substring(random.Next(intMaxLength), 1));
             }
             return sb.ToString();
         }
@@ -544,6 +543,7 @@ namespace DotNetNuke.UI.WebControls
         /// DistortImage distorts the captcha image
         /// </summary>
         /// <param name="b">The Image to distort</param>
+        /// <param name="distortion">the distortion</param>
         private static void DistortImage( ref Bitmap b, double distortion )
         {
             int width = b.Width;
@@ -574,19 +574,19 @@ namespace DotNetNuke.UI.WebControls
         /// <Param name="savedState">The saved state</Param>
         protected override void LoadViewState( object savedState )
         {
-            if (!(savedState == null))
+            if (savedState != null)
             {
                 // Load State from the array of objects that was saved at SaveViewState.
                 object[] myState = (object[])savedState;
 
                 //Load the ViewState of the Base Control
-                if (!(myState[0] == null))
+                if (myState[0] != null)
                 {
                     base.LoadViewState(myState[0]);
                 }
 
                 //Load the CAPTCHA Text from the ViewState
-                if (!(myState[1] == null))
+                if (myState[1] != null)
                 {
                     _CaptchaText = myState[1].ToString();
                 }
@@ -622,7 +622,7 @@ namespace DotNetNuke.UI.WebControls
             //Render image <img> Tag
             writer.AddAttribute(HtmlTextWriterAttribute.Src, GetUrl());
             writer.AddAttribute(HtmlTextWriterAttribute.Border, "0");
-            if (ToolTip.Length > 0)
+            if (!String.IsNullOrEmpty( ToolTip))
             {
                 writer.AddAttribute(HtmlTextWriterAttribute.Alt, ToolTip);
             }
@@ -630,7 +630,7 @@ namespace DotNetNuke.UI.WebControls
             writer.RenderEndTag();
 
             //Render Help Text
-            if (Text.Length > 0)
+            if (!String.IsNullOrEmpty( Text))
             {
                 writer.RenderBeginTag(HtmlTextWriterTag.Div);
                 writer.Write(Text);
@@ -639,10 +639,10 @@ namespace DotNetNuke.UI.WebControls
 
             //Render text box <input> Tag
             writer.AddAttribute(HtmlTextWriterAttribute.Type, "text");
-            writer.AddAttribute(HtmlTextWriterAttribute.Style, "width:" + Width.ToString());
+            writer.AddAttribute(HtmlTextWriterAttribute.Style, "width:" + Width);
             writer.AddAttribute(HtmlTextWriterAttribute.Maxlength, _CaptchaText.Length.ToString());
             writer.AddAttribute(HtmlTextWriterAttribute.Name, this.UniqueID);
-            if (AccessKey.Length > 0)
+            if (!String.IsNullOrEmpty( AccessKey))
             {
                 writer.AddAttribute(HtmlTextWriterAttribute.Accesskey, AccessKey);
             }
@@ -678,10 +678,9 @@ namespace DotNetNuke.UI.WebControls
         /// <param name="rect">a rectangle which defines the image</param>
         private static void WarpText( ref GraphicsPath textPath, Rectangle rect )
         {
-            int intWarpDivisor;
             RectangleF rectF = new RectangleF(0, 0, rect.Width, rect.Height);
 
-            intWarpDivisor = _Rand.Next(4, 8);
+            int intWarpDivisor = _Rand.Next(4, 8);
 
             int intHrange = Convert.ToInt32(rect.Height / intWarpDivisor);
             int intWrange = Convert.ToInt32(rect.Width / intWarpDivisor);

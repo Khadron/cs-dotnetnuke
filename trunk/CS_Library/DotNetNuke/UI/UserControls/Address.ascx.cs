@@ -241,7 +241,7 @@ namespace DotNetNuke.UI.UserControls
         {
             get
             {
-                return Localization.GetResourceFile( ( (Control)this ), this.MyFileName );
+                return Localization.GetResourceFile( this, this.MyFileName );
             }
         }
 
@@ -433,6 +433,7 @@ namespace DotNetNuke.UI.UserControls
         public Address()
         {
             Load += new EventHandler( this.Page_Load );
+            Init += new EventHandler(Address_Init);
             this._LabelColumnWidth = "";
             this._ControlColumnWidth = "";
             this._StartTabIndex = 1;
@@ -448,6 +449,12 @@ namespace DotNetNuke.UI.UserControls
             this._CountryData = "Text";
             this._RegionData = "Text";
             this.MyFileName = "Address.ascx";
+
+
+        }
+
+        void Address_Init(object sender, EventArgs e)
+        {
             this.cboCountry.SelectedIndexChanged += new EventHandler(this.cboCountry_SelectedIndexChanged);
             this.chkCell.CheckedChanged += new EventHandler(this.chkCell_CheckedChanged);
             this.chkCity.CheckedChanged += new EventHandler(this.chkCity_CheckedChanged);
@@ -458,7 +465,6 @@ namespace DotNetNuke.UI.UserControls
             this.chkRegion.CheckedChanged += new EventHandler(this.chkRegion_CheckedChanged);
             this.chkStreet.CheckedChanged += new EventHandler(this.chkStreet_CheckedChanged);
             this.chkTelephone.CheckedChanged += new EventHandler(this.chkTelephone_CheckedChanged);
-
 
         }
 
@@ -646,7 +652,7 @@ namespace DotNetNuke.UI.UserControls
 
                 if (!Page.IsPostBack)
                 {
-                    if (_LabelColumnWidth != "")
+                    if (!String.IsNullOrEmpty(_LabelColumnWidth))
                     {
                         //lblCountry.Width = System.Web.UI.WebControls.Unit.Parse(_LabelColumnWidth)
                         //lblRegion.Width = System.Web.UI.WebControls.Unit.Parse(_LabelColumnWidth)
@@ -659,7 +665,7 @@ namespace DotNetNuke.UI.UserControls
                         //lblFax.Width = System.Web.UI.WebControls.Unit.Parse(_LabelColumnWidth)
                     }
 
-                    if (_ControlColumnWidth != "")
+                    if (!String.IsNullOrEmpty(_ControlColumnWidth))
                     {
                         cboCountry.Width = System.Web.UI.WebControls.Unit.Parse(_ControlColumnWidth);
                         cboRegion.Width = System.Web.UI.WebControls.Unit.Parse(_ControlColumnWidth);

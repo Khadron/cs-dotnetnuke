@@ -178,16 +178,16 @@ namespace DotNetNuke.Security.Permissions.Controls
             get
             {
                 // Obtain PortalSettings from Current Context
-                PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
+                PortalSettings portalSettings = PortalController.GetCurrentPortalSettings();
                 int intPortalID;
 
-                if( _portalSettings.ActiveTab.ParentId == _portalSettings.SuperTabId ) //if we are in host filemanager then we need to pass a null portal id
+                if( portalSettings.ActiveTab.ParentId == portalSettings.SuperTabId ) //if we are in host filemanager then we need to pass a null portal id
                 {
                     intPortalID = Null.NullInteger;
                 }
                 else
                 {
-                    intPortalID = _portalSettings.PortalId;
+                    intPortalID = portalSettings.PortalId;
                 }
 
                 return intPortalID;
@@ -246,16 +246,16 @@ namespace DotNetNuke.Security.Permissions.Controls
         /// <summary>
         /// Builds the key used to store the "permission" information in the ViewState
         /// </summary>
-        /// <param name="checked">Is the checkbox checked</param>
+        /// <param name="isChecked">Is the checkbox checked</param>
         /// <param name="permissionId">The Id of the permission</param>
         /// <param name="objectPermissionId">The Id of the object permission</param>
         /// <param name="roleId">The role id</param>
         /// <param name="roleName">The role name</param>
-        protected string BuildKey( bool @checked, int permissionId, int objectPermissionId, int roleId, string roleName )
+        protected string BuildKey( bool isChecked, int permissionId, int objectPermissionId, int roleId, string roleName )
         {
             string key;
 
-            if( @checked )
+            if( isChecked )
             {
                 key = "True";
             }
@@ -274,7 +274,7 @@ namespace DotNetNuke.Security.Permissions.Controls
             }
 
             key += "|" + roleName;
-            key += "|" + roleId.ToString();
+            key += "|" + roleId;
 
             return key;
         }
@@ -347,16 +347,15 @@ namespace DotNetNuke.Security.Permissions.Controls
             GetRoles();
 
             UpdatePermissions();
-            DataRow row;
-            for( i = 0; i <= Roles.Count - 1; i++ )
+            for( i = 0; i < Roles.Count; i++ )
             {
                 RoleInfo role = (RoleInfo)Roles[i];
-                row = PermissionsDataTable.NewRow();
+                DataRow row = PermissionsDataTable.NewRow();
                 row["RoleId"] = role.RoleID;
                 row["RoleName"] = Localization.LocalizeRole( role.RoleName );
 
-                int j;
-                for( j = 0; j <= m_Permissions.Count - 1; j++ )
+                
+                for( int j = 0; j <= m_Permissions.Count - 1; j++ )
                 {
                     PermissionInfo objPerm;
                     objPerm = (PermissionInfo)m_Permissions[j];
@@ -380,8 +379,8 @@ namespace DotNetNuke.Security.Permissions.Controls
             pnlPermissions.CssClass = "DataGrid_Container";
 
             //Optionally Add Role Group Filter
-            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
-            ArrayList arrGroups = RoleController.GetRoleGroups( _portalSettings.PortalId );
+            PortalSettings portalSettings = PortalController.GetCurrentPortalSettings();
+            ArrayList arrGroups = RoleController.GetRoleGroups( portalSettings.PortalId );
             if( arrGroups.Count > 0 )
             {
                 lblGroups = new Label();
@@ -504,16 +503,13 @@ namespace DotNetNuke.Security.Permissions.Controls
             idCol.Visible = false;
             Columns.Add( idCol );
 
-            TemplateColumn checkCol;
-            int i;
-
             m_Permissions = GetPermissions();
-            for( i = 0; i <= m_Permissions.Count - 1; i++ )
+            for( int i = 0; i < m_Permissions.Count; i++ )
             {
                 PermissionInfo objPermission;
                 objPermission = (PermissionInfo)m_Permissions[i];
 
-                checkCol = new TemplateColumn();
+                TemplateColumn checkCol = new TemplateColumn();
                 CheckBoxColumnTemplate columnTemplate = new CheckBoxColumnTemplate();
                 columnTemplate.DataField = objPermission.PermissionName;
                 columnTemplate.EnabledField = objPermission.PermissionName + "_Enabled";
@@ -521,7 +517,7 @@ namespace DotNetNuke.Security.Permissions.Controls
                 string locName = "";
                 if( objPermission.ModuleDefID > 0 )
                 {
-                    if( ResourceFile != "" )
+                    if( !String.IsNullOrEmpty(ResourceFile) )
                     {
                         // custom permission
                         locName = Localization.GetString( objPermission.PermissionName + ".Permission", ResourceFile );
@@ -532,7 +528,7 @@ namespace DotNetNuke.Security.Permissions.Controls
                     // system permission
                     locName = Localization.GetString( objPermission.PermissionName + ".Permission", Localization.GlobalResourceFile );
                 }
-                checkCol.HeaderText = ( locName != "" ? locName : objPermission.PermissionName ).ToString();
+                checkCol.HeaderText = ( !String.IsNullOrEmpty(locName) ? locName : objPermission.PermissionName ).ToString();
                 checkCol.ItemStyle.HorizontalAlign = HorizontalAlign.Center;
                 checkCol.HeaderStyle.Wrap = true;
                 Columns.Add( checkCol );
@@ -543,6 +539,7 @@ namespace DotNetNuke.Security.Permissions.Controls
         /// Updates a Permission
         /// </summary>
         /// <param name="permission">The permission being updated</param>
+        /// <param name="roleId">role id</param>
         /// <param name="roleName">The name of the role</param>
         /// <param name="allowAccess">The value of the permission</param>
         protected virtual void UpdatePermission( PermissionInfo permission, int roleId, string roleName, bool allowAccess )
@@ -556,12 +553,9 @@ namespace DotNetNuke.Security.Permissions.Controls
         {
             this.EnsureChildControls();
 
-            DataGridItem dgi;
-            foreach( DataGridItem tempLoopVar_dgi in Items )
-            {
-                dgi = tempLoopVar_dgi;
-                int i;
-                for( i = 2; i <= dgi.Cells.Count - 1; i++ )
+            foreach( DataGridItem dgi in Items )
+            {                
+                for( int i = 2; i < dgi.Cells.Count; i++ )
                 {
                     //all except first two cells which is role names and role ids
                     if( dgi.Cells[i].Controls.Count > 0 )

@@ -80,12 +80,12 @@ namespace DotNetNuke.UI.UserControls
         {
             get
             {
-                return DNNClientAPI.GetMinMaxContentVisibile( ( (Control)this.imgIcon ), ( ! this._isExpanded ), DNNClientAPI.MinMaxPersistanceType.Page );
+                return DNNClientAPI.GetMinMaxContentVisibile( this.imgIcon, ( ! this._isExpanded ), DNNClientAPI.MinMaxPersistanceType.Page );
             }
             set
             {
                 this._isExpanded = value;
-                DNNClientAPI.SetMinMaxContentVisibile( ( (Control)this.imgIcon ), ( ! this._isExpanded ), DNNClientAPI.MinMaxPersistanceType.Page, value );
+                DNNClientAPI.SetMinMaxContentVisibile( this.imgIcon, ( ! this._isExpanded ), DNNClientAPI.MinMaxPersistanceType.Page, value );
             }
         }
 
@@ -189,10 +189,14 @@ namespace DotNetNuke.UI.UserControls
         {
             Load += new EventHandler( this.Page_Load );
             PreRender += new EventHandler( this.Page_PreRender );
-            this.imgIcon.Click += new ImageClickEventHandler(this.imgIcon_Click);
+            Init += new EventHandler(SectionHeadControl_Init);
             this._includeRule = false;
             this._isExpanded = true;
+        }
 
+        void SectionHeadControl_Init(object sender, EventArgs e)
+        {
+            this.imgIcon.Click += new ImageClickEventHandler(this.imgIcon_Click);
         }
 
         protected void imgIcon_Click(object sender, ImageClickEventArgs e)
@@ -210,7 +214,7 @@ namespace DotNetNuke.UI.UserControls
             try
             {
                 //set the resourcekey attribute to the label
-                if (ResourceKey != "")
+                if (!String.IsNullOrEmpty(ResourceKey))
                 {
                     lblTitle.Attributes["resourcekey"] = ResourceKey;
                 }

@@ -197,7 +197,7 @@ namespace DotNetNuke.Common.Utilities
         private static string CheckValidFileName( string strFileName )
         {
             string retValue = Null.NullString;
-            if( strFileName.IndexOf( "\'" ) > -1 )
+            if( strFileName.IndexOf( "'" ) > -1 )
             {
                 // check if context is valid since this method is called from the scheduller too
                 if( HttpContext.Current != null )
@@ -765,7 +765,7 @@ namespace DotNetNuke.Common.Utilities
                     if( objPortalController.HasSpaceAvailable( FolderPortalId, objZipEntry.Size ) || isHost )
                     {
                         strFileName = Path.GetFileName( objZipEntry.Name );
-                        if( strFileName != "" )
+                        if( !String.IsNullOrEmpty(strFileName) )
                         {
                             strExtension = Path.GetExtension( strFileName ).Replace( ".", "" );
                             if( Strings.InStr( 1, "," + settings.HostSettings["FileExtensions"].ToString().ToLower(), "," + strExtension.ToLower(), 0 ) != 0 || isHost )
@@ -1273,7 +1273,7 @@ namespace DotNetNuke.Common.Utilities
                 }
 
                 // This block creates the file using buffered reads from the zipfile
-                if( ( !objZipEntry.IsDirectory ) && ( LocalFileName != "" ) )
+                if( ( !objZipEntry.IsDirectory ) && ( !String.IsNullOrEmpty(LocalFileName) ) )
                 {
                     FileNamePath = Path.Combine( destPath, LocalFileName ).Replace( "/", "\\" );
 

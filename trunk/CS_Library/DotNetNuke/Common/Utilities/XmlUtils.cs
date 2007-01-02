@@ -73,7 +73,7 @@ namespace DotNetNuke.Common.Utilities
             {
                 strValue = objNode[NodeName].InnerText;
 
-                if (strValue == "" && DefaultValue != "")
+                if (strValue == "" && !String.IsNullOrEmpty(DefaultValue))
                 {
                     strValue = DefaultValue;
                 }

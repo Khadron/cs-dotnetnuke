@@ -91,7 +91,7 @@ namespace DotNetNuke.UI.UserControls
                 this.lblHelp.Text = value;
                 this.imgHelp.AlternateText = HtmlUtils.Clean( value, false );
                 //hide the help icon if the help text is ""
-                if (value == "")
+                if( String.IsNullOrEmpty(value) )
                 {
                     imgHelp.Visible = false;
                 }
@@ -146,6 +146,11 @@ namespace DotNetNuke.UI.UserControls
         public LabelControl()
         {
             Load += new EventHandler( this.Page_Load );
+            Init += new EventHandler(LabelControl_Init);                        
+        }
+
+        void LabelControl_Init(object sender, EventArgs e)
+        {
             this.cmdHelp.Click += new EventHandler(this.imageClick);
         }
 
@@ -199,30 +204,30 @@ namespace DotNetNuke.UI.UserControls
                 DNNClientAPI.EnableMinMax(cmdHelp, pnlHelp, true, DNNClientAPI.MinMaxPersistanceType.None);
 
                 //get the localised text
-                if (_ResourceKey == "")
+                if( String.IsNullOrEmpty(_ResourceKey) )
                 {
                     //Set Resource Key to the ID of the control
                     _ResourceKey = this.ID;
                 }
                 string localText = GetLocalizedText(_ResourceKey, this);
-                if (localText != "")
+                if( !String.IsNullOrEmpty(localText) )
                 {
                     this.Text = localText + _Suffix;
                 }
 
-                if (_HelpKey == "")
+                if( String.IsNullOrEmpty(_HelpKey) )
                 {
                     //Set Help Key to the Resource Key plus ".Help"
                     _HelpKey = _ResourceKey + ".Help";
                 }
                 string helpText = GetLocalizedText(_HelpKey, this);
-                if (helpText != "")
+                if( !String.IsNullOrEmpty(helpText) )
                 {
                     this.HelpText = helpText;
                 }
 
                 //find the reference control in the parents Controls collection
-                if (ControlName != "")
+                if( !String.IsNullOrEmpty(ControlName) )
                 {
                     Control c = this.Parent.FindControl(ControlName);
                     if (c != null)

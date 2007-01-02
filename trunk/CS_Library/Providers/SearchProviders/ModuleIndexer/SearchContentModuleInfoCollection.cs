@@ -164,8 +164,8 @@ namespace DotNetNuke.Services.Search
         /// <returns>Array of type SearchContentModuleInfo</returns>
         public SearchContentModuleInfo[] ToArray()
         {
-            SearchContentModuleInfo[] arr = null;
-            arr = (SearchContentModuleInfo[])Microsoft.VisualBasic.CompilerServices.Utils.CopyArray( (Array)arr, new SearchContentModuleInfo[Count - 1 + 1] );
+            SearchContentModuleInfo[] arr = new SearchContentModuleInfo[Count - 1 + 1];
+            
             CopyTo( arr, 0 );
 
             return arr;

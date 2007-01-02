@@ -236,7 +236,7 @@ namespace DotNetNuke.UI.WebControls
         private bool GetIsVisible( DataGridItem container )
         {
             bool isVisible;
-            if (VisibleField != "")
+            if( !String.IsNullOrEmpty(VisibleField) )
             {
                 isVisible = Convert.ToBoolean(DataBinder.Eval(container.DataItem, VisibleField));
             }
@@ -253,7 +253,7 @@ namespace DotNetNuke.UI.WebControls
         private int GetValue( DataGridItem container )
         {
             int keyValue = Null.NullInteger;
-            if (KeyField != "")
+            if( !String.IsNullOrEmpty(KeyField) )
             {
                 keyValue = Convert.ToInt32(DataBinder.Eval(container.DataItem, KeyField));
             }
@@ -276,7 +276,7 @@ namespace DotNetNuke.UI.WebControls
                         //Add a Hyperlink
                         HyperLink hypLink = new HyperLink();
                         hypLink.ToolTip = Text;
-                        if (ImageURL != "" && ShowImage)
+                        if (!String.IsNullOrEmpty(ImageURL) && ShowImage)
                         {
                             Image img = new Image();
                             if (DesignMode)
@@ -300,7 +300,7 @@ namespace DotNetNuke.UI.WebControls
                     else
                     {
                         //Add Image Button
-                        if (ImageURL != "" && ShowImage)
+                        if (!String.IsNullOrEmpty(ImageURL) && ShowImage)
                         {
                             ImageButton colIcon = new ImageButton();
                             if (DesignMode)
@@ -312,7 +312,7 @@ namespace DotNetNuke.UI.WebControls
                                 colIcon.ImageUrl = ImageURL;
                             }
                             colIcon.ToolTip = Text;
-                            if (OnClickJS != "")
+                            if( !String.IsNullOrEmpty(OnClickJS) )
                             {
                                 ClientAPI.AddButtonConfirm(colIcon, OnClickJS);
                             }
@@ -322,11 +322,11 @@ namespace DotNetNuke.UI.WebControls
                         }
 
                         //Add Link Button
-                        if (Text != "" && !ShowImage)
+                        if (!String.IsNullOrEmpty(Text) && !ShowImage)
                         {
                             LinkButton colLink = new LinkButton();
                             colLink.ToolTip = Text;
-                            if (OnClickJS != "")
+                            if( !String.IsNullOrEmpty(OnClickJS) )
                             {
                                 ClientAPI.AddButtonConfirm(colLink, OnClickJS);
                             }
@@ -345,7 +345,7 @@ namespace DotNetNuke.UI.WebControls
                         //Add a Hyperlink
                         HyperLink hypLink = new HyperLink();
                         hypLink.ToolTip = Text;
-                        if (ImageURL != "" && ShowImage)
+                        if (!String.IsNullOrEmpty(ImageURL) && ShowImage)
                         {
                             Image img = new Image();
                             if (DesignMode)
@@ -369,7 +369,7 @@ namespace DotNetNuke.UI.WebControls
                     else
                     {
                         //Add Image Button
-                        if (ImageURL != "" && ShowImage)
+                        if (!String.IsNullOrEmpty(ImageURL) && ShowImage)
                         {
                             ImageButton colIcon = new ImageButton();
                             if (DesignMode)
@@ -381,7 +381,7 @@ namespace DotNetNuke.UI.WebControls
                                 colIcon.ImageUrl = ImageURL;
                             }
                             colIcon.ToolTip = Text;
-                            if (OnClickJS != "")
+                            if( !String.IsNullOrEmpty(OnClickJS) )
                             {
                                 ClientAPI.AddButtonConfirm(colIcon, OnClickJS);
                             }
@@ -391,11 +391,11 @@ namespace DotNetNuke.UI.WebControls
                         }
 
                         //Add Link Button
-                        if (Text != "" && !ShowImage)
+                        if (!String.IsNullOrEmpty(Text) && !ShowImage)
                         {
                             LinkButton colLink = new LinkButton();
                             colLink.ToolTip = Text;
-                            if (OnClickJS != "")
+                            if( !String.IsNullOrEmpty(OnClickJS) )
                             {
                                 ClientAPI.AddButtonConfirm(colLink, OnClickJS);
                             }
@@ -414,7 +414,7 @@ namespace DotNetNuke.UI.WebControls
                         //Add a Hyperlink
                         HyperLink hypLink = new HyperLink();
                         hypLink.ToolTip = Text;
-                        if (ImageURL != "" && ShowImage)
+                        if (!String.IsNullOrEmpty(ImageURL) && ShowImage)
                         {
                             Image img = new Image();
                             if (DesignMode)
@@ -438,7 +438,7 @@ namespace DotNetNuke.UI.WebControls
                     else
                     {
                         //Add Image Button
-                        if (ImageURL != "" && ShowImage)
+                        if (!String.IsNullOrEmpty(ImageURL) && ShowImage)
                         {
                             ImageButton colIcon = new ImageButton();
                             if (DesignMode)
@@ -450,7 +450,7 @@ namespace DotNetNuke.UI.WebControls
                                 colIcon.ImageUrl = ImageURL;
                             }
                             colIcon.ToolTip = Text;
-                            if (OnClickJS != "")
+                            if( !String.IsNullOrEmpty(OnClickJS) )
                             {
                                 ClientAPI.AddButtonConfirm(colIcon, OnClickJS);
                             }
@@ -460,11 +460,11 @@ namespace DotNetNuke.UI.WebControls
                         }
 
                         //Add Link Button
-                        if (Text != "" && !ShowImage)
+                        if (!String.IsNullOrEmpty(Text) && !ShowImage)
                         {
                             LinkButton colLink = new LinkButton();
                             colLink.ToolTip = Text;
-                            if (OnClickJS != "")
+                            if( !String.IsNullOrEmpty(OnClickJS) )
                             {
                                 ClientAPI.AddButtonConfirm(colLink, OnClickJS);
                             }
@@ -483,7 +483,7 @@ namespace DotNetNuke.UI.WebControls
                         //Add a Hyperlink
                         HyperLink hypLink = new HyperLink();
                         hypLink.ToolTip = Text;
-                        if (ImageURL != "" && ShowImage)
+                        if (!String.IsNullOrEmpty(ImageURL) && ShowImage)
                         {
                             Image img = new Image();
                             if (DesignMode)
@@ -507,7 +507,7 @@ namespace DotNetNuke.UI.WebControls
                     else
                     {
                         //Add Image Button
-                        if (ImageURL != "" && ShowImage)
+                        if (!String.IsNullOrEmpty(ImageURL) && ShowImage)
                         {
                             ImageButton colIcon = new ImageButton();
                             if (DesignMode)
@@ -519,7 +519,7 @@ namespace DotNetNuke.UI.WebControls
                                 colIcon.ImageUrl = ImageURL;
                             }
                             colIcon.ToolTip = Text;
-                            if (OnClickJS != "")
+                            if( !String.IsNullOrEmpty(OnClickJS) )
                             {
                                 ClientAPI.AddButtonConfirm(colIcon, OnClickJS);
                             }
@@ -529,11 +529,11 @@ namespace DotNetNuke.UI.WebControls
                         }
 
                         //Add Link Button
-                        if (Text != "" && !ShowImage)
+                        if (!String.IsNullOrEmpty(Text) && !ShowImage)
                         {
                             LinkButton colLink = new LinkButton();
                             colLink.ToolTip = Text;
-                            if (OnClickJS != "")
+                            if( !String.IsNullOrEmpty(OnClickJS) )
                             {
                                 ClientAPI.AddButtonConfirm(colLink, OnClickJS);
                             }
@@ -571,7 +571,7 @@ namespace DotNetNuke.UI.WebControls
                 HyperLink hypLink = (HyperLink)sender;
                 container = (DataGridItem)hypLink.NamingContainer;
                 keyValue = GetValue(container);
-                if (NavigateURLFormatString != "")
+                if( !String.IsNullOrEmpty(NavigateURLFormatString) )
                 {
                     hypLink.NavigateUrl = string.Format(NavigateURLFormatString, keyValue);
                 }
@@ -583,7 +583,7 @@ namespace DotNetNuke.UI.WebControls
             else
             {
                 //Bind Image Button
-                if (ImageURL != "" && ShowImage)
+                if (!String.IsNullOrEmpty( ImageURL) && ShowImage)
                 {
                     ImageButton colIcon = (ImageButton)sender;
                     container = (DataGridItem)colIcon.NamingContainer;
@@ -593,7 +593,7 @@ namespace DotNetNuke.UI.WebControls
                 }
 
                 //Bind Link Button
-                if (Text != "" && !ShowImage)
+                if (!String.IsNullOrEmpty( Text ) && !ShowImage)
                 {
                     LinkButton colLink = (LinkButton)sender;
                     container = (DataGridItem)colLink.NamingContainer;

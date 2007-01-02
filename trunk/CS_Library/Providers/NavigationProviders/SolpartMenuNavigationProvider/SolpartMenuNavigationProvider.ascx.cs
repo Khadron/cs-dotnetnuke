@@ -23,6 +23,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 using DotNetNuke.Modules.NavigationProvider;
+using DotNetNuke.Services.Exceptions;
 using DotNetNuke.UI.WebControls;
 using Solpart.WebControls;
 
@@ -366,7 +367,10 @@ namespace DotNetNuke.NavigationControl
         {
             get
             {
-                if (m_strNodeSelectedRoot != null) return m_strNodeSelectedRoot; else return String.Empty;
+                if (m_strNodeSelectedRoot != null) 
+                    return m_strNodeSelectedRoot; 
+                else 
+                    return String.Empty;
             }
             set
             {
@@ -1081,7 +1085,7 @@ namespace DotNetNuke.NavigationControl
         private string GetSeparatorTD( string strClass, string strHTML )
         {
             string strRet = "";
-            if( strClass != "" )
+            if( !String.IsNullOrEmpty(strClass) )
             {
                 strRet += "<td class = \"" + strClass + "\">";
             }
@@ -1097,15 +1101,15 @@ namespace DotNetNuke.NavigationControl
         private string GetSeparatorText( string strNormal, string strBreadCrumb, string strSelection, DNNNode objNode )
         {
             string strRet = "";
-            if( strNormal != "" )
+            if( !String.IsNullOrEmpty(strNormal) )
             {
                 strRet = strNormal;
             }
-            if( strBreadCrumb != "" && objNode != null && objNode.BreadCrumb )
+            if( !String.IsNullOrEmpty(strBreadCrumb) && objNode != null && objNode.BreadCrumb )
             {
                 strRet = strBreadCrumb;
             }
-            if( strSelection != "" && objNode != null && objNode.Selected )
+            if( !String.IsNullOrEmpty(strSelection) && objNode != null && objNode.Selected )
             {
                 strRet = strSelection;
             }
@@ -1133,9 +1137,9 @@ namespace DotNetNuke.NavigationControl
                     strLeftSeparatorClass = this.GetSeparatorText( CSSLeftSeparator, CSSLeftSeparatorBreadCrumb, CSSLeftSeparatorSelection, objNextNode );
                     strSeparatorLeftHTML = this.GetSeparatorText( SeparatorLeftHTML, SeparatorLeftHTMLBreadCrumb, SeparatorLeftHTMLActive, objNextNode );
                 }
-                if( SeparatorHTML != "" )
+                if( !String.IsNullOrEmpty(SeparatorHTML) )
                 {
-                    if( CSSSeparator != "" )
+                    if( !String.IsNullOrEmpty(CSSSeparator) )
                     {
                         strSeparatorClass = CSSSeparator;
                     }
@@ -1148,15 +1152,15 @@ namespace DotNetNuke.NavigationControl
                 }
                 strSeparatorTable = "<table summary=\"Table for menu separator design\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>";
 
-                if( strSeparatorRightHTML != "" && strType != "Left" )
+                if( !String.IsNullOrEmpty(strSeparatorRightHTML) && strType != "Left" )
                 {
                     strSeparatorTable += GetSeparatorTD( strRightSeparatorClass, strSeparatorRightHTML );
                 }
-                if( strSeparator != "" && strType != "Left" && strType != "Right" )
+                if( !String.IsNullOrEmpty(strSeparator) && strType != "Left" && strType != "Right" )
                 {
                     strSeparatorTable += GetSeparatorTD( strSeparatorClass, strSeparator );
                 }
-                if( strSeparatorLeftHTML != "" && strType != "Right" )
+                if( !String.IsNullOrEmpty(strSeparatorLeftHTML) && strType != "Right" )
                 {
                     strSeparatorTable += GetSeparatorTD( strLeftSeparatorClass, strSeparatorLeftHTML );
                 }
@@ -1170,7 +1174,7 @@ namespace DotNetNuke.NavigationControl
             DNNNode objNode = null;
             SPMenuItemNode objMenuItem = null;
             DNNNode objPrevNode = null;
-            bool RootFlag = false;
+            bool isRootFlag = false;
             if( IndicateChildren == false )
             {
                 //should this be spacer.gif???
@@ -1179,30 +1183,30 @@ namespace DotNetNuke.NavigationControl
             }
             else
             {
-                if( this.IndicateChildImageRoot.Length > 0 )
+                if( !String.IsNullOrEmpty( IndicateChildImageRoot) )
                 {
                     Menu.RootArrow = true;
                 }
             }
 
-            foreach( DNNNode tempLoopVar_objNode in objNodes )
+            foreach( DNNNode dnnNode in objNodes )
             {
-                objNode = tempLoopVar_objNode;
+                objNode = dnnNode;
                 try
                 {
                     if( objNode.Level == 0 ) // root menu
                     {
-                        if( RootFlag == true ) //first root item has already been entered
+                        if( isRootFlag ) //first root item has already been entered
                         {
                             AddSeparator( "All", objPrevNode, objNode );
                         }
                         else
                         {
-                            if( SeparatorLeftHTML != "" || SeparatorLeftHTMLBreadCrumb != "" || this.SeparatorLeftHTMLActive != "" )
+                            if( !String.IsNullOrEmpty(SeparatorLeftHTML) || !String.IsNullOrEmpty(SeparatorLeftHTMLBreadCrumb) || !String.IsNullOrEmpty(SeparatorLeftHTMLActive) )
                             {
                                 AddSeparator( "Left", objPrevNode, objNode );
                             }
-                            RootFlag = true;
+                            isRootFlag = true;
                         }
 
                         if( objNode.Enabled == false )
@@ -1221,20 +1225,20 @@ namespace DotNetNuke.NavigationControl
                                 objMenuItem = new SPMenuItemNode( Menu.AddMenuItem( objNode.ID.ToString(), objNode.Text, objNode.NavigateURL ) );
                             }
                         }
-                        if( this.StyleRoot.Length > 0 )
+                        if( StyleRoot != null && StyleRoot.Length > 0 )
                         {
                             objMenuItem.ItemStyle = this.StyleRoot;
                         }
-                        if( this.CSSNodeRoot != "" )
+                        if( !String.IsNullOrEmpty(CSSNodeRoot) )
                         {
                             objMenuItem.ItemCss = this.CSSNodeRoot;
                         }
-                        if( this.CSSNodeHoverRoot != "" )
+                        if( !String.IsNullOrEmpty(CSSNodeHoverRoot) )
                         {
                             objMenuItem.ItemSelectedCss = this.CSSNodeHoverRoot;
                         }
 
-                        if( this.NodeLeftHTMLRoot != "" )
+                        if( !String.IsNullOrEmpty(NodeLeftHTMLRoot) )
                         {
                             objMenuItem.LeftHTML = this.NodeLeftHTMLRoot;
                         }
@@ -1242,11 +1246,11 @@ namespace DotNetNuke.NavigationControl
                         if( objNode.BreadCrumb )
                         {
                             objMenuItem.ItemCss = objMenuItem.ItemCss + " " + this.CSSBreadCrumbRoot;
-                            if( NodeLeftHTMLBreadCrumbRoot != "" )
+                            if( !String.IsNullOrEmpty(NodeLeftHTMLBreadCrumbRoot) )
                             {
                                 objMenuItem.LeftHTML = NodeLeftHTMLBreadCrumbRoot;
                             }
-                            if( NodeRightHTMLBreadCrumbRoot != "" )
+                            if( !String.IsNullOrEmpty(NodeRightHTMLBreadCrumbRoot) )
                             {
                                 objMenuItem.RightHTML = NodeRightHTMLBreadCrumbRoot;
                             }
@@ -1256,7 +1260,7 @@ namespace DotNetNuke.NavigationControl
                             }
                         }
 
-                        if( this.NodeRightHTMLRoot != "" )
+                        if( !String.IsNullOrEmpty(NodeRightHTMLRoot) )
                         {
                             objMenuItem.RightHTML = NodeRightHTMLRoot;
                         }
@@ -1276,7 +1280,7 @@ namespace DotNetNuke.NavigationControl
                             else
                             {
                                 string jsFunction = objNode.JSFunction;
-                                if(( jsFunction != null ) && (jsFunction.Length > 0))
+                                if(!String.IsNullOrEmpty( jsFunction))
                                 {
                                     objMenuItem = new SPMenuItemNode( Menu.AddMenuItem( objNode.ParentNode.ID.ToString(), objNode.ID.ToString(), "&nbsp;" + objNode.Text, GetClientScriptURL( objNode.JSFunction, objNode.ID ) ) );
                                 }
@@ -1290,11 +1294,11 @@ namespace DotNetNuke.NavigationControl
                             {
                                 objMenuItem.RunAtServer = true;
                             }
-                            if( CSSNodeHoverSub != "" )
+                            if( !String.IsNullOrEmpty(CSSNodeHoverSub) )
                             {
                                 objMenuItem.ItemSelectedCss = CSSNodeHoverSub;
                             }
-                            if( NodeLeftHTMLSub != "" )
+                            if( !String.IsNullOrEmpty(NodeLeftHTMLSub) )
                             {
                                 objMenuItem.LeftHTML = NodeLeftHTMLSub;
                             }
@@ -1302,11 +1306,11 @@ namespace DotNetNuke.NavigationControl
                             if( objNode.BreadCrumb )
                             {
                                 objMenuItem.ItemCss = this.CSSBreadCrumbSub;
-                                if( NodeLeftHTMLBreadCrumbSub != "" )
+                                if( !String.IsNullOrEmpty(NodeLeftHTMLBreadCrumbSub) )
                                 {
                                     objMenuItem.LeftHTML = NodeLeftHTMLBreadCrumbSub;
                                 }
-                                if( NodeRightHTMLBreadCrumbSub != "" )
+                                if( !String.IsNullOrEmpty(NodeRightHTMLBreadCrumbSub) )
                                 {
                                     objMenuItem.RightHTML = NodeRightHTMLBreadCrumbSub;
                                 }
@@ -1316,7 +1320,7 @@ namespace DotNetNuke.NavigationControl
                                 }
                             }
 
-                            if( this.NodeRightHTMLSub != "" )
+                            if( !String.IsNullOrEmpty(NodeRightHTMLSub) )
                             {
                                 objMenuItem.RightHTML = this.NodeRightHTMLSub;
                             }
@@ -1330,42 +1334,46 @@ namespace DotNetNuke.NavigationControl
                         //	objMenuItem = Nothing
                     }
 
-                    string imangeName = objNode.Image;
-                    if ((imangeName != null) && (imangeName.Length > 0))                    
+                    
+                    if(objMenuItem != null)
                     {
-                        if( objNode.Image.IndexOf( "/" ) > - 1 ) //if image contains a path
+                        if (!String.IsNullOrEmpty( objNode.Image ))                    
                         {
-                            string strImage = objNode.Image;
-                            if( strImage.StartsWith( Menu.IconImagesPath ) ) //if path (or portion) is already set in header of menu truncate it off
+                            //if image contains a path
+                            if( objNode.Image.IndexOf( "/" ) > - 1 ) 
                             {
-                                strImage = strImage.Substring( Menu.IconImagesPath.Length );
-                            }
-                            if( strImage.IndexOf( "/" ) > - 1 ) //if the image still contains path info assign it
-                            {
-                                objMenuItem.Image = strImage.Substring( strImage.LastIndexOf( "/" ) + 1 );
-                                if( strImage.StartsWith( "/" ) ) //is absolute path?
+                                string strImage = objNode.Image;
+                                //if path (or portion) is already set in header of menu truncate it off
+                                if( strImage.StartsWith( Menu.IconImagesPath ) ) 
                                 {
-                                    objMenuItem.ImagePath = strImage.Substring( 0, strImage.LastIndexOf( "/" ) + 1 );
+                                    strImage = strImage.Substring( Menu.IconImagesPath.Length );
+                                }
+                                if( strImage.IndexOf( "/" ) > - 1 ) //if the image still contains path info assign it
+                                {
+                                    objMenuItem.Image = strImage.Substring( strImage.LastIndexOf( "/" ) + 1 );
+                                    if( strImage.StartsWith( "/" ) ) //is absolute path?
+                                    {
+                                        objMenuItem.ImagePath = strImage.Substring( 0, strImage.LastIndexOf( "/" ) + 1 );
+                                    }
+                                    else
+                                    {
+                                        objMenuItem.ImagePath = Menu.IconImagesPath + strImage.Substring( 0, strImage.LastIndexOf( "/" ) + 1 );
+                                    }
                                 }
                                 else
                                 {
-                                    objMenuItem.ImagePath = Menu.IconImagesPath + strImage.Substring( 0, strImage.LastIndexOf( "/" ) + 1 );
+                                    objMenuItem.Image = strImage;
                                 }
                             }
                             else
                             {
-                                objMenuItem.Image = strImage;
+                                objMenuItem.Image = objNode.Image;
                             }
-                        }
-                        else
+                        }                        
+                        if (String.IsNullOrEmpty(objNode.ToolTip))                    
                         {
-                            objMenuItem.Image = objNode.Image;
+                            objMenuItem.ToolTip = objNode.ToolTip;
                         }
-                    }
-                    string toolTipName = objNode.ToolTip;
-                    if ((toolTipName != null) && (toolTipName.Length > 0))                    
-                    {
-                        objMenuItem.ToolTip = objNode.ToolTip;
                     }
 
                     Bind( objNode.DNNNodes );
@@ -1379,7 +1387,7 @@ namespace DotNetNuke.NavigationControl
 
             if( objNode != null && objNode.Level == 0 ) // root menu
             {
-                if( SeparatorRightHTML != "" || SeparatorRightHTMLBreadCrumb != "" || this.SeparatorRightHTMLActive != "" )
+                if( !String.IsNullOrEmpty(SeparatorRightHTML) || !String.IsNullOrEmpty(SeparatorRightHTMLBreadCrumb) || !String.IsNullOrEmpty(SeparatorRightHTMLActive) )
                 {
                     AddSeparator( "Right", objPrevNode, null );
                 }
