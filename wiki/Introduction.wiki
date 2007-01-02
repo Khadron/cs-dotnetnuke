@@ -21,7 +21,7 @@ As a result of converting the code, the new C# version runs incredibly much fast
 
 Productivity tools seem to be lacking for vb code which is not true for c# code. They help so much and I wanted to use them when working on the source code. I wanted to feel more in control of the codebase. I wanted to understand the framework better. And many, many more.
 
-== Conclusion == 
+== Summary == 
 
 I converted this project to make it more readable by myself and other C# programmers and open the DotNetNuke to a larger audience.
 
