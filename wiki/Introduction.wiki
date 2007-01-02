@@ -2,7 +2,7 @@
 
 =Introduction =
 
-DotNetNuke is an open source web application framework ideal for creating, deploying and managing interactive web, intranet and extranet sites. It is very well supported; just take a look at http://www.snowcovered.com. Unfortunately, VB and C# programmers don't cooperate as best they should, and take a mutually exclusive choice between the languages. This is unfortunate because DotNetNuke is a very well developed framework for ASP.NET that a lot of C# programmers do not want to look at.
+DotNetNuke is an open source web application framework ideal for creating, deploying and managing interactive web, intranet and extranet sites. It is very well supported; just take a look at [http://www.snowcovered.com SnowCovered]. Unfortunately, VB and C# programmers don't cooperate as best they should, and take a mutually exclusive choice between the languages. This is unfortunate because DotNetNuke is a very well developed framework for ASP.NET that a lot of C# programmers do not want to look at.
 
 == Purpose ==
 
@@ -14,11 +14,16 @@ Throughout the course of translating the code I learned many lessons. At first g
 
 == Results ==
 
-As a result of converting the code, the new C# version runs incredibly much faster than its vb cousin. . Their productivity tool greatly increased the time to market of this project, by highlighting errors in the C# code as well as in the ASP.NET content pages. No, unfortunately their code doesn’t support on-the-fly error checking of VB code, so this tool wasn’t available to the original authors.
+As a result of converting the code, the new C# version runs incredibly much faster than its vb cousin. I was also able to increase its speed by compiling and generating a single named assembly for all pages + classes in the website. This wasn't that easy due to ASP.NET not allowing App_GlobalResources in pre-compiled websites, but I was able to get around this bug by embedding the GlobalResources and SharedResources into the DotNetNuke.Library library, and using a ResourceLoader to extract the strings from the embedded resources in the assembly. The remaning config files were then placed into the config directory.
 
-Tools are great for us programmers. It helps us keep our productivity up and get the job done. Personally, I will not jump to a new language or framework till it has been adopted in the marketplace and has great support. Visual Basic was Microsoft’s greatest success story, and for some odd reason they decided not to support it anymore and released VB.Net. This alienated a lot of programmers, and as a result, there are not as many tools available to VB.Net programmers as there is C# programmers. A lot of the Java open source projects are being converted to C#, but not VB. My background has always been C/C++/Java and now I’m in love with C# for its great increases to my productivity. I converted this project to make it more readable by myself and other C# programmers and open the DotNetNuke to a larger audience.
-SVN Repository
 
+== Reasons ==
+
+Productivity tools seem to be lacking for vb code which is not true for c# code. They help so much and I wanted to use them when working on the source code. I wanted to feel more in control of the codebase. I wanted to understand the framework better. And many, many more.
+
+== Conclusion == 
+
+I converted this project to make it more readable by myself and other C# programmers and open the DotNetNuke to a larger audience.
 
 == History ==
 
