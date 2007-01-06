@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="AddContent.Action">
+		<value>Add Item To Schedule</value>
+	</data>
+	<data name="lblStatusLabel.Text">
+		<value>Current Status:</value>
+	</data>
+	<data name="lblMaxThreadsLabel.Text">
+		<value>Max Threads:</value>
+	</data>
+	<data name="lblActiveThreadsLabel.Text">
+		<value>Active Threads:</value>
+	</data>
+	<data name="lblFreeThreadsLabel.Text">
+		<value>Free Treads:</value>
+	</data>
+	<data name="lblCommand.Text">
+		<value>Command:</value>
+	</data>
+	<data name="lblProcessing.Text">
+		<value>Items Processing</value>
+	</data>
+	<data name="ScheduleID.Header">
+		<value>Schedule ID</value>
+	</data>
+	<data name="Type.Header">
+		<value>Type</value>
+	</data>
+	<data name="Started.Header">
+		<value>Started</value>
+	</data>
+	<data name="Duration.Header">
+		<value>Duration&lt;br&gt;(seconds)</value>
+	</data>
+	<data name="ObjectDependencies.Header">
+		<value>Object Dependencies</value>
+	</data>
+	<data name="TriggeredBy.Header">
+		<value>Triggered By</value>
+	</data>
+	<data name="Thread.Header">
+		<value>Thread</value>
+	</data>
+	<data name="Notes.Header">
+		<value>Notes</value>
+	</data>
+	<data name="Servers.Header">
+		<value>Servers</value>
+	</data>
+	<data name="lblQueue.Text">
+		<value>Items in Queue</value>
+	</data>
+	<data name="NextStart.Header">
+		<value>Next Start</value>
+	</data>
+	<data name="Overdue.Header">
+		<value>Overdue&lt;br&gt;(seconds)</value>
+	</data>
+	<data name="TimeRemaining.Header">
+		<value>Time Remaining&lt;br&gt;(seconds)</value>
+	</data>
+	<data name="NoTasks.Text">
+		<value>There are no tasks in the queue and no tasks are processing.</value>
+	</data>
+	<data name="DisabledMessage.Text">
+		<value>Scheduling is currently disabled.</value>
+	</data>
+	<data name="Disabled.Text">
+		<value>Disabled</value>
+	</data>
+	<data name="ManuallyStopped.Text">
+		<value>Manually Stopped From Scheduler Status Page</value>
+	</data>
+	<data name="ModuleHelp.Text">
+		<value>&lt;h1&gt;About Schedule&lt;/h1&gt;&lt;p&gt;Allows you to schedule tasks to be run at specified intervals.&lt;/p&gt;</value>
+	</data>
+	<data name="cmdStart.Text">
+		<value>Start</value>
+	</data>
+	<data name="cmdStop.Text">
+		<value>Stop</value>
+	</data>
+	<data name="ControlTitle_status.Text">
+		<value>Schedule Status</value>
+	</data>
+</root>

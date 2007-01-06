@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            <xsd:complexType>
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" />
+                            <xsd:attribute name="type" type="xsd:string" />
+                            <xsd:attribute name="mimetype" type="xsd:string" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" />
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:complexType>
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="ResMimeType">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="Version">
+        <value>1.0.0.0</value>
+    </resheader>
+    <resheader name="Reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="Writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Name.Header">
+        <value>Name</value>
+    </data>
+    <data name="Description.Header">
+        <value>Description</value>
+    </data>
+    <data name="Fee.Header">
+        <value>Fee</value>
+    </data>
+    <data name="Every.Header">
+        <value>Every</value>
+    </data>
+    <data name="Period.Header">
+        <value>Period</value>
+    </data>
+    <data name="Trial.Header">
+        <value>Trial</value>
+    </data>
+    <data name="ExpiryDate.Header">
+        <value>Expiry Date</value>
+    </data>
+    <data name="PleaseRegister.Text">
+        <value>&lt;br&gt;In order to take advantage of our Membership Services, you must first identify yourself as a member of the site. If you have already registered in the past, please &lt;a class=""CommandButton"" href=""{0}?tabid={1}&amp;showlogin=1""&gt;Login&lt;/a&gt; now. If you have not yet registered for the site, please take the opportunity to &lt;a class=""CommandButton"" href=""{0}?tabid={1}&amp;def=Register""&gt;Register&lt;/a&gt; now.</value>
+    </data>
+    <data name="MembershipNotOffered.Text">
+        <value>Membership Services are not being offered at this time.</value>
+    </data>
+    <data name="RegisterNote.Text">
+        <value>&lt;b&gt;*Note:&lt;/b&gt; All fields marked with an asterisk (*) are required.</value>
+    </data>
+    <data name="PrivateMembership.Text">
+        <value>&lt;b&gt;*Note:&lt;/b&gt; Membership to this portal is Private. Once your account information has been submitted, the portal Administrator will be notified and your application will be subjected to a screening procedure. If your application is authorized, you will receive notification of your access to the portal environment.</value>
+    </data>
+    <data name="PublicMembership.Text">
+        <value>&lt;b&gt;*Note:&lt;/b&gt; Membership to this portal is Public. Once your account information has been submitted, you will be immediately granted access to the portal environment.</value>
+    </data>
+    <data name="VerifiedMembership.Text">
+        <value>&lt;b&gt;*Note:&lt;/b&gt; Membership to this portal is Verified. Once your account information has been submitted, you will receive an email containing your unique Verification Code. The Verification Code will be required the first time you attempt to sign in to the portal environment.</value>
+    </data>
+    <data name="Required.Text">
+        <value> All fields marked with an asterisk (*) are required.</value>
+    </data>
+    <data name="cmdRegister.Text">
+        <value>Register</value>
+    </data>
+    <data name="Subscribe.Text">
+        <value>Subscribe</value>
+    </data>
+    <data name="CancelConfirm.Text">
+        <value>Are You Sure You Wish To Cancel Your Account ?</value>
+    </data>
+    <data name="PasswordMatchFailure.Text">
+        <value>Password Values Entered Do Not Match.</value>
+    </data>
+    <data name="RegistrationFailure.Text">
+        <value>Registration Failed! Username &lt;u&gt;{0}&lt;/u&gt; is already registered.&lt;br&gt;Please select a different Username.</value>
+    </data>
+    <data name="OldPassword.Text">
+        <value>You must provide the Old Password.</value>
+    </data>
+    <data name="NewPassword.Text">
+        <value>You must supply a new password.</value>
+    </data>
+    <data name="PasswordChanged.Text">
+        <value>Your password has been changed.</value>
+    </data>
+    <data name="plLocale.Text">
+        <value>Preferred Language:</value>
+    </data>
+    <data name="plLocale.Help">
+        <value>Select your preferred language from the available Locales</value>
+    </data>
+    <data name="plTimeZone.Text">
+        <value>Time Zone:</value>
+    </data>
+    <data name="plTimeZone.Help">
+        <value>Select your Time Zone</value>
+    </data>
+    <data name="plDateFormat.Text">
+        <value>Date Format:</value>
+    </data>
+    <data name="plDateFormat.Help">
+        <value>Select your preferred Date Format</value>
+    </data>
+    <data name="cmdUnregister.Text">
+        <value>Unregister</value>
+    </data>
+    <data name="plOldPassword.Text">
+        <value>Old Password:</value>
+    </data>
+    <data name="plOldPassword.Help">
+        <value>Enter your Old Password</value>
+    </data>
+    <data name="plNewPassword.Text">
+        <value>New Password:</value>
+    </data>
+    <data name="plNewPassword.Help">
+        <value>Enter your New Password</value>
+    </data>
+    <data name="plNewConfirm.Text">
+        <value>Confirm New Password:</value>
+    </data>
+    <data name="plNewConfirm.Help">
+        <value>Re-Enter your new password to make sure you haven't made a typing mistake</value>
+    </data>
+    <data name="ChangePassword.Text">
+        <value>Change Password</value>
+    </data>
+    <data name="Services.Text">
+        <value>Membership Services</value>
+    </data>
+    <data name="cmdUpdatePassword.Text">
+        <value>Update Password</value>
+    </data>
+    <data name="Preferences.Text">
+        <value>Preferences</value>
+    </data>
+    <data name="ControlTitle_register.Text">
+        <value>Register</value>
+    </data>
+    <data name="ControlTitle_.Text">
+        <value>User Account</value>
+    </data>
+    <data name="PasswordUpdateFailed.Text">
+        <value>There was an error setting your password. Your password has not been changed. Make sure that you entered the old password correctly and try again.</value>
+    </data>
+    <data name="VerifiedConfirmationMessage.Text">
+        <value>&lt;b&gt;An e-mail with your verification code has been sent to your e-mail address: {0}&lt;br&gt;Please access your in-box and get the verification code, which is required to log-in first time.&lt;/b&gt;</value>
+    </data>
+    <data name="PrivateConfirmationMessage.Text">
+        <value>&lt;b&gt;An e-mail with your details has been sent to the portal administrator for verification. Once your registration has been approved an e-mail will be sent to your e-mail address: {0}.&lt;/b&gt;</value>
+    </data>
+    <data name="Unsubscribe.Text">
+        <value>Unsubscribe</value>
+    </data>
+    <data name="plRSVPCode.Text">
+        <value>Enter RSVP Code:</value>
+    </data>
+    <data name="plRSVPCode.Help">
+        <value>You can subscribe to some Roles by entering an RSVP Code.  If you have been given a code please enter it and click Subscribe</value>
+    </data>
+    <data name="cmdRSVP.Text">
+        <value>Subscribe</value>
+    </data>
+</root>

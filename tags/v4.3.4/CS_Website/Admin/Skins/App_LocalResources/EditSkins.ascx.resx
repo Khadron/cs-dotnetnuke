@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="lblMessage.Text">
+		<value>&lt;b&gt;NOTE:&lt;/b&gt;&amp;nbsp;&amp;nbsp;You must use the File Manager to upload your Skin or Container package.</value>
+	</data>
+	<data name="Host.Text">
+		<value>Host</value>
+	</data>
+	<data name="Site.Text">
+		<value>Site</value>
+	</data>
+	<data name="plSkins.Text">
+		<value>Skins</value>
+	</data>
+	<data name="plContainers.Text">
+		<value>Containers</value>
+	</data>
+	<data name="cmdRestore.Text">
+		<value>Restore Default Skin</value>
+	</data>
+	<data name="Portal.Text">
+		<value>Portal</value>
+	</data>
+	<data name="Admin.Text">
+		<value>Admin</value>
+	</data>
+	<data name="cmdDelete.Text">
+		<value>Delete Skin Package</value>
+	</data>
+	<data name="cmdParse.Text">
+		<value>Parse Skin Package</value>
+	</data>
+	<data name="ApplyTo.Text">
+		<value>Apply To</value>
+	</data>
+	<data name="ParseOptions.Text">
+		<value>Parse Options</value>
+	</data>
+	<data name="Localized.Text">
+		<value>Localized</value>
+	</data>
+	<data name="Portable.Text">
+		<value>Portable</value>
+	</data>
+	<data name="NoSkin.ErrorMessage">
+		<value>No Skin Files Exist In Folder</value>
+	</data>
+	<data name="cmdPreview.Text">
+		<value>Preview</value>
+	</data>
+	<data name="cmdApply.Text">
+		<value>Apply</value>
+	</data>
+	<data name="NoContainer.ErrorMessage">
+		<value>No Container Files Exist in Folder</value>
+	</data>
+	<data name="plSkins.Help">
+		<value>Select the skin package</value>
+	</data>
+	<data name="plContainers.Help">
+		<value>Select the container package</value>
+	</data>
+	<data name="SkinUpload.Action">
+		<value>Upload Skin</value>
+	</data>
+	<data name="ContainerUpload.Action">
+		<value>Upload Container</value>
+	</data>
+	<data name="ControlTitle_.Text">
+		<value>Skins</value>
+	</data>
+	<data name="plType.Text">
+		<value>Skin Type:</value>
+	</data>
+	<data name="plType.Help">
+		<value>Select the type of skin to display.</value>
+	</data>
+	<data name="About.Text">
+		<value>About {0}</value>
+	</data>
+	<data name="SkinDeleteFailure.Text">
+		<value>Only Super Users can delete Host Skins</value>
+	</data>
+</root>

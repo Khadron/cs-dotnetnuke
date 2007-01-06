@@ -1,0 +1,263 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProjectGuid>{2C2FC1EF-C61F-448A-AD25-87391E1208F6}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyName>DotNetNuke.WebControls</AssemblyName>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DotNetNuke.WebControls</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <Name>Accessibility</Name>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Configuration">
+      <Name>System.Configuration</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.OracleClient">
+      <Name>System.Data.OracleClient</Name>
+    </Reference>
+    <Reference Include="System.Data.SqlXml">
+      <Name>System.Data.SqlXml</Name>
+    </Reference>
+    <Reference Include="System.Deployment">
+      <Name>System.Deployment</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Drawing.Design">
+      <Name>System.Drawing.Design</Name>
+    </Reference>
+    <Reference Include="System.Management">
+      <Name>System.Management</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting">
+      <Name>System.Runtime.Remoting</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap">
+      <Name>System.Runtime.Serialization.Formatters.Soap</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Web.RegularExpressions">
+      <Name>System.Web.RegularExpressions</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.Xml</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DotNetNuke\UI\Design\WebControls\DNNTextSuggestDesigner.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Design\WebControls\DNNTreeDesigner.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNLabelEdit.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNLabelEditEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNMenu.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNMenuDesigner.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNMenuEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNMenuNodeClickEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNMenuUpLevelWriter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNMenuWriter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNNode.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNNodeCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNNodeEnumerator.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNTextSuggest.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNTextSuggestEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DnnTree.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNTreeBuilder.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNTreeEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNTreeNodeClickEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNTreeUpLevelWriter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNTreeWriter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\eClickAction.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\MenuNode.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\MenuNodeCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\MenuNodeEnumerator.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\MenuNodeWriter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\NodeImage.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\NodeImageCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\Orientation.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\TreeNode.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\TreeNodeCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\TreeNodeEnumerator.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\TreeNodeWriter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\WebControls.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\XmlCollectionBase.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\IDNNMenuWriter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\IDNNTreeWriter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\IMenuNodeWriter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\ITreeNodeWriter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DotNetNuke\Web\UI\WebControls\DnnTree.bmp">
+      <Name>EmbeddedResource</Name>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebUtility\WebUtility.csproj">
+      <Project>{54F96926-802C-408E-A04B-F56859C0308C}</Project>
+      <Name>WebUtility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

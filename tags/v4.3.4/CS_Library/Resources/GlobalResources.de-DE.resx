@@ -1,0 +1,438 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <!-- 
+    DotNetNuke - The Web of the future      http://www.dotnetnuke.com
+    Copyright (c) 2002-2005  by Shaun Walker ( sales@perpetualmotion.ca ) of Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+    
+    German Translation (c) 2004-2005 by Sebastian Leupold, gamma concept mbH
+    Please report comments and corrections at http://dotnetnuke.gamma-concept.de
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="ResMimeType">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="Version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="Reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="Writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ExportModule.Action">
+    <value>Modul exportieren</value>
+  </data>
+  <data name="ImportModule.Action">
+    <value>Modul importieren</value>
+  </data>
+  <data name="OnlineHelp.Action">
+    <value>Online-Hilfe</value>
+  </data>
+  <data name="ModuleHelp.Action">
+    <value>Modulhilfe</value>
+  </data>
+  <data name="ModuleSettings.Action">
+    <value>Moduleinstellungen</value>
+  </data>
+  <data name="DeleteModule.Action">
+    <value>Modul löschen</value>
+  </data>
+  <data name="PrintModule.Action">
+    <value>Modulinhalt drucken</value>
+  </data>
+  <data name="ClearCache.Action">
+    <value>Cache leeren</value>
+  </data>
+  <data name="MoveTop.Action">
+    <value>an den Anfang</value>
+  </data>
+  <data name="MoveUp.Action">
+    <value>nach oben</value>
+  </data>
+  <data name="MoveDown.Action">
+    <value>nach unten</value>
+  </data>
+  <data name="MoveBottom.Action">
+    <value>ans Ende</value>
+  </data>
+  <data name="MovePane.Action">
+    <value>verschiebe nach</value>
+  </data>
+  <data name="MoveRoot.Action">
+    <value>verschieben</value>
+  </data>
+  <data name="Admin.String">
+    <value>Administrator</value>
+  </data>
+  <data name="Site Settings.String">
+    <value>Portaleinstellungen</value>
+  </data>
+  <data name="Tabs.String">
+    <value>Seiten</value>
+  </data>
+  <data name="Security Roles.String">
+    <value>Sicherheitsrollen</value>
+  </data>
+  <data name="User Accounts.String">
+    <value>Benutzerverwaltung</value>
+  </data>
+  <data name="Vendors.String">
+    <value>Werbepartner</value>
+  </data>
+  <data name="Site Log.String">
+    <value>Zugriffsprotokoll</value>
+  </data>
+  <data name="Bulk Email.String">
+    <value>Newsletter</value>
+  </data>
+  <data name="File Manager.String">
+    <value>Dateimanager</value>
+  </data>
+  <data name="Recycle Bin.String">
+    <value>Papierkorb</value>
+  </data>
+  <data name="Log Viewer.String">
+    <value>Ereignisprotokoll</value>
+  </data>
+  <data name="Skins.String">
+    <value>Seitenlayout</value>
+  </data>
+  <data name="Host.String">
+    <value>System</value>
+  </data>
+  <data name="Host Settings.String">
+    <value>Systemeinstellungen</value>
+  </data>
+  <data name="Portals.String">
+    <value>Portale</value>
+  </data>
+  <data name="Module Definitions.String">
+    <value>Moduldefinitionen</value>
+  </data>
+  <data name="SQL.String">
+    <value>SQL</value>
+  </data>
+  <data name="Schedule.String">
+    <value>Zeitplandienst</value>
+  </data>
+  <data name="Languages.String">
+    <value>Übersetzungen</value>
+  </data>
+  <data name="SyndicateModule.Action">
+    <value>RSS nutzen</value>
+  </data>
+  <data name="BannerType.Banner.String">
+    <value>Banner</value>
+  </data>
+  <data name="BannerType.MicroButton.String">
+    <value>Minischaltfläche</value>
+  </data>
+  <data name="BannerType.Button.String">
+    <value>Schaltfläche</value>
+  </data>
+  <data name="BannerType.Block.String">
+    <value>Block</value>
+  </data>
+  <data name="BannerType.Skyscraper.String">
+    <value>Hochformat</value>
+  </data>
+  <data name="BannerType.Text.String">
+    <value>Text</value>
+  </data>
+  <data name="BannerType.Script.String">
+    <value>Skript</value>
+  </data>
+  <data name="Search Admin.String">
+    <value>Suchverwaltung</value>
+  </data>
+  <data name="Lists.String">
+    <value>Listen</value>
+  </data>
+  <data name="Superuser Accounts.String">
+    <value>Administratorkonten</value>
+  </data>
+  <data name="View.Permission">
+    <value>Modul anzeigen</value>
+  </data>
+  <data name="Edit.Permission">
+    <value>Modul bearbeiten</value>
+  </data>
+  <data name="View Tab.Permission">
+    <value>Seite anzeigen</value>
+  </data>
+  <data name="Edit Tab.Permission">
+    <value>Seite bearbeiten</value>
+  </data>
+  <data name="View Folder.Permission">
+    <value>Ordner anzeigen</value>
+  </data>
+  <data name="Write to Folder.Permission">
+    <value>Dateien erstellen</value>
+  </data>
+  <data name="EMAIL_SMTP_TEST_SUBJECT.Text">
+    <value>[Host:HostTitle] Test der SMTP-Server-Konfiguration</value>
+  </data>
+  <data name="MESSAGE_PORTAL_PRIVACY.Text">
+    <value>&lt;h1&gt;Datenschutzerklärung&lt;/h1&gt;
+&lt;p&gt;[Portal:PortalName] verpflichtet sich, Ihre Privatsphäre zu schützen und verwendet hierfür Technologien, die Ihnen zugleich leistungsfähige und sichere Online-Nutzung ermöglichen. Diese Datenschutzerklärung gehört zu der Webseite "[Portal:PortalName]" und regelt das Erheben und Nutzen Ihrer persönlichen Daten. Bei Nutzung der Webseite "[Portal:PortalName]" willigen Sie in die hier beschriebenen Verfahrensweisen ein.&lt;/p&gt;
+&lt;h2&gt;Sammlung Ihrer persönlichen Informationen&lt;/h2&gt;
+&lt;p&gt;[Portal:PortalName] speichert persönliche Daten wie E-Mail-Adresse, Name, Anschrift und Telefonnummer. [Portal:PortalName] speichert auch anonyme demografische Informationen, die Ihnen nicht eindeutig zuzuordnen sind, wie Postleitzahl, Alter, Geschlecht, Vorlieben, Interessen, Hobbies und Favoriten.&lt;/p&gt;
+&lt;p&gt;Einige Angaben über Ihre Computerhardware und Software wird automatisch von [Portal:PortalName] gesammelt, dazu gehören Ihre IP-Adresse, der Typ Ihres Browsers, Ihr Domain-Name, die Zugriffszeit und aufgerufene Seiten. Diese Informationen werden von [Portal:PortalName] benutzt, um die Servicequalität zu halten und um allgemeine Statistiken bezüglich [Portal:PortalName] zu erstellen. &lt;/p&gt;
+&lt;p&gt;Bitte beachten Sie, dass persönliche Informationen, die sie in öffentlich zugänglichen Bereichen, wie Gästebuch etc. veröffentlichen, von anderen Benutzern 
+missbraucht werden können. &lt;/p&gt;
+&lt;p&gt;Hinweis: [Portal:PortalName] liest keinesfalls Ihre privaten Online-Kommunikation. [Portal:PortalName] fordert Sie dazu auf, die Datenschutzerklärung der Webseiten, auf die sie von [Portal:PortalName] verlinkt werden, zu überprüfen, so dass Sie wissen, wie diese Web-Sites Ihre Informationen speichern und verwenden. [Portal:PortalName] ist nicht für die Datenschutzerklärung anderer Webseiten 
+außerhalb von [Portal:PortalName] verantwortlich. &lt;/p&gt;
+&lt;h2&gt;Verwendung Ihrer persönlichen Informationen&lt;/h2&gt;
+&lt;p&gt;[Portal:PortalName] speichert und verwendet Ihre persönlichen Informationen, um die Website "[Portal:PortalName]" zu betreiben und den gewünschten Service anzubieten. [Portal:PortalName] verwendet Ihre Informationen auch, um Sie über neue Produkte und Leistungen von [Portal:PortalName] zu informieren. [Portal:PortalName] kann Sie auch zwecks Durchführung einer Marktforschung über Ihre Meinung nach Angeboten und neue möglichen Erweiterungen befragen. &lt;/p&gt;
+&lt;p&gt;[Portal:PortalName] wird ihre Kundenliste an Dritte weder verkaufen noch vermieten. [Portal:PortalName] kann Sie von gelegentlich im Namen anderer Geschäftspartner über ein spezielles Angebot informieren, das Sie vielleicht interessieren könnte. In diesem Fall werden Ihre persönlichen Angaben wie E-Mail, Name, Adresse oder Telefonnummer aber keinesfalls an einen Dritten weitergereicht. &lt;/p&gt;
+&lt;p&gt;Zusätzlich kann [Portal:PortalName] anonyme Daten mit Partnern teilen, um statistische Analysen durchzuführen. Allen diesen Parteien ist es verboten, Ihre persönlichen Angaben zu verwenden, sofern sie nicht für das Angebot von [Portal:PortalName] benutzt werden. Dies sehen wir als erforderlich, um Ihr persönliches Vertrauen aufrecht zu erhalten. &lt;/p&gt;
+&lt;p&gt;[Portal:PortalName] offenbart keine sensiblen persönlichen Informationen wie Rasse, Religion oder politische Einstellung. [Portal:PortalName] verfolgt die Spuren Ihres Besuchs innerhalb der Webseiten auf [Portal:PortalName], um die Nutzungsfrequenz der Angebote festzustellen. Diese Daten können verwendet werden, um den Besuchern individuell angepasste Inhalt zu liefern. Dies gilt für Besucher, die ein spezifisches Interesse angeben.&lt;/p&gt;
+&lt;h2&gt;Herausgabe persönlicher Daten&lt;/h2&gt;
+&lt;p&gt;Bei Vorlage einer richterlichen Anordnung wird [Portal:PortalName] Ihre persönliche Information an die Strafverfolgungsbehörden weitergeben, ohne Sie davon zu informieren. Wir behalten uns auch vor, Ihre persönlichen Daten für gerichtliche Auseinandersetzungen einzusetzen, falls wir uns dazu gezwungen sehen. &lt;/p&gt;
+&lt;h2&gt;Verwendung von Cookies&lt;/h2&gt;
+&lt;p&gt;Die Website [Portal:PortalName] verwendet Cookies, um die Nutzung zu erleichtern. Ein Cookie ist eine Textdatei, die vom Server auf Ihrer Festplatte gespeichert wird. Cookies können nicht dazu verwendet werden, Programme zu auszuführen oder einen Virus zu verbreiten. Cookies sind Ihnen persönlich zugeschrieben und können nur von einem Web Server in der Domain gelesen werden, die sie selbst erstellt haben. Einer der Hauptgründe für die Verwendung von Cookies ist es, Ihnen eine komfortable Nutzung zu ermöglichen und Zeit zu sparen. Aufgabe eines Cookies ist es, dem Web-Server zu melden, 
+dass Sie zu einer bestimmten Seite zurückgekehrt sind. Dies gilt zum Beispiel, wenn Sie sich auf [Portal:PortalName] registrieren. Das Online-Cookie hilft [Portal:PortalName], spezifische Informationen bei zukünftigen Besuchen wieder zu verwenden. Dies soll Sie bei der Eingabe Ihrer persönlichen Informationen, wie Rechnungs- und Lieferadresse, unterstützen.&lt;p&gt;
+&lt;p&gt;Wenn Sie zu derselben Webseite [Portal:PortalName] zurückkehren, sind Ihre Informationen wieder griffbereit und verfügbar. So können die Eigenschaften von [Portal:PortalName] den Kundenwünschen angepasst werden. Sie haben die Möglichkeit, Cookies zu akzeptieren oder zu abzulehnen. Die meisten Web-Browser akzeptieren Cookies automatisch, aber sie können Ihren Browser so einstellen, dass er nur die Cookies der von Ihnen bevorzugten Web-Sites speichert. Falls Sie sich dazu entscheiden, Cookies zu abzulehnen, dann kann es vorkommen, dass Ihnen die Nutzung interaktiver Angebote von [Portal:PortalName] nicht möglich ist. &lt;/p&gt;
+&lt;h2&gt;Sicherheit Ihrer persönlichen Informationen&lt;/h2&gt;
+&lt;p&gt;[Portal:PortalName] schützt Ihre persönlichen Informationen von unerlaubten Zugriff, Verwendung oder Veröffentlichung. [Portal:PortalName] verwahrt hierfür ihre persönlichen Informationen, die Sie auf dem Server speichern, in einer kontrollierten sicheren Umgebung, in der unerlaubter Zugriff und Veröffentlichung verhindert werden. Wenn sicherheitsrelevante persönliche Informationen wie Kreditkartennummern an andere Webseiten übermittelt werden, werden sie durch Verschlüsselung des Protokoll "Secure Socket Layer (SSL)" geschützt.&lt;/p&gt;
+&lt;h2&gt;Änderungen dieser Erklärung&lt;/h2&gt;
+&lt;p&gt;[Portal:PortalName] behält sich das Recht vor, diese Erklärung bei Bedarf zu aktualisieren, um sie an Kunden-Feedback, rechtliche und gesellschaftliche Veränderungen anzupassen. [Portal:PortalName] wird Sie über diese Änderungen auf der Web-Site oder per e-Mail informieren. Die Änderungen werden gültig, wenn sie nicht binnen vier Wochen schriftlich bei [Portal:PortalName] widersprechen.&lt;/p&gt;
+&lt;h2&gt;Kontakt&lt;/h2&gt;
+&lt;p&gt;[Portal:PortalName] freut sich über alle Rückmeldungen, die diese Datenschutzerklärung betreffen. Falls Sie Fragen und Anregungen haben, wenden Sie sich bitte an [Portal:Email]@[Portal:PortalName], wir werden uns schnellstmöglich mit Ihnen in Verbindung setzten. Adresse und Telefonnummer für schriftliche oder persönliche Kontaktaufnahme finden Sie im Impressum der Web-Site. &lt;/p&gt;
+&lt;p&gt;[Portal:PortalName]&lt;/p&gt;</value>
+  </data>
+  <data name="EMAIL_PORTAL_SIGNUP_SUBJECT.Text">
+    <value>[Host:HostTitle]: Erstellen eines Demo-Portals</value>
+  </data>
+  <data name="EMAIL_PORTAL_SIGNUP_BODY.Text">
+    <value>Sehr geehrte(r) [User:FullName],
+
+Ihr Portal wurde erfolgreich erstellt. Bitte lesen Sie die folgende Information aufmerksam durch und speichern Sie diese Nachricht an einem an einem sicheren Platz für die Zukunft.
+Portal-Adresse:[Portal:URL] 
+Benutzername:[User:UserName]
+Passwort:[User:Password]Aktivierungscode:[User:VerificationCode] 
+
+Bitte besuchen Sie unsere Web-Site, lesen die interessanten Inhalte und nutzen Sie unsere Angebote. 
+
+Vielen Dank, wir freuen uns auf die Zusammenarbeit.
+
+[Host:HostTitle]</value>
+  </data>
+  <data name="MESSAGE_PORTAL_TERMS.Text">
+    <value>&lt;h1&gt;Nutzungsvereinbarung zwischen Portal [Portal:PortalName] und Benutzer&lt;/h1&gt;
+&lt;p&gt;Das Portal [Portal:PortalName] umfasst verschiedene Webseiten, die von [Portal:PortalName] betrieben werden.&lt;/p&gt;
+&lt;p&gt;Der Zugriff auf das Portal [Portal:PortalName] wird Ihnen unter der Bedingung gewährt, dass Sie die folgenden Bedingungen ohne Änderungen akzeptieren. Ihre Nutzung des Portals [Portal:PortalName] stellt die uneingeschränkte Zustimmung zu diesen Bedingungen dar.&lt;/P&gt;
+&lt;h2&gt;Änderung der Nutzungsbedingungen&lt;/h2&gt;
+&lt;p&gt;Das Portal [Portal:PortalName] behält sich das Recht vor, die Nutzungsbedingungen für das Portal zu ändern, dies betrifft auch - aber nicht ausschließlich - die Nutzungsgebühren für das Portal.&lt;/p&gt;
+&lt;h2&gt;Weiterführende Links auf Web-Seiten Dritter&lt;/h2&gt;
+&lt;p&gt;Das Portal [Portal:PortalName] kann Links auf externe Webseiten ("verlinkte Seiten") enthalten. Die verlinkten Seiten stehen nicht unter der Kontrolle von [Portal:PortalName] und [Portal:PortalName] ist nicht für den Inhalt einer verlinkten Seite verantwortlich und übernimmt keinerlei Verantwortung für deren Links oder Aktualisierungen. [Portal:PortalName] ist nicht verantwortlich für Weiterleitungen aller Art von verlinkten Seiten. [Portal:PortalName] bietet diese Links nur als weiterführende Informationen, ohne sich die Inhalte zu 
+Eigen zu machen. &lt;/p&gt;
+&lt;h2&gt;Unerlaubte Nutzung und Gesetzesübertretungen&lt;/h2&gt;
+&lt;p&gt;Als Bedingung für die Nutzung des Portals [Portal:PortalName] versichern Sie gegenüber [Portal:PortalName], diese nicht zur Ausübung von Gesetzesverstößen oder unerlaubten Handlungen zu einzusetzen oder gegen die Nutzungsbedingungen zu verstoßen. Es ist Ihnen untersagt, das Portal [Portal:PortalName] in irgendeiner Art und Weise zu benutzen, die Schaden oder Überlastung hervorruft, oder die Seite außer Betrieb setzt, oder die Zusammenarbeit mit anderen Gesellschaften stört, oder die Nutzung des Portals [Portal:PortalName] beeinträchtigt. Es ist Ihnen nicht gestattet, Material oder Informationen jeglicher Art abzurufen, die von [Portal:PortalName] nicht explizit verfügbar gemacht wurden.&lt;/p&gt;
+&lt;h2&gt;Nutzung von Kommunikationsdiensten &lt;/h2&gt;
+&lt;p&gt;Soweit das Portal [Portal:PortalName] eine Anschlagstafel (Pinnwand), Chat-Räume, News-Groups, Diskussionsforen, Communities, persönliche Webseiten, Kalender und/oder weitere Nachrichten oder Kommunikationsbereiche enthält, die dazu bestimmt sind, mit der Öffentlichkeit zu kommunizieren, (zusammengefasst als "Kommunikationsdienste" bezeichnet), stimmen Sie zu, diese Kommunikationsdienste ausschließlich zu benutzen, um Nachrichten auszutauschen und Material zu verwenden, das der Zielsetzung des Kommunikationsdienstes entspricht. So stimmen sie unter anderen zu, die Kommunikationsdienste nicht zu verwenden, um:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Entehrende, belästigende, drohende oder anderweitig gewalttätige Äußerungen vorzunehmen, die legale Rechte anderer (natürlicher oder juristischer) Personen beeinträchtigen.&lt;/li&gt;
+&lt;li&gt;Material oder Informationen zu veröffentlichen, zu versenden, hoch zu laden oder zu verbreiten, die  unangebrachte, gotteslästerliche, entehrende, verletzende, obszöne, unanständige oder ungesetzliche Inhalte umfassen.&lt;/li&gt;
+&lt;li&gt;Dateien hoch zu laden, die Software oder andere Materialien enthalten, die urheberrechtlich geschützt sind oder das Recht auf Privatsphäre verletzen, sofern Sie nicht die entsprechenden Nutzungsrechte besitzen oder über das notwendige Einverständnis verfügen.&lt;/li&gt;
+&lt;li&gt;Dateien hoch zu laden, die Viren, beschädigte Daten oder anderweitig schädigende Programme enthalten.&lt;/li&gt;
+&lt;li&gt;Werbung oder Angebote für jeglichen Kauf oder Verkauf von Gütern oder Dienstleistungen im Sinne geschäftsmäßigen Handels zu offerieren, sofern dies nicht vom verwendeten Kommunikationsdienst ausdrücklich erlaubt ist.&lt;/li&gt;
+&lt;li&gt;Umfragen, Wettbewerbe, Preisausschreiben oder Kettenbriefe durchzuführen oder weiterzuleiten.&lt;/li&gt;
+&lt;li&gt;Dateien herunter zu laden, die von anderen Benutzern eines Kommunikationsdienstes veröffentlicht wurden, wenn Sie erkennen können oder erkannt haben müssen, das diese nicht legal verbreitet werden dürfen.&lt;/li&gt;
+&lt;li&gt;Autorenangaben zu ändern oder zu löschen, Urheberrechtsangaben oder Hinweise auf den Eigentümer bei Veröffentlichungen, Dokumenten oder Software zu löschen, die Sie auf das Portal hoch laden.&lt;/li&gt;
+&lt;li&gt;andere Benutzer bei der Verwendung des Portals zu behindern oder einzuschränken.&lt;/li&gt;
+&lt;li&gt;gegen die Verhaltensregeln der einzelnen Kommunikationsdienste zu verstoßen&lt;/li&gt;
+&lt;li&gt;Information über andere Benutzer zu sammeln, einschließlich e-Mail-Adressen, Telefonnummern etc.&lt;/li&gt;
+&lt;li&gt;gegen geltendes Recht in irgendeiner Art zu verstoßen.&lt;/li&gt;&lt;/ul&gt;
+&lt;p&gt;[Portal:PortalName] hat keine Verpflichtung, die Kommunikationsdienste zu protokollieren. [Portal:PortalName] behält sich aber das Recht vor, veröffentlichtes Material zu überprüfen und zu löschen. [Portal:PortalName] behält sich das Recht vor, das Benutzerkonto jederzeit ohne Angabe von Gründen zu sperren oder zu löschen.&lt;/p&gt;
+&lt;p&gt;[Portal:PortalName] behält sich das Recht vor, um geltendem Recht, gerichtlichen Auflagen, staatlichen Aufforderungen Genüge zu tun, jederzeit Informationen ganz oder teilweise zu löschen, zu bearbeiten oder von der Veröffentlichung auszuschließen ohne den Benutzer davon in Kenntnis setzen zu müssen.&lt;/p&gt;
+&lt;p&gt;Seien Sie immer vorsichtig, wenn Sie persönliche Daten über Sie oder Ihre Angehörigen in einem Kommunikationsdienst veröffentlichen. [Portal:PortalName] kontrolliert nicht die Inhalte, 
+Informationen und Nachrichten, die in den Kommunikationsdiensten veröffentlicht werden und weist daher alle Verantwortung bezüglich der Kommunikationsdienste zurück, die aus Ihrer Nutzung und Mitgliedschaft resultieren. Systembetreuer und Techniker sind keine Repräsentanten von [Portal:PortalName], ihre Äußerungen geben die persönliche Meinung wieder.&lt;/p&gt;
+&lt;p&gt;Dokumente, die auf einen Kommunikationsdienst hochgeladen werden, können Veröffentlichungs- oder Verbreitungsbeschränkungen unterliegen. Als Nutzer sind Sie selbst verantwortlich, diese Bedingungen einzuhalten, wenn Sie Dateien herunterladen.&lt;/p&gt;
+&lt;h2&gt;Veröffentlichung von Material auf Portal [Portal:PortalName] oder einer anderen [Portal:PortalName] Web-Site&lt;/h2&gt;
+&lt;p&gt;[Portal:PortalName] erhebt keinen Eigentumsanspruch auf das Material, das Sie auf dem Portal [Portal:PortalName] hoch laden, bereitstellen oder veröffentlichen (einschließlich Feedback and Kommentaren), dies gilt auch für andere Web-Sites von [Portal:PortalName] oder den angeschlossenen Diensten (nachfolgend zusammengefasst als "Veröffentlichungen"). Nichtsdestotrotz erlauben Sie [Portal:PortalName] und den angeschlossenen Unternehmen und  Lizenznehmern, Ihre Veröffentlichungen uneingeschränkt zu verwenden, dies  umfasst das unbegrenzte Recht, diese zu kopieren, verteilen, übermitteln, öffentlich auszustellen, vorzuführen, zu vervielfältigen, bearbeiten, übersetzen und zu formatieren sowie Ihren Namen in Zusammenhang mit Ihrer Veröffentlichung zu nennen.&lt;/p&gt;
+&lt;p&gt;Für Ihre Veröffentlichung wird keine Vergütung geleistet. [Portal:PortalName] geht keine Verpflichtung ein, Ihre Veröffentlichungen vorzuhalten, zu veröffentlichen oder zu verwenden und behält sich das Recht vor, Ihre Veröffentlichungen eigenständig zu veröffentlichen und zu entfernen.&lt;/p&gt;
+&lt;p&gt;Durch das Veröffentlichen, Eingeben oder Hochladen Ihrer Veröffentlichung gewährleisten Sie, dass Sie über die Rechte zu dieser Veröffentlichung verfügen, damit sie wie in diesem Abschnitt beschrieben genutzt werden dürfen, einschließlich aller Rechte, die für die Veröffentlichung notwendig sind.&lt;/p&gt;
+&lt;h2&gt;Haftungsausschluss&lt;/h2&gt;
+&lt;p&gt;Die Informationen, Software, Produkte und Dienstleistungen, die Bestandteil von [Portal:PortalName] sind oder hier veröffentlicht werden können Ungenauigkeiten oder Schreibfehler enthalten. Änderungen der Inhalte werden laufend vorgenommen. [Portal:PortalName]  und seine Zulieferer können jederzeit Erweiterungen und/oder Änderungen an der Web-Site vornehmen. Ratschläge, die Sie über das Portal [Portal:PortalName] erhalten, sollten Sie nicht ungeprüft als Grundlage für persönliche, medizinische, rechtliche oder finanzielle Entscheidungen heranziehen - ziehen Sie stets einen ausgebildeten Fachmann heran, um individuell zugeschnittene Lösungen für Ihre Situation zu erhalten.&lt;/p&gt;
+&lt;p&gt;[Portal:PortalName] bzw. dessen Zulieferer machen keine Zusagen über die Erreichbarkeit, Zeitliche Verfügbarkeit, Zuverlässigkeit und Genauigkeit der  Informationen, Software, Produkte, Dienstleistungen und Grafiken, die auf der Web-Site [Portal:PortalName] angeboten werden. Bis zur äußersten Grenze der rechtlichen Zulässigkeit werden alle diese Informationen, Software, Produkte, Dienstleistungen und Grafiken im aktuellen Zustand angeboten ohne Gewährleistung  oder Zusagen irgendeiner Art. [Portal:PortalName] bzw. dessen Zulieferer schließen hiermit alle Gewährleistungsansprüche und Bezug auf Zusagen für diese Informationen, Produkte, Dienstleistungen und Grafiken einschließlich impliziter Garantien oder Handelsbedingungen, Einsatzfähigkeit für besondere Zwecke etc, aus.&lt;/p&gt;
+&lt;p&gt;Bis zur äußersten Grenze des rechtlich Zulässigkeit schließt [Portal:PortalName] bzw. dessen Zulieferer die Haftung aus für direkte, indirekte, fahrlässige oder irrtümliche Schäden irgendeiner Art einschließlich Datenverlust, entgangenem Gewinn, Folgeschäden, die sich aus der Nutzung und dem Betrieb oder der Nichtverfügbarkeit der Web-Site [Portal:PortalName] oder damit 
+zusammenhängender Dienste ergeben, einschließlich der von der Web-Site bezogenen Informationen, Software, Produkte, Dienstleistungen und Grafiken aus, unabhängig, ob sich diese aus vertraglichen oder außervertraglichen Umständen  ergeben, auch wenn [Portal:PortalName], dessen Vertreter bzw. dessen Zulieferer auf mögliche Schäden hingewiesen wurden. Da einige Staaten den Haftungsausschluss nicht für Folgeschäden erlauben, gilt dieser Haftungsausschluss unter Umständen nicht für Sie. Falls Sie mit dem Angebot von [Portal:PortalName] oder diesen Nutzungsbedingungen nicht übereinstimmen, können Sie dadurch Abhilfe schaffen, dass Sie die Web-Site [Portal:PortalName] nicht weiter verwenden.&lt;/p&gt;
+&lt;P&gt;Service-Kontakt:[Portal:Email] &lt;/P&gt;
+&lt;h2&gt;Beendigung und Zugriffsbeschränkungen&lt;/h2&gt;
+&lt;p&gt;[Portal:PortalName] behält sich das Recht vor, aus eigener Entscheidung Ihren Zugang zur Web-Site [Portal:PortalName] und den zugehörigen Diensten jederzeit ohne Begründung zu kündigen. Grundsätzlich unterliegt dieser Vertrag den Bestimmungen des Staates Washington in den USA, soweit dies rechtlich zulässig ist, und Sie willigen hiermit ein, dass als Gerichtsstand King County, Washington USA, für allen Streitigkeiten im Zusammenhang mit der [Portal:PortalName] Web-Site vereinbart wird. Die 
+Nutzung der [Portal:PortalName] Web-Site unter einer anderen Rechtsprechung ist nicht gestattet und hat keine Auswirkungen auf die Bestimmungen dieser Bedingungen und Konditionen, dies 
+schließt auch die Anwendung dieses Absatzes ein. Sie bestätigen, dass kein Gemeinschaftsunternehmen, Partnerschaft, Unterauftragsverhältnis oder eine Agenturbeziehung zwischen Ihnen und [Portal:PortalName] existiert. 
+Die Anwendung dieser Bedingungen entspricht geltendem Recht. Keine Bedingung  dieser Vereinbarung unterbindet es, dass [Portal:PortalName] Forderungen von Regierung, Gericht oder Gesetzes nachkommt bezüglich Ihrer Benutzung der [Portal:PortalName] Web-Site oder der von Ihnen angebotenen oder abgerufenen Informationen von [Portal:PortalName] unter Beachtung dieser Anwendung. Falls eine Bestimmung dieser Vereinbarung ungültig ist oder im Widerspruch zu geltendem Recht steht, einschließlich des oben genannten Haftungsausschlusses und der Zuverlässigkeitsbeschränkungen, wird die ungültige oder unvollstreckbare Bedingung durch eine solche gültige Bedingung ersetzt, die der Absicht der ursprünglichen Bestimmung und dem Rest des Vereinbarung am nächsten kommt. &lt;/p&gt;
+&lt;p&gt;Soweit nicht anders angegeben, stellt diese Vereinbarung die einzige Vertragsgrundlage zwischen Benutzer und [Portal:PortalName] dar, die das Verhältnis zwischen der [Portal:PortalName] Web-Site bestimmt und alle vorherigen oder vorübergehenden Vereinbarungen ersetzt, die in elektronischer, mündlicher oder schriftlicher Form zwischen dem Benutzer und der [Portal:PortalName] Web-Site getroffen wurden. Die gedruckte Fassung dieser Vereinbarung und ihrer elektronischen Kenntnisnahme wird für juristische Auseinandersetzungen oder administrative Prozesse zugelassen, die sich auf diese Vereinbarung beziehen oder auf ihr beruhen, im gleichen Umfang und zu den gleichen Bedingungen wie alle anderen geschäftlichen Vereinbarungen und Aufzeichnungen, die ursprünglich schriftlich erstellt generiert und auf neuesten Stand gehalten werden. &lt;/p&gt;
+&lt;p&gt;Es ist  der Wunsch beider Parteien, dass diese Vereinbarung und alle verwandten Dokumente in der englischen Sprachversion Gültigkeit erlangen, diese Übersetzung wird zur Unterstützung ohne rechtlich bindende Wirkung angeboten. &lt;/p&gt;
+&lt;h2&gt;Urheberrechtshinweis und Markenschutz &lt;/h2&gt;
+&lt;p&gt;Alle Inhalte der [Portal:PortalName] Webseite sind [Portal:FooterText] bzw. ihre Anbieter. Alle Rechte sind reserviert. &lt;/p&gt;
+&lt;h2&gt;Markenzeichen &lt;/h2&gt;
+&lt;p&gt;Die Namen der hier aufgeführten Firma und Produkte können geschützte Marken der Besitzer sein. Die in Beispielen genannten Firmen, Organisationen, Produkte, Personen und Veranstaltungen sind rein fiktiv, es besteht kein Zusammenhang mit echten Firmen, Organisationen, Produkten, Personen oder Veranstaltungen. Ähnlichkeiten mit bestehenden Namen sind nicht beabsichtigt. Alle Rechte, die hier nicht  ausdrücklich aufgeführt wurden, vorbehalten. &lt;/p&gt;
+&lt;h2&gt;Hinweise und Vorgehen zur Anmeldung von Schutzrechtsverletzungen&lt;/h2&gt;
+&lt;p&gt;Entsprechend Paragraph 17, USA Code, Abteil 512 (c.) (2), sollen Hinweise auf Copyright-Rechtsverletzungen gemäß dem USA Copyright Gesetz an den gesetzlichen Vertreter des Service-Providers gesendet werden. Alle Anfragen, die der folgenden Vorgehensweise nicht entsprechen, werden ignoriert. Siehe Hinweise und Vorgehensweise für die Anmeldung von Copyright-Verletzungen.&lt;/p&gt;
+&lt;P&gt;[Portal:PortalName]&lt;/P&gt;</value>
+  </data>
+  <data name="EMAIL_USER_REGISTRATION_ADMINISTRATOR_SUBJECT.Text">
+    <value>[Portal:PortalName] Benutzer-Registrierung</value>
+  </data>
+  <data name="EMAIL_USER_REGISTRATION_ADMINISTRATOR_BODY.Text">
+    <value>Datum:[Date:Current] 
+Vorname:[Profile:FirstName] 
+Nachname:[Profile:LastName] 
+Wohnung:[Profile:Unit] 
+Straße:[Profile:Street] 
+Stadt:[Profile:City] 
+Region: [Profile:Region] 
+Land:[Profile:Country] Postleitzahl: [Profile:PostalCode] 
+Telefon:[Profile:Telephone] 
+E-Mail:[Membership:Email]</value>
+  </data>
+  <data name="EMAIL_USER_REGISTRATION_PRIVATE_SUBJECT.Text">
+    <value>[Portal:PortalName] Benutzer-Registrierung</value>
+  </data>
+  <data name="EMAIL_USER_REGISTRATION_PRIVATE_BODY.Text">
+    <value>Sehr geehrte(r) [Benutzer:VollerName], 
+
+vielen Dank, daß Sie sich im Portal [Portal:PortalName] registriert haben. Bitte lesen Sie die folgenden Informationen sorgfältig durch und verwahren Sie diese Nachricht an einem sicheren Ort, damit Sie zukünftig bei Bedarf darauf zurückgreifen können. 
+Portal-Adresse: [Portal:URL]
+Benutzername:[User:UserName]
+Passwort:[User:Password] 
+
+Ihre Anmeldeangaben werden vom Portal-Administrator geprüft, Sie werden eine Nachricht erhalten, sobald Ihr Konto aktiviert wird. Vielen Dank, wir freuen uns auf Ihre Zusammenarbeit...
+
+[Portal:PortalName]</value>
+  </data>
+  <data name="MESSAGE_REGISTRATION_INSTRUCTIONS.Text">
+    <value />
+  </data>
+  <data name="EMAIL_ROLE_ASSIGNMENT_SUBJECT.Text">
+    <value>[Portal:PortalName] Aktualisierung Ihres Benutzerkontos</value>
+  </data>
+  <data name="EMAIL_ROLE_ASSIGNMENT_BODY.Text">
+    <value>Sehr geehrte(r) [User:FullName],
+
+Ihr Konto für Portal  [Portal:PortalName] wurde vor kurzem aktualisiert und um folgende Zugriffsrollen erweitert: 
+
+Rolle: [Custom:0]
+Beschreibung: [Custom:1]
+Ablaufdatum: [Custom:2]
+
+Vielen Dank für Ihre Aufmerksamkeit,
+
+[Portal:PortalName]</value>
+  </data>
+  <data name="EMAIL_ROLE_UNASSIGNMENT_SUBJECT.Text">
+    <value>[Portal:PortalName]: Aktualisierung Ihres Benutzerkontos</value>
+  </data>
+  <data name="EMAIL_ROLE_UNASSIGNMENT_BODY.Text">
+    <value>Sehr geehrte(r) [User:FullName],
+
+Ihr Benutzerkonto für das Portal[Portal:PortalName] wurde vor kurzem aktualisiert, um den Zugriff auf folgende Sicherheitsrolle zu beenden:
+
+Rolle: [Custom:0]
+Beschreibung: [Custom:1]
+Ablaufdatum: [Custom:2]
+
+Vielen Dank für Ihre Aufmerksamkeit,
+
+[Portal:PortalName]
+</value>
+  </data>
+  <data name="MESSAGE_LOGIN_INSTRUCTIONS.Text">
+    <value />
+  </data>
+  <data name="EMAIL_PASSWORD_REMINDER_SUBJECT.Text">
+    <value>[Portal:PortalName] Kennwort-Zusendung</value>
+  </data>
+  <data name="EMAIL_PASSWORD_REMINDER_BODY.Text">
+    <value>Sehr geehrte(r) [User:FullName],
+
+Sie haben Ihr Kennwort vom Portal [Portal:PortalName] erneut angefordert. Bitte melden Sie sich mit folgenden Angaben an:
+Portal-Adresse: [Portal:URL]
+Benutzername:
+[Membership:Username] 
+Passwort: [Membership:Password]
+Aktivierungscode:[Membership:VerificationCode]
+Zugelassen:[Membership:Approved] 
+
+Mit freundlichen Grüßen
+
+[Portal:PortalName] 
+
+*Hinweis: Falls Sie keine Passworterinnerung angefordert haben, löschen Sie bitte diese Nachricht.</value>
+  </data>
+  <data name="EMAIL_USER_UNREGISTER_SUBJECT.Text">
+    <value>[Portal:PortalName] Benutzerkonto löschen
+		</value>
+  </data>
+  <data name="EMAIL_USER_UNREGISTER_BODY.Text">
+    <value>Datum: [Date:Current]
+Vorname: [User:FirstName]Nachname: [User:LastName]
+Wohnung: [User:Unit]
+Strasse: [User:Street]
+Ort: [User:City]
+Bundesland: [User:Region]
+Land: [User:Country]
+Postleitzahl: [User:PostalCode]
+Telefon: [User:Telephone]
+Email: [User:Email]</value>
+  </data>
+  <data name="EMAIL_USER_REGISTRATION_PUBLIC_SUBJECT.Text">
+    <value>[Portal:PortalName] Benutzer-Registrierung</value>
+  </data>
+  <data name="EMAIL_USER_REGISTRATION_PUBLIC_BODY.Text">
+    <value>Sehr geehrte(r) [User:FullName],
+wir freuen uns, Ihnen mitzuteilen, dass Sie als Benutzer der [Portal:PortalName] Portal Webseite registriert wurden. 
+Bitte lesen Sie die folgenden Informationen sorgfältig durch und verwahren Sie diese Nachricht an einem sicheren Ort, falls Sie  zukünftig darauf zurückgreifen möchten. 
+Portal-Adresse:[Portal:URL]
+Benutzername:[User:Username]
+Passwort:[User:Password]
+Aktivierungcode:[User:VerificationCode]. 
+Bitte besuchen unsere Web-Site, ergötzen Sie sich an den Inhalte und nuzen sie die Angebote, die wir Ihnen bieten. 
+Vielen Dank, wir freuen uns auf die Zusammenarbeit.
+[Portal:PortalName] </value>
+  </data>
+  <data name="EMAIL_AFFILIATE_NOTIFICATION_SUBJECT.Text">
+    <value>[Portal:PortalName] Werbepartner-Benachrichtigung</value>
+  </data>
+  <data name="EMAIL_AFFILIATE_NOTIFICATION_BODY.Text">
+    <value>Sehr geehrte(r) [Custom:0],
+Ihr Partnerkonto fuer das Werbeprogramm unseres Portals[Portal:PortalName] wurde eingerichtet. 
+Damit Sie von der Partnerschaft profitieren, verwenden Sie bitte die folgende URL, um auf unsere Seite zu verlinken: [Custom:1]
+
+Vielen Dank, 
+[Portal:PortalName] </value>
+  </data>
+  <data name="Site Wizard.String">
+    <value>Portalassistent</value>
+  </data>
+</root>

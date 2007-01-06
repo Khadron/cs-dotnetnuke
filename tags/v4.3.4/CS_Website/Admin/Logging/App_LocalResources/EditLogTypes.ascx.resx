@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="LogType.Header">
+		<value>Log Type</value>
+	</data>
+	<data name="Portal.Header">
+		<value>Portal</value>
+	</data>
+	<data name="Active.Header">
+		<value>Active</value>
+	</data>
+	<data name="FileName.Header">
+		<value>File Name</value>
+	</data>
+	<data name="Edit.EditText">
+		<value>Edit</value>
+	</data>
+	<data name="Settings.Text">
+		<value>Logging Settings</value>
+	</data>
+	<data name="plIsActive.Text">
+		<value>Logging Enabled</value>
+	</data>
+	<data name="plIsActive.Help">
+		<value>Do you want Logging enabled</value>
+	</data>
+	<data name="plLogTypeKey.Text">
+		<value>Log Type</value>
+	</data>
+	<data name="plLogTypeKey.Help">
+		<value>What type of event is this Log Type</value>
+	</data>
+	<data name="plLogTypePortalID.Text">
+		<value>Portal</value>
+	</data>
+	<data name="plLogTypePortalID.Help">
+		<value>Which Portal is this Log Event Associated with</value>
+	</data>
+	<data name="plKeepMostRecent.Text">
+		<value>Keep Most Recent</value>
+	</data>
+	<data name="plFileName.Text">
+		<value>FileName</value>
+	</data>
+	<data name="plFileName.Help">
+		<value>Enter the filename of the log file.</value>
+	</data>
+	<data name="plEmailNotificationStatus.Text">
+		<value>Email Notification Enabled</value>
+	</data>
+	<data name="plEmailNotificationStatus.Help">
+		<value>Would you like a message sent when this event occurs?</value>
+	</data>
+	<data name="plThreshold.Text">
+		<value>Occurance Threshold</value>
+	</data>
+	<data name="plMailFromAddress.Text">
+		<value>Mail From Address</value>
+	</data>
+	<data name="plMailFromAddress.Help">
+		<value>Email Address to send the Notification from</value>
+	</data>
+	<data name="plMailToAddress.Text">
+		<value>Mail To Address</value>
+	</data>
+	<data name="plMailToAddress.Help">
+		<value>Email Address to send the Notification to</value>
+	</data>
+	<data name="EmailSettings.Text">
+		<value>Email Notification Settings</value>
+	</data>
+	<data name="AddContent.Action">
+		<value>Add Log Configurations</value>
+	</data>
+	<data name="ConfigDeleted.Text">
+		<value>The selected log configuration has been deleted.</value>
+	</data>
+	<data name="ConfigUpdated.Text">
+		<value>Log configuration has been updated.</value>
+	</data>
+	<data name="ConfigAdded.Text">
+		<value>Log configuration has been added.</value>
+	</data>
+	<data name="LogEntry.Text">
+		<value> Log Entry</value>
+	</data>
+	<data name="LogEntries.Text">
+		<value> Log Entries</value>
+	</data>
+	<data name="Occurance.Text">
+		<value> Occurance</value>
+	</data>
+	<data name="Occurances.Text">
+		<value> Occurances</value>
+	</data>
+	<data name="In.Text">
+		<value>in</value>
+	</data>
+	<data name="ControlTitle_edit.Text">
+		<value>Edit Log Settings</value>
+	</data>
+	<data name="ModuleHelp.Text">
+		<value>&lt;h1&gt;About Log Viewer&lt;/h1&gt;&lt;p&gt;Allows you to edit portal events to log.&lt;/p&gt;</value>
+	</data>
+	<data name="DeleteError.Text">
+		<value>The selected log configuration could not be deleted. You should delete all existing log entries for this logtype first.</value>
+	</data>
+</root>

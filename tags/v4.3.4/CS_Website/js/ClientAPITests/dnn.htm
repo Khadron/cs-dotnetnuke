@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>dnn</title>
+<meta name=vs_defaultClientScript content="JavaScript">
+<meta name=vs_targetSchema content="http://schemas.microsoft.com/intellisense/ie3-2nav3-0">
+<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+<meta name=ProgId content=VisualStudio.HTML>
+<meta name=Originator content="Microsoft Visual Studio .NET 7.1">
+	<link href="dnnunittest.css" rel="stylesheet" type="text/css">
+
+	<script src="../dnn.js"></script>
+	<script src="../dnn.diagnostics.js"></script>
+	<script language=javascript>
+	<!--
+
+		__dnn.prototype.UnitTests = function()
+		{
+			if (dnn.diagnostics != null)
+			{
+				dnn.diagnostics.assertNotNaN('Checking API Version', dnn.apiversion);
+				dnn.diagnostics.assertNotNaN('getVars collection', dnn.getVars().length);
+				dnn.diagnostics.assertTrue('setVar', dnn.setVar('UnitTestVar', 'TestValue'));
+				dnn.diagnostics.assertEquals('getVar UnitTestVar', dnn.getVar('UnitTestVar'), 'TestValue');
+			}		
+		}
+	var m_sName = '<%=User.Name%>';
+	//-->
+	</script>
+	
+</head>
+<body>
+	<form>
+	<img src="poweredbydnn537x36.gif">	
+	<h1>DotNetNuke Client API - dnn Namespace</h1>	
+	<p class="summary">This is the root namespace for the DotNetNuke Client API.  In addition to being the central location to access
+	the object hierarchy, it offers some methods for transferring variables between client and server.</p>
+	<div class="funccontent">
+		<table>
+			<tr>
+				<td class="funcname">callPostBack</td>
+				<td class="funcdesc">Initiates a postback call for the passed in action.  In order to work the action will need to be registered on the server side.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sAction</td>
+				<td class="paramdesc">Action name to be raised</td>
+			</tr>
+			<tr>
+				<td class="paramname">N Parameters</td>
+				<td class="paramdesc">Pass in any number of parameters the postback requires.  Parameters should be in the form of 'paramname=paramvalue', 'paramname=paramvalue', 'paramname=paramvalue'</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">getVar</td>
+				<td class="funcdesc">Gets value for passed in variable name set on the server side by the RegisterClientVariable method.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sKey</td>
+				<td class="paramdesc">Name of parameter to retrieve value for</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Returns value variable or null if not set</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">getVars</td>
+				<td class="funcdesc">Gets array of name value pairs set on the server side by the RegisterClientVariable method.</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Array of name value pairs</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">setVar</td>
+				<td class="funcdesc">Sets value for variable to be sent to the server.</td>
+			</tr>
+			<tr>
+				<td class="paramname">sKey</td>
+				<td class="paramdesc">Name of parameter to set value for</td>
+			</tr>
+			<tr>
+				<td class="paramname">sVal</td>
+				<td class="paramdesc">Value for variable</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">true when successful</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+		</table>
+	</div>
+	<textarea id="__dnnDebugOutput" rows="10" cols="100" class="unittestcontent" NAME="__dnnDebugOutput"></textarea>
+	<br>
+	<input type="button" onclick="dnn_diagnosticTests(dnn);" value="Unit Tests" ID="Button1" NAME="Button1">
+	</form>
+</body>
+</html>

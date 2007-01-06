@@ -1,0 +1,214 @@
+/************************************************************/
+/*****              SqlDataProvider                     *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search and replace operation     *****/
+/*****       for {databaseOwner} and {objectQualifier}  *****/
+/*****                                                  *****/
+/************************************************************/
+
+
+CREATE TABLE {databaseOwner}{objectQualifier}Broadcasts (
+	[BroadcastID] [int] IDENTITY (1, 1) NOT NULL ,
+	[SourceServerID] [int] NOT NULL ,
+	[BroadcastType] [varchar] (50) NOT NULL ,
+	[BroadcastMessage] [nvarchar] (255) NOT NULL ,
+	[BroadcastDate] [datetime] NOT NULL 
+) ON [PRIMARY]
+GO
+
+CREATE TABLE {databaseOwner}{objectQualifier}CachedObjects (
+	[CachedObjectKey] [varchar] (255) NOT NULL ,
+	[SourceServerID] [int] NOT NULL ,
+	[CachedObjectValue] [ntext]  NOT NULL ,
+	[CreatedDate] [datetime] NOT NULL ,
+	[UpdatedDate] [datetime] NULL 
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+CREATE TABLE {databaseOwner}{objectQualifier}Servers (
+	[ServerID] [int] IDENTITY (1, 1) NOT NULL ,
+	[ServerName] [nvarchar] (75) NOT NULL ,
+	[CreatedDate] [datetime] NOT NULL ,
+	[LastPollDate] [datetime] NULL 
+) ON [PRIMARY]
+GO
+
+ALTER TABLE {databaseOwner}{objectQualifier}Broadcasts WITH NOCHECK ADD 
+	CONSTRAINT [PK_{objectQualifier}Broadcasts] PRIMARY KEY  CLUSTERED 
+	(
+		[BroadcastID]
+	)  ON [PRIMARY] 
+GO
+
+ALTER TABLE {databaseOwner}{objectQualifier}CachedObjects WITH NOCHECK ADD 
+	CONSTRAINT [PK_{objectQualifier}CachedObjects] PRIMARY KEY  CLUSTERED 
+	(
+		[CachedObjectKey]
+	)  ON [PRIMARY] 
+GO
+
+ALTER TABLE {databaseOwner}{objectQualifier}Servers WITH NOCHECK ADD 
+	CONSTRAINT [PK_{objectQualifier}Servers] PRIMARY KEY  CLUSTERED 
+	(
+		[ServerID]
+	)  ON [PRIMARY] 
+GO
+
+ALTER TABLE {databaseOwner}{objectQualifier}Broadcasts ADD 
+	CONSTRAINT [FK_{objectQualifier}Broadcasts_{objectQualifier}Servers] FOREIGN KEY 
+	(
+		[SourceServerID]
+	) REFERENCES {databaseOwner}{objectQualifier}Servers (
+		[ServerID]
+	)
+GO
+
+ALTER TABLE {databaseOwner}{objectQualifier}CachedObjects ADD 
+	CONSTRAINT [FK_{objectQualifier}CachedObjects_{objectQualifier}Servers] FOREIGN KEY 
+	(
+		[SourceServerID]
+	) REFERENCES {databaseOwner}{objectQualifier}Servers (
+		[ServerID]
+	)
+GO
+
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}GetCachedObject
+	@Key varchar(255)
+AS
+	SELECT *
+	FROM {databaseOwner}{objectQualifier}CachedObjects
+	WHERE CachedObjectKey = @Key
+	
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}AddServer
+	@ServerName nvarchar(75),
+	@ServerID int OUTPUT
+AS
+	INSERT INTO {databaseOwner}{objectQualifier}Servers
+	(ServerName,
+	CreatedDate)
+	VALUES
+	(@ServerName,
+	GetDate())
+
+	SET @ServerID = SCOPE_IDENTITY()
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}AddCachedObject
+	@Key varchar(255),	
+	@Value ntext,
+	@ServerName nvarchar(75)
+AS
+	DECLARE	@SourceServerID int
+	SET @SourceServerID = (SELECT ServerID FROM {databaseOwner}{objectQualifier}Servers WHERE ServerName = @ServerName)
+	IF @SourceServerID IS NULL
+	BEGIN
+		EXEC {databaseOwner}{objectQualifier}AddServer @ServerName, @SourceServerID
+	END
+	INSERT INTO {databaseOwner}{objectQualifier}CachedObjects
+	(CachedObjectKey,
+	SourceServerID,
+	CachedObjectValue,
+	CreatedDate,
+	UpdatedDate)
+	VALUES
+	(@Key,
+	@SourceServerID,
+	@Value,
+	GetDate(),
+	NULL)
+
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}DeleteCachedObject
+	@Key varchar(255)
+AS
+	DELETE FROM {databaseOwner}{objectQualifier}CachedObjects
+	WHERE CachedObjectKey = @Key
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}AddBroadcast
+	@BroadcastType varchar(50),	
+	@BroadcastMessage nvarchar(255),
+	@ServerName nvarchar(75)
+AS
+	DECLARE	@SourceServerID int
+	SET @SourceServerID = (SELECT ServerID FROM {databaseOwner}{objectQualifier}Servers WHERE ServerName = @ServerName)
+	IF @SourceServerID IS NULL
+	BEGIN
+		EXEC {databaseOwner}{objectQualifier}AddServer @ServerName, @SourceServerID
+	END
+
+	INSERT INTO {databaseOwner}{objectQualifier}Broadcasts
+	(BroadcastType,
+	BroadcastMessage,
+	SourceServerID,
+	BroadcastDate)
+	VALUES
+	(@BroadcastType,
+	@BroadcastMessage,
+	@SourceServerID,
+	GetDate())
+	
+	SELECT  SCOPE_IDENTITY()
+	
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}GetBroadcasts
+	@ServerName nvarchar(75)
+AS
+	DECLARE	@SourceServerID int
+	DECLARE	@LastPollDate datetime
+	SELECT @SourceServerID = ServerID, @LastPollDate = ISNULL(LastPollDate, '1/1/1900') FROM {databaseOwner}{objectQualifier}Servers WHERE ServerName = @ServerName
+	IF @SourceServerID IS NULL
+	BEGIN
+		EXEC {databaseOwner}{objectQualifier}AddServer @ServerName, @SourceServerID
+	END
+
+	UPDATE {databaseOwner}{objectQualifier}Servers SET LastPollDate = GetDate() WHERE ServerID = @SourceServerID
+	
+	SELECT B.*, S.ServerName
+	FROM {databaseOwner}{objectQualifier}Broadcasts B
+	INNER JOIN 	{databaseOwner}{objectQualifier}Servers S
+	ON B.SourceServerID = S.ServerID
+	WHERE B.SourceServerID<>@SourceServerID
+	AND B.BroadcastDate > @LastPollDate
+	
+	EXEC {databaseOwner}{objectQualifier}PurgeBroadcasts
+	EXEC {databaseOwner}{objectQualifier}PurgeCachedObjects
+	
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}PurgeBroadcasts
+AS
+	DELETE FROM {databaseOwner}{objectQualifier}Broadcasts
+	WHERE BroadcastDate < (SELECT Min(LastPollDate) FROM {databaseOwner}{objectQualifier}Servers WHERE ServerID<>{databaseOwner}{objectQualifier}Broadcasts.SourceServerID)
+
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}PurgeCachedObjects
+AS
+	DELETE FROM {databaseOwner}{objectQualifier}CachedObjects
+	WHERE CreatedDate < DATEADD(Hour, 2, GetDate())
+		AND UpdatedDate < DATEADD(Hour, 2, GetDate())
+
+GO
+
+INSERT INTO {databaseOwner}[{objectQualifier}Schedule] ([TypeFullName], [TimeLapse], [TimeLapseMeasurement], [RetryTimeLapse], [RetryTimeLapseMeasurement], [RetainHistoryNum], [AttachToEvent], [CatchUpEnabled], [Enabled], [ObjectDependencies], [Servers]) VALUES ('DotNetNuke.Services.Cache.BroadcastPollingCachingProvider.Poll, DotNetNuke.Caching.BroadcastPollingCachingProvider', 30, 's', 3, 'm', 1, '', 0, 1, '', NULL)
+
+GO
+
+
+
+/************************************************************/
+/*****              SqlDataProvider                     *****/
+/************************************************************/
+
+
+
+
