@@ -96,8 +96,7 @@ namespace DotNetNuke.UI.WebControls
 
         protected new void Page_Load( Object sender, EventArgs e )
         {
-            SetMenuDefaults();
-            base.Page_Load(sender, e);
+            SetMenuDefaults();            
         }
 
         private void SetMenuDefaults()

@@ -82,16 +82,16 @@
 				</tr>
 			</table>
 			<p>
-				<asp:linkbutton id="cmdUpdate" resourcekey="cmdUpdate" text="Update" runat="server" class="CommandButton"
+				<asp:linkbutton id="cmdUpdate" resourcekey="cmdUpdate" text="Update" runat="server" cssclass="CommandButton"
 					borderstyle="none" OnClick="cmdUpdate_Click" />
 				&nbsp;
 				<asp:linkbutton id="cmdCancel" resourcekey="cmdCancel" text="Cancel" causesvalidation="False" runat="server"
-					class="CommandButton" borderstyle="none" OnClick="cmdCancel_Click" />
+					cssclass="CommandButton" borderstyle="none" OnClick="cmdCancel_Click" />
 				&nbsp;
 				<asp:linkbutton id="cmdDelete" resourcekey="cmdDelete" text="Delete" causesvalidation="False" runat="server"
-					class="CommandButton" borderstyle="none" OnClick="cmdDelete_Click" />
+					cssclass="CommandButton" borderstyle="none" OnClick="cmdDelete_Click" />
 			</p>
-			<hr>
+			<hr/>
 			<table id="tabDefinitions" runat="server" cellspacing="0" cellpadding="4" border="0" summary="Module Definitions Design Table">
 				<tr>
 					<td class="SubHead" width="150" valign="top"><dnn:label id="plDefinitions" text="Definitions:" controlname="cboDefinitions" runat="server" /></td>
@@ -100,7 +100,7 @@
 							datavaluefield="ModuleDefId" autopostback="True" OnSelectedIndexChanged="cboDefinitions_SelectedIndexChanged"></asp:dropdownlist>
 						&nbsp;&nbsp;
 						<asp:linkbutton id="cmdDeleteDefinition" resourcekey="cmdDeleteDefinition" text="Delete Definition"
-							runat="server" class="CommandButton" borderstyle="none" OnClick="cmdDeleteDefinition_Click" />
+							runat="server" cssclass="CommandButton" borderstyle="none" OnClick="cmdDeleteDefinition_Click" />
 					</td>
 				</tr>
 				<tr>
@@ -110,7 +110,7 @@
 							runat="server" />
 						&nbsp;&nbsp;
 						<asp:linkbutton id="cmdAddDefinition" resourcekey="cmdAddDefinition" text="Add Definition" runat="server"
-							class="CommandButton" borderstyle="none" OnClick="cmdAddDefinition_Click" />
+							cssclass="CommandButton" borderstyle="none" OnClick="cmdAddDefinition_Click" />
 					</td>
 				</tr>
 			</table>
@@ -124,11 +124,11 @@
 							runat="server" />
 						&nbsp;&nbsp;
 						<asp:linkbutton id="cmdUpdateCacheTime" resourcekey="cmdUpdateCacheTime" text="Update Cache Time"
-							runat="server" class="CommandButton" borderstyle="none" OnClick="cmdUpdateCacheTime_Click" />
+							runat="server" cssclass="CommandButton" borderstyle="none" OnClick="cmdUpdateCacheTime_Click" />
 					</td>
 				</tr>
 			</table>
-			<hr>
+			<hr/>
 			<table id="tabControls" runat="server" cellspacing="0" cellpadding="4" border="0" width="100%"
 				summary="Module Definitions Design Table">
 				<tr>
@@ -160,7 +160,7 @@
 						</asp:datagrid>
 						<p>
 							<asp:linkbutton id="cmdAddControl" resourcekey="cmdAddControl" text="Add Control" runat="server"
-								class="CommandButton" borderstyle="none" OnClick="cmdAddControl_Click" />
+								cssclass="CommandButton" borderstyle="none" OnClick="cmdAddControl_Click" />
 						</p>
 					</td>
 				</tr>

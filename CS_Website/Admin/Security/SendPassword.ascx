@@ -1,6 +1,6 @@
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke" Namespace="DotNetNuke.UI.WebControls"%>
-<%@ Control Language="C#" Inherits="DotNetNuke.Modules.Admin.Security.SendPassword" CodeFile="SendPassword.ascx.cs" AutoEventWireup="true" Explicit="True" %>
+<%@ Control Language="C#" Inherits="DotNetNuke.Modules.Admin.Security.SendPassword" CodeFile="SendPassword.ascx.cs" AutoEventWireup="true"  %>
 <table cellspacing="0" cellpadding="3" border="0" summary="SignIn Design Table" width="160">
 	<tr>
 		<td width="160" class="SubHead"><dnn:label id="plUsername" controlname="txtUsername" runat="server" text="UserName:"></dnn:label></td>
@@ -33,7 +33,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td><dnn:commandbutton id="cmdSendPassword" imageurl="~/images/password.gif" resourcekey="cmdSendPassword" cssclass="CommandButton" runat="server" OnClick="cmdSendPassword_Click"/></td>
+		<td><dnn:commandbutton id="cmdSendPassword" imageurl="~/images/password.gif" resourcekey="cmdSendPassword" cssclass="CommandButton" runat="server"/></td>
 	</tr>
 	<tr>
 		<td width="160"><asp:label id="lblLogin" cssclass="Normal" runat="server" /></td>

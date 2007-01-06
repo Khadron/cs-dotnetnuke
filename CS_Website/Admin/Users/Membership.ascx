@@ -10,16 +10,16 @@
 <p align="center">
 	<dnn:commandbutton id="cmdAuthorize" runat="server" 
 		resourcekey="cmdAuthorize" imageurl="~/images/checked.gif" 
-		causesvalidation="False" OnClick="cmdAuthorize_Click" />
+		causesvalidation="False" />
 	<dnn:commandbutton id="cmdUnAuthorize" runat="server" 
 		resourcekey="cmdUnAuthorize" imageurl="~/images/unchecked.gif" 
-		causesvalidation="False" OnClick="cmdUnAuthorize_Click" />
+		causesvalidation="False" />
 	&nbsp;&nbsp;
 	<dnn:commandbutton id="cmdUnLock" runat="server" 
 		resourcekey="cmdUnLock" imageurl="~/images/icon_securityroles_16px.gif" 
-		causesvalidation="False" OnClick="cmdUnLock_Click" />
+		causesvalidation="False" />
 	&nbsp;&nbsp;
 	<dnn:commandbutton id="cmdPassword" runat="server" 
 		resourcekey="cmdPassword" imageurl="~/images/icon_securityroles_16px.gif" 
-		causesvalidation="False" OnClick="cmdPassword_Click" />
+		causesvalidation="False" />
 </p>

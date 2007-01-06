@@ -118,8 +118,9 @@ namespace DotNetNuke.UI.WebControls
             }
             set
             {
-                this.EnsureChildControls();
                 this.icon.ImageUrl = value;
+                this.EnsureChildControls();
+                
             }
         }
 
@@ -134,7 +135,7 @@ namespace DotNetNuke.UI.WebControls
             set
             {
                 this.EnsureChildControls();
-                if (value == "")
+                if (String.IsNullOrEmpty(value))
                 {
                     icon.Attributes.Remove("onclick");
                     link.Attributes.Remove("onclick");
@@ -158,7 +159,7 @@ namespace DotNetNuke.UI.WebControls
             set
             {
                 this.EnsureChildControls();
-                if (value == "")
+                if (String.IsNullOrEmpty(value))
                 {
                     icon.Attributes.Remove("resourcekey");
                     link.Attributes.Remove("resourcekey");
@@ -227,6 +228,8 @@ namespace DotNetNuke.UI.WebControls
                 link.CssClass = CssClass;
                 link.EnableViewState = this.EnableViewState;
             }
+
+            
         }
 
         /// <Summary>

@@ -346,11 +346,12 @@ namespace DotNetNuke.Framework
             Exception exc = Server.GetLastError();
             string strURL = Globals.ApplicationURL();
             if (Request.QueryString["error"] != null)
-            {
+            {                
                 strURL += ((strURL.IndexOf("?") == -1) ? "?" : "&") + "error=terminate";
             }
             else
             {
+// TODO AC remove this line and return to default behavior after all the bugs are fixed.                
 //                strURL += ((strURL.IndexOf("?") == -1) ? "?" : "&") + "error=" + Server.UrlEncode(exc.Message);
                 strURL += ((strURL.IndexOf("?") == -1) ? "?" : "&") + "error=" + Server.UrlEncode("Message: " + exc.Message + "---" + "StackTrace: " + exc.StackTrace);
                 if (!Globals.IsAdminControl())

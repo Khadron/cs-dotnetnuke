@@ -114,7 +114,7 @@ namespace DotNetNuke.Modules.Admin.Users
         {
             get
             {
-                return ( ( Request.QueryString["filter"] != "" ) ? ( Request.QueryString["filter"] ) : "" ).ToString();
+                return ( ( Request.QueryString["filter"] != null ) ? ( Request.QueryString["filter"] ) : "" ).ToString();
             }
         }
 
@@ -512,6 +512,23 @@ namespace DotNetNuke.Modules.Admin.Users
             //Set the Services Control Properties
             ctlServices.ID = "MemberServices";
             ctlServices.UserId = UserId;
+
+            
+            cmdPassword.Click += new EventHandler(cmdPassword_Click);
+            cmdProfile.Click += new EventHandler(cmdProfile_Click);
+            cmdRegister.Click += new EventHandler(cmdRegister_Click);
+            cmdRoles.Click += new EventHandler(cmdRoles_Click);
+            cmdServices.Click += new EventHandler(cmdServices_Click);
+            cmdUser.Click += new EventHandler(cmdUser_Click);
+            ctlMembership.MembershipAuthorized += new EventHandler(MembershipAuthorized);
+            ctlMembership.MembershipUnAuthorized += new EventHandler(MembershipUnAuthorized);
+            ctlMembership.MembershipUnLocked += new EventHandler(MembershipUnLocked);
+            ctlPassword.PasswordQuestionAnswerUpdated += new Password.PasswordUpdatedEventHandler(PasswordQuestionAnswerUpdated);
+            ctlPassword.PasswordUpdated += new Password.PasswordUpdatedEventHandler(PasswordUpdated);
+            ctlProfile.ProfileUpdateCompleted += new EventHandler(ProfileUpdateCompleted);
+            ctlUser.UserCreateCompleted += new User.UserCreatedEventHandler(UserCreateCompleted);
+            ctlUser.UserDeleted += new User.UserDeletedEventHandler(UserDeleted);
+            ctlUser.UserUpdateCompleted += new EventHandler(UserUpdateCompleted);
         }
 
         /// <summary>

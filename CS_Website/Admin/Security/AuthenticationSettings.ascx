@@ -50,7 +50,7 @@
 					<td vAlign="top" noWrap><asp:textbox id="txtEmailDomain" runat="server" cssclass="NormalTextBox" Width="300px"></asp:textbox></td>
 				</tr>
 			</table>
-			<P><asp:linkbutton class="CommandButton" id="cmdUpdate" runat="server" text="Update" resourcekey="cmdUpdate" OnClick="cmdAuthenticationUpdate_Click"></asp:linkbutton></P>
+			<P><asp:linkbutton cssclass="CommandButton" id="cmdUpdate" runat="server" text="Update" resourcekey="cmdUpdate" OnClick="cmdAuthenticationUpdate_Click"></asp:linkbutton></P>
 		</td>
 	</tr>
 </table>

@@ -20,7 +20,6 @@
 using System;
 using System.IO;
 using DotNetNuke.Entities.Modules.Definitions;
-using DotNetNuke.Services.Exceptions;
 
 namespace DotNetNuke.Modules.Admin.ResourceInstaller
 {
@@ -66,8 +65,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                     break;
                 case ModuleDefinitionVersion.VUnknown:
 
-                    throw (new Exception(EXCEPTION_Format));
-                    break;
+                    throw (new Exception(EXCEPTION_Format));                    
             }
 
             return retValue;

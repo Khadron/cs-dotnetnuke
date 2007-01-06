@@ -1,4 +1,4 @@
-<%@ Control Language="C#" CodeFile="Register.ascx.cs" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Security.Register" %>
+<%@ Control Language="C#" CodeFile="Register.ascx.cs" AutoEventWireup="true"  Inherits="DotNetNuke.Modules.Admin.Security.Register" %>
 <%@ Register TagPrefix="dnn" TagName="Address" Src="~/controls/Address.ascx"%>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="Sectionhead" Src="~/controls/SectionHeadControl.ascx" %>
@@ -53,7 +53,7 @@
 			<td colSpan="2">
 				<asp:linkbutton class="CommandButton" id="cmdUpdatePassword" runat="server" resourcekey="cmdUpdatePassword" text="Update Password" OnClick="cmdUpdatePassword_Click"></asp:linkbutton></td></tr></table>
 </asp:panel>
-<br>
+<br/>
 <asp:panel id="ServicesRow" runat="server">
 	<dnn:sectionhead id="dshServices" runat="server" cssclass="Head" section="tblServices" includerule="True" resourcekey="Services" text="Membership Services" isExpanded="False"></dnn:sectionhead>
 	<table id="tblServices" cellSpacing="0" cellPadding="4" width="600" summary="Register Design Table" border="0" runat="server">

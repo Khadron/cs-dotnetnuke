@@ -89,6 +89,10 @@ namespace DotNetNuke.Modules.Admin.Users
         /// </history>
         private void Page_Init( Object sender, EventArgs e )
         {
+            this.cmdCancel.Click+=new EventHandler(cmdCancel_Click);
+            this.cmdDelete.Click +=new EventHandler(cmdDelete_Click);
+            this.cmdUpdate.Click +=new EventHandler(cmdUpdate_Click);
+
             //Get Property Definition Id from Querystring
             if( ( Request.QueryString["PropertyDefinitionId"] != null ) )
             {

@@ -154,7 +154,7 @@ namespace DotNetNuke.Security
 
         public string Encrypt( string strKey, string strData )
         {
-            string strValue = "";
+            string strValue;
 
             if( !String.IsNullOrEmpty(strKey) )
             {
@@ -424,7 +424,7 @@ namespace DotNetNuke.Security
                 {
                     RemoveAngleBrackets = bool.Parse( Config.GetSetting( "RemoveAngleBrackets" ) );
                 }
-                if( RemoveAngleBrackets == true )
+                if( RemoveAngleBrackets  )
                 {
                     TempInput = FormatAngleBrackets( TempInput );
                 }
@@ -462,7 +462,7 @@ namespace DotNetNuke.Security
             UserInfo objUserInfo = UserController.GetCurrentUserInfo();
             HttpContext context = HttpContext.Current;
 
-            if( !String.IsNullOrEmpty(role) && role != null && ( context.Request.IsAuthenticated == false && role == Globals.glbRoleUnauthUserName ) )
+            if( !String.IsNullOrEmpty(role) &&  ( context.Request.IsAuthenticated == false && role == Globals.glbRoleUnauthUserName ) )
             {
                 return true;
             }
@@ -478,12 +478,13 @@ namespace DotNetNuke.Security
             {
                 HttpContext context = HttpContext.Current;
                 UserInfo objUserInfo = UserController.GetCurrentUserInfo();
-                string role;
 
-                foreach( string tempLoopVar_role in roles.Split( new char[] {';'} ) )
+                string[] availableRoles = roles.Split( new char[] {';'} );
+                
+                for( int i = 0; i < availableRoles.Length; i++ )
                 {
-                    role = tempLoopVar_role;
-                    if( objUserInfo.IsSuperUser || ( !String.IsNullOrEmpty(role) && role != null && ( ( context.Request.IsAuthenticated == false && role == Globals.glbRoleUnauthUserName ) || role == Globals.glbRoleAllUsersName || objUserInfo.IsInRole( role ) == true ) ) )
+                    string role = availableRoles[i];
+                    if( objUserInfo.IsSuperUser || ( !String.IsNullOrEmpty( role ) && ( ( context.Request.IsAuthenticated == false && role == Globals.glbRoleUnauthUserName ) || role == Globals.glbRoleAllUsersName || objUserInfo.IsInRole( role )  ) ) )
                     {
                         return true;
                     }

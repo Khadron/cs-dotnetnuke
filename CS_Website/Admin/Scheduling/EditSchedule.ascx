@@ -1,4 +1,4 @@
-<%@ Control AutoEventWireup="true" CodeFile="EditSchedule.ascx.cs" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Scheduling.EditSchedule" Language="C#" %>
+<%@ Control AutoEventWireup="true" CodeFile="EditSchedule.ascx.cs"  Inherits="DotNetNuke.Modules.Admin.Scheduling.EditSchedule" Language="C#" %>
 <%@ Register Src="~/controls/LabelControl.ascx" TagName="Label" TagPrefix="dnn" %>
 <asp:Panel ID="pnlScheduleItem" runat="server">
     <table border="0" cellpadding="3" cellspacing="0" summary="Edit Schedule" width="750">

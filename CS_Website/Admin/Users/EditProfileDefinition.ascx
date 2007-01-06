@@ -10,7 +10,7 @@
 	editcontrolwidth="250px" 
 	width="450px"/>
 <p>
-	<dnn:commandbutton class="CommandButton" id="cmdUpdate" imageUrl="~/images/save.gif" resourcekey="cmdUpdate" runat="server" text="Update" OnClick="cmdUpdate_Click"/>&nbsp;
-	<dnn:commandbutton class="CommandButton" id="cmdCancel" imageUrl="~/images/lt.gif" resourcekey="cmdCancel" runat="server" text="Cancel" causesvalidation="False" OnClick="cmdCancel_Click" />&nbsp;
-	<dnn:commandbutton class="CommandButton" id="cmdDelete" imageUrl="~/images/delete.gif" resourcekey="cmdDelete" runat="server" text="Delete" causesvalidation="False" OnClick="cmdDelete_Click" />
+	<dnn:commandbutton cssclass="CommandButton" id="cmdUpdate" imageUrl="~/images/save.gif" resourcekey="cmdUpdate" runat="server" text="Update" />&nbsp;
+	<dnn:commandbutton cssclass="CommandButton" id="cmdCancel" imageUrl="~/images/lt.gif" resourcekey="cmdCancel" runat="server" text="Cancel" causesvalidation="False"  />&nbsp;
+	<dnn:commandbutton cssclass="CommandButton" id="cmdDelete" imageUrl="~/images/delete.gif" resourcekey="cmdDelete" runat="server" text="Delete" causesvalidation="False"  />
 </p>

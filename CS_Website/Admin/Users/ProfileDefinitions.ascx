@@ -33,8 +33,8 @@
 <br/>
 <br/>
 <p>
-	<dnn:commandbutton class="CommandButton" id="cmdUpdate" imageUrl="~/images/save.gif" resourcekey="cmdUpdate"
-		runat="server" text="Update" OnClick="cmdUpdate_Click" />&nbsp;
-	<dnn:commandbutton class="CommandButton" id="cmdRefresh" imageUrl="~/images/refresh.gif" resourcekey="cmdRefresh"
-		runat="server" text="Refresh" OnClick="cmdRefresh_Click" />&nbsp;
+	<dnn:commandbutton cssclass="CommandButton" id="cmdUpdate" imageUrl="~/images/save.gif" resourcekey="cmdUpdate"
+		runat="server" text="Update" />&nbsp;
+	<dnn:commandbutton cssclass="CommandButton" id="cmdRefresh" imageUrl="~/images/refresh.gif" resourcekey="cmdRefresh"
+		runat="server" text="Refresh" />&nbsp;
 </p>

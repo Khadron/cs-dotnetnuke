@@ -113,6 +113,13 @@ namespace DotNetNuke.Modules.Admin.Users
             }
         }
 
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            this.cmdReset.Click+=new EventHandler(cmdReset_Click);
+            this.cmdUpdate.Click+=new EventHandler(cmdUpdate_Click);
+            this.cmdUpdateQA.Click+=new EventHandler(cmdUpdateQA_Click);
+        }
+
         /// <summary>
         /// DataBind binds the data to the controls
         /// </summary>

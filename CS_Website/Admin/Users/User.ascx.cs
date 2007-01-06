@@ -405,6 +405,12 @@ namespace DotNetNuke.Modules.Admin.Users
             UserEditor.LocalResourceFile = this.LocalResourceFile;
         }
 
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            this.cmdUpdate.Click += new EventHandler(cmdUpdate_Click);
+            this.cmdDelete.Click += new EventHandler(cmdDelete_Click);
+        }
+
         /// <summary>
         /// cmdDelete_Click runs when the delete Button is clicked
         /// </summary>

@@ -1,49 +1,62 @@
-<%@ Control Language="C#" AutoEventWireup="true" Inherits="DotNetNuke.Services.Localization.LanguagePack"
-    CodeFile="LanguagePack.ascx.cs" %>
-<%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
-<%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
+<%@ Control AutoEventWireup="true" CodeFile="LanguagePack.ascx.cs" Inherits="DotNetNuke.Services.Localization.LanguagePack" Language="C#" %>
+<%@ Register Src="~/controls/LabelControl.ascx" TagName="Label" TagPrefix="dnn" %>
+<%@ Register Src="~/controls/SectionHeadControl.ascx" TagName="SectionHead" TagPrefix="dnn" %>
 <table>
-	<tr>
-		<td class="SubHead" vAlign="middle" width="150"><dnn:label id="lbLocale" text="Resource Locale" controlname="cboLanguage" runat="server"></dnn:label></td>
-		<td vAlign="top"><asp:dropdownlist id="cboLanguage" runat="server"></asp:dropdownlist></td>
-	</tr>
-	<TR>
-		<TD class="SubHead" vAlign="middle" width="150"><dnn:label id="lblType" text="Resource Locale" controlname="cboLanguage" runat="server"></dnn:label></TD>
-		<TD vAlign="top"><asp:radiobuttonlist id="rbPackType" runat="server" AutoPostBack="True" CellSpacing="0" CellPadding="0"
-				RepeatDirection="Horizontal" CssClass="Normal" OnSelectedIndexChanged="rbPackType_SelectedIndexChanged">
-				<asp:ListItem resourcekey="Core.LangPackType" Value="Core" Selected="True">Core</asp:ListItem>
-				<asp:ListItem resourcekey="Module.LangPackType" Value="Module">Module</asp:ListItem>
-				<asp:ListItem resourcekey="Provider.LangPackType" Value="Provider">Provider</asp:ListItem>
-				<asp:ListItem resourcekey="Full.LangPackType" Value="Full">Full</asp:ListItem>
-			</asp:radiobuttonlist></TD>
-	</TR>
-	<TR id="rowitems" runat="server">
-		<TD vAlign="middle" width="150"></TD>
-		<TD vAlign="top"><asp:label id="lblItems" runat="server" CssClass="SubHead"></asp:label><BR>
-			<asp:listbox id="lbItems" runat="server" Rows="7" Width="300px"></asp:listbox></TD>
-	</TR>
-	<TR>
-		<TD class="SubHead" vAlign="middle" width="150"><dnn:label id="lblName" text="Resource Locale" controlname="cboLanguage" runat="server"></dnn:label></TD>
-		<TD vAlign="top">
-			<asp:Label id="Label2" runat="server" CssClass="Normal">ResourcePack.</asp:Label><asp:textbox id="txtFileName" runat="server" Width="200px">Core</asp:textbox>
-			<asp:Label id="lblFilenameFix" runat="server" CssClass="Normal">.&lt;version&gt;.&lt;locale&gt;.zip</asp:Label></TD>
-	</TR>
-	<TR>
-		<TD class="SubHead" vAlign="middle" width="150"></TD>
-		<TD vAlign="top"><asp:linkbutton id="cmdCreate" runat="server" CssClass="CommandButton" resourcekey="cmdCreate" Text="Create" OnClick="cmdCreate_Click"></asp:linkbutton>&nbsp;
-			<asp:linkbutton id="cmdCancel" runat="server" CssClass="CommandButton" resourcekey="cmdCancel" Text="Cancel" OnClick="cmdCancel_Click"></asp:linkbutton></TD>
-	</TR>
+    <tr>
+        <td class="SubHead" valign="middle" width="150">
+            <dnn:Label ID="lbLocale" runat="server" ControlName="cboLanguage" Text="Resource Locale" />
+        </td>
+        <td valign="top">
+            <asp:DropDownList ID="cboLanguage" runat="server">
+            </asp:DropDownList></td>
+    </tr>
+    <tr>
+        <td class="SubHead" valign="middle" width="150">
+            <dnn:Label ID="lblType" runat="server" ControlName="cboLanguage" Text="Resource Locale" />
+        </td>
+        <td valign="top">
+            <asp:RadioButtonList ID="rbPackType" runat="server" AutoPostBack="True" CellPadding="0" CellSpacing="0" CssClass="Normal" OnSelectedIndexChanged="rbPackType_SelectedIndexChanged"
+                RepeatDirection="Horizontal">
+                <asp:ListItem resourcekey="Core.LangPackType" Selected="True" Value="Core">Core</asp:ListItem>
+                <asp:ListItem resourcekey="Module.LangPackType" Value="Module">Module</asp:ListItem>
+                <asp:ListItem resourcekey="Provider.LangPackType" Value="Provider">Provider</asp:ListItem>
+                <asp:ListItem resourcekey="Full.LangPackType" Value="Full">Full</asp:ListItem>
+            </asp:RadioButtonList></td>
+    </tr>
+    <tr id="rowitems" runat="server">
+        <td valign="middle" width="150">
+        </td>
+        <td valign="top">
+            <asp:Label ID="lblItems" runat="server" CssClass="SubHead"></asp:Label><br>
+            <asp:ListBox ID="lbItems" runat="server" Rows="7" Width="300px"></asp:ListBox></td>
+    </tr>
+    <tr>
+        <td class="SubHead" valign="middle" width="150">
+            <dnn:Label ID="lblName" runat="server" ControlName="cboLanguage" Text="Resource Locale" />
+        </td>
+        <td valign="top">
+            <asp:Label ID="Label2" runat="server" CssClass="Normal">ResourcePack.</asp:Label><asp:TextBox ID="txtFileName" runat="server" Width="200px">Core</asp:TextBox>
+            <asp:Label ID="lblFilenameFix" runat="server" CssClass="Normal">.&lt;version&gt;.&lt;locale&gt;.zip</asp:Label></td>
+    </tr>
+    <tr>
+        <td class="SubHead" valign="middle" width="150">
+        </td>
+        <td valign="top">
+            <asp:LinkButton ID="cmdCreate" runat="server" CssClass="CommandButton" OnClick="cmdCreate_Click" resourcekey="cmdCreate" Text="Create"></asp:LinkButton>&nbsp;
+            <asp:LinkButton ID="cmdCancel" runat="server" CssClass="CommandButton" OnClick="cmdCancel_Click" resourcekey="cmdCancel" Text="Cancel"></asp:LinkButton></td>
+    </tr>
 </table>
-<P></P>
-<asp:panel id="pnlLogs" runat="server" Visible="False">
-	<dnn:sectionhead id="dshBasic" runat="server" text="Language Pack Log" resourcekey="LogTitle" cssclass="Head"
-		includerule="True" section="divLog"></dnn:sectionhead>
-	<DIV id="divLog" runat="server">
-		<asp:HyperLink id="hypLink" runat="server" CssClass="CommandButton"></asp:HyperLink>
-		<HR>
-		<asp:Label id="lblMessage" runat="server"></asp:Label></DIV>
-</asp:panel>
-<script language="javascript">
+<p>
+</p>
+<asp:Panel ID="pnlLogs" runat="server" Visible="False">
+    <dnn:SectionHead ID="dshBasic" runat="server" CssClass="Head" IncludeRule="True" ResourceKey="LogTitle" Section="divLog" Text="Language Pack Log" />
+    <div id="divLog" runat="server">
+        <asp:HyperLink ID="hypLink" runat="server" CssClass="CommandButton"></asp:HyperLink>
+        <hr/>
+        <asp:Label ID="lblMessage" runat="server"></asp:Label></div>
+</asp:Panel>
+
+<script type="text/javascript">
 function changeItem(l,t)
 {
 	var sel=document.getElementById(l);
@@ -62,3 +75,4 @@ function changeItem(l,t)
 	}
 }
 </script>
+

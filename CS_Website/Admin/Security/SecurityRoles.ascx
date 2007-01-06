@@ -1,4 +1,4 @@
-<%@ Control Language="C#" CodeFile="SecurityRoles.ascx.cs" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Security.SecurityRoles" %>
+<%@ Control Language="C#" CodeFile="SecurityRoles.ascx.cs" AutoEventWireup="true"  Inherits="DotNetNuke.Modules.Admin.Security.SecurityRoles" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke" Namespace="DotNetNuke.UI.WebControls"%>
 <table class="Settings" cellspacing="2" cellpadding="2" summary="Security Roles Design Table" border="0">
@@ -38,7 +38,7 @@
 						</td>
 						<td width="10"></td>
 						<td valign="top" width="160">
-							<dnn:commandbutton id="cmdAdd" cssclass="CommandButton" runat="server" ImageUrl="~/images/add.gif" OnClick="cmdAdd_Click" />
+							<dnn:commandbutton id="cmdAdd" cssclass="CommandButton" runat="server" ImageUrl="~/images/add.gif"/>
 						</td>
 					</tr>
 				</table>

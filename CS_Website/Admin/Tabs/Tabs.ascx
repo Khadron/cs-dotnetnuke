@@ -1,4 +1,4 @@
-<%@ Control Inherits="DotNetNuke.Modules.Admin.Tabs.Tabs" Language="C#" AutoEventWireup="true" Explicit="True" CodeFile="Tabs.ascx.cs" %>
+<%@ Control Inherits="DotNetNuke.Modules.Admin.Tabs.Tabs" Language="C#" AutoEventWireup="true"  CodeFile="Tabs.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="HelpButton" Src="~/controls/HelpButtonControl.ascx" %>
 <table class="Settings" cellspacing="2" cellpadding="2" summary="Tabs Design Table" border="0">
 	<tr>
@@ -57,7 +57,7 @@
 								<tr>
 									<td colspan="2" valign="top" class="SubHead">
 										<asp:label id="lblActions" runat="server" resourcekey="Actions">Actions</asp:label>
-										<hr noshade size="1">
+										<hr noshade size="1"/>
 									</td>
 								</tr>
 								<tr>

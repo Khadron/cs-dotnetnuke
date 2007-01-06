@@ -387,9 +387,9 @@ namespace DotNetNuke.UI.WebControls
 
             string[] Settings = encodedText.Split(_Separator.ToCharArray()[0]);
             int width = int.Parse(Settings[0]);
-            int height = int.Parse(Settings[1]);
-            string text = Settings[2];
-            string backgroundImage = Settings[3];
+            int height = int.Parse(Settings[2]);
+            string text = Settings[4];
+            string backgroundImage = Settings[6];
 
             Bitmap bmp;
             Graphics g;

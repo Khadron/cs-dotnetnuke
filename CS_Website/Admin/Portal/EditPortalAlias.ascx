@@ -1,6 +1,6 @@
-<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Portals.EditPortalAlias" CodeFile="EditPortalAlias.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true"  Inherits="DotNetNuke.Modules.Admin.Portals.EditPortalAlias" CodeFile="EditPortalAlias.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
-<br>
+<br/>
 <table border="0" cellspacing="2" cellpadding="2">
 	<tr>
 		<td class="SubHead"><dnn:label id="plAlias" runat="server" controlname="txtAlias" suffix=":"></dnn:label></td>

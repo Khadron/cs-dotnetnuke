@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.ModuleDefinitions.EditModuleControl" CodeFile="EditModuleControl.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true"  Inherits="DotNetNuke.Modules.Admin.ModuleDefinitions.EditModuleControl" CodeFile="EditModuleControl.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <table cellspacing="0" cellpadding="4" border="0" summary="Module Controls Design Table">
 	<tr>
@@ -52,12 +52,12 @@
 	</tr>
 </table>
 <p>
-	<asp:linkbutton id="cmdUpdate" resourcekey="cmdUpdate" text="Update" runat="server" class="CommandButton"
+	<asp:linkbutton id="cmdUpdate" resourcekey="cmdUpdate" text="Update" runat="server" cssclass="CommandButton"
 		borderstyle="none" OnClick="cmdUpdate_Click" />
 	&nbsp;
 	<asp:linkbutton id="cmdCancel" resourcekey="cmdCancel" text="Cancel" causesvalidation="False" runat="server"
-		class="CommandButton" borderstyle="none" OnClick="cmdCancel_Click" />
+		cssclass="CommandButton" borderstyle="none" OnClick="cmdCancel_Click" />
 	&nbsp;
 	<asp:linkbutton id="cmdDelete" resourcekey="cmdDelete" text="Delete" causesvalidation="False" runat="server"
-		class="CommandButton" borderstyle="none" OnClick="cmdDelete_Click" />
+		cssclass="CommandButton" borderstyle="none" OnClick="cmdDelete_Click" />
 </p>

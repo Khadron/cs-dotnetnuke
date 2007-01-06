@@ -26,7 +26,6 @@ using DotNetNuke.Modules.HTMLEditorProvider;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Personalization;
-using Microsoft.VisualBasic;
 
 namespace DotNetNuke.UI.UserControls
 {
@@ -35,7 +34,7 @@ namespace DotNetNuke.UI.UserControls
     /// TextEditor is a user control that provides a wrapper for the HtmlEditor providers
     /// </Summary>
     [ValidationProperty( "Text" )]
-    public class TextEditor : UserControl
+    public partial class TextEditor : UserControl
     {
         private bool _ChooseMode = true;
         private bool _ChooseRender = true;

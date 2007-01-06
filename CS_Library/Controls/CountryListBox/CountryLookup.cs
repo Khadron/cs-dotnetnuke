@@ -20,7 +20,6 @@
 using System;
 using System.IO;
 using System.Net;
-using Microsoft.VisualBasic;
 
 namespace DotNetNuke.UI.WebControls
 {
@@ -43,29 +42,29 @@ namespace DotNetNuke.UI.WebControls
             m_MemoryStream = ms;
         }
 
-        public CountryLookup( string FileLocation )
+        public CountryLookup( string fileLocation )
         {
             // Load the passed in GeoIP Data file to the memorystream
 
-            FileStream _FileStream = new FileStream( FileLocation, FileMode.Open, FileAccess.Read );
+            FileStream fileStream = new FileStream( fileLocation, FileMode.Open, FileAccess.Read );
             m_MemoryStream = new MemoryStream();
-            byte[] _Byte = new byte[257];
-            while( _FileStream.Read( _Byte, 0, _Byte.Length ) != 0 )
+            byte[] buffer = new byte[257];
+            while( fileStream.Read( buffer, 0, buffer.Length ) != 0 )
             {
-                m_MemoryStream.Write( _Byte, 0, _Byte.Length );
+                m_MemoryStream.Write( buffer, 0, buffer.Length );
             }
-            _FileStream.Close();
+            fileStream.Close();
         }
 
-        private long ConvertIPAddressToNumber( IPAddress _IPAddress )
+        private long ConvertIPAddressToNumber( IPAddress ipAddress )
         {
             // Convert an IP Address, (e.g. 127.0.0.1), to the numeric equivalent
 
-            string[] _Address = _IPAddress.ToString().Split( '.' );
+            string[] address = ipAddress.ToString().Split( '.' );
 
-            if( ( _Address.Length - 1 ) == 3 )
+            if( ( address.Length - 1 ) == 3 )
             {
-                return ( (long)( 16777216*Convert.ToDouble( _Address[0] ) + 65536*Convert.ToDouble( _Address[1] ) + 256*Convert.ToDouble( _Address[2] ) + Convert.ToDouble( _Address[3] ) ) );
+                return ( (long)( 16777216*Convert.ToDouble( address[0] ) + 65536*Convert.ToDouble( address[1] ) + 256*Convert.ToDouble( address[2] ) + Convert.ToDouble( address[3] ) ) );
             }
             else
             {
@@ -73,35 +72,34 @@ namespace DotNetNuke.UI.WebControls
             }
         }
 
-        public static MemoryStream FileToMemory( string FileLocation )
+        public static MemoryStream FileToMemory( string fileLocation )
         {
             // Read a given file into a Memory Stream to return as the result
 
-            FileStream _FileStream;
-            MemoryStream _MemStream = new MemoryStream();
-            byte[] _Byte = new byte[257];
+            MemoryStream memStream = new MemoryStream();
+            byte[] buffer = new byte[257];
             try
             {
-                _FileStream = new FileStream( FileLocation, FileMode.Open, FileAccess.Read );
-                while( _FileStream.Read( _Byte, 0, _Byte.Length ) != 0 )
+                FileStream fileStream = new FileStream( fileLocation, FileMode.Open, FileAccess.Read );
+                while( fileStream.Read( buffer, 0, buffer.Length ) != 0 )
                 {
-                    _MemStream.Write( _Byte, 0, _Byte.Length );
+                    memStream.Write( buffer, 0, buffer.Length );
                 }
-                _FileStream.Close();
+                fileStream.Close();
             }
             catch( FileNotFoundException )
             {
                // Information.Err().Raise( 9999, "FileToMemory", Information.Err().Description + "  Please set the \"GeoIPFile\" Property to specify the location of this file.  The property value must be set to the virtual path to GeoIP.dat (i.e. \"/controls/CountryListBox/Data/GeoIP.dat\")", null, null );
             }
-            return _MemStream;
+            return memStream;
         }
 
-        public string LookupCountryCode( IPAddress _IPAddress )
+        public string LookupCountryCode( IPAddress ipAddress )
         {
             // Look up the country code, e.g. US, for the passed in IP Address
 
             short temp_short = 31;
-            object temp_object = ConvertIPAddressToNumber( _IPAddress );
+            object temp_object = ConvertIPAddressToNumber( ipAddress );
             long temp_long = (long)temp_object;
             return CountryCode[Convert.ToInt32( SeekCountry( 0, ref temp_long, ref temp_short ) )];
         }
@@ -110,17 +108,17 @@ namespace DotNetNuke.UI.WebControls
         {
             // Look up the country code, e.g. US, for the passed in IP Address
 
-            IPAddress _Address;
+            IPAddress ipAddress;
 
             try
             {
-                _Address = IPAddress.Parse( _IPAddress );
+                ipAddress = IPAddress.Parse( _IPAddress );
             }
             catch( FormatException )
             {
                 return "--";
             }
-            return LookupCountryCode( _Address );
+            return LookupCountryCode( ipAddress );
         }
 
         public string LookupCountryName( IPAddress addr )
@@ -137,16 +135,16 @@ namespace DotNetNuke.UI.WebControls
         {
             // Look up the country name, e.g. United States, for the IP Address
 
-            IPAddress _Address;
+            IPAddress ipAddress;
             try
             {
-                _Address = IPAddress.Parse( _IPAddress );
+                ipAddress = IPAddress.Parse( _IPAddress );
             }
             catch( FormatException )
             {
                 return "N/A";
             }
-            return LookupCountryName( _Address );
+            return LookupCountryName( ipAddress );
         }
 
         private long vbShiftLeft( long Value, int Count )
@@ -157,10 +155,8 @@ namespace DotNetNuke.UI.WebControls
             // these functions are present in .NET 1.1, but for developers
             // using 1.0, replacement functions must be implemented
 
-            int _Iterator;
-
             returnValue = Value;
-            for( _Iterator = 1; _Iterator <= Count; _Iterator++ )
+            for( int i = 1; i <= Count; i++ )
             {
                 returnValue = returnValue*2;
             }
@@ -175,10 +171,8 @@ namespace DotNetNuke.UI.WebControls
             // these functions are present in .NET 1.1, but for developers
             // using 1.0, replacement functions must be implemented
 
-            int _Iterator;
-
             returnValue = Value;
-            for( _Iterator = 1; _Iterator <= Count; _Iterator++ )
+            for( int i = 1; i <= Count; i++ )
             {
                 returnValue = returnValue/2;
             }

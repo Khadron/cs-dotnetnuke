@@ -90,8 +90,8 @@
 		</asp:BoundColumn>
 	</Columns>
 </asp:datagrid>
-<br>
-<br>
+<br/>
+<br/>
 <dnnsc:PagingControl id="ctlPagingControl" runat="server"></dnnsc:PagingControl>
 <p align="center">
 	<asp:LinkButton id="cmdDelete" resourcekey="cmdDelete" Runat="server" CssClass="CommandButton" OnClick="cmdDelete_Click">Delete Unauthorized Vendors</asp:LinkButton>

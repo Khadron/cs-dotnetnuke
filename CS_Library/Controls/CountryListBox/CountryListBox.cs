@@ -104,7 +104,7 @@ namespace DotNetNuke.UI.WebControls
             if( ! Page.IsPostBack )
             {
                 //If GeoIPFile is not provided, assume they put it in BIN.
-                if( _GeoIPFile == "" )
+                if( String.IsNullOrEmpty( _GeoIPFile ) )
                 {
                     _GeoIPFile = "controls/CountryListBox/Data/GeoIP.dat";
                 }

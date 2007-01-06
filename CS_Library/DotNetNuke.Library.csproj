@@ -1661,6 +1661,6 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>rem copy $(TargetPath) %25CSDNN%25</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) %25CSDNN%25</PostBuildEvent>
   </PropertyGroup>
 </Project>

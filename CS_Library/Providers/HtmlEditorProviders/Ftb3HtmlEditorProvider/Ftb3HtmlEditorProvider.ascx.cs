@@ -73,8 +73,6 @@ namespace DotNetNuke.HtmlEditor
         /// </history>
         public Ftb3HtmlEditorProvider()
         {
-//            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
-
             // Read the configuration specific information for this provider
             Provider objProvider = (Provider)providerConfiguration.Providers[providerConfiguration.DefaultProvider];
 
@@ -132,7 +130,7 @@ namespace DotNetNuke.HtmlEditor
         {
             get
             {
-                if( _RootImageDirectory == "" )
+                if( String.IsNullOrEmpty( _RootImageDirectory ) )
                 {
                     PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
 
@@ -364,7 +362,6 @@ namespace DotNetNuke.HtmlEditor
         /// </history>
         private StylesMenu AddStylesMenu()
         {
-//            PortalSettings _portalSettings = (PortalSettings)HttpContext.Current.Items["PortalSettings"];
             StylesMenu styleMenu = new StylesMenu();            
 
             styles = new SortedList();
@@ -553,11 +550,11 @@ namespace DotNetNuke.HtmlEditor
             string DesignModeCss = Globals.HostPath + "default.css";
 
             //Add skin css
-            DesignModeCss += "\' type=\'text/css\' /><link rel=\'stylesheet\' href=\'" + PortalSettings.ActiveTab.SkinPath + "skin.css";
-            DesignModeCss += "\' type=\'text/css\' /><link rel=\'stylesheet\' href=\'" + PortalSettings.ActiveTab.SkinSrc.Replace(".ascx", ".css" );
+            DesignModeCss += "' type='text/css' /><link rel='stylesheet' href='" + PortalSettings.ActiveTab.SkinPath + "skin.css";
+            DesignModeCss += "' type='text/css' /><link rel='stylesheet' href='" + PortalSettings.ActiveTab.SkinSrc.Replace(".ascx", ".css" );
 
             //Add portal css
-            DesignModeCss += "\' type=\'text/css\' /><link rel=\'stylesheet\' href=\'" + PortalSettings.HomeDirectory + "portal.css";
+            DesignModeCss += "' type='text/css' /><link rel='stylesheet' href='" + PortalSettings.HomeDirectory + "portal.css";
 
             cntlFtb.DesignModeCss = DesignModeCss;
         }
@@ -614,7 +611,8 @@ namespace DotNetNuke.HtmlEditor
             cntlFtb.JavaScriptLocation = ResourceLocation.ExternalFile;
 
             //Set Design Mode Css for WYSIWYG
-            SetDesignModeCss();
+// TODO AC When the style sheets are added, we get js errors resulting in nothing working, add this back at a later time.
+//            SetDesignModeCss();
 
             cntlFtb.ToolbarImagesLocation = ResourceLocation.ExternalFile;
             cntlFtb.ID = ControlID;
@@ -684,7 +682,7 @@ namespace DotNetNuke.HtmlEditor
             //Register the FTB-DotNetNuke.js script file that implements the DNN enhancements
             if( ! ClientAPI.IsClientScriptBlockRegistered( cntlFtb.Page, jsFileName ) )
             {
-                ClientAPI.RegisterClientScriptBlock( cntlFtb.Page, jsFileName, "<script src=\"" + jsPath + jsFileName + "\"></script>" );
+                ClientAPI.RegisterClientScriptBlock( cntlFtb.Page, jsFileName, "<script type='text/javascript' src='" + jsPath + jsFileName + "'></script>" );
             }
         }
     }

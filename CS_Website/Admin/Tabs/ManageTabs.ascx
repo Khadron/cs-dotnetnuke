@@ -3,7 +3,7 @@
 <%@ Register Src="~/controls/URLControl.ascx" TagName="URL" TagPrefix="dnn" %>
 <%@ Register Assembly="DotNetNuke" Namespace="DotNetNuke.Security.Permissions.Controls" TagPrefix="Portal" %>
 <%@ Register Src="~/controls/SkinControl.ascx" TagName="Skin" TagPrefix="dnn" %>
-<%@ Control AutoEventWireup="true" CodeFile="ManageTabs.ascx.cs" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Tabs.ManageTabs" Language="C#" %>
+<%@ Control AutoEventWireup="true" CodeFile="ManageTabs.ascx.cs"  Inherits="DotNetNuke.Modules.Admin.Tabs.ManageTabs" Language="C#" %>
 <table border="0" cellpadding="2" cellspacing="2" class="Settings" summary="Manage Tabs Design Table">
     <tr>
         <td valign="top" width="560">

@@ -68,9 +68,9 @@
     </tr>
 </table>
 <p>
-    <dnn:CommandButton class="CommandButton" ID="cmdUpdate" ResourceKey="cmdUpdate" runat="server"
-        ImageUrl="~/images/add.gif" OnClick="cmdUpdate_Click" />
+    <dnn:CommandButton cssclass="CommandButton" ID="cmdUpdate" ResourceKey="cmdUpdate" runat="server"
+        ImageUrl="~/images/add.gif" />
     &nbsp;
-    <dnn:CommandButton class="CommandButton" ID="cmdCancel" ResourceKey="cmdCancel" runat="server"
-        ImageUrl="~/images/lt.gif" CausesValidation="False" OnClick="cmdCancel_Click" />
+    <dnn:CommandButton cssclass="CommandButton" ID="cmdCancel" ResourceKey="cmdCancel" runat="server"
+        ImageUrl="~/images/lt.gif" CausesValidation="False" />
 </p>

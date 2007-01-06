@@ -54,12 +54,12 @@
 </table>
 <asp:Label ID="lblOptional" resourcekey="Optional" class="SubHead" runat="server">* = Optional</asp:Label>
 <p>
-    <asp:LinkButton class="CommandButton" ID="cmdUpdate" resourcekey="cmdUpdate" runat="server"
+    <asp:LinkButton cssclass="CommandButton" ID="cmdUpdate" resourcekey="cmdUpdate" runat="server"
         Text="Update" BorderStyle="none" OnClick="cmdUpdate_Click"></asp:LinkButton>&nbsp;
-    <asp:LinkButton class="CommandButton" ID="cmdCancel" resourcekey="cmdCancel" runat="server"
+    <asp:LinkButton cssclass="CommandButton" ID="cmdCancel" resourcekey="cmdCancel" runat="server"
         Text="Cancel" BorderStyle="none" CausesValidation="False" OnClick="cmdCancel_Click"></asp:LinkButton>&nbsp;
-    <asp:LinkButton class="CommandButton" ID="cmdDelete" resourcekey="cmdDelete" runat="server"
+    <asp:LinkButton cssclass="CommandButton" ID="cmdDelete" resourcekey="cmdDelete" runat="server"
         Text="Delete" BorderStyle="none" CausesValidation="False" OnClick="cmdDelete_Click"></asp:LinkButton>
-    <asp:LinkButton class="CommandButton" ID="cmdSend" resourcekey="cmdSend" runat="server"
+    <asp:LinkButton cssclass="CommandButton" ID="cmdSend" resourcekey="cmdSend" runat="server"
         Text="Send Notification" BorderStyle="none" CausesValidation="False" OnClick="cmdSend_Click"></asp:LinkButton>
 </p>

@@ -700,7 +700,7 @@ namespace DotNetNuke.UI.Utilities
                         {
                             return;
                         }
-                        RegisterClientScriptBlock( objPage, "dnn.js", ( "<script src=\"" + ScriptPath + "dnn.js\"></script>" ) );
+                        RegisterClientScriptBlock( objPage, "dnn.js", ( "<script type='text/javascript' src='" + ScriptPath + "dnn.js'></script>" ) );
                         if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
                         {
                             return;
@@ -720,7 +720,7 @@ namespace DotNetNuke.UI.Utilities
                         {
                             return;
                         }
-                        RegisterClientScriptBlock( objPage, "dnn.positioning.js", ( "<script src=\"" + ScriptPath + "dnn.dom.positioning.js\"></script>" ) );
+                        RegisterClientScriptBlock(objPage, "dnn.positioning.js", ("<script type='text/javascript' src='" + ScriptPath + "dnn.dom.positioning.js'></script>"));
                         return;
                     }
                 case ClientNamespaceReferences.dnn_xml:
@@ -730,10 +730,10 @@ namespace DotNetNuke.UI.Utilities
                         {
                             return;
                         }
-                        string string1 = ( "<script src=\"" + ScriptPath + "dnn.xml.js\"></script>" );
+                        string string1 = ("<script type='text/javascript' src='" + ScriptPath + "dnn.xml.js'></script>");
                         if( BrowserSupportsFunctionality( ClientFunctionality.XMLJS ) )
                         {
-                            string1 = ( string1 + "<script src=\"" + ScriptPath + "dnn.xml.jsparser.js\"></script>" );
+                            string1 = (string1 + "<script type='text/javascript' src='" + ScriptPath + "dnn.xml.jsparser.js'></script>");
                         }
                         RegisterClientScriptBlock( objPage, "dnn.xml.js", string1 );
                         return;
@@ -745,10 +745,10 @@ namespace DotNetNuke.UI.Utilities
                         {
                             return;
                         }
-                        string string2 = ( "<script src=\"" + ScriptPath + "dnn.xmlhttp.js\"></script>" );
+                        string string2 = ("<script type='text/javascript' src='" + ScriptPath + "dnn.xmlhttp.js'></script>");
                         if( BrowserSupportsFunctionality( ClientFunctionality.XMLHTTPJS ) )
                         {
-                            string2 = ( string2 + "<script src=\"" + ScriptPath + "dnn.xmlhttp.jsxmlhttprequest.js\"></script>" );
+                            string2 = (string2 + "<script type='text/javascript' src='" + ScriptPath + "dnn.xmlhttp.jsxmlhttprequest.js'></script>");
                         }
                         RegisterClientScriptBlock( objPage, "dnn.xmlhttp.js", string2 );
                         return;
@@ -770,9 +770,7 @@ namespace DotNetNuke.UI.Utilities
         /// </Param>
         public static void RegisterClientVariable( Page objPage, string strVar, string strValue, bool blnOverwrite )
         {
-            string string2;
             string[] stringArray1;
-            HtmlInputHidden htmlInputHidden2;
             HtmlInputHidden htmlInputHidden1 = get_ClientVariableControl( objPage );
             string string1 = GetClientVariableNameValuePair( objPage, strVar );
             if( string1.Length > 0 )
@@ -784,14 +782,14 @@ namespace DotNetNuke.UI.Utilities
                 }
                 else
                 {
-                    string2 = GetClientVariable( objPage, strVar );
+                    string string2 = GetClientVariable( objPage, strVar );
                     stringArray1 = new string[] {ROW_DELIMITER, strVar, COLUMN_DELIMITER, string2, strValue};
                     htmlInputHidden1.Value = htmlInputHidden1.Value.Replace( ( ROW_DELIMITER + string1 ), string.Concat( stringArray1 ) );
                 }
             }
             else
             {
-                htmlInputHidden2 = htmlInputHidden1;
+                HtmlInputHidden htmlInputHidden2 = htmlInputHidden1;
                 stringArray1 = new string[] {htmlInputHidden2.Value, ROW_DELIMITER, strVar, COLUMN_DELIMITER, strValue};
                 htmlInputHidden2.Value = string.Concat( stringArray1 );
             }

@@ -1,5 +1,5 @@
-<%@ Register TagPrefix="dnn" Namespace="DotNetNuke.UI.WebControls" Assembly="DotNetNuke" %>
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ListEditor.ascx.cs" Inherits="DotNetNuke.Common.Lists.ListEditor" %>
+<%@ Control Language="C#" AutoEventWireup="false" CodeFile="ListEditor.ascx.cs" Inherits="DotNetNuke.Common.Lists.ListEditor" %>
+<%@ Register Assembly="DotNetNuke" Namespace="DotNetNuke.UI.WebControls" TagPrefix="dnn" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnntv" Namespace="DotNetNuke.UI.WebControls" Assembly="DotNetNuke.WebControls" %>
@@ -21,7 +21,7 @@
 				<tr>
 					<td>
 						<dnn:commandbutton id="cmdAddList" runat="server" resourcekey="AddList" CssClass="CommandButton" imageurl="~/images/add.gif"
-							causesvalidation="False" OnClick="cmdAddList_Click" />
+							causesvalidation="False"  />
 					</td>
 				</tr>
 			</table>
@@ -48,9 +48,9 @@
 							<tr id="rowListCommand" runat="server">
 								<td class="SubHead" colSpan="2">
 									<dnn:commandbutton id="cmdAddEntry" runat="server" resourcekey="cmdAddEntry" CssClass="CommandButton"
-										imageurl="~/images/add.gif" OnClick="cmdAddEntry_Click" />&nbsp;
+										imageurl="~/images/add.gif" />&nbsp;
 									<dnn:commandbutton id="cmdDeleteList" runat="server" resourcekey="cmdDeleteList" CssClass="CommandButton"
-										imageurl="~/images/delete.gif" OnClick="cmdDeleteList_Click" />
+										imageurl="~/images/delete.gif" />
 								</td>
 							</tr>
 						</table>
@@ -129,11 +129,11 @@
 							<tr>
 								<td class="SubHead" colSpan="2">
 									<dnn:commandbutton id="cmdSaveEntry" runat="server" resourcekey="cmdSave" CssClass="CommandButton"
-										imageurl="~/images/save.gif" OnClick="cmdSaveEntry_Click" />&nbsp;
+										imageurl="~/images/save.gif" />&nbsp;
 									<dnn:commandbutton id="cmdDelete" runat="server" resourcekey="cmdDeleteEntry" CssClass="CommandButton"
-										imageurl="~/images/delete.gif" causesvalidation="False" OnClick="cmdDelete_Click" />&nbsp;
+										imageurl="~/images/delete.gif" causesvalidation="False" />&nbsp;
 									<dnn:commandbutton id="cmdCancel" runat="server" resourcekey="cmdCancel" CssClass="CommandButton" imageurl="~/images/lt.gif"
-										causesvalidation="False" OnClick="cmdCancel_Click" />&nbsp;
+										causesvalidation="False" />&nbsp;
 								</td>
 							</tr>
 						</table>

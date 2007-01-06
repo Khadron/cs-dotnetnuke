@@ -1,4 +1,5 @@
 #region DotNetNuke License
+
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
 // by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
@@ -16,7 +17,9 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
+
 #endregion
+
 using System;
 using System.Web.UI;
 using DotNetNuke.Common.Utilities;
@@ -30,7 +33,6 @@ namespace DotNetNuke.UI.WebControls
     [ToolboxData( "<{0}:TextEditControl runat=server></{0}:TextEditControl>" )]
     public class TextEditControl : EditControl
     {
-
         /// <Summary>
         /// OldStringValue returns the Boolean representation of the OldValue
         /// </Summary>
@@ -38,7 +40,7 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return System.Convert.ToString(OldValue);
+                return Convert.ToString( OldValue );
             }
         }
 
@@ -49,13 +51,14 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return System.Convert.ToString(Value);
+                return Convert.ToString( Value );
             }
             set
             {
                 this.Value = value;
             }
         }
+
         /// <Summary>Constructs a TextEditControl</Summary>
         public TextEditControl()
         {
@@ -74,40 +77,39 @@ namespace DotNetNuke.UI.WebControls
         /// </Summary>
         protected override void OnDataChanged( EventArgs e )
         {
-            PropertyEditorEventArgs args = new PropertyEditorEventArgs(Name);
+            PropertyEditorEventArgs args = new PropertyEditorEventArgs( Name );
             args.Value = StringValue;
             args.OldValue = OldStringValue;
             args.StringValue = StringValue;
-            base.OnValueChanged(args);
+            base.OnValueChanged( args );
         }
 
         /// <Summary>RenderEditMode renders the Edit mode of the control</Summary>
         /// <Param name="writer">A HtmlTextWriter.</Param>
         protected override void RenderEditMode( HtmlTextWriter writer )
         {
-            int length = DotNetNuke.Common.Utilities.Null.NullInteger;
-            if (CustomAttributes != null)
+            int length = Null.NullInteger;
+            if( CustomAttributes != null )
             {
-                foreach (System.Attribute attribute in CustomAttributes)
+                foreach( Attribute attribute in CustomAttributes )
                 {
-                    if (attribute is MaxLengthAttribute)
+                    if( attribute is MaxLengthAttribute )
                     {
                         MaxLengthAttribute lengthAtt = (MaxLengthAttribute)attribute;
                         length = lengthAtt.Length;
-                        
                     }
-                }            
+                }
             }
 
-            ControlStyle.AddAttributesToRender(writer);
-            writer.AddAttribute(HtmlTextWriterAttribute.Type, "text");
-            writer.AddAttribute(HtmlTextWriterAttribute.Value, StringValue);
-            if (length > DotNetNuke.Common.Utilities.Null.NullInteger)
+            ControlStyle.AddAttributesToRender( writer );
+            writer.AddAttribute( HtmlTextWriterAttribute.Type, "text" );
+            writer.AddAttribute( HtmlTextWriterAttribute.Value, StringValue );
+            if( length > Null.NullInteger )
             {
-                writer.AddAttribute(HtmlTextWriterAttribute.Maxlength, length.ToString());
+                writer.AddAttribute( HtmlTextWriterAttribute.Maxlength, length.ToString() );
             }
-            writer.AddAttribute(HtmlTextWriterAttribute.Name, this.UniqueID);
-            writer.RenderBeginTag(HtmlTextWriterTag.Input);
+            writer.AddAttribute( HtmlTextWriterAttribute.Name, this.UniqueID );
+            writer.RenderBeginTag( HtmlTextWriterTag.Input );
             writer.RenderEndTag();
         }
     }

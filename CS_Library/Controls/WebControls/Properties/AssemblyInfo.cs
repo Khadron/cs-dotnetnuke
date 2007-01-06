@@ -31,4 +31,4 @@ using System.Web.UI;
 [assembly: CLSCompliant(true)]
 [assembly: AssemblyTrademark("DotNetNuke")]
 [assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2006 by Perpetual Motion Interactive Systems Inc. All Rights Reserved.")]
-[assembly: AssemblyVersion("1.2.1.*")]
+[assembly: AssemblyVersion("1.2.2.*")]

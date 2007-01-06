@@ -26,7 +26,6 @@ using DotNetNuke.Security;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Log.EventLog;
 using DotNetNuke.UI.Skins;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace DotNetNuke.UI.Containers
 {
@@ -375,9 +374,11 @@ namespace DotNetNuke.UI.Containers
 
         public void ProcessAction( string actionID )
         {
-            if (Versioned.IsNumeric(actionID))
+            int actionNumber;
+            
+            if (Int32.TryParse(actionID, out actionNumber))
             {
-                ModuleAction action = GetAction(Convert.ToInt32(actionID));
+                ModuleAction action = GetAction(actionNumber);
                 if (action.CommandName == ModuleActionType.ModuleHelp)
                 {
                     DoAction(action);

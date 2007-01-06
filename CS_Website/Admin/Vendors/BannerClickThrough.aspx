@@ -1,1 +1,1 @@
-<%@ Page Language="C#" CodeFile="BannerClickThrough.aspx.cs" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Vendors.BannerClickThrough" %>
+<%@ Page Language="C#" CodeFile="BannerClickThrough.aspx.cs" AutoEventWireup="true"  Inherits="DotNetNuke.Modules.Admin.Vendors.BannerClickThrough" %>

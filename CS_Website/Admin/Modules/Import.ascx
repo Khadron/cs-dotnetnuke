@@ -1,6 +1,6 @@
-<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Modules.Import" CodeFile="Import.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true"  Inherits="DotNetNuke.Modules.Admin.Modules.Import" CodeFile="Import.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
-<br>
+<br/>
 <table width="560" cellspacing="0" cellpadding="0" border="0" summary="Edit Links Design Table">
     <tr>
         <td class="SubHead"><dnn:label id="plFile" runat="server" controlname="ctlFile" suffix=":"></dnn:label></td>

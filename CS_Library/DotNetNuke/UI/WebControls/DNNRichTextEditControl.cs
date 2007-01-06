@@ -33,11 +33,6 @@ namespace DotNetNuke.UI.WebControls
     {
         private HtmlEditorProvider RichTextEditor;
 
-        /// <Summary>Constructs a DNNRichTextEditControl</Summary>
-        public DNNRichTextEditControl()
-        {
-        }
-
         /// <Summary>
         /// LoadPostData loads the Post Back Data and determines whether the value has change
         /// </Summary>

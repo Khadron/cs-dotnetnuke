@@ -1,4 +1,4 @@
-<%@ Control Inherits="DotNetNuke.Modules.Admin.PortalManagement.SiteWizard" Language="C#" AutoEventWireup="true" Explicit="True" enableViewState="True" debug="False" CodeFile="SiteWizard.ascx.cs" %>
+<%@ Control Inherits="DotNetNuke.Modules.Admin.PortalManagement.SiteWizard" Language="C#" AutoEventWireup="true"  enableViewState="True" debug="False" CodeFile="SiteWizard.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="Skin" Src="~/controls/SkinThumbNailControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="url" Src="~/controls/UrlControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="label" Src="~/controls/LabelControl.ascx" %>
