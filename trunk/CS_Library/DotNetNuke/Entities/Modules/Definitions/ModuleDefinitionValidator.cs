@@ -79,40 +79,44 @@ namespace DotNetNuke.Entities.Modules.Definitions
             XmlTextReader xmlReader = new XmlTextReader(xmlStream);
             xmlReader.MoveToContent();
 
-            //This test assumes provides a simple validation
-            if (xmlReader.LocalName.ToLower() == "module")
+            //This test assumes provides a simple validation 
+            if( xmlReader.LocalName.ToLower() == "module" )
             {
                 return ModuleDefinitionVersion.V1;
             }
-            if (xmlReader.LocalName.ToLower() == "dotnetnuke")
+            else if( xmlReader.LocalName.ToLower() == "dotnetnuke" )
             {
-                return ModuleDefinitionVersion.VUnknown;
-            }
-
-            if (xmlReader.GetAttribute("type") == "Module")
-            {
-                if (xmlReader.GetAttribute("version") == "2.0")
+                if( xmlReader.GetAttribute( "type" ) == "Module" )
                 {
-                    return ModuleDefinitionVersion.V2;
+                    switch( xmlReader.GetAttribute( "version" ) )
+                    {
+                        case "2.0":
+                            return ModuleDefinitionVersion.V2;
+                        case "3.0":
+                            return ModuleDefinitionVersion.V3;
+                    }
                 }
-                else if (xmlReader.GetAttribute("version") == "3.0")
+                else if( xmlReader.GetAttribute( "type" ) == "SkinObject" )
                 {
-                    return ModuleDefinitionVersion.V3;
+                    return ModuleDefinitionVersion.V2_Skin;
                 }
-            }
-            if (xmlReader.GetAttribute("type") == "SkinObject")
-            {
-                return ModuleDefinitionVersion.V2_Skin;
-            }
-            if (xmlReader.GetAttribute("type") == "Provider")
-            {
-                return ModuleDefinitionVersion.V2_Provider;
+                else if( xmlReader.GetAttribute( "type" ) == "Provider" )
+                {
+                    return ModuleDefinitionVersion.V2_Provider;
+                }
+                else
+                {
+                    return ModuleDefinitionVersion.VUnknown;
+                }
             }
             else
             {
                 return ModuleDefinitionVersion.VUnknown;
             }
+            
+            return ModuleDefinitionVersion.VUnknown;
         }
+
 
         public override bool Validate(Stream XmlStream)
         {

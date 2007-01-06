@@ -14,31 +14,31 @@
 			<td nowrap valign="bottom" class="SelectedTab">
 				<dnn:commandbutton id="cmdUser" runat="server" 
 					resourcekey="cmdUser" imageurl="~/images/icon_users_16px.gif" 
-					causesvalidation="False" OnClick="cmdUser_Click"  />
+					causesvalidation="false"  />
 			</td>
 			<td width="10"></td>
 			<td nowrap valign="bottom">
 				<dnn:commandbutton id="cmdRoles" runat="server" 
 					resourcekey="cmdRoles" imageurl="~/images/icon_securityroles_16px.gif" 
-					causesvalidation="False" OnClick="cmdRoles_Click" />
+					causesvalidation="false" />
 			</td>
 			<td width="10"></td>
 			<td nowrap valign="bottom">
 				<dnn:commandbutton id="cmdPassword" runat="server" 
 					resourcekey="cmdPassword" imageurl="~/images/save.gif" 
-					causesvalidation="False" OnClick="cmdPassword_Click" />
+					causesvalidation="false" />
 			</td>
 			<td width="10"></td>
 			<td nowrap valign="bottom">
 				<dnn:commandbutton id="cmdProfile" runat="server" 
 					resourcekey="cmdProfile" imageurl="~/images/icon_users_16px.gif" 
-					causesvalidation="False" OnClick="cmdProfile_Click" />
+					causesvalidation="false" />
 			</td>
 			<td width="10"></td>
 			<td nowrap valign="bottom">
 				<dnn:commandbutton id="cmdServices" runat="server" 
 					resourcekey="cmdServices" imageurl="~/images/icon_viewstats_16px.gif" 
-					causesvalidation="False" OnClick="cmdServices_Click" />
+					causesvalidation="false" />
 			</td>
 			<td width="*"></td>
 		</tr>
@@ -79,5 +79,5 @@
 <asp:panel ID="pnlRegister" runat="server" visible="false">
 	<dnn:commandbutton id="cmdRegister" runat="server" 
 		resourcekey="cmdRegister" imageurl="~/images/save.gif" 
-		causesvalidation="True" OnClick="cmdRegister_Click" />
+		causesvalidation="True" />
 </asp:panel>

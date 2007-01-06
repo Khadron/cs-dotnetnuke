@@ -158,11 +158,10 @@ namespace DotNetNuke.Modules.Admin.Host
             }
             ModuleControlController objModuleControls = new ModuleControlController();
             ArrayList arrModuleControls = objModuleControls.GetModuleControls( Null.NullInteger );
-            ModuleControlInfo objModuleControl;
             int intModuleControl;
             for( intModuleControl = 0; intModuleControl <= arrModuleControls.Count - 1; intModuleControl++ )
             {
-                objModuleControl = (ModuleControlInfo)arrModuleControls[intModuleControl];
+                ModuleControlInfo objModuleControl = (ModuleControlInfo)arrModuleControls[intModuleControl];
                 if( objModuleControl.ControlType == SecurityAccessLevel.ControlPanel )
                 {
                     cboControlPanel.Items.Add( new ListItem( objModuleControl.ControlKey.Replace( "CONTROLPANEL:", "" ), objModuleControl.ControlSrc ) );
@@ -401,11 +400,9 @@ namespace DotNetNuke.Modules.Admin.Host
             // get list of script files
             string strProviderPath = PortalSettings.GetProviderPath();
             ArrayList arrScriptFiles = new ArrayList();
-            string strFile;
             string[] arrFiles = Directory.GetFiles( strProviderPath, "*." + objProviderConfiguration.DefaultProvider );
-            foreach( string tempLoopVar_strFile in arrFiles )
-            {
-                strFile = tempLoopVar_strFile;
+            foreach( string strFile in arrFiles )
+            {                                
                 arrScriptFiles.Add( Path.GetFileNameWithoutExtension( strFile ) );
             }
             arrScriptFiles.Sort();
@@ -415,15 +412,15 @@ namespace DotNetNuke.Modules.Admin.Host
 
             ModuleInfo FileManagerModule = ( new ModuleController() ).GetModuleByDefinition( Null.NullInteger, "File Manager" );
 
-            string[] @params = new string[3];
+            string[] additionalParameters = new string[3];
 
-            @params[0] = "mid=" + FileManagerModule.ModuleID;
-            @params[1] = "ftype=" + UploadType.Skin.ToString();
-            @params[2] = "rtab=" + this.TabId;
-            lnkUploadSkin.NavigateUrl = Globals.NavigateURL( FileManagerModule.TabID, "Edit", @params );
+            additionalParameters[0] = "mid=" + FileManagerModule.ModuleID;
+            additionalParameters[1] = "ftype=" + UploadType.Skin;
+            additionalParameters[2] = "rtab=" + this.TabId;
+            lnkUploadSkin.NavigateUrl = Globals.NavigateURL( FileManagerModule.TabID, "Edit", additionalParameters );
 
-            @params[1] = "ftype=" + UploadType.Container.ToString();
-            lnkUploadContainer.NavigateUrl = Globals.NavigateURL( FileManagerModule.TabID, "Edit", @params );
+            additionalParameters[1] = "ftype=" + UploadType.Container;
+            lnkUploadContainer.NavigateUrl = Globals.NavigateURL( FileManagerModule.TabID, "Edit", additionalParameters );
         }
 
         private bool SkinChanged( string SkinRoot, int portalId, SkinType SkinType, string PostedSkinSrc )
@@ -441,10 +438,6 @@ namespace DotNetNuke.Modules.Admin.Host
                 strSkinSrc = "";
             }
             return strSkinSrc != PostedSkinSrc;
-        }
-
-        protected void Page_Init( Object sender, EventArgs e )
-        {
         }
 
         /// <summary>
@@ -661,20 +654,18 @@ namespace DotNetNuke.Modules.Admin.Host
                 objHostSettings.UpdateHostSetting( "EnableModuleOnLineHelp", Convert.ToString( chkEnableHelp.Checked ? "Y" : "N" ) );
                 objHostSettings.UpdateHostSetting( "HelpURL", txtHelpURL.Text );
 
-                bool OriginalLogBuffer;
-                OriginalLogBuffer = Convert.ToBoolean( ViewState["SelectedLogBufferEnabled"] );
-                if( OriginalLogBuffer != chkLogBuffer.Checked )
+                bool originalLogBuffer = Convert.ToBoolean( ViewState["SelectedLogBufferEnabled"] );
+                if( originalLogBuffer != chkLogBuffer.Checked )
                 {
-                    ScheduleItem objScheduleItem;
-                    objScheduleItem = SchedulingProvider.Instance().GetSchedule( "DotNetNuke.Services.Log.EventLog.PurgeLogBuffer, DOTNETNUKE", Null.NullString );
-                    if( objScheduleItem != null )
+                    ScheduleItem scheduleItem = SchedulingProvider.Instance().GetSchedule( "DotNetNuke.Services.Log.EventLog.PurgeLogBuffer, DOTNETNUKE", Null.NullString );
+                    if( scheduleItem != null )
                     {
                         if( chkLogBuffer.Checked )
                         {
-                            if( ! objScheduleItem.Enabled )
+                            if( ! scheduleItem.Enabled )
                             {
-                                objScheduleItem.Enabled = true;
-                                SchedulingProvider.Instance().UpdateSchedule( objScheduleItem );
+                                scheduleItem.Enabled = true;
+                                SchedulingProvider.Instance().UpdateSchedule( scheduleItem );
                                 SchedulerMode mode = (SchedulerMode)Enum.Parse(typeof(SchedulerMode), cboSchedulerMode.SelectedItem.Value);
                                 if( mode == SchedulerMode.TIMER_METHOD )
                                 {
@@ -684,10 +675,10 @@ namespace DotNetNuke.Modules.Admin.Host
                         }
                         else
                         {
-                            if( objScheduleItem.Enabled )
+                            if( scheduleItem.Enabled )
                             {
-                                objScheduleItem.Enabled = false;
-                                SchedulingProvider.Instance().UpdateSchedule( objScheduleItem );
+                                scheduleItem.Enabled = false;
+                                SchedulingProvider.Instance().UpdateSchedule( scheduleItem );
                                 SchedulerMode mode = (SchedulerMode)Enum.Parse(typeof(SchedulerMode), cboSchedulerMode.SelectedItem.Value);
                                 if( mode == SchedulerMode.TIMER_METHOD )
                                 {
@@ -709,31 +700,34 @@ namespace DotNetNuke.Modules.Admin.Host
                 // clear host settings cache
                 DataCache.ClearHostCache( true );
 
-                SchedulerMode OriginalSchedulerMode;
-                OriginalSchedulerMode = (SchedulerMode)ViewState["SelectedSchedulerMode"];
-                SchedulerMode smode = (SchedulerMode)Enum.Parse(typeof(SchedulerMode), cboSchedulerMode.SelectedItem.Value);
-                
-                if( smode == SchedulerMode.DISABLED )
+                if (ViewState["SelectedSchedulerMode"] != null)
                 {
-                    if( OriginalSchedulerMode != SchedulerMode.DISABLED )
+                    SchedulerMode originalSchedulerMode = (SchedulerMode)Enum.Parse(typeof(SchedulerMode), (string)ViewState["SelectedSchedulerMode"]);
+
+                    SchedulerMode smode = (SchedulerMode)Enum.Parse( typeof( SchedulerMode ), cboSchedulerMode.SelectedItem.Value );
+
+                    if( smode == SchedulerMode.DISABLED )
                     {
-                        SchedulingProvider.Instance().Halt( "Host Settings" );
+                        if( originalSchedulerMode != SchedulerMode.DISABLED )
+                        {
+                            SchedulingProvider.Instance().Halt( "Host Settings" );
+                        }
                     }
-                }
-                else if( smode == SchedulerMode.TIMER_METHOD )
-                {
-                    if( OriginalSchedulerMode == SchedulerMode.DISABLED || OriginalSchedulerMode == SchedulerMode.REQUEST_METHOD )
+                    else if( smode == SchedulerMode.TIMER_METHOD )
                     {
-                        Thread newThread = new Thread( new ThreadStart( SchedulingProvider.Instance().Start ) );
-                        newThread.IsBackground = true;
-                        newThread.Start();
+                        if( originalSchedulerMode == SchedulerMode.DISABLED || originalSchedulerMode == SchedulerMode.REQUEST_METHOD )
+                        {
+                            Thread newThread = new Thread( new ThreadStart( SchedulingProvider.Instance().Start ) );
+                            newThread.IsBackground = true;
+                            newThread.Start();
+                        }
                     }
-                }
-                else if( smode != SchedulerMode.TIMER_METHOD )
-                {
-                    if( OriginalSchedulerMode == SchedulerMode.TIMER_METHOD )
+                    else if( smode != SchedulerMode.TIMER_METHOD )
                     {
-                        SchedulingProvider.Instance().Halt( "Host Settings" );
+                        if( originalSchedulerMode == SchedulerMode.TIMER_METHOD )
+                        {
+                            SchedulingProvider.Instance().Halt( "Host Settings" );
+                        }
                     }
                 }
 

@@ -1,5 +1,5 @@
 <%@ Register Src="~/controls/LabelControl.ascx" TagName="Label" TagPrefix="dnn" %>
-<%@ Control AutoEventWireup="true" CodeFile="InputSettings.ascx.cs" Explicit="True" Inherits="DotNetNuke.Modules.SearchInput.InputSettings" Language="C#" %>
+<%@ Control AutoEventWireup="true" CodeFile="InputSettings.ascx.cs"  Inherits="DotNetNuke.Modules.SearchInput.InputSettings" Language="C#" %>
 <table border="0" cellpadding="2" cellspacing="2">
     <tr>
         <td class="SubHead" nowrap="nowrap" width="180">

@@ -44,8 +44,12 @@ namespace DotNetNuke.UI.WebControls
             }
             set
             {
-                int i1 = int.Parse( value );
-                this.Value = i1;
+                int result;
+                if (int.TryParse( value, out result ))
+                {
+                    this.Value = result;
+                }
+                
             }
         }
 
@@ -121,7 +125,16 @@ namespace DotNetNuke.UI.WebControls
         /// <Param name="writer">A HtmlTextWriter.</Param>
         protected override void RenderViewMode( HtmlTextWriter writer )
         {
-            int propValue = Convert.ToInt32(Value);
+            object propValue;
+            try
+            {
+                propValue = Enum.Parse( EnumType, Value.ToString() );
+            }
+            catch( ArgumentException e )
+            {
+                propValue = Value;
+            }
+
             string enumValue = Enum.Format(EnumType, propValue, "G");
 
             ControlStyle.AddAttributesToRender(writer);

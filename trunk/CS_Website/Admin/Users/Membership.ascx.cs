@@ -169,13 +169,15 @@ namespace DotNetNuke.Modules.Admin.Users
         /// <summary>
         /// Page_Init runs when the control is initialised
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	03/01/2006  Created
         /// </history>
         protected void Page_Init( Object sender, EventArgs e )
         {
+            this.cmdAuthorize.Click+=new EventHandler(cmdAuthorize_Click);
+            this.cmdPassword.Click+=new EventHandler(cmdPassword_Click);
+            this.cmdUnAuthorize.Click +=new EventHandler(cmdUnAuthorize_Click);
+            this.cmdUnLock.Click +=new EventHandler(cmdUnLock_Click);
         }
 
         /// <summary>

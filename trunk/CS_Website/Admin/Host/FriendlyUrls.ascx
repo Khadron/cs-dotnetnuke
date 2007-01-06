@@ -46,4 +46,4 @@
     </Columns>
 </asp:DataGrid>
 <br />
-<dnn:CommandButton ID="cmdAddRule" runat="server" ResourceKey="cmdAdd" ImageUrl="~/images/add.gif" OnClick="AddRule" />
+<dnn:CommandButton ID="cmdAddRule" runat="server" ResourceKey="cmdAdd" ImageUrl="~/images/add.gif" />

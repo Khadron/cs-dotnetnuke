@@ -1,6 +1,6 @@
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
-<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.PortalManagement.Signup" CodeFile="Signup.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true"  Inherits="DotNetNuke.Modules.Admin.PortalManagement.Signup" CodeFile="Signup.ascx.cs" %>
 <table class="Settings" cellSpacing="2" cellPadding="2" width="560" summary="Host Settings Design Table"
 	border="0">
 	<tr>
@@ -109,8 +109,8 @@
 		</td>
 	</tr>
 </table>
-<p><asp:linkbutton class="CommandButton" id="cmdUpdate" resourcekey="cmdUpdate" text="Create Portal"
+<p><asp:linkbutton cssclass="CommandButton" id="cmdUpdate" resourcekey="cmdUpdate" text="Create Portal"
 		runat="server" OnClick="cmdUpdate_Click"></asp:linkbutton>&nbsp;&nbsp;
-	<asp:linkbutton class="CommandButton" id="cmdCancel" resourcekey="cmdCancel" text="Cancel" runat="server"
+	<asp:linkbutton cssclass="CommandButton" id="cmdCancel" resourcekey="cmdCancel" text="Cancel" runat="server"
 		causesvalidation="False" OnClick="cmdCancel_Click"></asp:linkbutton></p>
 <asp:label id="lblNote" resourcekey="Note" cssclass="Normal" runat="server"><b>*Note:</b> Once your portal is created, you will need to login using the Administrator information specified above.</asp:label>

@@ -359,6 +359,9 @@ namespace DotNetNuke.Modules.Admin.Users
         /// </history>
         protected void Page_Init( Object sender, EventArgs e )
         {
+            this.cmdRefresh.Click +=new EventHandler(cmdRefresh_Click);
+            this.cmdUpdate.Click +=new EventHandler(cmdUpdate_Click);
+
             foreach( DataGridColumn column in grdProfileProperties.Columns )
             {
                 if( column.GetType() == typeof( CheckBoxColumn ) )

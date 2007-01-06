@@ -363,6 +363,7 @@ namespace DotNetNuke.Modules.Admin.Security
         /// </history>
         protected void Page_Init( Object sender, EventArgs e )
         {
+            this.cmdProceed.Click+=new EventHandler(cmdProceed_Click);
             //Set the Password Control Properties
             ctlPassword.ID = "Password";
 

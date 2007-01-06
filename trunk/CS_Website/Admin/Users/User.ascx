@@ -58,9 +58,9 @@
 <asp:panel id="pnlUpdate" runat="server" align="center">
 	<dnn:commandbutton id="cmdDelete" runat="server" 
 		imageurl="~/images/delete.gif" 
-		causesvalidation="False" OnClick="cmdDelete_Click" />
+		causesvalidation="False" />
 	&nbsp;&nbsp;&nbsp;
 	<dnn:commandbutton id="cmdUpdate" runat="server" 
 		resourcekey="cmdUpdate" imageurl="~/images/save.gif" 
-		causesvalidation="True" OnClick="cmdUpdate_Click" />
+		causesvalidation="True" />
 </asp:panel>

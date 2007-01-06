@@ -31,5 +31,5 @@
 	</tr>
 </table>
 <p>
-	<dnn:commandbutton cssclass="CommandButton" id="cmdUpdate" runat="server" resourcekey="cmdUpdate" imageurl="~/images/save.gif" OnClick="cmdUpdate_Click" />
+	<dnn:commandbutton cssclass="CommandButton" id="cmdUpdate" runat="server" resourcekey="cmdUpdate" imageurl="~/images/save.gif" />
 </p>

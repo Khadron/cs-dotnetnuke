@@ -48,7 +48,12 @@ namespace DotNetNuke.UI.Utilities
                         string sExpanded = ClientAPI.GetClientVariable( objButton.Page, objButton.ClientID + ":exp" );
                         if( !String.IsNullOrEmpty( sExpanded ) )
                         {
-                            return Convert.ToBoolean( sExpanded );
+                            bool boolResult;
+                            if(Boolean.TryParse( sExpanded, out boolResult ))
+                            {
+                                return boolResult;
+                            }
+                            return !blnDefaultMin;
                         }
                         else
                         {

@@ -60,6 +60,6 @@
         </asp:TemplateColumn>
     </Columns>
 </asp:DataGrid>
-<br>
+<br/>
 <asp:HyperLink CssClass="CommandButton" ID="cmdAdd" resourcekey="cmdAdd" runat="server"
     BorderStyle="none">Create New Banner</asp:HyperLink>

@@ -1,4 +1,4 @@
-<%@ Control AutoEventWireup="true" Codebehind="URLControl.ascx.cs" Explicit="True" Inherits="DotNetNuke.UI.UserControls.UrlControl" Language="C#" %>
+<%@ Control AutoEventWireup="true" Codebehind="URLControl.ascx.cs"  Inherits="DotNetNuke.UI.UserControls.UrlControl" Language="C#" %>
 <table border="0" cellpadding="0" cellspacing="0">
     <tr id="TypeRow" runat="server">
         <td nowrap="nowrap">

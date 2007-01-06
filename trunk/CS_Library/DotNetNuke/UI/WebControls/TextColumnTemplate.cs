@@ -33,6 +33,7 @@ namespace DotNetNuke.UI.WebControls
         private ListItemType mItemType;
         private string mText;
         private Unit mWidth;
+        private object obj;
 
         /// <Summary>The Data Field is the field that binds to the Text Column</Summary>
         public string DataField
@@ -122,7 +123,11 @@ namespace DotNetNuke.UI.WebControls
                 }
                 else
                 {
-                    itemValue = DataBinder.Eval(container.DataItem, DataField).ToString();
+                    obj = DataBinder.Eval(container.DataItem, DataField);
+                    if( obj != null )
+                    {
+                        itemValue = obj.ToString();
+                    }
                 }
             }
 
@@ -136,49 +141,46 @@ namespace DotNetNuke.UI.WebControls
         public virtual void InstantiateIn( Control container )
         {
             Label lblText;
-            TextBox txtText;
-            switch (ItemType)
+
+            if( ItemType == ListItemType.Item )
             {
-                case ListItemType.Item:
-                    //Add a Text Label
-                    lblText = new Label();
-                    lblText.Width = Width;
-                    lblText.DataBinding += new System.EventHandler(Item_DataBinding);
-                    container.Controls.Add(lblText);
-                    break;
-
-                case ListItemType.AlternatingItem:
-                    //Add a Text Label
-                    lblText = new Label();
-                    lblText.Width = Width;
-                    lblText.DataBinding += new System.EventHandler(Item_DataBinding);
-                    container.Controls.Add(lblText);
-                    break;
-
-                case ListItemType.SelectedItem:
-
-                    //Add a Text Label
-                    lblText = new Label();
-                    lblText.Width = Width;
-                    lblText.DataBinding += new System.EventHandler(Item_DataBinding);
-                    container.Controls.Add(lblText);
-                    break;
-                case ListItemType.EditItem:
-
-                    //Add a Text Box
-                    txtText = new TextBox();
-                    txtText.Width = Width;
-                    txtText.DataBinding += new System.EventHandler(Item_DataBinding);
-                    container.Controls.Add(txtText);
-                    break;
-                case ListItemType.Footer:
-                    container.Controls.Add(new LiteralControl(Text));
-                    break;
-
-                case ListItemType.Header:
-
-                    container.Controls.Add(new LiteralControl(Text));
-                    break;
+                //Add a Text Label
+                lblText = new Label();
+                lblText.Width = Width;
+                lblText.DataBinding += new EventHandler( Item_DataBinding );
+                container.Controls.Add( lblText );
+            }
+            else if( ItemType == ListItemType.AlternatingItem )
+            {
+                //Add a Text Label
+                lblText = new Label();
+                lblText.Width = Width;
+                lblText.DataBinding += new EventHandler( Item_DataBinding );
+                container.Controls.Add( lblText );
+            }
+            else if( ItemType == ListItemType.SelectedItem )
+            {
+                //Add a Text Label
+                lblText = new Label();
+                lblText.Width = Width;
+                lblText.DataBinding += new EventHandler( Item_DataBinding );
+                container.Controls.Add( lblText );
+            }
+            else if( ItemType == ListItemType.EditItem )
+            {
+                //Add a Text Box
+                TextBox txtText = new TextBox();
+                txtText.Width = Width;
+                txtText.DataBinding += new EventHandler( Item_DataBinding );
+                container.Controls.Add( txtText );
+            }
+            else if( ItemType == ListItemType.Footer )
+            {
+                container.Controls.Add( new LiteralControl( Text ) );
+            }
+            else if( ItemType == ListItemType.Header )
+            {
+                container.Controls.Add( new LiteralControl( Text ) );
             }
         }
 
@@ -192,33 +194,29 @@ namespace DotNetNuke.UI.WebControls
             DataGridItem container;
             int keyValue = DotNetNuke.Common.Utilities.Null.NullInteger;
             Label lblText;
-            TextBox txtText;
-            switch (ItemType)
+            if( ItemType == ListItemType.Item )
             {
-                case ListItemType.Item:
-                    lblText = (Label)sender;
-                    container = (DataGridItem)lblText.NamingContainer;
-                    lblText.Text = GetValue(container);
-                    break;
-
-                case ListItemType.AlternatingItem:
-                    lblText = (Label)sender;
-                    container = (DataGridItem)lblText.NamingContainer;
-                    lblText.Text = GetValue(container);
-                    break;
-
-                case ListItemType.SelectedItem:
-
-                    lblText = (Label)sender;
-                    container = (DataGridItem)lblText.NamingContainer;
-                    lblText.Text = GetValue(container);
-                    break;
-                case ListItemType.EditItem:
-
-                    txtText = (TextBox)sender;
-                    container = (DataGridItem)txtText.NamingContainer;
-                    txtText.Text = GetValue(container);
-                    break;
+                lblText = (Label)sender;
+                container = (DataGridItem)lblText.NamingContainer;
+                lblText.Text = GetValue( container );
+            }
+            else if( ItemType == ListItemType.AlternatingItem )
+            {
+                lblText = (Label)sender;
+                container = (DataGridItem)lblText.NamingContainer;
+                lblText.Text = GetValue( container );
+            }
+            else if( ItemType == ListItemType.SelectedItem )
+            {
+                lblText = (Label)sender;
+                container = (DataGridItem)lblText.NamingContainer;
+                lblText.Text = GetValue( container );
+            }
+            else if( ItemType == ListItemType.EditItem )
+            {
+                TextBox txtText = (TextBox)sender;
+                container = (DataGridItem)txtText.NamingContainer;
+                txtText.Text = GetValue( container );
             }
         }
     }

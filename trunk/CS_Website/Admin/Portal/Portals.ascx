@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Portals.Portals" CodeFile="Portals.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true"  Inherits="DotNetNuke.Modules.Admin.Portals.Portals" CodeFile="Portals.ascx.cs" %>
 <asp:datagrid id="grdPortals" runat="server" Width="100%" EnableViewState="false" AutoGenerateColumns="false" CellSpacing="0" CellPadding="4" Border="0" summary="Portals Design Table" BorderStyle="None" BorderWidth="0px" GridLines="None">
 <Columns>
 <asp:TemplateColumn>

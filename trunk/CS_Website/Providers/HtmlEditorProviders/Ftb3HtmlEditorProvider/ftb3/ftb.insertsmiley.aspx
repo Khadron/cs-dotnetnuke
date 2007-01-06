@@ -1,7 +1,7 @@
 <%@ Page Language="C#" ValidateRequest="false" Trace="false" AutoEventWireup="true" Inherits="DotNetNuke.HtmlEditor.FTBInsertSmiley" %>
 <%@ Import Namespace="DotNetNuke.UI.Utilities" %>
 <%@ Import Namespace="DotNetNuke.Services.Localization" %>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 	<head runat="server">
 		<title><%= Title %></title>
 		<link rel="stylesheet" type="text/css" href="FTBPopUp.css" />
@@ -27,7 +27,7 @@
 					<ItemTemplate>
 						<img src='<%# FormatUrl(Convert.ToString(DataBinder.Eval(Container.DataItem, "Name"))) %>' 
 							onclick="insertSmiley('<%# FormatUrl(Convert.ToString(DataBinder.Eval(Container.DataItem, "Name"))) %>'); window.close();"
-							style="cursor:pointer;"
+							style="cursor:pointer;" alt="FTBInsertSmiley"
 							/>
 					</ItemTemplate>
 				</asp:datalist>

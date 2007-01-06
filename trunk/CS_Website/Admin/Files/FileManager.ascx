@@ -3,7 +3,7 @@
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Security.Permissions.Controls"
     Assembly="DotNetNuke" %>
 <%@ Control Inherits="DotNetNuke.Modules.Admin.FileSystem.FileManager" Language="C#"
-    AutoEventWireup="true" Explicit="True" CodeFile="FileManager.ascx.cs" %>
+    AutoEventWireup="true"  CodeFile="FileManager.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnntv" Namespace="DotNetNuke.UI.WebControls" Assembly="DotNetNuke.WebControls" %>
@@ -704,7 +704,7 @@ function gridCheckAll(sender)
 			</TD>
 		</TR>
 	</TABLE>
-<asp:linkbutton class="CommandButton" id="cmdUpdate" runat="server" resourcekey="cmdUpdate" text="Update"></asp:linkbutton>&nbsp;&nbsp; 
-<asp:linkbutton class="CommandButton" id="cmdCancel" runat="server" resourcekey="cmdCancel" text="Cancel"></asp:linkbutton>&nbsp;&nbsp; 
+<asp:linkbutton cssclass="CommandButton" id="cmdUpdate" runat="server" resourcekey="cmdUpdate" text="Update"></asp:linkbutton>&nbsp;&nbsp; 
+<asp:linkbutton cssclass="CommandButton" id="cmdCancel" runat="server" resourcekey="cmdCancel" text="Cancel"></asp:linkbutton>&nbsp;&nbsp; 
 </asp:panel>
 <asp:panel id="pnlScripts2" Runat="server" EnableViewState="False"></asp:panel>

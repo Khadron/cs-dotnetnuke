@@ -82,7 +82,16 @@ namespace DotNetNuke.Modules.Admin.Security
             get
             {
                 object setting = UserModuleBase.GetSetting( PortalId, "Security_UsersControl" );
-                return ( (UsersControl)setting );
+                UsersControl retval = UsersControl.TextBox;
+                try
+                {
+                    retval = (UsersControl)Enum.Parse( typeof( UsersControl ), (string)setting );
+                }
+                catch(ArgumentException)
+                {
+                    
+                }
+                return retval;
             }
         }
 
@@ -385,7 +394,7 @@ namespace DotNetNuke.Modules.Admin.Security
         /// </history>
         public string FormatUser( int UserID, string DisplayName )
         {
-            return "<a href=\"" + Globals.LinkClick( "userid=" + UserID.ToString(), TabId, ModuleId ) + "\" class=\"CommandButton\">" + DisplayName + "</a>";
+            return "<a href=\"" + Globals.LinkClick( "userid=" + UserID, TabId, ModuleId ) + "\" class=\"CommandButton\">" + DisplayName + "</a>";
         }
 
         /// <summary>
@@ -398,6 +407,8 @@ namespace DotNetNuke.Modules.Admin.Security
         /// </history>
         protected void Page_Init( Object sender, EventArgs e )
         {
+            this.cmdAdd.Click +=new EventHandler(cmdAdd_Click);
+            
             if( ( Request.QueryString["RoleId"] != null ) )
             {
                 roleId = int.Parse( Request.QueryString["RoleId"] );
@@ -426,9 +437,12 @@ namespace DotNetNuke.Modules.Admin.Security
                 // Verify that the current user has access to this page
                 if( ParentModule == null )
                 {
-                    if( PortalSecurity.IsInRoles( PortalSettings.AdministratorRoleName ) == false )
+                    if( PortalSettings.AdministratorRoleName != null )
                     {
-                        Response.Redirect( Globals.NavigateURL( "Access Denied" ), true );
+                        if( PortalSecurity.IsInRoles( PortalSettings.AdministratorRoleName ) == false )
+                        {
+                            Response.Redirect( Globals.NavigateURL( "Access Denied" ), true );
+                        }
                     }
 
                     DataBind();

@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.FileSystem.WebUpload" CodeFile="WebUpload.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true"  Inherits="DotNetNuke.Modules.Admin.FileSystem.WebUpload" CodeFile="WebUpload.ascx.cs" %>
 <table class="Settings" cellspacing="2" cellpadding="2" summary="Web Upload Design Table">
     <tr>
         <td valign="top" width="560">

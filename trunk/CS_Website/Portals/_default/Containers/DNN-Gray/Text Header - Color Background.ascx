@@ -1,4 +1,4 @@
-<%@ Control language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.UI.Containers.Container" %>
+<%@ Control language="C#" AutoEventWireup="true"  Inherits="DotNetNuke.UI.Containers.Container" %>
 <%@ Register TagPrefix="dnn" TagName="ACTIONS" Src="~/Admin/Containers/SolPartActions.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="ICON" Src="~/Admin/Containers/Icon.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="TITLE" Src="~/Admin/Containers/Title.ascx" %>

@@ -1,5 +1,5 @@
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
-<%@ Control Inherits="DotNetNuke.Modules.Admin.SiteLog.SiteLog" Language="C#" AutoEventWireup="true" Explicit="True" CodeFile="SiteLog.ascx.cs" %>
+<%@ Control Inherits="DotNetNuke.Modules.Admin.SiteLog.SiteLog" Language="C#" AutoEventWireup="true"  CodeFile="SiteLog.ascx.cs" %>
 <table class="Settings" cellspacing="2" cellpadding="2" summary="Site Log Design Table" border="0" width="450">
 	<tr vAlign="top">
     <td class="SubHead" width="150"><dnn:label id="plReportType" runat="server" controlname="cboReportType" suffix=":"></dnn:label></td>
@@ -28,11 +28,11 @@
 		</td>
 	</tr>
 </table>
-<br>
+<br/>
 <asp:datagrid id="grdLog" Width="750" Runat="server" Border="0" CellPadding="4" CellSpacing="4" AutoGenerateColumns="true" HeaderStyle-CssClass="NormalBold" ItemStyle-CssClass="Normal" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" BorderStyle="None" BorderWidth="0px" GridLines="None">
 <ItemStyle HorizontalAlign="Center" CssClass="Normal">
 </ItemStyle>
 
 <HeaderStyle HorizontalAlign="Center" CssClass="NormalBold">
 </HeaderStyle></asp:datagrid>
-<br>
+<br/>

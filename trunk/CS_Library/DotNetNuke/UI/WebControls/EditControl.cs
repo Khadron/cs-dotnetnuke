@@ -175,11 +175,6 @@ namespace DotNetNuke.UI.WebControls
             }
         }
 
-        /// <Summary>Constructs an EditControl</Summary>
-        public EditControl()
-        {
-        }
-
         /// <Summary>
         /// LoadPostData loads the Post Back Data and determines whether the value has change
         /// </Summary>

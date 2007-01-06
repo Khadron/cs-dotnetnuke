@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" Explicit="True" Inherits="DotNetNuke.Modules.Admin.Scheduling.ViewScheduleStatus" CodeFile="ViewScheduleStatus.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true"  Inherits="DotNetNuke.Modules.Admin.Scheduling.ViewScheduleStatus" CodeFile="ViewScheduleStatus.ascx.cs" %>
 <table border="0" cellspacing="1" cellpadding="3">
 	<tr>
 		<td class="SubHead"><asp:label id="lblStatusLabel" resourcekey="lblStatusLabel" runat="server">Current Status:</asp:label></td>

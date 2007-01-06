@@ -135,6 +135,8 @@ namespace DotNetNuke.Modules.Admin.Host
         /// </history>
         protected void Page_Init( Object sender, EventArgs e )
         {
+            this.cmdAddRule.Click+=new EventHandler(cmdAddRule_Click);
+
             foreach( DataGridColumn column in grdRules.Columns )
             {
                 if( column.GetType() == typeof( ImageCommandColumn ) )
@@ -183,7 +185,7 @@ namespace DotNetNuke.Modules.Admin.Host
         /// <history>
         /// 	[cnurse]	7/06/2006  Created
         /// </history>
-        protected void AddRule( object sender, EventArgs e )
+        protected void cmdAddRule_Click(object sender, EventArgs e)
         {
             //Add a new empty rule and set the editrow to the new row
             Rules.Add( new RewriterRule() );

@@ -279,7 +279,7 @@ namespace DotNetNuke.Entities.Modules
         /// </remarks>
         public static Hashtable GetSettings(Hashtable settings)
         {
-            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
+            PortalSettings portalSettings = PortalController.GetCurrentPortalSettings();
 
             if (settings["Column_FirstName"] == null)
             {
@@ -323,7 +323,14 @@ namespace DotNetNuke.Entities.Modules
             }
             else
             {
-                settings["Display_Mode"] = (DisplayMode)settings["Display_Mode"];
+                try
+                {
+                    settings["Display_Mode"] = (DisplayMode)Enum.Parse( typeof( DisplayMode), (string)settings["Display_Mode"]);
+                }
+                catch( ArgumentException e )
+                {
+                    settings["Display_Mode"] = DisplayMode.None;
+                }
             }
             if (settings["Records_PerPage"] == null)
             {
@@ -355,7 +362,7 @@ namespace DotNetNuke.Entities.Modules
             }
             if (settings["Security_UsersControl"] == null)
             {
-                if (UserController.GetUserCountByPortal(_portalSettings.PortalId) > 1000)
+                if (UserController.GetUserCountByPortal(portalSettings.PortalId) > 1000)
                 {
                     settings["Security_UsersControl"] = UsersControl.TextBox;
                 }
@@ -366,7 +373,14 @@ namespace DotNetNuke.Entities.Modules
             }
             else
             {
-                settings["Security_UsersControl"] = (UsersControl)settings["Security_UsersControl"];
+                try
+                {
+                    settings["Security_UsersControl"] = (UsersControl)Enum.Parse( typeof(UsersControl), (string)settings["Security_UsersControl"]);
+                }
+                catch( ArgumentException e )
+                {
+                    settings["Security_UsersControl"] = UsersControl.TextBox;
+                }
             }
 
             return settings;

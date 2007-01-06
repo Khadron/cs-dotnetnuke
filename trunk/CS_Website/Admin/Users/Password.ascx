@@ -45,7 +45,7 @@
 						<td><asp:textbox id="txtNewConfirm" runat="server" cssclass="NormalTextBox" textmode="Password" size="25" maxlength="20"></asp:textbox></td>
 					</tr>
 					<tr>
-						<td colspan="2" align="center"><dnn:commandbutton cssclass="CommandButton" id="cmdUpdate" runat="server" resourcekey="ChangePassword" causesvalidation="True" imageurl="~/images/save.gif" OnClick="cmdUpdate_Click" /></td>
+						<td colspan="2" align="center"><dnn:commandbutton cssclass="CommandButton" id="cmdUpdate" runat="server" resourcekey="ChangePassword" causesvalidation="True" imageurl="~/images/save.gif" /></td>
 					</tr>
 				</table>
 				<br>
@@ -68,7 +68,7 @@
 						<td><asp:textbox id="txtAnswer" runat="server" cssclass="NormalTextBox" size="25" maxlength="20"></asp:textbox></td>
 					</tr>
 					<tr>
-						<td colspan="2" align="center"><dnn:commandbutton cssclass="CommandButton" id="cmdReset" runat="server" resourcekey="ResetPassword" causesvalidation="True" imageurl="~/images/reset.gif" OnClick="cmdReset_Click" /></td>
+						<td colspan="2" align="center"><dnn:commandbutton cssclass="CommandButton" id="cmdReset" runat="server" resourcekey="ResetPassword" causesvalidation="True" imageurl="~/images/reset.gif" /></td>
 					</tr>
 				</table>
 				<br>
@@ -93,7 +93,7 @@
 						<td><asp:textbox id="txtEditAnswer" runat="server" cssclass="NormalTextBox" size="25" maxlength="20"></asp:textbox></td>
 					</tr>
 					<tr>
-						<td colspan="2" align="center"><dnn:commandbutton cssclass="CommandButton" id="cmdUpdateQA" runat="server" resourcekey="SaveQA" causesvalidation="True" imageurl="~/images/save.gif" OnClick="cmdUpdateQA_Click" /></td>
+						<td colspan="2" align="center"><dnn:commandbutton cssclass="CommandButton" id="cmdUpdateQA" runat="server" resourcekey="SaveQA" causesvalidation="True" imageurl="~/images/save.gif" /></td>
 					</tr>
 				</table>
 			</asp:panel>

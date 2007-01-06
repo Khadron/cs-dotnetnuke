@@ -89,6 +89,11 @@ namespace DotNetNuke.Modules.Admin.Security
             AddLocalizedModuleMessage( Localization.GetString( message, LocalResourceFile ), type, display );
         }
 
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            this.cmdSendPassword.Click +=new EventHandler(cmdSendPassword_Click);
+        }
+
 
         /// <summary>
         /// Page_Load runs when the control is loaded

@@ -203,8 +203,6 @@ namespace DotNetNuke.Modules.Admin.Users
         /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	03/01/2006  Created
         /// </history>
@@ -213,11 +211,14 @@ namespace DotNetNuke.Modules.Admin.Users
             ProfileProperties.LocalResourceFile = this.LocalResourceFile;
         }
 
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            this.cmdUpdate.Click +=new EventHandler(cmdUpdate_Click);
+        }
+
         /// <summary>
         /// cmdUpdate_Click runs when the Update Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	03/01/2006  Created
         /// </history>

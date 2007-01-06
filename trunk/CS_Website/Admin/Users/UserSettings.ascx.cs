@@ -36,6 +36,12 @@ namespace DotNetNuke.Modules.Admin.Users
     /// </history>
     public partial class UserSettings : PortalModuleBase
     {
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            cmdCancel.Click += new EventHandler(cmdCancel_Click);
+            cmdUpdate.Click += new EventHandler(cmdUpdate_Click);
+        }
+
         /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
@@ -80,7 +86,8 @@ namespace DotNetNuke.Modules.Admin.Users
             editors["Redirect_AfterRegistration"] = EditorInfo.GetEditor( "Page" );
 
             UserSettingsControl.LocalResourceFile = this.LocalResourceFile;
-            UserSettingsControl.DataSource = UserModuleBase.GetSettings(new Hashtable(this.Settings));
+            Hashtable ht = this.Settings;
+            UserSettingsControl.DataSource = UserModuleBase.GetSettings(ht);
             UserSettingsControl.CustomEditors = editors;
             UserSettingsControl.DataBind();
         }
