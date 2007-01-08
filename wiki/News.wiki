@@ -2,10 +2,8 @@
 
 = News =
 
+2007-01-07: Finished updating the trunk from v4.3.4 to v4.3.5. It has also been tagged under tags/v4.3.5.
+
 2007-01-06: Applied additional code updates, (see the change log in the svn repository), and have decided to tag the trunk to v4.3.4. I am now going to update sequentially to v4.3.5, v4.3.6 and to v4.3.7. The remaining bugs from the initial conversion (v4.3.4) will be found by you and reported so they can be fixed and merged into the trunk. Please post all issues now to the project's website here on google.com.
 
 2007-01-05: Modules are installed during site install, other bug fixes.
-
- * Removed the redundant explicit=true tags from the markup pages, since we're not in vb no more. Got the module definition upload to work correctly, successfully uploaded the html module already. Fixed the free text box html editor to work properly. I was getting js errors which crashed the site, as usual. don't we just love java script. Removed the base.Load from SolPartActions' Page_Load since its base gets called anyways. Don't listen to what resharper says, a new is not required on Page_Load and its base Page_Load does get invoked.
- * Tied the actions from the buttons to the code-behind files. I also managed to clean up some of the code and make it read better, but more importantly, I moved the .xml files from App_GlobalResources into a Config directory.
- * LogViewer's markup is correct now.
