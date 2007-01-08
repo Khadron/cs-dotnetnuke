@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="plPortalID.Text">
+		<value>Portal</value>
+	</data>
+	<data name="plPortalID.Help">
+		<value>Select the Portal you would like to view</value>
+	</data>
+	<data name="plLogType.Text">
+		<value>Type</value>
+	</data>
+	<data name="plLogType.Help">
+		<value>You can choose to restrict the Log to certain types of events</value>
+	</data>
+	<data name="plShowRecords.Text">
+		<value>Show Records</value>
+	</data>
+	<data name="plShowRecords.Help">
+		<value>Select which records you would like to view</value>
+	</data>
+	<data name="ColorCoding.Text">
+		<value>Color Coding On</value>
+	</data>
+	<data name="Settings.Text">
+		<value>Viewer Settings</value>
+	</data>
+	<data name="Legend.Text">
+		<value>Color Coding Legend</value>
+	</data>
+	<data name="Date.Text">
+		<value>Date</value>
+	</data>
+	<data name="Type.Text">
+		<value>Log Type</value>
+	</data>
+	<data name="Username.Text">
+		<value>Username</value>
+	</data>
+	<data name="Portal.Text">
+		<value>Portal</value>
+	</data>
+	<data name="Summary.Text">
+		<value>Summary</value>
+	</data>
+	<data name="btnDelete.Text">
+		<value>Delete Selected Exceptions</value>
+	</data>
+	<data name="btnClear.Text">
+		<value>Clear Log</value>
+	</data>
+	<data name="SendExceptions.Text">
+		<value>Send Exceptions</value>
+	</data>
+	<data name="ExceptionsWarning.Text">
+		<value>
+            <b>Please note</b>: By using these features 
+      below, you <i>may</i> be sending sensitive data over the Internet in clear 
+      text (<i>not</i> encrypted). Before sending your exception submission, 
+      please review the contents of your exception log to verify that no 
+      sensitive data is contained within it. Only the log entries checked above 
+      will be sent.
+    </value>
+	</data>
+	<data name="SendExceptionsEmail.Text">
+		<value>Send Exceptions via Email</value>
+	</data>
+	<data name="plEmailAddress.Text">
+		<value>Email Address</value>
+	</data>
+	<data name="plEmailAddress.Help">
+		<value>
+          Please enter the Email Address of the person you wish to receive the exceptions.
+           </value>
+	</data>
+	<data name="SendMessage.Text">
+		<value>Message (optional)</value>
+	</data>
+	<data name="SendMessage.Help">
+		<value>Include an optional message with the exception(s)</value>
+	</data>
+	<data name="btnEmail.Text">
+		<value>Send Selected Exceptions</value>
+	</data>
+	<data name="AddContent.Action">
+		<value>Edit Log Configurations</value>
+	</data>
+	<data name="NoEntries.Text">
+		<value>There are no log entries.</value>
+	</data>
+	<data name="Showing.Text">
+		<value>Showing {0} to {1} of {2}</value>
+	</data>
+	<data name="DeleteSuccess.Text">
+		<value>The selected exceptions were successfully deleted.</value>
+	</data>
+	<data name="EmailSuccess.Text">
+		<value>Your email has been sent.</value>
+	</data>
+	<data name="EmailFailure.Text">
+		<value>Your email has &lt;b&gt;not&lt;/b&gt; been sent.</value>
+	</data>
+	<data name="ServiceUnavailable.Text">
+		<value>The web service at DotNetNuke.com is currently unavailable.</value>
+	</data>
+	<data name="ServerName.Text">
+		<value>&lt;b&gt;Server Name&lt;/b&gt;: </value>
+	</data>
+	<data name="LogCleared.Text">
+		<value>The log has been cleared.</value>
+	</data>
+	<data name="ClickRow.Text">
+		<value>Click on a row for details.</value>
+	</data>
+	<data name="ExceptionCode.Text">
+		<value>Exception</value>
+	</data>
+	<data name="ItemCreatedCode.Text">
+		<value>Item Created</value>
+	</data>
+	<data name="ItemUpdatedCode.Text">
+		<value>Item Updated</value>
+	</data>
+	<data name="ItemDeletedCode.Text">
+		<value>Item Deleted</value>
+	</data>
+	<data name="SuccessCode.Text">
+		<value>Operation Success</value>
+	</data>
+	<data name="FailureCode.Text">
+		<value>Operation Failure</value>
+	</data>
+	<data name="AdminOpCode.Text">
+		<value>General Admin Operation</value>
+	</data>
+	<data name="AdminAlertCode.Text">
+		<value>Admin Alert</value>
+	</data>
+	<data name="HostAlertCode.Text">
+		<value>Host Alert</value>
+	</data>
+	<data name="ToEmail.Text">
+		<value>To Specified Email Address</value>
+	</data>
+	<data name="ControlTitle_.Text">
+		<value>Log Viewer</value>
+	</data>
+	<data name="ModuleHelp.Text">
+		<value>&lt;h1&gt;About Log Viewer&lt;/h1&gt;&lt;p&gt;Allows you to view log entries for portal events.&lt;/p&gt;</value>
+	</data>
+	<data name="SecurityException.Text">
+		<value>Security Exception</value>
+	</data>
+</root>

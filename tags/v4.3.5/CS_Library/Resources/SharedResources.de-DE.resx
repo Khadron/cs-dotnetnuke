@@ -1,0 +1,718 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    DotNetNuke - The Web of the future      http://www.dotnetnuke.com
+    Copyright (c) 2002-2005  by Shaun Walker ( sales@perpetualmotion.ca ) of Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+    
+    German Translation (c) 2004-2005 by Sebastian Leupold, gamma concept mbH
+    Please report comments and corrections at http://dotnetnuke.gamma-concept.de
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add.Text">
+    <value>hinzufügen</value>
+  </data>
+  <data name="All.Text">
+    <value>alle</value>
+  </data>
+  <data name="BeginSkinFile.Text">
+    <value>Datei wird bearbeitet.</value>
+  </data>
+  <data name="BeginZip.Text">
+    <value>Zip-Archiv wird bearbeitet.</value>
+  </data>
+  <data name="Calendar.Text">
+    <value>Kalender</value>
+  </data>
+  <data name="Center.Text">
+    <value>zentriert</value>
+  </data>
+  <data name="Close.Text">
+    <value>schließen</value>
+  </data>
+  <data name="cmdBack.Help">
+    <value>Klicken Sie hier, um zur vorherigen Seite zurückzukehren.</value>
+  </data>
+  <data name="cmdBack.Text">
+    <value>zurück</value>
+  </data>
+  <data name="cmdCancel.Text">
+    <value>beenden</value>
+  </data>
+  <data name="cmdDelete.Text">
+    <value>löschen</value>
+  </data>
+  <data name="cmdDisplay.Text">
+    <value>anzeigen</value>
+  </data>
+  <data name="cmdDownLoad.Text">
+    <value>herunterladen</value>
+  </data>
+  <data name="cmdEdit.Text">
+    <value>bearbeiten</value>
+  </data>
+  <data name="cmdFinish.Text">
+    <value>abschließen</value>
+  </data>
+  <data name="cmdGo.Text">
+    <value>Start</value>
+  </data>
+  <data name="cmdHelp.Help">
+    <value>Klicken Sie hier, um die Hilfe für diese Seite anzuzeigen.</value>
+  </data>
+  <data name="cmdHelp.Text">
+    <value>Hilfe</value>
+  </data>
+  <data name="cmdNext.Help">
+    <value>Klicken Sie hier, um zur nächsten Seite zu wechseln.</value>
+  </data>
+  <data name="cmdNext.Text">
+    <value>weiter</value>
+  </data>
+  <data name="cmdReturn.Text">
+    <value>zurück</value>
+  </data>
+  <data name="cmdUpdate.Text">
+    <value>aktualisieren</value>
+  </data>
+  <data name="cmdUpload.Text">
+    <value>neue Datei hochladen</value>
+  </data>
+  <data name="ContainerLoad.Error">
+    <value>Folgender Modulrahmen konnte nicht geladen werden: {0}!</value>
+  </data>
+  <data name="Containers.Text">
+    <value>Modulrahmen</value>
+  </data>
+  <data name="ContractExpired.Error">
+    <value>Der Hosting-Vertrag für {0} ist abgelaufen am {1}. Bitte nehmen Sie mit &lt;a href=""mailto:{2}""&gt;{2}&lt;/a&gt; Konakt auf, um weitere Information zu erhalten.</value>
+  </data>
+  <data name="ControlDirective.Text">
+    <value>Anweisung für die Formatierung</value>
+  </data>
+  <data name="ControlFormat.Text">
+    <value>Hinweise zur Formatierung</value>
+  </data>
+  <data name="ControlRegister.Text">
+    <value>Anweisung für die Formatregistrierung.</value>
+  </data>
+  <data name="CreateDir.Text">
+    <value>Verzeichnis wird erstellt</value>
+  </data>
+  <data name="CriticalError.Error">
+    <value>Es ist ein kritischer Fehler aufgetreten!</value>
+  </data>
+  <data name="Day.Text">
+    <value>Tag</value>
+  </data>
+  <data name="Days.Text">
+    <value>Tage</value>
+  </data>
+  <data name="DeleteItem.Text">
+    <value>Sind Sie sicher, dass Sie diesen Eintrag löschen wollen?</value>
+  </data>
+  <data name="DeleteItems.Text">
+    <value>Sind Sie sicher, dass Sie diese Datei löschen wollen?</value>
+  </data>
+  <data name="DeleteModule.Confirm">
+    <value>confirm('Sind Sie sicher dass Sie dieses Modul löschen wollen?')</value>
+  </data>
+  <data name="DNN_Reading.Text">
+    <value>Lese DNN-Datei</value>
+  </data>
+  <data name="DNN_Success.Text">
+    <value>Das Laden von DNN wurde erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="DNN_Valid.Text">
+    <value>Die DNN-Datei hat ein gültiges {0}-Format.</value>
+  </data>
+  <data name="DNN_ValidSkinObject.Text">
+    <value>Die DNN-Datei enthält ein gültiges 2.0 Layout-Objekt.</value>
+  </data>
+  <data name="DuplicateSkinObject.Detail">
+    <value>Jedes Seitenlayout, das die diesen Eintrag verwendet, wird das zuerst registrierte Layout-Objekt {0} anstelle des angegebenen Duplikats ({1}) verwenden. Das Layout wird vermutlich fehlerhaft dargestellt.</value>
+  </data>
+  <data name="DuplicateSkinObject.Error">
+    <value>Das doppelte Layout-Objekt für Eintrag {0} wird gelöscht.</value>
+  </data>
+  <data name="Edit.Text">
+    <value>bearbeiten</value>
+  </data>
+  <data name="EndSkinFile.Text">
+    <value>Dateiverarbeitung ist abgeschlossen</value>
+  </data>
+  <data name="EndSkinFiles.Text">
+    <value>Verarbeitung der Layout-Dateien ist beendet.</value>
+  </data>
+  <data name="EndZip.Text">
+    <value>Verarbeiten des Zip-Datei ist beendet.</value>
+  </data>
+  <data name="ErrorOccurred.Text">
+    <value>Es ist ein Fehler aufgetreten.</value>
+  </data>
+  <data name="EXCEPTION.DuplicateLocale.Text">
+    <value>Diese Regionaleinstellung ist bereits definiert.</value>
+  </data>
+  <data name="EXCEPTION.Log">
+    <value>AUSNAHME: {0}</value>
+  </data>
+  <data name="EXCEPTION.SaveLocale.Text">
+    <value>Eine Dateioperation ist fehlgeschlagen. Bitte prüfen die Zugriffsrechte für die Ressourcendatei.</value>
+  </data>
+  <data name="EXCEPTION.Text">
+    <value>Fehler</value>
+  </data>
+  <data name="EXCEPTION_DesktopSrc.Text">
+    <value>Ein Modul muss einen gültigen Wert für "Desktopsrc" besitzen -  Abbruch!</value>
+  </data>
+  <data name="EXCEPTION_DirectoryExists.Text">
+    <value>Das Verzeichnis besteht bereits!</value>
+  </data>
+  <data name="EXCEPTION_FileLoad.Text">
+    <value>Datei konnte nicht geladen werden - Abbruch!</value>
+  </data>
+  <data name="EXCEPTION_FileName.Text">
+    <value>Eine Datei muss einen Namen besitzen, Abbruch!</value>
+  </data>
+  <data name="EXCEPTION_FileRead.Text">
+    <value>Konnte die Daten nicht vollständig lesen: </value>
+  </data>
+  <data name="EXCEPTION_FolderDesc.Text">
+    <value>Ein Ordner muss eine Beschreibung besitzen - Abbruch!</value>
+  </data>
+  <data name="EXCEPTION_FolderName.Text">
+    <value>Ein Ordner muss einen Namen besitzen - Abbruch!</value>
+  </data>
+  <data name="EXCEPTION_FolderProvider.Text">
+    <value>Ein Ordner muss einen Inhaltstyp besitzen - Abbruch!</value>
+  </data>
+  <data name="EXCEPTION_FolderVersion.Text">
+    <value>Ein Ordner muss eine Version besitzen - Abbruch!</value>
+  </data>
+  <data name="EXCEPTION_Format.Text">
+    <value>Ungültiges DNN-Format - Abbruch!</value>
+  </data>
+  <data name="EXCEPTION_LoadFailed.Text">
+    <value>DNN konnte nicht geladen werden - Abbruch!</value>
+  </data>
+  <data name="EXCEPTION_MissingDnn.Text">
+    <value>Es konnte keine .dnn-Datei gefunden werden.</value>
+  </data>
+  <data name="EXCEPTION_MissingResource.Text">
+    <value>Die in der DNN-Beschreibung angegebene Ressourcendatei ist im Zip-Archiv nicht enthalten: </value>
+  </data>
+  <data name="EXCEPTION_MultipleDnn.Text">
+    <value>Es sind mehrere .dnn-Dateien im Zip-Archiv enthalten: </value>
+  </data>
+  <data name="EXCEPTION_Src.Text">
+    <value>Ein Modul muss einen Wert für "src" besitzen - Abbruch!</value>
+  </data>
+  <data name="EXCEPTION_Type.Text">
+    <value>Ein Modul muss einen Typ besitzen - Abbruch!</value>
+  </data>
+  <data name="FILE_Created.Text">
+    <value>erstellt</value>
+  </data>
+  <data name="FILE_Found.Text">
+    <value>Gültiger Pad ({0}) für {1} gefunden.</value>
+  </data>
+  <data name="FILE_Loading.Text">
+    <value>Lade</value>
+  </data>
+  <data name="FILE_NotFound.Text">
+    <value>Die in der DNN-Beschreibung angegebene Datei ist im Zip-Archiv nicht enthalten: </value>
+  </data>
+  <data name="FILE_ReadSuccess.Text">
+    <value>Datei {0} erfolgreich gelesen.</value>
+  </data>
+  <data name="FileError.Text">
+    <value>Fehler beim Verarbeiten der Datei</value>
+  </data>
+  <data name="FileFormat.Detail">
+    <value>{0} enthält keine Spalte "ContentPane".</value>
+  </data>
+  <data name="FileFormat.Error">
+    <value>falsches Dateiformat!</value>
+  </data>
+  <data name="FileRestricted.Text">
+    <value>{0} ist ein verbotener Dateityp. Zugelassene Dateitypen sind: ( *.{1}). Bitte wenden Sie sich an Ihren Internet-Provider, wenn Sie eine Datei mit nicht zugelassenem Typ hochladen müssen.</value>
+  </data>
+  <data name="Files.Text">
+    <value>Dateien:</value>
+  </data>
+  <data name="FILES_Created.Text">
+    <value>Dateien erstellt</value>
+  </data>
+  <data name="FILES_CreatedResources.Text">
+    <value>Ressourcendateien erstellt.</value>
+  </data>
+  <data name="FILES_Creating.Text">
+    <value>erstelle Dateien</value>
+  </data>
+  <data name="FILES_Expanding.Text">
+    <value>entpacke Ressourcendatei</value>
+  </data>
+  <data name="FILES_Loading.Text">
+    <value>lade Dateiinfo</value>
+  </data>
+  <data name="FILES_Reading.Text">
+    <value>lese Dateien</value>
+  </data>
+  <data name="FILES_ReadingEnd.Text">
+    <value>Alle Dateien wurden gelesen.</value>
+  </data>
+  <data name="FileWrite.Text">
+    <value>Datei wird gespeichert</value>
+  </data>
+  <data name="Folders.Text">
+    <value>Ordner:</value>
+  </data>
+  <data name="Help.Text">
+    <value>Hilfe</value>
+  </data>
+  <data name="Home.Text">
+    <value>Start</value>
+  </data>
+  <data name="Hour.Text">
+    <value>Stunde</value>
+  </data>
+  <data name="Hours.Text">
+    <value>Stunden</value>
+  </data>
+  <data name="INSTALL_Start.Text">
+    <value>Die Installation wird gestartet.</value>
+  </data>
+  <data name="INSTALL_Success.Text">
+    <value>Die Installation wurde erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="InvalidAnswer.Text">
+    <value>Die angegebene Antwort ist unzulässig. Bitte geben Sie eine gültige Antwort auf die Frage an.</value>
+  </data>
+  <data name="InvalidEmail.Text">
+    <value>Die angegebene E-Mail-Adresse ist ungültig. Bitte geben Sie eine gültige E-Mail-Adresse an.</value>
+  </data>
+  <data name="InvalidPassword.Text">
+    <value>Das angegebene Passwort ist ungültig. Bitte geben Sie ein gültiges Passwort</value>
+  </data>
+  <data name="InvalidQuestion.Text">
+    <value>Diese angegebene Frage ist ungültig. Bitte geben Sie eine gültige Frage an.</value>
+  </data>
+  <data name="InvalidUserName.Text">
+    <value>Der angegebene Benutzername ist ungültig. Bitte geben Sie einen gültigen Benutzernamen an. </value>
+  </data>
+  <data name="Left.Text">
+    <value>Links</value>
+  </data>
+  <data name="LoadingSkinToken.Text">
+    <value>Das Layout-Objekt für Element {0} wird geladen.</value>
+  </data>
+  <data name="Maximize.Text">
+    <value>maximieren</value>
+  </data>
+  <data name="Maximized.Text">
+    <value>maximiert</value>
+  </data>
+  <data name="Minimize.Text">
+    <value>minimieren</value>
+  </data>
+  <data name="Minimized.Text">
+    <value>minimiert</value>
+  </data>
+  <data name="Minute.Text">
+    <value>Minute</value>
+  </data>
+  <data name="Minutes.Text">
+    <value>Minuten</value>
+  </data>
+  <data name="ModuleAccess.Error">
+    <value>Sie sind entweder momentan nicht angemeldet oder es fehlt Ihnen die notwendige Berechtigung, um dieses Modul innerhalb des Portals anzuzeigen.</value>
+  </data>
+  <data name="ModuleAdd.Error">
+    <value>beim Hinzufügen des Moduls zu {0} ist ein Fehler aufgetreten.</value>
+  </data>
+  <data name="ModuleLoad.Error">
+    <value>Beim Laden des Moduls ist ein Fehler aufgetreten.</value>
+  </data>
+  <data name="MODULES_ControlInfo.Text">
+    <value>Lade Steuerelementinfo für Modul '{0}'.</value>
+  </data>
+  <data name="MODULES_Loading.Text">
+    <value>Lade Modulinfo</value>
+  </data>
+  <data name="ModuleUnavailable.Text">
+    <value>Fehler: {0} ist zur Zeit nicht verfügbar.</value>
+  </data>
+  <data name="Month.Text">
+    <value>Monat</value>
+  </data>
+  <data name="Months.Text">
+    <value>Monate</value>
+  </data>
+  <data name="New.Text">
+    <value>Neu</value>
+  </data>
+  <data name="No.Text">
+    <value>Nein</value>
+  </data>
+  <data name="None.Text">
+    <value>Keine</value>
+  </data>
+  <data name="None_Specified.Text">
+    <value>Keine Angabe</value>
+  </data>
+  <data name="Not_Specified.Text">
+    <value>Nicht angegeben</value>
+  </data>
+  <data name="PackageLoad.Error">
+    <value>Fehler auf beim Laden der gepackten Eigenschaftsdatei ({0})</value>
+  </data>
+  <data name="PackageLoad.Text">
+    <value>Gepackte Eigenschaftsdatei geladen.</value>
+  </data>
+  <data name="Page.Text">
+    <value>Seite:</value>
+  </data>
+  <data name="Pages.Text">
+    <value>Seite {0} von {1}</value>
+  </data>
+  <data name="PaneNotFound.Error">
+    <value>Die Spalte "ContentPane" konnte im Seitenlayout nicht gefunden werden!</value>
+  </data>
+  <data name="PaneToken.Text">
+    <value>Element ist Spalte "ContentPane"</value>
+  </data>
+  <data name="ProcessToken.Text">
+    <value>Element wird bearbeitet.</value>
+  </data>
+  <data name="PURGE.Log">
+    <value>Die Abrufstatistik wurde erfolgreich gelöscht.</value>
+  </data>
+  <data name="PURGEDSCHEDULE.Log">
+    <value>Zeitplan-Historie wurde gelöscht.</value>
+  </data>
+  <data name="PURGEUSERS.Log">
+    <value>"Aktive Benutzer" wurde erfolgreich berichtigt.</value>
+  </data>
+  <data name="ReadError.Text">
+    <value>Konnte Daten nicht vollständig lesen: {0}/{1}</value>
+  </data>
+  <data name="RegError.Text">
+    <value>Während der Anmeldung ist ein unerwarteter Fehler aufgetreten. Bitte wenden Sie sich an den Portal-Administrator, umr weitere Information zu erhalten.</value>
+  </data>
+  <data name="REGISTER_Controls.Text">
+    <value>Registriere Steuerelemente</value>
+  </data>
+  <data name="REGISTER_Definition.Text">
+    <value>Registriere Definitionen</value>
+  </data>
+  <data name="REGISTER_End.Text">
+    <value>Registrieren beendet</value>
+  </data>
+  <data name="REGISTER_Module.Text">
+    <value>Registriere Desktop-Modul</value>
+  </data>
+  <data name="Right.Text">
+    <value>rechts</value>
+  </data>
+  <data name="Second.Text">
+    <value>Sekunde</value>
+  </data>
+  <data name="Seconds.Text">
+    <value>Sekunden</value>
+  </data>
+  <data name="Select.Text">
+    <value>wählen</value>
+  </data>
+  <data name="SkinFileLoad.Error">
+    <value>Fehler beim Laden der Attributdatei!</value>
+  </data>
+  <data name="SkinFileLoad.Text">
+    <value>Attributdatei wird geladen.</value>
+  </data>
+  <data name="SkinObjects.Text">
+    <value>[Layoutobjekte]</value>
+  </data>
+  <data name="SkinObjectsDescription.Text">
+    <value>Layoutobjekte sind Steuerelemente, die Zusatzfunktionen für Ihre Seitenlayouts bereit stellen.</value>
+  </data>
+  <data name="Skins.Text">
+    <value>Seitenlayouts</value>
+  </data>
+  <data name="SkinToken.Text">
+    <value>Das Element ist ein Layoutobjekt.</value>
+  </data>
+  <data name="SQL_Begin.Text">
+    <value>Starte SQL-Ausführung...</value>
+  </data>
+  <data name="SQL_BeginFile.Text">
+    <value>Starte SQL-Ausführung: Datei {0} </value>
+  </data>
+  <data name="SQL_End.Text">
+    <value>SQL-Ausführung abgeschlossen.</value>
+  </data>
+  <data name="SQL_EndFile.Text">
+    <value>SQL-Ausführung beendet: Datei {0}</value>
+  </data>
+  <data name="SQL_Exceptions.Text">
+    <value>Die SQL-Ausführung hat folgende Fehler verursacht: {0}{1}.</value>
+  </data>
+  <data name="SQL_Executing.Text">
+    <value>Ausführen</value>
+  </data>
+  <data name="SQL_UnknownFile.Text">
+    <value>unbekannte Dateiverschlüsselung für {0} - Abbruch!</value>
+  </data>
+  <data name="StartProcessor.Text">
+    <value>Verarbeitung für Layout-Dateien gestartet.</value>
+  </data>
+  <data name="Substituting.Detail">
+    <value>{0}&lt;br&gt;Mit: {1}</value>
+  </data>
+  <data name="Substituting.Text">
+    <value>ersetzen</value>
+  </data>
+  <data name="TabAccess.Error">
+    <value>Sie haben keine Berechtigung, um diese Seite innerhalb des Portals anzuzeigen.</value>
+  </data>
+  <data name="TESTCOMPLETE.Log">
+    <value>Test ausgeführt. Zeitbedarf: {0} Millisekunden</value>
+  </data>
+  <data name="Today.Text">
+    <value>heute</value>
+  </data>
+  <data name="TokenFormat.Text">
+    <value>Attribut der Formateigenschaft</value>
+  </data>
+  <data name="TokenFound.Text">
+    <value>Der Eintrag wurde in Eigenschaftsdatei gefunden.</value>
+  </data>
+  <data name="TokenNotFound.Text">
+    <value>Eintrag nicht gefunden</value>
+  </data>
+  <data name="TokenNotFoundInFile.Text">
+    <value>Der Eintrag wurde in der Eigenschaftdatei NICHT gefunden.</value>
+  </data>
+  <data name="Unauthorized.Text">
+    <value>Unautorisiert</value>
+  </data>
+  <data name="Unknown.Text">
+    <value>Unbekannt</value>
+  </data>
+  <data name="Upload.Text">
+    <value>hochladen</value>
+  </data>
+  <data name="URL.Text">
+    <value>URL:</value>
+  </data>
+  <data name="UserEmailExists.Text">
+    <value>Es existiert bereits ein Benutzer mit dieser E-Mail-Adresse. Bitte melden Sie mit dem registrierten Konto dieser E-Mail-Adresse ein.</value>
+  </data>
+  <data name="UserNameExists.Text">
+    <value>Es existiert bereits ein Benutzer mit dem angegebenen Benutzernamen. Bitte melden Sie sich mit einem anderen Benutzernamen an.</value>
+  </data>
+  <data name="UserRejected.Text">
+    <value>Ihre Benutzerregistrierung wurde abgelehnt. Bitte wenden Sie sich an den Administrator, wenn Sie weitere Informationen wünschen.</value>
+  </data>
+  <data name="Week.Text">
+    <value>Woche</value>
+  </data>
+  <data name="Weeks.Text">
+    <value>Wochen</value>
+  </data>
+  <data name="WriteFile.Text">
+    <value>Datei schreiben</value>
+  </data>
+  <data name="XML_Loaded">
+    <value>xml geladen.</value>
+  </data>
+  <data name="Year.Text">
+    <value>Jahr</value>
+  </data>
+  <data name="Years.Text">
+    <value>Jahre</value>
+  </data>
+  <data name="Yes.Text">
+    <value>Ja</value>
+  </data>
+  <data name="LOG.LangPack.LoadFiles">
+    <value>lade {0} Ressourcendateien.</value>
+  </data>
+  <data name="LOG.LangPack.Global">
+    <value>allgemein</value>
+  </data>
+  <data name="LOG.LangPack.Control">
+    <value>Steuerelement</value>
+  </data>
+  <data name="LOG.LangPack.Module">
+    <value>Modul</value>
+  </data>
+  <data name="LOG.LangPack.Admin">
+    <value>Administrator</value>
+  </data>
+  <data name="LOG.LangPack.ArchiveFiles">
+    <value>Erzeuge Archivdatei für das Sprachpaket.</value>
+  </data>
+  <data name="LOG.LangPack.LoadFromFolder">
+    <value>lade Ressourcendateien aus Ordner: {0}</value>
+  </data>
+  <data name="LOG.LangPack.LoadFileName">
+    <value>lade Ressourcendatei: {0}</value>
+  </data>
+  <data name="LOG.LangPack.SerializeManifest">
+    <value>Manifestdatei erfolgreich erstellt.</value>
+  </data>
+  <data name="LOG.LangPack.SavedFile">
+    <value>Ressourcendatei {0} im Ressourcenpaket gespeichert.</value>
+  </data>
+  <data name="LOG.LangPack.CreateArchive">
+    <value>Füge folgende Dateien zum Sprachpaket hinzu: {0}</value>
+  </data>
+  <data name="LOG.LangPack.ERROR.SavingFile">
+    <value>Beim Hinzufügen einer Datei zum Sprachpaket ist folgender Fehler aufgetreten: {0}</value>
+  </data>
+  <data name="LOG.LangPack.ERROR.CreatingFile">
+    <value>Beim Erzeugen der Archivdatei für das Sprachpaket ist folgender Fehler aufgetreten: {0}</value>
+  </data>
+  <data name="LOG.LangPack.ERROR.ManifestFile">
+    <value>Beim Erzeugen der Manifestdatei ist folgender Fehler aufgetreten: {0}</value>
+  </data>
+  <data name="EXCEPTION.LangPack.Install">
+    <value>Bei der Installation des Sprachpakets ist folgender Fehler aufgetreten: {0}</value>
+  </data>
+  <data name="EXCEPTION.LangPack.ManifestZip">
+    <value>Beim Lesen des Sparchpaket-Manifests aus der Zip-Datei ist folgender Fehler aufgetreten: {0}</value>
+  </data>
+  <data name="EXCEPTION.LangPack.ManifestLoad">
+    <value>Beim Laden des Sprachpaket-Manifests ist folgender Fehler aufgetreten: {0}</value>
+  </data>
+  <data name="EXCEPTION.LangPack.FileMissing">
+    <value>Die Datei {0} fehlt im Manifest des Sprachpakets.</value>
+  </data>
+  <data name="LOG.LangPack.Job.LoadManifest">
+    <value>lade die Manifestdatei.</value>
+  </data>
+  <data name="LOG.LangPack.Job.DeserializeManifest">
+    <value>deserialisiere die Manifestdatei.</value>
+  </data>
+  <data name="LOG.LangPack.Job.LoadFiles">
+    <value>entpacke Sprachdateien</value>
+  </data>
+  <data name="LOG.LangPack.Job.SaveFiles">
+    <value>importiere die Sprachdateien</value>
+  </data>
+  <data name="LOG.LangPack.Job.CreateLocale">
+    <value>erzeuge/aktualisiere die Lokalisierung</value>
+  </data>
+  <data name="Wizard.Success.SuccessTitle">
+    <value>Herzlichen Glückwunsch:</value>
+  </data>
+  <data name="Wizard.Success.SuccessDetail">
+    <value>&lt;p&gt;Der Assistent hat seine Aufgabe erfolgreich abgeschlossen.&lt;/p&gt;</value>
+  </data>
+  <data name="Wizard.Success.FailureTitle">
+    <value>Fehler im Assistenten:</value>
+  </data>
+  <data name="Wizard.Success.FailureDetail">
+    <value>&lt;p&gt;Beim Ausführen des Assistenten ist ein Fehler aufgetreten. Bitte prüfen Sie die nachfolgend angegebene Meldung und nehmen Sie Kontakt mit Ihrem Provider auf.&lt;/p&gt;</value>
+  </data>
+  <data name="LOG.LangPackReader.LoadFiles">
+    <value>Entpacke Sprachpaket: {0}</value>
+  </data>
+  <data name="LOG.LangPackReader.UnzipFiles">
+    <value>Importiere Datei: {0}</value>
+  </data>
+  <data name="LOG.LangPackReader.CreateLocale">
+    <value>Erzeuge Sprachpaket: {0}</value>
+  </data>
+  <data name="LOG.PAWriter.CreateManifest">
+    <value>Manifestdatei erzeugen. {0}</value>
+  </data>
+  <data name="LOG.PAWriter.CreateArchive">
+    <value>Dateien zum Modulpaket hinzufügen: {0}</value>
+  </data>
+  <data name="LOG.PAWriter.SavedFile">
+    <value>Die Datei {0} wurde dem Modulpaket hinzugefügt.</value>
+  </data>
+  <data name="LOG.PAWriter.ERROR.SavingFile">
+    <value>Beim Hinzufügen einer Datei zum Modulpaket trat ein Fehler auf: {0}</value>
+  </data>
+  <data name="LOG.PAWriter.CreateZipFile">
+    <value>Erzeuge Modulpaket: {0}</value>
+  </data>
+  <data name="ModuleVisibleAdministrator.Text">
+    <value>Nur für Administratoren sichtbar</value>
+  </data>
+  <data name="LOG.PALogger.Info">
+    <value>Info</value>
+  </data>
+  <data name="LOG.PALogger.Warning">
+    <value>Warnung</value>
+  </data>
+  <data name="LOG.PALogger.Failure">
+    <value>Abbruch</value>
+  </data>
+  <data name="LOG.PALogger.StartJob">
+    <value>Starte Job</value>
+  </data>
+  <data name="LOG.PALogger.EndJob">
+    <value>Job-Ende</value>
+  </data>
+  <data name="AllUsers.Text">
+    <value>Alle Benutzer</value>
+  </data>
+  <data name="Superuser.Text">
+    <value>Systemverwalter</value>
+  </data>
+  <data name="UnauthenticatedUsers.Text">
+    <value>Unbestätigte Benutzer</value>
+  </data>
+  <data name="RestrictedFileType.Text">
+    <value>Die Datei {0} ist eines nicht zugelassenen Typs. Zugelassen Dateitypen sind: ( *. {1} ). Bitte wenden Sie sich an Ihren Provider, wenn Sie Dateien hochladen müssen, die eines anderen Typs sind.</value>
+  </data>
+  <data name="SaveFileError.Text">
+    <value>Beim Versuch, die Datei {0} zu speichern, ist ein Fehler aufgetreten. Bitte wenden Sie sich an Ihren Administrator um überprüfen zu lassen, dass die Zugriffsrechte korrekt eingestellt wurden.</value>
+  </data>
+  <data name="DiskSpaceExceeded.Text">
+    <value>Die Datei {0} führt dazu, dass Sie den Ihnen zur Verfügung gestellten Speicherplatz überschreiten. Bitte löschen Sie bestehende Dateien oder nehmen Sie Kontakt mit Ihrem Provider auf, damit er Ihnen zusätzlichen Speicherplatz zuteilt.</value>
+  </data>
+  <data name="WordCleanButton.Text">
+    <value>HTML von MS-Word bereinigen</value>
+  </data>
+</root>

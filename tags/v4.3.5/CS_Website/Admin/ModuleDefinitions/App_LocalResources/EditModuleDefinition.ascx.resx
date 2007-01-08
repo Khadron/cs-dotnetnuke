@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            <xsd:complexType>
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" />
+                            <xsd:attribute name="type" type="xsd:string" />
+                            <xsd:attribute name="mimetype" type="xsd:string" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" />
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:complexType>
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="ResMimeType">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="Version">
+        <value>1.0.0.0</value>
+    </resheader>
+    <resheader name="Reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="Writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="plFriendlyName.Text">
+        <value>Friendly Name:</value>
+    </data>
+    <data name="valModuleName.ErrorMessage">
+        <value>&lt;br&gt;You must enter a Name for the Module</value>
+    </data>
+    <data name="plDescription.Text">
+        <value>Description:</value>
+    </data>
+    <data name="plDescription.Help">
+        <value>Provide a description of the module.</value>
+    </data>
+    <data name="plSupportedFeatures.Text">
+        <value>Supported Features</value>
+    </data>
+    <data name="plSupportedFeatures.Help">
+        <value>These options are updated automatically depending on the module and the features that the developer has chosen to support.</value>
+    </data>
+    <data name="plUpgradeable.Text">
+        <value>Upgradeable</value>
+    </data>
+    <data name="plUpgradeable.Help">
+        <value>If checked, this module runs special code on upload for upgrading.</value>
+    </data>
+    <data name="plPortable.Text">
+        <value>Portable</value>
+    </data>
+    <data name="plPortable.Help">
+        <value>If checked, this module supports importing and exporting of content.</value>
+    </data>
+    <data name="plSearchable.Text">
+        <value>Searchable</value>
+    </data>
+    <data name="plSearchable.Help">
+        <value>If checked, this module supports indexing and searching of content.</value>
+    </data>
+    <data name="plPremium.Text">
+        <value>Premium?</value>
+    </data>
+    <data name="plPremium.Help">
+        <value>Premium modules are only available to specific portals</value>
+    </data>
+    <data name="plVersion.Text">
+        <value>Version:</value>
+    </data>
+    <data name="plVersion.Help">
+        <value>Enter the version number for this module.</value>
+    </data>
+    <data name="plDefinitions.Text">
+        <value>Definitions:</value>
+    </data>
+    <data name="plDefinitions.Help">
+        <value>You can select a Module Definition and optionally delete it using the "Delete Definition" link.</value>
+    </data>
+    <data name="cmdDeleteDefinition.Text">
+        <value>Delete Definition</value>
+    </data>
+    <data name="plDefinition.Text">
+        <value>New Definition:</value>
+    </data>
+    <data name="plDefinition.Help">
+        <value>You can ceate a new Definition by entereing the name here and clicking the "Add Definition" link</value>
+    </data>
+    <data name="cmdAddDefinition.Text">
+        <value>Add Definition</value>
+    </data>
+    <data name="Control.Header">
+        <value>Control</value>
+    </data>
+    <data name="Title.Header">
+        <value>Title</value>
+    </data>
+    <data name="Source.Header">
+        <value>Source</value>
+    </data>
+    <data name="cmdAddControl.Text">
+        <value>Add Control</value>
+    </data>
+    <data name="plFriendlyName.Help">
+        <value>This is the Friendly Name of the Module</value>
+    </data>
+    <data name="ControlTitle_edit.Text">
+        <value>Edit Module Definitions</value>
+    </data>
+    <data name="PrivateAssemblyCreate.Action">
+        <value>Create Private Assembly</value>
+    </data>
+    <data name="ModuleHelp.Text">
+        <value>&lt;h1&gt;About Module Definitions&lt;/h1&gt;&lt;p&gt;The Super User can manage the Desktop Modules installed on the system.&lt;/p&gt;</value>
+    </data>
+    <data name="plFolderName.Text">
+        <value>Folder Name:</value>
+    </data>
+    <data name="plFolderName.Help">
+        <value>Enter a Folder Name for the location of the Module's files.</value>
+    </data>
+    <data name="valFolderName.ErrorMessage">
+        <value>&lt;br&gt;You must enter a Folder Name for the location of the Module's files.</value>
+    </data>
+    <data name="plBusinessClass.Text">
+        <value>Controller Class:</value>
+    </data>
+    <data name="plBusinessClass.Help">
+        <value>This is the Controller Class for the module.  If the module supports optional Interfaces, such as ISearchable and IPortable, this is the class where these interfaces are implemented.</value>
+    </data>
+    <data name="plModuleName.Text">
+        <value>Module Name:</value>
+    </data>
+    <data name="plModuleName.Help">
+        <value>This is the name of the module - it will uniquely identify the module in the system.</value>
+    </data>
+    <data name="plCacheTime.Text">
+        <value>Default Cache Time:</value>
+    </data>
+    <data name="plCacheTime.Help">
+        <value>This is the default Cache Time to be used for this Module Definition.</value>
+    </data>
+    <data name="cmdUpdateCacheTime.Text">
+        <value>Update Cache Properties</value>
+    </data>
+    <data name="AddModule.ErrorMessage">
+        <value>There is already a Module with this name. You cannot create a new Module with the same name.</value>
+    </data>
+    <data name="AddDefinition.ErrorMessage">
+        <value>There is already a Module Definition with this name. You cannot create a new Module Definition using the same name.</value>
+    </data>
+    <data name="MissingDefinition.ErrorMessage">
+        <value>You need to provide a Name for the new Definition.</value>
+    </data>
+    <data name="UpdateCache.ErrorMessage">
+        <value>The CacheTime must be an Integer value.</value>
+    </data>
+    <data name="plManifest.Text">
+        <value>Module Manifest:</value>
+    </data>
+    <data name="plManifest.Help">
+        <value>Select an existing manifest file and select Install ( optional ).</value>
+    </data>
+    <data name="cmdInstall.Text">
+        <value>Install</value>
+    </data>
+    <data name="InstallManifest.ErrorMessage">
+        <value>Error Installing Selected Module Manifest File</value>
+    </data>
+</root>

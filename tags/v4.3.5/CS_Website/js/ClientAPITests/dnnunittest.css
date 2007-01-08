@@ -1,0 +1,95 @@
+body
+{
+	font-family: Tahoma, Arial;
+	font-size: 10pt;
+}
+
+H1
+{
+	font-size: larger;
+	font-weight:bold;
+}
+
+.summary
+{
+	font-family: Tahoma, Arial;
+	font-size: 10pt;	
+}
+
+.navtitle
+{
+	color: yellow;
+	background-color: #cc0000;
+}
+
+.nav
+{
+	border: thin outset;
+	color: #cc0000;
+	background-color: #ffffcc;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+.nav A
+{
+	color: #cc0000;
+	text-decoration: none;
+}
+
+
+.funccontent
+{
+	height: 200; 
+	overflow: auto;
+	width: 800;
+	background-color: whitesmoke;
+}
+
+.unittestcontent
+{
+	width: 800;
+	display: none;
+}
+
+.funcname
+{
+	color: Navy;
+	font-size: 10pt;
+	font-weight: bold;
+	vertical-align: top;
+}
+
+.funcdesc
+{
+	font-size: 10pt;
+}
+
+.paramname
+{
+	font-size: 10pt;
+	font-weight: bold;
+	border-left: solid 10 white;
+	vertical-align: top;
+}
+
+.paramnameopt
+{
+	font-size: 10pt;
+	font-weight: bold;
+	font-style: italic;
+	border-left: solid 10 white;
+}
+
+.paramnameret
+{
+	font-size: 10pt;
+	font-weight: bold;
+	border-left: solid 10 white;
+}
+
+.paramdesc
+{
+	font-size: 10pt;
+}
+

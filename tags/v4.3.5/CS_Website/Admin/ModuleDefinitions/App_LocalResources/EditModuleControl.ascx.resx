@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="plModule.Text">
+		<value>Module:</value>
+	</data>
+	<data name="plDefinition.Text">
+		<value>Definition:</value>
+	</data>
+	<data name="plKey.Text">
+		<value>Key:</value>
+	</data>
+	<data name="plKey.Help">
+		<value>Enter a unique name to identify this control within the Module</value>
+	</data>
+	<data name="plTitle.Text">
+		<value>Title:</value>
+	</data>
+	<data name="plTitle.Help">
+		<value>Enter a title for this control.  This will be displayed in the Module Header if supported in the skin.</value>
+	</data>
+	<data name="plSource.Text">
+		<value>Source:</value>
+	</data>
+	<data name="plSource.Help">
+		<value>Select the source for this control.</value>
+	</data>
+	<data name="plType.Text">
+		<value>Type:</value>
+	</data>
+	<data name="plType.Help">
+		<value>Choose the type of the control from the list.</value>
+	</data>
+	<data name="Skin.Text">
+		<value>Skin Object</value>
+	</data>
+	<data name="Anonymous.Text">
+		<value>Anonymous</value>
+	</data>
+	<data name="View.Text">
+		<value>View</value>
+	</data>
+	<data name="Edit.Text">
+		<value>Edit</value>
+	</data>
+	<data name="Admin.Text">
+		<value>Admin</value>
+	</data>
+	<data name="Host.Text">
+		<value>Host</value>
+	</data>
+	<data name="plViewOrder.Text">
+		<value>View Order:</value>
+	</data>
+	<data name="plViewOrder.Help">
+		<value>Enter the view order for the control in the list of controls for this definition.</value>
+	</data>
+	<data name="plIcon.Text">
+		<value>Icon:</value>
+	</data>
+	<data name="plIcon.Help">
+		<value>Choose an Icon for this control.  This will displayed in the Module Header if supported by the skin.</value>
+	</data>
+	<data name="plHelpURL.Text">
+		<value>Help URL:</value>
+	</data>
+	<data name="plHelpURL.Help">
+		<value>You can provide a Help Url for this control.  This will appear on the Actions menu.</value>
+	</data>
+	<data name="plModule.Help">
+		<value>This is the Friendly Name of the Module.</value>
+	</data>
+	<data name="plDefinition.Help">
+		<value>This is the Name of the Module Definition</value>
+	</data>
+	<data name="ControlTitle_control.Text">
+		<value>Edit Module Control</value>
+	</data>
+	<data name="ModuleHelp.Text">
+		<value>&lt;h1&gt;About Module Definitions&lt;/h1&gt;&lt;p&gt;The Super User can manage the Desktop Modules installed on the system.&lt;/p&gt;</value>
+	</data>
+	<data name="AddControl.ErrorMessage">
+		<value>There is already a control with the same key and source.</value>
+	</data>
+</root>
