@@ -21,6 +21,7 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -88,7 +89,7 @@ namespace DotNetNuke.Common
         public const string glbAppTitle = "DotNetNuke";
         public const string glbAppUrl = "http://www.dotnetnuke.com";
 
-        public const string glbAppVersion = "04.03.04";
+        public const string glbAppVersion = "04.03.05";
         public const string glbConfigFolder = "\\Config\\";
         public const string glbDefaultAdminContainer = "Image Header - Color Background.ascx";
         public const string glbDefaultAdminSkin = "Horizontal Menu - Fixed Width.ascx";
@@ -347,8 +348,31 @@ namespace DotNetNuke.Common
             return strURL;
         }
 
-        // convert datareader to crosstab dataset
-        public static DataSet BuildCrossTabDataSet( string DataSetName, IDataReader result, string FixedColumns, string VariableColumns, string KeyColumn, string FieldColumn, string FieldTypeColumn, string StringValueColumn, string NumericValueColumn )
+        public DataSet BuildCrossTabDataSet(string DataSetName, IDataReader result, string FixedColumns, string VariableColumns, string KeyColumn, string FieldColumn, string FieldTypeColumn, string StringValueColumn, string NumericValueColumn)
+        {
+            return BuildCrossTabDataSet(DataSetName, result, FixedColumns, VariableColumns, KeyColumn, FieldColumn, FieldTypeColumn, StringValueColumn, NumericValueColumn, System.Globalization.CultureInfo.CurrentCulture);
+        }
+
+        /// -----------------------------------------------------------------------------
+        /// <summary>
+        /// converts a data reader with serialized fields into a typed data set
+        /// </summary>
+        /// <param name="DataSetName">Name of the dataset to be created</param>
+        /// <param name="result">Data reader that contains all field values serialized</param>
+        /// <param name="FixedColumns">List of fixed columns, delimited by commas. Columns must be contained in DataReader</param>
+        /// <param name="VariableColumns">List of variable columns, delimited by commas. Columns must be contained in DataReader</param>
+        /// <param name="KeyColumn">Name of the column, that contains the row ID. Column must be contained in DataReader</param>
+        /// <param name="FieldColumn">Name of the column, that contains the field name. Column must be contained in DataReader</param>
+        /// <param name="FieldTypeColumn">Name of the column, that contains the field type name. Column must be contained in DataReader</param>
+        /// <param name="StringValueColumn">Name of the column, that contains the field value, if stored as string. Column must be contained in DataReader</param>
+        /// <param name="NumericValueColumn">Name of the column, that contains the field value, if stored as number. Column must be contained in DataReader</param>
+        /// <param name="Culture">culture of the field values in data reader's string value column</param>
+        /// <returns>The generated DataSet</returns>
+        /// <history>
+        /// 	[sleupold]     08/24/2006	Created temporary clone of core function and added support for culture based parsing of numeric values
+        /// </history>
+        /// -----------------------------------------------------------------------------
+        public DataSet BuildCrossTabDataSet(string DataSetName, IDataReader result, string FixedColumns, string VariableColumns, string KeyColumn, string FieldColumn, string FieldTypeColumn, string StringValueColumn, string NumericValueColumn, System.Globalization.CultureInfo Culture)
         {
             string[] arrFixedColumns;
             string[] arrVariableColumns = null;
@@ -357,117 +381,138 @@ namespace DotNetNuke.Common
             int intKeyColumn;
 
             // create dataset
-            DataSet crosstab = new DataSet( DataSetName );
+            DataSet crosstab = new DataSet(DataSetName);
             crosstab.Namespace = "NetFrameWork";
 
             // create table
-            DataTable tab = new DataTable( DataSetName );
+            DataTable tab = new DataTable(DataSetName);
 
             // split fixed columns
-            arrFixedColumns = FixedColumns.Split( ",".ToCharArray() );
+            arrFixedColumns = FixedColumns.Split(",".ToCharArray());
 
             // add fixed columns to table
-            for( intColumn = 0; intColumn <= ( arrFixedColumns.Length - 1 ); intColumn++ )
+            for (intColumn = arrFixedColumns.GetLowerBound(0); intColumn <= arrFixedColumns.GetUpperBound(0); intColumn++)
             {
-                arrField = arrFixedColumns[intColumn].Split( "|".ToCharArray() );
-                DataColumn col = new DataColumn( arrField[0], Type.GetType( "System." + arrField[1] ) );
-                tab.Columns.Add( col );
+                arrField = arrFixedColumns[intColumn].Split("|".ToCharArray());
+                DataColumn col = new DataColumn(arrField[0], Type.GetType("System." + arrField[1]));
+                tab.Columns.Add(col);
             }
 
             // split variable columns
-            if( !String.IsNullOrEmpty(VariableColumns) )
+            if (VariableColumns != "")
             {
-                arrVariableColumns = VariableColumns.Split( ",".ToCharArray() );
+                arrVariableColumns = VariableColumns.Split(",".ToCharArray());
 
                 // add varible columns to table
-                for( intColumn = 0; intColumn <= ( arrVariableColumns.Length - 1 ); intColumn++ )
+                for (intColumn = arrVariableColumns.GetLowerBound(0); intColumn <= arrVariableColumns.GetUpperBound(0); intColumn++)
                 {
-                    arrField = arrVariableColumns[intColumn].Split( "|".ToCharArray() );
-                    DataColumn col = new DataColumn( arrField[0], Type.GetType( "System." + arrField[1] ) );
+                    arrField = arrVariableColumns[intColumn].Split("|".ToCharArray());
+                    DataColumn col = new DataColumn(arrField[0], Type.GetType("System." + arrField[1]));
                     col.AllowDBNull = true;
-                    tab.Columns.Add( col );
+                    tab.Columns.Add(col);
                 }
             }
 
             // add table to dataset
-            crosstab.Tables.Add( tab );
+            crosstab.Tables.Add(tab);
 
             // add rows to table
             intKeyColumn = -1;
             DataRow row = null;
-            while( result.Read() )
+            while (result.Read())
             {
                 // loop using KeyColumn as control break
-                if( Convert.ToInt32( result[KeyColumn] ) != intKeyColumn )
+                if (Convert.ToInt32(result[KeyColumn]) != intKeyColumn)
                 {
                     // add row
-                    if( intKeyColumn != -1 )
+                    if (intKeyColumn != -1)
                     {
-                        tab.Rows.Add( row );
+                        tab.Rows.Add(row);
                     }
 
                     // create new row
                     row = tab.NewRow();
 
                     // assign fixed column values
-                    for( intColumn = 0; intColumn <= ( arrFixedColumns.Length - 1 ); intColumn++ )
+                    for (intColumn = arrFixedColumns.GetLowerBound(0); intColumn <= arrFixedColumns.GetUpperBound(0); intColumn++)
                     {
-                        arrField = arrFixedColumns[intColumn].Split( "|".ToCharArray() );
+                        arrField = arrFixedColumns[intColumn].Split("|".ToCharArray());
                         row[arrField[0]] = result[arrField[0]];
                     }
 
                     // initialize variable column values
-                    if( !String.IsNullOrEmpty(VariableColumns) )
+                    if (VariableColumns != "")
                     {
-                        for( intColumn = 0; intColumn <= ( arrVariableColumns.Length - 1 ); intColumn++ )
+                        if( arrVariableColumns != null )
                         {
-                            arrField = arrVariableColumns[intColumn].Split( "|".ToCharArray() );
-                            switch( arrField[1] )
+                            for (intColumn = arrVariableColumns.GetLowerBound(0); intColumn <= arrVariableColumns.GetUpperBound(0); intColumn++)
                             {
-                                case "Decimal":
-
-                                    row[arrField[0]] = 0;
-                                    break;
-                                case "String":
-
-                                    row[arrField[0]] = "";
-                                    break;
+                                arrField = arrVariableColumns[intColumn].Split("|".ToCharArray());
+                                switch (arrField[1])
+                                {
+                                    case "Decimal":
+                                        row[arrField[0]] = 0;
+                                        break;
+                                    case "String":
+                                        row[arrField[0]] = "";
+                                        break;
+                                }
                             }
                         }
                     }
 
-                    intKeyColumn = Convert.ToInt32( result[KeyColumn] );
+                    intKeyColumn = Convert.ToInt32(result[KeyColumn]);
                 }
 
                 // assign pivot column value
-                string fieldType;
-                if( !String.IsNullOrEmpty(FieldTypeColumn) )
+                string FieldType;
+                if (FieldTypeColumn != "")
                 {
-                    fieldType = result[FieldTypeColumn].ToString();
+                    FieldType = result[FieldTypeColumn].ToString();
                 }
                 else
                 {
-                    fieldType = "String";
+                    FieldType = "String";
                 }
-                switch( fieldType )
+                if(row!=null)
                 {
-                    case "Decimal": // decimal
-
-                        row[Convert.ToInt32( result[FieldColumn] )] = result[NumericValueColumn];
-                        break;
-                    case "String": // string
-
-                        row[result[FieldColumn].ToString()] = result[StringValueColumn];
-                        break;
+                    switch (FieldType)
+                    {
+                        case "Decimal": // decimal
+                            row[Convert.ToInt32(result[FieldColumn])] = result[NumericValueColumn];
+                            break;
+                        case "String": // string
+                            if (Culture == CultureInfo.CurrentCulture)
+                            {
+                                row[result[FieldColumn].ToString()] = result[StringValueColumn];
+                            }
+                            else
+                            {
+                                switch (tab.Columns[result[FieldColumn].ToString()].DataType.ToString())
+                                {
+                                    case "System.Decimal":
+                                    case "System.Currency":
+                                        row[result[FieldColumn].ToString()] = decimal.Parse(result[StringValueColumn].ToString(), Culture);
+                                        break;
+                                    case "System.Int32":
+                                        row[result[FieldColumn].ToString()] = Int32.Parse(result[StringValueColumn].ToString(), Culture);
+                                        break;
+                                    default:
+                                        row[result[FieldColumn].ToString()] = result[StringValueColumn];
+                                        break;
+                                }
+                            }
+                            break;
+                    }
                 }
             }
 
             result.Close();
 
             // add row
-            if( intKeyColumn != -1 )
+            if (intKeyColumn != -1)
             {
-                tab.Rows.Add( row );
+                tab.Rows.Add(row);
             }
 
             // finalize dataset
@@ -475,6 +520,7 @@ namespace DotNetNuke.Common
 
             // return the dataset
             return crosstab;
+
         }
 
         public static string CleanFileName( string FileName )
@@ -1341,121 +1387,88 @@ namespace DotNetNuke.Common
             return GetFileList( PortalId, strExtensions, NoneSpecified, Folder, false );
         }
 
-        public static ArrayList GetFileList( int PortalId, string strExtensions, bool NoneSpecified, string Folder, bool includeHidden )
+        public static ArrayList GetFileList(int PortalId, string strExtensions, bool NoneSpecified, string Folder, bool includeHidden)
         {
-            ArrayList returnValue;
             ArrayList arrFileList = new ArrayList();
 
-            if( NoneSpecified )
+            if (NoneSpecified)
             {
-                arrFileList.Add( new FileItem( "", "<" + Localization.GetString( "None_Specified" ) + ">" ) );
+                arrFileList.Add(new FileItem("", "<" + Localization.GetString("None_Specified") + ">"));
             }
 
-            FileController objFiles = new FileController();
-
-            //Check if file is a hidden file before adding to ArrayList
-            string portalRoot;
-            if( PortalId == Null.NullInteger )
+            string portalRoot = null;
+            if (PortalId == Null.NullInteger)
             {
                 portalRoot = HostMapPath;
             }
             else
             {
                 PortalController objPortals = new PortalController();
-                PortalInfo objPortal = objPortals.GetPortal( PortalId );
+                PortalInfo objPortal = objPortals.GetPortal(PortalId);
                 portalRoot = objPortal.HomeDirectoryMapPath;
             }
 
-            IDataReader dr = objFiles.GetFiles( PortalId, Folder );
-            while( dr.Read() )
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(PortalId, Folder);
+            if (objFolder != null)
             {
-                if( Strings.InStr( 1, strExtensions.ToUpper(), dr["Extension"].ToString().ToUpper(), 0 ) != 0 || strExtensions == "" )
+                FileController objFiles = new FileController();
+                IDataReader dr = objFiles.GetFiles(PortalId, objFolder.FolderID);
+                while (dr.Read())
                 {
-                    string filePath = ( portalRoot + dr["Folder"] + dr["fileName"] ).Replace( "/", "\\" );
-                    int StorageLocation = 0;
-
-                    if( dr["StorageLocation"] != null )
+                    if ((strExtensions.ToUpper().IndexOf(dr["Extension"].ToString().ToUpper(), 0) + 1) != 0 | strExtensions == "")
                     {
-                        StorageLocation = Convert.ToInt32( dr["StorageLocation"] );
-                        switch( StorageLocation )
+                        string filePath = (portalRoot + dr["Folder"].ToString() + dr["fileName"].ToString()).Replace("/", "\\");
+                        int StorageLocation = 0;
+
+                        if (dr["StorageLocation"] != null)
                         {
-                            case 1:
-
-                                filePath = filePath + glbProtectedExtension; // Secure File System
-                                break;
-                            case 2: // Secure Database
-
-                                break;
-                            default: // Insecure File System
-
-                                break;
-                        }
-                    }
-
-                    // check if file exists - as the database may not be synchronized with the file system
-                    // Make sure its not a file stored in the db, if it is we don't worry about seeing if it exists
-                    if( StorageLocation != 2 )
-                    {
-                        if( File.Exists( filePath ) )
-                        {
-                            // check if file is hidden
-                            if( includeHidden )
+                            StorageLocation = System.Convert.ToInt32(dr["StorageLocation"]);
+                            switch (StorageLocation)
                             {
-                                arrFileList.Add( new FileItem( dr["FileID"].ToString(), dr["FileName"].ToString() ) );
+                                case 1: // Secure File System
+                                    filePath = filePath + glbProtectedExtension;
+                                    break;
+                                case 2: // Secure Database
+                                    break;
+                                default: // Insecure File System
+                                    break;
                             }
-                            else
+                        }
+
+                        // check if file exists - as the database may not be synchronized with the file system
+                        // Make sure its not a file stored in the db, if it is we don't worry about seeing if it exists
+                        if (!(StorageLocation == 2))
+                        {
+                            if (File.Exists(filePath))
                             {
-                                FileAttributes attributes = File.GetAttributes( filePath );
-                                if( !( ( attributes & FileAttributes.Hidden ) == FileAttributes.Hidden ) )
+                                // check if file is hidden
+                                if (includeHidden)
                                 {
-                                    arrFileList.Add( new FileItem( dr["FileID"].ToString(), dr["FileName"].ToString() ) );
+                                    arrFileList.Add(new FileItem(dr["FileID"].ToString(), dr["FileName"].ToString()));
+                                }
+                                else
+                                {
+                                    System.IO.FileAttributes attributes = File.GetAttributes(filePath);
+                                    if (!((attributes & FileAttributes.Hidden) == FileAttributes.Hidden))
+                                    {
+                                        arrFileList.Add(new FileItem(dr["FileID"].ToString(), dr["FileName"].ToString()));
+                                    }
                                 }
                             }
                         }
+                        else
+                        {
+                            // File is stored in DB - Just add to arraylist
+                            arrFileList.Add(new FileItem(dr["FileID"].ToString(), dr["FileName"].ToString()));
+                        }
+                        //END Change
                     }
-                    else
-                    {
-                        // File is stored in DB - Just add to arraylist
-                        arrFileList.Add( new FileItem( dr["FileID"].ToString(), dr["FileName"].ToString() ) );
-                    }
-                    //END Change
                 }
-            }
-            dr.Close();
-
-            returnValue = arrFileList;
-            return returnValue;
-        }
-
-        // get list of files from folder matching criteria
-        public static ArrayList GetFileList( DirectoryInfo CurrentDirectory, string strExtensions, bool NoneSpecified )
-        {
-            ArrayList returnValue;
-            ArrayList arrFileList = new ArrayList();
-            string strExtension = "";
-
-            if( NoneSpecified )
-            {
-                arrFileList.Add( new FileItem( "", "<" + Localization.GetString( "None_Specified" ) + ">" ) );
+                dr.Close();
             }
 
-            string[] Files = Directory.GetFiles( CurrentDirectory.FullName );
-            foreach( string tempLoopVar_File in Files )
-            {
-                string file = tempLoopVar_File;
-                if( Convert.ToBoolean( Strings.InStr( 1, file, ".", 0 ) ) )
-                {
-                    strExtension = file.Substring( Strings.InStrRev( file, ".", -1, 0 ) + 1 - 1 );
-                }
-                string FileName = file.Substring( CurrentDirectory.FullName.Length );
-                if( Strings.InStr( 1, strExtensions.ToUpper(), strExtension.ToUpper(), 0 ) != 0 || strExtensions == "" )
-                {
-                    arrFileList.Add( new FileItem( FileName, FileName ) );
-                }
-            }
-
-            returnValue = arrFileList;
-            return returnValue;
+            return arrFileList;
         }
 
         public static string GetHashValue( object HashObject, string DefaultValue )
@@ -2449,20 +2462,64 @@ namespace DotNetNuke.Common
         public static void AddFile( string strFileName, string strExtension, string FolderPath, string strContentType, int Length, int imageWidth, int imageHeight )
         {
             // Obtain PortalSettings from Current Context
-            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
-            int PortalId;
+            PortalSettings portalSettings = PortalController.GetCurrentPortalSettings();
+            int portalId;
 
             FileController objFiles = new FileController();
-            if( _portalSettings.ActiveTab.ParentId == _portalSettings.SuperTabId )
+            if( portalSettings.ActiveTab.ParentId == portalSettings.SuperTabId )
             {
-                PortalId = Null.NullInteger;
+                portalId = Null.NullInteger;
             }
             else
             {
-                PortalId = _portalSettings.PortalId;
+                portalId = portalSettings.PortalId;
             }
 
-            objFiles.AddFile( PortalId, strFileName, strExtension, Length, imageWidth, imageHeight, strContentType, FolderPath );
+            objFiles.AddFile( portalId, strFileName, strExtension, Length, imageWidth, imageHeight, strContentType, FolderPath );
+        }
+
+        [Obsolete("This method has been deprecated. ")]
+        public static ArrayList GetFileList(DirectoryInfo CurrentDirectory, string strExtensions)
+        {
+            return GetFileList(CurrentDirectory, strExtensions, true);
+        }
+
+        [Obsolete("This method has been deprecated. ")]
+        public static ArrayList GetFileList(DirectoryInfo CurrentDirectory)
+        {
+            return GetFileList(CurrentDirectory, "", true);
+        }
+
+        /// <summary>
+        /// get list of files from folder matching criteria
+        /// </summary>
+        [Obsolete("This method has been deprecated. ")]
+        public static ArrayList GetFileList(DirectoryInfo currentDirectory, string strExtensions, bool noneSpecified)
+        {
+            ArrayList arrFileList = new ArrayList();
+            string strExtension = "";
+
+            if (noneSpecified)
+            {
+
+                arrFileList.Add(new FileItem("", "<" + Localization.GetString("None_Specified") + ">"));
+            }
+
+            string[] Files = Directory.GetFiles(currentDirectory.FullName);
+            foreach (string File in Files)
+            {
+                if (Convert.ToBoolean((File.IndexOf(".", 0) + 1)))
+                {
+                    strExtension = File.Substring((File.LastIndexOf(".") + 1));
+                }
+                string FileName = File.Substring(currentDirectory.FullName.Length);
+                if ((strExtensions.ToUpper().IndexOf(strExtension.ToUpper(), 0) + 1) != 0 | strExtensions == "")
+                {
+                    arrFileList.Add(new FileItem(FileName, FileName));
+                }
+            }
+
+            return arrFileList;
         }
 
         // creates RRS files

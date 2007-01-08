@@ -184,7 +184,14 @@ namespace DotNetNuke.Modules.Admin.Users
                 //Set up Reset Password
                 if( IsAdmin && ! IsUser )
                 {
-                    lblResetHelp.Visible = false;
+                    if (MembershipProviderConfig.RequiresQuestionAndAnswer)
+                    {
+                        pnlReset.Visible = false;
+                    }
+                    else
+                    {
+                        lblResetHelp.Visible = false;
+                    }
                     trQuestion.Visible = false;
                     trAnswer.Visible = false;
                 }

@@ -147,7 +147,7 @@ namespace DotNetNuke.Modules.Admin.Users
         public override void DataBind()
         {
             //disable/enable buttons
-            if( UserInfo.UserID == User.UserID || User.UserID == PortalSettings.AdministratorId )
+            if( UserInfo.UserID == User.UserID )
             {
                 cmdAuthorize.Visible = false;
                 cmdUnAuthorize.Visible = false;

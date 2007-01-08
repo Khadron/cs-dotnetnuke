@@ -31,8 +31,6 @@ namespace DotNetNuke.Modules.Admin.Host
     /// The FriendlyUrls PortalModuleBase is used to edit the friendly urls
     /// for the application.
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	07/06/2006 Created
     /// </history>
@@ -49,8 +47,6 @@ namespace DotNetNuke.Modules.Admin.Host
         /// <summary>
         /// Gets and sets the mode of the control
         /// </summary>
-        /// <value></value>
-        /// <returns></returns>
         /// <history>
         /// 	[cnurse]	7/06/2006  Created
         /// </history>
@@ -74,8 +70,6 @@ namespace DotNetNuke.Modules.Admin.Host
         /// <summary>
         /// Gets the collection of rewriter rules
         /// </summary>
-        /// <value></value>
-        /// <returns></returns>
         /// <history>
         /// 	[cnurse]	7/06/2006  Created
         /// </history>
@@ -128,8 +122,6 @@ namespace DotNetNuke.Modules.Admin.Host
         /// <summary>
         /// Page_Init runs when the control is initialised
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	7/06/2006  Created
         /// </history>
@@ -160,28 +152,24 @@ namespace DotNetNuke.Modules.Admin.Host
         /// <summary>
         /// Page_Load runs when the control is loaded.
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	7/06/2006  Created
         /// </history>
         protected void Page_Load( object sender, EventArgs e )
         {
-            //Localize the Data Grid
-            Localization.LocalizeDataGrid( ref grdRules, LocalResourceFile );
-
             //Bind the rules (as long as not postback)
-            if( ! Page.IsPostBack )
+            if (!Page.IsPostBack)
             {
+                //Localize the Data Grid
+                Localization.LocalizeDataGrid(ref grdRules, LocalResourceFile);
                 BindRules();
             }
+
         }
 
         /// <summary>
         /// AddRule runs when the Add button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	7/06/2006  Created
         /// </history>
@@ -201,8 +189,6 @@ namespace DotNetNuke.Modules.Admin.Host
         /// <summary>
         /// DeleteRule runs when a delete button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	7/06/2006  Created
         /// </history>

@@ -46,17 +46,12 @@ namespace DotNetNuke.Modules.Admin.Host
     /// The HostSettingsModule PortalModuleBase is used to edit the host settings
     /// for the application.
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/27/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
     /// </history>
     public partial class HostSettingsModule : PortalModuleBase
     {
-        //Basic Settings Section
-
-        //Configuration Section
         protected LabelControl plFrameowrk;
 
         /// <summary>
@@ -390,6 +385,22 @@ namespace DotNetNuke.Modules.Admin.Host
                 chkEnableHelp.Checked = true;
             }
 
+            if (Globals.HostSettings.ContainsKey("EnableFileAutoSync"))
+            {
+                if (Globals.HostSettings["EnableFileAutoSync"].ToString() == "Y")
+                {
+                    chkAutoSync.Checked = true;
+                }
+                else
+                {
+                    chkAutoSync.Checked = false;
+                }
+            }
+            else
+            {
+                chkAutoSync.Checked = false;
+            }
+
             ViewState["SelectedSchedulerMode"] = cboSchedulerMode.SelectedItem.Value;
             ViewState["SelectedLogBufferEnabled"] = chkLogBuffer.Checked;
             ViewState["SelectedUsersOnlineEnabled"] = chkUsersOnline.Checked;
@@ -443,8 +454,6 @@ namespace DotNetNuke.Modules.Admin.Host
         /// <summary>
         /// Page_Load runs when the control is loaded.
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/27/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -476,8 +485,6 @@ namespace DotNetNuke.Modules.Admin.Host
         /// chkUseFriendlyUrls_CheckedChanged runs when the use friendly urls checkbox's
         /// value is changed.
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	07/06/2006 Created
         /// </history>
@@ -489,8 +496,6 @@ namespace DotNetNuke.Modules.Admin.Host
         /// <summary>
         /// cmdEmail_Click runs when the test email button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/27/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -526,8 +531,6 @@ namespace DotNetNuke.Modules.Admin.Host
         /// <summary>
         /// cmdProcessor_Click runs when the processor Go button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/27/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -547,8 +550,6 @@ namespace DotNetNuke.Modules.Admin.Host
         /// <summary>
         /// cmdEmail_Click runs when the clear cache button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/27/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -564,8 +565,6 @@ namespace DotNetNuke.Modules.Admin.Host
         /// <summary>
         /// cmdUpdate_Click runs when the Upgrade button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/27/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -652,6 +651,7 @@ namespace DotNetNuke.Modules.Admin.Host
                 objHostSettings.UpdateHostSetting( "SchedulerMode", cboSchedulerMode.SelectedItem.Value );
                 objHostSettings.UpdateHostSetting( "ModuleCaching", cboCacheMethod.SelectedItem.Value );
                 objHostSettings.UpdateHostSetting( "EnableModuleOnLineHelp", Convert.ToString( chkEnableHelp.Checked ? "Y" : "N" ) );
+                objHostSettings.UpdateHostSetting( "EnableFileAutoSync", Convert.ToString( chkAutoSync.Checked ? "Y" : "N" ) );
                 objHostSettings.UpdateHostSetting( "HelpURL", txtHelpURL.Text );
 
                 bool originalLogBuffer = Convert.ToBoolean( ViewState["SelectedLogBufferEnabled"] );
@@ -746,8 +746,6 @@ namespace DotNetNuke.Modules.Admin.Host
         /// <summary>
         /// cmdUpgrade_Click runs when the Upgrade Log Go button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/27/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation

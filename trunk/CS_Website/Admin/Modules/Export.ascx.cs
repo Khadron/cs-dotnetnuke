@@ -128,7 +128,10 @@ namespace DotNetNuke.Modules.Admin.Modules
                                     // add file to Files table
                                     FileController objFiles = new FileController();
                                     FileInfo finfo = new FileInfo( strFile );
-                                    objFiles.AddFile( PortalId, lblFile.Text, "xml", finfo.Length, 0, 0, "application/octet-stream", "" );
+                                    FolderController objFolders = new FolderController();
+                                    FolderInfo objFolder = objFolders.GetFolder(PortalId, "");
+                                    objFiles.AddFile(PortalId, lblFile.Text, "xml", finfo.Length, 0, 0, "application/octet-stream", "", objFolder.FolderID, true);
+
                                 }
                                 else
                                 {

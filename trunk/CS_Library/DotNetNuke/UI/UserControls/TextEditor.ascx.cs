@@ -41,7 +41,8 @@ namespace DotNetNuke.UI.UserControls
         private Unit _Height;
         private bool _HtmlEncode = true;
         private Unit _Width;
-
+        protected System.Web.UI.HtmlControls.HtmlTable tblTextEditor;
+        protected System.Web.UI.HtmlControls.HtmlTableCell celTextEditor;
         private string MyFileName = "TextEditor.ascx";
         protected RadioButtonList optRender;
         protected RadioButtonList optView;
@@ -456,6 +457,8 @@ namespace DotNetNuke.UI.UserControls
                 RichTextEditor.Height = Height;
                 txtDesktopHTML.Height = Height;
                 txtDesktopHTML.Width = Width;
+                tblTextEditor.Width = Width.ToString();
+                celTextEditor.Width = Width.ToString();
 
                 //Optionally display the radio button lists
                 if (!ChooseMode)

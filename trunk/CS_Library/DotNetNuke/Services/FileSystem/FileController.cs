@@ -33,67 +33,36 @@ namespace DotNetNuke.Services.FileSystem
     /// </Summary>
     public class FileController
     {
-        public int AddFile(FileInfo file, string FolderPath)
+        internal bool FileChanged(DataRow drOriginalFile, string NewFileName, string NewExtension, long NewSize, int NewWidth, int NewHeight, string NewContentType, string NewFolder)
         {
-            return AddFile(file.PortalId, file.FileName, file.Extension, file.Size, file.Width, file.Height, file.ContentType, FolderPath);
+            if (Convert.ToString(drOriginalFile["FileName"]) != NewFileName || Convert.ToString(drOriginalFile["Extension"]) != NewExtension || Convert.ToInt32(drOriginalFile["Size"]) != NewSize || Convert.ToInt32(drOriginalFile["Width"]) != NewWidth || Convert.ToInt32(drOriginalFile["Height"]) != NewHeight || Convert.ToString(drOriginalFile["ContentType"]) != NewContentType || Convert.ToString(drOriginalFile["Folder"]) != NewFolder)
+            {
+                return true;
+            }
+            return false;
         }
 
-        public int AddFile(int PortalId, string FileName, string Extension, long Size, int Width, int Height, string ContentType, string FolderPath)
+        public int AddFile(FileInfo file)
         {
-            return AddFile(PortalId, FileName, Extension, Size, Width, Height, ContentType, FolderPath, true);
-        }
-
-        public int AddFile(int PortalId, string FileName, string Extension, long Size, int Width, int Height, string ContentType, string FolderPath, bool ClearCache)
-        {
-            FolderController objFolders = new FolderController();
-
-            FolderInfo objFolder = objFolders.GetFolder(PortalId, FolderPath);
-
-            return AddFile(PortalId, FileName, Extension, Size, Width, Height, ContentType, FolderPath, objFolder.FolderID, ClearCache);
+            return AddFile(file.PortalId, file.FileName, file.Extension, file.Size, file.Width, file.Height, file.ContentType, file.Folder, file.FolderId, true);
         }
 
         public int AddFile(int PortalId, string FileName, string Extension, long Size, int Width, int Height, string ContentType, string FolderPath, int FolderID, bool ClearCache)
         {
+
             FolderPath = FileSystemUtils.FormatFolderPath(FolderPath);
+            int FileId = DataProvider.Instance().AddFile(PortalId, FileName, Extension, Size, Width, Height, ContentType, FolderPath, FolderID);
+            DataCache.RemoveCache("GetFileById" + FileId);
 
-            bool IsDirty = false;
-            int FileId = 0;
-            try
+            if (ClearCache)
             {
-                DataTable dt;
-                dt = GetAllFiles();
-                DataRow[] dr;
-                DataRow OriginalFile;
-                dr = dt.Select("FileName='" + FileName + "' and PortalId " + (PortalId == Null.NullInteger ? "IS NULL" : "=" + PortalId.ToString()).ToString() + " and Folder='" + FolderPath + "'");
-
-                if (dr.Length > 0)
-                {
-                    OriginalFile = dr[0];
-                    FileId = Convert.ToInt32(OriginalFile["FileId"]);
-                    if (FileChanged(OriginalFile, FileName, Extension, Size, Width, Height, ContentType, FolderPath))
-                    {
-                        DataProvider.Instance().UpdateFile(FileId, FileName, Extension, Size, Width, Height, ContentType, FolderPath, FolderID);
-                        IsDirty = true;
-                    }
-                }
-                else
-                {
-                    FileId = DataProvider.Instance().AddFile(PortalId, FileName, Extension, Size, Width, Height, ContentType, FolderPath, FolderID);
-                    IsDirty = true;
-                }
-
-                return FileId;
+                GetAllFilesRemoveCache();
             }
-            finally
-            {
-                if (IsDirty && ClearCache)
-                {
-                    DataCache.RemoveCache("GetFileById" + FileId.ToString());
-                    GetAllFilesRemoveCache();
-                }
-            }
+            return FileId;
+
         }
 
+        
         public void ClearFileContent(int FileId)
         {
             DataProvider.Instance().UpdateFileContent(FileId, null);
@@ -105,38 +74,30 @@ namespace DotNetNuke.Services.FileSystem
             string FolderName = "";
             int FileId = -1;
 
-            if (!String.IsNullOrEmpty(FilePath))
+            if (FilePath != "")
             {
                 FileName = FilePath.Substring(FilePath.LastIndexOf("/") + 1);
                 FolderName = FilePath.Replace(FileName, "");
             }
 
             FileController objFiles = new FileController();
-            FileInfo objFile = objFiles.GetFile(FileName, PortalID, FolderName);
-            if (objFile != null)
-            {
-                FileId = objFile.FileId;
-            }
-
-            return FileId;
-        }
-
-        public void DeleteFile(int PortalId, string FileName, string FolderPath)
-        {
-            DeleteFile(PortalId, FileName, FolderPath, true);
-        }
-
-        public void DeleteFile(int PortalId, string FileName, string FolderPath, bool ClearCache)
-        {
             FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(PortalID, FolderName);
+            if (objFolder != null)
+            {
+                FileInfo objFile = objFiles.GetFile(FileName, PortalID, objFolder.FolderID);
+                if (objFile != null)
+                {
+                    FileId = objFile.FileId;
+                }
+            }
+            return FileId;
 
-            FolderInfo objFolder = objFolders.GetFolder(PortalId, FolderPath);
-
-            DeleteFile(PortalId, FileName, objFolder.FolderID, ClearCache);
         }
 
         public void DeleteFile(int PortalId, string FileName, int FolderID, bool ClearCache)
         {
+
             DataProvider.Instance().DeleteFile(PortalId, FileName, FolderID);
 
             if (ClearCache)
@@ -144,10 +105,6 @@ namespace DotNetNuke.Services.FileSystem
                 GetAllFilesRemoveCache();
             }
 
-            if (ClearCache)
-            {
-                GetAllFilesRemoveCache();
-            }
         }
 
         public void DeleteFiles(int PortalId)
@@ -157,25 +114,19 @@ namespace DotNetNuke.Services.FileSystem
 
         public void DeleteFiles(int PortalId, bool ClearCache)
         {
+
             DataProvider.Instance().DeleteFiles(PortalId);
+
             if (ClearCache)
             {
                 GetAllFilesRemoveCache();
             }
-        }
 
-        internal bool FileChanged(DataRow drOriginalFile, string NewFileName, string NewExtension, long NewSize, int NewWidth, int NewHeight, string NewContentType, string NewFolder)
-        {
-            if (Convert.ToString(drOriginalFile["FileName"]) != NewFileName || Convert.ToString(drOriginalFile["Extension"]) != NewExtension || Convert.ToInt32(drOriginalFile["Size"]) != NewSize || Convert.ToInt32(drOriginalFile["Width"]) != NewWidth || Convert.ToInt32(drOriginalFile["Height"]) != NewHeight || Convert.ToString(drOriginalFile["ContentType"]) != NewContentType || Convert.ToString(drOriginalFile["Folder"]) != NewFolder)
-            {
-                return true;
-            }
-            return false;
         }
 
         public DataTable GetAllFiles()
         {
-            DataTable dt = (DataTable)DataCache.GetCache("GetAllFiles");
+            DataTable dt = (DataTable)(DataCache.GetCache("GetAllFiles"));
 
             if (dt == null)
             {
@@ -197,42 +148,20 @@ namespace DotNetNuke.Services.FileSystem
             DataCache.RemoveCache("GetAllFiles");
         }
 
-        public FileInfo GetFile(string FilePath, int PortalId)
-        {
-            return GetFile(Path.GetFileName(FilePath), PortalId, FilePath.Replace(Path.GetFileName(FilePath), ""));
-        }
-
-        public FileInfo GetFile(string FileName, int PortalId, string FolderPath)
-        {
-            FolderController objFolders = new FolderController();
-            FolderInfo objFolder = objFolders.GetFolder(PortalId, FolderPath);
-
-            if (objFolder == null)
-            {
-                return null;
-            }
-            else
-            {
-                return GetFile(FileName, PortalId, objFolder.FolderID);
-            }
-        }
-
         public FileInfo GetFile(string FileName, int PortalId, int FolderID)
         {
-            return ((FileInfo)CBO.FillObject(DataProvider.Instance().GetFile(FileName, PortalId, FolderID), typeof(FileInfo)));
+            return (FileInfo)(CBO.FillObject(DataProvider.Instance().GetFile(FileName, PortalId, FolderID), typeof(FileInfo)));
         }
 
         public FileInfo GetFileById(int FileId, int PortalId)
         {
-            FileInfo objFile;
+            string strCacheKey = "GetFileById" + FileId;
 
-            string strCacheKey = "GetFileById" + FileId.ToString();
-
-            objFile = (FileInfo)DataCache.GetCache(strCacheKey);
+            FileInfo objFile = (FileInfo)(DataCache.GetCache(strCacheKey));
 
             if (objFile == null)
             {
-                objFile = (FileInfo)CBO.FillObject(DataProvider.Instance().GetFileById(FileId, PortalId), typeof(FileInfo));
+                objFile = (FileInfo)(CBO.FillObject(DataProvider.Instance().GetFileById(FileId, PortalId), typeof(FileInfo)));
 
                 if (objFile != null)
                 {
@@ -243,6 +172,7 @@ namespace DotNetNuke.Services.FileSystem
             }
 
             return objFile;
+
         }
 
         public byte[] GetFileContent(int FileId, int PortalId)
@@ -251,24 +181,10 @@ namespace DotNetNuke.Services.FileSystem
             IDataReader dr = DataProvider.Instance().GetFileContent(FileId, PortalId);
             if (dr.Read())
             {
-                objContent = (byte[])dr["Content"];
+                objContent = (byte[])(dr["Content"]);
             }
             dr.Close();
             return objContent;
-        }
-
-        public IDataReader GetFiles(int PortalId, string FolderPath)
-        {
-            FolderController objFolders = new FolderController();
-
-            FolderInfo objFolder = objFolders.GetFolder(PortalId, FolderPath);
-
-            if (objFolder == null)
-            {
-                return null;
-            }
-
-            return GetFiles(PortalId, objFolder.FolderID);
         }
 
         public IDataReader GetFiles(int PortalId, int FolderID)
@@ -276,55 +192,9 @@ namespace DotNetNuke.Services.FileSystem
             return DataProvider.Instance().GetFiles(PortalId, FolderID);
         }
 
-        public ArrayList GetFilesByFolder(int PortalId, string FolderPath)
+        public void UpdateFile(int FileId, string FileName, string Extension, long Size, int Width, int Height, string ContentType, string DestinationFolder, int FolderID)
         {
-            return CBO.FillCollection(GetFiles(PortalId, FolderPath), typeof(FileInfo));
-        }
-
-        public void UpdateFile(int PortalId, string OriginalFileName, string FileName, string Extension, long Size, int Width, int Height, string ContentType, string SourceFolder, string DestinationFolder)
-        {
-            UpdateFile(PortalId, OriginalFileName, FileName, Extension, Size, Width, Height, ContentType, SourceFolder, DestinationFolder, true);
-        }
-
-        public void UpdateFile(int PortalId, string OriginalFileName, string FileName, string Extension, long Size, int Width, int Height, string ContentType, string SourceFolder, string DestinationFolder, bool ClearCache)
-        {
-            FolderController objFolders = new FolderController();
-
-            FolderInfo objFolder = objFolders.GetFolder(PortalId, DestinationFolder);
-
-            UpdateFile(PortalId, OriginalFileName, FileName, Extension, Size, Width, Height, ContentType, SourceFolder, DestinationFolder, objFolder.FolderID, true);
-        }
-
-        public void UpdateFile(int PortalId, string OriginalFileName, string FileName, string Extension, long Size, int Width, int Height, string ContentType, string SourceFolder, string DestinationFolder, int FolderID, bool ClearCache)
-        {
-            bool IsDirty = false;
-            try
-            {
-                DataTable dt;
-                dt = GetAllFiles();
-                DataRow[] dr;
-                DataRow OriginalFile;
-                dr = dt.Select("FileName='" + OriginalFileName + "' and PortalId" + (PortalId == Null.NullInteger ? "IS NULL" : "=" + PortalId.ToString()).ToString() + " and Folder='" + SourceFolder + "'");
-
-                int FileId;
-                if (dr.Length > 0)
-                {
-                    OriginalFile = dr[0];
-                    FileId = Convert.ToInt32(OriginalFile["FileId"]);
-                    if (FileChanged(OriginalFile, FileName, Extension, Size, Width, Height, ContentType, DestinationFolder))
-                    {
-                        DataProvider.Instance().UpdateFile(FileId, FileName, Extension, Size, Width, Height, ContentType, FileSystemUtils.FormatFolderPath(DestinationFolder), FolderID);
-                        IsDirty = true;
-                    }
-                }
-            }
-            finally
-            {
-                if (IsDirty && ClearCache)
-                {
-                    GetAllFilesRemoveCache();
-                }
-            }
+            DataProvider.Instance().UpdateFile(FileId, FileName, Extension, Size, Width, Height, ContentType, FileSystemUtils.FormatFolderPath(DestinationFolder), FolderID);
         }
 
         public void UpdateFileContent(int FileId, Stream Content)
@@ -341,5 +211,141 @@ namespace DotNetNuke.Services.FileSystem
         {
             DataProvider.Instance().UpdateFileContent(FileId, Content);
         }
+
+
+        [Obsolete("This function has been replaced by ???")]
+        public int AddFile(FileInfo file, string FolderPath)
+        {
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(file.PortalId, FolderPath);
+            file.FolderId = objFolder.FolderID;
+            file.Folder = FolderPath;
+            return AddFile(file);
+        }
+
+        [Obsolete("This function has been replaced by AddFile(PortalId, FileName, Extension, Size, Width, Height, ContentType, FolderPath, FolderID, ClearCache)")]
+        public int AddFile(int PortalId, string FileName, string Extension, long Size, int Width, int Height, string ContentType, string FolderPath)
+        {
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(PortalId, FolderPath);
+            return AddFile(PortalId, FileName, Extension, Size, Width, Height, ContentType, FolderPath, objFolder.FolderID, true);
+        }
+
+        [Obsolete("This function has been replaced by AddFile(PortalId, FileName, Extension, Size, Width, Height, ContentType, FolderPath, FolderID, ClearCache)")]
+        public int AddFile(int PortalId, string FileName, string Extension, long Size, int Width, int Height, string ContentType, string FolderPath, bool ClearCache)
+        {
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(PortalId, FolderPath);
+            return AddFile(PortalId, FileName, Extension, Size, Width, Height, ContentType, FolderPath, objFolder.FolderID, ClearCache);
+        }
+
+        [Obsolete("This function has been replaced by DeleteFile(PortalId, FileName, FolderID, ClearCache)")]
+        public void DeleteFile(int PortalId, string FileName, string FolderPath, bool ClearCache)
+        {
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(PortalId, FolderPath);
+            DeleteFile(PortalId, FileName, objFolder.FolderID, ClearCache);
+        }
+
+        [Obsolete("This function has been replaced by DeleteFile(PortalId, FileName, FolderID, ClearCache)")]
+        public void DeleteFile(int PortalId, string FileName, string FolderPath)
+        {
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(PortalId, FolderPath);
+            DeleteFile(PortalId, FileName, objFolder.FolderID, true);
+        }
+
+        [Obsolete("This function has been replaced by GetFile(FileName, PortalId, FolderID)")]
+        public FileInfo GetFile(string FilePath, int PortalId)
+        {
+            FolderController objFolders = new FolderController();
+            string FileName = Path.GetFileName(FilePath);
+            FolderInfo objFolder = objFolders.GetFolder(PortalId, FilePath.Replace(FileName, ""));
+            if (objFolder == null)
+            {
+                return null;
+            }
+            else
+            {
+                return GetFile(FileName, PortalId, objFolder.FolderID);
+            }
+        }
+
+        [Obsolete("This function has been replaced by GetFile(FileName, PortalId, FolderID)")]
+        public FileInfo GetFile(string FileName, int PortalId, string FolderPath)
+        {
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(PortalId, FolderPath);
+            if (objFolder == null)
+            {
+                return null;
+            }
+            else
+            {
+                return GetFile(FileName, PortalId, objFolder.FolderID);
+            }
+        }
+
+        [Obsolete("This function has been replaced by GetFiles(PortalId, FolderID)")]
+        public IDataReader GetFiles(int PortalId, string FolderPath)
+        {
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(PortalId, FolderPath);
+            if (objFolder == null)
+            {
+                return null;
+            }
+            return GetFiles(PortalId, objFolder.FolderID);
+        }
+
+        [Obsolete("This function has been replaced by ???")]
+        public ArrayList GetFilesByFolder(int PortalId, string FolderPath)
+        {
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(PortalId, FolderPath);
+            if (objFolder == null)
+            {
+                return null;
+            }
+            return CBO.FillCollection(GetFiles(PortalId, objFolder.FolderID), typeof(FileInfo));
+        }
+
+        [Obsolete("This function has been replaced by UpdateFile(FileId, FileName, Extension, Size, Width, Height, ContentType, DestinationFolder, FolderID)")]
+        public void UpdateFile(int PortalId, string OriginalFileName, string FileName, string Extension, long Size, int Width, int Height, string ContentType, string SourceFolder, string DestinationFolder)
+        {
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(PortalId, DestinationFolder);
+            FileInfo objFile = GetFile(OriginalFileName, PortalId, objFolder.FolderID);
+
+            if (objFile != null)
+            {
+                UpdateFile(objFile.FileId, FileName, Extension, Size, Width, Height, ContentType, DestinationFolder, objFolder.FolderID);
+            }
+        }
+
+        [Obsolete("This function has been replaced by UpdateFile(FileId, FileName, Extension, Size, Width, Height, ContentType, DestinationFolder, FolderID)")]
+        public void UpdateFile(int PortalId, string OriginalFileName, string FileName, string Extension, long Size, int Width, int Height, string ContentType, string SourceFolder, string DestinationFolder, bool ClearCache)
+        {
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(PortalId, DestinationFolder);
+            FileInfo objFile = GetFile(OriginalFileName, PortalId, objFolder.FolderID);
+
+            if (objFile != null)
+            {
+                UpdateFile(objFile.FileId, FileName, Extension, Size, Width, Height, ContentType, DestinationFolder, objFolder.FolderID);
+            }
+        }
+
+        [Obsolete("This function has been replaced by UpdateFile(FileId, FileName, Extension, Size, Width, Height, ContentType, DestinationFolder, FolderID)")]
+        public void UpdateFile(int PortalId, string OriginalFileName, string FileName, string Extension, long Size, int Width, int Height, string ContentType, string SourceFolder, string DestinationFolder, int FolderID, bool ClearCache)
+        {
+            FileInfo objFile = GetFile(OriginalFileName, PortalId, FolderID);
+            if (objFile != null)
+            {
+                UpdateFile(objFile.FileId, FileName, Extension, Size, Width, Height, ContentType, DestinationFolder, FolderID);
+            }
+        }
+
+
     }
 }

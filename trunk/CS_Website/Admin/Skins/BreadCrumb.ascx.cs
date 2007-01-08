@@ -27,9 +27,6 @@ using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.UI.Skins.Controls
 {
-    /// <summary></summary>
-    /// <returns></returns>
-    /// <remarks></remarks>
     /// <history>
     /// 	[cniknet]	10/15/2004	Replaced public members with properties and removed
     ///                             brackets from property names
@@ -40,6 +37,7 @@ namespace DotNetNuke.UI.Skins.Controls
         private string _separator;
         private string _cssClass;
         private string _rootLevel;
+        private bool _useTitle = false;
 
         private const string MyFileName = "Breadcrumb.ascx";
 
@@ -102,6 +100,18 @@ namespace DotNetNuke.UI.Skins.Controls
             }
         }
 
+        public bool UseTitle
+        {
+            get
+            {
+                return _useTitle;
+            }
+            set
+            {
+                _useTitle = value;
+            }
+        }
+
         protected void Page_Load( Object sender, EventArgs e )
         {
             // public attributes
@@ -150,20 +160,25 @@ namespace DotNetNuke.UI.Skins.Controls
 
             // process bread crumbs
             int intTab;
-            for( intTab = intRootLevel; intTab <= PortalSettings.ActiveTab.BreadCrumbs.Count - 1; intTab++ )
+            for (intTab = intRootLevel; intTab < PortalSettings.ActiveTab.BreadCrumbs.Count; intTab++)
             {
-                if( intTab != intRootLevel )
+                if (intTab != intRootLevel)
                 {
                     strBreadCrumbs += strSeparator;
                 }
-                TabInfo objTab = (TabInfo)PortalSettings.ActiveTab.BreadCrumbs[intTab];
-                if( objTab.DisableLink )
+                TabInfo objTab = (TabInfo)(PortalSettings.ActiveTab.BreadCrumbs[intTab]);
+                string strLabel = objTab.TabName;
+                if (UseTitle & objTab.Title != "")
                 {
-                    strBreadCrumbs += "<span class=\"" + strCssClass + "\">" + objTab.TabName + "</span>";
+                    strLabel = objTab.Title;
+                }
+                if (objTab.DisableLink)
+                {
+                    strBreadCrumbs += "<span class=\"" + strCssClass + "\">" + strLabel + "</span>";
                 }
                 else
-                {                    
-                    strBreadCrumbs += "<a href=\"" + objTab.FullUrl + "\" class=\"" + strCssClass + "\">" + objTab.TabName + "</a>";
+                {
+                    strBreadCrumbs += "<a href=\"" + objTab.FullUrl + "\" class=\"" + strCssClass + "\">" + strLabel + "</a>";
                 }
             }
             lblBreadCrumb.Text = Convert.ToString( strBreadCrumbs );

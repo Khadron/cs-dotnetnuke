@@ -23,7 +23,6 @@ using System.Web.Security;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Portals;
-using DotNetNuke.Security.Membership;
 using DotNetNuke.Services.Log.EventLog;
 
 namespace DotNetNuke.Security.Authentication
@@ -36,9 +35,9 @@ namespace DotNetNuke.Security.Authentication
 
         public AuthenticationController()
         {
-            Configuration _config = Configuration.GetConfig();
+            Configuration configuration = Configuration.GetConfig();
             _portalSettings = PortalController.GetCurrentPortalSettings();
-            mProviderTypeName = _config.ProviderTypeName;
+            mProviderTypeName = configuration.ProviderTypeName;
         }
 
         public Array AuthenticationTypes()
@@ -46,20 +45,20 @@ namespace DotNetNuke.Security.Authentication
             return AuthenticationProvider.Instance( mProviderTypeName ).GetAuthenticationTypes();
         }
 
-        public Entities.Users.UserInfo GetDNNUser( int PortalID, string LoggedOnUserName )
+        public Entities.Users.UserInfo GetDNNUser( int portalID, string loggedOnUserName )
         {
             Entities.Users.UserInfo objUser;
 
             //TODO: Check the new concept of 3.0 for user in multi portal
             // check if this user exists in database for any portal
-            objUser = Entities.Users.UserController.GetUserByName( Null.NullInteger, LoggedOnUserName, false );
+            objUser = Entities.Users.UserController.GetUserByName( Null.NullInteger, loggedOnUserName, false );
             if( objUser != null )
             {
                 // Check if user exists in this portal
-                if( Entities.Users.UserController.GetUserByName( PortalID, LoggedOnUserName, false ) == null )
+                if( Entities.Users.UserController.GetUserByName( portalID, loggedOnUserName, false ) == null )
                 {
                     // The user does not exist in this portal - add them
-                    objUser.PortalID = PortalID;
+                    objUser.PortalID = portalID;
                     Entities.Users.UserController.CreateUser( ref objUser );
                 }
                 return objUser;
@@ -71,17 +70,16 @@ namespace DotNetNuke.Security.Authentication
             }
         }
 
-        public static AuthenticationStatus GetStatus( int PortalID )
+        public static AuthenticationStatus GetStatus( int portalID )
         {
-            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
-            string authCookies = Configuration.AUTHENTICATION_STATUS_KEY + "." + PortalID.ToString();
+            string authCookies = Configuration.AUTHENTICATION_STATUS_KEY + "." + portalID;
             try
             {
                 if( HttpContext.Current.Request.Cookies[authCookies] != null )
                 {
                     // get Authentication from cookie
-                    FormsAuthenticationTicket AuthenticationTicket = FormsAuthentication.Decrypt( HttpContext.Current.Request.Cookies[authCookies].Value );
-                    return ( (AuthenticationStatus)( @Enum.Parse( typeof( AuthenticationStatus ), AuthenticationTicket.UserData ) ) );
+                    FormsAuthenticationTicket authenticationTicket = FormsAuthentication.Decrypt( HttpContext.Current.Request.Cookies[authCookies].Value );
+                    return ( (AuthenticationStatus)( Enum.Parse( typeof( AuthenticationStatus ), authenticationTicket.UserData ) ) );
                 }
                 else
                 {
@@ -99,17 +97,14 @@ namespace DotNetNuke.Security.Authentication
             return AuthenticationProvider.Instance( mProviderTypeName ).GetNetworkStatus();
         }
 
-        public UserInfo ProcessFormAuthentication( string LoggedOnUserName, string LoggedOnPassword ) //DotNetNuke.Entities.Users.UserInfo
+        public UserInfo ProcessFormAuthentication( string loggedOnUserName, string loggedOnPassword ) //DotNetNuke.Entities.Users.UserInfo
         {
-            //Dim _portalSettings As PortalSettings = PortalController.GetCurrentPortalSettings
-            //Dim _config As Authentication.Configuration = Authentication.Configuration.GetConfig(_portalSettings.PortalId)
-            Configuration _config = Configuration.GetConfig();
+            Configuration configuration = Configuration.GetConfig();
             UserController objAuthUserController = new UserController();
-            Entities.Users.UserController objUsers = new Entities.Users.UserController();
 
-            if( _config.WindowsAuthentication )
+            if( configuration.WindowsAuthentication )
             {
-                UserInfo objAuthUser = objAuthUserController.GetUser( LoggedOnUserName, LoggedOnPassword );
+                UserInfo objAuthUser = objAuthUserController.GetUser( loggedOnUserName, loggedOnPassword );
                 return objAuthUser;
             }
             return null;
@@ -118,22 +113,22 @@ namespace DotNetNuke.Security.Authentication
 
         public void AuthenticationLogoff()
         {
-            PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
-            string authCookies = Configuration.AUTHENTICATION_KEY + "_" + _portalSettings.PortalId.ToString();
+            PortalSettings portalSettings = PortalController.GetCurrentPortalSettings();
+            string authCookies = Configuration.AUTHENTICATION_KEY + "_" + portalSettings.PortalId;
 
             // Log User Off from Cookie Authentication System
             FormsAuthentication.SignOut();
-            if( GetStatus( _portalSettings.PortalId ) == AuthenticationStatus.WinLogon )
+            if( GetStatus( portalSettings.PortalId ) == AuthenticationStatus.WinLogon )
             {
-                SetStatus( _portalSettings.PortalId, AuthenticationStatus.WinLogoff );
+                SetStatus( portalSettings.PortalId, AuthenticationStatus.WinLogoff );
             }
 
             // expire cookies
-            if( PortalSecurity.IsInRoles( _portalSettings.AdministratorRoleId.ToString() ) && HttpContext.Current.Request.Cookies["_Tab_Admin_Content" + _portalSettings.PortalId.ToString()] != null )
+            if( PortalSecurity.IsInRoles( portalSettings.AdministratorRoleId.ToString() ) && HttpContext.Current.Request.Cookies["_Tab_Admin_Content" + portalSettings.PortalId] != null )
             {
-                HttpContext.Current.Response.Cookies["_Tab_Admin_Content" + _portalSettings.PortalId.ToString()].Value = null;
-                HttpContext.Current.Response.Cookies["_Tab_Admin_Content" + _portalSettings.PortalId.ToString()].Path = "/";
-                HttpContext.Current.Response.Cookies["_Tab_Admin_Content" + _portalSettings.PortalId.ToString()].Expires = DateTime.Now.AddYears( -30 );
+                HttpContext.Current.Response.Cookies["_Tab_Admin_Content" + portalSettings.PortalId].Value = null;
+                HttpContext.Current.Response.Cookies["_Tab_Admin_Content" + portalSettings.PortalId].Path = "/";
+                HttpContext.Current.Response.Cookies["_Tab_Admin_Content" + portalSettings.PortalId].Expires = DateTime.Now.AddYears( -30 );
             }
 
             HttpContext.Current.Response.Cookies["portalaliasid"].Value = null;
@@ -145,14 +140,14 @@ namespace DotNetNuke.Security.Authentication
             HttpContext.Current.Response.Cookies["portalroles"].Expires = DateTime.Now.AddYears( -30 );
 
             // Redirect browser back to portal
-            if( _portalSettings.HomeTabId != -1 )
+            if( portalSettings.HomeTabId != -1 )
             {
-                HttpContext.Current.Response.Redirect( Globals.NavigateURL( _portalSettings.HomeTabId ), true );
+                HttpContext.Current.Response.Redirect( Globals.NavigateURL( portalSettings.HomeTabId ), true );
             }
             else
             {
                 //If (IsAdminTab(_portalSettings.ActiveTab.TabID, _portalSettings.ActiveTab.ParentId)) Then
-                if( _portalSettings.ActiveTab.IsAdminTab )
+                if( portalSettings.ActiveTab.IsAdminTab )
                 {
                     HttpContext.Current.Response.Redirect( "~/" + Globals.glbDefaultPage, true );
                 }
@@ -165,47 +160,45 @@ namespace DotNetNuke.Security.Authentication
 
         public void AuthenticationLogon()
         {
-            Configuration _config = Configuration.GetConfig();
+            Configuration configuration = Configuration.GetConfig();
 
-            UserController objAuthUserController = new UserController();
-            string authCookies = Configuration.AUTHENTICATION_KEY + "_" + _portalSettings.PortalId.ToString();
+            UserController authUserController = new UserController();
+            string authCookies = Configuration.AUTHENTICATION_KEY + "_" + _portalSettings.PortalId;
             string LoggedOnUserName = HttpContext.Current.Request.ServerVariables[Configuration.LOGON_USER_VARIABLE];
 
             if( LoggedOnUserName.Length > 0 )
             {
-                Entities.Users.UserInfo objDNNUser;
-                UserInfo objAuthUser;
+                UserInfo authUser;
 
                 int intUserId = 0;
 
-                objDNNUser = Entities.Users.UserController.GetUserByName( _portalSettings.PortalId, LoggedOnUserName, false );
+                Entities.Users.UserInfo dnnUser = Entities.Users.UserController.GetUserByName( _portalSettings.PortalId, LoggedOnUserName, false );
 
-                if( objDNNUser != null )
+                if( dnnUser != null )
                 {
-                    intUserId = objDNNUser.UserID;
+                    intUserId = dnnUser.UserID;
 
                     // Synchronize role membership if it's required in settings
-                    if( _config.SynchronizeRole )
+                    if( configuration.SynchronizeRole )
                     {
-                        objAuthUser = objAuthUserController.GetUser( LoggedOnUserName );
+                        authUser = authUserController.GetUser( LoggedOnUserName );
 
                         // user object might be in simple version in none active directory network
-                        if( objAuthUser.GUID.Length != 0 )
+                        if( authUser.GUID.Length != 0 )
                         {
-                            objAuthUser.UserID = intUserId;
-                            UserController.AddUserRoles( _portalSettings.PortalId, objAuthUser );
+                            authUser.UserID = intUserId;
+                            UserController.AddUserRoles( _portalSettings.PortalId, authUser );
                         }
                     }
                 }
                 else
                 {
                     // User not exists in DNN database, obtain user info from provider to add new
-                    objAuthUser = objAuthUserController.GetUser( LoggedOnUserName );
-                    objDNNUser = (Entities.Users.UserInfo)objAuthUser;
-                    if( objAuthUser != null )
+                    authUser = authUserController.GetUser( LoggedOnUserName );
+                    if( authUser != null )
                     {
-                        UserCreateStatus createStatus = objAuthUserController.AddDNNUser( objAuthUser );
-                        intUserId = objAuthUser.UserID;
+                        authUserController.AddDNNUser( authUser );
+                        intUserId = authUser.UserID;
                         SetStatus( _portalSettings.PortalId, AuthenticationStatus.WinLogon );
                     }
                 }
@@ -213,6 +206,27 @@ namespace DotNetNuke.Security.Authentication
                 if( intUserId > 0 )
                 {
                     FormsAuthentication.SetAuthCookie( Convert.ToString( LoggedOnUserName ), true );
+
+                    //check if user has supplied custom value for expiration
+                    int PersistentCookieTimeout = 0;
+                    if (Config.GetSetting("PersistentCookieTimeout") != null)
+                    {
+                        PersistentCookieTimeout = int.Parse(Config.GetSetting("PersistentCookieTimeout"));
+                        //only use if non-zero, otherwise leave as asp.net value
+                        if (PersistentCookieTimeout != 0)
+                        {
+                            //locate and update cookie
+                            string authCookie = FormsAuthentication.FormsCookieName;
+                            foreach (string cookie in HttpContext.Current.Response.Cookies)
+                            {
+                                if (cookie.Equals(authCookie))
+                                {
+                                    HttpContext.Current.Response.Cookies[cookie].Expires = DateTime.Now.AddMinutes(PersistentCookieTimeout);
+                                }
+                            }
+                        }
+                    }
+
                     SetStatus( _portalSettings.PortalId, AuthenticationStatus.WinLogon );
 
                     // Get ipAddress for eventLog
@@ -222,17 +236,17 @@ namespace DotNetNuke.Security.Authentication
                         ipAddress = HttpContext.Current.Request.UserHostAddress;
                     }
 
-                    EventLogController objEventLog = new EventLogController();
-                    LogInfo objEventLogInfo = new LogInfo();
-                    objEventLogInfo.AddProperty( "IP", ipAddress );
-                    objEventLogInfo.LogPortalID = _portalSettings.PortalId;
-                    objEventLogInfo.LogPortalName = _portalSettings.PortalName;
-                    objEventLogInfo.LogUserID = intUserId;
-                    objEventLogInfo.LogUserName = LoggedOnUserName;
-                    objEventLogInfo.AddProperty( "WindowsAuthentication", "True" );
-                    objEventLogInfo.LogTypeKey = "LOGIN_SUCCESS";
+                    EventLogController eventLog = new EventLogController();
+                    LogInfo eventLogInfo = new LogInfo();
+                    eventLogInfo.AddProperty( "IP", ipAddress );
+                    eventLogInfo.LogPortalID = _portalSettings.PortalId;
+                    eventLogInfo.LogPortalName = _portalSettings.PortalName;
+                    eventLogInfo.LogUserID = intUserId;
+                    eventLogInfo.LogUserName = LoggedOnUserName;
+                    eventLogInfo.AddProperty( "WindowsAuthentication", "True" );
+                    eventLogInfo.LogTypeKey = "LOGIN_SUCCESS";
 
-                    objEventLog.AddLog( objEventLogInfo );
+                    eventLog.AddLog( eventLogInfo );
                 }
             }
             else
@@ -245,13 +259,13 @@ namespace DotNetNuke.Security.Authentication
             HttpContext.Current.Response.Redirect( strURL, true );
         }
 
-        public static void SetStatus( int PortalID, AuthenticationStatus Status )
+        public static void SetStatus( int portalID, AuthenticationStatus status )
         {
-            string authCookies = Configuration.AUTHENTICATION_STATUS_KEY + "." + PortalID.ToString();
+            string authCookies = Configuration.AUTHENTICATION_STATUS_KEY + "." + portalID;
             HttpRequest Request = HttpContext.Current.Request;
             HttpResponse Response = HttpContext.Current.Response;
 
-            FormsAuthenticationTicket AuthenticationTicket = new FormsAuthenticationTicket( 1, authCookies, DateTime.Now, DateTime.Now.AddHours( 1 ), false, Status.ToString() );
+            FormsAuthenticationTicket AuthenticationTicket = new FormsAuthenticationTicket( 1, authCookies, DateTime.Now, DateTime.Now.AddHours( 1 ), false, status.ToString() );
             // encrypt the ticket
             string strAuthentication = FormsAuthentication.Encrypt( AuthenticationTicket );
 

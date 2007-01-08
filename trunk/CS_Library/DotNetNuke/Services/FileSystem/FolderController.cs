@@ -41,6 +41,18 @@ namespace DotNetNuke.Services.FileSystem
             DatabaseSecure = 2,
         }
 
+        private void UpdateParentFolder(int PortalID, string FolderPath)
+        {
+            if (!String.IsNullOrEmpty( FolderPath))
+            {
+                string parentFolderPath = FolderPath.Substring(0, FolderPath.Substring(0, FolderPath.Length - 1).LastIndexOf("/") + 1);
+
+                FolderInfo objFolder = GetFolder(PortalID, parentFolderPath);
+                UpdateFolder(objFolder);
+            }
+        }
+
+
         public int AddFolder( int PortalID, string FolderPath )
         {
             return this.AddFolder( PortalID, FolderPath, 0, false, false );
@@ -61,6 +73,7 @@ namespace DotNetNuke.Services.FileSystem
             else
             {
                 FolderId = DataProvider.Instance().AddFolder(PortalID, FolderPath, StorageLocation, IsProtected, IsCached);
+                UpdateParentFolder(PortalID, FolderPath);
             }
             dr.Close();
 
@@ -88,6 +101,11 @@ namespace DotNetNuke.Services.FileSystem
             return CBO.FillCollection( DataProvider.Instance().GetFoldersByPortal( PortalID ), typeof( FolderInfo ) );
         }
 
+        public ArrayList GetFoldersByUser(int PortalID, int UserID, bool IncludeSecure, bool IncludeDatabase, bool AllowAccess, string Permissions)
+        {
+            return CBO.FillCollection(DataProvider.Instance().GetFoldersByUser(PortalID, UserID, IncludeSecure, IncludeDatabase, AllowAccess, Permissions), typeof(Services.FileSystem.FolderInfo));
+        }
+
         public string GetMappedDirectory( string VirtualDirectory )
         {
             string MappedDir = Convert.ToString(DataCache.GetCache("DirMap:" + VirtualDirectory));
@@ -102,6 +120,7 @@ namespace DotNetNuke.Services.FileSystem
         public void DeleteFolder( int PortalID, string FolderPath )
         {
             DataProvider.Instance().DeleteFolder( PortalID, FileSystemUtils.FormatFolderPath( FolderPath ) );
+            UpdateParentFolder(PortalID, FolderPath);
         }
 
         public void SetMappedDirectory(string VirtualDirectory)

@@ -137,6 +137,18 @@ namespace DotNetNuke.Modules.Admin.Users
         {
             get
             {
+                return Validate();
+            }
+        }
+
+        /// <summary>
+        /// Validate validates the User
+        /// </summary>
+        /// <history>
+        /// 	[cnurse]	08/10/2006  Created
+        /// </history>
+        private bool Validate()
+        {
                 bool isValid = true;
 
                 //Check Captcha Control
@@ -178,6 +190,32 @@ namespace DotNetNuke.Modules.Admin.Users
                         User.Membership.Password = UserController.GeneratePassword();
                     }
 
+                    //Check Question/Answer
+                    if (createStatus == UserCreateStatus.AddUser & MembershipProviderConfig.RequiresQuestionAndAnswer)
+                    {
+                        if (string.IsNullOrEmpty(txtQuestion.Text))
+                        {
+                            //Invalid Question
+                            createStatus = UserCreateStatus.InvalidQuestion;
+                        }
+                        else
+                        {
+                            User.Membership.PasswordQuestion = txtQuestion.Text;
+                        }
+                        if (createStatus == UserCreateStatus.AddUser)
+                        {
+                            if (string.IsNullOrEmpty(txtAnswer.Text))
+                            {
+                                //Invalid Question
+                                createStatus = UserCreateStatus.InvalidAnswer;
+                            }
+                            else
+                            {
+                                User.Membership.PasswordAnswer = txtAnswer.Text;
+                            }
+                        }
+                    }
+
                     if( createStatus != UserCreateStatus.AddUser )
                     {
                         isValid = false;
@@ -187,7 +225,6 @@ namespace DotNetNuke.Modules.Admin.Users
                 }
 
                 return isValid;
-            }
         }
 
         /// <summary>

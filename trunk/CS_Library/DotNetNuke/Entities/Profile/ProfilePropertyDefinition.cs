@@ -21,6 +21,7 @@ using System.ComponentModel;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.UI.WebControls;
+using DotNetNuke.Entities.Modules;
 using Microsoft.VisualBasic.CompilerServices;
 
 namespace DotNetNuke.Entities.Profile

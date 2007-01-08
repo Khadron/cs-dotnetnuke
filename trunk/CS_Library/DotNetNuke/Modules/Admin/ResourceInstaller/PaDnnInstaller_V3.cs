@@ -63,7 +63,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                     strPath = tempLoopVar_strPath;
                     if (strPath.Trim() != "")
                     {
-                        strPath = HttpContext.Current.Server.MapPath("..\\" + strPath);
+                        strPath = Common.Globals.ApplicationMapPath + "\\" + strPath;
                         if (strPath.EndsWith("\\"))
                         {
                             // folder

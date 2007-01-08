@@ -96,14 +96,7 @@ namespace DotNetNuke.UI.Containers
             }
             Control.Bind( objNodes );
 
-            if( objNodes.Count > 0 && objNodes[0].DNNNodes.Count > 0 && m_tabPreview == false )
-            {
-                this.Visible = true;
-            }
-            else
-            {
-                this.Visible = false;
-            }
+            this.Visible = DisplayControl(objNodes);
         }
 
         private void ProcessNodes( DNNNode objParent )

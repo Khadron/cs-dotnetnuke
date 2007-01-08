@@ -199,11 +199,12 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                 {
                     if (status)
                     {
-                        HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Module File " + strFile + ":<br>");
+                        HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Module File " + strFile + ": ");
                     }
-                    PaInstaller paInstaller = new PaInstaller(strFile, Globals.ApplicationMapPath);
-                    paInstaller.Install();
-                    // delete file
+                    PaInstaller objPaInstaller = new PaInstaller(strFile, Common.Globals.ApplicationMapPath);
+                    bool blnSuccess = objPaInstaller.Install();
+                    HtmlUtils.WriteSuccessError(HttpContext.Current.Response, blnSuccess);
+                    // delete file (also when error on installing)
                     DeleteFile(strFile);
                 }
             }

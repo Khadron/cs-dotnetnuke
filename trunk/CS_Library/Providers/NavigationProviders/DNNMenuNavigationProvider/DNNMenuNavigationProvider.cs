@@ -760,9 +760,10 @@ namespace DotNetNuke.NavigationControl
                         {
                             objMenuItem.RightHTML = NodeRightHTMLBreadCrumbRoot;
                         }
-                        //If objNode.Selected Then	'<--- not necessary
-                        //	objMenuItem.CSSClassSelected = Me.CSSNodeActiveRoot
-                        //End If
+                        if (objNode.Selected && String.IsNullOrEmpty(Menu.DefaultNodeCssClassSelected)) //<--- not necessary when both are the same
+                        {
+                            objMenuItem.CSSClassSelected = this.CSSNodeSelectedRoot;
+                        }
                     }
 
                     if( !String.IsNullOrEmpty(this.NodeRightHTMLRoot) )
@@ -815,9 +816,10 @@ namespace DotNetNuke.NavigationControl
                             {
                                 objMenuItem.RightHTML = NodeRightHTMLBreadCrumbSub;
                             }
-                            //If objNode.Selected Then
-                            //	objMenuItem.CSSClass = Me.CSSNodeSelectedRoot
-                            //End If
+                            if (objNode.Selected && String.IsNullOrEmpty(Menu.DefaultNodeCssClassSelected))
+                            {
+                                objMenuItem.CSSClass = this.CSSNodeSelectedSub;
+                            }
                         }
 
                         if( !String.IsNullOrEmpty(this.NodeRightHTMLSub) )

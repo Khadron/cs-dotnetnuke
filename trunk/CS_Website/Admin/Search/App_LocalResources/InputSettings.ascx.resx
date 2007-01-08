@@ -77,4 +77,7 @@
   <data name="ControlTitle_settings.Text">
     <value>Search Input Settings</value>
   </data>
+  <data name="NoSearchModule.Text">
+    <value>Search Results module cannot be found</value>
+  </data>
 </root>

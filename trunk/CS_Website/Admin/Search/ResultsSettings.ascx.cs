@@ -24,16 +24,10 @@ using DotNetNuke.Services.Exceptions;
 
 namespace DotNetNuke.Modules.SearchResults
 {
-    /// Namespace:  DotNetNuke.Modules.SearchResults
-    /// Project:    DotNetNuke.SearchResults
-    /// Class:      ResultsSettings
     /// <summary>
     /// The ResultsSettings ModuleSettingsBase is used to manage the
     /// settings for the Search Results Module
     /// </summary>
-    /// <returns></returns>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     ///		[cnurse]	11/11/2004	created
     /// </history>
@@ -104,8 +98,6 @@ namespace DotNetNuke.Modules.SearchResults
         /// <summary>
         /// UpdateSettings saves the modified settings to the Database
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         ///		[cnurse]	11/11/2004	created
         /// </history>
@@ -113,13 +105,16 @@ namespace DotNetNuke.Modules.SearchResults
         {
             try
             {
-                ModuleController objModules = new ModuleController();
+                if(Page.IsValid)
+                {
+                    ModuleController objModules = new ModuleController();
 
-                objModules.UpdateTabModuleSetting( TabModuleId, "maxresults", txtresults.Text );
-                objModules.UpdateTabModuleSetting( TabModuleId, "perpage", txtPage.Text );
-                objModules.UpdateTabModuleSetting( TabModuleId, "titlelength", txtTitle.Text );
-                objModules.UpdateTabModuleSetting( TabModuleId, "descriptionlength", txtdescription.Text );
-                objModules.UpdateTabModuleSetting( TabModuleId, "showdescription", Convert.ToString( chkDescription.Checked ? "Y" : "N" ) );
+                    objModules.UpdateTabModuleSetting( TabModuleId, "maxresults", txtresults.Text );
+                    objModules.UpdateTabModuleSetting( TabModuleId, "perpage", txtPage.Text );
+                    objModules.UpdateTabModuleSetting( TabModuleId, "titlelength", txtTitle.Text );
+                    objModules.UpdateTabModuleSetting( TabModuleId, "descriptionlength", txtdescription.Text );
+                    objModules.UpdateTabModuleSetting( TabModuleId, "showdescription", Convert.ToString( chkDescription.Checked ? "Y" : "N" ) );
+                }
             }
             catch( Exception exc ) //Module failed to load
             {

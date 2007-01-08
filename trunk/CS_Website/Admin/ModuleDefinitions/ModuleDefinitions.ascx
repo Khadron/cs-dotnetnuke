@@ -23,9 +23,13 @@
 			<HeaderStyle HorizontalAlign="Center" CssClass="NormalBold"></HeaderStyle>
 			<ItemStyle HorizontalAlign="Center" CssClass="Normal"></ItemStyle>
 		</asp:BoundColumn>
-		<asp:BoundColumn DataField="IsPremium" HeaderText="Premium">
-			<HeaderStyle HorizontalAlign="Center" CssClass="NormalBold"></HeaderStyle>
-			<ItemStyle HorizontalAlign="Center" CssClass="Normal"></ItemStyle>
-		</asp:BoundColumn>
+        <asp:TemplateColumn HeaderText="Upgraded">
+            <HeaderStyle CssClass="NormalBold" HorizontalAlign="Center" Wrap="False" />
+            <ItemStyle CssClass="Normal" HorizontalAlign="Center" />
+            <ItemTemplate>
+                <asp:Image ID="Image1" runat="server" AlternateText="Upgraded?" ImageUrl='<%# UpgradeURL((string)DataBinder.Eval(Container.DataItem,"Version"),(string)DataBinder.Eval(Container.DataItem,"ModuleName")) %>'
+                    resourcekey="Upgraded.Header" />
+            </ItemTemplate>
+        </asp:TemplateColumn>
 	</Columns>
 </asp:datagrid>

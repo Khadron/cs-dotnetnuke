@@ -876,6 +876,7 @@
       <SubType>Code</SubType>
       <Name>Compile</Name>
     </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\CultureInfoComparer.cs" />
     <Compile Include="DotNetNuke\Services\Localization\LanguagePackType.cs">
       <SubType>Code</SubType>
       <Name>Compile</Name>

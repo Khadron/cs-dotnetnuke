@@ -448,11 +448,35 @@ namespace DotNetNuke.Entities.Users
         /// <summary>
         /// Initialises the Profile with an empty collection of profile properties
         /// </summary>
-        /// <remarks></remarks>
         /// <param name="portalId">The name of the property to retrieve.</param>
+        /// <history>
+        /// 	[cnurse]	05/18/2006	Created
+        /// </history>
         public void InitialiseProfile(int portalId)
         {
+            InitialiseProfile(portalId, true);
+        }
+
+        /// <summary>
+        /// Initialises the Profile with an empty collection of profile properties
+        /// </summary>
+        /// <param name="portalId">The name of the property to retrieve.</param>
+        /// <param name="useDefaults">A flag that indicates whether the profile default values should be
+        /// copied to the Profile.</param>
+        /// <history>
+        /// 	[cnurse]	08/04/2006	Created
+        /// </history>
+        public void InitialiseProfile(int portalId, bool useDefaults)
+        {
             _profileProperties = ProfileController.GetPropertyDefinitionsByPortal(portalId);
+            if (useDefaults)
+            {
+                foreach (ProfilePropertyDefinition ProfileProperty in _profileProperties)
+                {
+                    ProfileProperty.PropertyValue = ProfileProperty.DefaultValue;
+                }
+            }
+
         }
 
         /// <summary>

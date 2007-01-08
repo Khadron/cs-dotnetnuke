@@ -30,9 +30,8 @@
     </tr>
     <tr>
         <td>
-            <dnn:SectionHead id="dshPassword" cssclass="Head" runat="server" text="Password Settings"
-                section="tblProvider" resourcekey="PasswordSettings" isexpanded="True" includerule="True" />
-            <table id="Table1" runat="server">
+            <dnn:SectionHead ID="dshPassword" runat="server" CssClass="Head" IncludeRule="True" IsExpanded="True" ResourceKey="PasswordSettings" Section="tblPassword" Text="Password Settings" />
+            <table id="tblPassword" runat="server">
                 <tr>
                     <td class="Normal">
                         <asp:Label ID="lblPassword" runat="server" resourcekey="PasswordSettingsHelp" /></td>

@@ -18,6 +18,8 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 using System.Xml.Serialization;
+using DotNetNuke.Common.Utilities;
+using DotNetNuke.Entities.Portals;
 
 namespace DotNetNuke.Services.FileSystem
 {
@@ -27,14 +29,13 @@ namespace DotNetNuke.Services.FileSystem
     [XmlRoot( "file", IsNullable = false )]
     public class FileInfo
     {
-        private string _ContentType;
-        private string _Extension;
-
         /// <Summary>
         /// The Primary Key ID of the current File, as represented within the Database table named "Files"
         /// </Summary>
+        /// <remarks>
+        /// This Integer Property is passed to the FileInfo Collection
+        /// </remarks>
         private int _FileId;
-
         private string _FileName;
         private string _Folder;
         private int _FolderId;
@@ -44,13 +45,15 @@ namespace DotNetNuke.Services.FileSystem
         private int _Size;
         private int _StorageLocation;
         private int _Width;
+        private string _ContentType;
+        private string _Extension;
 
         public FileInfo()
         {
             this._IsCached = false;
         }
 
-        [XmlElementAttribute( "contenttype" )]
+        [XmlElement( "contenttype" )]
         public string ContentType
         {
             get
@@ -63,7 +66,7 @@ namespace DotNetNuke.Services.FileSystem
             }
         }
 
-        [XmlElementAttribute( "extension" )]
+        [XmlElement( "extension" )]
         public string Extension
         {
             get
@@ -76,7 +79,7 @@ namespace DotNetNuke.Services.FileSystem
             }
         }
 
-        [XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public int FileId
         {
             get
@@ -89,7 +92,7 @@ namespace DotNetNuke.Services.FileSystem
             }
         }
 
-        [XmlElementAttribute( "filename" )]
+        [XmlElement( "filename" )]
         public string FileName
         {
             get
@@ -102,7 +105,7 @@ namespace DotNetNuke.Services.FileSystem
             }
         }
 
-        [XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public string Folder
         {
             get
@@ -115,7 +118,7 @@ namespace DotNetNuke.Services.FileSystem
             }
         }
 
-        [XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public int FolderId
         {
             get
@@ -128,7 +131,7 @@ namespace DotNetNuke.Services.FileSystem
             }
         }
 
-        [XmlElementAttribute( "height" )]
+        [XmlElement( "height" )]
         public int Height
         {
             get
@@ -141,7 +144,7 @@ namespace DotNetNuke.Services.FileSystem
             }
         }
 
-        [XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool IsCached
         {
             get
@@ -154,7 +157,29 @@ namespace DotNetNuke.Services.FileSystem
             }
         }
 
-        [XmlIgnoreAttribute()]
+        [XmlIgnore()]
+        public string PhysicalPath
+        {
+            get
+            {
+                PortalSettings portalSettings = PortalController.GetCurrentPortalSettings();
+                string physicalPath;
+
+                if (PortalId == Null.NullInteger)
+                {
+                    physicalPath = DotNetNuke.Common.Globals.HostMapPath + Folder + FileName;
+                }
+                else
+                {
+                    physicalPath = portalSettings.HomeDirectoryMapPath + Folder + FileName;
+                }
+
+                return physicalPath.Replace("/", "\\");
+            }
+        }
+
+
+        [XmlIgnore()]
         public int PortalId
         {
             get
@@ -167,7 +192,7 @@ namespace DotNetNuke.Services.FileSystem
             }
         }
 
-        [XmlElementAttribute( "size" )]
+        [XmlElement( "size" )]
         public int Size
         {
             get
@@ -180,7 +205,7 @@ namespace DotNetNuke.Services.FileSystem
             }
         }
 
-        [XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public int StorageLocation
         {
             get
@@ -193,7 +218,7 @@ namespace DotNetNuke.Services.FileSystem
             }
         }
 
-        [XmlElementAttribute( "width" )]
+        [XmlElement( "width" )]
         public int Width
         {
             get

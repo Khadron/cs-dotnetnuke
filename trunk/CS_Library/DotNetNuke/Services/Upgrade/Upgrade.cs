@@ -42,6 +42,7 @@ using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Services.Log.EventLog;
 using DotNetNuke.Services.Personalization;
 using DotNetNuke.Services.Scheduling;
+using DotNetNuke.Services.FileSystem;
 using Globals=DotNetNuke.Common.Globals;
 using TabInfo=DotNetNuke.Entities.Tabs.TabInfo;
 
@@ -381,8 +382,7 @@ namespace DotNetNuke.Services.Upgrade
             }
             catch (Exception ex)
             {
-                HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Error: " + ex.Message + "<br>");
-
+                HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "<font color='red'>Error: " + ex.Message + "</font><br>");                
                 return -1; // failure
             }
         }
@@ -484,7 +484,7 @@ namespace DotNetNuke.Services.Upgrade
         ///	<returns>True if the Module exists, otherwise False</returns>
         private static bool CoreModuleExists(string DesktopModuleName)
         {
-            bool blnExists = false;
+            bool blnExists;
 
             DesktopModuleController objDesktopModules = new DesktopModuleController();
 
@@ -504,11 +504,11 @@ namespace DotNetNuke.Services.Upgrade
         /// <summary>
         /// DeleteFiles - clean up deprecated files and folders
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="strVersion">The Version being Upgraded</param>
+        /// </remarks>
         private static string DeleteFiles(string strVersion)
         {
+
             string strExceptions = "";
 
             try
@@ -518,20 +518,17 @@ namespace DotNetNuke.Services.Upgrade
                 if (File.Exists(strListFile))
                 {
                     // read list file
-                    StreamReader objStreamReader;
-                    objStreamReader = File.OpenText(strListFile);
-                    Array arrPaths = objStreamReader.ReadToEnd().Split("\r\n".ToCharArray());
+                    StreamReader objStreamReader =File.OpenText(strListFile);
+                    Array arrPaths = objStreamReader.ReadToEnd().Split(Environment.NewLine.ToCharArray());
                     objStreamReader.Close();
 
                     // loop through path list
-                    string strPath;
-
-                    foreach (string tempLoopVar_strPath in arrPaths)
+                    foreach (string path in arrPaths)
                     {
-                        strPath = tempLoopVar_strPath;
+                        string strPath = path;
                         if (strPath.Trim() != "")
                         {
-                            strPath = HttpContext.Current.Server.MapPath("..\\" + strPath);
+                            strPath = Globals.ApplicationMapPath + "\\" + strPath;
                             if (strPath.EndsWith("\\"))
                             {
                                 // folder
@@ -543,7 +540,7 @@ namespace DotNetNuke.Services.Upgrade
                                     }
                                     catch (Exception ex)
                                     {
-                                        strExceptions += "Error: " + ex.Message + "\r\n";
+                                        strExceptions += "Error: " + ex.Message + Environment.NewLine;
                                     }
                                 }
                             }
@@ -559,20 +556,22 @@ namespace DotNetNuke.Services.Upgrade
                                     }
                                     catch (Exception ex)
                                     {
-                                        strExceptions += "Error: " + ex.Message + "\r\n";
+                                        strExceptions += "Error: " + ex.Message + Environment.NewLine;
                                     }
                                 }
                             }
                         }
                     }
                 }
+
             }
             catch (Exception ex)
             {
-                strExceptions += "Error: " + ex.Message + "\r\n";
+                strExceptions += "Error: " + ex.Message + Environment.NewLine;
             }
 
             return strExceptions;
+
         }
 
         /// <summary>
@@ -662,7 +661,7 @@ namespace DotNetNuke.Services.Upgrade
         ///	<returns>True if the Tab exists, otherwise False</returns>
         private static bool HostTabExists(string TabName)
         {
-            bool blnExists = false;
+            bool blnExists;
 
             TabController objTabController = new TabController();
 
@@ -902,7 +901,7 @@ namespace DotNetNuke.Services.Upgrade
                 }
 
                 // add the feedback settings control
-                if (CoreModuleExists("Feedback") == true)
+                if (CoreModuleExists("Feedback"))
                 {
                     moduleDefId = GetModuleDefinition("Feedback", "Feedback");
                     AddModuleControl(moduleDefId, "Settings", "Feedback Settings", "DesktopModules/Feedback/Settings.ascx", "", SecurityAccessLevel.Edit, 0);
@@ -967,16 +966,13 @@ namespace DotNetNuke.Services.Upgrade
                 //Update Child Portal subHost.aspx
                 PortalAliasController objAliasController = new PortalAliasController();
                 ArrayList arrAliases = objAliasController.GetPortalAliasArrayByPortalID(Null.NullInteger);
-                PortalAliasInfo objAlias;
-                string childPath;
 
-                foreach (PortalAliasInfo tempLoopVar_objAlias in arrAliases)
+                foreach (PortalAliasInfo objAlias in arrAliases)
                 {
-                    objAlias = tempLoopVar_objAlias;
                     //For the alias to be for a child it must be of the form ...../child
                     if (objAlias.HTTPAlias.LastIndexOf("/") != -1)
                     {
-                        childPath = Globals.ApplicationMapPath + "\\" + objAlias.HTTPAlias.Substring(objAlias.HTTPAlias.LastIndexOf("/") + 1);
+                        string childPath = Globals.ApplicationMapPath + "\\" + objAlias.HTTPAlias.Substring(objAlias.HTTPAlias.LastIndexOf("/") + 1);
                         if (Directory.Exists(childPath))
                         {
                             //Folder exists App/child so upgrade
@@ -1035,32 +1031,32 @@ namespace DotNetNuke.Services.Upgrade
                         while (dr.Read())
                         {
                             // if GUID folder exists
-                            if (Directory.Exists(strPortalsDirMapPath + dr["GUID"].ToString()) == true)
+                            if (Directory.Exists(strPortalsDirMapPath + dr["GUID"]))
                             {
                                 // if ID folder exists ( this may happen because the 2.x release contains a default ID=0 folder )
-                                if (Directory.Exists(strPortalsDirMapPath + dr["PortalID"].ToString()) == true)
+                                if (Directory.Exists(strPortalsDirMapPath + dr["PortalID"]))
                                 {
                                     // rename the ID folder
                                     try
                                     {
-                                        Directory.Move(strPortalsDirMapPath + dr["PortalID"].ToString(), strServerPath + "\\Portals\\" + dr["PortalID"].ToString() + "_old");
+                                        Directory.Move(strPortalsDirMapPath + dr["PortalID"], strServerPath + "\\Portals\\" + dr["PortalID"] + "_old");
                                     }
                                     catch (Exception ex)
                                     {
                                         // error moving the directory - security issue?
-                                        strExceptions += "Could Not Move Folder " + strPortalsDirMapPath + dr["GUID"].ToString() + " To " + strPortalsDirMapPath + dr["PortalID"].ToString() + ". Error: " + ex.Message + "\r\n";
+                                        strExceptions += "Could Not Move Folder " + strPortalsDirMapPath + dr["GUID"] + " To " + strPortalsDirMapPath + dr["PortalID"] + ". Error: " + ex.Message + "\r\n";
                                     }
                                 }
 
                                 // move GUID folder to ID folder
                                 try
                                 {
-                                    Directory.Move(strPortalsDirMapPath + dr["GUID"].ToString(), strPortalsDirMapPath + dr["PortalID"].ToString());
+                                    Directory.Move(strPortalsDirMapPath + dr["GUID"], strPortalsDirMapPath + dr["PortalID"]);
                                 }
                                 catch (Exception ex)
                                 {
                                     // error moving the directory - security issue?
-                                    strExceptions += "Could Not Move Folder " + strPortalsDirMapPath + dr["GUID"].ToString() + " To " + strPortalsDirMapPath + dr["PortalID"].ToString() + ". Error: " + ex.Message + "\r\n";
+                                    strExceptions += "Could Not Move Folder " + strPortalsDirMapPath + dr["GUID"] + " To " + strPortalsDirMapPath + dr["PortalID"] + ". Error: " + ex.Message + "\r\n";
                                 }
                             }
                         }
@@ -1171,9 +1167,8 @@ namespace DotNetNuke.Services.Upgrade
                         MembershipProvider provider = MembershipProvider.Instance();
                         provider.TransferUsersToMembershipProvider();
 
-                        ArrayList arrModuleDefinitions;
                         ModuleDefinitionController objModuleDefinitionController = new ModuleDefinitionController();
-                        arrModuleDefinitions = objModuleDefinitionController.GetModuleDefinitions(Null.NullInteger);
+                        ArrayList arrModuleDefinitions = objModuleDefinitionController.GetModuleDefinitions(Null.NullInteger);
 
                         ArrayList arrModules;
                         ModuleController objModuleController = new ModuleController();
@@ -1597,7 +1592,7 @@ namespace DotNetNuke.Services.Upgrade
         private static void AddModuleToPage(TabInfo page, int ModuleDefId, string ModuleTitle, string ModuleIconFile, bool InheritPermissions)
         {
             ModuleController objModules = new ModuleController();
-            ModuleInfo objModule = new ModuleInfo();
+            ModuleInfo objModule;
             int intIndex;
             bool blnDuplicate;
 
@@ -1760,6 +1755,7 @@ namespace DotNetNuke.Services.Upgrade
             XmlNodeList nodes;
             string strVersion = "";
             string strScript = "";
+            string strLogFile = "";
             string strErrorMessage = "";
 
             // get current App version from constant (Medium Trust)
@@ -1792,7 +1788,7 @@ namespace DotNetNuke.Services.Upgrade
                 ResourceInstaller objResourceInstaller = new ResourceInstaller();
 
                 //Output feedback line
-                HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Installing Version: " + intMajor.ToString() + "." + intMinor.ToString() + "." + intBuild.ToString() + "<br>");
+                HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Installing Version: " + intMajor + "." + intMinor + "." + intBuild + "<br>");
 
                 //Parse the script nodes
                 node = xmlDoc.SelectSingleNode("//dotnetnuke/scripts");
@@ -1804,10 +1800,10 @@ namespace DotNetNuke.Services.Upgrade
                     // Loop through the available scripts
                     foreach (XmlNode scriptNode in node.SelectNodes("script"))
                     {
-                        strScript = scriptNode.InnerText + "." + objProviderConfiguration.DefaultProvider;
-                        HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Installing Script: " + strScript + "<br>");
-
+                        strScript = scriptNode.InnerText + "." + objProviderConfiguration.DefaultProvider;                        
+                        HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Installing Script: " + strScript);
                         strExceptions += ExecuteScript(strProviderPath + strScript, "");
+                        HtmlUtils.WriteScriptSuccessError(HttpContext.Current.Response, (strExceptions == ""), strProviderPath + strScript.Replace("." + objProviderConfiguration.DefaultProvider, ".log"));
                     }
                 }
 
@@ -1821,6 +1817,7 @@ namespace DotNetNuke.Services.Upgrade
                 {
                     HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Installing MemberRole Provider:<br>");
                     strExceptions += InstallMemberRoleProvider(strProviderPath);
+                    HtmlUtils.WriteSuccessError(HttpContext.Current.Response, (strExceptions == ""));
                 }
 
                 // update the version
@@ -1847,12 +1844,12 @@ namespace DotNetNuke.Services.Upgrade
 
                 //TODO - This method is obsolete since the modules are now seperated from the core
                 // parse Desktop Modules if available
-                node = xmlDoc.SelectSingleNode("//dotnetnuke/desktopmodules");
-                if (node != null)
-                {
-                    HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Installing Desktop Modules:<br>");
-                    ParseDesktopModules(node);
-                }
+                //node = xmlDoc.SelectSingleNode("//dotnetnuke/desktopmodules");
+                //if (node != null)
+                //{
+                //    HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Installing Desktop Modules:<br>");
+                //    ParseDesktopModules(node);
+                //}
 
                 // parse File List if available
                 node = xmlDoc.SelectSingleNode("//dotnetnuke/files");
@@ -1880,11 +1877,11 @@ namespace DotNetNuke.Services.Upgrade
                         intPortalId = AddPortal(node, true, 2);
                         if (intPortalId > -1)
                         {
-                            HtmlUtils.WriteFeedback(HttpContext.Current.Response, 2, "Successfully Installed Portal " + intPortalId + ":<br>");
+                            HtmlUtils.WriteFeedback(HttpContext.Current.Response, 2, "<font color='green'>Successfully Installed Portal " + intPortalId + ":</font><br>");
                         }
                         else
                         {
-                            HtmlUtils.WriteFeedback(HttpContext.Current.Response, 2, "Portal failed to install:<br>");
+                            HtmlUtils.WriteFeedback(HttpContext.Current.Response, 2, "<font color='red'>Portal failed to install:Error!</font><br>");
                         }
                     }
                 }
@@ -1989,7 +1986,9 @@ namespace DotNetNuke.Services.Upgrade
                 string strType = XmlUtils.GetNodeValue(fileNode, "contentType", "");
                 string strFolder = XmlUtils.GetNodeValue(fileNode, "folder", "");
 
-                objController.AddFile(portalId, strFileName, strExtenstion, fileSize, iWidth, iHeight, strType, strFolder);
+                FolderController objFolders = new FolderController();
+                FolderInfo objFolder = objFolders.GetFolder(portalId, strFolder);
+                objController.AddFile(portalId, strFileName, strExtenstion, fileSize, iWidth, iHeight, strType, strFolder, objFolder.FolderID, true);
             }
         }
 
@@ -2098,7 +2097,7 @@ namespace DotNetNuke.Services.Upgrade
         {
             TabController objTabs = new TabController();
             ModuleController objModules = new ModuleController();
-            ModuleInfo objModule = new ModuleInfo();
+            ModuleInfo objModule;
             int intIndex;
             int intModuleDefId = 0;
             int intDesktopModuleId;
@@ -2206,9 +2205,8 @@ namespace DotNetNuke.Services.Upgrade
             string strScriptVersion;
             ArrayList arrScriptFiles = new ArrayList();
             string[] arrFiles = Directory.GetFiles(strProviderPath, "*." + objProviderConfiguration.DefaultProvider);
-            foreach (string tempLoopVar_strFile in arrFiles)
+            foreach (string strFile in arrFiles)
             {
-                string strFile = tempLoopVar_strFile;
                 // script file name must conform to ##.##.##.DefaultProviderName
                 if (Path.GetFileName(strFile).Length == 9 + objProviderConfiguration.DefaultProvider.Length)
                 {
@@ -2222,9 +2220,8 @@ namespace DotNetNuke.Services.Upgrade
             }
             arrScriptFiles.Sort();
 
-            foreach (string tempLoopVar_strScriptFile in arrScriptFiles)
-            {
-                string strScriptFile = tempLoopVar_strScriptFile;
+            foreach (string strScriptFile in arrScriptFiles)
+            {                
                 strScriptVersion = Path.GetFileNameWithoutExtension(strScriptFile);
 
                 Array arrVersion = strScriptVersion.Split(Convert.ToChar("."));
@@ -2232,7 +2229,7 @@ namespace DotNetNuke.Services.Upgrade
                 int intMinor = Convert.ToInt32(arrVersion.GetValue(1));
                 int intBuild = Convert.ToInt32(arrVersion.GetValue(2));
 
-                HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, string.Format( "Upgrading to Version: {0}.{1}.{2}<br>", intMajor, intMinor, intBuild ));
+                HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Upgrading to Version: " + intMajor + "." + intMinor + "." + intBuild);
 
                 // verify script has not already been run
                 if (!PortalSettings.FindDatabaseVersion(intMajor, intMinor, intBuild))
@@ -2242,11 +2239,11 @@ namespace DotNetNuke.Services.Upgrade
 
                     // execute script file (and version upgrades) for version
                     strExceptions = ExecuteScript(strScriptFile, strScriptVersion);
+                    HtmlUtils.WriteScriptSuccessError(HttpContext.Current.Response, (strExceptions == ""), strScriptFile.Replace("." + objProviderConfiguration.DefaultProvider, ".log"));
 
                     // update the version
                     PortalSettings.UpdateDatabaseVersion(intMajor, intMinor, intBuild);
 
-                    EventLogController objEventLog = new EventLogController();
                     LogInfo objEventLogInfo = new LogInfo();
                     objEventLogInfo.AddProperty("Upgraded DotNetNuke", "Version: " + intMajor + "." + intMinor + "." + intBuild);
                     if (strExceptions.Length > 0)
@@ -2285,7 +2282,7 @@ namespace DotNetNuke.Services.Upgrade
             {
                 PortalInfo objPortal;
                 objPortal = (PortalInfo)arrPortals[j];
-                DataCache.RemoveCache("GetTabPermissionsByPortal" + objPortal.PortalID.ToString());
+                DataCache.RemoveCache("GetTabPermissionsByPortal" + objPortal.PortalID);
             }
         }
     }

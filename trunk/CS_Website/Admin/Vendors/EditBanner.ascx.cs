@@ -354,8 +354,8 @@ namespace DotNetNuke.Modules.Admin.Vendors
 
         public string FormatItem( int vendorId, int bannerId, int BannerTypeId, string BannerName, string ImageFile, string Description, string URL, int Width, int Height )
         {
-            BannerController objBanners = new BannerController();
-            return objBanners.FormatBanner( vendorId, bannerId, BannerTypeId, BannerName, ImageFile, Description, URL, Width, Height, "L", PortalSettings.HomeDirectory );
+            BannerController objBanners = new BannerController();            
+            return objBanners.FormatBanner(VendorId, BannerId, BannerTypeId, BannerName, ImageFile, Description, URL, Width, Height, System.Convert.ToString(((PortalSettings.BannerAdvertising == 1) ? "L" : "G")), PortalSettings.HomeDirectory);
         }
 
         public new int PortalId

@@ -47,8 +47,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
     /// and Provides status of available disk space for the portal
     /// as well as limiting uploads to the restricted allocated file space
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[DYNST]	        2/1/2004	Created
     ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -296,8 +294,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// </summary>
         /// <param name="tblFiles">The DataTable</param>
         /// <param name="objFile">The FileInfo object to add</param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	    12/3/2004	documented
         ///     [cnurse]        04/24/2006  Updated to use new Secure Storage
@@ -361,9 +357,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <param name="strKey">Masked Key of folder location</param>
         /// <param name="eImage">Type of image</param>
         /// <param name="objNodes">Node collection to add to</param>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	10/26/2004	Created
         /// 	[Jon Henning]	8/24/2005	Added Populate on Demand (POD) logic
@@ -393,8 +386,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <param name="folder">The FolderInfo object to add</param>
         /// <param name="objNodes">Node collection to add to</param>
         /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	04/24/2006	Created
         /// </history>
@@ -426,8 +417,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// BindFileList
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	11/1/2004	Created
         /// </history>
@@ -460,11 +449,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
             UpdateSpaceUsed();
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cpaterra]	4/6/2006	Created
         /// </history>
@@ -479,8 +463,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The BindFolderTree helper method is used to bind the list of
         /// files for this portal or for the hostfolder, to an asp:DATAGRID server control
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	        2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -514,8 +496,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The CheckDestFolderAccess helper method Checks to make sure file copy/move
         /// operation will not exceed portal available space
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	        2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -546,8 +526,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// GetCheckAllString
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	11/1/2004	Created
         /// </history>
@@ -578,8 +556,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// The DeleteFiles helper method is used to delete the files in the list
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="strFiles">The list of files to delete</param>
         /// <history>
         /// 	[DYNST]	        2/1/2004	Created
@@ -588,7 +564,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         protected void DeleteFiles( string strFiles )
         {
             string[] arFiles = strFiles.Split( ';' );
-            int i;
             if( arFiles.Length == 0 )
             {
                 return;
@@ -597,7 +572,7 @@ namespace DotNetNuke.Modules.Admin.FileSystem
             string strErrorMessage = "";
             strSourcePath = FileSystemUtils.AddTrailingSlash( LastPath );
 
-            for( i = 0; i <= arFiles.Length - 1; i++ )
+            for( int i = 0; i < arFiles.Length; i++ )
             {
                 if( arFiles[i] != "" )
                 {
@@ -608,9 +583,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
                     }
                 }
             }
-
-            FileController f = new FileController();
-            f.GetAllFilesRemoveCache();
 
             if( !String.IsNullOrEmpty(strErrorMessage) )
             {
@@ -624,8 +596,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// GeneratePermissionsGrid generates the permissions grid for the folder
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         ///     [cnurse]        12/2/2004   documented
         /// </history>
@@ -651,8 +621,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// GetAttributeString generates the attributes string from the FileAttributes
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         ///     [cnurse]        12/2/2004   documented
         /// </history>
@@ -681,8 +649,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// GetFilesByFolder gets the Files/Folders to display
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         ///     [cnurse]        12/2/2004   documented and modified to display Folders in
         ///                                 the grid
@@ -690,9 +656,10 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// </history>
         private void GetFilesByFolder( string strFolderName )
         {
-            FileController objFileController = new FileController();
             DataTable tblFiles = GetFileTable();
-            ArrayList arrFiles = objFileController.GetFilesByFolder( FolderPortalID, strFolderName );
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(FolderPortalID, strFolderName);
+            ArrayList arrFiles = FileSystemUtils.GetFilesByFolder(FolderPortalID, objFolder.FolderID);
 
             DataView dv = new DataView();
 
@@ -715,8 +682,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// GetFileTable creates the DataTable used to store the list of files and folders
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         ///     [cnurse]        12/3/2004   documented and modified to display Folders in
         ///                                 the grid
@@ -796,8 +761,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// Gets the Image associated with the File/Folder
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	12/4/2004	Created
         /// </history>
@@ -833,8 +796,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// Gets the size of the all the files in the zip file
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	12/4/2004	Created
         /// </history>
@@ -867,8 +828,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// Sets common properties on DNNTree control
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	11/1/2004	Created
         /// 	[Jon Henning]	8/24/2005	Added Populate on Demand (POD) logic
@@ -890,8 +849,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// Masks the path
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	11/1/2004	Created
         /// </history>
@@ -903,8 +860,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// Masks a string
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	11/1/2004	Created
         /// </history>
@@ -918,8 +873,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// </summary>
         /// <param name="objNodes">Node collection to add children to</param>
         /// <param name="strPath">Path of parent node</param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	10/26/2004	Created
         /// 	[Jon Henning]	8/24/2005	Added Populate on Demand (POD) logic
@@ -944,8 +897,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// Sets up the file manager for Edit Mode
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	11/1/2004	Created
         /// </history>
@@ -1001,8 +952,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// Sets up the Error Message
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	11/1/2004	Created
         /// </history>
@@ -1019,8 +968,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// Synchronizes the complete File System
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	11/1/2004	Created
         /// </history>
@@ -1039,8 +986,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// Unmasks the path
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	11/1/2004	Created
         /// </history>
@@ -1053,8 +998,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// Updates the space Used label
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	11/1/2004	Created
         /// </history>
@@ -1101,8 +1044,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// Renders the page output
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	11/1/2004	Created
         /// </history>
@@ -1124,10 +1065,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// to populate the current files from the appropriate PortalUpload Directory or the HostFolder
         /// and binds this list to the Datagrid
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1198,10 +1135,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The cmdCancel_Click server event handler on this user control runs when the
         /// Cancel Button is clicked
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	        2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1222,10 +1155,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The cmdUpdate_Click server event handler on this user control runs when the
         /// Update button is clicked
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	        2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1266,10 +1195,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The dgFileList_ItemDataBound server event handler on this user control runs when a
         /// File or Folder is added to the Files Table
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1339,10 +1264,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The DNNTree_NodeClick server event handler on this user control runs when a
         /// Node (Folder in the) in the TreeView is clicked
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1363,8 +1284,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// <summary>
         /// This method is called from the client to populate send new nodes down to the client
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	8/24/2005	Created
         /// </history>
@@ -1377,12 +1296,8 @@ namespace DotNetNuke.Modules.Admin.FileSystem
 
         /// <summary>
         /// The lnkAddFolder_Command server event handler on this user control runs when the
-        /// Add Folder ibutton is clicked
+        /// Add Folder button is clicked
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1432,10 +1347,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkDeleteFolder_Command server event handler on this user control runs when the
         /// Add Folder ibutton is clicked
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1515,8 +1426,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkDLFile_Command server event handler on this user control runs when the
         /// Download File button is clicked
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         /// <remarks>
         /// The method calls the FileSystemUtils DownLoad method
         /// </remarks>
@@ -1534,8 +1443,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkEditFile_Command server event handler on this user control runs when the
         /// Edit File button is clicked
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         /// <remarks>
         /// The DataGrid is switched to Edit Mode
         /// </remarks>
@@ -1554,10 +1461,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkCancelRename_Command server event handler on this user control runs when the
         /// Cancel Edit button is clicked when in Edit Mode
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1573,10 +1476,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkDeleteAllCheckedFiles_Command server event handler on this user control runs when the
         /// Javascript in the page triggers the event
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1593,10 +1492,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkDeleteFile_Command server event handler on this user control runs when the
         /// Javascript in the page triggers the event
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1610,8 +1505,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkFilter_Command server event handler on this user control runs when the
         /// Filter Files button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         /// <remarks>
         /// The method calls the relevant FileSystemUtils method
         /// </remarks>
@@ -1630,8 +1523,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkMoveFiles_Command server event handler on this user control runs when the
         /// Move Files button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         /// <remarks>
         /// The method calls the relevant FileSystemUtils method
         /// </remarks>
@@ -1716,8 +1607,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkMoveFirst_Command server event handler on this user control runs when the
         /// Move First Page button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         /// <remarks>
         /// The method calls the relevant FileSystemUtils method
         /// </remarks>
@@ -1735,8 +1624,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkMoveLast_Command server event handler on this user control runs when the
         /// Move Last Page button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         /// <remarks>
         /// The method calls the relevant FileSystemUtils method
         /// </remarks>
@@ -1754,8 +1641,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkMoveNext_Command server event handler on this user control runs when the
         /// Move Next Page button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         /// <remarks>
         /// The method calls the relevant FileSystemUtils method
         /// </remarks>
@@ -1777,8 +1662,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkMoveNext_Command server event handler on this user control runs when the
         /// Move Previous Page button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         /// <remarks>
         /// The method calls the relevant FileSystemUtils method
         /// </remarks>
@@ -1800,10 +1683,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkOkRename_Command server event handler on this user control runs when the
         /// Save Changes (Ok) button is clicked when in Edit Mode
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1900,10 +1779,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkRefresh_Command server event handler on this user control runs when the
         /// Refresh button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1923,10 +1798,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkSelectFolder_Command server event handler on this user control runs when a
         /// Folder is selected.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1947,33 +1818,26 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The lnkSyncFolder_Command server event handler on this user control runs when the
         /// Synchronize Folder button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	04/24/2006	Created
         /// </history>
-        protected void lnkSyncFolder_Command( object sender, CommandEventArgs e )
+        protected void lnkSyncFolder_Command(object sender, CommandEventArgs e)
         {
-            string syncFolderPath = UnMaskPath( DestPath );
+            string syncFolderPath = UnMaskPath(DestPath);
             bool isRecursive = chkRecursive.Checked;
-            string relPath = syncFolderPath.Replace( RootFolderPath, "" ).Replace( "\\", "/" );
+            string relPath = syncFolderPath.Replace(RootFolderPath, "").Replace("\\", "/");
 
-            FileSystemUtils.SynchronizeFolder( FolderPortalID, PortalSettings.AdministratorRoleId, RootFolderPath, syncFolderPath, relPath, isRecursive );
-            DataCache.RemoveCache( "Folders:" + FolderPortalID );
+            FileSystemUtils.SynchronizeFolder(FolderPortalID, syncFolderPath, relPath, isRecursive);
+            DataCache.RemoveCache("Folders:" + FolderPortalID);
             BindFolderTree();
             BindFileList();
+
         }
 
         /// <summary>
         /// The lnkUpload_Command server event handler on this user control runs when the
         /// Upload button is clicked
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree
@@ -1991,10 +1855,6 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         /// The selPageSize_SelectedIndexChanged server event handler on this user control
         /// runs when the Page Size combo's index/value is changed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[DYNST]	2/1/2004	Created
         ///     [Jon Henning]	11/1/2004	Updated to use ClientAPI/DNNTree

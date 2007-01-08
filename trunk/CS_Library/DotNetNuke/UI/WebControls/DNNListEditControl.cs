@@ -92,11 +92,6 @@ namespace DotNetNuke.UI.WebControls
             {
                 if (_IList == null)
                 {
-                    if (ListName == Null.NullString)
-                    {
-                        ListName = this.Name;
-                    }
-
                     ListController objListController = new ListController();
                     _IList = objListController.GetListEntryInfoCollection(ListName, "", ParentKey);
                 }
@@ -109,13 +104,18 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return this._ListName;
+                if (_ListName == Null.NullString)
+                {
+                    _ListName = this.Name;
+                }
+                return _ListName;
             }
             set
             {
-                this._ListName = value;
+                _ListName = value;
             }
         }
+
 
         /// <Summary>
         /// OldIntegerValue returns the Integer representation of the OldValue

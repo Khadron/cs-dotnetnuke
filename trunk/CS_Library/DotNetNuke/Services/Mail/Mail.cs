@@ -67,6 +67,7 @@ namespace DotNetNuke.Services.Mail
             if (portPos > -1)
             {
                 SmtpPort = int.Parse(SMTPServer.Substring(portPos + 1, SMTPServer.Length - portPos - 1));
+                SMTPServer = SMTPServer.Substring(0, portPos);
             }
 
             SmtpClient smtpClient = new SmtpClient();
@@ -209,7 +210,7 @@ namespace DotNetNuke.Services.Mail
                             return SendMail( settings.Email, userEmail, "", Localization.Localization.GetSystemMessage( locale, settings, subject, user ), Localization.Localization.GetSystemMessage( locale, settings, body, user, "~/App_GlobalResources/GlobalResources.resx", custom ), "", "", "", "", "", "" );
                         }
                         custom = new ArrayList();
-                        int i1 = custom.Add( HttpContext.Current.Server.UrlEncode( user.Username ) );
+                        custom.Add( HttpContext.Current.Server.UrlEncode( user.Username ) );
                         return SendMail( settings.Email, userEmail, "", Localization.Localization.GetSystemMessage( locale, settings, subject, user ), Localization.Localization.GetSystemMessage( locale, settings, body, user, "~/App_GlobalResources/GlobalResources.resx", custom ), "", "", "", "", "", "" );
                     }
                 case MessageType.PasswordReminder:

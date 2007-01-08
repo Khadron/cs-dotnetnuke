@@ -71,7 +71,7 @@ namespace DotNetNuke.Entities.Users
         /// <returns>The User as a UserInfo object</returns>
         public static string CacheKey(int portalId, string username)
         {
-            return "UserInfo|" + portalId.ToString() + "|" + username;
+            return "UserInfo|" + portalId + "|" + username;
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace DotNetNuke.Entities.Users
         /// <returns>A Boolean indicating success or failure.</returns>
         public static bool ChangePassword(UserInfo user, string oldPassword, string newPassword)
         {
-            bool retValue = Null.NullBoolean;
+            bool retValue;
 
             //Although we would hope that the caller has already validated the password,
             //Validate the new Password
@@ -129,23 +129,20 @@ namespace DotNetNuke.Entities.Users
         /// <returns>The Created status ot the User</returns>
         public static UserCreateStatus CreateUser(ref UserInfo objUser)
         {
-            UserCreateStatus createStatus = UserCreateStatus.AddUser;
-
             //Create the User
-            createStatus = memberProvider.CreateUser(ref objUser);
+            UserCreateStatus createStatus = memberProvider.CreateUser(ref objUser);
 
             if (createStatus == UserCreateStatus.Success && !objUser.IsSuperUser)
             {
                 RoleController objRoles = new RoleController();
-                RoleInfo objRole;
 
                 // autoassign user to portal roles
                 ArrayList arrRoles = objRoles.GetPortalRoles(objUser.PortalID);
-                int i;
-                for (i = 0; i <= arrRoles.Count - 1; i++)
+                
+                for (int i = 0; i < arrRoles.Count; i++)
                 {
-                    objRole = (RoleInfo)arrRoles[i];
-                    if (objRole.AutoAssignment == true)
+                    RoleInfo objRole = (RoleInfo)arrRoles[i];
+                    if (objRole.AutoAssignment)
                     {
                         objRoles.AddUserRole(objUser.PortalID, objUser.UserID, objRole.RoleID, Null.NullDate, Null.NullDate);
                     }
@@ -320,7 +317,7 @@ namespace DotNetNuke.Entities.Users
         /// <summary>
         /// Gets a collection of Online Users
         /// </summary>
-        /// <param name="portalId">The Id of the Portal</param>
+        /// <param name="PortalId">The Id of the Portal</param>
         /// <returns>An ArrayList of UserInfo objects</returns>
         public static ArrayList GetOnlineUsers(int PortalId)
         {
@@ -559,9 +556,8 @@ namespace DotNetNuke.Entities.Users
         /// <summary>
         /// GetUsers gets all the users of the portal, by page
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="portalId">The Id of the Portal</param>
+        /// <param name="isHydrated"></param>
         /// <param name="pageIndex">The page of records to return.</param>
         /// <param name="pageSize">The size of the page</param>
         /// <param name="totalRecords">The total no of records that satisfy the criteria.</param>
@@ -698,18 +694,23 @@ namespace DotNetNuke.Entities.Users
         /// <param name="portalId">The Id of the Portal</param>
         /// <returns>The Settings Hashtable</returns>
         public static Hashtable GetUserSettings(int portalId)
-        {
+{
+
             string SettingsCacheKey = SettingsKey(portalId);
-            Hashtable settings = (Hashtable)DataCache.GetCache(SettingsCacheKey);
+            Hashtable settings = (Hashtable)(DataCache.GetCache(SettingsCacheKey));
             if (settings == null)
             {
                 ModuleController objModules = new ModuleController();
                 ModuleInfo objModule = objModules.GetModuleByDefinition(portalId, "User Accounts");
-                settings = objModules.GetModuleSettings(objModule.ModuleID);
-                DataCache.SetCache(SettingsCacheKey, settings, TimeSpan.FromMinutes((double)Globals.PerformanceSetting));
+                if (objModule != null)
+                {
+                    settings = objModules.GetModuleSettings(objModule.ModuleID);
+                    DataCache.SetCache(SettingsCacheKey, settings, TimeSpan.FromMinutes((double)Globals.PerformanceSetting));
+                }
             }
 
             return settings;
+
         }
 
         /// <summary>
@@ -747,7 +748,7 @@ namespace DotNetNuke.Entities.Users
 
         public static string SettingsKey(int portalId)
         {
-            return "UserSettings|" + portalId.ToString();
+            return "UserSettings|" + portalId;
         }
 
         /// <summary>
@@ -758,7 +759,7 @@ namespace DotNetNuke.Entities.Users
         public static bool UnLockUser(UserInfo user)
         {
             string UserInfoCacheKey = CacheKey(user.PortalID, user.Username);
-            bool retValue = false;
+            bool retValue;
 
             //Unlock the User
             retValue = memberProvider.UnLockUser(user);
@@ -773,7 +774,7 @@ namespace DotNetNuke.Entities.Users
         /// Ticket
         /// </summary>
         /// <param name="portalId">The Id of the Portal the user belongs to</param>
-        /// <param name="UserName">The user name of the User attempting to log in</param>
+        /// <param name="Username">The user name of the User attempting to log in</param>
         /// <param name="Password">The password of the User attempting to log in</param>
         /// <param name="VerificationCode">The verification code of the User attempting to log in</param>
         /// <param name="PortalName">The name of the Portal</param>
@@ -841,7 +842,7 @@ namespace DotNetNuke.Entities.Users
         /// Validates a User's credentials against the Data Store
         /// </summary>
         /// <param name="portalId">The Id of the Portal the user belongs to</param>
-        /// <param name="UserName">The user name of the User attempting to log in</param>
+        /// <param name="Username">The user name of the User attempting to log in</param>
         /// <param name="Password">The password of the User attempting to log in</param>
         /// <param name="VerificationCode">The verification code of the User attempting to log in</param>
         /// <param name="PortalName">The name of the Portal</param>
@@ -988,10 +989,40 @@ namespace DotNetNuke.Entities.Users
         /// should be persisted.</param>
         public static void UserLogin(int portalId, UserInfo user, string PortalName, string IP, bool CreatePersistentCookie)
         {
-            AddEventLog(portalId, user.Username, user.UserID, PortalName, IP, UserLoginStatus.LOGIN_SUCCESS);
+            if (user.IsSuperUser)
+            {
+                AddEventLog(portalId, user.Username, user.UserID, PortalName, IP, UserLoginStatus.LOGIN_SUPERUSER);
+            }
+            else
+            {
+                AddEventLog(portalId, user.Username, user.UserID, PortalName, IP, UserLoginStatus.LOGIN_SUCCESS);
+            }
 
             // set the forms authentication cookie ( log the user in )
             FormsAuthentication.SetAuthCookie(user.Username, CreatePersistentCookie);
+
+            //check if cookie is persistent, and user has supplied custom value for expiration
+            if (CreatePersistentCookie)
+            {
+                if (Config.GetSetting("PersistentCookieTimeout") != null)
+                {
+                    int PersistentCookieTimeout = int.Parse(Config.GetSetting("PersistentCookieTimeout"));
+                    //only use if non-zero, otherwise leave as asp.net value
+                    if (PersistentCookieTimeout != 0)
+                    {
+                        //locate and update cookie
+                        string authCookie = FormsAuthentication.FormsCookieName;
+                        foreach (string cookie in HttpContext.Current.Response.Cookies)
+                        {
+                            if (cookie.Equals(authCookie))
+                            {
+                                HttpContext.Current.Response.Cookies[cookie].Expires = DateTime.Now.AddMinutes(PersistentCookieTimeout);
+                            }
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

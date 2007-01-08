@@ -29,10 +29,7 @@
 	</tr>
 </table>
 <br/>
-<asp:datagrid id="grdLog" Width="750" Runat="server" Border="0" CellPadding="4" CellSpacing="4" AutoGenerateColumns="true" HeaderStyle-CssClass="NormalBold" ItemStyle-CssClass="Normal" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" BorderStyle="None" BorderWidth="0px" GridLines="None">
-<ItemStyle HorizontalAlign="Center" CssClass="Normal">
-</ItemStyle>
-
-<HeaderStyle HorizontalAlign="Center" CssClass="NormalBold">
-</HeaderStyle></asp:datagrid>
+<asp:DataGrid ID="grdLog" runat="server" AutoGenerateColumns="true" Border="0" BorderStyle="None" BorderWidth="0px" CellPadding="4" CellSpacing="4" GridLines="None"
+    HeaderStyle-CssClass="NormalBold" HeaderStyle-HorizontalAlign="Center" ItemStyle-CssClass="Normal" ItemStyle-HorizontalAlign="Center" Width="750">
+</asp:DataGrid>
 <br/>

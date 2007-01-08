@@ -35,6 +35,11 @@ namespace DotNetNuke.Security.Permissions
             return ( (PermissionInfo)CBO.FillObject( DataProvider.Instance().GetPermission( permissionID ), typeof( PermissionInfo ) ) );
         }
 
+        public ArrayList GetPermissionsByModuleDefID(int ModuleDefID)
+        {
+            return CBO.FillCollection(DataProvider.Instance().GetPermissionsByModuleDefID(ModuleDefID), typeof(PermissionInfo));
+        }
+
         public ArrayList GetPermissionByCodeAndKey( string PermissionCode, string PermissionKey )
         {
             return CBO.FillCollection( DataProvider.Instance().GetPermissionByCodeAndKey( PermissionCode, PermissionKey ), typeof( PermissionInfo ) );

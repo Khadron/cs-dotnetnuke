@@ -1,4 +1,5 @@
 #region DotNetNuke License
+
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
 // by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
@@ -16,10 +17,11 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
+
 #endregion
+
 using System;
 using System.Collections;
-using System.Diagnostics;
 using System.Web.UI.WebControls;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
@@ -28,19 +30,15 @@ using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Mail;
 using DotNetNuke.Services.Vendors;
+using DotNetNuke.UI.Skins.Controls;
 using DotNetNuke.UI.Utilities;
-using Microsoft.VisualBasic;
 using Globals=DotNetNuke.Common.Globals;
-using TabInfo=DotNetNuke.Entities.Tabs.TabInfo;
 
 namespace DotNetNuke.Modules.Admin.Vendors
 {
     /// <summary>
     /// The EditVendors PortalModuleBase is used to add/edit a Vendor
     /// </summary>
-    /// <returns></returns>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/17/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
@@ -50,10 +48,21 @@ namespace DotNetNuke.Modules.Admin.Vendors
         public int VendorID = - 1;
 
         /// <summary>
+        /// AddModuleMessage adds a module message
+        /// </summary>
+        /// <param name="message">The message</param>
+        /// <param name="type">The type of message</param>
+        /// <history>
+        /// 	[cnurse]	08/24/2006
+        /// </history>
+        private void AddModuleMessage( string message, ModuleMessageType type )
+        {
+            UI.Skins.Skin.AddModuleMessage( this, Localization.GetString( message, LocalResourceFile ), type );
+        }
+
+        /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/17/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -74,12 +83,12 @@ namespace DotNetNuke.Modules.Admin.Vendors
                     VendorID = int.Parse( Request.QueryString["VendorID"] );
                 }
 
-                if(  Request.QueryString["ctl"] != null && VendorID == - 1 )
+                if( Request.QueryString["ctl"] != null && VendorID == - 1 )
                 {
                     blnSignup = true;
                 }
 
-                if(  Request.QueryString["banner"] != null )
+                if( Request.QueryString["banner"] != null )
                 {
                     blnBanner = true;
                 }
@@ -198,7 +207,7 @@ namespace DotNetNuke.Modules.Admin.Vendors
                         }
                         if( objTab != null )
                         {
-                            ViewState[ "filter" ] = Request.QueryString["filter"];
+                            ViewState["filter"] = Request.QueryString["filter"];
                         }
                     }
                 }
@@ -212,8 +221,6 @@ namespace DotNetNuke.Modules.Admin.Vendors
         /// <summary>
         /// cmdCancel_Click runs when the Cancel button is clicked.
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/17/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -222,7 +229,7 @@ namespace DotNetNuke.Modules.Admin.Vendors
         {
             try
             {
-                Response.Redirect( Globals.NavigateURL( this.TabId, Null.NullString, "filter=" + Convert.ToString( ViewState[ "filter" ] ) ), true );
+                Response.Redirect( Globals.NavigateURL( this.TabId, Null.NullString, "filter=" + Convert.ToString( ViewState["filter"] ) ), true );
             }
             catch( Exception exc ) //Module failed to load
             {
@@ -233,8 +240,6 @@ namespace DotNetNuke.Modules.Admin.Vendors
         /// <summary>
         /// cmdDelete_Click runs when the Delete button is clicked.
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/17/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -259,8 +264,6 @@ namespace DotNetNuke.Modules.Admin.Vendors
         /// <summary>
         /// cmdUpdate_Click runs when the Update button is clicked.
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/17/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -357,19 +360,34 @@ namespace DotNetNuke.Modules.Admin.Vendors
                         Custom.Add( txtEmail.Text );
                         Custom.Add( txtWebsite.Text );
 
-                        Mail.SendMail( txtEmail.Text, PortalSettings.Email, "", Localization.GetSystemMessage( PortalSettings, "EMAIL_VENDOR_REGISTRATION_ADMINISTRATOR_SUBJECT" ), Localization.GetSystemMessage( PortalSettings, "EMAIL_VENDOR_REGISTRATION_ADMINISTRATOR_BODY", Localization.GlobalResourceFile, Custom ), "", "", " ", "", "", "" );
+                        string strMessage = Null.NullString;
+                        strMessage = Mail.SendMail( txtEmail.Text, PortalSettings.Email, "", Localization.GetSystemMessage( PortalSettings, "EMAIL_VENDOR_REGISTRATION_ADMINISTRATOR_SUBJECT" ), Localization.GetSystemMessage( PortalSettings, "EMAIL_VENDOR_REGISTRATION_ADMINISTRATOR_BODY", Localization.GlobalResourceFile, Custom ), "", "", " ", "", "", "" );
 
-                        Custom.Clear();
-                        Custom.Add( txtFirstName.Text );
-                        Custom.Add( txtLastName.Text );
+                        if( strMessage == "" )
+                        {
+                            Custom.Clear();
+                            Custom.Add( txtFirstName.Text );
+                            Custom.Add( txtLastName.Text );
 
-                        Mail.SendMail( PortalSettings.Email, txtEmail.Text, "", Localization.GetSystemMessage( PortalSettings, "EMAIL_VENDOR_REGISTRATION_SUBJECT" ), Localization.GetSystemMessage( PortalSettings, "EMAIL_VENDOR_REGISTRATION_BODY", Localization.GlobalResourceFile, Custom ), "", "", " ", "", "", "" );
+                            strMessage = Mail.SendMail( PortalSettings.Email, txtEmail.Text, "", Localization.GetSystemMessage( PortalSettings, "EMAIL_VENDOR_REGISTRATION_SUBJECT" ), Localization.GetSystemMessage( PortalSettings, "EMAIL_VENDOR_REGISTRATION_BODY", Localization.GlobalResourceFile, Custom ), "", "", " ", "", "", "" );
+                        }
+                        else
+                        {
+                            AddModuleMessage( "EmailErrorAdmin", ModuleMessageType.RedError );
+                        }
 
-                        Response.Redirect( Globals.NavigateURL( this.TabId, Null.NullString, "filter=" + Strings.Left( txtVendorName.Text, 1 ) ), true );
+                        if( strMessage == "" )
+                        {
+                            Response.Redirect( Globals.NavigateURL( this.TabId, Null.NullString, "filter=" + txtVendorName.Text.Substring( 0, 1 ) ), true );
+                        }
+                        else
+                        {
+                            AddModuleMessage( "EmailErrorVendor", ModuleMessageType.RedError );
+                        }
                     }
                     else
                     {
-                        Response.Redirect( Globals.NavigateURL( this.TabId, Null.NullString, "filter=" + Convert.ToString( ViewState[ "filter" ] ) ), true );
+                        Response.Redirect( Globals.NavigateURL( this.TabId, Null.NullString, "filter=" + Convert.ToString( ViewState["filter"] ) ), true );
                     }
                 }
             }
@@ -378,7 +396,5 @@ namespace DotNetNuke.Modules.Admin.Vendors
                 Exceptions.ProcessModuleLoadException( this, exc );
             }
         }
-        
-
     }
 }

@@ -123,9 +123,6 @@
     <data name="ControlTitle_edit.Text">
         <value>Edit Module Definitions</value>
     </data>
-    <data name="ControlTitle_module definition.Text">
-        <value>Module Definition</value>
-    </data>
     <data name="PrivateAssemblyCreate.Action">
         <value>Create Private Assembly</value>
     </data>
@@ -173,9 +170,6 @@
     </data>
     <data name="UpdateCache.ErrorMessage">
         <value>The CacheTime must be an Integer value.</value>
-    </data>
-    <data name="Folder.ErrorMessage">
-        <value>Invalid Folder name for Module.  Cannot delete Module.</value>
     </data>
     <data name="plManifest.Text">
         <value>Module Manifest:</value>

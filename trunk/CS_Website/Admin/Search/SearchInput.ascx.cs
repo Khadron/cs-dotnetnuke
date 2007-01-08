@@ -1,4 +1,5 @@
 #region DotNetNuke License
+
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
 // by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
@@ -16,6 +17,7 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
+
 #endregion
 
 using System;
@@ -25,6 +27,7 @@ using DotNetNuke.Common;
 using DotNetNuke.Entities.Host;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.UI.Skins.Controls;
 
 namespace DotNetNuke.Modules.SearchInput
 {
@@ -66,7 +69,16 @@ namespace DotNetNuke.Modules.SearchInput
             {
                 //Get Default Page
                 ModuleController objModules = new ModuleController();
-                ResultsTabid = objModules.GetModuleByDefinition( PortalSettings.PortalId, "Search Results" ).TabID;
+                ModuleInfo SearchModule = objModules.GetModuleByDefinition( PortalSettings.PortalId, "Search Results" );
+                if( SearchModule == null )
+                {
+                    UI.Skins.Skin.AddModuleMessage( this, Localization.GetString( "NoSearchModule", LocalResourceFile ), ModuleMessageType.YellowWarning );
+                    return;
+                }
+                else
+                {
+                    ResultsTabid = SearchModule.TabID;
+                }
             }
             if( HostSettings.GetHostSetting( "UseFriendlyUrls" ) == "Y" )
             {
@@ -116,7 +128,5 @@ namespace DotNetNuke.Modules.SearchInput
         {
             SearchExecute();
         }
-
-
     }
 }

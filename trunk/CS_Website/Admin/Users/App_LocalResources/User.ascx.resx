@@ -153,4 +153,16 @@
   <data name="ConfirmUnRegister.Text">
     <value>Are you sure you want to un-register</value>
   </data>
+  <data name="plQuestion.Text">
+    <value>Password Question:</value>
+  </data>
+  <data name="plQuestion.Help">
+    <value>Enter a Password Question to be used when retrieving the password</value>
+  </data>
+  <data name="plAnswer.Text">
+    <value>Password Answer:</value>
+  </data>
+  <data name="plAnswer.Help">
+    <value>Enter an Answer to the Password Question.</value>
+  </data>
 </root>

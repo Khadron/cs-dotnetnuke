@@ -155,7 +155,7 @@
                 </permission>
               </modulepermissions>
               <definition>Text/HTML</definition>
-              <content type="TextHTML" version=""><![CDATA[&lt;htmltext&gt;&lt;desktophtml&gt;&lt;![CDATA[&amp;lt;b&amp;gt;Administrator Login:&amp;lt;/b&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;Username: admin&amp;lt;br /&amp;gt;Password: admin&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;* Select the Admin tab to manage the portal settings as the Administrator. &amp;lt;font color=&amp;quot;#ff0000&amp;quot;&amp;gt;Make sure you change the default password and specify a valid Email address for this account.&amp;lt;br /&amp;gt;&amp;lt;/font&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;b&amp;gt;Host Login:&amp;lt;/b&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;Username: host&amp;lt;br /&amp;gt;Password: host&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;* Select the Host tab to manage multiple portals as the Host. &amp;lt;font color=&amp;quot;#ff0000&amp;quot;&amp;gt;Make sure you change the default password and specify a valid Email address for this account.&amp;lt;br /&amp;gt;&amp;lt;/font&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;b&amp;gt;Open Source License:&amp;lt;/b&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;DotNetNuke&#174; - &amp;lt;a href=&amp;quot;http://www.dotnetnuke.com&amp;quot;&amp;gt;http://www.dotnetnuke.com&amp;lt;/a&amp;gt;&amp;lt;br /&amp;gt;Copyright (c) 2002-2005&amp;lt;br /&amp;gt;by Perpetual Motion Interactive Systems Inc. ( &amp;lt;a href=&amp;quot;http://www.perpetualmotion.ca&amp;quot;&amp;gt;http://www.perpetualmotion.ca&amp;lt;/a&amp;gt; )&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &amp;quot;Software&amp;quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;THE SOFTWARE IS PROVIDED &amp;quot;AS IS&amp;quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.]]&gt;&lt;/desktophtml&gt;&lt;desktopsummary&gt;&lt;![CDATA[]]&gt;&lt;/desktopsummary&gt;&lt;/htmltext&gt;]]></content>
+              <content type="TextHTML" version=""><![CDATA[&lt;htmltext&gt;&lt;desktophtml&gt;&lt;![CDATA[&amp;lt;b&amp;gt;Administrator Login:&amp;lt;/b&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;Username: admin&amp;lt;br /&amp;gt;Password: dnnadmin&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;* Select the Admin tab to manage the portal settings as the Administrator. &amp;lt;font color=&amp;quot;#ff0000&amp;quot;&amp;gt;Make sure you change the default password and specify a valid Email address for this account.&amp;lt;br /&amp;gt;&amp;lt;/font&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;b&amp;gt;Host Login:&amp;lt;/b&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;Username: host&amp;lt;br /&amp;gt;Password: dnnhost&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;* Select the Host tab to manage multiple portals as the Host. &amp;lt;font color=&amp;quot;#ff0000&amp;quot;&amp;gt;Make sure you change the default password and specify a valid Email address for this account.&amp;lt;br /&amp;gt;&amp;lt;/font&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;b&amp;gt;Open Source License:&amp;lt;/b&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;DotNetNuke&#174; - &amp;lt;a href=&amp;quot;http://www.dotnetnuke.com&amp;quot;&amp;gt;http://www.dotnetnuke.com&amp;lt;/a&amp;gt;&amp;lt;br /&amp;gt;Copyright (c) 2002-2005&amp;lt;br /&amp;gt;by Perpetual Motion Interactive Systems Inc. ( &amp;lt;a href=&amp;quot;http://www.perpetualmotion.ca&amp;quot;&amp;gt;http://www.perpetualmotion.ca&amp;lt;/a&amp;gt; )&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &amp;quot;Software&amp;quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;THE SOFTWARE IS PROVIDED &amp;quot;AS IS&amp;quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.]]&gt;&lt;/desktophtml&gt;&lt;desktopsummary&gt;&lt;![CDATA[]]&gt;&lt;/desktopsummary&gt;&lt;/htmltext&gt;]]></content>
             </module>
             <module>
               <moduleID>393</moduleID>
@@ -540,6 +540,67 @@
         </permission>
       </tabpermissions>
       <panes />
+    </tab>
+    <tab>
+      <name>Search Results</name>
+      <visible>false</visible>
+      <iconfile />
+      <disabled>false</disabled>
+      <title>Search Results</title>
+      <description />
+      <keywords />
+      <url />
+      <skinsrc>
+      </skinsrc>
+      <containersrc>
+      </containersrc>
+      <tabpermissions>
+        <permission>
+          <permissioncode>SYSTEM_TAB</permissioncode>
+          <permissionkey>VIEW</permissionkey>
+          <rolename>All Users</rolename>
+          <allowaccess>true</allowaccess>
+        </permission>
+        <permission>
+          <permissioncode>SYSTEM_TAB</permissioncode>
+          <permissionkey>VIEW</permissionkey>
+          <rolename>Administrators</rolename>
+          <allowaccess>true</allowaccess>
+        </permission>
+        <permission>
+          <permissioncode>SYSTEM_TAB</permissioncode>
+          <permissionkey>EDIT</permissionkey>
+          <rolename>Administrators</rolename>
+          <allowaccess>true</allowaccess>
+        </permission>
+      </tabpermissions>
+      <panes>
+        <pane>
+          <name>ContentPane</name>
+          <modules>
+            <module>
+              <title>Search Results</title>
+              <cachetime>0</cachetime>
+              <alignment />
+              <color />
+              <border />
+              <iconfile />
+              <alltabs>false</alltabs>
+              <visibility>Maximized</visibility>
+              <header />
+              <footer />
+              <containersrc>
+              </containersrc>
+              <displaytitle>true</displaytitle>
+              <displayprint>true</displayprint>
+              <displaysyndicate>false</displaysyndicate>
+              <inheritviewpermissions>true</inheritviewpermissions>
+              <modulepermissions />
+              <definition>Search Results</definition>
+            </module>
+          </modules>
+        </pane>
+      </panes>
     </tab>
   </tabs>
   <folders>

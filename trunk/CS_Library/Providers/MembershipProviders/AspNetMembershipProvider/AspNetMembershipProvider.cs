@@ -1,4 +1,5 @@
 #region DotNetNuke License
+
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
 // by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
@@ -16,21 +17,25 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
+
 #endregion
+
 using System;
 using System.Collections;
 using System.Data;
 using System.Web;
+using System.Web.Profile;
 using System.Web.Security;
+using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Profile;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Security.Membership.Data;
 using DotNetNuke.Security.Roles;
+using DotNetNuke.Services.Exceptions;
 using AspNetSecurity = System.Web.Security;
 using AspNetProfile = System.Web.Profile;
-
 
 namespace DotNetNuke.Security.Membership
 {
@@ -48,7 +53,7 @@ namespace DotNetNuke.Security.Membership
     /// </history>
     public class AspNetMembershipProvider : MembershipProvider
     {
-        private static DotNetNuke.Security.Membership.Data.DataProvider dataProvider = DataProvider.Instance();
+        private static DataProvider dataProvider = DataProvider.Instance();
 
         /// <summary>
         /// Gets whether the Provider Properties can be edited
@@ -76,7 +81,7 @@ namespace DotNetNuke.Security.Membership
         {
             get
             {
-                return AspNetSecurity.Membership.MaxInvalidPasswordAttempts;
+                return System.Web.Security.Membership.MaxInvalidPasswordAttempts;
             }
             set
             {
@@ -95,7 +100,7 @@ namespace DotNetNuke.Security.Membership
         {
             get
             {
-                return AspNetSecurity.Membership.MinRequiredNonAlphanumericCharacters;
+                return System.Web.Security.Membership.MinRequiredNonAlphanumericCharacters;
             }
             set
             {
@@ -114,7 +119,7 @@ namespace DotNetNuke.Security.Membership
         {
             get
             {
-                return AspNetSecurity.Membership.MinRequiredPasswordLength;
+                return System.Web.Security.Membership.MinRequiredPasswordLength;
             }
             set
             {
@@ -133,7 +138,7 @@ namespace DotNetNuke.Security.Membership
         {
             get
             {
-                return AspNetSecurity.Membership.PasswordAttemptWindow;
+                return System.Web.Security.Membership.PasswordAttemptWindow;
             }
             set
             {
@@ -149,27 +154,27 @@ namespace DotNetNuke.Security.Membership
         {
             get
             {
-                DotNetNuke.Security.Membership.PasswordFormat passwordFormat1 = PasswordFormat.Clear;
-                switch (System.Web.Security.Membership.Provider.PasswordFormat)
+                PasswordFormat passwordFormat1 = PasswordFormat.Clear;
+                switch( System.Web.Security.Membership.Provider.PasswordFormat )
                 {
                     case MembershipPasswordFormat.Clear:
                         {
-                            return DotNetNuke.Security.Membership.PasswordFormat.Clear;
+                            return PasswordFormat.Clear;
                         }
                     case MembershipPasswordFormat.Hashed:
                         {
-                            return DotNetNuke.Security.Membership.PasswordFormat.Hashed;
+                            return PasswordFormat.Hashed;
                         }
                     case MembershipPasswordFormat.Encrypted:
                         {
-                            return DotNetNuke.Security.Membership.PasswordFormat.Encrypted;
+                            return PasswordFormat.Encrypted;
                         }
                 }
                 return passwordFormat1;
             }
             set
             {
-                throw new NotSupportedException("Provider properties for AspNetMembershipProvider must be set in web.config");
+                throw new NotSupportedException( "Provider properties for AspNetMembershipProvider must be set in web.config" );
             }
         }
 
@@ -184,7 +189,7 @@ namespace DotNetNuke.Security.Membership
         {
             get
             {
-                return AspNetSecurity.Membership.EnablePasswordReset;
+                return System.Web.Security.Membership.EnablePasswordReset;
             }
             set
             {
@@ -203,7 +208,7 @@ namespace DotNetNuke.Security.Membership
         {
             get
             {
-                return AspNetSecurity.Membership.EnablePasswordRetrieval;
+                return System.Web.Security.Membership.EnablePasswordRetrieval;
             }
             set
             {
@@ -222,7 +227,7 @@ namespace DotNetNuke.Security.Membership
         {
             get
             {
-                return AspNetSecurity.Membership.PasswordStrengthRegularExpression;
+                return System.Web.Security.Membership.PasswordStrengthRegularExpression;
             }
             set
             {
@@ -241,7 +246,7 @@ namespace DotNetNuke.Security.Membership
         {
             get
             {
-                return AspNetSecurity.Membership.RequiresQuestionAndAnswer;
+                return System.Web.Security.Membership.RequiresQuestionAndAnswer;
             }
             set
             {
@@ -261,12 +266,12 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/13/2005	created
         /// </history>
-        public override bool ChangePassword(UserInfo user, string oldPassword, string newPassword)
+        public override bool ChangePassword( UserInfo user, string oldPassword, string newPassword )
         {
             bool retValue = false;
 
             // Get AspNet MembershipUser
-            System.Web.Security.MembershipUser aspnetUser = GetMembershipUser( user );
+            MembershipUser aspnetUser = GetMembershipUser( user );
 
             if( oldPassword == Null.NullString )
             {
@@ -307,12 +312,12 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	02/08/2006	created
         /// </history>
-        public override bool ChangePasswordQuestionAndAnswer(UserInfo user, string password, string passwordQuestion, string passwordAnswer)
+        public override bool ChangePasswordQuestionAndAnswer( UserInfo user, string password, string passwordQuestion, string passwordAnswer )
         {
             bool retValue = false;
 
             // Get AspNet MembershipUser
-            System.Web.Security.MembershipUser aspnetUser = GetMembershipUser( user );
+            MembershipUser aspnetUser = GetMembershipUser( user );
 
             if( password == Null.NullString )
             {
@@ -334,13 +339,13 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/13/2005	created
         /// </history>
-        private UserCreateStatus CreateDNNUser(ref UserInfo user)
+        private UserCreateStatus CreateDNNUser( ref UserInfo user )
         {
             PortalSecurity objSecurity = new PortalSecurity();
             string userName = objSecurity.InputFilter( user.Username, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
             string email = objSecurity.InputFilter( user.Email, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
-            string lastName = objSecurity.InputFilter( user.Profile.LastName, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
-            string firstName = objSecurity.InputFilter( user.Profile.FirstName, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
+            string lastName = objSecurity.InputFilter( user.LastName, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
+            string firstName = objSecurity.InputFilter( user.FirstName, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
             UserCreateStatus createStatus = UserCreateStatus.Success;
             string displayName = objSecurity.InputFilter( user.DisplayName, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
             bool updatePassword = user.Membership.UpdatePassword;
@@ -348,9 +353,9 @@ namespace DotNetNuke.Security.Membership
 
             try
             {
-                user.UserID = System.Convert.ToInt32(AspNetMembershipProvider.dataProvider.AddUser(user.PortalID, userName, firstName, lastName, user.AffiliateID, user.IsSuperUser, email, displayName, updatePassword, isApproved));
+                user.UserID = Convert.ToInt32( dataProvider.AddUser( user.PortalID, userName, firstName, lastName, user.AffiliateID, user.IsSuperUser, email, displayName, updatePassword, isApproved ) );
             }
-            catch( Exception )
+            catch( Exception ex )
             {
                 //Clear User (duplicate User information)
                 user = null;
@@ -364,70 +369,63 @@ namespace DotNetNuke.Security.Membership
         /// CreateMemberhipUser persists the User as an AspNet MembershipUser to the AspNet
         /// Data Store
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="user">The user to persist to the Data Store.</param>
         /// <returns>A UserCreateStatus enumeration indicating success or reason for failure.</returns>
         /// <history>
         ///     [cnurse]	12/13/2005	created
         /// </history>
-        private UserCreateStatus CreateMemberhipUser(UserInfo user)
+        private UserCreateStatus CreateMemberhipUser( UserInfo user )
         {
             PortalSecurity objSecurity = new PortalSecurity();
             string userName = objSecurity.InputFilter( user.Username, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
             string email = objSecurity.InputFilter( user.Email, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
-            string lastName = objSecurity.InputFilter( user.LastName, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
-            string firstName = objSecurity.InputFilter( user.FirstName, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
-            System.Web.Security.MembershipCreateStatus objStatus = AspNetSecurity.MembershipCreateStatus.Success;
+            MembershipCreateStatus objStatus;
 
-            System.Web.Security.MembershipUser objMembershipUser;
-            objMembershipUser = AspNetSecurity.Membership.CreateUser( userName, user.Membership.Password, email, null, null, true, out objStatus );
+            MembershipUser objMembershipUser = null;
+
+            if( MembershipProviderConfig.RequiresQuestionAndAnswer )
+            {
+                objMembershipUser = System.Web.Security.Membership.CreateUser( userName, user.Membership.Password, email, user.Membership.PasswordQuestion, user.Membership.PasswordAnswer, true, out objStatus );
+            }
+            else
+            {
+                objMembershipUser = System.Web.Security.Membership.CreateUser( userName, user.Membership.Password, email, null, null, true, out objStatus );
+            }
 
             UserCreateStatus createStatus = UserCreateStatus.Success;
             switch( objStatus )
             {
-                case AspNetSecurity.MembershipCreateStatus.DuplicateEmail:
-
+                case MembershipCreateStatus.DuplicateEmail:
                     createStatus = UserCreateStatus.DuplicateEmail;
                     break;
-                case AspNetSecurity.MembershipCreateStatus.DuplicateProviderUserKey:
-
+                case MembershipCreateStatus.DuplicateProviderUserKey:
                     createStatus = UserCreateStatus.DuplicateProviderUserKey;
                     break;
-                case AspNetSecurity.MembershipCreateStatus.DuplicateUserName:
-
+                case MembershipCreateStatus.DuplicateUserName:
                     createStatus = UserCreateStatus.DuplicateUserName;
                     break;
-                case AspNetSecurity.MembershipCreateStatus.InvalidAnswer:
-
+                case MembershipCreateStatus.InvalidAnswer:
                     createStatus = UserCreateStatus.InvalidAnswer;
                     break;
-                case AspNetSecurity.MembershipCreateStatus.InvalidEmail:
-
+                case MembershipCreateStatus.InvalidEmail:
                     createStatus = UserCreateStatus.InvalidEmail;
                     break;
-                case AspNetSecurity.MembershipCreateStatus.InvalidPassword:
-
+                case MembershipCreateStatus.InvalidPassword:
                     createStatus = UserCreateStatus.InvalidPassword;
                     break;
-                case AspNetSecurity.MembershipCreateStatus.InvalidProviderUserKey:
-
+                case MembershipCreateStatus.InvalidProviderUserKey:
                     createStatus = UserCreateStatus.InvalidProviderUserKey;
                     break;
-                case AspNetSecurity.MembershipCreateStatus.InvalidQuestion:
-
+                case MembershipCreateStatus.InvalidQuestion:
                     createStatus = UserCreateStatus.InvalidQuestion;
                     break;
-                case AspNetSecurity.MembershipCreateStatus.InvalidUserName:
-
+                case MembershipCreateStatus.InvalidUserName:
                     createStatus = UserCreateStatus.InvalidUserName;
                     break;
-                case AspNetSecurity.MembershipCreateStatus.ProviderError:
-
+                case MembershipCreateStatus.ProviderError:
                     createStatus = UserCreateStatus.ProviderError;
                     break;
-                case AspNetSecurity.MembershipCreateStatus.UserRejected:
-
+                case MembershipCreateStatus.UserRejected:
                     createStatus = UserCreateStatus.UserRejected;
                     break;
             }
@@ -445,7 +443,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/13/2005	created
         /// </history>
-        public override UserCreateStatus CreateUser(ref UserInfo user)
+        public override UserCreateStatus CreateUser( ref UserInfo user )
         {
             UserCreateStatus createStatus;
 
@@ -492,7 +490,7 @@ namespace DotNetNuke.Security.Membership
                 }
 
                 //If new user - add to aspnet membership
-                if (createStatus == UserCreateStatus.AddUser)
+                if( createStatus == UserCreateStatus.AddUser )
                 {
                     createStatus = CreateMemberhipUser( user );
                 }
@@ -531,12 +529,12 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/22/2005	created
         /// </history>
-        private bool DeleteMembershipUser(UserInfo user)
+        private bool DeleteMembershipUser( UserInfo user )
         {
             bool retValue = true;
             try
             {
-                AspNetSecurity.Membership.DeleteUser( user.Username, true );
+                System.Web.Security.Membership.DeleteUser( user.Username, true );
             }
             catch( Exception )
             {
@@ -555,7 +553,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/13/2005	created
         /// </history>
-        public override bool DeleteUser(UserInfo user)
+        public override bool DeleteUser( UserInfo user )
         {
             bool retValue = true;
             IDataReader dr;
@@ -568,7 +566,7 @@ namespace DotNetNuke.Security.Membership
                 dr = dataProvider.GetRolesByUser( user.UserID, user.PortalID );
                 while( dr.Read() )
                 {
-                    dataProvider.DeleteUserRole( user.UserID, Convert.ToInt32( dr[ "RoleId" ] ) );
+                    dataProvider.DeleteUserRole( user.UserID, Convert.ToInt32( dr["RoleId"] ) );
                 }
                 dr.Close();
 
@@ -631,7 +629,7 @@ namespace DotNetNuke.Security.Membership
             }
             catch( Exception exc )
             {
-                DotNetNuke.Services.Exceptions.Exceptions.LogException(exc);
+                Exceptions.LogException( exc );
             }
             finally
             {
@@ -677,7 +675,7 @@ namespace DotNetNuke.Security.Membership
             }
             catch( Exception exc )
             {
-                DotNetNuke.Services.Exceptions.Exceptions.LogException(exc);
+                Exceptions.LogException( exc );
             }
             finally
             {
@@ -704,7 +702,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/13/2005	created
         /// </history>
-        private UserInfo FillUserInfo(int portalId, IDataReader dr, bool isHydrated, bool CheckForOpenDataReader)
+        private UserInfo FillUserInfo( int portalId, IDataReader dr, bool isHydrated, bool CheckForOpenDataReader )
         {
             UserInfo objUserInfo = null;
             string userName = Null.NullString;
@@ -791,7 +789,7 @@ namespace DotNetNuke.Security.Membership
                 if( isHydrated )
                 {
                     // Get AspNet MembershipUser
-                    System.Web.Security.MembershipUser aspnetUser = GetMembershipUser( userName );
+                    MembershipUser aspnetUser = GetMembershipUser( userName );
 
                     //Fill Membership Property
                     FillUserMembership( aspnetUser, objUserInfo );
@@ -832,7 +830,7 @@ namespace DotNetNuke.Security.Membership
         /// </history>
         public override string GeneratePassword( int length )
         {
-            return AspNetSecurity.Membership.GeneratePassword( length, MinNonAlphanumericCharacters );
+            return System.Web.Security.Membership.GeneratePassword( length, MinNonAlphanumericCharacters );
         }
 
         /// <summary>
@@ -1003,7 +1001,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/10/2005	created
         /// </history>
-        private AspNetSecurity.MembershipUser GetMembershipUser(UserInfo user)
+        private MembershipUser GetMembershipUser( UserInfo user )
         {
             return GetMembershipUser( user.Username );
         }
@@ -1016,9 +1014,9 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	04/25/2006	created
         /// </history>
-        private AspNetSecurity.MembershipUser GetMembershipUser(string userName)
+        private MembershipUser GetMembershipUser( string userName )
         {
-            return AspNetSecurity.Membership.GetUser( userName );
+            return System.Web.Security.Membership.GetUser( userName );
         }
 
         /// <summary>
@@ -1031,8 +1029,8 @@ namespace DotNetNuke.Security.Membership
         /// </history>
         public override ArrayList GetOnlineUsers( int PortalId )
         {
-            int totalRecords =0;
-            return FillUserCollection(PortalId, dataProvider.GetOnlineUsers( PortalId ), false, ref totalRecords);
+            int totalRecords = 0;
+            return FillUserCollection( PortalId, dataProvider.GetOnlineUsers( PortalId ), false, ref totalRecords );
         }
 
         /// <summary>
@@ -1047,12 +1045,12 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/10/2005	created
         /// </history>
-        public override string GetPassword(UserInfo user, string passwordAnswer)
+        public override string GetPassword( UserInfo user, string passwordAnswer )
         {
             string retValue = "";
 
             // Get AspNet MembershipUser
-            System.Web.Security.MembershipUser aspnetUser = GetMembershipUser( user );
+            MembershipUser aspnetUser = GetMembershipUser( user );
 
             if( RequiresQuestionAndAnswer )
             {
@@ -1095,7 +1093,7 @@ namespace DotNetNuke.Security.Membership
 
         public override ArrayList GetUnAuthorizedUsers( int portalId, bool isHydrated )
         {
-            return FillUserCollection(portalId, dataProvider.GetUnAuthorizedUsers( portalId ), isHydrated);
+            return FillUserCollection( portalId, dataProvider.GetUnAuthorizedUsers( portalId ), isHydrated );
         }
 
         /// <summary>
@@ -1110,7 +1108,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/10/2005	created
         /// </history>
-        public override UserInfo GetUser(int portalId, int userId, bool isHydrated)
+        public override UserInfo GetUser( int portalId, int userId, bool isHydrated )
         {
             IDataReader dr = dataProvider.GetUser( portalId, userId );
             UserInfo objUserInfo = FillUserInfo( portalId, dr, isHydrated, true );
@@ -1130,7 +1128,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/10/2005	created
         /// </history>
-        public override UserInfo GetUserByUserName(int portalId, string username, bool isHydrated)
+        public override UserInfo GetUserByUserName( int portalId, string username, bool isHydrated )
         {
             IDataReader dr = dataProvider.GetUserByUsername( portalId, username );
             UserInfo objUserInfo = FillUserInfo( portalId, dr, isHydrated, true );
@@ -1174,7 +1172,7 @@ namespace DotNetNuke.Security.Membership
                 pageSize = int.MaxValue;
             }
 
-            return FillUserCollection(portalId, dataProvider.GetAllUsers( portalId, pageIndex, pageSize ), isHydrated, ref totalRecords);
+            return FillUserCollection( portalId, dataProvider.GetAllUsers( portalId, pageIndex, pageSize ), isHydrated, ref totalRecords );
         }
 
         /// <summary>
@@ -1200,7 +1198,7 @@ namespace DotNetNuke.Security.Membership
                 pageSize = int.MaxValue;
             }
 
-            return FillUserCollection(portalId, dataProvider.GetUsersByEmail( portalId, emailToMatch, pageIndex, pageSize ), isHydrated, ref totalRecords);
+            return FillUserCollection( portalId, dataProvider.GetUsersByEmail( portalId, emailToMatch, pageIndex, pageSize ), isHydrated, ref totalRecords );
         }
 
         /// <summary>
@@ -1228,7 +1226,7 @@ namespace DotNetNuke.Security.Membership
                 pageSize = int.MaxValue;
             }
 
-            return FillUserCollection(portalId, dataProvider.GetUsersByProfileProperty( portalId, propertyName, propertyValue, pageIndex, pageSize ), isHydrated, ref totalRecords);
+            return FillUserCollection( portalId, dataProvider.GetUsersByProfileProperty( portalId, propertyName, propertyValue, pageIndex, pageSize ), isHydrated, ref totalRecords );
         }
 
         /// <summary>
@@ -1254,7 +1252,7 @@ namespace DotNetNuke.Security.Membership
                 pageSize = int.MaxValue;
             }
 
-            return FillUserCollection(portalId, dataProvider.GetUsersByUsername( portalId, userNameToMatch, pageIndex, pageSize ), isHydrated, ref totalRecords);
+            return FillUserCollection( portalId, dataProvider.GetUsersByUsername( portalId, userNameToMatch, pageIndex, pageSize ), isHydrated, ref totalRecords );
         }
 
         /// <summary>
@@ -1267,7 +1265,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/14/2006	created
         /// </history>
-        public override bool IsUserOnline(UserInfo user)
+        public override bool IsUserOnline( UserInfo user )
         {
             bool isOnline = false;
             UserOnlineController objUsersOnline = new UserOnlineController();
@@ -1307,12 +1305,12 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	02/08/2006	created
         /// </history>
-        public override string ResetPassword(UserInfo user, string passwordAnswer)
+        public override string ResetPassword( UserInfo user, string passwordAnswer )
         {
             string retValue = "";
 
             // Get AspNet MembershipUser
-            System.Web.Security.MembershipUser aspnetUser = GetMembershipUser( user );
+            MembershipUser aspnetUser = GetMembershipUser( user );
 
             if( RequiresQuestionAndAnswer )
             {
@@ -1336,10 +1334,10 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/13/2005	created
         /// </history>
-        public override bool UnLockUser(UserInfo user)
+        public override bool UnLockUser( UserInfo user )
         {
-            System.Web.Security.MembershipUser objMembershipUser;
-            objMembershipUser = AspNetSecurity.Membership.GetUser( user.Username );
+            MembershipUser objMembershipUser;
+            objMembershipUser = System.Web.Security.Membership.GetUser( user.Username );
             return objMembershipUser.UnlockUser();
         }
 
@@ -1357,7 +1355,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/10/2005	created
         /// </history>
-        public override UserInfo UserLogin(int portalId, string username, string password, string verificationCode, ref UserLoginStatus loginStatus)
+        public override UserInfo UserLogin( int portalId, string username, string password, string verificationCode, ref UserLoginStatus loginStatus )
         {
             //For now, we are going to ignore the possibility that the User may exist in the
             //Global Data Store but not in the Local DataStore ie. A shared Global Data Store
@@ -1372,7 +1370,7 @@ namespace DotNetNuke.Security.Membership
             if( user != null )
             {
                 //Get AspNet MembershipUser
-                System.Web.Security.MembershipUser aspnetUser = null;
+                MembershipUser aspnetUser = null;
                 aspnetUser = GetMembershipUser( user );
 
                 //Fill Membership Property from AspNet MembershipUser
@@ -1382,7 +1380,7 @@ namespace DotNetNuke.Security.Membership
                 if( aspnetUser.IsLockedOut )
                 {
                     int intTimeout;
-                    intTimeout = Convert.ToInt32((DotNetNuke.Common.Globals.HostSettings["AutoAccountUnlockDuration"] != null) ? (DotNetNuke.Common.Globals.HostSettings["AutoAccountUnlockDuration"]) : -1);
+                    intTimeout = Convert.ToInt32( ( Globals.HostSettings["AutoAccountUnlockDuration"] != null ) ? ( Globals.HostSettings["AutoAccountUnlockDuration"] ) : -1 );
                     if( intTimeout != 0 )
                     {
                         if( intTimeout == - 1 )
@@ -1468,7 +1466,7 @@ namespace DotNetNuke.Security.Membership
         /// </history>
         private bool ValidateUser( int portalId, string username, string password )
         {
-            return AspNetSecurity.Membership.ValidateUser( username, password );
+            return System.Web.Security.Membership.ValidateUser( username, password );
         }
 
         /// <summary>
@@ -1495,7 +1493,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         /// 	[cnurse]	12/10/2005	created
         /// </history>
-        private void FillUserMembership(MembershipUser aspNetUser, UserInfo user)
+        private void FillUserMembership( MembershipUser aspNetUser, UserInfo user )
         {
             //Fill Membership Property
             if( aspNetUser != null )
@@ -1525,9 +1523,9 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/13/2005	created
         /// </history>
-        public override void GetUserMembership(ref UserInfo user)
+        public override void GetUserMembership( ref UserInfo user )
         {
-            System.Web.Security.MembershipUser aspnetUser = null;
+            MembershipUser aspnetUser = null;
 
             //Get AspNet MembershipUser
             aspnetUser = GetMembershipUser( user );
@@ -1566,7 +1564,7 @@ namespace DotNetNuke.Security.Membership
                     HtmlUtils.WriteFeedback( HttpContext.Current.Response, 0, "Start Transferring Portal Users to MemberRole: PortalId= " + PortalID.ToString() + "<br>" );
                 }
 
-                System.Data.IDataReader dr;
+                IDataReader dr;
                 string EncryptionKey = "";
                 dr = DotNetNuke.Data.DataProvider.Instance().GetHostSetting( "EncryptionKey" );
                 if( dr.Read() )
@@ -1599,7 +1597,7 @@ namespace DotNetNuke.Security.Membership
 
                     UserInfo objUser;
                     objUser = (UserInfo)arrUsers[i];
-                    System.Web.Security.MembershipCreateStatus objStatus;
+                    MembershipCreateStatus objStatus;
                     string strPassword;
                     PortalSecurity objPortalSecurity = new PortalSecurity();
                     strPassword = objPortalSecurity.Decrypt( EncryptionKey, objUser.Membership.Password );
@@ -1607,18 +1605,18 @@ namespace DotNetNuke.Security.Membership
                     {
                         objUser.Membership.Approved = true;
                     }
-                    System.Web.Security.MembershipUser objMembershipUser;
-                    objMembershipUser = AspNetSecurity.Membership.CreateUser( objUser.Username, strPassword, objUser.Email, null, null, objUser.Membership.Approved, out objStatus );
-                    if( objStatus != AspNetSecurity.MembershipCreateStatus.Success )
+                    MembershipUser objMembershipUser;
+                    objMembershipUser = System.Web.Security.Membership.CreateUser( objUser.Username, strPassword, objUser.Email, null, null, objUser.Membership.Approved, out objStatus );
+                    if( objStatus != MembershipCreateStatus.Success )
                     {
-                        DotNetNuke.Services.Exceptions.Exceptions.LogException(new Exception(objStatus.ToString()));
+                        Exceptions.LogException( new Exception( objStatus.ToString() ) );
                     }
                     else
                     {
                         try
                         {
-                            System.Web.Profile.ProfileBase objProfile;
-                            objProfile = AspNetProfile.ProfileBase.Create( objUser.Username, true );
+                            ProfileBase objProfile;
+                            objProfile = ProfileBase.Create( objUser.Username, true );
                             objProfile["FirstName"] = objUser.Profile.FirstName;
                             objProfile["LastName"] = objUser.Profile.LastName;
                             objProfile["Unit"] = objUser.Profile.Unit;
@@ -1632,7 +1630,7 @@ namespace DotNetNuke.Security.Membership
                         }
                         catch( Exception exc )
                         {
-                            DotNetNuke.Services.Exceptions.Exceptions.LogException(exc);
+                            Exceptions.LogException( exc );
                         }
 
                         RoleController objDNNRoles = new RoleController();
@@ -1641,11 +1639,11 @@ namespace DotNetNuke.Security.Membership
                         {
                             try
                             {
-                                AspNetSecurity.Roles.AddUserToRoles( objUser.Username, arrUserRoles );
+                                System.Web.Security.Roles.AddUserToRoles( objUser.Username, arrUserRoles );
                             }
                             catch( Exception exc )
                             {
-                                DotNetNuke.Services.Exceptions.Exceptions.LogException(exc);
+                                Exceptions.LogException( exc );
                             }
                         }
                     }
@@ -1680,7 +1678,7 @@ namespace DotNetNuke.Security.Membership
             UserController objUserController = new UserController();
 
             //Get the Super Users and Transfer them to the Provider
-            arrUsers = GetLegacyUsers(dataProvider.GetSuperUsers());
+            arrUsers = GetLegacyUsers( dataProvider.GetSuperUsers() );
             TransferUsers( - 1, arrUsers, true );
 
             PortalController objPortalController = new PortalController();
@@ -1699,16 +1697,16 @@ namespace DotNetNuke.Security.Membership
                 {
                     try
                     {
-                        AspNetSecurity.Roles.CreateRole( ( (RoleInfo)arrRoles[q] ).RoleName );
+                        System.Web.Security.Roles.CreateRole( ( (RoleInfo)arrRoles[q] ).RoleName );
                     }
                     catch( Exception exc )
                     {
-                        DotNetNuke.Services.Exceptions.Exceptions.LogException(exc);
+                        Exceptions.LogException( exc );
                     }
                 }
 
                 //Get the Portal Users and Transfer them to the Provider
-                arrUsers = GetLegacyUsers(dataProvider.GetUsers( objPortal.PortalID ));
+                arrUsers = GetLegacyUsers( dataProvider.GetUsers( objPortal.PortalID ) );
                 TransferUsers( objPortal.PortalID, arrUsers, false );
             }
         }
@@ -1722,7 +1720,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/13/2005	created
         /// </history>
-        public override void UpdateUser(UserInfo user)
+        public override void UpdateUser( UserInfo user )
         {
             PortalSecurity objSecurity = new PortalSecurity();
             string firstName = objSecurity.InputFilter( user.FirstName, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
@@ -1756,18 +1754,18 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/13/2005	created
         /// </history>
-        private void UpdateUserMembership(UserInfo user)
+        private void UpdateUserMembership( UserInfo user )
         {
             PortalSecurity objSecurity = new PortalSecurity();
             string email = objSecurity.InputFilter( user.Email, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup );
 
             //Persist the Membership Properties to the AspNet Data Store
-            System.Web.Security.MembershipUser objMembershipUser;
-            objMembershipUser = AspNetSecurity.Membership.GetUser( user.Username );
+            MembershipUser objMembershipUser;
+            objMembershipUser = System.Web.Security.Membership.GetUser( user.Username );
             objMembershipUser.Email = email;
             objMembershipUser.LastActivityDate = DateTime.Now;
             objMembershipUser.IsApproved = user.Membership.Approved;
-            AspNetSecurity.Membership.UpdateUser( objMembershipUser );
+            System.Web.Security.Membership.UpdateUser( objMembershipUser );
         }
 
         /// <summary>

@@ -34,9 +34,6 @@ namespace DotNetNuke.Modules.SearchResults
     /// <summary>
     /// The SearchResults Class provides the UI for displaying the Search Results
     /// </summary>
-    /// <returns></returns>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     ///		[cnurse]	11/11/2004	Improved Formatting of results, and moved Search Options
     ///                             to Settings
@@ -50,8 +47,6 @@ namespace DotNetNuke.Modules.SearchResults
         /// <summary>
         /// BindData binds the Search Results to the Grid
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	12/13/2004	created
         /// </history>
@@ -142,7 +137,7 @@ namespace DotNetNuke.Modules.SearchResults
             {
                 dgResults.Visible = false;
             }
-            if( Results.Count < dgResults.PageSize )
+            if( Results.Count <= dgResults.PageSize )
             {
                 dgResults.PagerStyle.Visible = false;
             }
@@ -155,8 +150,6 @@ namespace DotNetNuke.Modules.SearchResults
         /// <summary>
         /// FormatDate displays the publication Date
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="pubDate">The publication Date</param>
         /// <returns>The formatted date</returns>
         /// <history>
@@ -170,9 +163,6 @@ namespace DotNetNuke.Modules.SearchResults
         /// <summary>
         /// FormatRelevance displays the relevance value
         /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <param name="pubDate">The publication Date</param>
         /// <returns>The formatted date</returns>
         /// <history>
         /// 	[cnurse]	11/12/2004	created
@@ -185,8 +175,6 @@ namespace DotNetNuke.Modules.SearchResults
         /// <summary>
         /// FormatURL the correctly formatted url to the Search Result
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="TabID">The Id of the Tab where the content is located</param>
         /// <param name="Link">The module provided querystring to access the correct content</param>
         /// <returns>The formatted url</returns>
@@ -212,8 +200,6 @@ namespace DotNetNuke.Modules.SearchResults
         /// <summary>
         /// ShowDescription determines whether the description should be shown
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <returns>True or False string</returns>
         /// <history>
         /// 	[cnurse]	12/13/2004	created
@@ -244,8 +230,6 @@ namespace DotNetNuke.Modules.SearchResults
         /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	11/11/2004	documented
         ///     [cnurse]    12/13/2004  Switched to using a DataGrid for Search Results
@@ -273,8 +257,6 @@ namespace DotNetNuke.Modules.SearchResults
         /// <summary>
         /// dgResults_PageIndexChanged runs when one of the Page buttons is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         ///     [cnurse]    12/13/2004  created
         /// </history>

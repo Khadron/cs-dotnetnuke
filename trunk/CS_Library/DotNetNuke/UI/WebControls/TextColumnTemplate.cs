@@ -20,6 +20,7 @@
 using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using DotNetNuke.Common.Utilities;
 
 namespace DotNetNuke.UI.WebControls
 {
@@ -114,7 +115,7 @@ namespace DotNetNuke.UI.WebControls
         /// <Param name="container">The parent container (DataGridItem)</Param>
         private string GetValue( DataGridItem container )
         {
-            string itemValue = DotNetNuke.Common.Utilities.Null.NullString;
+            string itemValue = Null.NullString;
             if (!String.IsNullOrEmpty(DataField))
             {
                 if (DesignMode)
@@ -123,17 +124,20 @@ namespace DotNetNuke.UI.WebControls
                 }
                 else
                 {
-                    obj = DataBinder.Eval(container.DataItem, DataField);
-                    if( obj != null )
+                    if (container.DataItem != null)
                     {
-                        itemValue = obj.ToString();
+                        obj = DataBinder.Eval(container.DataItem, DataField);
+                        if( obj != null )
+                        {
+                            itemValue = obj.ToString();
+                        }
                     }
                 }
             }
 
             return itemValue;
         }
-
+        
         /// <Summary>
         /// InstantiateIn instantiates the template (implementation of ITemplate)
         /// </Summary>

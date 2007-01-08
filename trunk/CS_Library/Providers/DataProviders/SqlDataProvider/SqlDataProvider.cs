@@ -1211,6 +1211,11 @@ namespace DotNetNuke.Data
         }
 
         //Permission
+        public override IDataReader GetPermissionsByModuleDefID(int ModuleDefID)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner + ObjectQualifier + "GetPermissionsByModuleDefID", ModuleDefID);
+        }
+
         public override IDataReader GetPermissionsByModuleID( int ModuleID )
         {
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetPermissionsByModuleID", ModuleID );
@@ -1324,15 +1329,18 @@ namespace DotNetNuke.Data
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetFolders", GetNull( PortalID ), - 1, "" );
         }
 
-        public override IDataReader GetFolder( int PortalID, int FolderID )
+        public override IDataReader GetFoldersByUser(int PortalID, int UserID, bool IncludeSecure, bool IncludeDatabase, bool AllowAccess, string Permissions)
         {
-            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetFolders", GetNull( PortalID ), FolderID, "" );
+            return SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner + ObjectQualifier + "GetFoldersByUser", GetNull(PortalID), GetNull(UserID), IncludeSecure, IncludeDatabase, AllowAccess, Permissions);
         }
-
-        public override IDataReader GetFolder( int PortalID, string FolderPath )
+        public override IDataReader GetFolder(int PortalID, int FolderID)
         {
-            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetFolders", GetNull( PortalID ), - 1, FolderPath );
+            return SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner + ObjectQualifier + "GetFolderByFolderID", GetNull(PortalID), FolderID);
         }
+        public override IDataReader GetFolder(int PortalID, string FolderPath)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner + ObjectQualifier + "GetFolderByFolderPath", GetNull(PortalID), FolderPath);
+        }        
 
         //CP - Change - Secure Storage Enhancement
         public override int AddFolder( int PortalID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached )

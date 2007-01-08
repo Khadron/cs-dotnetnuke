@@ -1,4 +1,5 @@
 #region DotNetNuke License
+
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
 // by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
@@ -16,16 +17,19 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
+
 #endregion
+
 using System;
 using System.Collections;
+using System.Data;
+using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Data;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Tabs;
 using DotNetNuke.Security;
-using TabInfo=DotNetNuke.Entities.Tabs.TabInfo;
 
 namespace DotNetNuke.Services.Search
 {
@@ -67,7 +71,7 @@ namespace DotNetNuke.Services.Search
 
             //Determine if Word is actually a number
             int result;
-            if( Int32.TryParse(strWord, out result) )
+            if( Int32.TryParse( strWord, out result ) )
             {
                 //Word is Numeric
                 if( ! includeNumbers )
@@ -115,7 +119,7 @@ namespace DotNetNuke.Services.Search
             if( objWords == null )
             {
                 objWords = new Hashtable();
-                System.Data.IDataReader drWords = DataProvider.Instance().GetSearchCommonWordsByLocale( Locale );
+                IDataReader drWords = DataProvider.Instance().GetSearchCommonWordsByLocale( Locale );
                 try
                 {
                     while( drWords.Read() )
@@ -133,7 +137,7 @@ namespace DotNetNuke.Services.Search
             return objWords;
         }
 
-        private SearchItemInfoCollection GetSearchItems(int ModuleId)
+        private SearchItemInfoCollection GetSearchItems( int ModuleId )
         {
             return new SearchItemInfoCollection( CBO.FillCollection( DataProvider.Instance().GetSearchItems( Null.NullInteger, Null.NullInteger, ModuleId ), typeof( SearchItemInfo ) ) );
         }
@@ -149,7 +153,7 @@ namespace DotNetNuke.Services.Search
         /// <history>
         ///		[cnurse]	11/15/2004	documented
         /// </history>
-        public override SearchResultsInfoCollection GetSearchItems(int PortalID, int TabID, int ModuleID)
+        public override SearchResultsInfoCollection GetSearchItems( int PortalID, int TabID, int ModuleID )
         {
             return new SearchResultsInfoCollection( CBO.FillCollection( DataProvider.Instance().GetSearchItems( PortalID, TabID, ModuleID ), typeof( SearchResultsInfo ) ) );
         }
@@ -166,39 +170,59 @@ namespace DotNetNuke.Services.Search
         /// </history>
         public override SearchResultsInfoCollection GetSearchResults(int PortalID, string Criteria)
         {
+
             //We will assume that the content is in the locale of the Portal
             PortalController objPortalController = new PortalController();
-            PortalInfo objPortal = objPortalController.GetPortal( PortalID );
+            PortalInfo objPortal = objPortalController.GetPortal(PortalID);
             string locale = objPortal.DefaultLanguage;
-            Hashtable CommonWords = GetCommonWords( locale );
+            Hashtable CommonWords = GetCommonWords(locale);
+            string setting = null;
+
+            //Get the Settings for this Portal
+            ModuleController objModuleController = new ModuleController();
+            ModuleInfo objModule = objModuleController.GetModuleByDefinition(PortalID, "Search Admin");
+            if (objModule != null)
+            {
+                _settings = Entities.Portals.PortalSettings.GetModuleSettings(objModule.ModuleID);
+            }
+            if (_settings == null)
+            {
+                //Try Host Settings
+                _settings = Common.Globals.HostSettings;
+            }
+            setting = GetSetting("SearchIncludeCommon");
+            if (setting == "Y")
+            {
+                includeCommon = true;
+            }
 
             // clean criteria
             Criteria = Criteria.ToLower();
 
             // split search criteria into words
-            SearchCriteriaCollection SearchWords = new SearchCriteriaCollection( Criteria );
+            SearchCriteriaCollection SearchWords = new SearchCriteriaCollection(Criteria);
             Hashtable SearchResults = new Hashtable();
 
             // iterate through search criteria words
-            SearchCriteria Criterion;
-            foreach( SearchCriteria tempLoopVar_Criterion in SearchWords )
+            SearchCriteria Criterion = null;
+            foreach (SearchCriteria CriterionWithinLoop in SearchWords)
             {
-                Criterion = tempLoopVar_Criterion;
-                if( CommonWords.ContainsKey( Criterion.Criteria ) == false )
+                Criterion = CriterionWithinLoop;
+                if (CommonWords.ContainsKey(CriterionWithinLoop.Criteria) == false || includeCommon)
                 {
-                    SearchResultsInfoCollection ResultsCollection = SearchDataStoreController.GetSearchResults( PortalID, Criterion.Criteria );
-                    if( Criterion.MustExclude == false )
+                    SearchResultsInfoCollection ResultsCollection = SearchDataStoreController.GetSearchResults(PortalID, Criterion.Criteria);
+                    if (CriterionWithinLoop.MustExclude == false)
                     {
                         // Add all these to the results
-                        foreach( SearchResultsInfo Result in ResultsCollection )
+                        foreach (SearchResultsInfo Result in ResultsCollection)
                         {
-                            if( SearchResults.ContainsKey( Result.SearchItemID ) )
+                            if (SearchResults.ContainsKey(Result.SearchItemID))
                             {
-                                ( (SearchResultsInfo)SearchResults[Result.SearchItemID] ).Relevance += Result.Relevance;
+                                ((SearchResultsInfo)(SearchResults[Result.SearchItemID])).Relevance += Result.Relevance;
                             }
                             else
                             {
-                                SearchResults.Add( Result.SearchItemID, Result );
+                                SearchResults.Add(Result.SearchItemID, Result);
                             }
                         }
                     }
@@ -206,37 +230,37 @@ namespace DotNetNuke.Services.Search
             }
 
             // Validate MustInclude and MustExclude
-            foreach( SearchCriteria tempLoopVar_Criterion in SearchWords )
+            foreach (SearchCriteria CriterionWithinLoop in SearchWords)
             {
-                Criterion = tempLoopVar_Criterion;
-                SearchResultsInfoCollection ResultsCollection = SearchDataStoreController.GetSearchResults( PortalID, Criterion.Criteria );
-                if( Criterion.MustInclude )
+                Criterion = CriterionWithinLoop;
+                SearchResultsInfoCollection ResultsCollection = SearchDataStoreController.GetSearchResults(PortalID, Criterion.Criteria);
+                if (CriterionWithinLoop.MustInclude)
                 {
                     // We need to remove items which do not include this term
                     Hashtable MandatoryResults = new Hashtable();
-                    foreach( SearchResultsInfo Result in ResultsCollection )
+                    foreach (SearchResultsInfo Result in ResultsCollection)
                     {
-                        MandatoryResults.Add( Result.SearchItemID, 0 );
+                        MandatoryResults.Add(Result.SearchItemID, 0);
                     }
-                    foreach( SearchResultsInfo Result in SearchResults.Values )
+                    foreach (SearchResultsInfo Result in SearchResults.Values)
                     {
-                        if( MandatoryResults.ContainsKey( Result.SearchItemID ) == false )
+                        if (MandatoryResults.ContainsKey(Result.SearchItemID) == false)
                         {
                             Result.Delete = true;
                         }
                     }
                 }
-                if( Criterion.MustExclude )
+                if (CriterionWithinLoop.MustExclude)
                 {
                     // We need to remove items which do include this term
                     Hashtable ExcludedResults = new Hashtable();
-                    foreach( SearchResultsInfo Result in ResultsCollection )
+                    foreach (SearchResultsInfo Result in ResultsCollection)
                     {
-                        ExcludedResults.Add( Result.SearchItemID, 0 );
+                        ExcludedResults.Add(Result.SearchItemID, 0);
                     }
-                    foreach( SearchResultsInfo Result in SearchResults.Values )
+                    foreach (SearchResultsInfo Result in SearchResults.Values)
                     {
-                        if( ExcludedResults.ContainsKey( Result.SearchItemID ) == true )
+                        if (ExcludedResults.ContainsKey(Result.SearchItemID) == true)
                         {
                             Result.Delete = true;
                         }
@@ -247,19 +271,18 @@ namespace DotNetNuke.Services.Search
             //Only include results we have permission to see
             SearchResultsInfoCollection Results = new SearchResultsInfoCollection();
             TabController objTabController = new TabController();
-            ModuleController objModuleController = new ModuleController();
             Hashtable hashTabsAllowed = new Hashtable();
-            foreach( SearchResultsInfo SearchResult in SearchResults.Values )
+            foreach (SearchResultsInfo SearchResult in SearchResults.Values)
             {
-                if( ! SearchResult.Delete )
+                if (!SearchResult.Delete)
                 {
                     //Check If authorised to View Tab
-                    Hashtable hashModulesAllowed;
+                    Hashtable hashModulesAllowed = null;
                     object tabAllowed = hashTabsAllowed[SearchResult.TabId];
-                    if( tabAllowed == null )
+                    if (tabAllowed == null)
                     {
-                        TabInfo objTab = objTabController.GetTab( SearchResult.TabId );
-                        if( PortalSecurity.IsInRoles( objTab.AuthorizedRoles ) )
+                        TabInfo objTab = objTabController.GetTab(SearchResult.TabId);
+                        if (PortalSecurity.IsInRoles(objTab.AuthorizedRoles))
                         {
                             hashModulesAllowed = new Hashtable();
                             tabAllowed = hashModulesAllowed;
@@ -269,11 +292,11 @@ namespace DotNetNuke.Services.Search
                             tabAllowed = 0;
                             hashModulesAllowed = null;
                         }
-                        hashTabsAllowed.Add( SearchResult.TabId, tabAllowed );
+                        hashTabsAllowed.Add(SearchResult.TabId, tabAllowed);
                     }
                     else
                     {
-                        if( tabAllowed is Hashtable )
+                        if (tabAllowed is Hashtable)
                         {
                             hashModulesAllowed = (Hashtable)tabAllowed;
                         }
@@ -283,24 +306,24 @@ namespace DotNetNuke.Services.Search
                         }
                     }
 
-                    if( hashModulesAllowed != null )
+                    if (hashModulesAllowed != null)
                     {
-                        bool addResult;
-                        if( ! hashModulesAllowed.ContainsKey( SearchResult.ModuleId ) )
+                        bool addResult = false;
+                        if (!(hashModulesAllowed.ContainsKey(SearchResult.ModuleId)))
                         {
                             //Now check if authorized to view module
-                            ModuleInfo objModule = objModuleController.GetModule( SearchResult.ModuleId, SearchResult.TabId );
-                            addResult = objModule.IsDeleted == false && PortalSecurity.IsInRoles( objModule.AuthorizedViewRoles );
-                            hashModulesAllowed.Add( SearchResult.ModuleId, addResult );
+                            objModule = objModuleController.GetModule(SearchResult.ModuleId, SearchResult.TabId);
+                            addResult = (objModule.IsDeleted == false && PortalSecurity.IsInRoles(objModule.AuthorizedViewRoles));
+                            hashModulesAllowed.Add(SearchResult.ModuleId, addResult);
                         }
                         else
                         {
-                            addResult = System.Convert.ToBoolean( hashModulesAllowed[SearchResult.ModuleId] );
+                            addResult = System.Convert.ToBoolean(hashModulesAllowed[SearchResult.ModuleId]);
                         }
 
-                        if( addResult )
+                        if (addResult)
                         {
-                            Results.Add( SearchResult );
+                            Results.Add(SearchResult);
                         }
                     }
                 }
@@ -327,7 +350,7 @@ namespace DotNetNuke.Services.Search
             if( objWords == null )
             {
                 objWords = new Hashtable();
-                System.Data.IDataReader drWords = DataProvider.Instance().GetSearchWords();
+                IDataReader drWords = DataProvider.Instance().GetSearchWords();
                 try
                 {
                     while( drWords.Read() )
@@ -362,14 +385,14 @@ namespace DotNetNuke.Services.Search
             //Try Portal setting first
             if( _settings[txtName] == null == false )
             {
-                settingValue = System.Convert.ToString( _settings[txtName] );
+                settingValue = Convert.ToString( _settings[txtName] );
             }
             else
             {
                 //Get Default setting
                 if( _defaultSettings[txtName] == null == false )
                 {
-                    settingValue = System.Convert.ToString( _defaultSettings[txtName] );
+                    settingValue = Convert.ToString( _defaultSettings[txtName] );
                 }
             }
 
@@ -391,20 +414,26 @@ namespace DotNetNuke.Services.Search
         ///                             replaced logic to determine whether word should
         ///                             be indexed by call to CanIndexWord()
         /// </history>
-        private void AddIndexWords(int indexId, SearchItemInfo searchItem, string language)
+        private void AddIndexWords( int indexId, SearchItemInfo searchItem, string language )
         {
             Hashtable IndexWords = new Hashtable();
             Hashtable IndexPositions = new Hashtable();
 
             //Get the Settings for this Module
             _settings = SearchDataStoreController.GetSearchSettings( searchItem.ModuleId );
+            if (_settings == null)
+            {
+                //Try Host Settings
+                _settings = Common.Globals.HostSettings;
+            }
+
             string setting = GetSetting( "MaxSearchWordLength" );
-            if( !String.IsNullOrEmpty(setting) )
+            if( !String.IsNullOrEmpty( setting ) )
             {
                 maxWordLength = int.Parse( setting );
             }
             setting = GetSetting( "MinSearchWordLength" );
-            if( !String.IsNullOrEmpty(setting) )
+            if( !String.IsNullOrEmpty( setting ) )
             {
                 minWordLength = int.Parse( setting );
             }
@@ -443,9 +472,9 @@ namespace DotNetNuke.Services.Search
                         IndexPositions.Add( strWord, 1 );
                     }
                     // track number of occurrences of word in content
-                    IndexWords[strWord] = System.Convert.ToInt32( IndexWords[strWord] ) + 1;
+                    IndexWords[strWord] = Convert.ToInt32( IndexWords[strWord] ) + 1;
                     // track positions of word in content
-                    IndexPositions[strWord] = System.Convert.ToString( IndexPositions[strWord] ) + "," + intWord.ToString();
+                    IndexPositions[strWord] = Convert.ToString( IndexPositions[strWord] ) + "," + intWord.ToString();
                 }
             }
 
@@ -458,11 +487,11 @@ namespace DotNetNuke.Services.Search
             foreach( object tempLoopVar_objWord in IndexWords.Keys )
             {
                 objWord = tempLoopVar_objWord;
-                strWord = System.Convert.ToString( objWord );
+                strWord = Convert.ToString( objWord );
                 if( Words.ContainsKey( strWord ) )
                 {
                     // word is in the DataStore
-                    WordId = System.Convert.ToInt32( Words[strWord] );
+                    WordId = Convert.ToInt32( Words[strWord] );
                 }
                 else
                 {
@@ -471,8 +500,8 @@ namespace DotNetNuke.Services.Search
                     Words.Add( strWord, WordId );
                 }
                 // add the indexword
-                int SearchItemWordID = DataProvider.Instance().AddSearchItemWord( indexId, WordId, System.Convert.ToInt32( IndexWords[strWord] ) );
-                DataProvider.Instance().AddSearchItemWordPosition( SearchItemWordID, System.Convert.ToString( IndexPositions[strWord] ) );
+                int SearchItemWordID = DataProvider.Instance().AddSearchItemWord( indexId, WordId, Convert.ToInt32( IndexWords[strWord] ) );
+                DataProvider.Instance().AddSearchItemWordPosition( SearchItemWordID, Convert.ToString( IndexPositions[strWord] ) );
             }
         }
 
@@ -485,12 +514,12 @@ namespace DotNetNuke.Services.Search
         /// <history>
         ///		[cnurse]	11/15/2004	documented
         /// </history>
-        public override void StoreSearchItems(SearchItemInfoCollection SearchItems)
+        public override void StoreSearchItems( SearchItemInfoCollection SearchItems )
         {
             int i;
 
             //Get the default Search Settings
-            _defaultSettings = Common.Globals.HostSettings;
+            _defaultSettings = Globals.HostSettings;
 
             //For now as we don't support Localized content - set the locale to the default locale. This
             //is to avoid the error in GetDefaultLanguageByModule which artificially limits the number
@@ -498,9 +527,9 @@ namespace DotNetNuke.Services.Search
             Hashtable Modules = new Hashtable();
             for( i = 0; i <= SearchItems.Count - 1; i++ )
             {
-                if( ! Modules.ContainsKey( SearchItems[ i ].ModuleId.ToString() ) )
+                if( ! Modules.ContainsKey( SearchItems[i].ModuleId.ToString() ) )
                 {
-                    Modules.Add( SearchItems[ i ].ModuleId.ToString(), "en-US" );
+                    Modules.Add( SearchItems[i].ModuleId.ToString(), "en-US" );
                 }
             }
 
@@ -518,8 +547,8 @@ namespace DotNetNuke.Services.Search
             IDictionaryEnumerator moduleEnumerator = Modules.GetEnumerator();
             while( moduleEnumerator.MoveNext() )
             {
-                ModuleId = System.Convert.ToInt32( moduleEnumerator.Key );
-                Language = System.Convert.ToString( moduleEnumerator.Value );
+                ModuleId = Convert.ToInt32( moduleEnumerator.Key );
+                Language = Convert.ToString( moduleEnumerator.Value );
 
                 //Get the Indexed Items that are in the Database for this Module
                 IndexedItems = GetSearchItems( ModuleId );
@@ -529,7 +558,7 @@ namespace DotNetNuke.Services.Search
                 //As we will be potentially removing items from the collection iterate backwards
                 for( iSearch = ModuleItems.Count - 1; iSearch >= 0; iSearch-- )
                 {
-                    SearchItem = ModuleItems[ iSearch ];
+                    SearchItem = ModuleItems[iSearch];
                     ItemFound = false;
 
                     //Iterate through Indexed Items
@@ -555,7 +584,7 @@ namespace DotNetNuke.Services.Search
                                 catch( Exception ex )
                                 {
                                     //Log Exception
-                                    DotNetNuke.Services.Exceptions.Exceptions.LogException(ex);
+                                    Exceptions.Exceptions.LogException( ex );
                                 }
                             }
 
@@ -604,7 +633,7 @@ namespace DotNetNuke.Services.Search
                     catch( Exception ex )
                     {
                         //Log Exception
-                        DotNetNuke.Services.Exceptions.Exceptions.LogException(ex);
+                        Exceptions.Exceptions.LogException( ex );
                     }
                 }
             }

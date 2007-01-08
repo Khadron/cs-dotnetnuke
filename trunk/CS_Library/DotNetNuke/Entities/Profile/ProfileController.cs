@@ -17,6 +17,8 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
+using System;
 using System.Collections;
 using System.Data;
 using DotNetNuke.Common.Lists;
@@ -24,6 +26,7 @@ using DotNetNuke.Common.Utilities;
 using DotNetNuke.Data;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Security.Profile;
+using DotNetNuke.Entities.Modules;
 
 namespace DotNetNuke.Entities.Profile
 {
@@ -60,7 +63,17 @@ namespace DotNetNuke.Entities.Profile
             ProfilePropertyDefinitionCollection definitionsCollection = new ProfilePropertyDefinitionCollection();
             foreach (ProfilePropertyDefinition definition in arrDefinitions)
             {
+                //Clear the Is Dirty Flag
                 definition.ClearIsDirty();
+
+                //Initialise the Visibility
+                object setting = UserModuleBase.GetSetting(definition.PortalId, "Profile_DefaultVisibility");
+                if (setting != null)
+                {
+                    definition.Visibility = (UserVisibilityMode)Enum.Parse(typeof(UserVisibilityMode),setting.ToString());
+                }
+
+                //Add to collection
                 definitionsCollection.Add(definition);
             }
             return definitionsCollection;
