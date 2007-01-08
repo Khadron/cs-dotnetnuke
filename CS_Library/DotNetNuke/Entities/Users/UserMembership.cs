@@ -42,6 +42,7 @@ namespace DotNetNuke.Entities.Users
         private bool _LockedOut = false;
         private bool _ObjectHydrated;
         private string _Password;
+        private string _PasswordAnswer;
         private string _PasswordQuestion;
         private bool _UpdatePassword;
         private string _Username;
@@ -239,6 +240,29 @@ namespace DotNetNuke.Entities.Users
             set
             {
                 _Password = value;
+                if (!ObjectHydrated)
+                {
+                    ObjectHydrated = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets and sets the User's Password Answer
+        /// </summary>
+        /// <history>
+        ///     [cnurse]	08/04/2006	Documented
+        /// </history>
+        [Browsable(false)]
+        public string PasswordAnswer
+        {
+            get
+            {
+                return _PasswordAnswer;
+            }
+            set
+            {
+                _PasswordAnswer = value;
                 if (!ObjectHydrated)
                 {
                     ObjectHydrated = true;

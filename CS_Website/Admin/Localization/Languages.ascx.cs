@@ -37,9 +37,6 @@ namespace DotNetNuke.Services.Localization
     /// <summary>
     /// Manages the suported locales file
     /// </summary>
-    /// <returns></returns>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[vmasanas]	10/04/2004  Created
     /// </history>
@@ -51,10 +48,6 @@ namespace DotNetNuke.Services.Localization
         /// <summary>
         /// Loads defined locales
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[vmasanas]	04/10/2004	Created
         /// </history>
@@ -96,8 +89,6 @@ namespace DotNetNuke.Services.Localization
         /// <summary>
         /// Adds a new locale to the locales xml file
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         /// <remarks>
         /// Only one definition for a given locale key can be defined
         /// </remarks>
@@ -317,8 +308,6 @@ namespace DotNetNuke.Services.Localization
         /// <summary>
         /// Reads XML file and binds to the datagrid
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[vmasanas]	04/10/2004	Created
         /// </history>
@@ -349,15 +338,12 @@ namespace DotNetNuke.Services.Localization
         /// </history>
         private void DeleteLocalizedFiles( string locale )
         {
-            string fil;
-
             // Delete LocalResources from following folders
             DeleteLocalizedFiles( Server.MapPath( "~" ), locale, true );
 
             // Delete Global/Shared resources
-            foreach( string tempLoopVar_fil in Directory.GetFiles( Server.MapPath( Localization.ApplicationResourceDirectory ) ) )
+            foreach( string fil in Directory.GetFiles( Server.MapPath( Localization.ApplicationResourceDirectory ) ) )
             {
-                fil = tempLoopVar_fil;
                 // find the locale substring, ex: .nl-NL.
                 if( Path.GetFileName( fil ).ToLower().IndexOf( "." + locale.ToLower() + "." ) > - 1 )
                 {
@@ -379,26 +365,20 @@ namespace DotNetNuke.Services.Localization
         /// <param name="folder">Initial folder</param>
         /// <param name="locale">Locale files to be deleted</param>
         /// <param name="recurse">Delete recursively or not</param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[vmasanas]	04/10/2004	Created
         /// </history>
         private void DeleteLocalizedFiles( string folder, string locale, bool recurse )
         {
-            string fol;
-            string fil;
             locale = locale.ToLower();
 
-            foreach( string tempLoopVar_fol in Directory.GetDirectories( folder ) )
+            foreach( string fol in Directory.GetDirectories( folder ) )
             {
-                fol = tempLoopVar_fol;
                 if( Path.GetFileName( fol ) == Localization.LocalResourceDirectory )
                 {
                     // Found LocalResources folder
-                    foreach( string tempLoopVar_fil in Directory.GetFiles( fol ) )
+                    foreach( string fil in Directory.GetFiles( fol ) )
                     {
-                        fil = tempLoopVar_fil;
                         // find the locale substring, ex: .nl-NL.
                         if( Path.GetFileName( fil ).ToLower().IndexOf( "." + locale + ".resx" ) > - 1 )
                         {
@@ -426,24 +406,22 @@ namespace DotNetNuke.Services.Localization
 
         private void LoadLocales()
         {
-            string localeKey;
-            string localeName;
-
             cboLocales.Items.Clear();
-            CultureInfo cinfo;
-            foreach( CultureInfo tempLoopVar_cinfo in CultureInfo.GetCultures( CultureTypes.SpecificCultures ) )
+            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+            Array.Sort(cultures, new CultureInfoComparer(rbDisplay.SelectedValue));
+            foreach (CultureInfo cinfo in cultures)
             {
-                cinfo = tempLoopVar_cinfo;
-                localeKey = Convert.ToString( cinfo.Name );
-                if( rbDisplay.SelectedValue == "Native" )
+                string localeKey = Convert.ToString(cinfo.Name);
+                string localeName;
+                if (rbDisplay.SelectedValue == "Native")
                 {
-                    localeName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase( cinfo.NativeName );
+                    localeName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cinfo.NativeName);
                 }
                 else
                 {
-                    localeName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase( cinfo.EnglishName );
+                    localeName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cinfo.EnglishName);
                 }
-                cboLocales.Items.Add( new ListItem( localeName, localeKey ) );
+                cboLocales.Items.Add(new ListItem(localeName, localeKey));
             }
         }
 
@@ -455,7 +433,7 @@ namespace DotNetNuke.Services.Localization
                 string[] args = new string[3];
 
                 args[0] = "mid=" + FileManagerModule.ModuleID;
-                args[1] = "ftype=" + UploadType.LanguagePack.ToString();
+                args[1] = "ftype=" + UploadType.LanguagePack;
                 args[2] = "rtab=" + this.TabId;
 
                 ModuleActionCollection actions = new ModuleActionCollection();

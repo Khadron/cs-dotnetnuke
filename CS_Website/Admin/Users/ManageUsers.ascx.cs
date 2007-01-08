@@ -39,8 +39,6 @@ namespace DotNetNuke.Modules.Admin.Users
     /// <summary>
     /// The ManageUsers UserModuleBase is used to manage Users
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/13/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
@@ -48,6 +46,21 @@ namespace DotNetNuke.Modules.Admin.Users
     /// </history>
     public partial class ManageUsers : UserModuleBase, IActionable
     {
+        /// <summary>
+        /// Gets whether to display the Manage Services tab
+        /// </summary>
+        /// <history>
+        /// 	[cnurse]	08/11/2006  Created
+        /// </history>
+        protected bool DisplayServices
+        {
+            get
+            {
+                object setting = GetSetting(PortalId, "Profile_ManageServices");
+                return Convert.ToBoolean(setting) & !(IsEdit | User.IsSuperUser);
+            }
+        }
+
         /// <summary>
         /// Gets the Redirect URL (after successful registration)
         /// </summary>
@@ -441,7 +454,7 @@ namespace DotNetNuke.Modules.Admin.Users
 
                 cmdProfile.Enabled = ! showProfile;
 
-                if( IsEdit || User.IsSuperUser )
+                if( !DisplayServices )
                 {
                     cmdServices.Visible = false;
                 }
@@ -779,33 +792,38 @@ namespace DotNetNuke.Modules.Admin.Users
         /// <summary>
         /// PasswordUpdated runs when the Password has been updated or reset
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	3/08/2006	created
         /// </history>
-        protected void PasswordUpdated( object sender, Password.PasswordUpdatedEventArgs e )
+        private void PasswordUpdated(object sender, Password.PasswordUpdatedEventArgs e)
         {
+
             PasswordUpdateStatus status = e.UpdateStatus;
 
-            if( status == PasswordUpdateStatus.Success )
+            if (status == PasswordUpdateStatus.Success)
             {
-                AddModuleMessage( "PasswordChanged", ModuleMessageType.GreenSuccess, true );
-
                 //Send Notification to User
-                Mail.SendMail( User, MessageType.PasswordReminder, PortalSettings );
+                try
+                {
+                    Mail.SendMail(User, MessageType.PasswordReminder, PortalSettings);
+                    AddModuleMessage("PasswordChanged", ModuleMessageType.GreenSuccess, true);
+                }
+                catch (Exception ex)
+                {
+                    AddModuleMessage("PasswordMailError", ModuleMessageType.YellowWarning, true);
+                    Exceptions.LogException(ex);
+                }
             }
             else
             {
-                AddModuleMessage( status.ToString(), ModuleMessageType.RedError, true );
+                AddModuleMessage(status.ToString(), ModuleMessageType.RedError, true);
             }
+
         }
 
         /// <summary>
         /// ProfileUpdateCompleted runs when the Profile has been updated
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	3/20/2006	created
         /// </history>
@@ -839,6 +857,8 @@ namespace DotNetNuke.Modules.Admin.Users
         /// </history>
         protected void UserCreateCompleted( object sender, User.UserCreatedEventArgs e )
         {
+            string strMessage = "";
+
             try
             {
                 if( e.CreateStatus == UserCreateStatus.Success )
@@ -851,7 +871,7 @@ namespace DotNetNuke.Modules.Admin.Users
                         Mail.SendMail( User, MessageType.UserRegistrationAdmin, PortalSettings );
 
                         // complete registration
-                        string strMessage = "";
+                        
                         switch( PortalSettings.UserRegistration )
                         {
                             case (int)Globals.PortalRegistrationType.PrivateRegistration:
@@ -912,7 +932,16 @@ namespace DotNetNuke.Modules.Admin.Users
 
                     if( IsRegister )
                     {
-                        Response.Redirect( RedirectURL, true );
+                        //Response.Redirect( RedirectURL, true );
+                        if (string.IsNullOrEmpty(strMessage))
+                        {
+                            Response.Redirect(RedirectURL, true);
+                        }
+                        else
+                        {
+                            DisableForm();
+                            pnlRegister.Visible = false;
+                        }
                     }
                     else
                     {

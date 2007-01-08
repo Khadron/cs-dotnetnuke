@@ -38,6 +38,7 @@ namespace DotNetNuke.Services.Search
         private string m_SearchKey;
         private int m_TabId;
         private string m_Title;
+        private int m_PortalId;
 
         public SearchResultsInfo()
         {
@@ -209,6 +210,18 @@ namespace DotNetNuke.Services.Search
             set
             {
                 this.m_Title = value;
+            }
+        }
+
+        public int PortalId
+        {
+            get
+            {
+                return m_PortalId;
+            }
+            set
+            {
+                m_PortalId = value;
             }
         }
     }

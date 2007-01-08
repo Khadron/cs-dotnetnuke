@@ -40,8 +40,6 @@ namespace DotNetNuke.Modules.Admin.Security
     /// The Signin UserModuleBase is used to provide a login for a registered user
     /// portal.
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/24/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
@@ -91,6 +89,21 @@ namespace DotNetNuke.Modules.Admin.Security
                 }
 
                 return _RedirectURL;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether a profile is required on login
+        /// </summary>
+        /// <history>
+        /// 	[cnurse]	08/21/2006  Created
+        /// </history>
+        protected bool RequireValidProfile
+        {
+            get
+            {
+                object setting = GetSetting(PortalId, "Security_RequireValidProfileAtLogin");
+                return Convert.ToBoolean(setting);
             }
         }
 
@@ -267,7 +280,7 @@ namespace DotNetNuke.Modules.Admin.Security
             }
 
             //Check whether Profile needs updating
-            if( ! updatePassword )
+            if( ! updatePassword && this.RequireValidProfile )
             {
                 //Admin has forced password update
                 AddModuleMessage( "ProfileUpdate", ModuleMessageType.YellowWarning, true );
@@ -280,6 +293,8 @@ namespace DotNetNuke.Modules.Admin.Security
             }
             else if( updateProfile )
             {
+                //Admin has forced profile update
+                AddModuleMessage( "ProfileUpdate", ModuleMessageType.YellowWarning, true );
                 PageNo = 2;
             }
             else
@@ -485,6 +500,10 @@ namespace DotNetNuke.Modules.Admin.Security
                                         AddModuleMessage( "EnterCode", ModuleMessageType.GreenSuccess, true );
                                     }
                                 }
+                            }
+                            else
+                            {
+                                AddModuleMessage( "UserNotAuthorized", ModuleMessageType.RedError, true );
                             }
                             break;
                         case UserLoginStatus.LOGIN_USERLOCKEDOUT:

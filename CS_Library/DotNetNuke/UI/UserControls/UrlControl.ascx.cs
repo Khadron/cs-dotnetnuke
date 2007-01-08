@@ -431,16 +431,20 @@ namespace DotNetNuke.UI.UserControls
             this.optType.SelectedIndexChanged += new EventHandler(this.optType_SelectedIndexChanged);
         }
 
-        private ArrayList GetFileList( string strExtensions, bool NoneSpecified, string Folder )
+        private ArrayList GetFileList(bool NoneSpecified)
         {
-            if( this.PortalSettings.ActiveTab.ParentId == this.PortalSettings.SuperTabId )
+            ArrayList fileList;
+
+            if (PortalSettings.ActiveTab.ParentId == PortalSettings.SuperTabId)
             {
-                return Globals.GetFileList( Null.NullInteger, this.FileFilter, NoneSpecified, this.cboFolders.SelectedItem.Value, false );
+                fileList = Globals.GetFileList(Null.NullInteger, FileFilter, NoneSpecified, cboFolders.SelectedItem.Value, false);
             }
             else
             {
-                return Globals.GetFileList( this._objPortal.PortalID, this.FileFilter, NoneSpecified, this.cboFolders.SelectedItem.Value, false );
+                fileList = Globals.GetFileList(_objPortal.PortalID, FileFilter, NoneSpecified, cboFolders.SelectedItem.Value, false);
             }
+
+            return fileList;
         }
 
         private string GetReadRoles( string Folder )
@@ -475,7 +479,7 @@ namespace DotNetNuke.UI.UserControls
             }
 
             cboFiles.Items.Clear();
-            cboFiles.DataSource = GetFileList(FileFilter, !_Required, cboFolders.SelectedItem.Value);
+            cboFiles.DataSource = GetFileList(!_Required);
             cboFiles.DataBind();
 
             SetStorageLocationType();
@@ -550,7 +554,7 @@ namespace DotNetNuke.UI.UserControls
 
                 DirectoryInfo Root = new DirectoryInfo(ParentFolderName);
                 cboFiles.Items.Clear();
-                cboFiles.DataSource = GetFileList(FileFilter, false, cboFolders.SelectedItem.Value);
+                cboFiles.DataSource = GetFileList(false);
                 cboFiles.DataBind();
 
                 string FileName = txtFile.PostedFile.FileName.Substring(txtFile.PostedFile.FileName.LastIndexOf("\\") + 1);
@@ -581,9 +585,9 @@ namespace DotNetNuke.UI.UserControls
 
         private void LoadFolders()
         {
-             int PortalId = Null.NullInteger;
-            string ReadRoles = Null.NullString;
-            string WriteRoles = Null.NullString;
+            int PortalId = Null.NullInteger;
+            //string ReadRoles = Null.NullString;
+            //string WriteRoles = Null.NullString;
 
             cboFolders.Items.Clear();
 
@@ -592,43 +596,42 @@ namespace DotNetNuke.UI.UserControls
                 PortalId = _objPortal.PortalID;
             }
 
-            ArrayList folders = FileSystemUtils.GetFolders(PortalId);
+            //ArrayList folders = FileSystemUtils.GetFolders(PortalId);
+            ArrayList folders = FileSystemUtils.GetFoldersByUser(PortalId, _ShowSecure, _ShowDatabase, true, "READ, WRITE");
             foreach( FolderInfo folder in folders )
             {
                 ListItem FolderItem = new ListItem();
                 if( folder.FolderPath == Null.NullString )
                 {
                     FolderItem.Text = Localization.GetString( "Root", this.LocalResourceFile );
-                    ReadRoles = GetReadRoles( "" );
-                    WriteRoles = GetWriteRoles( "" );
+                    //ReadRoles = GetReadRoles( "" );
+                    //WriteRoles = GetWriteRoles( "" );
                 }
                 else
                 {
                     FolderItem.Text = folder.FolderPath;
-                    ReadRoles = GetReadRoles( FolderItem.Text );
-                    WriteRoles = GetWriteRoles( FolderItem.Text );
+                    //ReadRoles = GetReadRoles( FolderItem.Text );
+                    //WriteRoles = GetWriteRoles( FolderItem.Text );
                 }
                 FolderItem.Value = folder.FolderPath;
 
-                if( PortalSecurity.IsInRoles( ReadRoles ) || PortalSecurity.IsInRoles( WriteRoles ) )
-                {
-                    bool canAdd = true;
-                    switch( folder.StorageLocation )
-                    {
-                        case (int)FolderController.StorageLocationTypes.DatabaseSecure:
-
-                            canAdd = _ShowDatabase;
-                            break;
-                        case (int)FolderController.StorageLocationTypes.SecureFileSystem:
-
-                            canAdd = _ShowSecure;
-                            break;
-                    }
-                    if( canAdd )
-                    {
+                //if( PortalSecurity.IsInRoles( ReadRoles ) || PortalSecurity.IsInRoles( WriteRoles ) )
+                //{
+                //    bool canAdd = true;
+                //    switch( folder.StorageLocation )
+                //    {
+                //        case (int)FolderController.StorageLocationTypes.DatabaseSecure:                
+                //            canAdd = _ShowDatabase;
+                //            break;
+                //        case (int)FolderController.StorageLocationTypes.SecureFileSystem:
+                //            canAdd = _ShowSecure;
+                //            break;
+                //    }
+                //    if( canAdd )
+                //    {
                         cboFolders.Items.Add( FolderItem );
-                    }
-                }
+                //    }
+                //}
             }
         }
 
@@ -710,7 +713,6 @@ namespace DotNetNuke.UI.UserControls
         private void SetStorageLocationType()
         {
              FolderController objFolder = new FolderController();
-            FolderInfo objFolderInfo = new FolderInfo();
             string FolderName = cboFolders.SelectedValue;
 
             // Check to see if this is the 'Root' folder, if so we cannot rely on its text value because it is something and not an empty string that we need to lookup the 'root' folder
@@ -719,7 +721,7 @@ namespace DotNetNuke.UI.UserControls
                 FolderName = "";
             }
 
-            objFolderInfo = objFolder.GetFolder( PortalSettings.PortalId, FolderName );
+            FolderInfo objFolderInfo = objFolder.GetFolder( PortalSettings.PortalId, FolderName );
 
             if( objFolderInfo != null )
             {
@@ -771,7 +773,7 @@ namespace DotNetNuke.UI.UserControls
                         else
                         {
                             // to handle legacy scenarios before the introduction of the FileServerHandler
-                            TrackingUrl = "FileID=" + objFiles.ConvertFilePathToFileId(_Url, _objPortal.PortalID).ToString();
+                            TrackingUrl = "FileID=" + objFiles.ConvertFilePathToFileId(_Url, _objPortal.PortalID);
                         }
                     }
 
@@ -922,7 +924,8 @@ namespace DotNetNuke.UI.UserControls
                         FolderPath = cboFolders.SelectedValue;
                     }
 
-                    cboFiles.DataSource = GetFileList(FileFilter, !_Required, cboFolders.SelectedItem.Value);
+                    //cboFiles.DataSource = GetFileList(FileFilter, !_Required, cboFolders.SelectedItem.Value);
+                    cboFiles.DataSource = GetFileList(!_Required);
                     cboFiles.DataBind();
                     if (cboFiles.Items.FindByText(FileName) != null)
                     {

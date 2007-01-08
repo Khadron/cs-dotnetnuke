@@ -282,10 +282,17 @@ namespace DotNetNuke.Services.Localization
         private static Hashtable GetResource( string resourceFileRoot, PortalSettings portalSettings, string language )
         {
             Hashtable resources;
-            string defaultLanguage = portalSettings.DefaultLanguage.ToLower();
+            string defaultLanguage = Null.NullString;
             string userLanguage;
             string fallbackLanguage = SystemLocale.ToLower();
+            int portalId = Null.NullInteger;
             string userFile;
+
+            if (portalSettings != null)
+            {
+                defaultLanguage = portalSettings.DefaultLanguage.ToLower();
+                portalId = portalSettings.PortalId;
+            }
 
             if (language == null)
             {
@@ -313,7 +320,7 @@ namespace DotNetNuke.Services.Localization
 
             //Set the cachekey as the userFile + the PortalId
             string filePath = HttpContext.Current.Server.MapPath(userFile);
-            string cacheKey = filePath.Replace(Globals.ApplicationMapPath, "").ToLower() + portalSettings.PortalId;
+            string cacheKey = filePath.Replace(Globals.ApplicationMapPath, "").ToLower() + portalId;
 
             //Attempt to get the resources from the cache
             resources = (Hashtable)DataCache.GetCache(cacheKey);
@@ -331,8 +338,10 @@ namespace DotNetNuke.Services.Localization
                 // Add any host level customizations
                 resources = LoadResource(resources, fallbackLanguage, cacheKey, fallbackFile, CustomizedLocale.Host, portalSettings);
                 // Add any portal level customizations
-                resources = LoadResource(resources, fallbackLanguage, cacheKey, fallbackFile, CustomizedLocale.Portal, portalSettings);
-
+                if (portalSettings != null)
+                {
+                    resources = LoadResource( resources, fallbackLanguage, cacheKey, fallbackFile, CustomizedLocale.Portal, portalSettings );
+                }
                 //if the defaultLanguage is different, load it
                 if (!String.IsNullOrEmpty(defaultLanguage) && defaultLanguage != fallbackLanguage && userLanguage != fallbackLanguage)
                 {
@@ -341,7 +350,10 @@ namespace DotNetNuke.Services.Localization
                     // Add any host level customizations
                     resources = LoadResource(resources, defaultLanguage, cacheKey, defaultFile, CustomizedLocale.Host, portalSettings);
                     // Add any portal level customizations
-                    resources = LoadResource(resources, defaultLanguage, cacheKey, defaultFile, CustomizedLocale.Portal, portalSettings);
+                    if (portalSettings != null)
+                    {
+                        resources = LoadResource(resources, defaultLanguage, cacheKey, defaultFile, CustomizedLocale.Portal, portalSettings);
+                    }
                 }
 
                 // If the user language is different load it
@@ -351,7 +363,10 @@ namespace DotNetNuke.Services.Localization
                     // Add any host level customizations
                     resources = LoadResource(resources, userLanguage, cacheKey, userFile, CustomizedLocale.Host, portalSettings);
                     // Add any portal level customizations
-                    resources = LoadResource(resources, userLanguage, cacheKey, userFile, CustomizedLocale.Portal, portalSettings);
+                    if (portalSettings != null)
+                    {
+                        resources = LoadResource(resources, userLanguage, cacheKey, userFile, CustomizedLocale.Portal, portalSettings);
+                    }
                 }
             }
 

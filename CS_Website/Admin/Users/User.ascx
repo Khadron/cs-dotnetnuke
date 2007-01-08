@@ -36,17 +36,47 @@
 			<td width="150" class="subhead"><dnn:label id="plRandom" runat="server" controlname="chkRandom" /></td>
 			<td width="200" class="normalTextBox"><asp:checkbox id="chkRandom" runat="server" checked="True" /></td>
 		</tr>
-		<tr height="25">
-			<td class="SubHead" width="150"><dnn:label id="plPassword" runat="server" controlname="txtPassword" text="Password:"></dnn:label></td>
-			<td width="200"><asp:textbox id="txtPassword" runat="server" cssclass="NormalTextBox" textmode="Password" size="12" maxlength="20"></asp:textbox></td>
-		</tr>
-		<tr height="25">
-			<td class="SubHead" width="150" valign="top"><dnn:label id="plConfirm" runat="server" controlname="txtConfirm" text="Confirm Password:"></dnn:label></td>
-			<td width="200">
-			    <asp:textbox id="txtConfirm" runat="server" cssclass="NormalTextBox" textmode="Password" size="12" maxlength="20"></asp:textbox>
-			    <asp:CustomValidator ID="valPassword" runat="Server" CssClass="NormalRed" />
-			</td>
-		</tr>
+        <tr height="25">
+            <td class="SubHead" width="150">
+                <dnn:Label ID="plPassword" runat="server" ControlName="txtPassword" Text="Password:" />
+            </td>
+            <td width="200">
+                <asp:TextBox ID="txtPassword" runat="server" CssClass="NormalTextBox" MaxLength="20" size="12" TextMode="Password">
+                </asp:TextBox>
+                <asp:Image ID="Image1" runat="server" BorderStyle="None" ImageUrl="~/images/required.gif" />
+            </td>
+        </tr>
+        <tr height="25">
+            <td class="SubHead" valign="top" width="150">
+                <dnn:Label ID="plConfirm" runat="server" ControlName="txtConfirm" Text="Confirm Password:" />
+            </td>
+            <td width="200">
+                <asp:TextBox ID="txtConfirm" runat="server" CssClass="NormalTextBox" MaxLength="20" size="12" TextMode="Password">
+                </asp:TextBox>
+                <asp:Image ID="Image2" runat="server" BorderStyle="None" ImageUrl="~/images/required.gif" />
+            </td>
+        </tr>
+        <tr id="trQuestion" runat="server" height="25" visible="false">
+            <td class="SubHead" width="175">
+                <dnn:Label ID="plQuestion" runat="server" ControlName="lblQuestion" Text="Password Question:" />
+            </td>
+            <td>
+                <asp:TextBox ID="txtQuestion" runat="server" CssClass="NormalTextBox" MaxLength="20" size="25">
+                </asp:TextBox></td>
+        </tr>
+        <tr id="trAnswer" runat="server" height="25" visible="false">
+            <td class="SubHead" width="175">
+                <dnn:Label ID="plAnswer" runat="server" ControlName="txtAnswer" Text="Password Answer:" />
+            </td>
+            <td>
+                <asp:TextBox ID="txtAnswer" runat="server" CssClass="NormalTextBox" MaxLength="20" size="25"></asp:TextBox></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <asp:CustomValidator ID="valPassword" runat="Server" CssClass="NormalRed">
+                </asp:CustomValidator>
+            </td>
+        </tr>
 		<tr id="trCaptcha" runat="server">
 			<td class="SubHead" width="150" valign="top"><dnn:label id="plCaptcha" controlname="ctlCaptcha" runat="server" text="Password:"></dnn:label></td>
 			<td width="200">

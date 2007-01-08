@@ -56,8 +56,8 @@ namespace DotNetNuke.HttpModules
                 return;
             }
 
-            //exit if a request for a .net mapping that isn't a content page is made i.e. axd, asmx
-            if( Request.Url.LocalPath.ToLower().EndsWith( ".aspx" ) == false )
+            //exit if a request for a .net mapping that isn't a content page is made i.e. axd
+            if (Request.Url.LocalPath.ToLower().EndsWith(".aspx") == false && Request.Url.LocalPath.ToLower().EndsWith(".asmx") == false)
             {
                 return;
             }

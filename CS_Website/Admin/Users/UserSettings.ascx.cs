@@ -85,10 +85,29 @@ namespace DotNetNuke.Modules.Admin.Users
             editors["Redirect_AfterLogout"] = EditorInfo.GetEditor( "Page" );
             editors["Redirect_AfterRegistration"] = EditorInfo.GetEditor( "Page" );
 
+            //Create a Hashtable for the custom Visibility options
+            Hashtable visibility = new Hashtable();
+            if (PortalSettings.ActiveTab.ParentId == PortalSettings.SuperTabId)
+            {
+                visibility["Profile_DefaultVisibility"] = false;
+                visibility["Profile_DisplayVisibility"] = false;
+                visibility["Profile_ManageServices"] = false;
+                visibility["Redirect_AfterLogin"] = false;
+                visibility["Redirect_AfterRegistration"] = false;
+                visibility["Redirect_AfterLogout"] = false;
+                visibility["Security_CaptchaLogin"] = false;
+                visibility["Security_CaptchaRegister"] = false;
+                visibility["Security_RequireValidProfile"] = false;
+                visibility["Security_RequireValidProfileAtLogin"] = false;
+                visibility["Security_UsersControl"] = false;
+            }
+
+
             UserSettingsControl.LocalResourceFile = this.LocalResourceFile;
             Hashtable ht = this.Settings;
             UserSettingsControl.DataSource = UserModuleBase.GetSettings(ht);
             UserSettingsControl.CustomEditors = editors;
+            UserSettingsControl.Visibility = visibility;
             UserSettingsControl.DataBind();
         }
 

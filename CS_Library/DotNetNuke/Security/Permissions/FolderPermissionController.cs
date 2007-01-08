@@ -17,9 +17,9 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
-using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Data;
 
@@ -46,8 +46,7 @@ namespace DotNetNuke.Security.Permissions
         {
             FolderPermissionCollection p = new FolderPermissionCollection();
 
-            int i;
-            for (i = 0; i <= arrFolderPermissions.Count - 1; i++)
+            for (int i = 0; i < arrFolderPermissions.Count; i++)
             {
                 FolderPermissionInfo objFolderPermission = (FolderPermissionInfo)arrFolderPermissions[i];
                 if (objFolderPermission.FolderPath == FolderPath)
@@ -60,14 +59,14 @@ namespace DotNetNuke.Security.Permissions
 
         public string GetFolderPermissionsByFolderPath(ArrayList arrFolderPermissions, string FolderPath, string PermissionKey)
         {
+
             string strRoles = ";";
-            int i;
-            for (i = 0; i <= arrFolderPermissions.Count - 1; i++)
+            for (int i = 0; i < arrFolderPermissions.Count; i++)
             {
-                FolderPermissionInfo objFolderPermission = (FolderPermissionInfo)arrFolderPermissions[i];
-                if (objFolderPermission.FolderPath == FolderPath && objFolderPermission.AllowAccess == true && objFolderPermission.PermissionKey == PermissionKey)
+                FolderPermissionInfo objFolderPermission = (FolderPermissionInfo)(arrFolderPermissions[i]);
+                if (objFolderPermission.FolderPath == FolderPath && objFolderPermission.AllowAccess && objFolderPermission.PermissionKey == PermissionKey)
                 {
-                    strRoles += Globals.GetRoleName(objFolderPermission.RoleID) + ";";
+                    strRoles += objFolderPermission.RoleName + ";";
                 }
             }
             return strRoles;
@@ -89,8 +88,7 @@ namespace DotNetNuke.Security.Permissions
         public static bool HasFolderPermission(FolderPermissionCollection objFolderPermissions, string PermissionKey)
         {
             FolderPermissionCollection m = objFolderPermissions;
-            int i;
-            for (i = 0; i <= m.Count - 1; i++)
+            for (int i = 0; i < m.Count; i++)
             {
                 FolderPermissionInfo mp;
                 mp = m[i];

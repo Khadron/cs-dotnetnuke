@@ -33,8 +33,6 @@ namespace DotNetNuke.Common.Utilities
 
         public static XmlDocument AddAppSetting(XmlDocument xmlDoc, string Key, string Value)
         {
-            XmlElement xmlElement;
-
             // retrieve the appSettings node
             XmlNode xmlAppSettings = xmlDoc.SelectSingleNode("//appSettings");
 
@@ -43,6 +41,7 @@ namespace DotNetNuke.Common.Utilities
                 // get the node based on key
                 XmlNode xmlNode = xmlAppSettings.SelectSingleNode("//add[@key='" + Key + "']");
 
+                XmlElement xmlElement;
                 if (xmlNode != null)
                 {
                     // update the existing element
@@ -196,7 +195,7 @@ namespace DotNetNuke.Common.Utilities
         }
         public static void AddCodeSubDirectory(string name)
         {
-            Configuration webConfig = WebConfigurationManager.OpenWebConfiguration(Globals.ApplicationPath);
+            Configuration webConfig = WebConfigurationManager.OpenWebConfiguration(Globals.ApplicationPath + "/");
 
             CompilationSection configSection = (CompilationSection)webConfig.GetSection("system.web/compilation");
             bool directoryFound = false;

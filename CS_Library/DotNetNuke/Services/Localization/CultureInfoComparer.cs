@@ -17,14 +17,34 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
-using System;
-using System.Reflection;
+using System.Collections;
+using System.Globalization;
 
-[assembly: AssemblyTitle("DotNetNuke.Library")]
-[assembly: AssemblyDescription("DotNetNuke Web Application Framework")]
-[assembly: AssemblyCompany("Perpetual Motion Interactive Systems Inc.")]
-[assembly: AssemblyProduct("http://www.dotnetnuke.com")]
-[assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2006 by Perpetual Motion Interactive Systems Inc. All Rights Reserved.")]
-[assembly: AssemblyTrademark("DotNetNuke")]
-[assembly: CLSCompliant(true)]
-[assembly: AssemblyVersion("4.3.5.*")]
+namespace DotNetNuke.Services.Localization
+{
+    public class CultureInfoComparer : IComparer
+    {
+        private string _compare;
+        
+        public CultureInfoComparer(string compareBy)
+        {
+            _compare = compareBy;
+        }
+
+        public int Compare(object x, object y)
+        {
+            switch (_compare)
+            {
+                case "English":
+                    return ((CultureInfo)x).EnglishName.CompareTo(((CultureInfo)y).EnglishName);
+                case "Native":
+                    return ((CultureInfo)x).NativeName.CompareTo(((CultureInfo)y).NativeName);
+                default:
+                    return ((CultureInfo)x).Name.CompareTo(((CultureInfo)y).Name);
+            }
+        }
+
+    }
+
+
+}

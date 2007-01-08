@@ -21,10 +21,8 @@ using System;
 using System.Collections;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
-using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Framework;
-using DotNetNuke.Security;
 using DotNetNuke.Security.Membership;
 using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Exceptions;
@@ -42,8 +40,6 @@ namespace DotNetNuke.Modules.Admin.Security
     /// <summary>
     /// The Register PortalModuleBase is used to register Users
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
@@ -57,8 +53,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// BindData binds the data from the DB to the controls
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/13/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -66,7 +60,6 @@ namespace DotNetNuke.Modules.Admin.Security
         private void BindData()
         {
             ModuleController objModules = new ModuleController();
-            PortalController objPortalController = new PortalController();
 
             userControl.ModuleId = objModules.GetModuleByDefinition( PortalId, "Site Settings" ).ModuleID;
             userControl.StartTabIndex = 1;
@@ -195,8 +188,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// FormatURL correctly formats a URL
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         ///	<returns>The correctly formatted url</returns>
         /// <history>
         /// 	[cnurse]	9/13/2004	Updated to reflect design changes for Help, 508 support
@@ -224,8 +215,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// FormatPrice formats the Fee amount and filters out null-values
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         ///	<param name="price">The price to format</param>
         ///	<returns>The correctly formatted price</returns>
         /// <history>
@@ -256,8 +245,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// FormatPeriod formats the Period and filters out null-values
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         ///	<param name="period">The period to format</param>
         ///	<returns>The correctly formatted period</returns>
         /// <history>
@@ -284,8 +271,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// FormatExpiryDate formats the expiry date and filters out null-values
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         ///	<param name="DateTime">The date to format</param>
         ///	<returns>The correctly formatted date</returns>
         /// <history>
@@ -344,8 +329,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// ServiceURL correctly formats the Subscription url
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         ///	<param name="strKeyName">The key name for the service</param>
         ///	<param name="strKeyValue">The key value for the service</param>
         ///	<param name="objServiceFee">The service fee</param>
@@ -361,7 +344,7 @@ namespace DotNetNuke.Modules.Admin.Security
             try
             {
                 double dblServiceFee = 0;
-                string ctlRegister = "";
+                string ctlRegister;
 
                 if(  objServiceFee != DBNull.Value  )
                 {
@@ -413,8 +396,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/13/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -471,12 +452,12 @@ namespace DotNetNuke.Modules.Admin.Security
                     }
                 }
 
-                //Localize the Headers
-                Localization.LocalizeDataGrid( ref grdServices, this.LocalResourceFile );
-
                 // If this is the first visit to the page, bind the role data to the datalist
                 if( Page.IsPostBack == false )
                 {
+                    //Localize the Headers
+                    Localization.LocalizeDataGrid(ref grdServices, this.LocalResourceFile);
+
                     ClientAPI.AddButtonConfirm( cmdUnregister, Localization.GetString( "CancelConfirm", this.LocalResourceFile ) );
 
                     BindData();
@@ -512,8 +493,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// cmdCancel_Click runs when the Cancel Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/13/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -533,8 +512,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// cmdRegister_Click runs when the Register Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/13/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -545,11 +522,9 @@ namespace DotNetNuke.Modules.Admin.Security
             try
             {
                 // Only attempt a save/update if all form fields on the page are valid
-                if( Page.IsValid == true )
+                if( Page.IsValid )
                 {
                     // Add New User to Portal User Database
-                    PortalSecurity objSecurity = new PortalSecurity();
-                    ModuleController objModules = new ModuleController();
                     UserInfo objUserInfo;
 
                     objUserInfo = UserController.GetUserByName( PortalId, userControl.UserName, false );
@@ -581,32 +556,35 @@ namespace DotNetNuke.Modules.Admin.Security
                         else
                         {
                             //update the user
-                            objUserInfo.UserID = UserInfo.UserID;
-                            objUserInfo.PortalID = PortalId;
-                            objUserInfo.Profile.FirstName = userControl.FirstName;
-                            objUserInfo.Profile.LastName = userControl.LastName;
-                            objUserInfo.Profile.Unit = addressUser.Unit;
-                            objUserInfo.Profile.Street = addressUser.Street;
-                            objUserInfo.Profile.City = addressUser.City;
-                            objUserInfo.Profile.Region = addressUser.Region;
-                            objUserInfo.Profile.PostalCode = addressUser.Postal;
-                            objUserInfo.Profile.Country = addressUser.Country;
-                            objUserInfo.Profile.Telephone = addressUser.Telephone;
-                            objUserInfo.Email = userControl.Email;
-                            objUserInfo.Username = userControl.UserName;
-                            objUserInfo.Profile.Cell = addressUser.Cell;
-                            objUserInfo.Profile.Fax = addressUser.Fax;
-                            objUserInfo.Profile.IM = userControl.IM;
-                            objUserInfo.Profile.Website = userControl.Website;
-                            objUserInfo.Profile.PreferredLocale = cboLocale.SelectedItem.Value;
-                            objUserInfo.Profile.TimeZone = Convert.ToInt32( cboTimeZone.SelectedItem.Value );
+                            if (objUserInfo != null)
+                            {
+                                objUserInfo.UserID = UserInfo.UserID;
 
-                            //Update the User
-                            UserController.UpdateUser( PortalId, objUserInfo );
+                                objUserInfo.PortalID = PortalId;
+                                objUserInfo.Profile.FirstName = userControl.FirstName;
+                                objUserInfo.Profile.LastName = userControl.LastName;
+                                objUserInfo.Profile.Unit = addressUser.Unit;
+                                objUserInfo.Profile.Street = addressUser.Street;
+                                objUserInfo.Profile.City = addressUser.City;
+                                objUserInfo.Profile.Region = addressUser.Region;
+                                objUserInfo.Profile.PostalCode = addressUser.Postal;
+                                objUserInfo.Profile.Country = addressUser.Country;
+                                objUserInfo.Profile.Telephone = addressUser.Telephone;
+                                objUserInfo.Email = userControl.Email;
+                                objUserInfo.Username = userControl.UserName;
+                                objUserInfo.Profile.Cell = addressUser.Cell;
+                                objUserInfo.Profile.Fax = addressUser.Fax;
+                                objUserInfo.Profile.IM = userControl.IM;
+                                objUserInfo.Profile.Website = userControl.Website;
+                                objUserInfo.Profile.PreferredLocale = cboLocale.SelectedItem.Value;
+                                objUserInfo.Profile.TimeZone = Convert.ToInt32( cboTimeZone.SelectedItem.Value );
 
-                            //store preferredlocale in cookie
-                            Localization.SetLanguage( objUserInfo.Profile.PreferredLocale );
+                                //Update the User
+                                UserController.UpdateUser( PortalId, objUserInfo );
 
+                                //store preferredlocale in cookie
+                                Localization.SetLanguage( objUserInfo.Profile.PreferredLocale );
+                            }
                             //clear the portal cache if current user is portal administrator (catch email adress changes)
                             if( UserInfo.UserID == PortalSettings.AdministratorId )
                             {
@@ -729,8 +707,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// cmdRSVP_Click runs when the Subscribe to RSVP Code Roles Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	01/19/2006  created
         /// </history>
@@ -743,13 +719,11 @@ namespace DotNetNuke.Modules.Admin.Security
             {
                 //Get the roles from the Database
                 RoleController objRoles = new RoleController();
-                RoleInfo objRole;
                 ArrayList arrRoles = objRoles.GetPortalRoles( PortalSettings.PortalId );
 
                 //Parse the roles
-                foreach( RoleInfo tempLoopVar_objRole in arrRoles )
+                foreach( RoleInfo objRole in arrRoles )
                 {
-                    objRole = tempLoopVar_objRole;
                     if( objRole.RSVPCode == code )
                     {
                         //Subscribe User to Role
@@ -767,8 +741,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// cmdUnregister_Click runs when the UnRegister Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/13/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -780,7 +752,7 @@ namespace DotNetNuke.Modules.Admin.Security
                 UserInfo user = UserInfo;
                 UserController.DeleteUser( ref user, true, false );
 
-                Response.Redirect( "~/Admin/Security/Logoff.aspx?portalid=" + PortalSettings.PortalId.ToString() );
+                Response.Redirect( "~/Admin/Security/Logoff.aspx?portalid=" + PortalSettings.PortalId );
             }
             catch( Exception exc ) //Module failed to load
             {
@@ -791,8 +763,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// cmdUpdatePassword_Click runs when the Update Pasword Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/13/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation

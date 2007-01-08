@@ -23,7 +23,6 @@ using DotNetNuke.Common.Utilities;
 using DotNetNuke.Data;
 using DotNetNuke.Entities.Modules;
 using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.CompilerServices;
 using Globals=DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Security.Permissions
@@ -46,13 +45,11 @@ namespace DotNetNuke.Security.Permissions
             ModulePermissionCollection objModPerms = objModule.ModulePermissions;
 
             string strRoles = ";";
-            ModulePermissionInfo objModulePermission;
-            foreach (ModulePermissionInfo tempLoopVar_objModulePermission in objModPerms)
+            foreach (ModulePermissionInfo objModulePermission in objModPerms)
             {
-                objModulePermission = tempLoopVar_objModulePermission;
-                if (objModulePermission.AllowAccess == true && objModulePermission.PermissionKey == PermissionKey)
+                if (objModulePermission.AllowAccess && objModulePermission.PermissionKey == PermissionKey)
                 {
-                    strRoles += Globals.GetRoleName(objModulePermission.RoleID) + ";";
+                    strRoles += objModulePermission.RoleName + ";";
                 }
             }
             return strRoles;
@@ -70,14 +67,14 @@ namespace DotNetNuke.Security.Permissions
             return ((ModulePermissionCollection)objModulePermissionCollection);
         }
 
+        [Obsolete("This method is obsoleted.  It was used to replace lists of RoleIds by lists of RoleNames.")]
         public string GetRoleNamesFromRoleIDs(string Roles)
         {
             string strRoles = "";
             if (Roles.IndexOf(";") > 0)
             {
                 string[] arrRoles = Roles.Split(';');
-                int i;
-                for (i = 0; i <= arrRoles.Length - 1; i++)
+                for (int i = 0; i < arrRoles.Length; i++)
                 {
                     if (Information.IsNumeric(arrRoles[i]))
                     {
@@ -98,8 +95,7 @@ namespace DotNetNuke.Security.Permissions
         public static bool HasModulePermission(ModulePermissionCollection objModulePermissions, string PermissionKey)
         {
             ModulePermissionCollection m = objModulePermissions;
-            int i;
-            for (i = 0; i <= m.Count - 1; i++)
+            for (int i = 0; i < m.Count; i++)
             {
                 ModulePermissionInfo mp;
                 mp = m[i];

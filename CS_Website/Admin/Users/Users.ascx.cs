@@ -111,8 +111,23 @@ namespace DotNetNuke.Modules.Admin.Users
         {
             get
             {
-                object setting = UserModuleBase.GetSetting( PortalId, "Records_PerPage" );
-                return Convert.ToInt32( setting );
+                object setting = UserModuleBase.GetSetting(UsersPortalId, "Records_PerPage");
+                return System.Convert.ToInt32(setting);
+            }
+        }
+
+        /// <summary>
+        /// Gets a flag that determines whether to suppress the Pager (when not required)
+        /// </summary>
+        /// <history>
+        /// 	[cnurse]	08/10/2006  Created
+        /// </history>
+        protected bool SuppressPager
+        {
+            get
+            {
+                object setting = UserModuleBase.GetSetting(UsersPortalId, "Display_SuppressPager");
+                return System.Convert.ToBoolean(setting);
             }
         }
 
@@ -147,6 +162,27 @@ namespace DotNetNuke.Modules.Admin.Users
             }
         }
 
+        private ListItem AddSearchItem(string name)
+        {
+            string propertyName = Null.NullString;
+            if (Request.QueryString["filterProperty"] != null)
+            {
+                propertyName = Request.QueryString["filterProperty"];
+            }
+
+            string text = Localization.GetString(name, this.LocalResourceFile);
+            if (text == "")
+            {
+                text = name;
+            }
+            ListItem li = new ListItem(text, name);
+            if (name == propertyName)
+            {
+                li.Selected = true;
+            }
+            return li;
+        }
+
         /// <summary>
         /// BindData gets the users from the Database and binds them to the DataGrid
         /// </summary>
@@ -164,67 +200,75 @@ namespace DotNetNuke.Modules.Admin.Users
         /// <summary>
         /// BindData gets the users from the Database and binds them to the DataGrid
         /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <param name="searchText">Text to Search</param>
-        /// <param name="searchField">Field to Search</param>
+        /// <param name="SearchText">Text to Search</param>
+        /// <param name="SearchField">Field to Search</param>
         /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
-        private void BindData( string searchText, string searchField )
+        private void BindData(string SearchText, string SearchField)
         {
+
             CreateLetterSearch();
 
+            string strQuerystring = Null.NullString;
+
             // Get the list of registered users from the database
-            if( searchText == Localization.GetString( "OnLine" ) )
+            if (SearchText == Localization.GetString("OnLine"))
             {
                 Filter = "";
             }
-            else if( searchText == Localization.GetString( "Unauthorized" ) )
+            else if (SearchText == Localization.GetString("Unauthorized"))
             {
                 Filter = "";
             }
             else
             {
-                Filter = searchText;
+                Filter = SearchText;
             }
 
-            if( Filter == "" )
+            if (Filter != "")
             {
-                if( searchText == Localization.GetString( "Unauthorized" ) )
+                strQuerystring += "filter=" + Filter;
+            }
+
+            if (Filter == "")
+            {
+                if (SearchText == Localization.GetString("Unauthorized"))
                 {
-                    Users = UserController.GetUnAuthorizedUsers( UsersPortalId, false );
+                    Users = UserController.GetUnAuthorizedUsers(UsersPortalId, false);
                 }
-                else if( searchText == Localization.GetString( "OnLine" ) )
+                else if (SearchText == Localization.GetString("OnLine"))
                 {
-                    Users = UserController.GetOnlineUsers( UsersPortalId );
+                    Users = UserController.GetOnlineUsers(UsersPortalId);
                 }
                 // Hide pagingcontrol while diplaying UnAuthorized/Online members, since they are not used here
                 ctlPagingControl.Visible = false;
             }
-            else if( Filter == Localization.GetString( "All" ) )
+            else if (Filter == Localization.GetString("All"))
             {
-                Users = UserController.GetUsers( UsersPortalId, false, CurrentPage - 1, PageSize, ref TotalRecords );
+                Users = UserController.GetUsers(UsersPortalId, false, CurrentPage - 1, PageSize, ref TotalRecords);
             }
-            else if( Filter != "None" )
+            else if (Filter != "None")
             {
-                switch( searchField )
+                switch (SearchField)
                 {
-                    case "email":
-
-                        Users = UserController.GetUsersByEmail( UsersPortalId, false, Filter + "%", CurrentPage - 1, PageSize, ref TotalRecords );
+                    case "Email":
+                        Users = UserController.GetUsersByEmail(UsersPortalId, false, Filter + "%", CurrentPage - 1, PageSize, ref TotalRecords);
                         break;
-                    case "username":
-
-                        Users = UserController.GetUsersByUserName( UsersPortalId, false, Filter + "%", CurrentPage - 1, PageSize, ref TotalRecords );
+                    case "Username":
+                        Users = UserController.GetUsersByUserName(UsersPortalId, false, Filter + "%", CurrentPage - 1, PageSize, ref TotalRecords);
                         break;
                     default:
-
                         string propertyName = ddlSearchType.SelectedItem.Value;
-                        Users = UserController.GetUsersByProfileProperty( UsersPortalId, false, propertyName, Filter + "%", CurrentPage - 1, PageSize, ref TotalRecords );
+                        Users = UserController.GetUsersByProfileProperty(UsersPortalId, false, propertyName, Filter + "%", CurrentPage - 1, PageSize, ref TotalRecords);
+                        strQuerystring += "&filterProperty=" + propertyName;
                         break;
                 }
+            }
+            if (SuppressPager & ctlPagingControl.Visible)
+            {
+                ctlPagingControl.Visible = (PageSize < TotalRecords);
             }
 
             grdUsers.DataSource = Users;
@@ -234,12 +278,6 @@ namespace DotNetNuke.Modules.Admin.Users
             ctlPagingControl.PageSize = PageSize;
             ctlPagingControl.CurrentPage = CurrentPage;
 
-            string strQuerystring;
-            strQuerystring = "PageRecords=" + PageSize;
-            if( !String.IsNullOrEmpty(Filter) )
-            {
-                strQuerystring += "&filter=" + Filter;
-            }
             ctlPagingControl.QuerystringParams = strQuerystring;
             ctlPagingControl.TabID = TabId;
         }
@@ -295,18 +333,18 @@ namespace DotNetNuke.Modules.Admin.Users
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
-        public string DisplayAddress( object Unit, object Street, object City, object Region, object Country, object PostalCode )
-        {
-            string returnValue = String.Empty;
+        public string DisplayAddress(object Unit, object Street, object City, object Region, object Country, object PostalCode)
+{
+            string _Address = Null.NullString;
             try
             {
-                returnValue = Globals.FormatAddress( Unit, Street, City, Region, Country, PostalCode );
+                _Address = Globals.FormatAddress(Unit, Street, City, Region, Country, PostalCode);
             }
-            catch( Exception exc ) //Module failed to load
+            catch (Exception exc) //Module failed to load
             {
-                Exceptions.ProcessModuleLoadException( this, exc );
+                Exceptions.ProcessModuleLoadException(this, exc);
             }
-            return returnValue;
+            return _Address;
         }
 
         /// <summary>
@@ -318,22 +356,21 @@ namespace DotNetNuke.Modules.Admin.Users
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
-        public string DisplayEmail( string Email )
+        public string DisplayEmail(string Email)
         {
+            string _Email = Null.NullString;
             try
             {
-                string email = Null.NullString;
-                if( Email != null )
+                if (Email != null)
                 {
-                    email = HtmlUtils.FormatEmail( Email );
+                    _Email = HtmlUtils.FormatEmail(Email);
                 }
-                return email;
             }
-            catch( Exception exc ) //Module failed to load
+            catch (Exception exc) //Module failed to load
             {
-                Exceptions.ProcessModuleLoadException( this, exc );
+                Exceptions.ProcessModuleLoadException(this, exc);
             }
-            return String.Empty;
+            return _Email;
         }
 
         /// <summary>
@@ -345,25 +382,25 @@ namespace DotNetNuke.Modules.Admin.Users
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
-        public string DisplayDate( DateTime UserDate )
+        public string DisplayDate(System.DateTime UserDate)
         {
-            string returnValue = String.Empty;
+            string _Date = Null.NullString;
             try
             {
-                if( ! Null.IsNull( UserDate ) )
+                if (!(Null.IsNull(UserDate)))
                 {
-                    returnValue = UserDate.ToString();
+                    _Date = UserDate.ToString();
                 }
                 else
                 {
-                    returnValue = "";
+                    _Date = "";
                 }
             }
-            catch( Exception exc ) //Module failed to load
+            catch (Exception exc) //Module failed to load
             {
-                Exceptions.ProcessModuleLoadException( this, exc );
+                Exceptions.ProcessModuleLoadException(this, exc);
             }
-            return returnValue;
+            return _Date;
         }
 
         /// <summary>
@@ -375,25 +412,25 @@ namespace DotNetNuke.Modules.Admin.Users
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
-        protected string FormatURL( string strKeyName, string strKeyValue )
+        protected string FormatURL(string strKeyName, string strKeyValue)
         {
-            string returnValue = String.Empty;
+            string _URL = Null.NullString;
             try
             {
-                if( !String.IsNullOrEmpty(Filter) )
+                if (Filter != "")
                 {
-                    returnValue = EditUrl( strKeyName, strKeyValue, "", "filter=" + Filter );
+                    _URL = EditUrl(strKeyName, strKeyValue, "", "filter=" + Filter);
                 }
                 else
                 {
-                    returnValue = EditUrl( strKeyName, strKeyValue );
+                    _URL = EditUrl(strKeyName, strKeyValue);
                 }
             }
-            catch( Exception exc ) //Module failed to load
+            catch (Exception exc) //Module failed to load
             {
-                Exceptions.ProcessModuleLoadException( this, exc );
+                Exceptions.ProcessModuleLoadException(this, exc);
             }
-            return returnValue;
+            return _URL;
         }
 
         /// <summary>
@@ -405,30 +442,33 @@ namespace DotNetNuke.Modules.Admin.Users
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
-        protected string FilterURL( string filter, string currentPage )
+        protected string FilterURL(string Filter, string CurrentPage)
         {
-            if( !String.IsNullOrEmpty(filter) )
+            string _URL = Null.NullString;
+            if (Filter != "")
             {
-                if( !String.IsNullOrEmpty(currentPage) )
+                if (CurrentPage != "")
                 {
-                    return Globals.NavigateURL( TabId, "", "filter=" + filter, "currentpage=" + currentPage, "PageRecords=" + PageSize );
+                    _URL = Common.Globals.NavigateURL(TabId, "", "filter=" + Filter, "currentpage=" + CurrentPage);
                 }
                 else
                 {
-                    return Globals.NavigateURL( TabId, "", "filter=" + filter, "PageRecords=" + PageSize );
+                    _URL = Common.Globals.NavigateURL(TabId, "", "filter=" + Filter);
                 }
             }
             else
             {
-                if( !String.IsNullOrEmpty(currentPage) )
+                if (CurrentPage != "")
                 {
-                    return Globals.NavigateURL( TabId, "", "currentpage=" + currentPage, "PageRecords=" + PageSize );
+                    _URL = Common.Globals.NavigateURL(TabId, "", "currentpage=" + CurrentPage);
                 }
                 else
                 {
-                    return Globals.NavigateURL( TabId, "", "PageRecords=" + PageSize );
+                    _URL = Common.Globals.NavigateURL(TabId, "");
                 }
             }
+            return _URL;
+
         }
 
         /// <summary>
@@ -452,8 +492,8 @@ namespace DotNetNuke.Modules.Admin.Users
                 }
                 else
                 {
-                    string settingKey = "Column_" + header;
-                    object setting = UserModuleBase.GetSetting( PortalId, settingKey );
+                    string settingKey = "Column_" + header;                    
+                    object setting = UserModuleBase.GetSetting(UsersPortalId, settingKey);
                     isVisible = Convert.ToBoolean( setting );
                 }
 
@@ -533,7 +573,7 @@ namespace DotNetNuke.Modules.Admin.Users
                 if( Filter == "" )
                 {
                     //Get Default View
-                    object setting = UserModuleBase.GetSetting( PortalId, "Display_Mode" );
+                    object setting = UserModuleBase.GetSetting(UsersPortalId, "Display_Mode");
                     DisplayMode mode = (DisplayMode)Enum.Parse(typeof(DisplayMode), (string)setting);
                     switch( mode )
                     {
@@ -552,25 +592,20 @@ namespace DotNetNuke.Modules.Admin.Users
                     }
                 }
 
-                if( ! Page.IsPostBack )
+                if (!Page.IsPostBack)
                 {
-                    //Localize the Headers
-                    Localization.LocalizeDataGrid( ref grdUsers, this.LocalResourceFile );
-                    BindData( Filter, "username" );
-
                     //Load the Search Combo
-                    ddlSearchType.Items.Add( new ListItem( Localization.GetString( "Username.Header", this.LocalResourceFile ), "username" ) );
-                    ddlSearchType.Items.Add( new ListItem( Localization.GetString( "Email.Header", this.LocalResourceFile ), "email" ) );
-                    ProfilePropertyDefinitionCollection profileProperties = ProfileController.GetPropertyDefinitionsByPortal( PortalId );
-                    foreach( ProfilePropertyDefinition definition in profileProperties )
+                    ddlSearchType.Items.Add(AddSearchItem("Username"));
+                    ddlSearchType.Items.Add(AddSearchItem("Email"));
+                    ProfilePropertyDefinitionCollection profileProperties = ProfileController.GetPropertyDefinitionsByPortal(PortalId);
+                    foreach (ProfilePropertyDefinition definition in profileProperties)
                     {
-                        string text = Localization.GetString( definition.PropertyName, this.LocalResourceFile );
-                        if( text == "" )
-                        {
-                            text = definition.PropertyName;
-                        }
-                        ddlSearchType.Items.Add( new ListItem( text, definition.PropertyName ) );
+                        ddlSearchType.Items.Add(AddSearchItem(definition.PropertyName));
                     }
+
+                    //Localize the Headers
+                    Localization.LocalizeDataGrid(ref grdUsers, this.LocalResourceFile);
+                    BindData(Filter, ddlSearchType.SelectedItem.Value);
                 }
             }
             catch( Exception exc ) //Module failed to load

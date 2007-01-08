@@ -244,8 +244,6 @@ namespace DotNetNuke.Entities.Modules
         /// <summary>
         /// Gets the Default Settings for the Module
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         public static Hashtable GetDefaultSettings()
         {
             return GetSettings(new Hashtable());
@@ -254,29 +252,21 @@ namespace DotNetNuke.Entities.Modules
         /// <summary>
         /// Gets a Setting for the Module
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         public static object GetSetting(int portalId, string settingKey)
         {
             Hashtable settings = UserController.GetUserSettings(portalId);
-            object setting = settings[settingKey];
-            if (setting == null)
+            if (settings == null || settings[settingKey] == null)
             {
                 //Get Default Setting (and save them to the Database, as we obviously have no settings defined yet)
                 settings = GetDefaultSettings();
                 UpdateSettings(portalId, settings);
-
-                setting = settings[settingKey];
             }
-
-            return setting;
+            return settings[settingKey];
         }
 
         /// <summary>
         /// Gets the Settings for the Module
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         public static Hashtable GetSettings(Hashtable settings)
         {
             PortalSettings portalSettings = PortalController.GetCurrentPortalSettings();
@@ -332,9 +322,36 @@ namespace DotNetNuke.Entities.Modules
                     settings["Display_Mode"] = DisplayMode.None;
                 }
             }
+            if (settings["Display_SuppressPager"] == null)
+            {
+                settings["Display_SuppressPager"] = false;
+            }
             if (settings["Records_PerPage"] == null)
             {
                 settings["Records_PerPage"] = 10;
+            }
+            if (settings["Profile_DefaultVisibility"] == null)
+            {
+                settings["Profile_DefaultVisibility"] = UserVisibilityMode.AdminOnly;
+            }
+            else
+            {
+                try
+                {
+                    settings["Profile_DefaultVisibility"] = (UserVisibilityMode)Enum.Parse(typeof(UserVisibilityMode), (string)settings["Profile_DefaultVisibility"]);
+                }
+                catch (ArgumentException e)
+                {
+                    settings["Profile_DefaultVisibility"] = UserVisibilityMode.AdminOnly;
+                }
+            }
+            if (settings["Profile_DisplayVisibility"] == null)
+            {
+                settings["Profile_DisplayVisibility"] = true;
+            }
+            if (settings["Profile_ManageServices"] == null)
+            {
+                settings["Profile_ManageServices"] = true;
             }
             if (settings["Redirect_AfterLogin"] == null)
             {
@@ -356,13 +373,19 @@ namespace DotNetNuke.Entities.Modules
             {
                 settings["Security_CaptchaRegister"] = false;
             }
+            //Forces a valid profile on registration
             if (settings["Security_RequireValidProfile"] == null)
             {
                 settings["Security_RequireValidProfile"] = false;
             }
+            //Forces a valid profile on login
+            if (settings["Security_RequireValidProfileAtLogin"] == null)
+            {
+                settings["Security_RequireValidProfileAtLogin"] = true;
+            }
             if (settings["Security_UsersControl"] == null)
             {
-                if (UserController.GetUserCountByPortal(portalSettings.PortalId) > 1000)
+                if ((portalSettings != null) && (UserController.GetUserCountByPortal(portalSettings.PortalId) > 1000))
                 {
                     settings["Security_UsersControl"] = UsersControl.TextBox;
                 }
@@ -421,11 +444,9 @@ namespace DotNetNuke.Entities.Modules
         /// <summary>
         /// Updates the Settings for the Module
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         public static void UpdateSettings(int portalId, Hashtable settings)
         {
-            ModuleController moduleController = new ModuleController();
+            ModuleController objModuleController = new ModuleController();
 
             //Now save the values
             IDictionaryEnumerator settingsEnumerator = settings.GetEnumerator();
@@ -435,12 +456,16 @@ namespace DotNetNuke.Entities.Modules
                 string setting = Convert.ToString(settingsEnumerator.Value);
 
                 //This settings page is loaded from two locations - so make sure we use the correct ModuleId
-                ModuleInfo moduleInfo = moduleController.GetModuleByDefinition(portalId, "User Accounts");
-                moduleController.UpdateModuleSetting(moduleInfo.ModuleID, key, setting);
+                ModuleInfo objModule = objModuleController.GetModuleByDefinition(portalId, "User Accounts");
+                if (objModule != null)
+                {
+                    objModuleController.UpdateModuleSetting(objModule.ModuleID, key, setting);
+                }
             }
 
             //Clear the UserSettings Cache
             DataCache.RemoveCache(UserController.SettingsKey(portalId));
+
         }
     }
 }

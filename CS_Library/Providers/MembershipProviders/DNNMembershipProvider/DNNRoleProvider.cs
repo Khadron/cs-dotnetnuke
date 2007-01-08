@@ -1,4 +1,5 @@
 #region DotNetNuke License
+
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
 // by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
@@ -16,7 +17,9 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
+
 #endregion
+
 using System;
 using System.Collections;
 using System.Data;
@@ -42,7 +45,7 @@ namespace DotNetNuke.Security.Membership
 
         static DNNRoleProvider()
         {
-            DNNRoleProvider.dataProvider = DataProvider.Instance();
+            dataProvider = DataProvider.Instance();
         }
 
         /// <summary>
@@ -53,10 +56,10 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        private UserRoleInfo AddDNNUserRole(UserRoleInfo userRole)
+        private UserRoleInfo AddDNNUserRole( UserRoleInfo userRole )
         {
             //Add UserRole to DNN
-            userRole.UserRoleID = System.Convert.ToInt32( dataProvider.AddUserRole( userRole.PortalID, userRole.UserID, userRole.RoleID, userRole.EffectiveDate, userRole.ExpiryDate ) );
+            userRole.UserRoleID = Convert.ToInt32( dataProvider.AddUserRole( userRole.PortalID, userRole.UserID, userRole.RoleID, userRole.EffectiveDate, userRole.ExpiryDate ) );
             userRole = GetUserRole( userRole.PortalID, userRole.UserID, userRole.RoleID );
 
             return userRole;
@@ -74,7 +77,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override bool AddUserToRole(int portalId, UserInfo user, UserRoleInfo userRole)
+        public override bool AddUserToRole( int portalId, UserInfo user, UserRoleInfo userRole )
         {
             bool createStatus = true;
 
@@ -104,13 +107,13 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override bool CreateRole(int portalId, ref RoleInfo role)
+        public override bool CreateRole( int portalId, ref RoleInfo role )
         {
             bool createStatus = true;
 
             try
             {
-                role.RoleID = System.Convert.ToInt32( dataProvider.AddRole( role.PortalID, role.RoleGroupID, role.RoleName, role.Description, role.ServiceFee, role.BillingPeriod.ToString(), role.BillingFrequency, role.TrialFee, role.TrialPeriod, role.TrialFrequency, role.IsPublic, role.AutoAssignment, role.RSVPCode, role.IconFile ) );
+                role.RoleID = Convert.ToInt32( dataProvider.AddRole( role.PortalID, role.RoleGroupID, role.RoleName, role.Description, role.ServiceFee, role.BillingPeriod.ToString(), role.BillingFrequency, role.TrialFee, role.TrialPeriod, role.TrialFrequency, role.IsPublic, role.AutoAssignment, role.RSVPCode, role.IconFile ) );
             }
             catch( Exception )
             {
@@ -132,9 +135,9 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override int CreateRoleGroup(RoleGroupInfo roleGroup)
+        public override int CreateRoleGroup( RoleGroupInfo roleGroup )
         {
-            roleGroup.RoleGroupID = System.Convert.ToInt32( dataProvider.AddRoleGroup( roleGroup.PortalID, roleGroup.RoleGroupName, roleGroup.Description ) );
+            roleGroup.RoleGroupID = Convert.ToInt32( dataProvider.AddRoleGroup( roleGroup.PortalID, roleGroup.RoleGroupName, roleGroup.Description ) );
             return 1;
         }
 
@@ -148,7 +151,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override RoleInfo GetRole(int portalId, int roleId)
+        public override RoleInfo GetRole( int portalId, int roleId )
         {
             return ( (RoleInfo)CBO.FillObject( dataProvider.GetRole( roleId, portalId ), typeof( RoleInfo ) ) );
         }
@@ -163,7 +166,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override RoleInfo GetRole(int portalId, string roleName)
+        public override RoleInfo GetRole( int portalId, string roleName )
         {
             return ( (RoleInfo)CBO.FillObject( dataProvider.GetRoleByName( portalId, roleName ), typeof( RoleInfo ) ) );
         }
@@ -177,7 +180,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override RoleGroupInfo GetRoleGroup(int portalId, int roleGroupId)
+        public override RoleGroupInfo GetRoleGroup( int portalId, int roleGroupId )
         {
             return ( (RoleGroupInfo)CBO.FillObject( dataProvider.GetRoleGroup( portalId, roleGroupId ), typeof( RoleGroupInfo ) ) );
         }
@@ -208,7 +211,7 @@ namespace DotNetNuke.Security.Membership
             string[] roles = new string[] {};
             string strRoles = "";
 
-            ArrayList arrRoles = GetRoles(portalId);
+            ArrayList arrRoles = GetRoles( portalId );
             foreach( RoleInfo role in arrRoles )
             {
                 strRoles += role.RoleName + "|";
@@ -242,7 +245,7 @@ namespace DotNetNuke.Security.Membership
             {
                 while( dr.Read() )
                 {
-                    strRoles += System.Convert.ToString( dr["RoleName"] ) + "|";
+                    strRoles += Convert.ToString( dr["RoleName"] ) + "|";
                 }
             }
             finally
@@ -313,7 +316,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override UserRoleInfo GetUserRole(int portalId, int userId, int roleId)
+        public override UserRoleInfo GetUserRole( int portalId, int userId, int roleId )
         {
             return ( (UserRoleInfo)CBO.FillObject( dataProvider.GetUserRole( portalId, userId, roleId ), typeof( UserRoleInfo ) ) );
         }
@@ -370,7 +373,7 @@ namespace DotNetNuke.Security.Membership
         /// </history>
         public override ArrayList GetUserRolesByRoleName( int portalId, string roleName )
         {
-            return GetUserRoles(portalId, null, roleName);
+            return GetUserRoles( portalId, null, roleName );
         }
 
         /// <summary>
@@ -385,7 +388,7 @@ namespace DotNetNuke.Security.Membership
         /// </history>
         public override ArrayList GetUsersByRoleName( int portalId, string roleName )
         {
-            return CBO.FillCollection(DNNRoleProvider.dataProvider.GetUsersByRolename(portalId, roleName), typeof(UserInfo));
+            return CBO.FillCollection( dataProvider.GetUsersByRolename( portalId, roleName ), typeof( UserInfo ) );
         }
 
         /// <summary>
@@ -396,7 +399,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override void DeleteRole(int portalId, ref RoleInfo role)
+        public override void DeleteRole( int portalId, ref RoleInfo role )
         {
             dataProvider.DeleteRole( role.RoleID );
         }
@@ -408,7 +411,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override void DeleteRoleGroup(RoleGroupInfo roleGroup)
+        public override void DeleteRoleGroup( RoleGroupInfo roleGroup )
         {
             dataProvider.DeleteRoleGroup( roleGroup.RoleGroupID );
         }
@@ -424,7 +427,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override void RemoveUserFromRole(int portalId, UserInfo user, UserRoleInfo userRole)
+        public override void RemoveUserFromRole( int portalId, UserInfo user, UserRoleInfo userRole )
         {
             dataProvider.DeleteUserRole( userRole.UserID, userRole.RoleID );
         }
@@ -436,7 +439,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override void UpdateRole(RoleInfo role)
+        public override void UpdateRole( RoleInfo role )
         {
             dataProvider.UpdateRole( role.RoleID, role.RoleGroupID, role.Description, role.ServiceFee, role.BillingPeriod.ToString(), role.BillingFrequency, role.TrialFee, role.TrialPeriod, role.TrialFrequency, role.IsPublic, role.AutoAssignment, role.RSVPCode, role.IconFile );
         }
@@ -448,7 +451,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override void UpdateRoleGroup(RoleGroupInfo roleGroup)
+        public override void UpdateRoleGroup( RoleGroupInfo roleGroup )
         {
             dataProvider.UpdateRoleGroup( roleGroup.RoleGroupID, roleGroup.RoleGroupName, roleGroup.Description );
         }
@@ -460,7 +463,7 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	12/15/2005	created
         /// </history>
-        public override void UpdateUserRole(UserRoleInfo userRole)
+        public override void UpdateUserRole( UserRoleInfo userRole )
         {
             dataProvider.UpdateUserRole( userRole.UserRoleID, userRole.EffectiveDate, userRole.ExpiryDate );
         }

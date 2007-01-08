@@ -19,7 +19,6 @@
 #endregion
 using System;
 using System.Collections;
-using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -44,9 +43,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
     /// <summary>
     /// The Template PortalModuleBase is used to export a Portal as a Template
     /// </summary>
-    /// <returns></returns>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
@@ -71,9 +67,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// </history>
         private void AddSkinXml( XmlDocument xml, XmlNode nodeToAdd, string skinRoot, string skinLevel, int id )
         {
-            XmlElement newnode;
-            SkinController sk = new SkinController();
-            SkinInfo skin;
             string elementprefix;
 
             if( skinRoot == SkinInfo.RootSkin )
@@ -89,17 +82,17 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
             {
                 case "portal":
 
-                    skin = SkinController.GetSkin( skinRoot, id, SkinType.Portal );
+                    SkinInfo skin = SkinController.GetSkin( skinRoot, id, SkinType.Portal );
                     if( skin != null )
                     {
-                        newnode = xml.CreateElement( elementprefix + "src" );
+                        XmlElement newnode = xml.CreateElement( elementprefix + "src" );
                         newnode.InnerText = skin.SkinSrc;
                         nodeToAdd.AppendChild( newnode );
                     }
                     skin = SkinController.GetSkin( skinRoot, id, SkinType.Admin );
                     if( skin != null )
                     {
-                        newnode = xml.CreateElement( elementprefix + "srcadmin" );
+                        XmlElement newnode = xml.CreateElement( elementprefix + "srcadmin" );
                         newnode.InnerText = skin.SkinSrc;
                         nodeToAdd.AppendChild( newnode );
                     }
@@ -168,46 +161,43 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// <param name="nodeFiles">Node to add the serialized objects</param>
         /// <param name="objportal">Portal to serialize</param>
         /// <param name="folderPath">The folder containing the files</param>
+        /// <param name="zipFile"></param>
         /// <remarks>
         /// The serialization uses the xml attributes defined in FileInfo class.
         /// </remarks>
         /// <history>
         /// 	[cnurse]	11/08/2004	Created
         ///     [cnurse]    05/20/2004  Extracted adding of file to zip to new FileSystemUtils method
-        public void SerializeFiles( XmlDocument xmlTemplate, XmlNode nodeFiles, PortalInfo objportal, string folderPath, ZipOutputStream zipFile )
+        /// </history>
+        
+        public void SerializeFiles(XmlDocument xmlTemplate, XmlNode nodeFiles, PortalInfo objportal, string folderPath, ref ZipOutputStream zipFile)
         {
-            XmlSerializer xser;
-            StringWriter sw;
-            XmlNode nodeFile;
-            XmlNode newnode;
-            XmlDocument xmlFile;
-            FileInfo objFile;
             FileController objFiles = new FileController();
-            ArrayList arrFiles = objFiles.GetFilesByFolder( objportal.PortalID, folderPath );
-            string filePath;
+            FolderController objFolders = new FolderController();
+            FolderInfo objFolder = objFolders.GetFolder(PortalId, folderPath);
+            ArrayList arrFiles = FileSystemUtils.GetFilesByFolder(objportal.PortalID, objFolder.FolderID);
 
-            xser = new XmlSerializer( typeof( FileInfo ) );
+            XmlSerializer xser = new XmlSerializer(typeof(FileInfo));
 
-            foreach( FileInfo tempLoopVar_objFile in arrFiles )
+            foreach (FileInfo objFile in arrFiles)
             {
-                objFile = tempLoopVar_objFile;
                 // verify that the file exists on the file system
-                filePath = PortalSettings.HomeDirectoryMapPath + folderPath + objFile.FileName;
-                if( File.Exists( filePath ) )
+                string filePath = PortalSettings.HomeDirectoryMapPath + folderPath + objFile.FileName;
+                if (File.Exists(filePath))
                 {
-                    sw = new StringWriter();
-                    xser.Serialize( sw, objFile );
+                    StringWriter sw = new StringWriter();
+                    xser.Serialize(sw, objFile);
 
                     //Add node to template
-                    xmlFile = new XmlDocument();
-                    xmlFile.LoadXml( sw.GetStringBuilder().ToString() );
-                    nodeFile = xmlFile.SelectSingleNode( "file" );
-                    nodeFile.Attributes.Remove( nodeFile.Attributes["xmlns:xsd"] );
-                    nodeFile.Attributes.Remove( nodeFile.Attributes["xmlns:xsi"] );
-                    nodeFiles.AppendChild( xmlTemplate.ImportNode( nodeFile, true ) );
+                    XmlDocument xmlFile = new XmlDocument();
+                    xmlFile.LoadXml(sw.GetStringBuilder().ToString());
+                    XmlNode nodeFile = xmlFile.SelectSingleNode("file");
+                    nodeFile.Attributes.Remove(nodeFile.Attributes["xmlns:xsd"]);
+                    nodeFile.Attributes.Remove(nodeFile.Attributes["xmlns:xsi"]);
+                    nodeFiles.AppendChild(xmlTemplate.ImportNode(nodeFile, true));
 
-                    ZipOutputStream zip = zipFile;
-                    FileSystemUtils.AddToZip( ref zip, filePath, objFile.FileName, folderPath );
+                    FileSystemUtils.AddToZip(ref zipFile, filePath, objFile.FileName, folderPath);
+
                 }
             }
         }
@@ -216,47 +206,40 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// Serializes all Folders including Permissions
         /// </summary>
         /// <param name="xmlTemplate">Reference to XmlDocument context</param>
-        /// <param name="nodeFiles">Node to add the serialized objects</param>
+        /// <param name="nodeFolders"></param>
         /// <param name="objportal">Portal to serialize</param>
+        /// <param name="zipFile"></param>
         /// <remarks>
         /// The serialization uses the xml attributes defined in FolderInfo class.
         /// </remarks>
         /// <history>
         /// 	[cnurse]	11/08/2004	Created
+        /// </history>        
         public void SerializeFolders( XmlDocument xmlTemplate, XmlNode nodeFolders, PortalInfo objportal, ref ZipOutputStream zipFile )
         {
-            XmlSerializer xser;
-            StringWriter sw;
-            XmlNode nodeFolder;
-            XmlNode newnode;
-            XmlDocument xmlFolder;
-            FolderInfo objFolder;
             FolderController objFolders = new FolderController();
             ArrayList arrFolders = objFolders.GetFoldersByPortal( objportal.PortalID );
 
-            xser = new XmlSerializer( typeof( FolderInfo ) );
-            foreach( FolderInfo tempLoopVar_objFolder in arrFolders )
+            XmlSerializer xser = new XmlSerializer( typeof( FolderInfo ) );
+            foreach( FolderInfo objFolder in arrFolders )
             {
-                objFolder = tempLoopVar_objFolder;
-                sw = new StringWriter();
+                StringWriter sw = new StringWriter();
                 xser.Serialize( sw, objFolder );
 
-                xmlFolder = new XmlDocument();
+                XmlDocument xmlFolder = new XmlDocument();
                 xmlFolder.LoadXml( sw.GetStringBuilder().ToString() );
-                nodeFolder = xmlFolder.SelectSingleNode( "folder" );
+                XmlNode nodeFolder = xmlFolder.SelectSingleNode( "folder" );
                 nodeFolder.Attributes.Remove( nodeFolder.Attributes["xmlns:xsd"] );
                 nodeFolder.Attributes.Remove( nodeFolder.Attributes["xmlns:xsi"] );
 
                 //Serialize Folder Permissions
-                XmlNode nodePermissions;
-                nodePermissions = xmlTemplate.CreateElement( "folderpermissions" );
+                XmlNode nodePermissions = xmlTemplate.CreateElement( "folderpermissions" );
                 SerializeFolderPermissions( xmlTemplate, nodePermissions, objportal, objFolder.FolderPath );
                 nodeFolder.AppendChild( xmlFolder.ImportNode( nodePermissions, true ) );
 
                 // Serialize files
-                XmlNode nodeFiles;
-                nodeFiles = xmlTemplate.CreateElement( "files" );
-                SerializeFiles( xmlTemplate, nodeFiles, objportal, objFolder.FolderPath, zipFile );
+                XmlNode nodeFiles = xmlTemplate.CreateElement( "files" );
+                SerializeFiles( xmlTemplate, nodeFiles, objportal, objFolder.FolderPath, ref zipFile );
                 nodeFolder.AppendChild( xmlFolder.ImportNode( nodeFiles, true ) );
 
                 nodeFolders.AppendChild( xmlTemplate.ImportNode( nodeFolder, true ) );
@@ -267,7 +250,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// Serializes all Folder Permissions
         /// </summary>
         /// <param name="xmlTemplate">Reference to XmlDocument context</param>
-        /// <param name="nodeFiles">Node to add the serialized objects</param>
+        /// <param name="nodePermissions"></param>
         /// <param name="objportal">Portal to serialize</param>
         /// <param name="folderPath">The folder containing the files</param>
         /// <remarks>
@@ -275,18 +258,15 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// </remarks>
         /// <history>
         /// 	[cnurse]	11/08/2004	Created
+        /// </history> 
         public void SerializeFolderPermissions( XmlDocument xmlTemplate, XmlNode nodePermissions, PortalInfo objportal, string folderPath )
         {
-            XmlElement nodePermission;
-            XmlElement newNode;
-            FolderPermissionInfo objPermission;
             FolderPermissionController objPermissions = new FolderPermissionController();
             ArrayList arrPermissions = objPermissions.GetFolderPermissionsByFolder( objportal.PortalID, folderPath );
 
-            foreach( FolderPermissionInfo tempLoopVar_objPermission in arrPermissions )
+            foreach( FolderPermissionInfo objPermission in arrPermissions )
             {
-                objPermission = tempLoopVar_objPermission;
-                nodePermission = xmlTemplate.CreateElement( "permission" );
+                XmlElement nodePermission = xmlTemplate.CreateElement( "permission" );
                 nodePermission.AppendChild( XmlUtils.CreateElement( xmlTemplate, "permissioncode", objPermission.PermissionCode ) );
                 nodePermission.AppendChild( XmlUtils.CreateElement( xmlTemplate, "permissionkey", objPermission.PermissionKey ) );
                 nodePermission.AppendChild( XmlUtils.CreateElement( xmlTemplate, "rolename", objPermission.RoleName ) );
@@ -307,29 +287,25 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// </remarks>
         /// <history>
         /// 	[VMasanas]	23/09/2004	Created
+        /// </history>
         public Hashtable SerializeRoles( XmlDocument xmlTemplate, XmlNode nodeRoles, PortalInfo objportal )
         {
             XmlSerializer xser;
-            StringWriter sw;
-            XmlNode nodeRole;
-            XmlNode newnode;
-            XmlDocument xmlRole;
-            RoleInfo objrole;
             RoleController objroles = new RoleController();
             Hashtable hRoles = new Hashtable();
 
             xser = new XmlSerializer( typeof( RoleInfo ) );
-            foreach( RoleInfo tempLoopVar_objrole in objroles.GetPortalRoles( objportal.PortalID ) )
+            foreach( RoleInfo objrole in objroles.GetPortalRoles( objportal.PortalID ) )
             {
-                objrole = tempLoopVar_objrole;
-                sw = new StringWriter();
+                StringWriter sw = new StringWriter();
                 xser.Serialize( sw, objrole );
 
-                xmlRole = new XmlDocument();
+                XmlDocument xmlRole = new XmlDocument();
                 xmlRole.LoadXml( sw.GetStringBuilder().ToString() );
-                nodeRole = xmlRole.SelectSingleNode( "role" );
+                XmlNode nodeRole = xmlRole.SelectSingleNode( "role" );
                 nodeRole.Attributes.Remove( nodeRole.Attributes["xmlns:xsd"] );
                 nodeRole.Attributes.Remove( nodeRole.Attributes["xmlns:xsi"] );
+                XmlNode newnode;
                 if( objrole.RoleID == objportal.AdministratorRoleId )
                 {
                     newnode = xmlRole.CreateElement( "roletype" );
@@ -354,9 +330,9 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
             }
 
             // Add default DNN roles
-            hRoles.Add(Globals.glbRoleAllUsers, "All");
-            hRoles.Add(Globals.glbRoleUnauthUser, "Unauthenticated");
-            hRoles.Add(Globals.glbRoleSuperUser, "Super");
+            hRoles.Add( Globals.glbRoleAllUsers, "All" );
+            hRoles.Add( Globals.glbRoleUnauthUser, "Unauthenticated" );
+            hRoles.Add( Globals.glbRoleSuperUser, "Super" );
 
             return hRoles;
         }
@@ -377,35 +353,27 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// </history>
         public void SerializeTabs( XmlDocument xmlTemplate, XmlNode nodeTabs, PortalInfo objportal, Hashtable hRoles )
         {
-            XmlSerializer xserTabs;
-            XmlSerializer xserModules;
-            StringWriter sw;
-            XmlNode nodeTab;
-            XmlNode tempnode;
-            XmlNode newnode;
-            XmlDocument xmlTab;
-            TabInfo objtab;
             TabController objtabs = new TabController();
 
             //supporting object to build the tab hierarchy
             Hashtable hTabs = new Hashtable();
 
-            xserTabs = new XmlSerializer( typeof( TabInfo ) );
-            foreach( TabInfo tempLoopVar_objtab in objtabs.GetTabs( objportal.PortalID ) )
+            XmlSerializer xserTabs = new XmlSerializer( typeof( TabInfo ) );
+            foreach( TabInfo objtab in objtabs.GetTabs( objportal.PortalID ) )
             {
-                objtab = tempLoopVar_objtab;
                 //if not an admin tab & not deleted
                 if( objtab.TabOrder < 10000 && ! objtab.IsDeleted )
                 {
-                    sw = new StringWriter();
+                    StringWriter sw = new StringWriter();
                     xserTabs.Serialize( sw, objtab );
 
-                    xmlTab = new XmlDocument();
+                    XmlDocument xmlTab = new XmlDocument();
                     xmlTab.LoadXml( sw.GetStringBuilder().ToString() );
-                    nodeTab = xmlTab.SelectSingleNode( "tab" );
+                    XmlNode nodeTab = xmlTab.SelectSingleNode( "tab" );
                     nodeTab.Attributes.Remove( nodeTab.Attributes["xmlns:xsd"] );
                     nodeTab.Attributes.Remove( nodeTab.Attributes["xmlns:xsi"] );
 
+                    XmlNode newnode;
                     if( objtab.TabID == objportal.SplashTabId )
                     {
                         newnode = xmlTab.CreateElement( "tabtype" );
@@ -438,7 +406,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                         nodeTab.AppendChild( newnode );
 
                         // save tab as: ParentTabName/CurrentTabName
-                        hTabs.Add( objtab.TabID, hTabs[objtab.ParentId].ToString() + "/" + objtab.TabName );
+                        hTabs.Add( objtab.TabID, hTabs[objtab.ParentId] + "/" + objtab.TabName );
                     }
                     else
                     {
@@ -448,46 +416,45 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
 
                     // Serialize modules
                     XmlNode nodePanes;
-                    XmlNode nodePane;
-                    XmlNode nodeName;
-                    XmlNode nodeModules;
-                    XmlNode nodeModule;
-                    XmlDocument xmlModule;
                     nodePanes = nodeTab.AppendChild( xmlTab.CreateElement( "panes" ) );
-                    ModuleInfo objmodule;
                     ModuleController objmodules = new ModuleController();
                     DesktopModuleController objDesktopModules = new DesktopModuleController();
-                    ModuleDefinitionController objModuleDef = new ModuleDefinitionController();
+                    ModuleDefinitionController objModuleDefController = new ModuleDefinitionController();
 
-                    xserModules = new XmlSerializer( typeof( ModuleInfo ) );
-                    foreach( ModuleInfo tempLoopVar_objmodule in objmodules.GetPortalTabModules( objtab.PortalID, objtab.TabID ) )
+                    XmlSerializer xserModules = new XmlSerializer( typeof( ModuleInfo ) );
+                    foreach( ModuleInfo objmodule in objmodules.GetPortalTabModules( objtab.PortalID, objtab.TabID ) )
                     {
-                        objmodule = tempLoopVar_objmodule;
                         if( ! objmodule.IsDeleted )
                         {
                             sw = new StringWriter();
                             xserModules.Serialize( sw, objmodule );
 
-                            xmlModule = new XmlDocument();
+                            XmlDocument xmlModule = new XmlDocument();
                             xmlModule.LoadXml( sw.GetStringBuilder().ToString() );
-                            nodeModule = xmlModule.SelectSingleNode( "module" );
+                            XmlNode nodeModule = xmlModule.SelectSingleNode( "module" );
                             nodeModule.Attributes.Remove( nodeModule.Attributes["xmlns:xsd"] );
                             nodeModule.Attributes.Remove( nodeModule.Attributes["xmlns:xsi"] );
 
                             if( nodePanes.SelectSingleNode( "descendant::pane[name='" + objmodule.PaneName + "']" ) == null )
                             {
                                 // new pane found
-                                nodePane = xmlModule.CreateElement( "pane" );
-                                nodeName = nodePane.AppendChild( xmlModule.CreateElement( "name" ) );
+                                XmlNode nodePane = xmlModule.CreateElement( "pane" );
+                                XmlNode nodeName = nodePane.AppendChild( xmlModule.CreateElement( "name" ) );
                                 nodeName.InnerText = objmodule.PaneName;
                                 nodePane.AppendChild( xmlModule.CreateElement( "modules" ) );
                                 nodePanes.AppendChild( xmlTab.ImportNode( nodePane, true ) );
                             }
-                            nodeModules = nodePanes.SelectSingleNode( "descendant::pane[name='" + objmodule.PaneName + "']/modules" );
+                            XmlNode nodeModules = nodePanes.SelectSingleNode( "descendant::pane[name='" + objmodule.PaneName + "']/modules" );
                             newnode = xmlModule.CreateElement( "definition" );
 
-                            newnode.InnerText = objDesktopModules.GetDesktopModule( objModuleDef.GetModuleDefinition( objmodule.ModuleDefID ).DesktopModuleID ).ModuleName;
-                            nodeModule.AppendChild( newnode );
+                            ModuleDefinitionInfo objModuleDef = objModuleDefController.GetModuleDefinition(objmodule.ModuleDefID);
+                            newnode.InnerText = objDesktopModules.GetDesktopModule(objModuleDef.DesktopModuleID).ModuleName;
+                            nodeModule.AppendChild(newnode);
+
+                            //Add Module Definition Info
+                            XmlNode nodeDefinition = xmlModule.CreateElement("moduledefinition");
+                            nodeDefinition.InnerText = objModuleDef.FriendlyName;
+                            nodeModule.AppendChild(nodeDefinition);
 
                             if( chkContent.Checked )
                             {
@@ -507,16 +474,12 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// </summary>
         /// <param name="nodeModule">Node where to add the content</param>
         /// <param name="objModule">Module</param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[vmasanas]	25/10/2004	Created
         /// </history>
         private void AddContent( XmlNode nodeModule, ModuleInfo objModule )
         {
-            XmlAttribute xmlattr;
-
-            if( !String.IsNullOrEmpty(objModule.BusinessControllerClass) && objModule.IsPortable )
+            if( !String.IsNullOrEmpty( objModule.BusinessControllerClass ) && objModule.IsPortable )
             {
                 try
                 {
@@ -524,11 +487,11 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     if( objObject is IPortable )
                     {
                         string Content = Convert.ToString( ( (IPortable)objObject ).ExportModule( objModule.ModuleID ) );
-                        if( !String.IsNullOrEmpty(Content) )
+                        if( !String.IsNullOrEmpty( Content ) )
                         {
                             // add attributes to XML document
                             XmlNode newnode = nodeModule.OwnerDocument.CreateElement( "content" );
-                            xmlattr = nodeModule.OwnerDocument.CreateAttribute( "type" );
+                            XmlAttribute xmlattr = nodeModule.OwnerDocument.CreateAttribute( "type" );
                             xmlattr.Value = CleanName( objModule.FriendlyName );
                             newnode.Attributes.Append( xmlattr );
                             xmlattr = nodeModule.OwnerDocument.CreateAttribute( "version" );
@@ -564,10 +527,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[VMasanas]	23/09/2004	Created
         /// </history>
@@ -593,8 +552,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// <summary>
         /// Exports the selected portal
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         /// <remarks>
         /// Template will be saved in Portals\_default folder.
         /// An extension of .template will be added to filename if not entered
@@ -607,27 +564,19 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         {
             try
             {
-                XmlSerializer xser;
-                StringWriter sw;
-                XmlDocument xmlTemplate;
-                XmlNode nodePortal;
-                Hashtable hRoles;
-                ZipOutputStream resourcesFile;
-
                 if( ! Page.IsValid )
                 {
                     return;
                 }
 
-                string filename;
-                filename = Globals.HostMapPath + txtTemplateName.Text;
+                string filename = Globals.HostMapPath + txtTemplateName.Text;
                 if( ! filename.EndsWith( ".template" ) )
                 {
                     filename += ".template";
                 }
 
-                xmlTemplate = new XmlDocument();
-                nodePortal = xmlTemplate.AppendChild( xmlTemplate.CreateElement( "portal" ) );
+                XmlDocument xmlTemplate = new XmlDocument();
+                XmlNode nodePortal = xmlTemplate.AppendChild( xmlTemplate.CreateElement( "portal" ) );
                 nodePortal.Attributes.Append( XmlUtils.CreateAttribute( xmlTemplate, "version", "3.0" ) );
 
                 //Add template description
@@ -636,9 +585,8 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                 nodePortal.AppendChild( node );
 
                 //Serialize portal settings
-                PortalInfo objportal;
                 PortalController objportals = new PortalController();
-                objportal = objportals.GetPortal( Convert.ToInt32( cboPortals.SelectedValue ) );
+                PortalInfo objportal = objportals.GetPortal( Convert.ToInt32( cboPortals.SelectedValue ) );
 
                 // Sync db and filesystem before exporting so all required files are found
                 FileSystemUtils.Synchronize( objportal.PortalID, objportal.AdministratorRoleId, objportal.HomeDirectoryMapPath );
@@ -646,25 +594,23 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                 SerializeSettings( xmlTemplate, nodePortal, objportal );
 
                 //Serialize Roles
-                XmlNode nodeRoles;
-                nodeRoles = nodePortal.AppendChild( xmlTemplate.CreateElement( "roles" ) );
-                hRoles = SerializeRoles( xmlTemplate, nodeRoles, objportal );
+                XmlNode nodeRoles = nodePortal.AppendChild( xmlTemplate.CreateElement( "roles" ) );
+                Hashtable hRoles = SerializeRoles( xmlTemplate, nodeRoles, objportal );
 
                 // Serialize tabs
-                XmlNode nodeTabs;
-                nodeTabs = nodePortal.AppendChild( xmlTemplate.CreateElement( "tabs" ) );
+                XmlNode nodeTabs = nodePortal.AppendChild( xmlTemplate.CreateElement( "tabs" ) );
                 SerializeTabs( xmlTemplate, nodeTabs, objportal, hRoles );
 
                 if( chkContent.Checked )
                 {
                     //Create Zip File to hold files
-                    resourcesFile = new ZipOutputStream( File.Create( filename + ".resources" ) );
+                    ZipOutputStream resourcesFile = new ZipOutputStream( File.Create( filename + ".resources" ) );
                     resourcesFile.SetLevel( 6 );
 
                     // Serialize folders (while adding files to zip file)
                     XmlNode nodeFolders;
                     nodeFolders = nodePortal.AppendChild( xmlTemplate.CreateElement( "folders" ) );
-                    SerializeFolders( xmlTemplate, nodeFolders, objportal,ref  resourcesFile );
+                    SerializeFolders( xmlTemplate, nodeFolders, objportal, ref resourcesFile );
 
                     //Finish and Close Zip file
                     resourcesFile.Finish();
@@ -679,6 +625,5 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                 Exceptions.ProcessModuleLoadException( this, exc );
             }
         }
-
     }
 }

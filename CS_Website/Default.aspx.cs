@@ -175,12 +175,19 @@ namespace DotNetNuke.Framework
             {
                 Comment += "\r\n" + "<!--**********************************************************************************-->" 
                            + "\r\n" + "<!-- DotNetNuke - http://www.dotnetnuke.com                                           -->" 
-                           + "\r\n" + "<!-- Copyright (c) 2002-2006                                                          -->" 
+                           + "\r\n" + "<!-- Copyright (c) 2002-2007                                                          -->" 
                            + "\r\n" + "<!-- by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )   -->" 
                            + "\r\n" + "<!--**********************************************************************************-->" 
                            + "\r\n";
             }
             Page.Header.Controls.AddAt( 0, new LiteralControl( Comment ) );
+
+            if (PortalSettings.ActiveTab.PageHeadText != Null.NullString)
+            {
+                HtmlMeta pageMeta = new HtmlMeta();
+                pageMeta.Content = PortalSettings.ActiveTab.PageHeadText;
+                Page.Header.Controls.Add(pageMeta);
+            }
 
             if( PortalSettings.ActiveTab.PageHeadText != Null.NullString )
             {

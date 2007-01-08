@@ -41,6 +41,7 @@ namespace DotNetNuke.UI.WebControls
         private Style _EditControlStyle;
         private Unit _EditControlWidth;
         private PropertyEditorMode _EditMode;
+        private EditorDisplayMode _DisplayMode;
         private bool _EnableClientValidation;
         private Style _ErrorStyle;
         private ArrayList _Fields;
@@ -128,6 +129,18 @@ namespace DotNetNuke.UI.WebControls
             set
             {
                 this._EditMode = value;
+            }
+        }
+
+        public EditorDisplayMode DisplayMode
+        {
+            get
+            {
+                return _DisplayMode;
+            }
+            set
+            {
+                _DisplayMode = value;
             }
         }
 
@@ -533,6 +546,7 @@ namespace DotNetNuke.UI.WebControls
             editor.DataSource = DataSource;
             editor.EditorInfoAdapter = adapter;
             editor.DataField = name;
+            editor.EditorDisplayMode = DisplayMode;
             editor.EditorDisplayMode = EditorDisplayMode.Div;
             editor.EnableClientValidation = EnableClientValidation;
             editor.EditMode = EditMode;
@@ -568,7 +582,7 @@ namespace DotNetNuke.UI.WebControls
                 TableCell cell = new TableCell();
                 row.Cells.Add(cell);
 
-                editor.EditorDisplayMode = EditorDisplayMode.Div;
+                editor.EditorDisplayMode = DisplayMode;
                 editor.EnableClientValidation = EnableClientValidation;
                 editor.EditMode = EditMode;
                 editor.LabelWidth = LabelWidth;
@@ -631,7 +645,8 @@ namespace DotNetNuke.UI.WebControls
         /// <Summary>CreateEditor creates the control collection.</Summary>
         protected virtual void CreateEditor()
         {
-            Table tbl;
+
+            Table tbl = null;
             string[] arrGroups = new string[0];
 
             Controls.Clear();
@@ -663,29 +678,34 @@ namespace DotNetNuke.UI.WebControls
                 {
                     foreach (string strGroup in arrGroups)
                     {
-                        if (GroupByMode == GroupByMode.Section)
+                        if (GroupByMode == UI.WebControls.GroupByMode.Section)
                         {
                             //Create a new table
                             tbl = new Table();
                             tbl.ID = "tbl" + strGroup;
 
-                            //Add a Header
-                            AddHeader(ref tbl, strGroup);
-
                             foreach (object obj in UnderlyingDataSource)
                             {
-                                if (GetCategory(obj) == strGroup.Trim(null))
+                                if (GetCategory(obj) == strGroup.Trim())
                                 {
                                     //Add the Editor Row to the Table
                                     if (GetRowVisibility(obj))
                                     {
+                                        if (tbl.Rows.Count == 0)
+                                        {
+                                            //Add a Header
+                                            AddHeader(ref tbl, strGroup);
+                                        }
                                         AddEditorRow(ref tbl, obj);
                                     }
                                 }
                             }
 
-                            //Add the Table to the Controls Collection
-                            Controls.Add(tbl);
+                            //Add the Table to the Controls Collection (if it has any rows)
+                            if (tbl.Rows.Count > 0)
+                            {
+                                Controls.Add(tbl);
+                            }
                         }
                     }
                 }

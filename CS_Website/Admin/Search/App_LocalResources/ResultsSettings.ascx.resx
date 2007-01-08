@@ -43,7 +43,7 @@
 		<value>Maximum Search Results:</value>
 	</data>
 	<data name="plResults.Help">
-		<value>Enter the maximum number of results to display</value>
+		<value>Enter the maximum number of results to display (leave blank for no maximum)</value>
 	</data>
 	<data name="plTitle.Text">
 		<value>Maximum Title Length:</value>
@@ -67,7 +67,7 @@
 		<value>Results per Page:</value>
 	</data>
 	<data name="plPage.Help">
-		<value>Enter the number of results to display on each page.</value>
+		<value>Enter the number of results to display on each page (leave blank to use 10 as default)</value>
 	</data>
 	<data name="ControlTitle_settings.Text">
 		<value>Search Results Settings</value>
@@ -100,4 +100,7 @@
 		&lt;/ul&gt;
 </value>
 	</data>
+  <data name="Validation.ErrorMessage">
+    <value>&lt;br&gt;Must be an integer greater than zero.</value>
+  </data>
 </root>

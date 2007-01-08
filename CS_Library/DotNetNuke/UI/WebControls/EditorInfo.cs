@@ -19,6 +19,7 @@
 #endregion
 using System.Web.UI.WebControls;
 using DotNetNuke.Common.Lists;
+using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Users;
 
 namespace DotNetNuke.UI.WebControls
@@ -220,21 +221,23 @@ namespace DotNetNuke.UI.WebControls
         /// GetEditor gets the appropriate Editor based on ID properties
         /// </Summary>
         /// <Param name="editorType">The Id of the Editor</Param>
-        public static string GetEditor( int editorType )
+        public static string GetEditor(int editorType)
         {
             string editor = "UseSystemType";
 
-            ListController objListController = new ListController();
-            ListEntryInfo definitionEntry = objListController.GetListEntryInfo(editorType);
-
-            if ((definitionEntry != null) && (definitionEntry.ListName == "DataType"))
+            if (editorType != Null.NullInteger)
             {
-                editor = definitionEntry.Text;
+                ListController objListController = new ListController();
+                ListEntryInfo definitionEntry = objListController.GetListEntryInfo(editorType);
+
+                if ((definitionEntry != null) && (definitionEntry.ListName == "DataType"))
+                {
+                    editor = definitionEntry.Text;
+                }
             }
 
             return editor;
-            
-            
+
         }
     }
 }

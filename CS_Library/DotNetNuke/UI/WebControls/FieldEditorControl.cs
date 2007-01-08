@@ -417,6 +417,7 @@ namespace DotNetNuke.UI.WebControls
                 propLabel.ShowHelp = false;
             }
             propLabel.Caption = editInfo.Name;
+            propLabel.HelpText = editInfo.Name;
             propLabel.ResourceKey = editInfo.ResourceKey;
             if (editInfo.LabelMode == LabelMode.Left || editInfo.LabelMode == LabelMode.Right)
             {
@@ -602,6 +603,13 @@ namespace DotNetNuke.UI.WebControls
                 editorCell.Width = EditControlWidth;
             }
 
+            VisibilityControl visibility = BuildVisibility(editInfo);
+            if (visibility != null)
+            {
+                editorCell.Controls.Add(new LiteralControl("&nbsp;&nbsp;"));
+                editorCell.Controls.Add(visibility);
+            }
+
             //Add cells to table
             TableRow editorRow = new TableRow();
             TableRow labelRow = new TableRow();
@@ -671,6 +679,7 @@ namespace DotNetNuke.UI.WebControls
                 reqValidator.ControlStyle.CopyFrom(ErrorStyle);
                 reqValidator.EnableClientScript = EnableClientValidation;
                 reqValidator.Attributes.Add("resourcekey", editInfo.ResourceKey + ".Required");
+                reqValidator.ErrorMessage = editInfo.Name + " is Required";
                 Validators.Add(reqValidator);
             }
 
@@ -685,6 +694,7 @@ namespace DotNetNuke.UI.WebControls
                 regExValidator.ControlStyle.CopyFrom(ErrorStyle);
                 regExValidator.EnableClientScript = EnableClientValidation;
                 regExValidator.Attributes.Add("resourcekey", editInfo.ResourceKey + ".Validation");
+                regExValidator.ErrorMessage = editInfo.Name + " is Invalid";
                 Validators.Add(regExValidator);
             }
         }
@@ -752,6 +762,7 @@ namespace DotNetNuke.UI.WebControls
                 while (valEnumerator.MoveNext())
                 {
                     IValidator validator = (IValidator)valEnumerator.Current;
+                    validator.Validate();
                     if (!validator.IsValid)
                     {
                         _IsValid = false;

@@ -1,4 +1,5 @@
 #region DotNetNuke License
+
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
 // by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
@@ -16,12 +17,14 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
+
 #endregion
+
 using System;
-using System.Diagnostics;
 using System.Web.UI.WebControls;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Exceptions;
+using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Modules.SearchInput
 {
@@ -32,9 +35,6 @@ namespace DotNetNuke.Modules.SearchInput
     /// The InputSettings ModuleSettingsBase is used to manage the
     /// settings for the Search Input Module
     /// </summary>
-    /// <returns></returns>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     ///		[cnurse]	11/30/2004	converted to SettingsBase
     /// </history>
@@ -47,8 +47,6 @@ namespace DotNetNuke.Modules.SearchInput
         /// BindSearchResults gets the Search Results Modules available and binds them to the
         /// drop-down combo
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         ///		[cnurse]	11/30/2004	converted to SettingsBase
         /// </history>
@@ -75,8 +73,6 @@ namespace DotNetNuke.Modules.SearchInput
         /// <summary>
         /// LoadSettings loads the settings from the Database and displays them
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         ///		[cnurse]	11/30/2004	converted to SettingsBase
         /// </history>
@@ -96,12 +92,14 @@ namespace DotNetNuke.Modules.SearchInput
                     {
                         cboModule.Items.FindByValue( SearchTabID ).Selected = true;
                     }
+                    if( cboModule.Items.Count > 0 )
+                    {
+                        txtModule.Text = cboModule.SelectedItem.Text;
+                    }
                     else
                     {
-                        //Select first one
-                        cboModule.SelectedIndex = 0;
+                        txtModule.Text = Localization.GetString( "NoSearchModule", LocalResourceFile );
                     }
-                    txtModule.Text = cboModule.SelectedItem.Text;
 
                     if( ShowGoImage != null )
                     {
@@ -123,8 +121,6 @@ namespace DotNetNuke.Modules.SearchInput
         /// <summary>
         /// UpdateSettings saves the modified settings to the Database
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         ///		[cnurse]	11/30/2004	converted to SettingsBase
         /// </history>
@@ -147,7 +143,5 @@ namespace DotNetNuke.Modules.SearchInput
                 Exceptions.ProcessModuleLoadException( this, exc );
             }
         }
-
-
     }
 }

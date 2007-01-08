@@ -34,8 +34,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
     /// The ModuleDefinitions PortalModuleBase is used to manage the modules
     /// attached to this portal
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
@@ -45,8 +43,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// BindData fetches the data from the database and updates the controls
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -77,8 +73,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// Page_Load runs when the control is loaded.
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -104,13 +98,29 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
 
                 ModuleInfo FileManagerModule = ( new ModuleController() ).GetModuleByDefinition( Null.NullInteger, "File Manager" );
 
-                string[] @params = new string[3];
+                string[] additionalParameters = new string[3];
 
-                @params[0] = "mid=" + FileManagerModule.ModuleID;
-                @params[1] = "ftype=" + UploadType.Module.ToString();
-                @params[2] = "rtab=" + this.TabId;
-                actions.Add( GetNextActionID(), Localization.GetString( "ModuleUpload.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "", Globals.NavigateURL( FileManagerModule.TabID, "Edit", @params ), false, SecurityAccessLevel.Host, true, false );
+                additionalParameters[0] = "mid=" + FileManagerModule.ModuleID;
+                additionalParameters[1] = "ftype=" + UploadType.Module;
+                additionalParameters[2] = "rtab=" + this.TabId;
+                actions.Add( GetNextActionID(), Localization.GetString( "ModuleUpload.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "", Globals.NavigateURL( FileManagerModule.TabID, "Edit", additionalParameters ), false, SecurityAccessLevel.Host, true, false );
                 return actions;
+            }
+        }
+
+        /// <summary>
+        /// UpgradeURL returns the imageurl for the upgrade button for the module
+        /// </summary>
+        public string UpgradeURL(string Version, string ModuleName)
+        {
+            if (Convert.ToString(Globals.HostSettings["CheckUpgrade"]) != "N" & ModuleName != "" & Version != "")
+            {
+
+                return Globals.glbAppUrl + "/upgrade.aspx?version=" + Version.Replace(".", "") + "&modulename=" + ModuleName;
+            }
+            else
+            {
+                return "~/spacer.gif";
             }
         }
     }

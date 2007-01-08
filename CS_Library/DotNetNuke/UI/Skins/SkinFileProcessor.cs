@@ -700,46 +700,48 @@ namespace DotNetNuke.UI.Skins
             /// This procedure formats the @Control directive and prepends it and all
             /// registration directives to the file contents.
             /// </remarks>
-            public string PrependASCXDirectives( ArrayList Registrations )
+            public string PrependASCXDirectives(ArrayList Registrations)
             {
-                string messages = "";
-                string prefix = "";
+                string Messages = "";
+                string Prefix = "";
 
                 // if the skin source is an HTML document, extract the content within the <body> tags
                 string strPattern = "<\\s*body[^>]*>(?<skin>.*)<\\s*/\\s*body\\s*>";
-                Match objMatch;
-                objMatch = Regex.Match( this.Contents, strPattern, RegexOptions.IgnoreCase );
-                if( objMatch.Groups[1].Value != "" )
+                Match objMatch = Regex.Match(this.Contents, strPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                if (objMatch.Groups[1].Value != "")
                 {
                     this.Contents = objMatch.Groups[1].Value;
                 }
 
                 // format and save @Control directive
-                if( this.SkinRoot == SkinInfo.RootSkin )
+                if (this.SkinRoot == SkinInfo.RootSkin)
                 {
-                    prefix += "<%@ Control language=\"vb\" CodeBehind=\"~/admin/" + SkinRoot + "/skin.vb\" AutoEventWireup=\"false\" Explicit=\"True\" Inherits=\"DotNetNuke.UI.Skins.Skin\" %>" + "\r\n";
+                        //Prefix += "<%@ Control language=\"vb\" CodeBehind=\"~/admin/" + SkinRoot + "/skin.vb\" AutoEventWireup=\"false\" Explicit=\"True\" Inherits=\"DotNetNuke.UI.Skins.Skin\" %>" + Environment.NewLine;
+                        Prefix += "<%@ Control language=\"c#\" CodeBehind=\"~/Admin/" + SkinRoot + "/Skin.cs\" AutoEventWireup=\"true\" Inherits=\"DotNetNuke.UI.Skins.Skin\" %>" + Environment.NewLine;
                 }
-                else if( this.SkinRoot == SkinInfo.RootContainer )
+                else if (this.SkinRoot == SkinInfo.RootContainer)
                 {
-                    prefix += "<%@ Control language=\"vb\" CodeBehind=\"~/admin/" + SkinRoot + "/container.vb\" AutoEventWireup=\"false\" Explicit=\"True\" Inherits=\"DotNetNuke.UI.Containers.Container\" %>" + "\r\n";
+                        //Prefix += "<%@ Control language=\"vb\" CodeBehind=\"~/admin/" + SkinRoot + "/container.vb\" AutoEventWireup=\"false\" Explicit=\"True\" Inherits=\"DotNetNuke.UI.Containers.Container\" %>" + Environment.NewLine;
+                        Prefix += "<%@ Control language=\"c#\" CodeBehind=\"~/Admin/" + SkinRoot + "/Container.cs\" AutoEventWireup=\"true\" Inherits=\"DotNetNuke.UI.Containers.Container\" %>" + Environment.NewLine;
                 }
 
-                messages += SkinController.FormatMessage( CONTROL_DIR, HttpUtility.HtmlEncode( prefix ), 2, false );
+                Messages += SkinController.FormatMessage(CONTROL_DIR, HttpUtility.HtmlEncode(Prefix), 2, false);
 
                 // add preformatted Control Registrations
-                string Item;
-                foreach( string tempLoopVar_Item in Registrations )
+                foreach (string Item in Registrations)
                 {
-                    Item = tempLoopVar_Item;
-                    messages += SkinController.FormatMessage( CONTROL_REG, HttpUtility.HtmlEncode( Item ), 2, false );
-                    prefix += Item;
+                    Messages += SkinController.FormatMessage(CONTROL_REG, HttpUtility.HtmlEncode(Item), 2, false);
+                    Prefix += Item;
                 }
 
                 // update file contents to include ascx header information
-                this.Contents = prefix + this.Contents;
+                this.Contents = Prefix + this.Contents;
 
-                return messages;
+                return Messages;
+
             }
+
+        
 
             private string Read( string FileName )
             {

@@ -42,8 +42,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
     /// The EditModuleDefinition PortalModuleBase is used to edit a Module
     /// Definition
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
@@ -55,15 +53,11 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
     {
         private int DesktopModuleId;
 
-        /// <summary>
-        /// </summary>
         /// <param name="strRoot">The Root folder to parse from</param>
         /// <param name="blnRecurse">True to iterate sub-folders</param>
         /// <remarks>
         /// Loads the cboSource control list with locations of controls.
         /// </remarks>
-        /// <history>
-        /// </history>
         private void BindManifestList( string strRoot, bool blnRecurse )
         {
             if( Directory.Exists( Request.MapPath( Globals.ApplicationPath + "/" + strRoot ) ) )
@@ -89,8 +83,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// DeleteParentFolders deletes parent folders that are empty
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	11/17/2005	created
         /// </history>
@@ -124,8 +116,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// DeleteSubFolders deletes sub-folders
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	11/17/2005	created
         /// </history>
@@ -152,13 +142,9 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
             }
         }
 
-        /// <summary>
-        /// </summary>
         /// <remarks>
         /// Loads the cboSource control list with locations of controls.
         /// </remarks>
-        /// <history>
-        /// </history>
         private void InstallManifest( string strManifest )
         {
             XmlDocument doc = new XmlDocument();
@@ -261,8 +247,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// LoadDefinitions fetches the control data from the database
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="ModuleDefId">The Module definition Id</param>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
@@ -287,9 +271,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                 }
             }
 
-            //Localize Grid
-            Localization.LocalizeDataGrid( ref grdControls, this.LocalResourceFile );
-
             grdControls.DataSource = arrModuleControls;
             grdControls.DataBind();
 
@@ -300,8 +281,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// LoadDefinitions fetches the definitions from the database and updates the controls
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -332,8 +311,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// LoadCacheProperties loads the Module Definitions Default Cache Time properties
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	4/21/2005   created
         /// </history>
@@ -381,8 +358,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// Page_Load runs when the control is loaded.
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -405,6 +380,9 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
 
                 if( Page.IsPostBack == false )
                 {
+                    //Localize Grid
+                    Localization.LocalizeDataGrid(ref grdControls, this.LocalResourceFile);
+
                     ClientAPI.AddButtonConfirm( cmdDelete, Localization.GetString( "DeleteItem" ) );
                     ClientAPI.AddButtonConfirm( cmdDeleteDefinition, Localization.GetString( "DeleteItem" ) );
 
@@ -507,8 +485,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// cmdAddControl_Click runs when the Add Control Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -521,8 +497,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// cmdAddDefinition_Click runs when the Add Definition Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -587,8 +561,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// cmdCancel_Click runs when the Cancel Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -608,8 +580,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// cboDefinitions_SelectedIndexChanged runs when item in the Definitions combo is changed
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -624,8 +594,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// cmdDelete_Click runs when the Delete Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -773,8 +741,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// cmdDeleteDefinition_Click runs when the Delete Definition Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -791,8 +757,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// cmdUpdate_Click runs when the Update Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -903,8 +867,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// cmdUpdateCacheTime_Click runs when the Update Cache Time Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	4/20/2005	Created
         /// </history>

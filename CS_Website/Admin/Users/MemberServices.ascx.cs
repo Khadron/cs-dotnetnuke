@@ -31,8 +31,6 @@ namespace DotNetNuke.Modules.Admin.Security
     /// <summary>
     /// The MemberServices UserModuleBase is used to manage a User's services
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	03/03/2006
     /// </history>
@@ -49,9 +47,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// </history>
         public override void DataBind()
         {
-            //Localize the Headers
-            Localization.LocalizeDataGrid( ref grdServices, this.LocalResourceFile );
-
             if( Services == 1 )
             {
                 RoleController objRoles = new RoleController();
@@ -90,8 +85,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// FormatURL correctly formats a URL
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         ///	<returns>The correctly formatted url</returns>
         /// <history>
         /// 	[cnurse]	9/13/2004	Updated to reflect design changes for Help, 508 support
@@ -122,8 +115,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// FormatPrice formats the Fee amount and filters out null-values
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         ///	<param name="price">The price to format</param>
         ///	<returns>The correctly formatted price</returns>
         /// <history>
@@ -154,8 +145,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// FormatPeriod formats the Period and filters out null-values
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         ///	<param name="period">The period to format</param>
         ///	<returns>The correctly formatted period</returns>
         /// <history>
@@ -182,8 +171,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// FormatExpiryDate formats the expiry date and filters out null-values
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         ///	<param name="DateTime">The date to format</param>
         ///	<returns>The correctly formatted date</returns>
         /// <history>
@@ -210,8 +197,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// ServiceText gets the Service Text (Cancel or Subscribe)
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         ///	<param name="Subscribed">The service state</param>
         ///	<returns>The correctly formatted text</returns>
         /// <history>
@@ -242,8 +227,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// ServiceURL correctly formats the Subscription url
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         ///	<param name="strKeyName">The key name for the service</param>
         ///	<param name="strKeyValue">The key value for the service</param>
         ///	<param name="objServiceFee">The service fee</param>
@@ -310,8 +293,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	03/13/2006
         /// </history>
@@ -357,7 +338,8 @@ namespace DotNetNuke.Modules.Admin.Security
                 // If this is the first visit to the page, bind the role data to the datalist
                 if( Page.IsPostBack == false )
                 {
-                    //DataBind()
+                    //Localize the Headers
+                    Localization.LocalizeDataGrid(ref grdServices, this.LocalResourceFile);
                 }
             }
             catch( Exception exc ) //Module failed to load
@@ -369,8 +351,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// cmdRSVP_Click runs when the Subscribe to RSVP Code Roles Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	01/19/2006  created
         /// </history>

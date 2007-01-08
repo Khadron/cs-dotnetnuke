@@ -340,23 +340,48 @@ namespace DotNetNuke.Common.Utilities
         /// <summary>
         /// WriteFeedback outputs a Feedback Line during Install/Upgrade etc
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="response">The ASP.Net Response object</param>
+        /// <param name="indent">The indent for this feedback message</param>
         /// <param name="message">The feedback message</param>
-        public static void WriteFeedback(HttpResponse response, int indent, string message)
+        /// <history>
+        ///		[cnurse]	02/21/2005	created
+        ///     [gve] 	    07/14/2006	added extra overload (showtime) to show or hide the upgrade runtime
+        /// </history>
+        public static void WriteFeedback(HttpResponse response, Int32 indent, string message)
+        {
+            WriteFeedback(response, indent, message, true);
+        }
+
+        /// <summary>
+        /// WriteFeedback outputs a Feedback Line during Install/Upgrade etc
+        /// </summary>
+        /// <param name="response">The ASP.Net Response object</param>
+        /// <param name="indent">The indent for this feedback message</param>
+        /// <param name="message">The feedback message</param>
+        /// <param name="showtime">Show the timespan before the message</param>
+        /// <history>
+        ///		[cnurse]	02/21/2005	created
+        ///     [gve] 	    07/14/2006	added extra overload (showtime) to show or hide the upgrade runtime
+        /// </history>
+        public static void WriteFeedback(HttpResponse response, Int32 indent, string message, bool showtime)
         {
             bool showInstallationMessages = true;
-            if (Config.GetSetting("ShowInstallationMessages") != null)
+            string ConfigSetting = Config.GetSetting("ShowInstallationMessages");
+            if (ConfigSetting != null)
             {
-                showInstallationMessages = bool.Parse(Convert.ToString(Config.GetSetting("ShowInstallationMessages")));
+                showInstallationMessages = bool.Parse(ConfigSetting);
             }
             if (showInstallationMessages)
             {
                 //Get the time of the feedback
                 TimeSpan timeElapsed = Upgrade.RunTime;
 
-                string strMessage = timeElapsed.ToString().Substring(0, timeElapsed.ToString().LastIndexOf(".") + 4) + " -";
+                string strMessage = "";
+                if (showtime)
+                {
+                    strMessage += timeElapsed.ToString().Substring(0, timeElapsed.ToString().LastIndexOf(".") + 4) + " -";
+                }
+
                 for (int i = 0; i <= indent; i++)
                 {
                     strMessage += "&nbsp;";
@@ -365,6 +390,7 @@ namespace DotNetNuke.Common.Utilities
                 HttpContext.Current.Response.Write(strMessage);
                 HttpContext.Current.Response.Flush();
             }
+
         }
 
         /// <summary>
@@ -451,6 +477,30 @@ namespace DotNetNuke.Common.Utilities
                     break;
             }
             response.Flush();
+        }
+
+        public static void WriteSuccessError(HttpResponse response, bool bSuccess)
+        {
+            if (bSuccess)
+            {
+                WriteFeedback(response, 0, "<font color='green'>Success</font><br>", false);
+            }
+            else
+            {
+                WriteFeedback(response, 0, "<font color='red'>Error!</font><br>", false);
+            }
+        }
+
+        public static void WriteScriptSuccessError(HttpResponse response, bool bSuccess, string strLogFile)
+        {
+            if (bSuccess)
+            {
+                WriteFeedback(response, 0, "<font color='green'>Success</font><br>", false);
+            }
+            else
+            {
+                WriteFeedback(response, 0, "<font color='red'>Error! (see" + strLogFile + " for more information)</font><br>", false);
+            }
         }
     }
 }

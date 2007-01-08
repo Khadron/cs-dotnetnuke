@@ -367,6 +367,13 @@
 								<td valign="top"><asp:checkbox id="chkEnableHelp" cssclass="NormalTextBox" runat="server"></asp:checkbox></td>
 							</tr>
 							<tr>
+                                <td class="SubHead" width="150">
+                                    <dnn:Label ID="plAutoSync" runat="server" ControlName="chkAutoSync" Text="Enable File System Auto-Sync?" />
+                                </td>
+                                <td valign="top">
+                                    <asp:CheckBox ID="chkAutoSync" runat="server" CssClass="NormalTextBox" /></td>
+                            </tr>
+                            <tr>
 								<td colspan="2">
 								</td>
 							</tr>

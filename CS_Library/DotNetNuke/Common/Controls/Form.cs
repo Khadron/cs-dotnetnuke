@@ -30,36 +30,36 @@ namespace DotNetNuke.Common.Controls
     /// </summary>
     public class Form : HtmlForm
     {
-        protected override void RenderAttributes( HtmlTextWriter writer )
+        protected override void RenderAttributes(HtmlTextWriter writer)
         {
             StringWriter stringWriter = new StringWriter();
-            HtmlTextWriter htmlWriter = new HtmlTextWriter( stringWriter );
-            base.RenderAttributes( htmlWriter );
+            HtmlTextWriter htmlWriter = new HtmlTextWriter(stringWriter);
+            base.RenderAttributes(htmlWriter);
             string html = stringWriter.ToString();
 
             // Locate and replace action attribute
-            int startPoint = html.IndexOf( "action=\"" );
-            if( startPoint >= 0 ) //does action exist?
+            int startPoint = html.IndexOf("action=\"");
+            if (startPoint >= 0) //does action exist?
             {
-                int endPoint = html.IndexOf( "\"", startPoint + 8 ) + 1;
-                html = html.Remove( startPoint, endPoint - startPoint );
+                int endPoint = html.IndexOf("\"", startPoint + 8) + 1;
+                html = html.Remove(startPoint, endPoint - startPoint);
                 PortalSecurity objSecurity = new PortalSecurity();
-                html = html.Insert( startPoint, "action=\"" + objSecurity.InputFilter( HttpContext.Current.Request.RawUrl, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets ) + "\"" );
+                html = html.Insert(startPoint, "action=\"" + objSecurity.InputFilter(HttpContext.Current.Request.RawUrl, PortalSecurity.FilterFlag.NoScripting | PortalSecurity.FilterFlag.NoAngleBrackets | PortalSecurity.FilterFlag.NoMarkup) + "\"");
             }
 
             //' Locate and replace id attribute
-            if( base.ID == null )
+            if (base.ID != null)
             {
-                startPoint = html.IndexOf( "id=\"" );
-                if( startPoint >= 0 ) //does id exist?
+                startPoint = html.IndexOf("id=\"");
+                if (startPoint >= 0) //does id exist?
                 {
-                    int EndPoint = html.IndexOf( "\"", startPoint + 4 ) + 1;
-                    html = html.Remove( startPoint, EndPoint - startPoint );
-                    html = html.Insert( startPoint, "id=\"" + base.ClientID + "\"" );
+                    int EndPoint = html.IndexOf("\"", startPoint + 4) + 1;
+                    html = html.Remove(startPoint, EndPoint - startPoint);
+                    html = html.Insert(startPoint, "id=\"" + base.ClientID + "\"");
                 }
             }
 
-            writer.Write( html );
+            writer.Write(html);
         }
     }
 }

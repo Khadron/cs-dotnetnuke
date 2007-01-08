@@ -177,32 +177,6 @@ namespace DotNetNuke.UI.WebControls
             }
         }
 
-        private bool DisplayControl( DNNNodeCollection objNodes )
-        {
-            if( objNodes != null && objNodes.Count > 0 && m_tabPreview == false )
-            {
-                DNNNode objRootNode = objNodes[0];
-                if( objRootNode.HasNodes && objRootNode.DNNNodes.Count == 0 )
-                {
-                    //if has pending node then display control
-                    return true;
-                }
-                else if( objRootNode.DNNNodes.Count > 0 )
-                {
-                    //verify that at least one child is not a break
-                    foreach( DNNNode childNode in objRootNode.DNNNodes )
-                    {
-                        if( ! childNode.IsBreak )
-                        {
-                            //Found a child so make Visible
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
         private void ProcessNodes( DNNNode objParent )
         {
             if( !String.IsNullOrEmpty( objParent.JSFunction) )

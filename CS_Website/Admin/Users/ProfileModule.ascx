@@ -22,8 +22,7 @@
 				editcontrolwidth="525px" 
 				labelwidth="150px"
 				width="675px" 
-				groupByMode="Section" 
-				showVisibility="<%# IsUser %>" />
+				groupByMode="Section" />
 		</td>
 	</tr>
 	<tr>

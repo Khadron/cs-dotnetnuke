@@ -31,14 +31,15 @@ namespace DotNetNuke.UI.WebControls
     [ToolboxData( "<{0}:SettingsEditorControl runat=server></{0}:SettingsEditorControl>" )]
     public class SettingsEditorControl : PropertyEditorControl
     {
-        private object _CustomEditors;
+        private Hashtable _CustomEditors;
+        private Hashtable _Visibility;
         private IEnumerable _UnderlyingDataSource;
 
         /// <Summary>
         /// Gets and sets the CustomEditors that are used by this control
         /// </Summary>
         [Browsable( false )]
-        public object CustomEditors
+        public Hashtable CustomEditors
         {
             get
             {
@@ -47,6 +48,25 @@ namespace DotNetNuke.UI.WebControls
             set
             {
                 this._CustomEditors = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets and sets the Visibility values that are used by this control
+        /// </summary>
+        /// <value>The CustomEditors object</value>
+        /// <history>
+        /// 	[cnurse]	08/21/2006	Created
+        /// </history>
+        public Hashtable Visibility
+        {
+            get
+            {
+                return _Visibility;
+            }
+            set
+            {
+                _Visibility = value;
             }
         }
 
@@ -67,9 +87,17 @@ namespace DotNetNuke.UI.WebControls
         /// GetRowVisibility determines the Visibility of a row in the table
         /// </Summary>
         /// <Param name="obj">The property</Param>
-        protected override bool GetRowVisibility( object obj )
+        protected override bool GetRowVisibility(object obj)
         {
-            return true;
+            SettingInfo info = (SettingInfo)obj;
+            bool _IsVisible = true;
+
+            if ((Visibility != null) && (Visibility[info.Name] != null))
+            {
+                _IsVisible = Convert.ToBoolean(Visibility[info.Name]);
+            }
+
+            return _IsVisible;
         }
 
         /// <Summary>
@@ -78,22 +106,22 @@ namespace DotNetNuke.UI.WebControls
         private ArrayList GetSettings()
         {
             Hashtable settings = (Hashtable)DataSource;
-            Hashtable editors = (Hashtable)CustomEditors;
             ArrayList arrSettings = new ArrayList();
             IDictionaryEnumerator settingsEnumerator = settings.GetEnumerator();
-            while( settingsEnumerator.MoveNext() )
+            while (settingsEnumerator.MoveNext())
             {
-                SettingInfo info = new SettingInfo( settingsEnumerator.Key, settingsEnumerator.Value );
-                if( ( editors != null ) && ( editors[settingsEnumerator.Key] != null ) )
+                SettingInfo info = new SettingInfo(settingsEnumerator.Key, settingsEnumerator.Value);
+                if ((CustomEditors != null) && (CustomEditors[settingsEnumerator.Key] != null))
                 {
-                    info.Editor = Convert.ToString( editors[settingsEnumerator.Key] );
+                    info.Editor = Convert.ToString(CustomEditors[settingsEnumerator.Key]);
                 }
-                arrSettings.Add( info );
+                arrSettings.Add(info);
             }
 
-            arrSettings.Sort( new SettingNameComparer() );
+            arrSettings.Sort(new SettingNameComparer());
 
             return arrSettings;
+
         }
 
         protected override void AddEditorRow( ref Table tbl, object obj )

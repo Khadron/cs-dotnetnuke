@@ -17,8 +17,11 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
+using System;
 using System.Xml.Serialization;
 using DotNetNuke.Common.Utilities;
+using DotNetNuke.Entities.Portals;
 
 namespace DotNetNuke.Services.FileSystem
 {
@@ -31,6 +34,7 @@ namespace DotNetNuke.Services.FileSystem
         private bool _isProtected;
         private int _portalID;
         private int _storageLocation;
+        private DateTime _lastUpdated;
 
         public FolderInfo()
         {
@@ -55,12 +59,12 @@ namespace DotNetNuke.Services.FileSystem
         {
             get
             {
-                string _folderName = DotNetNuke.Common.Utilities.FileSystemUtils.RemoveTrailingSlash(_folderPath);
-                if (_folderName.Length > 0 && _folderName.LastIndexOf("/") > -1)
+                string folderName = FileSystemUtils.RemoveTrailingSlash(_folderPath);
+                if (!String.IsNullOrEmpty( folderName) && folderName.LastIndexOf("/") > -1)
                 {
-                    _folderName = _folderName.Substring(_folderName.LastIndexOf("/") + 1);
+                    folderName = folderName.Substring(folderName.LastIndexOf("/") + 1);
                 }
-                return _folderName;
+                return folderName;
             }
         }
 
@@ -102,6 +106,41 @@ namespace DotNetNuke.Services.FileSystem
                 this._isProtected = value;
             }
         }
+
+        [XmlIgnore()]
+        public DateTime LastUpdated
+        {
+            get
+            {
+                return _lastUpdated;
+            }
+            set
+            {
+                _lastUpdated = value;
+            }
+        }
+
+        [XmlIgnore()]
+        public string PhysicalPath
+        {
+            get
+            {
+                PortalSettings portalSettings = PortalController.GetCurrentPortalSettings();
+                string physicalPath;
+
+                if (PortalID == Null.NullInteger)
+                {
+                    physicalPath = DotNetNuke.Common.Globals.HostMapPath + FolderPath;
+                }
+                else
+                {
+                    physicalPath = portalSettings.HomeDirectoryMapPath + FolderPath;
+                }
+
+                return physicalPath.Replace("/", "\\");
+            }
+        }
+
 
         [XmlIgnoreAttribute()]
         public int PortalID

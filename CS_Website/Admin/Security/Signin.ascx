@@ -41,7 +41,8 @@
 			<td id="tdPassword" runat="server" colspan="2" align="center"><asp:Linkbutton id="cmdPassword" resourcekey="cmdForgotPassword" cssclass="CommandButton" text="Forgot Password?" runat="server" width="100%" OnClick="cmdPassword_Click" /></td>
 		</tr>
 		<tr>
-			<td width="160"><asp:label id="lblLogin" cssclass="Normal" runat="server" /></td>
+            <td align="center" colspan="2">
+                <asp:Label ID="lblLogin" runat="server" CssClass="Normal"></asp:Label></td>
 		</tr>
 	</table>
 </asp:panel>

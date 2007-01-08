@@ -48,4 +48,7 @@
 	<data name="ModuleHelp.Text">
 		<value>&lt;h1&gt;About the Search Input Module&lt;/h1&gt;&lt;p&gt;The Search Input module provides the ability to submit a search to a given search results module.&lt;/p&gt;</value>
 	</data>
+  <data name="NoSearchModule.Text">
+    <value>Search Results module cannot be found. To display the results of the search you will have to add the Search Results to any page.</value>
+  </data>
 </root>

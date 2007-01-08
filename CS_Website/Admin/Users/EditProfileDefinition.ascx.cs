@@ -32,8 +32,6 @@ namespace DotNetNuke.Modules.Admin.Users
     /// The EditProfileDefinition PortalModuleBase is used to manage a Profile Property
     /// for a portal
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	02/22/2006  Created
     /// </history>
@@ -201,7 +199,7 @@ namespace DotNetNuke.Modules.Admin.Users
             try
             {
                 //Check if Property Editor has been updated by user
-                if( Properties.IsDirty )
+                if( Properties.IsDirty && Properties.IsValid )
                 {
                     //Declare Definition and "retrieve" it from the Property Editor
                     ProfilePropertyDefinition propertyDefinition;

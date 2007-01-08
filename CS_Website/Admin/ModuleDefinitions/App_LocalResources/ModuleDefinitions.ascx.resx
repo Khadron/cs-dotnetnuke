@@ -51,8 +51,8 @@
 	<data name="Version.Header">
 		<value>Version</value>
 	</data>
-	<data name="Premium.Header">
-		<value>Premium</value>
+	<data name="Upgraded.Header">
+		<value>Upgraded?</value>
 	</data>
 	<data name="ControlTitle_.Text">
 		<value>Module Definitions</value>

@@ -18,7 +18,6 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 using System;
-using System.Diagnostics;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Services.Exceptions;
@@ -30,9 +29,6 @@ namespace DotNetNuke.Modules.Admin.Portals
     /// <summary>
     /// The EditPortalAlias PortalModuleBase is used to edit a portal alias
     /// </summary>
-    /// <returns></returns>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	01/17/2005	documented
     /// </history>
@@ -41,9 +37,6 @@ namespace DotNetNuke.Modules.Admin.Portals
         /// <summary>
         /// BindData fetches the data from the database and updates the controls
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	01/17/2005	documented
         /// </history>
@@ -90,9 +83,6 @@ namespace DotNetNuke.Modules.Admin.Portals
         /// <summary>
         /// SetDeleteVisibility determines whether the Delete button should be displayed
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	01/17/2005	documented
         /// </history>
@@ -111,9 +101,6 @@ namespace DotNetNuke.Modules.Admin.Portals
         /// <summary>
         /// Page_Load runs when the control is loaded.
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	01/17/2005	documented
         /// </history>
@@ -145,9 +132,6 @@ namespace DotNetNuke.Modules.Admin.Portals
         /// <summary>
         /// cmdCancel_Click runs when the Cancel button is clicked
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	01/17/2005	documented
         /// </history>
@@ -159,9 +143,6 @@ namespace DotNetNuke.Modules.Admin.Portals
         /// <summary>
         /// cmdDelete_Click runs when the Delete button is clicked
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	01/17/2005	documented
         /// </history>
@@ -196,9 +177,6 @@ namespace DotNetNuke.Modules.Admin.Portals
         /// <summary>
         /// cmdUpdate_Click runs when the Update button is clicked
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	01/17/2005	documented
         /// </history>
@@ -225,7 +203,15 @@ namespace DotNetNuke.Modules.Admin.Portals
                         objPortalAliasInfo.PortalAliasID = Convert.ToInt32( ViewState["PortalAliasID"] );
                         objPortalAliasInfo.PortalID = Convert.ToInt32( ViewState["PortalID"] );
                         objPortalAliasInfo.HTTPAlias = strAlias;
-                        p.UpdatePortalAliasInfo( objPortalAliasInfo );
+                        try
+                        {
+                            p.UpdatePortalAliasInfo(objPortalAliasInfo);
+                        }
+                        catch
+                        {
+                            UI.Skins.Skin.AddModuleMessage(this, Localization.GetString("DuplicateAlias", this.LocalResourceFile), ModuleMessageType.RedError);
+                            return;
+                        }
                     }
                     else
                     {

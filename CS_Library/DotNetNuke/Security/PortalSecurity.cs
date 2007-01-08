@@ -93,6 +93,11 @@ namespace DotNetNuke.Security
 
         public string Decrypt( string strKey, string strData )
         {
+            if (strData == "")
+            {
+                return "";
+            }
+
             string strValue = "";
 
             if( !String.IsNullOrEmpty(strKey) )

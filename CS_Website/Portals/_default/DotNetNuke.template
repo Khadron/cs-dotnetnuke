@@ -460,6 +460,13 @@
 						&amp;lt;img alt=&amp;quot;easyCGI – Advanced Hosting. Easy Solutions.&amp;quot; src=&amp;quot;easycgi.gif&amp;quot; border=&amp;quot;0&amp;quot; /&amp;gt;
 				&amp;lt;/a&amp;gt;
 				&amp;lt;br /&amp;gt;
+				&amp;lt;br /&amp;gt;
+				&amp;lt;br /&amp;gt;
+				&amp;lt;br /&amp;gt;
+				&amp;lt;a href=&amp;quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http%3a%2f%2femail.exacttarget.com%2fETWeb%2fdefault.aspx&amp;amp;amp;tabid=957&amp;amp;amp;mid=1739&amp;quot;&amp;gt;
+						&amp;lt;img alt=&amp;quot;ExactTarget&amp;quot; src=&amp;quot;exacttarget.gif&amp;quot; border=&amp;quot;0&amp;quot; /&amp;gt;
+				&amp;lt;/a&amp;gt;
+				&amp;lt;br /&amp;gt;
 		&amp;lt;/center&amp;gt;
 ]]&gt;&lt;/desktophtml&gt;&lt;desktopsummary&gt;&lt;![CDATA[]]&gt;&lt;/desktopsummary&gt;&lt;/htmltext&gt;]]></content>
             </module>
@@ -777,6 +784,14 @@
           <filename>easycgi.gif</filename>
           <extension>gif</extension>
           <size>5665</size>
+          <width>120</width>
+          <height>60</height>
+          <contenttype>image/gif</contenttype>
+        </file>
+        <file>
+          <filename>exacttarget.gif</filename>
+          <extension>gif</extension>
+          <size>4270</size>
           <width>120</width>
           <height>60</height>
           <contenttype>image/gif</contenttype>

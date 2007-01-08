@@ -29,8 +29,6 @@ using Globals=DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.UI.Skins.Controls
 {
-    /// <summary></summary>
-    /// <remarks></remarks>
     /// <history>
     /// 	[cniknet]	10/15/2004	Replaced public members with properties and removed
     ///                             brackets from property names
@@ -114,21 +112,32 @@ namespace DotNetNuke.UI.Skins.Controls
             }
         }
 
-        protected void cmdSearch_Click( object sender, EventArgs e )
+        protected void cmdSearch_Click(object sender, EventArgs e)
         {
-            if( !String.IsNullOrEmpty(txtSearch.Text) )
+
+            if (txtSearch.Text != "")
             {
                 ModuleController objModules = new ModuleController();
-                int searchTabId = objModules.GetModuleByDefinition( PortalSettings.PortalId, "Search Results" ).TabID;
-                if( HostSettings.GetHostSetting( "UseFriendlyUrls" ) == "Y" )
+                int searchTabId;
+                ModuleInfo SearchModule = objModules.GetModuleByDefinition(PortalSettings.PortalId, "Search Results");
+                if (SearchModule == null)
                 {
-                    Response.Redirect( Globals.NavigateURL( searchTabId ) + "?Search=" + Server.UrlEncode( txtSearch.Text ) );
+                    return;
                 }
                 else
                 {
-                    Response.Redirect( Globals.NavigateURL( searchTabId ) + "&Search=" + Server.UrlEncode( txtSearch.Text ) );
+                    searchTabId = SearchModule.TabID;
+                }
+                if (HostSettings.GetHostSetting("UseFriendlyUrls") == "Y")
+                {
+                    Response.Redirect(Globals.NavigateURL(searchTabId) + "?Search=" + Server.UrlEncode(txtSearch.Text));
+                }
+                else
+                {
+                    Response.Redirect(Globals.NavigateURL(searchTabId) + "&Search=" + Server.UrlEncode(txtSearch.Text));
                 }
             }
+
         }
     }
 }

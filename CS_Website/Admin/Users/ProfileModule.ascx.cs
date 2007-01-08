@@ -83,6 +83,21 @@ namespace DotNetNuke.Modules.Admin.Users
         }
 
         /// <summary>
+        /// Gets whether to display the Visibility controls
+        /// </summary>
+        /// <history>
+        /// 	[cnurse]	08/11/2006  Created
+        /// </history>
+        protected bool ShowVisibility
+        {
+            get
+            {
+                object setting = GetSetting(PortalId, "Profile_DisplayVisibility");
+                return Convert.ToBoolean(setting) & IsUser;
+            }
+        }
+
+        /// <summary>
         /// Gets whether the User is valid
         /// </summary>
         /// <history>
@@ -196,6 +211,7 @@ namespace DotNetNuke.Modules.Admin.Users
                 }
             }
 
+            ProfileProperties.ShowVisibility = ShowVisibility;
             ProfileProperties.DataSource = UserProfile.ProfileProperties;
             ProfileProperties.DataBind();
         }

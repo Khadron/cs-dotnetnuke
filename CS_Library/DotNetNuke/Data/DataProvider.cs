@@ -41,7 +41,7 @@ namespace DotNetNuke.Data
         }
 
         // return the provider
-        public new static DataProvider Instance()
+        public static DataProvider Instance()
         {
             return objProvider;
         }
@@ -244,17 +244,18 @@ namespace DotNetNuke.Data
         public abstract void AddUrlLog( int UrlTrackingID, int UserID );
 
         //Folders
-        public abstract IDataReader GetFoldersByPortal( int PortalID );
-        public abstract IDataReader GetFolder( int PortalID, int FolderID );
-        public abstract IDataReader GetFolder( int PortalID, string FolderPath );
-        //CP - Change - Secure Storage Enhancement
-        public abstract int AddFolder( int PortalID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached );
-        public abstract void UpdateFolder( int PortalID, int FolderID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached );
-        //End change
-        public abstract void DeleteFolder( int PortalID, string FolderPath );
+        public abstract IDataReader GetFoldersByPortal(int PortalID);
+        public abstract IDataReader GetFoldersByUser(int PortalID, int UserID, bool IncludeSecure, bool IncludeDatabase, bool AllowAccess, string Permissions);
+        public abstract IDataReader GetFolder(int PortalID, int FolderID);
+        public abstract IDataReader GetFolder(int PortalID, string FolderPath);
+        public abstract int AddFolder(int PortalID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached);
+        public abstract void UpdateFolder(int PortalID, int FolderID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached);
+        public abstract void DeleteFolder(int PortalID, string FolderPath);
+
 
         //Permission
         public abstract IDataReader GetPermission( int permissionID );
+        public abstract IDataReader GetPermissionsByModuleDefID(int ModuleDefID);
         public abstract IDataReader GetPermissionsByModuleID( int ModuleID );
         public abstract IDataReader GetPermissionsByFolderPath( int PortalID, string Folder );
         public abstract IDataReader GetPermissionByCodeAndKey( string PermissionCode, string PermissionKey );
