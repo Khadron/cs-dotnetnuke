@@ -96,6 +96,11 @@
 											</td>
 											<td align="center" nowrap>&nbsp;</td>
 										</tr>
+                                        <tr id="rowInstallModule" runat="server" valign="bottom">
+                                            <td align="center" colspan="5" width="100%">
+                                                <asp:LinkButton ID="cmdInstallFeatures" runat="server" CausesValidation="False" CssClass="CommandButton">Install New Application Features</asp:LinkButton>
+                                            </td>
+                                        </tr>
 									</table>
 								</td>
 							</tr>
@@ -104,29 +109,29 @@
 					<td align="center" valign="top">
 						<table cellspacing="0" cellpadding="2" border="0">
 							<tr valign="bottom" height="24">
-								<td width="35" align="center"><asp:LinkButton ID="cmdWizardIcon" Runat="server" CssClass="CommandButton" CausesValidation="False" OnClick="CommonTasks_Click">
-										<asp:Image ID="imgWizardIcon" Runat="server" ImageUrl="~/admin/ControlPanel/images/iconbar_wizard.gif"></asp:Image>
-									</asp:LinkButton></td>
 								<td width="35" align="center"><asp:LinkButton ID="cmdSiteIcon" Runat="server" CssClass="CommandButton" CausesValidation="False" OnClick="CommonTasks_Click">
 										<asp:Image ID="imgSiteIcon" Runat="server" ImageUrl="~/admin/ControlPanel/images/iconbar_site.gif"></asp:Image>
 									</asp:LinkButton></td>
 								<td width="35" align="center"><asp:LinkButton ID="cmdUsersIcon" Runat="server" CssClass="CommandButton" CausesValidation="False" OnClick="CommonTasks_Click">
 										<asp:Image ID="imgUsersIcon" Runat="server" ImageUrl="~/admin/ControlPanel/images/iconbar_users.gif"></asp:Image>
 									</asp:LinkButton></td>
+                                <td align="center" width="35">
+                                    <asp:LinkButton ID="cmdRolesIcon" runat="server" CausesValidation="False" CssClass="CommandButton" OnClick="CommonTasks_Click">
+                                        <asp:Image ID="imgRolesIcon" runat="server" ImageUrl="~/admin/ControlPanel/images/iconbar_roles.gif"  />
+                                    </asp:LinkButton></td>
 								<td width="35" align="center"><asp:LinkButton ID="cmdFilesIcon" Runat="server" CssClass="CommandButton" CausesValidation="False" OnClick="CommonTasks_Click">
 										<asp:Image ID="imgFilesIcon" Runat="server" ImageUrl="~/admin/ControlPanel/images/iconbar_files.gif"></asp:Image>
 									</asp:LinkButton></td>
-								<td width="35" align="center"><asp:Hyperlink ID="cmdHelpIcon" Runat="server" CssClass="CommandButton" CausesValidation="False"
-										Target="_new">
+								<td width="35" align="center"><asp:Hyperlink ID="cmdHelpIcon" Runat="server" CssClass="CommandButton" Target="_new">
 										<asp:Image ID="imgHelpIcon" Runat="server" ImageUrl="~/admin/ControlPanel/images/iconbar_help.gif"></asp:Image>
 									</asp:Hyperlink></td>
 							</tr>
-							<tr valign="bottom">
-								<td width="35" align="center" class="Normal"><asp:LinkButton ID="cmdWizard" Runat="server" CssClass="CommandButton" CausesValidation="False" OnClick="CommonTasks_Click">Wizard</asp:LinkButton></td>
+							<tr valign="bottom">								
 								<td width="35" align="center" class="Normal"><asp:LinkButton ID="cmdSite" Runat="server" CssClass="CommandButton" CausesValidation="False" OnClick="CommonTasks_Click">Site</asp:LinkButton></td>
 								<td width="35" align="center" class="Normal"><asp:LinkButton ID="cmdUsers" Runat="server" CssClass="CommandButton" CausesValidation="False" OnClick="CommonTasks_Click">Users</asp:LinkButton></td>
+                                <td align="center" class="Normal" width="35"><asp:LinkButton ID="cmdRoles" runat="server" CausesValidation="False" CssClass="CommandButton" OnClick="CommonTasks_Click">Roles</asp:LinkButton></td>
 								<td width="35" align="center" class="Normal"><asp:LinkButton ID="cmdFiles" Runat="server" CssClass="CommandButton" CausesValidation="False" OnClick="CommonTasks_Click">Files</asp:LinkButton></td>
-								<td width="35" align="center" class="Normal"><asp:Hyperlink ID="cmdHelp" Runat="server" CssClass="CommandButton" CausesValidation="False" Target="_new">Help</asp:Hyperlink></td>
+								<td width="35" align="center" class="Normal"><asp:Hyperlink ID="cmdHelp" Runat="server" CssClass="CommandButton" Target="_new">Help</asp:Hyperlink></td>
 							</tr>
 						</table>
 					</td>

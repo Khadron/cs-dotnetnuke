@@ -3,9 +3,17 @@
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <table>
     <tr>
-        <td class="SubHead" width="150"><dnn:label id="plFileName" text="File Name:" controlname="txtFileName" runat="server" /></td>
+        <td class="SubHead" style="width: 150;"><dnn:label id="plFileName" text="File Name:" controlname="txtFileName" runat="server" /></td>
         <td>
             <asp:textbox id="txtFileName" cssclass="NormalTextBox" width="390" columns="30" maxlength="150" runat="server"/>
+        </td>
+    </tr>
+    <tr id="rowSource" runat="server" visible="false">
+        <td class="SubHead" valign="top" style="width: 150;">
+            <dnn:Label ID="plSource" runat="server" ControlName="chkSource" Text="Include Source?" />
+        </td>
+        <td>
+            <asp:CheckBox ID="chkSource" runat="server" CssClass="NormalTextBox" /><br/>
         </td>
     </tr>
 	<tr>

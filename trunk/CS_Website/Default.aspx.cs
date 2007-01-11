@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -173,11 +173,11 @@ namespace DotNetNuke.Framework
             // page comment
             if( Globals.GetHashValue( Globals.HostSettings["Copyright"], "Y" ) == "Y" )
             {
-                Comment += "\r\n" + "<!--**********************************************************************************-->" 
-                           + "\r\n" + "<!-- DotNetNuke - http://www.dotnetnuke.com                                           -->" 
-                           + "\r\n" + "<!-- Copyright (c) 2002-2007                                                          -->" 
-                           + "\r\n" + "<!-- by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )   -->" 
-                           + "\r\n" + "<!--**********************************************************************************-->" 
+                Comment += "\r\n" +   "<!--*********************************************-->" 
+                           + "\r\n" + "<!-- DotNetNuke - http://www.dotnetnuke.com      -->" 
+                           + "\r\n" + "<!-- Copyright (c) 2002-2007                     -->"
+                           + "\r\n" + "<!-- by DotNetNuke Corporation                   -->" 
+                           + "\r\n" + "<!--*********************************************-->" 
                            + "\r\n";
             }
             Page.Header.Controls.AddAt( 0, new LiteralControl( Comment ) );

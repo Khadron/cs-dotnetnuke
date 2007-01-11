@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -17,8 +17,8 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
-using System.Diagnostics;
 using System.Web.Security;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
@@ -60,7 +60,7 @@ namespace DotNetNuke.Common.Controls
                         }
                         else // redirect to default portal root
                         {
-                            _RedirectURL = Globals.GetPortalDomainName(PortalSettings.PortalAlias.HTTPAlias, Request, true);
+                            _RedirectURL = Globals.GetPortalDomainName(PortalSettings.PortalAlias.HTTPAlias, Request, true) + "/" + Globals.glbDefaultPage;
                         }
                     }
                     else // redirect to after logout page
@@ -92,11 +92,11 @@ namespace DotNetNuke.Common.Controls
                 Response.Cookies["language"].Value = "";
 
                 // expire cookies
-                if( PortalSecurity.IsInRoles( PortalSettings.AdministratorRoleId.ToString() ) && Request.Cookies["_Tab_Admin_Content" + PortalSettings.PortalId.ToString()] != null )
+                if( PortalSecurity.IsInRoles( PortalSettings.AdministratorRoleId.ToString() ) && Request.Cookies["_Tab_Admin_Content" + PortalSettings.PortalId] != null )
                 {
-                    Response.Cookies["_Tab_Admin_Content" + PortalSettings.PortalId.ToString()].Value = null;
-                    Response.Cookies["_Tab_Admin_Content" + PortalSettings.PortalId.ToString()].Path = "/";
-                    Response.Cookies["_Tab_Admin_Content" + PortalSettings.PortalId.ToString()].Expires = DateTime.Now.AddYears( - 30 );
+                    Response.Cookies["_Tab_Admin_Content" + PortalSettings.PortalId].Value = null;
+                    Response.Cookies["_Tab_Admin_Content" + PortalSettings.PortalId].Path = "/";
+                    Response.Cookies["_Tab_Admin_Content" + PortalSettings.PortalId].Expires = DateTime.Now.AddYears( - 30 );
                 }
 
                 Response.Cookies["portalaliasid"].Value = null;
@@ -107,9 +107,9 @@ namespace DotNetNuke.Common.Controls
                 Response.Cookies["portalroles"].Path = "/";
                 Response.Cookies["portalroles"].Expires = DateTime.Now.AddYears( - 30 );
 
-                if( Request.Cookies["_Tab_Admin_Preview" + PortalSettings.PortalId.ToString()] != null )
+                if( Request.Cookies["_Tab_Admin_Preview" + PortalSettings.PortalId] != null )
                 {
-                    Response.Cookies["_Tab_Admin_Preview" + PortalSettings.PortalId.ToString()].Value = "False";
+                    Response.Cookies["_Tab_Admin_Preview" + PortalSettings.PortalId].Value = "False";
                 }
 
                 // Redirect browser back to portal

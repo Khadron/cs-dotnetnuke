@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -238,22 +238,21 @@ namespace DotNetNuke.Framework
             return Activator.CreateInstance<T>();
         }
 
-        // dynamically create an object from a TypeName using a CacheKey
+        // dynamically create a default Provider from a ProviderType 
         internal static object CreateObjectNotCached( string ObjectProviderType )
         {
-            string TypeName = "";
             Type objType = null;
 
             // get the provider configuration based on the type
             ProviderConfiguration objProviderConfiguration = ProviderConfiguration.GetProviderConfiguration( ObjectProviderType );
 
             // get the typename of the Base DataProvider from web.config
-            TypeName = ( (Provider)objProviderConfiguration.Providers[objProviderConfiguration.DefaultProvider] ).Type;
+            string TypeName = ( (Provider)objProviderConfiguration.Providers[objProviderConfiguration.DefaultProvider] ).Type;
 
             try
             {
-                // use reflection to get the type of the class
-                objType = Type.GetType( TypeName, true );
+                // use reflection to get the type of the class                
+                objType = BuildManager.GetType(TypeName, true, true);
             }
             catch( Exception exc )
             {

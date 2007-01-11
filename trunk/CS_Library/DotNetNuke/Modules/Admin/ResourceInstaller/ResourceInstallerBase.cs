@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -61,6 +61,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
         protected string FILES_Loading;
         protected string FILES_Reading;
         protected string FILES_ReadingEnd;
+        protected string INSTALL_Compatibility;
         protected string INSTALL_Aborted;
         protected string INSTALL_Start;
         protected string INSTALL_Success;
@@ -113,6 +114,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             this.FILES_Loading = this.GetLocalizedString( "FILES_Loading" );
             this.FILES_Reading = this.GetLocalizedString( "FILES_Reading" );
             this.FILES_ReadingEnd = this.GetLocalizedString( "FILES_ReadingEnd" );
+            this.INSTALL_Compatibility = GetLocalizedString("INSTALL_Compatibility");
             this.INSTALL_Aborted = this.GetLocalizedString( "INSTALL_Aborted" );
             this.INSTALL_Start = this.GetLocalizedString( "INSTALL_Start" );
             this.INSTALL_Success = this.GetLocalizedString( "INSTALL_Success" );

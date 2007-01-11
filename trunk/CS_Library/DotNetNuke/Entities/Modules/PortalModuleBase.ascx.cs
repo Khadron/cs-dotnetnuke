@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -540,16 +540,31 @@ namespace DotNetNuke.Entities.Modules
                                 FileInfo cacheFile = new FileInfo(CacheFileName);
                                 if (cacheFile.CreationTime.AddSeconds(_moduleConfiguration.CacheTime) >= DateTime.Now)
                                 {
-                                    //Load from Cache
-                                    StreamReader objStreamReader;
-                                    objStreamReader = cacheFile.OpenText();
-                                    _cachedOutput = objStreamReader.ReadToEnd();
-                                    objStreamReader.Close();
+                                    try
+                                    {
+                                        //Load from Cache
+                                        StreamReader objStreamReader = cacheFile.OpenText();
+                                        _cachedOutput = objStreamReader.ReadToEnd();
+                                        objStreamReader.Close();
+                                    }
+                                    catch( Exception ) 
+                                    {
+                                        //locking error
+                                        _cachedOutput = String.Empty;
+                                    }
                                 }
                                 else
                                 {
-                                    //Cache Expired so delete it
-                                    cacheFile.Delete();
+                                    try
+                                    {
+                                        //Cache Expired so delete it
+                                        cacheFile.Delete();
+                                    }
+                                    catch( Exception )
+                                    {
+                                        //locking error
+                                        _cachedOutput = String.Empty;
+                                    }
                                 }
                             }
                         }

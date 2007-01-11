@@ -529,7 +529,9 @@ function gridCheckAll(sender)
 		<td vAlign="top" width="205" bgColor="#ffffff">
 			<table class="FileManager_Explorer" cellSpacing="0" cellPadding="0" width="100%" border="0">
 				<tr>
-					<td class="FileManager_Header" width="100%"><asp:label id="lblFolders" Runat="server" EnableViewState="False" resourcekey="Folders" Width="100%">Folders</asp:label></td>
+                    <td class="FileManager_Header" valign="middle" width="100%">
+                        <asp:ImageButton ID="lnkSyncFolders" runat="server" ImageUrl="~/images/FileManager/ToolBarSynchronize.gif" OnClick="lnkSyncFolders_Click" ToolTip="Synchronize Folders" />&nbsp;<asp:Label ID="lblFolders"
+                            runat="server" CssClass="SubHead" EnableViewState="False" resourcekey="Folders" Width="100%">Folders</asp:Label></td>					
 				</tr>
 				<tr>
 					<td vAlign="top"><span id="pnlFolders" style="WIDTH: 200px; HEIGHT: 300px; BACKGROUND-COLOR: #ffffff" onscroll="fldScroll();"

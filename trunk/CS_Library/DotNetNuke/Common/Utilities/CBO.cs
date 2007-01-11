@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -171,10 +171,15 @@ namespace DotNetNuke.Common.Utilities
                                             ( (PropertyInfo)objProperties[intProperty] ).SetValue( objObject, Enum.ToObject( objPropertyType, dr.GetValue( arrOrdinals[intProperty] ) ), null );
                                         }
                                     }
+                                    else if (objPropertyType.FullName.Equals("System.Guid"))
+                                    {
+                                        // guid is not a datatype common across all databases ( ie. Oracle )
+                                        objPropertyInfo.SetValue( objObject, Convert.ChangeType( new Guid( dr.GetValue( arrOrdinals[ intProperty ] ).ToString() ), objPropertyType ), null );
+                                    }
                                     else
                                     {
                                         // try explicit conversion
-                                        objPropertyInfo.SetValue( objObject, Convert.ChangeType( dr.GetValue( arrOrdinals[intProperty] ), objPropertyType ), null );
+                                        objPropertyInfo.SetValue(objObject, Convert.ChangeType(dr.GetValue(arrOrdinals[intProperty]), objPropertyType), null);
                                     }
                                 }
                                 catch

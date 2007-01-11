@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -37,6 +37,11 @@ namespace DotNetNuke.Services.Mail
         public static string SendMail( string MailFrom, string MailTo, string Cc, string Bcc, MailPriority Priority, string Subject, MailFormat BodyFormat, Encoding BodyEncoding, string Body, string Attachment, string SMTPServer, string SMTPAuthentication, string SMTPUsername, string SMTPPassword )
         {
             string returnValue;
+
+            // translate semi-colon delimiters to commas as ASP.NET 2.0 does not support semi-colons
+            MailTo = MailTo.Replace(";", ",");
+            Cc = Cc.Replace(";", ",");
+            Bcc = Bcc.Replace(";", ",");
 
             MailMessage objMail = new MailMessage(MailFrom, MailTo);
             if (!String.IsNullOrEmpty(Cc))

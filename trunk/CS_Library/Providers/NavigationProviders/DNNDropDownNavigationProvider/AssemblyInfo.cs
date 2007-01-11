@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -17,32 +17,35 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
-// General Information about an assembly is controlled through the following
+using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
+
+// General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
 // Review the values of the assembly attributes
-using System;
-using System.Reflection;
 
 [assembly: AssemblyTitle("DotNetNuke.DNNDropDownNavigationProvider")]
-[assembly: AssemblyDescription("DotNetNuke Drop Down Navigation Provider")]
-[assembly: AssemblyCompany("Perpetual Motion Interactive Systems Inc.")]
+[assembly: AssemblyDescription("DotNetNuke.DNNDropDownNavigationProvider")]
+[assembly: AssemblyCompany("DotNetNuke Corporation")]
 [assembly: AssemblyProduct("http://www.dotnetnuke.com")]
-[assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2006 by Perpetual Motion Interactive Systems Inc. All Rights Reserved.")]
+[assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2006 by DotNetNuke Corporation. All Rights Reserved.")]
 [assembly: AssemblyTrademark("DotNetNuke")]
 [assembly: CLSCompliant(true)]
-[assembly: AssemblyVersion("4.3.4.*")]
 
 //The following GUID is for the ID of the typelib if this project is exposed to COM
+[assembly: Guid("4A7E138F-185C-4119-90C2-0AD00FB67E72")]
 
 // Version information for an assembly consists of the following four values:
 //
 //      Major Version
-//      Minor Version
+//      Minor Version 
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Build and Revision Numbers
+// You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 
+[assembly: AssemblyVersion("3.2.2.*")]

@@ -22,8 +22,7 @@
     <OptionCompare>Binary</OptionCompare>
     <OptionExplicit>On</OptionExplicit>
     <OptionStrict>On</OptionStrict>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace>DotNetNuke.Search.DataStore</RootNamespace>
     <StartupObject>
     </StartupObject>
     <FileUpgradeFlags>

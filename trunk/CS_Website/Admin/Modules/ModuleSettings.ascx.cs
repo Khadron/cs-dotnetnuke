@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -23,6 +23,7 @@ using System.Web.UI.WebControls;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
+using DotNetNuke.Entities.Modules.Definitions;
 using DotNetNuke.Security;
 using DotNetNuke.Security.Permissions;
 using DotNetNuke.Security.Roles;
@@ -122,6 +123,17 @@ namespace DotNetNuke.Modules.Admin.Modules
 
                 chkAllTabs.Checked = objModule.AllTabs;
                 cboVisibility.SelectedIndex = (int)objModule.Visibility;
+
+                ModuleDefinitionController objModuleDefController = new ModuleDefinitionController();
+                ModuleDefinitionInfo objModuleDef = objModuleDefController.GetModuleDefinition(objModule.ModuleDefID);
+                if (objModuleDef.DefaultCacheTime == Null.NullInteger)
+                {
+                    rowCache.Visible = false;
+                }
+                else
+                {
+                    txtCacheTime.Text = objModule.CacheTime.ToString();
+                }
 
                 txtCacheTime.Text = objModule.CacheTime.ToString();
 

@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -154,10 +154,8 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                 doc.Load( strManifest );
 
                 XmlNode dnnRoot = doc.DocumentElement;
-                XmlElement FolderElement;
-                foreach( XmlElement tempLoopVar_FolderElement in dnnRoot.SelectNodes( "folders/folder" ) )
+                foreach( XmlElement FolderElement in dnnRoot.SelectNodes( "folders/folder" ) )
                 {
-                    FolderElement = tempLoopVar_FolderElement;
                     DesktopModuleController objDesktopModules = new DesktopModuleController();
                     DesktopModuleInfo objDesktopModule = new DesktopModuleInfo();
 
@@ -174,13 +172,11 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                     objDesktopModule.IsAdmin = false;
                     objDesktopModule.Version = XmlUtils.GetNodeValue( FolderElement, "version", "" );
                     objDesktopModule.BusinessControllerClass = XmlUtils.GetNodeValue( FolderElement, "businesscontrollerclass", "" );
-
+                    objDesktopModule.CompatibleVersions = XmlUtils.GetNodeValue( FolderElement, "compatibleversions", "" );
                     objDesktopModule.DesktopModuleID = objDesktopModules.AddDesktopModule( objDesktopModule );
 
-                    XmlElement ModuleElement;
-                    foreach( XmlElement tempLoopVar_ModuleElement in FolderElement.SelectNodes( "modules/module" ) )
+                    foreach( XmlElement ModuleElement in FolderElement.SelectNodes( "modules/module" ) )
                     {
-                        ModuleElement = tempLoopVar_ModuleElement;
                         ModuleDefinitionController objModuleDefinitions = new ModuleDefinitionController();
                         ModuleDefinitionInfo objModuleDefinition = new ModuleDefinitionInfo();
 
@@ -191,10 +187,8 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
 
                         objModuleDefinition.ModuleDefID = objModuleDefinitions.AddModuleDefinition( objModuleDefinition );
 
-                        XmlElement ControlElement;
-                        foreach( XmlElement tempLoopVar_ControlElement in ModuleElement.SelectNodes( "controls/control" ) )
+                        foreach( XmlElement ControlElement in ModuleElement.SelectNodes( "controls/control" ) )
                         {
-                            ControlElement = tempLoopVar_ControlElement;
                             ModuleControlController objModuleControls = new ModuleControlController();
                             ModuleControlInfo objModuleControl = new ModuleControlInfo();
 
@@ -233,6 +227,8 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                             objModuleControls.AddModuleControl( objModuleControl );
                         }
                     }
+                    // update interfaces
+                    UpdateModuleInterfaces( objDesktopModule.BusinessControllerClass );
                 }
 
                 Response.Redirect( Globals.NavigateURL(), true );
@@ -259,11 +255,10 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
 
             if( DesktopModuleId == - 2 )
             {
-                ModuleControlInfo objModuleControl;
                 int intIndex;
                 for( intIndex = arrModuleControls.Count - 1; intIndex >= 0; intIndex-- )
                 {
-                    objModuleControl = (ModuleControlInfo)arrModuleControls[intIndex];
+                    ModuleControlInfo objModuleControl = (ModuleControlInfo)arrModuleControls[intIndex];
                     if( objModuleControl.ControlType != SecurityAccessLevel.SkinObject )
                     {
                         arrModuleControls.RemoveAt( intIndex );
@@ -320,6 +315,33 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
             ModuleDefinitionInfo objModuleDefinition = objModuleDefinitionController.GetModuleDefinition( ModuleDefId );
 
             txtCacheTime.Text = objModuleDefinition.DefaultCacheTime.ToString();
+        }
+
+        private void UpdateModuleInterfaces(string BusinessControllerClass)
+        {
+            //Check to see if Interfaces (SupportedFeatures) Need to be Updated
+            if (BusinessControllerClass != "")
+            {
+                //this cannot be done directly at this time because 
+                //the module may not be loaded into the app domain yet
+                //So send an EventMessage that will process the update 
+                //after the App recycles
+                EventMessage oAppStartMessage = new EventMessage();
+                oAppStartMessage.ProcessorType = "DotNetNuke.Entities.Modules.EventMessageProcessor, DotNetNuke";
+                oAppStartMessage.Attributes.Add("ProcessCommand", "UpdateSupportedFeatures");
+                oAppStartMessage.Attributes.Add("BusinessControllerClass", BusinessControllerClass);
+                oAppStartMessage.Attributes.Add("DesktopModuleId", DesktopModuleId.ToString());
+                oAppStartMessage.Priority = MessagePriority.High;
+                oAppStartMessage.SentDate = System.DateTime.Now;
+                oAppStartMessage.Body = "";
+                //make it expire as soon as it's processed
+                oAppStartMessage.ExpirationDate = System.DateTime.Now.AddYears(-1);
+                //send it
+                EventQueueController oEventQueueController = new EventQueueController();
+                oEventQueueController.SendMessage(oAppStartMessage, "Application_Start");
+                //force an app restart
+                DotNetNuke.Common.Utilities.Config.Touch();
+            }
         }
 
         /// <summary>
@@ -389,15 +411,17 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                     if( Null.IsNull( DesktopModuleId ) )
                     {
                         //Enable ReadOnly Controls for Add Mode only
-                        rowManifest.Visible = true;
+                        tabManifest.Visible = true;
                         BindManifestList( "DesktopModules", true );
                         cboManifest.Items.Insert( 0, new ListItem( "<" + Localization.GetString( "None_Specified" ) + ">", "" ) );
                         txtModuleName.Enabled = true;
                         txtFolderName.Enabled = true;
                         txtVersion.Enabled = true;
                         txtBusinessClass.Enabled = true;
+                        txtCompatibleVersions.Enabled = true;
 
                         cmdDelete.Visible = false;
+                        chkDelete.Visible = false;
                         tabDefinitions.Visible = false;
                         tabCache.Visible = false;
                         tabControls.Visible = false;
@@ -418,6 +442,7 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
 
                             cmdUpdate.Visible = false;
                             cmdDelete.Visible = false;
+                            chkDelete.Visible = false;
                             tabDefinitions.Visible = false;
                             tabCache.Visible = false;
                             txtDescription.Enabled = false;
@@ -427,12 +452,20 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                         }
                         else
                         {
+                            if (Request.IsLocal)
+                            {
+                                chkDelete.Checked = false;
+                            }
+                            else
+                            {
+                                chkDelete.Checked = true;
+                            }
                             objDesktopModule = objDesktopModules.GetDesktopModule( DesktopModuleId );
 
                             LoadDefinitions();
                         }
 
-                        rowManifest.Visible = false;
+                        tabManifest.Visible = false;
 
                         if( objDesktopModule != null )
                         {
@@ -441,6 +474,7 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                             txtFriendlyName.Text = objDesktopModule.FriendlyName;
                             txtDescription.Text = objDesktopModule.Description;
                             txtVersion.Text = objDesktopModule.Version;
+                            txtCompatibleVersions.Text = objDesktopModule.CompatibleVersions;
                             txtBusinessClass.Text = objDesktopModule.BusinessControllerClass;
                             chkUpgradeable.Checked = objDesktopModule.IsUpgradeable;
                             chkPortable.Checked = objDesktopModule.IsPortable;
@@ -452,23 +486,17 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                     PortalController objPortals = new PortalController();
                     ArrayList arrPortals = objPortals.GetPortals();
                     ArrayList arrPortalDesktopModules = objDesktopModules.GetPortalDesktopModules( Null.NullInteger, DesktopModuleId );
-
-                    PortalInfo objPortal;
-                    PortalDesktopModuleInfo objPortalDesktopModule;
-                    foreach( PortalDesktopModuleInfo tempLoopVar_objPortalDesktopModule in arrPortalDesktopModules )
-                    {
-                        objPortalDesktopModule = tempLoopVar_objPortalDesktopModule;
-                        foreach( PortalInfo tempLoopVar_objPortal in arrPortals )
-                        {
-                            objPortal = tempLoopVar_objPortal;
+                                        
+                    foreach( PortalDesktopModuleInfo objPortalDesktopModule in arrPortalDesktopModules )
+                    {                        
+                        foreach( PortalInfo objPortal in arrPortals )
+                        {                            
                             if( objPortal.PortalID == objPortalDesktopModule.PortalID )
                             {
                                 arrPortals.Remove( objPortal );
-                                goto endOfForLoop;
+                                break;
                             }
-                        }
-                        endOfForLoop:
-                        1.GetHashCode(); //nop
+                        }                                                
                     }
 
                     ctlPortals.Available = arrPortals;
@@ -628,10 +656,7 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
 
                     if( Directory.Exists( strRoot ) )
                     {
-                        // check for existence of project file ( this indicates a development environment )
-                        arrFiles = Directory.GetFiles( strRoot, "*.??proj" );
-                        bool isRunTime = ( arrFiles.Length == 0 ) && ( ! Request.IsLocal );
-                        if( isRunTime )
+                        if( chkDelete.Checked )
                         {
                             //runtime so remove files/folders
                             // find dnn manifest file
@@ -644,19 +669,18 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                             {
                                 if( File.Exists( strRoot + Path.GetFileName( arrFiles[0] ) ) )
                                 {
-                                    XmlDocument xmlDoc = new XmlDocument();
-                                    XmlNode nodeFile;
+                                    XmlDocument xmlDoc = new XmlDocument();                                    
 
                                     // load the manifest file
                                     xmlDoc.Load( strRoot + Path.GetFileName( arrFiles[0] ) );
 
-                                    // check version
-                                    XmlNode nodeModule = null;
+                                    // check version                                    
+                                    XmlNode myNodeModule = null;
                                     switch( xmlDoc.DocumentElement.LocalName.ToLower() )
                                     {
                                         case "module":
 
-                                            nodeModule = xmlDoc.SelectSingleNode( "//module" );
+                                            myNodeModule = xmlDoc.SelectSingleNode("//module");
                                             break;
                                         case "dotnetnuke":
 
@@ -666,37 +690,34 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                                                 case "2.0":
 
                                                     // V2 allows for multiple folders in a single DNN definition - we need to identify the correct node
-                                                    foreach( XmlNode tempLoopVar_nodeModule in xmlDoc.SelectNodes( "//dotnetnuke/folders/folder" ) )
-                                                    {
-                                                        nodeModule = tempLoopVar_nodeModule;
+                                                    foreach( XmlNode nodeModule in xmlDoc.SelectNodes( "//dotnetnuke/folders/folder" ) )
+                                                    {                                                        
                                                         if( nodeModule.SelectSingleNode( "name" ).InnerText.Trim() == txtFriendlyName.Text )
                                                         {
-                                                            goto endOfForLoop;
+                                                            myNodeModule = nodeModule;
+                                                            break;
                                                         }
-                                                    }
-                                                    endOfForLoop:
+                                                    }                                                    
                                                     break;
                                                 case "3.0":
 
                                                     // V3 also allows for multiple folders in a single DNN definition - but uses module name
-                                                    foreach( XmlNode tempLoopVar_nodeModule in xmlDoc.SelectNodes( "//dotnetnuke/folders/folder" ) )
-                                                    {
-                                                        nodeModule = tempLoopVar_nodeModule;
+                                                    foreach( XmlNode nodeModule in xmlDoc.SelectNodes( "//dotnetnuke/folders/folder" ) )
+                                                    {                                                        
                                                         if( nodeModule.SelectSingleNode( "name" ).InnerText.Trim() == txtModuleName.Text )
                                                         {
-                                                            goto endOfForLoop1;
+                                                            myNodeModule = nodeModule;
+                                                            break;
                                                         }
-                                                    }
-                                                    endOfForLoop1:
+                                                    }                                                    
                                                     break;
                                             }
                                             break;
                                     }
 
                                     // loop through file nodes
-                                    foreach( XmlNode tempLoopVar_nodeFile in nodeModule.SelectNodes( "files/file" ) )
-                                    {
-                                        nodeFile = tempLoopVar_nodeFile;
+                                    foreach (XmlNode nodeFile in myNodeModule.SelectNodes("files/file"))
+                                    {                                        
                                         strFileName = nodeFile.SelectSingleNode( "name" ).InnerText.Trim();
                                         strFileExtension = Path.GetExtension( strFileName ).Replace( ".", "" );
                                         if( strFileExtension == "dll" )
@@ -799,6 +820,16 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                         objDesktopModule.BusinessControllerClass = Null.NullString;
                     }
 
+                    if (!String.IsNullOrEmpty( txtCompatibleVersions.Text))
+                    {
+                        objDesktopModule.CompatibleVersions = txtCompatibleVersions.Text;
+                    }
+                    else
+                    {
+                        objDesktopModule.CompatibleVersions = Null.NullString;
+                    }
+
+
                     DesktopModuleController objDesktopModules = new DesktopModuleController();
 
                     if( Null.IsNull( DesktopModuleId ) )
@@ -822,38 +853,14 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                     objDesktopModules.DeletePortalDesktopModules( Null.NullInteger, objDesktopModule.DesktopModuleID );
                     // add new portal module assignments
                     if( objDesktopModule.IsPremium )
-                    {
-                        ListItem objListItem;
-                        foreach( ListItem tempLoopVar_objListItem in ctlPortals.Assigned )
-                        {
-                            objListItem = tempLoopVar_objListItem;
+                    {                        
+                        foreach( ListItem objListItem in ctlPortals.Assigned )
+                        {                            
                             objDesktopModules.AddPortalDesktopModule( int.Parse( objListItem.Value ), objDesktopModule.DesktopModuleID );
                         }
                     }
-                    //Check to see if Interfaces (SupportedFeatures) Need to be Updated
-                    if( !String.IsNullOrEmpty(objDesktopModule.BusinessControllerClass) )
-                    {
-                        //this cannot be done directly at this time because
-                        //the module may not be loaded into the app domain yet
-                        //So send an EventMessage that will process the update
-                        //after the App recycles
-                        EventMessage oAppStartMessage = new EventMessage();
-                        oAppStartMessage.ProcessorType = "DotNetNuke.Entities.Modules.EventMessageProcessor, DotNetNuke";
-                        oAppStartMessage.Attributes.Add( "ProcessCommand", "UpdateSupportedFeatures" );
-                        oAppStartMessage.Attributes.Add( "BusinessControllerClass", objDesktopModule.BusinessControllerClass );
-                        oAppStartMessage.Attributes.Add( "DesktopModuleId", objDesktopModule.DesktopModuleID.ToString() );
-                        oAppStartMessage.Priority = MessagePriority.High;
-                        oAppStartMessage.SentDate = DateTime.Now;
-                        oAppStartMessage.Body = "";
-                        //make it expire as soon as it's processed
-                        oAppStartMessage.ExpirationDate = DateTime.Now.AddYears( - 1 );
-                        //send it
-                        EventQueueController oEventQueueController = new EventQueueController();
-                        oEventQueueController.SendMessage( oAppStartMessage, "Application_Start" );
-
-                        //force an app restart
-                        Config.Touch();
-                    }
+                    // update interfaces
+                    UpdateModuleInterfaces( objDesktopModule.BusinessControllerClass );
 
                     Response.Redirect( EditUrl( "desktopmoduleid", objDesktopModule.DesktopModuleID.ToString() ), true );
                 }
@@ -899,7 +906,7 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
             ctlPortals.Visible = chkPremium.Checked;
         }
 
-        protected void cmdInstall_Click( object sender, EventArgs e )
+        protected void cmdInstallManifest_Click( object sender, EventArgs e )
         {
             if( cboManifest.SelectedItem != null )
             {
@@ -933,15 +940,9 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                         //Create the DirectoryInfo object for the folder
                         DirectoryInfo folder = new DirectoryInfo( Globals.ApplicationMapPath + "\\DesktopModules\\" + objDesktopModule.FolderName );
                         if( folder.Exists )
-                        {
-                            //Check for app_code folder
-                            DirectoryInfo appCodeFolder = new DirectoryInfo( Globals.ApplicationMapPath + "\\App_Code\\" + objDesktopModule.FolderName );
-
-                            if( appCodeFolder.Exists )
-                            {
-                                //Add menu item to Actionmenu collectio
-                                actions.Add( GetNextActionID(), Localization.GetString( "PrivateAssemblyCreate.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "", EditUrl( "desktopmoduleid", mid.ToString(), "package" ), false, SecurityAccessLevel.Host, true, false );
-                            }
+                        {                            
+                            actions.Add( GetNextActionID(), Localization.GetString( "PrivateAssemblyCreate.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "", EditUrl( "desktopmoduleid", mid.ToString(), "package" ), false, SecurityAccessLevel.Host, true, false );
+                            
                         }
                     }
                 }

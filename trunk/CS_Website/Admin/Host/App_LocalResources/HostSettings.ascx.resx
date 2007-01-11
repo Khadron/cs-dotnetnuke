@@ -567,4 +567,25 @@
 	<data name="FriendlyUrl.Text">
 		<value>Friendly Url Settings</value>
 	</data>
+	<data name="plAvailable.Text">
+		<value>Upgrade Available?</value>
+	</data>
+	<data name="plAvailable.Help">
+		<value>Displays an icon if a new version of the application is available</value>
+	</data>
+	<data name="plLog.Text">
+		<value>View Upgrade Log For Version:</value>
+	</data>
+	<data name="plLog.Help">
+		<value>Allows you to view the database upgrade log for a specific version</value>
+	</data>
+	<data name="cmdRestart.Text">
+		<value>Restart Application</value>
+	</data>
+	<data name="plAutoSync.Text">
+		<value>Auto-Sync File System?</value>
+	</data>
+	<data name="plAutoSync.Help">
+		<value>Check this box to automatically synchronize the file system.</value>
+	</data>
 </root>

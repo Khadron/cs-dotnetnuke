@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -74,6 +74,13 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             if (modulenameElement != null)
             {
                 folder.ModuleName = modulenameElement.InnerText.Trim();
+            }
+
+            // V4.3.6 .dnn file format adds the optional compatibleversions node to the folder node element
+            XmlElement compatibleVersionsElement = (XmlElement)(FolderElement.SelectSingleNode("compatibleversions"));
+            if (compatibleVersionsElement != null)
+            {
+                folder.CompatibleVersions = compatibleVersionsElement.InnerText.Trim();
             }
 
             return folder;

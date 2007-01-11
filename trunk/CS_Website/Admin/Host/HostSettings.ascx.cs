@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -80,9 +80,10 @@ namespace DotNetNuke.Modules.Admin.Host
                     break;
             }
             if( chkUpgrade.Checked )
-            {
-                hypUpgrade.ImageUrl = Globals.glbAppUrl + "/upgrade.aspx?version=" + lblVersion.Text.Replace( ".", "" );
-                hypUpgrade.NavigateUrl = Globals.glbAppUrl + "/tabid/125/default.aspx";
+            {                
+                hypUpgrade.ImageUrl = string.Format( "{0}/update.aspx?version={1}", Globals.glbUpgradeUrl, lblVersion.Text.Replace( ".", "" ) );
+                hypUpgrade.NavigateUrl = string.Format( "{0}/redirect.aspx?version={1}", Globals.glbUpgradeUrl, lblVersion.Text.Replace( ".", "" ) );
+
             }
             else
             {
@@ -387,7 +388,7 @@ namespace DotNetNuke.Modules.Admin.Host
 
             if (Globals.HostSettings.ContainsKey("EnableFileAutoSync"))
             {
-                if (Globals.HostSettings["EnableFileAutoSync"].ToString() == "Y")
+                if (Globals.HostSettings["EnableFileAutoSync"].ToString() != "N")
                 {
                     chkAutoSync.Checked = true;
                 }
@@ -398,7 +399,7 @@ namespace DotNetNuke.Modules.Admin.Host
             }
             else
             {
-                chkAutoSync.Checked = false;
+                chkAutoSync.Checked = true;
             }
 
             ViewState["SelectedSchedulerMode"] = cboSchedulerMode.SelectedItem.Value;
@@ -773,6 +774,19 @@ namespace DotNetNuke.Modules.Admin.Host
             {
                 Exceptions.ProcessModuleLoadException( this, exc );
             }
+        }
+
+        /// <summary>
+        /// cmdRestart_Click runs when the Restart button is clicked
+        /// </summary>
+        /// <history>
+        /// 	[cnurse]	9/27/2004	Updated to reflect design changes for Help, 508 support
+        ///                       and localisation
+        /// </history>
+        protected void cmdRestart_Click(object sender, System.EventArgs e)
+        {
+            Config.Touch();
+            Response.Redirect(Globals.NavigateURL(), true);
         }
     }
 }

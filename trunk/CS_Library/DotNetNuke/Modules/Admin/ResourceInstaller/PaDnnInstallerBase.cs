@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -22,6 +22,7 @@ using System.Collections;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Definitions;
@@ -98,7 +99,6 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                 case PaTextEncoding.Unknown:
 
                     throw (new Exception(string.Format(SQL_UnknownFile, sqlFile.Name)));
-                    break;
             }
 
             //This check needs to be included because the unicode Byte Order mark results in an extra character at the start of the file
@@ -160,17 +160,14 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
         {
             int ModDefID = -1;
 
-            ModuleDefinitionInfo MI;
-            foreach (ModuleDefinitionInfo tempLoopVar_MI in Modules)
+            foreach (ModuleDefinitionInfo MI in Modules)
             {
-                MI = tempLoopVar_MI;
                 if (MI.TempModuleID == TempModDefID)
                 {
                     ModDefID = MI.ModuleDefID;
-                    goto endOfForLoop;
+                    break;
                 }
-            }
-        endOfForLoop:
+            }        
             return ModDefID;
         }
 
@@ -191,6 +188,30 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                 }
             }
             return true;
+        }
+
+        protected bool ValidateCompatibility(PaFolder Folder)
+        {
+
+            // check core framework compatibility
+            if( !String.IsNullOrEmpty( Folder.CompatibleVersions))
+            {
+                try
+                {
+                    Match objMatch = Regex.Match(Globals.glbAppVersion, Folder.CompatibleVersions, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                    if (objMatch.Groups[1].Value == "")
+                    {
+                        return false;
+                    }
+                }
+                catch // RegExp expression is not valid
+                {
+                    return false;
+                }
+            }
+
+            return true;
+
         }
 
         protected virtual void CreateBinFile(PaFile File)
@@ -234,10 +255,8 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             InstallerInfo.Log.StartJob(FILES_Creating);
 
             // create the files
-            PaFile file;
-            foreach (PaFile tempLoopVar_file in Folder.Files)
+            foreach (PaFile file in Folder.Files)
             {
-                file = tempLoopVar_file;
                 switch (file.Type)
                 {
                     case PaFileType.DataProvider:
@@ -361,10 +380,8 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             PaFile InstallScript = null;
 
             // executing all the sql files
-            PaFile file;
-            foreach (PaFile tempLoopVar_file in Folder.Files)
+            foreach (PaFile file in Folder.Files)
             {
-                file = tempLoopVar_file;
                 // DataProvider files may be either: the SQL to execute, uninstall, or XML stored procs.
                 // We only want to execute the first type of DataProvider files.
                 if (file.Type == PaFileType.Sql || (file.Type == PaFileType.DataProvider && file.Name.ToLower().IndexOf("uninstall") == -1 && file.Name.ToLower().IndexOf(".xml") == -1))
@@ -392,7 +409,6 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             {
                 strModuleVersion = objDesktopModule.Version.Replace(".", "");
             }
-            string strScriptVersion;
 
             if (InstallScript != null && objDesktopModule == null)
             {
@@ -400,8 +416,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                 InstallerInfo.Log.AddInfo(SQL_Executing + InstallScript.Name);
                 BatchSql(InstallScript);
 
-                string strInstallVersion;
-                strInstallVersion = Path.GetFileNameWithoutExtension(InstallScript.Name).Replace(".", "");
+                string strInstallVersion = Path.GetFileNameWithoutExtension(InstallScript.Name).Replace(".", "");
                 strInstallVersion = strInstallVersion.ToLower().Replace("install", "");
 
                 // if install script includes version number will be used a base version for upgrades
@@ -416,11 +431,9 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             // iterate through scripts
             PaDataProviderComparer Comparer = new PaDataProviderComparer();
             arrScriptFiles.Sort(Comparer);
-            PaFile scriptFile;
-            foreach (PaFile tempLoopVar_scriptFile in arrScriptFiles)
+            foreach (PaFile scriptFile in arrScriptFiles)
             {
-                scriptFile = tempLoopVar_scriptFile;
-                strScriptVersion = Path.GetFileNameWithoutExtension(scriptFile.Name).Replace(".", "");
+                string strScriptVersion = Path.GetFileNameWithoutExtension(scriptFile.Name).Replace(".", "");
                 if (String.Compare(strScriptVersion, strModuleVersion, false) > 0)
                 {
                     UpgradeVersions.Add(Path.GetFileNameWithoutExtension(scriptFile.Name));
@@ -434,22 +447,27 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
 
         public virtual void Install(PaFolderCollection folders)
         {
-            PaFolder folder;
-            foreach (PaFolder tempLoopVar_folder in folders)
+            foreach (PaFolder folder in folders)
             {
-                folder = tempLoopVar_folder;
-                if (ValidateVersion(folder))
+                if (ValidateCompatibility(folder))
                 {
-                    ExecuteSql(folder);
-                    CreateFiles(folder);
-                    if (folder.Modules.Count > 0)
+                    if (ValidateVersion(folder))
                     {
-                        RegisterModules(folder, folder.Modules, folder.Controls);
+                        ExecuteSql(folder);
+                        CreateFiles(folder);
+                        if (folder.Modules.Count > 0)
+                        {
+                            RegisterModules(folder, folder.Modules, folder.Controls);
+                        }
+                    }
+                    else
+                    {
+                        InstallerInfo.Log.AddWarning(INSTALL_Aborted);
                     }
                 }
                 else
                 {
-                    InstallerInfo.Log.AddWarning(INSTALL_Aborted);
+                    InstallerInfo.Log.AddWarning(INSTALL_Compatibility);
                 }
             }
         }
@@ -485,10 +503,8 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
 
             ModuleDefinitionController objModuleDefinitons = new ModuleDefinitionController();
 
-            ModuleDefinitionInfo objModuleDefinition;
-            foreach (ModuleDefinitionInfo tempLoopVar_objModuleDefinition in Modules)
+            foreach (ModuleDefinitionInfo objModuleDefinition in Modules)
             {
-                objModuleDefinition = tempLoopVar_objModuleDefinition;
                 // check if definition exists
                 ModuleDefinitionInfo objModuleDefinition2 = objModuleDefinitons.GetModuleDefinitionByName(objDesktopModule.DesktopModuleID, objModuleDefinition.FriendlyName);
                 if (objModuleDefinition2 == null)
@@ -509,10 +525,8 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
 
             ModuleControlController objModuleControls = new ModuleControlController();
 
-            ModuleControlInfo objModuleControl;
-            foreach (ModuleControlInfo tempLoopVar_objModuleControl in Controls)
+            foreach (ModuleControlInfo objModuleControl in Controls)
             {
-                objModuleControl = tempLoopVar_objModuleControl;
                 // get the real ModuleDefID from the associated Module
                 objModuleControl.ModuleDefID = GetModDefID(objModuleControl.ModuleDefID, Modules);
 

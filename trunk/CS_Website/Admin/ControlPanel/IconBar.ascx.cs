@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -24,6 +24,7 @@ using System.Web.UI.WebControls;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Tabs;
+using DotNetNuke.Entities.Users;
 using DotNetNuke.Security;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
@@ -129,8 +130,8 @@ namespace DotNetNuke.UI.ControlPanels
                     imgPreviewTabIcon.AlternateText = Localization.GetString("PreviewTab.AlternateText", this.LocalResourceFile);
                     cmdPreviewTab.Text = Localization.GetString("PreviewTab", this.LocalResourceFile);
                     if (IsPreview)
-                    {
-                        imgPreviewTabIcon.ImageUrl = "~/Admin/ControlPanel/images/iconbar_previewtab_on.gif";
+                    {                        
+                        imgPreviewTabIcon.ImageUrl = "~/Admin/ControlPanel/images/iconbar_unpreviewtab.gif";
                     }
                     lblModule.Text = Localization.GetString("Module", this.LocalResourceFile);
                     lblPane.Text = Localization.GetString("Pane", this.LocalResourceFile);
@@ -138,8 +139,9 @@ namespace DotNetNuke.UI.ControlPanels
                     lblAlign.Text = Localization.GetString("Align", this.LocalResourceFile);
                     imgAddModuleIcon.AlternateText = Localization.GetString("AddModule.AlternateText", this.LocalResourceFile);
                     cmdAddModule.Text = Localization.GetString("AddModule", this.LocalResourceFile);
-                    imgWizardIcon.AlternateText = Localization.GetString("Wizard.AlternateText", this.LocalResourceFile);
-                    cmdWizard.Text = Localization.GetString("Wizard", this.LocalResourceFile);
+                    cmdInstallFeatures.Text = Localization.GetString( "InstallFeatures", this.LocalResourceFile );
+                    imgRolesIcon.AlternateText = Localization.GetString( "Roles.AlternateText", this.LocalResourceFile );
+                    cmdRoles.Text = Localization.GetString( "Roles", this.LocalResourceFile );
                     imgSiteIcon.AlternateText = Localization.GetString("Site.AlternateText", this.LocalResourceFile);
                     cmdSite.Text = Localization.GetString("Site", this.LocalResourceFile);
                     imgUsersIcon.AlternateText = Localization.GetString("Users.AlternateText", this.LocalResourceFile);
@@ -176,18 +178,27 @@ namespace DotNetNuke.UI.ControlPanels
 
                     if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) == false)
                     {
-                        imgWizardIcon.ImageUrl = "~/Admin/ControlPanel/images/iconbar_wizard_bw.gif";
-                        cmdWizard.Enabled = false;
-                        cmdWizardIcon.Enabled = false;
                         imgSiteIcon.ImageUrl = "~/Admin/ControlPanel/images/iconbar_site_bw.gif";
                         cmdSite.Enabled = false;
                         cmdSiteIcon.Enabled = false;
                         imgUsersIcon.ImageUrl = "~/Admin/ControlPanel/images/iconbar_users_bw.gif";
                         cmdUsers.Enabled = false;
                         cmdUsersIcon.Enabled = false;
+                        imgRolesIcon.ImageUrl = "~/Admin/ControlPanel/images/iconbar_roles_bw.gif";
+                        cmdRoles.Enabled = false;
+                        cmdRolesIcon.Enabled = false;
                         imgFilesIcon.ImageUrl = "~/Admin/ControlPanel/images/iconbar_files_bw.gif";
                         cmdFiles.Enabled = false;
                         cmdFilesIcon.Enabled = false;
+                    }
+
+                    UserInfo objUser = UserController.GetCurrentUserInfo();
+                    if (objUser != null)
+                    {
+                        if (!objUser.IsSuperUser)
+                        {
+                            rowInstallModule.Visible = false;
+                        }
                     }
 
                     BindData();
@@ -292,9 +303,6 @@ namespace DotNetNuke.UI.ControlPanels
         /// <summary>
         /// CommonTasks_Click runs when any button in the Common Tasks toolbar is clicked
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	10/06/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -307,14 +315,6 @@ namespace DotNetNuke.UI.ControlPanels
 
                 switch( ( (LinkButton)sender ).ID )
                 {
-                    case "cmdWizard":
-                        URL = BuildURL( PortalSettings.PortalId, "Site Wizard" );
-                        break;
-
-                    case "cmdWizardIcon":
-
-                        URL = BuildURL( PortalSettings.PortalId, "Site Wizard" );
-                        break;
                     case "cmdSite":
                         URL = BuildURL( PortalSettings.PortalId, "Site Settings" );
                         break;
@@ -330,6 +330,14 @@ namespace DotNetNuke.UI.ControlPanels
                     case "cmdUsersIcon":
 
                         URL = BuildURL( PortalSettings.PortalId, "User Accounts" );
+                        break;
+                    case "cmdRoles":
+                        URL = BuildURL(PortalSettings.PortalId, "Security Roles");
+                        break;
+
+                    case "cmdRolesIcon":
+
+                        URL = BuildURL(PortalSettings.PortalId, "Security Roles");
                         break;
                     case "cmdFiles":
                         URL = BuildURL( PortalSettings.PortalId, "File Manager" );
@@ -442,7 +450,17 @@ namespace DotNetNuke.UI.ControlPanels
             cmdAddModule.Click += new EventHandler(AddModule_Click);
             cmdAddModuleIcon.Click += new EventHandler(AddModule_Click);
 
+            cmdInstallFeatures.Click += new System.EventHandler(cmdInstallFeatures_Click);
+
             this.ID = "IconBar.ascx";
+        }
+        
+        protected void cmdInstallFeatures_Click(object sender, System.EventArgs e)
+        {
+            string URL = Request.RawUrl;
+            URL = BuildURL(Null.NullInteger, "Module Definitions");
+            Response.Redirect(URL, true);
+
         }
     }
 }

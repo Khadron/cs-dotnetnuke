@@ -1,7 +1,8 @@
 #region DotNetNuke License
+
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -16,7 +17,9 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
+
 #endregion
+
 using System;
 using System.Collections;
 using System.Data;
@@ -41,17 +44,16 @@ namespace DotNetNuke.Services.FileSystem
             DatabaseSecure = 2,
         }
 
-        private void UpdateParentFolder(int PortalID, string FolderPath)
+        private void UpdateParentFolder( int PortalID, string FolderPath )
         {
-            if (!String.IsNullOrEmpty( FolderPath))
+            if( !String.IsNullOrEmpty( FolderPath ) )
             {
-                string parentFolderPath = FolderPath.Substring(0, FolderPath.Substring(0, FolderPath.Length - 1).LastIndexOf("/") + 1);
+                string parentFolderPath = FolderPath.Substring( 0, FolderPath.Substring( 0, FolderPath.Length - 1 ).LastIndexOf( "/" ) + 1 );
 
-                FolderInfo objFolder = GetFolder(PortalID, parentFolderPath);
-                UpdateFolder(objFolder);
+                FolderInfo objFolder = GetFolder( PortalID, parentFolderPath );
+                UpdateFolder( objFolder );
             }
         }
-
 
         public int AddFolder( int PortalID, string FolderPath )
         {
@@ -60,20 +62,25 @@ namespace DotNetNuke.Services.FileSystem
 
         public int AddFolder( int PortalID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached )
         {
-            FolderPath = FileSystemUtils.FormatFolderPath(FolderPath);
+            return AddFolder( PortalID, FolderPath, StorageLocation, IsProtected, IsCached, Null.NullDate );
+        }
+
+        public int AddFolder( int PortalID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached, DateTime LastUpdated )
+        {
+            FolderPath = FileSystemUtils.FormatFolderPath( FolderPath );
 
             int FolderId;
 
-            IDataReader dr = DataProvider.Instance().GetFolder(PortalID, FolderPath);
-            if (dr.Read())
+            IDataReader dr = DataProvider.Instance().GetFolder( PortalID, FolderPath );
+            if( dr.Read() )
             {
-                FolderId = Convert.ToInt32(dr["FolderId"]);
-                DataProvider.Instance().UpdateFolder(PortalID, FolderId, FolderPath, StorageLocation, IsProtected, IsCached);
+                FolderId = Convert.ToInt32( dr["FolderId"] );
+                DataProvider.Instance().UpdateFolder( PortalID, FolderId, FolderPath, StorageLocation, IsProtected, IsCached, LastUpdated );
             }
             else
             {
-                FolderId = DataProvider.Instance().AddFolder(PortalID, FolderPath, StorageLocation, IsProtected, IsCached);
-                UpdateParentFolder(PortalID, FolderPath);
+                FolderId = DataProvider.Instance().AddFolder( PortalID, FolderPath, StorageLocation, IsProtected, IsCached, LastUpdated );
+                UpdateParentFolder( PortalID, FolderPath );
             }
             dr.Close();
 
@@ -101,18 +108,18 @@ namespace DotNetNuke.Services.FileSystem
             return CBO.FillCollection( DataProvider.Instance().GetFoldersByPortal( PortalID ), typeof( FolderInfo ) );
         }
 
-        public ArrayList GetFoldersByUser(int PortalID, int UserID, bool IncludeSecure, bool IncludeDatabase, bool AllowAccess, string Permissions)
+        public ArrayList GetFoldersByUser( int PortalID, int UserID, bool IncludeSecure, bool IncludeDatabase, bool AllowAccess, string Permissions )
         {
-            return CBO.FillCollection(DataProvider.Instance().GetFoldersByUser(PortalID, UserID, IncludeSecure, IncludeDatabase, AllowAccess, Permissions), typeof(Services.FileSystem.FolderInfo));
+            return CBO.FillCollection( DataProvider.Instance().GetFoldersByUser( PortalID, UserID, IncludeSecure, IncludeDatabase, AllowAccess, Permissions ), typeof( FolderInfo ) );
         }
 
         public string GetMappedDirectory( string VirtualDirectory )
         {
-            string MappedDir = Convert.ToString(DataCache.GetCache("DirMap:" + VirtualDirectory));
-            if (MappedDir == "")
+            string MappedDir = Convert.ToString( DataCache.GetCache( "DirMap:" + VirtualDirectory ) );
+            if( MappedDir == "" )
             {
-                MappedDir = FileSystemUtils.AddTrailingSlash(HttpContext.Current.Server.MapPath(VirtualDirectory));
-                DataCache.SetCache("DirMap:" + VirtualDirectory, MappedDir);
+                MappedDir = FileSystemUtils.AddTrailingSlash( HttpContext.Current.Server.MapPath( VirtualDirectory ) );
+                DataCache.SetCache( "DirMap:" + VirtualDirectory, MappedDir );
             }
             return MappedDir;
         }
@@ -120,51 +127,51 @@ namespace DotNetNuke.Services.FileSystem
         public void DeleteFolder( int PortalID, string FolderPath )
         {
             DataProvider.Instance().DeleteFolder( PortalID, FileSystemUtils.FormatFolderPath( FolderPath ) );
-            UpdateParentFolder(PortalID, FolderPath);
+            UpdateParentFolder( PortalID, FolderPath );
         }
 
-        public void SetMappedDirectory(string VirtualDirectory)
+        public void SetMappedDirectory( string VirtualDirectory )
         {
             try
             {
-                string MappedDir = FileSystemUtils.AddTrailingSlash(HttpContext.Current.Server.MapPath(VirtualDirectory));
-                DataCache.SetCache("DirMap:" + VirtualDirectory, MappedDir);
+                string MappedDir = FileSystemUtils.AddTrailingSlash( HttpContext.Current.Server.MapPath( VirtualDirectory ) );
+                DataCache.SetCache( "DirMap:" + VirtualDirectory, MappedDir );
             }
-            catch (Exception exc)
+            catch( Exception exc )
             {
-                Exceptions.Exceptions.LogException(exc);
+                Exceptions.Exceptions.LogException( exc );
             }
         }
 
-        public void SetMappedDirectory(string VirtualDirectory, HttpContext context)
+        public void SetMappedDirectory( string VirtualDirectory, HttpContext context )
         {
             try
             {
-                string MappedDir = FileSystemUtils.AddTrailingSlash(context.Server.MapPath(VirtualDirectory));
-                DataCache.SetCache("DirMap:" + VirtualDirectory, MappedDir);
+                string MappedDir = FileSystemUtils.AddTrailingSlash( context.Server.MapPath( VirtualDirectory ) );
+                DataCache.SetCache( "DirMap:" + VirtualDirectory, MappedDir );
             }
-            catch (Exception exc)
+            catch( Exception exc )
             {
-                Exceptions.Exceptions.LogException(exc);
+                Exceptions.Exceptions.LogException( exc );
             }
         }
 
-        public void SetMappedDirectory(PortalInfo portalInfo, HttpContext context)
+        public void SetMappedDirectory( PortalInfo portalInfo, HttpContext context )
         {
             try
             {
                 string VirtualDirectory = Globals.ApplicationPath + "/" + portalInfo.HomeDirectory + "/";
-                SetMappedDirectory(VirtualDirectory, context);
+                SetMappedDirectory( VirtualDirectory, context );
             }
-            catch (Exception exc)
+            catch( Exception exc )
             {
-                Exceptions.Exceptions.LogException(exc);
+                Exceptions.Exceptions.LogException( exc );
             }
         }
 
         public void UpdateFolder( FolderInfo objFolderInfo )
         {
-            DataProvider.Instance().UpdateFolder( objFolderInfo.PortalID, objFolderInfo.FolderID, FileSystemUtils.FormatFolderPath( objFolderInfo.FolderPath ), objFolderInfo.StorageLocation, objFolderInfo.IsProtected, objFolderInfo.IsCached );
+            DataProvider.Instance().UpdateFolder( objFolderInfo.PortalID, objFolderInfo.FolderID, FileSystemUtils.FormatFolderPath( objFolderInfo.FolderPath ), objFolderInfo.StorageLocation, objFolderInfo.IsProtected, objFolderInfo.IsCached, objFolderInfo.LastUpdated );
         }
     }
 }

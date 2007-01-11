@@ -2,7 +2,7 @@
 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -37,8 +37,6 @@ namespace DotNetNuke.Services.Search
     /// The SearchDataStore is an implementation of the abstract SearchDataStoreProvider
     /// class
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     ///		[cnurse]	11/15/2004	documented
     /// </history>
@@ -54,20 +52,19 @@ namespace DotNetNuke.Services.Search
         /// <summary>
         /// CanIndexWord determines whether the Word should be indexed
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="strWord">The Word to validate</param>
+        /// <param name="locale"></param>
         /// <returns>True if indexable, otherwise false</returns>
         /// <history>
         ///		[cnurse]	11/16/2004	created
-        /// </history>
-        private bool CanIndexWord( string strWord, string Locale )
+        /// </history>        
+        private bool CanIndexWord( string strWord, string locale )
         {
             //Create Boolean to hold return value
             bool retValue = true;
 
             // get common words for exclusion
-            Hashtable CommonWords = GetCommonWords( Locale );
+            Hashtable CommonWords = GetCommonWords( locale );
 
             //Determine if Word is actually a number
             int result;
@@ -104,8 +101,6 @@ namespace DotNetNuke.Services.Search
         /// <summary>
         /// GetCommonWords gets a list of the Common Words for the locale
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="Locale">The locale string</param>
         /// <returns>A hashtable of common words</returns>
         /// <history>
@@ -145,8 +140,6 @@ namespace DotNetNuke.Services.Search
         /// <summary>
         /// GetSearchItems gets a collection of Search Items for a Module/Tab/Portal
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="PortalID">A Id of the Portal</param>
         /// <param name="TabID">A Id of the Tab</param>
         /// <param name="ModuleID">A Id of the Module</param>
@@ -161,37 +154,32 @@ namespace DotNetNuke.Services.Search
         /// <summary>
         /// GetSearchResults gets the search results for a passed in criteria string
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="PortalID">A Id of the Portal</param>
         /// <param name="Criteria">The criteria string</param>
         /// <history>
         ///		[cnurse]	11/15/2004	documented
         /// </history>
-        public override SearchResultsInfoCollection GetSearchResults(int PortalID, string Criteria)
+        public override SearchResultsInfoCollection GetSearchResults( int PortalID, string Criteria )
         {
-
             //We will assume that the content is in the locale of the Portal
             PortalController objPortalController = new PortalController();
-            PortalInfo objPortal = objPortalController.GetPortal(PortalID);
+            PortalInfo objPortal = objPortalController.GetPortal( PortalID );
             string locale = objPortal.DefaultLanguage;
-            Hashtable CommonWords = GetCommonWords(locale);
+            Hashtable CommonWords = GetCommonWords( locale );
             string setting = null;
+
+            //Get the default Search Settings
+            _defaultSettings = Globals.HostSettings;
 
             //Get the Settings for this Portal
             ModuleController objModuleController = new ModuleController();
-            ModuleInfo objModule = objModuleController.GetModuleByDefinition(PortalID, "Search Admin");
-            if (objModule != null)
+            ModuleInfo objModule = objModuleController.GetModuleByDefinition( -1, "Search Admin" );
+            if( objModule != null )
             {
-                _settings = Entities.Portals.PortalSettings.GetModuleSettings(objModule.ModuleID);
+                _settings = PortalSettings.GetModuleSettings( objModule.ModuleID );
             }
-            if (_settings == null)
-            {
-                //Try Host Settings
-                _settings = Common.Globals.HostSettings;
-            }
-            setting = GetSetting("SearchIncludeCommon");
-            if (setting == "Y")
+            setting = GetSetting( "SearchIncludeCommon" );
+            if( setting == "Y" )
             {
                 includeCommon = true;
             }
@@ -200,29 +188,29 @@ namespace DotNetNuke.Services.Search
             Criteria = Criteria.ToLower();
 
             // split search criteria into words
-            SearchCriteriaCollection SearchWords = new SearchCriteriaCollection(Criteria);
+            SearchCriteriaCollection SearchWords = new SearchCriteriaCollection( Criteria );
             Hashtable SearchResults = new Hashtable();
 
             // iterate through search criteria words
             SearchCriteria Criterion = null;
-            foreach (SearchCriteria CriterionWithinLoop in SearchWords)
+            foreach( SearchCriteria CriterionWithinLoop in SearchWords )
             {
                 Criterion = CriterionWithinLoop;
-                if (CommonWords.ContainsKey(CriterionWithinLoop.Criteria) == false || includeCommon)
+                if( CommonWords.ContainsKey( CriterionWithinLoop.Criteria ) == false || includeCommon )
                 {
-                    SearchResultsInfoCollection ResultsCollection = SearchDataStoreController.GetSearchResults(PortalID, Criterion.Criteria);
-                    if (CriterionWithinLoop.MustExclude == false)
+                    SearchResultsInfoCollection ResultsCollection = SearchDataStoreController.GetSearchResults( PortalID, Criterion.Criteria );
+                    if( CriterionWithinLoop.MustExclude == false )
                     {
                         // Add all these to the results
-                        foreach (SearchResultsInfo Result in ResultsCollection)
+                        foreach( SearchResultsInfo Result in ResultsCollection )
                         {
-                            if (SearchResults.ContainsKey(Result.SearchItemID))
+                            if( SearchResults.ContainsKey( Result.SearchItemID ) )
                             {
-                                ((SearchResultsInfo)(SearchResults[Result.SearchItemID])).Relevance += Result.Relevance;
+                                ( (SearchResultsInfo)( SearchResults[Result.SearchItemID] ) ).Relevance += Result.Relevance;
                             }
                             else
                             {
-                                SearchResults.Add(Result.SearchItemID, Result);
+                                SearchResults.Add( Result.SearchItemID, Result );
                             }
                         }
                     }
@@ -230,37 +218,37 @@ namespace DotNetNuke.Services.Search
             }
 
             // Validate MustInclude and MustExclude
-            foreach (SearchCriteria CriterionWithinLoop in SearchWords)
+            foreach( SearchCriteria CriterionWithinLoop in SearchWords )
             {
                 Criterion = CriterionWithinLoop;
-                SearchResultsInfoCollection ResultsCollection = SearchDataStoreController.GetSearchResults(PortalID, Criterion.Criteria);
-                if (CriterionWithinLoop.MustInclude)
+                SearchResultsInfoCollection ResultsCollection = SearchDataStoreController.GetSearchResults( PortalID, Criterion.Criteria );
+                if( CriterionWithinLoop.MustInclude )
                 {
                     // We need to remove items which do not include this term
                     Hashtable MandatoryResults = new Hashtable();
-                    foreach (SearchResultsInfo Result in ResultsCollection)
+                    foreach( SearchResultsInfo Result in ResultsCollection )
                     {
-                        MandatoryResults.Add(Result.SearchItemID, 0);
+                        MandatoryResults.Add( Result.SearchItemID, 0 );
                     }
-                    foreach (SearchResultsInfo Result in SearchResults.Values)
+                    foreach( SearchResultsInfo Result in SearchResults.Values )
                     {
-                        if (MandatoryResults.ContainsKey(Result.SearchItemID) == false)
+                        if( MandatoryResults.ContainsKey( Result.SearchItemID ) == false )
                         {
                             Result.Delete = true;
                         }
                     }
                 }
-                if (CriterionWithinLoop.MustExclude)
+                if( CriterionWithinLoop.MustExclude )
                 {
                     // We need to remove items which do include this term
                     Hashtable ExcludedResults = new Hashtable();
-                    foreach (SearchResultsInfo Result in ResultsCollection)
+                    foreach( SearchResultsInfo Result in ResultsCollection )
                     {
-                        ExcludedResults.Add(Result.SearchItemID, 0);
+                        ExcludedResults.Add( Result.SearchItemID, 0 );
                     }
-                    foreach (SearchResultsInfo Result in SearchResults.Values)
+                    foreach( SearchResultsInfo Result in SearchResults.Values )
                     {
-                        if (ExcludedResults.ContainsKey(Result.SearchItemID) == true)
+                        if( ExcludedResults.ContainsKey( Result.SearchItemID ) == true )
                         {
                             Result.Delete = true;
                         }
@@ -272,17 +260,17 @@ namespace DotNetNuke.Services.Search
             SearchResultsInfoCollection Results = new SearchResultsInfoCollection();
             TabController objTabController = new TabController();
             Hashtable hashTabsAllowed = new Hashtable();
-            foreach (SearchResultsInfo SearchResult in SearchResults.Values)
+            foreach( SearchResultsInfo SearchResult in SearchResults.Values )
             {
-                if (!SearchResult.Delete)
+                if( !SearchResult.Delete )
                 {
                     //Check If authorised to View Tab
                     Hashtable hashModulesAllowed = null;
                     object tabAllowed = hashTabsAllowed[SearchResult.TabId];
-                    if (tabAllowed == null)
+                    if( tabAllowed == null )
                     {
-                        TabInfo objTab = objTabController.GetTab(SearchResult.TabId);
-                        if (PortalSecurity.IsInRoles(objTab.AuthorizedRoles))
+                        TabInfo objTab = objTabController.GetTab( SearchResult.TabId );
+                        if( PortalSecurity.IsInRoles( objTab.AuthorizedRoles ) )
                         {
                             hashModulesAllowed = new Hashtable();
                             tabAllowed = hashModulesAllowed;
@@ -292,11 +280,11 @@ namespace DotNetNuke.Services.Search
                             tabAllowed = 0;
                             hashModulesAllowed = null;
                         }
-                        hashTabsAllowed.Add(SearchResult.TabId, tabAllowed);
+                        hashTabsAllowed.Add( SearchResult.TabId, tabAllowed );
                     }
                     else
                     {
-                        if (tabAllowed is Hashtable)
+                        if( tabAllowed is Hashtable )
                         {
                             hashModulesAllowed = (Hashtable)tabAllowed;
                         }
@@ -306,24 +294,24 @@ namespace DotNetNuke.Services.Search
                         }
                     }
 
-                    if (hashModulesAllowed != null)
+                    if( hashModulesAllowed != null )
                     {
                         bool addResult = false;
-                        if (!(hashModulesAllowed.ContainsKey(SearchResult.ModuleId)))
+                        if( !( hashModulesAllowed.ContainsKey( SearchResult.ModuleId ) ) )
                         {
                             //Now check if authorized to view module
-                            objModule = objModuleController.GetModule(SearchResult.ModuleId, SearchResult.TabId);
-                            addResult = (objModule.IsDeleted == false && PortalSecurity.IsInRoles(objModule.AuthorizedViewRoles));
-                            hashModulesAllowed.Add(SearchResult.ModuleId, addResult);
+                            objModule = objModuleController.GetModule( SearchResult.ModuleId, SearchResult.TabId );
+                            addResult = ( objModule.IsDeleted == false && PortalSecurity.IsInRoles( objModule.AuthorizedViewRoles ) );
+                            hashModulesAllowed.Add( SearchResult.ModuleId, addResult );
                         }
                         else
                         {
-                            addResult = System.Convert.ToBoolean(hashModulesAllowed[SearchResult.ModuleId]);
+                            addResult = Convert.ToBoolean( hashModulesAllowed[SearchResult.ModuleId] );
                         }
 
-                        if (addResult)
+                        if( addResult )
                         {
-                            Results.Add(SearchResult);
+                            Results.Add( SearchResult );
                         }
                     }
                 }
@@ -336,8 +324,6 @@ namespace DotNetNuke.Services.Search
         /// <summary>
         /// GetSearchWords gets a list of the current Words in the Database's Index
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <returns>A hashtable of words</returns>
         /// <history>
         ///		[cnurse]	11/15/2004	documented
@@ -372,9 +358,6 @@ namespace DotNetNuke.Services.Search
         /// GetSetting gets a Search Setting from the Portal Modules Settings table (or
         /// from the Host Settings)
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	11/16/2004	created
         /// </history>
@@ -402,8 +385,6 @@ namespace DotNetNuke.Services.Search
         /// <summary>
         /// AddIndexWords adds the Index Words to the Data Store
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="indexId">The Id of the SearchItem</param>
         /// <param name="searchItem">The SearchItem</param>
         /// <param name="language">The Language of the current Item</param>
@@ -421,10 +402,10 @@ namespace DotNetNuke.Services.Search
 
             //Get the Settings for this Module
             _settings = SearchDataStoreController.GetSearchSettings( searchItem.ModuleId );
-            if (_settings == null)
+            if( _settings == null )
             {
                 //Try Host Settings
-                _settings = Common.Globals.HostSettings;
+                _settings = Globals.HostSettings;
             }
 
             string setting = GetSetting( "MaxSearchWordLength" );
@@ -508,8 +489,6 @@ namespace DotNetNuke.Services.Search
         /// <summary>
         /// StoreSearchItems adds the Search Item to the Data Store
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <param name="SearchItems">A Collection of SearchItems</param>
         /// <history>
         ///		[cnurse]	11/15/2004	documented
@@ -533,38 +512,28 @@ namespace DotNetNuke.Services.Search
                 }
             }
 
-            SearchItemInfo SearchItem;
-            SearchItemInfo IndexedItem;
-            SearchItemInfoCollection IndexedItems;
-            SearchItemInfoCollection ModuleItems;
-            int IndexID;
-            int iSearch;
-            int ModuleId;
-            string Language;
-            bool ItemFound;
-
             //Process the SearchItems by Module to reduce Database hits
             IDictionaryEnumerator moduleEnumerator = Modules.GetEnumerator();
             while( moduleEnumerator.MoveNext() )
             {
-                ModuleId = Convert.ToInt32( moduleEnumerator.Key );
-                Language = Convert.ToString( moduleEnumerator.Value );
+                int ModuleId = Convert.ToInt32( moduleEnumerator.Key );
+                string Language = Convert.ToString( moduleEnumerator.Value );
 
                 //Get the Indexed Items that are in the Database for this Module
-                IndexedItems = GetSearchItems( ModuleId );
+                SearchItemInfoCollection IndexedItems = GetSearchItems( ModuleId );
                 //Get the Module's SearchItems to compare
-                ModuleItems = SearchItems.ModuleItems( ModuleId );
+                SearchItemInfoCollection ModuleItems = SearchItems.ModuleItems( ModuleId );
 
                 //As we will be potentially removing items from the collection iterate backwards
-                for( iSearch = ModuleItems.Count - 1; iSearch >= 0; iSearch-- )
+                for( int iSearch = ModuleItems.Count - 1; iSearch >= 0; iSearch-- )
                 {
-                    SearchItem = ModuleItems[iSearch];
-                    ItemFound = false;
+
+                    SearchItemInfo SearchItem = ModuleItems[iSearch];
+                    bool ItemFound = false;
 
                     //Iterate through Indexed Items
-                    foreach( SearchItemInfo tempLoopVar_IndexedItem in IndexedItems )
+                    foreach( SearchItemInfo IndexedItem in IndexedItems )
                     {
-                        IndexedItem = tempLoopVar_IndexedItem;
                         //Compare the SearchKeys
                         if( SearchItem.SearchKey == IndexedItem.SearchKey )
                         {
@@ -603,7 +572,7 @@ namespace DotNetNuke.Services.Search
                         try
                         {
                             //Item doesn't exist so Add to Index
-                            IndexID = SearchDataStoreController.AddSearchItem( SearchItem );
+                            int IndexID = SearchDataStoreController.AddSearchItem( SearchItem );
                             // index the content
                             AddIndexWords( IndexID, SearchItem, Language );
                         }
@@ -618,9 +587,8 @@ namespace DotNetNuke.Services.Search
                 //As we removed the IndexedItems as we matched them the remaining items are deleted Items
                 //ie they have been indexed but are no longer present
                 Hashtable ht = new Hashtable();
-                foreach( SearchItemInfo tempLoopVar_IndexedItem in IndexedItems )
+                foreach( SearchItemInfo IndexedItem in IndexedItems )
                 {
-                    IndexedItem = tempLoopVar_IndexedItem;
                     try
                     {
                         //dedupe

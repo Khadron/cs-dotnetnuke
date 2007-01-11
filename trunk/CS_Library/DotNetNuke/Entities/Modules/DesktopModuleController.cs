@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -25,11 +25,11 @@ namespace DotNetNuke.Entities.Modules
 {
     public class DesktopModuleController
     {
-
-        public int AddDesktopModule( DesktopModuleInfo objDesktopModule )
+        public int AddDesktopModule(DesktopModuleInfo objDesktopModule)
         {
-            return DataProvider.Instance().AddDesktopModule( objDesktopModule.ModuleName, objDesktopModule.FolderName, objDesktopModule.FriendlyName, objDesktopModule.Description, objDesktopModule.Version, objDesktopModule.IsPremium, objDesktopModule.IsAdmin, objDesktopModule.BusinessControllerClass, objDesktopModule.SupportedFeatures );
+            return DataProvider.Instance().AddDesktopModule(objDesktopModule.ModuleName, objDesktopModule.FolderName, objDesktopModule.FriendlyName, objDesktopModule.Description, objDesktopModule.Version, objDesktopModule.IsPremium, objDesktopModule.IsAdmin, objDesktopModule.BusinessControllerClass, objDesktopModule.SupportedFeatures, objDesktopModule.CompatibleVersions);
         }
+        
         public DesktopModuleInfo GetDesktopModule( int DesktopModuleId )
         {
             return ( (DesktopModuleInfo)CBO.FillObject( DataProvider.Instance().GetDesktopModule( DesktopModuleId ), typeof( DesktopModuleInfo ) ) );
@@ -80,9 +80,9 @@ namespace DotNetNuke.Entities.Modules
             DataProvider.Instance().DeletePortalDesktopModules( PortalID, DesktopModuleID );
         }
 
-        public void UpdateDesktopModule( DesktopModuleInfo objDesktopModule )
+        public void UpdateDesktopModule(DesktopModuleInfo objDesktopModule)
         {
-            DataProvider.Instance().UpdateDesktopModule( objDesktopModule.DesktopModuleID, objDesktopModule.ModuleName, objDesktopModule.FolderName, objDesktopModule.FriendlyName, objDesktopModule.Description, objDesktopModule.Version, objDesktopModule.IsPremium, objDesktopModule.IsAdmin, objDesktopModule.BusinessControllerClass, objDesktopModule.SupportedFeatures );
+            DataProvider.Instance().UpdateDesktopModule(objDesktopModule.DesktopModuleID, objDesktopModule.ModuleName, objDesktopModule.FolderName, objDesktopModule.FriendlyName, objDesktopModule.Description, objDesktopModule.Version, objDesktopModule.IsPremium, objDesktopModule.IsAdmin, objDesktopModule.BusinessControllerClass, objDesktopModule.SupportedFeatures, objDesktopModule.CompatibleVersions);
         }
     }
 }

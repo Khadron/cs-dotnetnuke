@@ -124,7 +124,7 @@
         <value>Edit Module Definitions</value>
     </data>
     <data name="PrivateAssemblyCreate.Action">
-        <value>Create Private Assembly</value>
+        <value>Create Module Package</value>
     </data>
     <data name="ModuleHelp.Text">
         <value>&lt;h1&gt;About Module Definitions&lt;/h1&gt;&lt;p&gt;The Super User can manage the Desktop Modules installed on the system.&lt;/p&gt;</value>
@@ -172,7 +172,7 @@
         <value>The CacheTime must be an Integer value.</value>
     </data>
     <data name="plManifest.Text">
-        <value>Module Manifest:</value>
+        <value>Manifest:</value>
     </data>
     <data name="plManifest.Help">
         <value>Select an existing manifest file and select Install ( optional ).</value>
@@ -182,5 +182,17 @@
     </data>
     <data name="InstallManifest.ErrorMessage">
         <value>Error Installing Selected Module Manifest File</value>
+    </data>
+    <data name="plCompatibleVersions.Text">
+        <value>Compatibility:</value>
+    </data>
+    <data name="plCompatibleVersions.Help">
+        <value>(Optional) A regular expression which describes the module compatibility with the host application based on version. A sample regular expression would be ^[0-9]{1}[0-9]{1}.[0-9]{1}[0-9]{1}.[0-9]{1}[0-9]{1}$ - indicating the module is compatible with all versions from 00.00.00 to 99.99.99</value>
+    </data>
+    <data name="cmdDelete.Text">
+        <value>Uninstall</value>
+    </data>
+    <data name="chkDelete.Text">
+        <value>Delete Files?</value>
     </data>
 </root>

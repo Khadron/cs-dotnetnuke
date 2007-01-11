@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -610,9 +610,7 @@ namespace DotNetNuke.Framework
             HtmlTextWriter htmlWriter = new HtmlTextWriter(stringWriter);
 
             //Localize controls
-            Trace.Write("LocalizedPage::PreRender", string.Format("Performing substitutions for {0}", Thread.CurrentThread.CurrentUICulture.Name));
             IterateControls(Controls, _localizedControls, LocalResourceFile);
-            Trace.Write("LocalizedPage::Render", "Removing resourcekey attribute from controls");
             RemoveKeyAttribute(_localizedControls);
 
             base.Render(htmlWriter);

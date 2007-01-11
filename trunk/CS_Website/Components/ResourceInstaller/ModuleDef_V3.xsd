@@ -16,6 +16,7 @@
                                         <xs:element name="description" type="xs:string" />
                                         <xs:element name="version" type="versionNumber" />
                                         <xs:element name="businesscontrollerclass" type="xs:string" minOccurs="0" />
+                                        <xs:element name="compatibleversions" type="xs:string" minOccurs="0" />
                                         <xs:element name="resourcefile" type="xs:string" minOccurs="0" />
                                         <xs:element name="modules" maxOccurs="unbounded">
                                             <xs:complexType>
@@ -39,15 +40,19 @@
                                                                                         <xs:element name="vieworder" type="xs:string" minOccurs="0" />
                                                                                         <xs:element name="helpurl" type="xs:string" minOccurs="0" />
                                                                                         <xs:element name="helpfile" type="xs:string" minOccurs="0" />
+                                                                                        <xs:any namespace="http://www.w3.org/1999/xhtml" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
                                                                                     </xs:sequence>
                                                                                 </xs:complexType>
                                                                             </xs:element>
+                                                                            <xs:any namespace="http://www.w3.org/1999/xhtml" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
                                                                         </xs:sequence>
                                                                     </xs:complexType>
                                                                 </xs:element>
+                                                                <xs:any namespace="http://www.w3.org/1999/xhtml" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
                                                             </xs:sequence>
                                                         </xs:complexType>
                                                     </xs:element>
+                                                    <xs:any namespace="http://www.w3.org/1999/xhtml" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
                                                 </xs:sequence>
                                             </xs:complexType>
                                         </xs:element>
@@ -59,18 +64,23 @@
                                                             <xs:sequence>
                                                                 <xs:element name="path" type="xs:string" minOccurs="0" />
                                                                 <xs:element name="name" type="xs:string" />
+                                                                <xs:any namespace="http://www.w3.org/1999/xhtml" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
                                                             </xs:sequence>
                                                         </xs:complexType>
                                                     </xs:element>
+                                                    <xs:any namespace="http://www.w3.org/1999/xhtml" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
                                                 </xs:sequence>
                                             </xs:complexType>
                                         </xs:element>
+                                        <xs:any namespace="http://www.w3.org/1999/xhtml" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
+                            <xs:any namespace="http://www.w3.org/1999/xhtml" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
+                <xs:any namespace="http://www.w3.org/1999/xhtml" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attribute name="version" form="unqualified" type="moduleDefinitionVersion" use="required" />
             <xs:attribute name="type" form="unqualified" type="paType" use="required" />

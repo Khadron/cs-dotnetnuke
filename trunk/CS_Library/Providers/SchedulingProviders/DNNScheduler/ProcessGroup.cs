@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -20,7 +20,7 @@
 using System;
 using System.Reflection;
 using System.Threading;
-//using Exceptions;
+using System.Web.Compilation;
 
 namespace DotNetNuke.Services.Scheduling.DNNScheduling
 {
@@ -82,13 +82,13 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
             ///''''''''''''''''''''''''''''''''''''''''''''''''
             //This is a method to encapsulate returning
             //an object whose class inherits SchedulerClient.
-            ///''''''''''''''''''''''''''''''''''''''''''''''''
-            Type t = Type.GetType( strProcess, true );
+            ///''''''''''''''''''''''''''''''''''''''''''''''''            
+            Type t = BuildManager.GetType(strProcess, true, true);
             ScheduleHistoryItem[] param = new ScheduleHistoryItem[1];
             param[0] = objScheduleHistoryItem;
 
             ///''''''''''''''''''''''''''''''''''''''''''''''''
-            //Get the constructor for the subClass
+            //Get the constructor for the Class
             ///''''''''''''''''''''''''''''''''''''''''''''''''
             Type[] types = new Type[1];
             types[0] = typeof( ScheduleHistoryItem );
@@ -175,8 +175,11 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                     //in case the scheduler client
                     //didn't have proper exception handling
                     //make sure we fire the Errored event
-                    Process.ScheduleHistoryItem.Succeeded = false;
-                    Process.Errored( ref exc );
+                    if(Process != null)
+                    {
+                        Process.ScheduleHistoryItem.Succeeded = false;
+                        Process.Errored( ref exc );
+                    }
                 }
                 if( Process.ScheduleHistoryItem.Succeeded == true )
                 {
@@ -207,8 +210,11 @@ namespace DotNetNuke.Services.Scheduling.DNNScheduling
                 //in case the scheduler client
                 //didn't have proper exception handling
                 //make sure we fire the Errored event
-                Process.ScheduleHistoryItem.Succeeded = false;
-                Process.Errored( ref exc );
+                if (Process != null)
+                {
+                    Process.ScheduleHistoryItem.Succeeded = false;
+                    Process.Errored( ref exc );
+                }
             }
             finally
             {

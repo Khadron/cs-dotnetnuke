@@ -126,4 +126,7 @@
 	<data name="Seconds.Text">
 		<value>Seconds</value>
 	</data>
+	<data name="plEnabled.Help">
+    <value>Check to enable the schedule.</value>
+  </data>
 </root>
