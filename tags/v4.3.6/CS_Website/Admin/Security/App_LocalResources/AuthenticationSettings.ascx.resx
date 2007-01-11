@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="ControlTitle_.Text">
+		<value>Windows Authentication</value>
+	</data>
+	<data name="plAuthentication.Text">
+		<value>Windows Authentication?</value>
+	</data>
+	<data name="plAuthentication.Help">
+		<value>If select, Windows Authentication is enabled for this portal</value>
+	</data>
+	<data name="chkAuthentication.Text">
+		<value></value>
+	</data>
+	<data name="plSynchronizeRole.Text">
+		<value>Synchronize Role?</value>
+	</data>
+	<data name="plSynchronizeRole.Help">
+		<value>If select, user's role will be synchronized with Windows Active Directory security group each time user logon</value>
+	</data>
+	<data name="chkSynchronizeRole.Text">
+		<value></value>
+	</data>
+	<data name="plSynchornizePassword.Text">
+		<value>Synchronize Password?</value>
+	</data>
+	<data name="plSynchornizePassword.Help">
+		<value>If select, user's password will be updated with Windows password (if 2 password not match) when user logon</value>
+	</data>
+	<data name="chkSynchronizePassword.Text">
+		<value></value>
+	</data>
+	<data name="plProvider.Text">
+		<value>Provider</value>
+	</data>
+	<data name="plProvider.Help">
+		<value>Select Authentication provider for this portal</value>
+	</data>
+	<data name="plAuthenticationType.Text">
+		<value>Authentication Type</value>
+	</data>
+	<data name="plAuthenticationType.Help">
+		<value>Select Authentication type for this portal (Delegation is recommenced)</value>
+	</data>
+	<data name="plRootDomain.Text">
+		<value>Root Domain:</value>
+	</data>
+	<data name="plRootDomain.Help">
+		<value>Root Domain in format yourdomain.com or DC=yourdomain,DC=com. Leave this value blank if you want to obtain Active Directory objects from root forest </value>
+	</data>
+	<data name="plUserName.Text">
+		<value>User Name:</value>
+	</data>
+	<data name="plUserName.Help">
+		<value>User Name, who has permission to access Active Directory</value>
+	</data>
+	<data name="plPassword.Text">
+		<value>Password:</value>
+	</data>
+	<data name="plPassword.Help">
+		<value>Password of this User</value>
+	</data>
+	<data name="plConfirm.Text">
+		<value>Confirm Password:</value>
+	</data>
+	<data name="plConfirm.Help">
+		<value>Confirm Password</value>
+	</data>
+	<data name="plEmailDomain.Text">
+		<value>Email Domain:</value>
+	</data>
+	<data name="plEmailDomain.Help">
+		<value>Email Domain to be used for user email when your network doesn't have Windows Active Directory (Blank is recommenced)</value>
+	</data>
+	<data name="cmdUpdate.Text">
+		<value>Update</value>
+	</data>
+	<data name="[Global Catalog Status].Text">
+		<value>Accessing Global Catalog:</value>
+	</data>
+	<data name="[Root Domain Status].Text">
+		<value>Checking Root Domain:</value>
+	</data>
+	<data name="[LDAP Status].Text">
+		<value>Accessing LDAP:</value>
+	</data>
+	<data name="[Network Domains Status].Text">
+		<value>Find all domains in network:</value>
+	</data>
+	<data name="[LDAP Error Message].Text">
+		<value>Could not access LDAP to obtain domains info</value>
+	</data>
+	<data name="OK.Text">
+		<value>OK</value>
+	</data>
+	<data name="FAIL.Text">
+		<value>FAIL</value>
+	</data>
+	<data name="AuthProviderError.Text">
+		<value>The default authentication provider specified in web.config is not configured properly.  Authentication settings are disabled.</value>
+	</data>
+	<data name="SameDomainError.Text">
+		<value>The domain name of the authenticated user ({0}) is the same as the server name ({1}).  This usually indicates the server is not a member of a domain.  Authentication settings are disabled.</value>
+	</data>
+</root>

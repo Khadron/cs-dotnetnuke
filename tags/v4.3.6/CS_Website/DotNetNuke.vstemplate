@@ -1,0 +1,1348 @@
+<VSTemplate Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>DotNetNuke Web Application Framework</Name>
+    <Description>This template creates a DotNetNuke Web Application</Description>
+    <ProjectType>Web</ProjectType>
+    <ProjectSubType>VisualBasic</ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>DotNetNuke Website</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
+    <EnableEditOfLocationField>true</EnableEditOfLocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <LocationField>Hidden</LocationField>
+    <Icon>DotNetNuke.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="DotNetNuke.webproj" File="DotNetNuke.webproj" ReplaceParameters="true">
+      <Folder Name="admin" TargetFolderName="admin">
+        <Folder Name="Containers" TargetFolderName="Containers">
+          <ProjectItem ReplaceParameters="false" TargetFileName="actionbutton.ascx">actionbutton.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ActionButton.ascx.vb">ActionButton.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="actions.ascx">actions.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dropdownactions.ascx">dropdownactions.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DropDownActions.ascx.vb">DropDownActions.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon.ascx">icon.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Icon.ascx.vb">Icon.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="linkactions.ascx">linkactions.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="LinkActions.ascx.vb">LinkActions.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="printmodule.ascx">printmodule.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="PrintModule.ascx.vb">PrintModule.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="solpartactions.ascx">solpartactions.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SolPartActions.ascx.vb">SolPartActions.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="title.ascx">title.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Title.ascx.vb">Title.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="visibility.ascx">visibility.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Visibility.ascx.vb">Visibility.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="ControlPanel" TargetFolderName="ControlPanel">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="Classic.ascx.resx">Classic.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="IconBar.ascx.resx">IconBar.ascx.resx</ProjectItem>
+          </Folder>
+          <Folder Name="images" TargetFolderName="images">
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_addmodule.gif">iconbar_addmodule.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_addmodule_bw.gif">iconbar_addmodule_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_addtab.gif">iconbar_addtab.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_addtab_bw.gif">iconbar_addtab_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_copytab.gif">iconbar_copytab.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_copytab_bw.gif">iconbar_copytab_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_deletetab.gif">iconbar_deletetab.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_deletetab_bw.gif">iconbar_deletetab_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_edittab.gif">iconbar_edittab.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_edittab_bw.gif">iconbar_edittab_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_files.gif">iconbar_files.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_files_bw.gif">iconbar_files_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_help.gif">iconbar_help.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_help_bw.gif">iconbar_help_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_previewtab.gif">iconbar_previewtab.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_previewtab_bw.gif">iconbar_previewtab_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_roles.gif">iconbar_roles.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_roles_bw.gif">iconbar_roles_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_site.gif">iconbar_site.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_site_bw.gif">iconbar_site_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_unpreviewtab.gif">iconbar_unpreviewtab.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_unpreviewtab_bw.gif">iconbar_unpreviewtab_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_users.gif">iconbar_users.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_users_bw.gif">iconbar_users_bw.gif</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="classic.ascx">classic.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Classic.ascx.vb">Classic.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="iconbar.ascx">iconbar.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="IconBar.ascx.vb">IconBar.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Files" TargetFolderName="Files">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="FileManager.ascx.resx">FileManager.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="WebUpload.ascx.resx">WebUpload.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="filemanager.ascx">filemanager.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="FileManager.ascx.vb">FileManager.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_filemanager_32px.gif">icon_filemanager_32px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="webupload.ascx">webupload.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="WebUpload.ascx.vb">WebUpload.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Host" TargetFolderName="Host">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="FriendlyUrls.ascx.resx">FriendlyUrls.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="HostSettings.ascx.resx">HostSettings.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="FriendlyUrls.ascx">FriendlyUrls.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="FriendlyUrls.ascx.vb">FriendlyUrls.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="hostsettings.ascx">hostsettings.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="HostSettings.ascx.vb">HostSettings.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Lists" TargetFolderName="Lists">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="ListEditor.ascx.resx">ListEditor.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="listeditor.ascx">listeditor.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ListEditor.ascx.vb">ListEditor.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Localization" TargetFolderName="Localization">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="LanguageEditor.ascx.resx">LanguageEditor.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="LanguageEditorExt.ascx.resx">LanguageEditorExt.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="LanguagePack.ascx.resx">LanguagePack.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Languages.ascx.resx">Languages.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ResourceVerifier.ascx.resx">ResourceVerifier.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="TimeZoneEditor.ascx.resx">TimeZoneEditor.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_language_16px.gif">icon_language_16px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_language_32px.gif">icon_language_32px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="languageeditor.ascx">languageeditor.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="LanguageEditor.ascx.vb">LanguageEditor.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="languageeditorext.ascx">languageeditorext.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="LanguageEditorExt.ascx.vb">LanguageEditorExt.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="languagepack.ascx">languagepack.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="LanguagePack.ascx.vb">LanguagePack.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="languages.ascx">languages.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Languages.ascx.vb">Languages.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="resourceverifier.ascx">resourceverifier.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ResourceVerifier.ascx.vb">ResourceVerifier.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="timezoneeditor.ascx">timezoneeditor.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="TimeZoneEditor.ascx.vb">TimeZoneEditor.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Log" TargetFolderName="Log">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="SiteLog.ascx.resx">SiteLog.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="sitelog.ascx">sitelog.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SiteLog.ascx.vb">SiteLog.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Logging" TargetFolderName="Logging">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditLogTypes.ascx.resx">EditLogTypes.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="LogViewer.ascx.resx">LogViewer.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="editlogtypes.ascx">editlogtypes.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditLogTypes.ascx.vb">EditLogTypes.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="logviewer.ascx">logviewer.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="LogViewer.ascx.vb">LogViewer.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="ModuleDefinitions" TargetFolderName="ModuleDefinitions">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditModuleControl.ascx.resx">EditModuleControl.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditModuleDefinition.ascx.resx">EditModuleDefinition.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ModuleDefinitions.ascx.resx">ModuleDefinitions.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ModuleDefValidator.ascx.resx">ModuleDefValidator.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="PrivateAssembly.ascx.resx">PrivateAssembly.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="editmodulecontrol.ascx">editmodulecontrol.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditModuleControl.ascx.vb">EditModuleControl.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="editmoduledefinition.ascx">editmoduledefinition.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditModuleDefinition.ascx.vb">EditModuleDefinition.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_moduledefinitions_32px.gif">icon_moduledefinitions_32px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="moduledefinitions.ascx">moduledefinitions.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ModuleDefinitions.ascx.vb">ModuleDefinitions.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="moduledefvalidator.ascx">moduledefvalidator.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ModuleDefValidator.ascx.vb">ModuleDefValidator.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="privateassembly.ascx">privateassembly.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="PrivateAssembly.ascx.vb">PrivateAssembly.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Modules" TargetFolderName="Modules">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="Export.ascx.resx">Export.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Import.ascx.resx">Import.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ModuleSettings.ascx.resx">ModuleSettings.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="export.ascx">export.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Export.ascx.vb">Export.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_moduledefinitions_32px.gif">icon_moduledefinitions_32px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="import.ascx">import.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Import.ascx.vb">Import.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="modulesettings.ascx">modulesettings.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ModuleSettings.ascx.vb">ModuleSettings.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Portal" TargetFolderName="Portal">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditPortalAlias.ascx.resx">EditPortalAlias.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="PortalAlias.ascx.resx">PortalAlias.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Portals.ascx.resx">Portals.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Privacy.ascx.resx">Privacy.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Signup.ascx.resx">Signup.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="SiteSettings.ascx.resx">SiteSettings.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="SiteWizard.ascx.resx">SiteWizard.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="SQL.ascx.resx">SQL.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="template.ascx.resx">template.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Terms.ascx.resx">Terms.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="editportalalias.ascx">editportalalias.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditPortalAlias.ascx.vb">EditPortalAlias.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_help_32px.gif">icon_help_32px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_portals_40px.gif">icon_portals_40px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="message.ascx">message.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Message.ascx.vb">Message.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="nocontent.ascx">nocontent.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="NoContent.ascx.vb">NoContent.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="portal.template.xsd">portal.template.xsd</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="portalalias.ascx">portalalias.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="PortalAlias.ascx.vb">PortalAlias.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="portals.ascx">portals.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Portals.ascx.vb">Portals.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="privacy.ascx">privacy.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Privacy.ascx.vb">Privacy.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="signup.ascx">signup.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Signup.ascx.vb">Signup.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="sitesettings.ascx">sitesettings.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SiteSettings.ascx.vb">SiteSettings.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="sitewizard.ascx">sitewizard.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SiteWizard.ascx.vb">SiteWizard.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="sql.ascx">sql.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SQL.ascx.vb">SQL.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="template.ascx">template.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Template.ascx.vb">Template.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="terms.ascx">terms.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Terms.ascx.vb">Terms.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Sales" TargetFolderName="Sales">
+          <ProjectItem ReplaceParameters="false" TargetFileName="paypalipn.aspx">paypalipn.aspx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="PayPalIPN.aspx.vb">PayPalIPN.aspx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="paypalsubscription.aspx">paypalsubscription.aspx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="PayPalSubscription.aspx.vb">PayPalSubscription.aspx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="purchase.ascx">purchase.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Purchase.ascx.vb">Purchase.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Scheduling" TargetFolderName="Scheduling">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditSchedule.ascx.resx">EditSchedule.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ViewSchedule.ascx.resx">ViewSchedule.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ViewScheduleHistory.ascx.resx">ViewScheduleHistory.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ViewScheduleStatus.ascx.resx">ViewScheduleStatus.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="editschedule.ascx">editschedule.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditSchedule.ascx.vb">EditSchedule.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="viewschedule.ascx">viewschedule.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ViewSchedule.ascx.vb">ViewSchedule.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="viewschedulehistory.ascx">viewschedulehistory.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ViewScheduleHistory.ascx.vb">ViewScheduleHistory.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="viewschedulestatus.ascx">viewschedulestatus.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ViewScheduleStatus.ascx.vb">ViewScheduleStatus.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Search" TargetFolderName="Search">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="InputSettings.ascx.resx">InputSettings.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ResultsSettings.ascx.resx">ResultsSettings.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="SearchAdmin.ascx.resx">SearchAdmin.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="SearchInput.ascx.resx">SearchInput.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="SearchResults.ascx.resx">SearchResults.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="InputSettings.ascx">InputSettings.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="InputSettings.ascx.vb">InputSettings.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ResultsSettings.ascx">ResultsSettings.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ResultsSettings.ascx.vb">ResultsSettings.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="searchadmin.ascx">searchadmin.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SearchAdmin.ascx.vb">SearchAdmin.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SearchInput.ascx">SearchInput.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SearchInput.ascx.vb">SearchInput.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SearchResults.ascx">SearchResults.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SearchResults.ascx.vb">SearchResults.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Security" TargetFolderName="Security">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="AccessDenied.ascx.resx">AccessDenied.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="AuthenticationSettings.ascx.resx">AuthenticationSettings.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditGroups.ascx.resx">EditGroups.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditRoles.ascx.resx">EditRoles.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Register.ascx.resx">Register.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Roles.ascx.resx">Roles.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="SecurityRoles.ascx.resx">SecurityRoles.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="SendPassword.ascx.resx">SendPassword.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Signin.ascx.resx">Signin.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="accessdenied.ascx">accessdenied.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="AccessDenied.ascx.vb">AccessDenied.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="AuthenticationSettings.ascx">AuthenticationSettings.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="AuthenticationSettings.ascx.vb">AuthenticationSettings.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditGroups.ascx">EditGroups.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditGroups.ascx.vb">EditGroups.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="editroles.ascx">editroles.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditRoles.ascx.vb">EditRoles.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_authentication_32px.gif">icon_authentication_32px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_securityroles_32px.gif">icon_securityroles_32px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_users_32px.gif">icon_users_32px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="logoff.aspx">logoff.aspx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Logoff.aspx.vb">Logoff.aspx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Register.ascx">Register.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Register.ascx.vb">Register.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="roles.ascx">roles.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Roles.ascx.vb">Roles.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="securityroles.ascx">securityroles.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SecurityRoles.ascx.vb">SecurityRoles.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SendPassword.ascx">SendPassword.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SendPassword.ascx.vb">SendPassword.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="signin.ascx">signin.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Signin.ascx.vb">Signin.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="WindowsSignin.aspx">WindowsSignin.aspx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="WindowsSignin.aspx.vb">WindowsSignin.aspx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Skins" TargetFolderName="Skins">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="Banner.ascx.resx">Banner.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="BreadCrumb.ascx.resx">BreadCrumb.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Copyright.ascx.resx">Copyright.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditSkins.ascx.resx">EditSkins.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Login.ascx.resx">Login.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Privacy.ascx.resx">Privacy.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Search.ascx.resx">Search.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Terms.ascx.resx">Terms.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="TreeViewMenu.ascx.resx">TreeViewMenu.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="User.ascx.resx">User.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="banner.ascx">banner.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Banner.ascx.vb">Banner.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="breadcrumb.ascx">breadcrumb.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="BreadCrumb.ascx.vb">BreadCrumb.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="copyright.ascx">copyright.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Copyright.ascx.vb">Copyright.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="currentdate.ascx">currentdate.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="CurrentDate.ascx.vb">CurrentDate.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dotnetnuke.ascx">dotnetnuke.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.ascx.vb">DotNetNuke.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="editskins.ascx">editskins.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditSkins.ascx.vb">EditSkins.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="help.ascx">help.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Help.ascx.vb">Help.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="hostname.ascx">hostname.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="HostName.ascx.vb">HostName.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="language.ascx">language.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Language.ascx.vb">Language.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="links.ascx">links.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Links.ascx.vb">Links.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="login.ascx">login.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Login.ascx.vb">Login.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="logo.ascx">logo.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Logo.ascx.vb">Logo.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="menu.ascx">menu.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="modulemessage.ascx">modulemessage.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="nav.ascx">nav.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Nav.ascx.vb">Nav.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="privacy.ascx">privacy.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Privacy.ascx.vb">Privacy.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="search.ascx">search.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Search.ascx.vb">Search.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="solpartmenu.ascx">solpartmenu.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SolPartMenu.ascx.vb">SolPartMenu.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="terms.ascx">terms.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Terms.ascx.vb">Terms.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="treeviewmenu.ascx">treeviewmenu.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="TreeViewMenu.ascx.vb">TreeViewMenu.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="user.ascx">user.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="User.ascx.vb">User.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Tabs" TargetFolderName="Tabs">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="ManageTabs.ascx.resx">ManageTabs.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="RecycleBin.ascx.resx">RecycleBin.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Tabs.ascx.resx">Tabs.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_moduledefinitions_32px.gif">icon_moduledefinitions_32px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_tabs_34px.gif">icon_tabs_34px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="managetabs.ascx">managetabs.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ManageTabs.ascx.vb">ManageTabs.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="recyclebin.ascx">recyclebin.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="RecycleBin.ascx.vb">RecycleBin.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="tabs.ascx">tabs.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Tabs.ascx.vb">Tabs.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Users" TargetFolderName="Users">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="BulkEmail.ascx.resx">BulkEmail.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditProfileDefinition.ascx.resx">EditProfileDefinition.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ManageUsers.ascx.resx">ManageUsers.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="MemberServices.ascx.resx">MemberServices.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Membership.ascx.resx">Membership.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Password.ascx.resx">Password.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Profile.ascx.resx">Profile.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ProfileDefinitions.ascx.resx">ProfileDefinitions.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="User.ascx.resx">User.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Users.ascx.resx">Users.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="UserSettings.ascx.resx">UserSettings.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ViewProfile.ascx.resx">ViewProfile.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="bulkemail.ascx">bulkemail.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="BulkEmail.ascx.vb">BulkEmail.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditProfileDefinition.ascx">EditProfileDefinition.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditProfileDefinition.ascx.vb">EditProfileDefinition.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_users_32px.gif">icon_users_32px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="manageusers.ascx">manageusers.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ManageUsers.ascx.vb">ManageUsers.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="MemberServices.ascx">MemberServices.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="MemberServices.ascx.vb">MemberServices.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Membership.ascx">Membership.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Membership.ascx.vb">Membership.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Password.ascx">Password.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Password.ascx.vb">Password.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Profile.ascx">Profile.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Profile.ascx.vb">Profile.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ProfileDefinitions.ascx">ProfileDefinitions.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ProfileDefinitions.ascx.vb">ProfileDefinitions.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="User.ascx">User.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="User.ascx.vb">User.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="users.ascx">users.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Users.ascx.vb">Users.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="UserSettings.ascx">UserSettings.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="UserSettings.ascx.vb">UserSettings.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ViewProfile.ascx">ViewProfile.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ViewProfile.ascx.vb">ViewProfile.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Vendors" TargetFolderName="Vendors">
+          <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+            <ProjectItem ReplaceParameters="false" TargetFileName="Affiliates.ascx.resx">Affiliates.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="BannerOptions.ascx.resx">BannerOptions.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Banners.ascx.resx">Banners.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="DisplayBanners.ascx.resx">DisplayBanners.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditAffiliate.ascx.resx">EditAffiliate.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditBanner.ascx.resx">EditBanner.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditVendors.ascx.resx">EditVendors.ascx.resx</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Vendors.ascx.resx">Vendors.ascx.resx</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="affiliates.ascx">affiliates.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Affiliates.ascx.vb">Affiliates.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="BannerClickThrough.aspx">BannerClickThrough.aspx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="BannerClickThrough.aspx.vb">BannerClickThrough.aspx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="banneroptions.ascx">banneroptions.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="BannerOptions.ascx.vb">BannerOptions.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="banners.ascx">banners.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Banners.ascx.vb">Banners.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="displaybanners.ascx">displaybanners.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DisplayBanners.ascx.vb">DisplayBanners.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="editaffiliate.ascx">editaffiliate.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditAffiliate.ascx.vb">EditAffiliate.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="editbanner.ascx">editbanner.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditBanner.ascx.vb">EditBanner.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="editvendors.ascx">editvendors.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="EditVendors.ascx.vb">EditVendors.ascx.vb</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon_Vendors_32px.gif">icon_Vendors_32px.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="vendors.ascx">vendors.ascx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Vendors.ascx.vb">Vendors.ascx.vb</ProjectItem>
+        </Folder>
+        <Folder Name="Wizards" TargetFolderName="Wizards">
+          <ProjectItem ReplaceParameters="false" TargetFileName="success.ascx">success.ascx</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="App_Code" TargetFolderName="App_Code">
+        <ProjectItem ReplaceParameters="false" TargetFileName="AssemblyInfo.vb">AssemblyInfo.vb</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Global.asax.vb">Global.asax.vb</ProjectItem>
+      </Folder>
+      <Folder Name="App_Data" TargetFolderName="App_Data">
+        <ProjectItem ReplaceParameters="false" TargetFileName="Database.mdf">Database.mdf</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
+      </Folder>
+      <Folder Name="App_GlobalResources" TargetFolderName="App_GlobalResources">
+        <ProjectItem ReplaceParameters="false" TargetFileName="GlobalResources.resx">GlobalResources.resx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Locales.Portal.xml.config">Locales.Portal.xml.config</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Locales.xml.config">Locales.xml.config</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SharedResources.resx">SharedResources.resx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="TimeZones.xml">TimeZones.xml</ProjectItem>
+      </Folder>
+      <Folder Name="bin" TargetFolderName="bin">
+        <ProjectItem ReplaceParameters="false" TargetFileName="CountryListBox.dll">CountryListBox.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.ASP2MenuNavigationProvider.dll">DotNetNuke.ASP2MenuNavigationProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Authentication.ADSI.dll">DotNetNuke.Authentication.ADSI.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Authentication.ADSIProvider.dll">DotNetNuke.Authentication.ADSIProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Caching.BroadcastPollingCachingProvider.dll">DotNetNuke.Caching.BroadcastPollingCachingProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Caching.BroadcastPollingCachingProvider.SQLDataProvider.dll">DotNetNuke.Caching.BroadcastPollingCachingProvider.SQLDataProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Caching.FileBasedCachingProvider.dll">DotNetNuke.Caching.FileBasedCachingProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.dll">DotNetNuke.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.DNNDropDownNavigationProvider.dll">DotNetNuke.DNNDropDownNavigationProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.DNNMenuNavigationProvider.dll">DotNetNuke.DNNMenuNavigationProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.DNNScheduler.dll">DotNetNuke.DNNScheduler.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.DNNScheduler.SqlDataProvider.dll">DotNetNuke.DNNScheduler.SqlDataProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.DNNTreeNavigationProvider.dll">DotNetNuke.DNNTreeNavigationProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Ftb3HtmlEditorProvider.dll">DotNetNuke.Ftb3HtmlEditorProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.HttpModules.Authentication.dll">DotNetNuke.HttpModules.Authentication.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.HttpModules.DNNMembership.dll">DotNetNuke.HttpModules.DNNMembership.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.HttpModules.Exception.dll">DotNetNuke.HttpModules.Exception.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.HttpModules.Personalization.dll">DotNetNuke.HttpModules.Personalization.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.HttpModules.UrlRewrite.dll">DotNetNuke.HttpModules.UrlRewrite.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.HttpModules.UsersOnline.dll">DotNetNuke.HttpModules.UsersOnline.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Membership.Dataprovider.dll">DotNetNuke.Membership.Dataprovider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Provider.AspNetProvider.dll">DotNetNuke.Provider.AspNetProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Provider.DBLoggingProvider.dll">DotNetNuke.Provider.DBLoggingProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Provider.DBLoggingProvider.SqlDataProvider.dll">DotNetNuke.Provider.DBLoggingProvider.SqlDataProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Provider.DNNProvider.dll">DotNetNuke.Provider.DNNProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Provider.Membership.SqlDataProvider.dll">DotNetNuke.Provider.Membership.SqlDataProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Search.DataStore.dll">DotNetNuke.Search.DataStore.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Search.Index.dll">DotNetNuke.Search.Index.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.SolpartMenuNavigationProvider.dll">DotNetNuke.SolpartMenuNavigationProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.SqlDataProvider.dll">DotNetNuke.SqlDataProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.WebControls.dll">DotNetNuke.WebControls.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.WebUtility.dll">DotNetNuke.WebUtility.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.XMLLoggingProvider.dll">DotNetNuke.XMLLoggingProvider.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="FreeTextBox.dll">FreeTextBox.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Microsoft.ApplicationBlocks.Data.dll">Microsoft.ApplicationBlocks.Data.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SharpZipLib.dll">SharpZipLib.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SolpartWebControls.dll">SolpartWebControls.dll</ProjectItem>
+      </Folder>
+      <Folder Name="Components" TargetFolderName="Components">
+        <Folder Name="ResourceInstaller" TargetFolderName="ResourceInstaller">
+          <ProjectItem ReplaceParameters="false" TargetFileName="ModuleDef_V2.xsd">ModuleDef_V2.xsd</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ModuleDef_V2Provider.xsd">ModuleDef_V2Provider.xsd</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ModuleDef_V2Skin.xsd">ModuleDef_V2Skin.xsd</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ModuleDef_V3.xsd">ModuleDef_V3.xsd</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="template.dnn.txt">template.dnn.txt</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="Config" TargetFolderName="Config">
+        <ProjectItem ReplaceParameters="false" TargetFileName="Features.config">Features.config</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SiteUrls.config">SiteUrls.config</ProjectItem>
+      </Folder>
+      <Folder Name="controls" TargetFolderName="controls">
+        <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+          <ProjectItem ReplaceParameters="false" TargetFileName="Address.ascx.resx">Address.ascx.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DualListControl.ascx.resx">DualListControl.ascx.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Help.ascx.resx">Help.ascx.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ModuleAuditControl.ascx.resx">ModuleAuditControl.ascx.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SkinControl.ascx.resx">SkinControl.ascx.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="TextEditor.ascx.resx">TextEditor.ascx.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="URLControl.ascx.resx">URLControl.ascx.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="UrlTrackingControl.ascx.resx">UrlTrackingControl.ascx.resx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="User.ascx.resx">User.ascx.resx</ProjectItem>
+        </Folder>
+        <Folder Name="CountryListBox" TargetFolderName="CountryListBox">
+          <Folder Name="Data" TargetFolderName="Data">
+            <ProjectItem ReplaceParameters="false" TargetFileName="GeoIP.dat">GeoIP.dat</ProjectItem>
+          </Folder>
+        </Folder>
+        <Folder Name="SolpartMenu" TargetFolderName="SolpartMenu">
+          <ProjectItem ReplaceParameters="false" TargetFileName="spmenu.js">spmenu.js</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SPMenuCaps.config">SPMenuCaps.config</ProjectItem>
+        </Folder>
+        <ProjectItem ReplaceParameters="false" TargetFileName="address.ascx">address.ascx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="duallistcontrol.ascx">duallistcontrol.ascx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="help.ascx">help.ascx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="helpbuttoncontrol.ascx">helpbuttoncontrol.ascx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_help_32px.gif">icon_help_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="labelcontrol.ascx">labelcontrol.ascx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="moduleauditcontrol.ascx">moduleauditcontrol.ascx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="sectionheadcontrol.ascx">sectionheadcontrol.ascx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="skincontrol.ascx">skincontrol.ascx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="skinthumbnailcontrol.ascx">skinthumbnailcontrol.ascx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="texteditor.ascx">texteditor.ascx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="urlcontrol.ascx">urlcontrol.ascx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="urltrackingcontrol.ascx">urltrackingcontrol.ascx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="user.ascx">user.ascx</ProjectItem>
+      </Folder>
+      <Folder Name="Documentation" TargetFolderName="Documentation">
+        <Folder Name="StarterKit" TargetFolderName="StarterKit">
+          <Folder Name="images" TargetFolderName="images">
+            <ProjectItem ReplaceParameters="false" TargetFileName="AddDatabase.jpg">AddDatabase.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="AppSetting.gif">AppSetting.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="App_Data.jpg">App_Data.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ConnectionString.gif">ConnectionString.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Database2005Properties.jpg">Database2005Properties.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="DatabaseProperties.jpg">DatabaseProperties.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditWeb.jpg">EditWeb.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="FileSecurity.jpg">FileSecurity.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="IISPermissions.jpg">IISPermissions.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="New2005Database.jpg">New2005Database.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="New2005Login.jpg">New2005Login.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="New2005User.jpg">New2005User.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="NewDatabase.jpg">NewDatabase.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="NewLogin.jpg">NewLogin.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="NewUser.jpg">NewUser.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="NTFSPermissions.jpg">NTFSPermissions.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="User2005Properties.jpg">User2005Properties.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="UserProperties.jpg">UserProperties.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="webconfig.jpg">webconfig.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="WebProperties1.jpg">WebProperties1.jpg</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="WebProperties2.jpg">WebProperties2.jpg</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Documents.css">Documents.css</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="logo.gif">logo.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="NTFSConfig.html">NTFSConfig.html</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SQLServer2005Config.html">SQLServer2005Config.html</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SQLServerConfig.html">SQLServerConfig.html</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="SQLServerXpressConfig.html">SQLServerXpressConfig.html</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="TemplateConfig.html">TemplateConfig.html</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="WebServerConfig.html">WebServerConfig.html</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="Welcome.html" OpenInWebBrowser="true">Welcome.html</ProjectItem>
+        </Folder>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Contributors.txt">Contributors.txt</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="License.txt">License.txt</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Readme.txt">Readme.txt</ProjectItem>
+      </Folder>
+      <Folder Name="images" TargetFolderName="images">
+        <Folder Name="FileManager" TargetFolderName="FileManager">
+          <Folder Name="files" TargetFolderName="files">
+            <ProjectItem ReplaceParameters="false" TargetFileName="blank.gif">blank.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="desc.gif">desc.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Download.gif">Download.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Edit.gif">Edit.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="NewFile.gif">NewFile.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="NewFolder.gif">NewFolder.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="NewFolder_Disabled.gif">NewFolder_Disabled.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="NewFolder_Rollover.gif">NewFolder_Rollover.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="OK.gif">OK.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="OK_Disabled.gif">OK_Disabled.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="OK_Rollover.gif">OK_Rollover.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="OpenFolder.gif">OpenFolder.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ParentFolder.gif">ParentFolder.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ParentFolder_Disabled.gif">ParentFolder_Disabled.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ParentFolder_Rollover.gif">ParentFolder_Rollover.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Properties.gif">Properties.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Recycle.gif">Recycle.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Recycle_Rollover.gif">Recycle_Rollover.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Rename.gif">Rename.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Rename_Disabled.gif">Rename_Disabled.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Rename_Rollover.gif">Rename_Rollover.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ToolSep.gif">ToolSep.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ToolThumb.gif">ToolThumb.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="unknown.gif">unknown.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Upload.gif">Upload.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Upload_Disabled.gif">Upload_Disabled.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Upload_Rollover.gif">Upload_Rollover.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Write.gif">Write.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="zip.gif">zip.gif</ProjectItem>
+          </Folder>
+          <Folder Name="Icons" TargetFolderName="Icons">
+            <ProjectItem ReplaceParameters="false" TargetFileName="arj.gif">arj.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="asa.gif">asa.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="asax.gif">asax.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ascx.gif">ascx.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="asmx.gif">asmx.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="asp.gif">asp.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="aspx.gif">aspx.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="au.gif">au.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="avi.gif">avi.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="bat.gif">bat.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="bmp.gif">bmp.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="cab.gif">cab.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="chm.gif">chm.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ClosedFolder.gif">ClosedFolder.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="com.gif">com.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="config.gif">config.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Copy.gif">Copy.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="cs.gif">cs.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="css.gif">css.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="disco.gif">disco.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="dll.gif">dll.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="doc.gif">doc.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="exe.gif">exe.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="file.gif">file.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="gif.gif">gif.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="hlp.gif">hlp.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="htm.gif">htm.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="html.gif">html.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="inc.gif">inc.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ini.gif">ini.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="jpg.gif">jpg.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="js.gif">js.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="log.gif">log.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="mdb.gif">mdb.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="mid.gif">mid.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="midi.gif">midi.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="mov.gif">mov.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Move.gif">Move.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="mp3.gif">mp3.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="mpeg.gif">mpeg.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="mpg.gif">mpg.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="pdf.gif">pdf.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ppt.gif">ppt.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="sys.gif">sys.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="tif.gif">tif.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="txt.gif">txt.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="vb.gif">vb.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="vbs.gif">vbs.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="vsdisco.gif">vsdisco.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="wav.gif">wav.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="wri.gif">wri.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="xls.gif">xls.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="xml.gif">xml.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="zip.gif">zip.gif</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="checked.gif">checked.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DNNExplorer_Cancel.gif">DNNExplorer_Cancel.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DNNExplorer_edit.gif">DNNExplorer_edit.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DNNExplorer_edit_disabled.gif">DNNExplorer_edit_disabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DNNExplorer_folder.small.gif">DNNExplorer_folder.small.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DNNExplorer_OK.gif">DNNExplorer_OK.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DNNExplorer_trash.gif">DNNExplorer_trash.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DNNExplorer_trash_disabled.gif">DNNExplorer_trash_disabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DNNExplorer_Unzip.gif">DNNExplorer_Unzip.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="FolderPropertiesDisabled.gif">FolderPropertiesDisabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="FolderPropertiesEnabled.gif">FolderPropertiesEnabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="MoveFirst.gif">MoveFirst.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="MoveLast.gif">MoveLast.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="MoveNext.gif">MoveNext.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="MovePrevious.gif">MovePrevious.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarAddFolderDisabled.gif">ToolBarAddFolderDisabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarAddFolderEnabled.gif">ToolBarAddFolderEnabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarCopyDisabled.gif">ToolBarCopyDisabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarCopyEnabled.gif">ToolBarCopyEnabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarDeleteDisabled.gif">ToolBarDeleteDisabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarDeleteEnabled.gif">ToolBarDeleteEnabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarDelFolderDisabled.gif">ToolBarDelFolderDisabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarDelFolderEnabled.gif">ToolBarDelFolderEnabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarEmailDisabled.gif">ToolBarEmailDisabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarEmailEnabled.gif">ToolBarEmailEnabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarFilterDisabled.gif">ToolBarFilterDisabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarFilterEnabled.gif">ToolBarFilterEnabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarMoveDisabled.gif">ToolBarMoveDisabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarMoveEnabled.gif">ToolBarMoveEnabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarRefreshDisabled.gif">ToolBarRefreshDisabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarRefreshEnabled.gif">ToolBarRefreshEnabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarSynchronize.gif">ToolBarSynchronize.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarUploadDisabled.gif">ToolBarUploadDisabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ToolBarUploadEnabled.gif">ToolBarUploadEnabled.gif</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="unchecked.gif">unchecked.gif</ProjectItem>
+        </Folder>
+        <ProjectItem ReplaceParameters="false" TargetFileName="1x1.GIF">1x1.GIF</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="action.gif">action.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="action_right.gif">action_right.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="add.gif">add.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="banner.gif">banner.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="begin.gif">begin.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="bevel.gif">bevel.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="bevel_blue.gif">bevel_blue.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="bottom-left.gif">bottom-left.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="bottom-right.gif">bottom-right.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="bottom-tile.gif">bottom-tile.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="bottom.gif">bottom.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="breadcrumb.gif">breadcrumb.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="calendar.png">calendar.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="cancel.gif">cancel.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="cancel2.gif">cancel2.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="captcha.jpg">captcha.jpg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="cart.gif">cart.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="checked.gif">checked.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="copy.gif">copy.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dbldn.gif">dbldn.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dblup.gif">dblup.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="delete.gif">delete.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dn.gif">dn.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnlt.gif">dnlt.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnnanim.gif">dnnanim.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnrt.gif">dnrt.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="edit.gif">edit.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="edit_pen.gif">edit_pen.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="end.gif">end.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="ffwd.gif">ffwd.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="file.gif">file.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="folder.gif">folder.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="folderblank.gif">folderblank.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="folderclosed.gif">folderclosed.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="folderminus.gif">folderminus.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="folderopen.gif">folderopen.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="folderplus.gif">folderplus.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="folderup.gif">folderup.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="frev.gif">frev.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="frew.gif">frew.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="fwd.gif">fwd.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="green-ok.gif">green-ok.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="help.gif">help.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_authentication_16px.gif">icon_authentication_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_authentication_32px.gif">icon_authentication_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_bulkmail_16px.gif">icon_bulkmail_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_bulkmail_32px.gif">icon_bulkmail_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_exceptionviewer_16px.gif">icon_exceptionviewer_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_filemanager_16px.gif">icon_filemanager_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_filemanager_32px.gif">icon_filemanager_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_help_32px.gif">icon_help_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_hostsettings_16px.gif">icon_hostsettings_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_hostsettings_36px.gif">icon_hostsettings_36px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_host_16px.gif">icon_host_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_host_32px.gif">icon_host_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_language_16px.gif">icon_language_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_language_32px.gif">icon_language_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_lists_16px.gif">icon_lists_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_lists_36px.gif">icon_lists_36px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_moduledefinitions_16px.gif">icon_moduledefinitions_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_moduledefinitions_32px.gif">icon_moduledefinitions_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_portals_16px.gif">icon_portals_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_portals_40px.gif">icon_portals_40px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_profile_16px.gif">icon_profile_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_profile_32px.gif">icon_profile_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_recyclebin_16px.gif">icon_recyclebin_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_recyclebin_32px.gif">icon_recyclebin_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_scheduler_16px.gif">icon_scheduler_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_scheduler_39px.gif">icon_scheduler_39px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_search_16px.gif">icon_search_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_search_32px.gif">icon_search_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_securityroles_16px.gif">icon_securityroles_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_securityroles_32px.gif">icon_securityroles_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_sitelog_16px.gif">icon_sitelog_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_sitelog_32px.gif">icon_sitelog_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_sitesettings_16px.gif">icon_sitesettings_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_sitesettings_36px.gif">icon_sitesettings_36px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_site_16px.gif">icon_site_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_site_32px.gif">icon_site_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_skins_16px.gif">icon_skins_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_skins_36px.gif">icon_skins_36px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_sql_16px.gif">icon_sql_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_sql_32px.gif">icon_sql_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_survey_32px.gif">icon_survey_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_tabs_16px.gif">icon_tabs_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_tabs_34px.gif">icon_tabs_34px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_users_16px.gif">icon_users_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_users_32px.gif">icon_users_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_Vendors_16px.gif">icon_Vendors_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_Vendors_32px.gif">icon_Vendors_32px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_viewstats_16px.gif">icon_viewstats_16px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="icon_viewstats_36px.gif">icon_viewstats_36px.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="left-tile.gif">left-tile.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="login.gif">login.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="lt.gif">lt.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="max.gif">max.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="menu_down.gif">menu_down.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="menu_right.gif">menu_right.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="min.gif">min.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="minus.gif">minus.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="minus2.gif">minus2.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="move.gif">move.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="node.gif">node.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="password.gif">password.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="pause.gif">pause.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="plainbutton.gif">plainbutton.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="plus.gif">plus.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="plus2.gif">plus2.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="print.gif">print.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="ratingminus.gif">ratingminus.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="ratingplus.gif">ratingplus.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="ratingzero.gif">ratingzero.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="rec.gif">rec.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="red-error.gif">red-error.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="red.gif">red.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="refresh.gif">refresh.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="register.gif">register.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="required.gif">required.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="reset.gif">reset.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="restore.gif">restore.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="rev.gif">rev.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="rew.gif">rew.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="right-tile.gif">right-tile.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="rt.gif">rt.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="save.gif">save.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="search.gif">search.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="search_go.gif">search_go.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="settings.gif">settings.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="sortascending.gif">sortascending.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="sortdescending.gif">sortdescending.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="spacer.gif">spacer.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="stop.gif">stop.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="synchronize.gif">synchronize.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="tabimage.gif">tabimage.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="tabimage_blue.gif">tabimage_blue.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="tableft.gif">tableft.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="tabright.gif">tabright.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="thumbnail.jpg">thumbnail.jpg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="top-left.gif">top-left.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="top-right.gif">top-right.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="top-tile.gif">top-tile.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="top.gif">top.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="unchecked.gif">unchecked.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="up.gif">up.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="uplt.gif">uplt.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="uprt.gif">uprt.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="userOnline.gif">userOnline.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="view.gif">view.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="xml.gif">xml.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="yellow-warning.gif">yellow-warning.gif</ProjectItem>
+      </Folder>
+      <Folder Name="Install" TargetFolderName="Install">
+        <Folder Name="Container" TargetFolderName="Container">
+          <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
+        </Folder>
+        <Folder Name="Language" TargetFolderName="Language">
+          <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
+        </Folder>
+        <Folder Name="Module" TargetFolderName="Module">
+          <ProjectItem ReplaceParameters="false" TargetFileName="Announcements_03.03.05_Install.zip">Announcements_03.03.05_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Blog_3.02.00_Install.zip">Blog_3.02.00_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Contacts_3.1_Install.zip">Contacts_3.1_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Documents_03.01.05_Install.zip">Documents_03.01.05_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Events_3.2_Install.zip">Events_3.2_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="FAQs_3.1_Install.zip">FAQs_3.1_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Feedback_03.02.01_Install.zip">Feedback_03.02.01_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Forum_3.20.08_Install.zip">Forum_3.20.08_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Gallery_3.0.12_Install.zip">Gallery_3.0.12_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Help_2.0.4_Install.zip">Help_2.0.4_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="HTML_3.3.0_Install.zip">HTML_3.3.0_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="IFrame_3.2_Install.zip">IFrame_3.2_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Links_3.3_Install.zip">Links_3.3_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Media_03.02.02_Install.zip">Media_03.02.02_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="NewsFeeds_3.1.1_Install.zip">NewsFeeds_3.1.1_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Reports_4.3.1_Source.zip">Reports_4.3.1_Source.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Repository_3.1.10_Install.zip">Repository_3.1.10_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Store_01.00.01_Install.zip">Store_01.00.01_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Survey_04.00.20_Install.zip">Survey_04.00.20_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="UserDefinedTable_03.03.06_Install.zip">UserDefinedTable_03.03.06_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="UsersOnline_3.1_Install.zip">UsersOnline_3.1_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="WhatsNew_3.3_Install.zip">WhatsNew_3.3_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="XML_3.1_Install.zip">XML_3.1_Install.zip</ProjectItem>
+        </Folder>
+        <Folder Name="Portal" TargetFolderName="Portal">
+          <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
+        </Folder>
+        <Folder Name="Scripts" TargetFolderName="Scripts">
+          <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
+        </Folder>
+        <Folder Name="Skin" TargetFolderName="Skin">
+          <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
+        </Folder>
+        <Folder Name="Template" TargetFolderName="Template">
+          <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
+        </Folder>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Club.install.config">Club.install.config</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.install.config">DotNetNuke.install.config</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="install.aspx">install.aspx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Install.aspx.vb">Install.aspx.vb</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Install.css">Install.css</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Install.htm">Install.htm</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Install.template.htm">Install.template.htm</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="logo.gif">logo.gif</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Personal.install.config">Personal.install.config</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SmallBusiness.install.config">SmallBusiness.install.config</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="UnderConstruction.template.htm">UnderConstruction.template.htm</ProjectItem>
+      </Folder>
+      <Folder Name="js" TargetFolderName="js">
+        <Folder Name="ClientAPITests" TargetFolderName="ClientAPITests">
+          <ProjectItem ReplaceParameters="false" TargetFileName="default.htm">default.htm</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dnn.diagnostics.htm">dnn.diagnostics.htm</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dnn.dom.htm">dnn.dom.htm</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dnn.dom.positioning.htm">dnn.dom.positioning.htm</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dnn.htm">dnn.htm</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dnn.xml.htm">dnn.xml.htm</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dnnclientapi.htm">dnnclientapi.htm</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="dnnunittest.css">dnnunittest.css</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="poweredbydnn537x36.gif">poweredbydnn537x36.gif</ProjectItem>
+        </Folder>
+        <ProjectItem ReplaceParameters="false" TargetFileName="ClientAPICaps.config">ClientAPICaps.config</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnnlabeledit.js">dnn.controls.dnnlabeledit.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnnmenu.js">dnn.controls.dnnmenu.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnntextsuggest.js">dnn.controls.dnntextsuggest.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnntree.js">dnn.controls.dnntree.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.diagnostics.js">dnn.diagnostics.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.dom.positioning.js">dnn.dom.positioning.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.js">dnn.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.util.tablereorder.js">dnn.util.tablereorder.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.xml.js">dnn.xml.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.xml.jsparser.js">dnn.xml.jsparser.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.xmlhttp.js">dnn.xmlhttp.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.xmlhttp.jsxmlhttprequest.js">dnn.xmlhttp.jsxmlhttprequest.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnncore.js">dnncore.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="PopupCalendar.js">PopupCalendar.js</ProjectItem>
+      </Folder>
+      <Folder Name="Portals" TargetFolderName="Portals">
+        <Folder Name="_default" TargetFolderName="_default">
+          <Folder Name="Cache" TargetFolderName="Cache">
+            <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ReadMe.txt">ReadMe.txt</ProjectItem>
+          </Folder>
+          <Folder Name="Containers" TargetFolderName="Containers">
+            <Folder Name="DNN-Blue" TargetFolderName="DNN-Blue">
+              <ProjectItem ReplaceParameters="false" TargetFileName="container.css">container.css</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="container.xml">container.xml</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="gradient_LtBlue.jpg">gradient_LtBlue.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Image Header - Color Background.ascx">Image Header - Color Background.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Image Header - Color Background.htm">Image Header - Color Background.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Image Header - Color Background.JPG">Image Header - Color Background.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Image Header - White Background.ascx">Image Header - White Background.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Image Header - White Background.htm">Image Header - White Background.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Image Header - White Background.JPG">Image Header - White Background.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Text Header - Color Background.ascx">Text Header - Color Background.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Text Header - Color Background.htm">Text Header - Color Background.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Text Header - Color Background.JPG">Text Header - Color Background.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Text Header - White Background.ascx">Text Header - White Background.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Text Header - White Background.htm">Text Header - White Background.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Text Header - White Background.JPG">Text Header - White Background.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="thumbnail_image header - color background.jpg">thumbnail_image header - color background.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="thumbnail_image header - white background.jpg">thumbnail_image header - white background.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="thumbnail_text header - color background.jpg">thumbnail_text header - color background.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="thumbnail_text header - white background.jpg">thumbnail_text header - white background.jpg</ProjectItem>
+            </Folder>
+            <Folder Name="DNN-Gray" TargetFolderName="DNN-Gray">
+              <ProjectItem ReplaceParameters="false" TargetFileName="container.css">container.css</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="container.xml">container.xml</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="gradient_LtGray.jpg">gradient_LtGray.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Image Header - Color Background.ascx">Image Header - Color Background.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Image Header - Color Background.htm">Image Header - Color Background.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Image Header - Color Background.JPG">Image Header - Color Background.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Image Header - White Background.ascx">Image Header - White Background.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Image Header - White Background.htm">Image Header - White Background.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Image Header - White Background.JPG">Image Header - White Background.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Text Header - Color Background.ascx">Text Header - Color Background.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Text Header - Color Background.htm">Text Header - Color Background.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Text Header - Color Background.JPG">Text Header - Color Background.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Text Header - White Background.ascx">Text Header - White Background.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Text Header - White Background.htm">Text Header - White Background.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Text Header - White Background.JPG">Text Header - White Background.JPG</ProjectItem>
+            </Folder>
+            <Folder Name="_default" TargetFolderName="_default">
+              <ProjectItem ReplaceParameters="false" TargetFileName="No Container.ascx">No Container.ascx</ProjectItem>
+            </Folder>
+          </Folder>
+          <Folder Name="EventQueue" TargetFolderName="EventQueue">
+            <ProjectItem ReplaceParameters="false" TargetFileName="EventQueue.config">EventQueue.config</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="readme.txt">readme.txt</ProjectItem>
+          </Folder>
+          <Folder Name="Logs" TargetFolderName="Logs">
+            <Folder Name="LogConfig" TargetFolderName="LogConfig">
+              <ProjectItem ReplaceParameters="false" TargetFileName="LogConfig.xsd">LogConfig.xsd</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="LogConfigTemplate.xml.resources">LogConfigTemplate.xml.resources</ProjectItem>
+            </Folder>
+          </Folder>
+          <Folder Name="Skins" TargetFolderName="Skins">
+            <Folder Name="DNN-Blue" TargetFolderName="DNN-Blue">
+              <ProjectItem ReplaceParameters="false" TargetFileName="DNN-Blue.zip">DNN-Blue.zip</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="gradient_DKBlue.jpg">gradient_DKBlue.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="gradient_LtBlue.jpg">gradient_LtBlue.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Horizontal Menu - Fixed Width.ascx">Horizontal Menu - Fixed Width.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Horizontal Menu - Fixed Width.htm">Horizontal Menu - Fixed Width.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Horizontal Menu - Fixed Width.JPG">Horizontal Menu - Fixed Width.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Horizontal Menu - Full Width.ascx">Horizontal Menu - Full Width.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Horizontal Menu - Full Width.htm">Horizontal Menu - Full Width.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Horizontal Menu - Full Width.JPG">Horizontal Menu - Full Width.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="skin.css">skin.css</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="skin.xml">skin.xml</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="thumbnail_horizontal menu - fixed width.jpg">thumbnail_horizontal menu - fixed width.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="thumbnail_horizontal menu - full width.jpg">thumbnail_horizontal menu - full width.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="thumbnail_vertical menu - fixed width.jpg">thumbnail_vertical menu - fixed width.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="thumbnail_vertical menu - full width.jpg">thumbnail_vertical menu - full width.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Vertical Menu - Fixed Width.ascx">Vertical Menu - Fixed Width.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Vertical Menu - Fixed Width.htm">Vertical Menu - Fixed Width.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Vertical Menu - Fixed Width.JPG">Vertical Menu - Fixed Width.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Vertical Menu - Full Width.ascx">Vertical Menu - Full Width.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Vertical Menu - Full Width.htm">Vertical Menu - Full Width.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Vertical Menu - Full Width.JPG">Vertical Menu - Full Width.JPG</ProjectItem>
+            </Folder>
+            <Folder Name="DNN-Gray" TargetFolderName="DNN-Gray">
+              <ProjectItem ReplaceParameters="false" TargetFileName="DNN-Gray.zip">DNN-Gray.zip</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="gradient_DKGray.jpg">gradient_DKGray.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="gradient_LtGray.jpg">gradient_LtGray.jpg</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Horizontal Menu - Fixed Width.ascx">Horizontal Menu - Fixed Width.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Horizontal Menu - Fixed Width.htm">Horizontal Menu - Fixed Width.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Horizontal Menu - Fixed Width.JPG">Horizontal Menu - Fixed Width.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Horizontal Menu - Full Width.ascx">Horizontal Menu - Full Width.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Horizontal Menu - Full Width.htm">Horizontal Menu - Full Width.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Horizontal Menu - Full Width.JPG">Horizontal Menu - Full Width.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="skin.css">skin.css</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="skin.xml">skin.xml</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Vertical Menu - Fixed Width.ascx">Vertical Menu - Fixed Width.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Vertical Menu - Fixed Width.htm">Vertical Menu - Fixed Width.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Vertical Menu - Fixed Width.JPG">Vertical Menu - Fixed Width.JPG</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Vertical Menu - Full Width.ascx">Vertical Menu - Full Width.ascx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Vertical Menu - Full Width.htm">Vertical Menu - Full Width.htm</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Vertical Menu - Full Width.JPG">Vertical Menu - Full Width.JPG</ProjectItem>
+            </Folder>
+            <Folder Name="_default" TargetFolderName="_default">
+              <ProjectItem ReplaceParameters="false" TargetFileName="No Skin.ascx">No Skin.ascx</ProjectItem>
+            </Folder>
+          </Folder>
+          <Folder Name="Smileys" TargetFolderName="Smileys">
+            <ProjectItem ReplaceParameters="false" TargetFileName="angry.gif">angry.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="bigsmile.gif">bigsmile.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="confuse.gif">confuse.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="cool.gif">cool.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="crying.gif">crying.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="embarrassed.gif">embarrassed.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="glasses.gif">glasses.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="indifferent.gif">indifferent.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="roar.gif">roar.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="sad.gif">sad.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="silent.gif">silent.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="sleepy.gif">sleepy.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="smile.gif">smile.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="surprise.gif">surprise.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="suspect.gif">suspect.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="tonguestickout.gif">tonguestickout.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="tonguetied.gif">tonguetied.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="wink.gif">wink.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="worry.gif">worry.gif</ProjectItem>
+          </Folder>
+          <Folder Name="Templates" TargetFolderName="Templates">
+            <ProjectItem ReplaceParameters="false" TargetFileName="Default.page.template">Default.page.template</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="false" TargetFileName="03.00.08.txt">03.00.08.txt</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="03.00.12.txt">03.00.12.txt</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="03.01.00.txt">03.01.00.txt</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="03.02.00.txt">03.02.00.txt</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="03.02.01.txt">03.02.01.txt</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="03.03.00.txt">03.03.00.txt</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="04.03.03.txt">04.03.03.txt</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="admin.template">admin.template</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="default.css">default.css</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.template">DotNetNuke.template</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.template.resources">DotNetNuke.template.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="portal.css">portal.css</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Portals.resources">Portals.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="subhost.aspx">subhost.aspx</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="Providers" TargetFolderName="Providers">
+        <Folder Name="DataProviders" TargetFolderName="DataProviders">
+          <Folder Name="SqlDataProvider" TargetFolderName="SqlDataProvider">
+            <ProjectItem ReplaceParameters="false" TargetFileName="00.00.00.SqlDataProvider">00.00.00.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="01.00.00.SqlDataProvider">01.00.00.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="01.00.01.SqlDataProvider">01.00.01.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="01.00.02.SqlDataProvider">01.00.02.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="01.00.03.SqlDataProvider">01.00.03.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="01.00.04.SqlDataProvider">01.00.04.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="01.00.05.SqlDataProvider">01.00.05.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="01.00.06.SqlDataProvider">01.00.06.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="01.00.07.SqlDataProvider">01.00.07.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="01.00.08.SqlDataProvider">01.00.08.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="01.00.09.SqlDataProvider">01.00.09.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="01.00.10.SqlDataProvider">01.00.10.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="02.00.00.SqlDataProvider">02.00.00.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="02.00.01.SqlDataProvider">02.00.01.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="02.00.02.SqlDataProvider">02.00.02.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="02.00.03.SqlDataProvider">02.00.03.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="02.00.04.SqlDataProvider">02.00.04.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="02.01.01.SqlDataProvider">02.01.01.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="02.01.02.SqlDataProvider">02.01.02.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="02.02.00.SqlDataProvider">02.02.00.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="02.02.01.SqlDataProvider">02.02.01.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="02.02.02.SqlDataProvider">02.02.02.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.01.SqlDataProvider">03.00.01.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.02.SqlDataProvider">03.00.02.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.03.SqlDataProvider">03.00.03.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.04.SqlDataProvider">03.00.04.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.05.SqlDataProvider">03.00.05.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.06.SqlDataProvider">03.00.06.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.07.SqlDataProvider">03.00.07.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.08.SqlDataProvider">03.00.08.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.09.SqlDataProvider">03.00.09.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.10.SqlDataProvider">03.00.10.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.11.SqlDataProvider">03.00.11.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.12.SqlDataProvider">03.00.12.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.00.13.SqlDataProvider">03.00.13.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.01.00.SqlDataProvider">03.01.00.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.01.01.SqlDataProvider">03.01.01.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.02.00.SqlDataProvider">03.02.00.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.02.01.SqlDataProvider">03.02.01.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.02.02.SqlDataProvider">03.02.02.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.02.03.SqlDataProvider">03.02.03.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.02.04.SqlDataProvider">03.02.04.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.02.05.SqlDataProvider">03.02.05.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.02.06.SqlDataProvider">03.02.06.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.02.07.SqlDataProvider">03.02.07.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.03.00.SqlDataProvider">03.03.00.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.03.01.SqlDataProvider">03.03.01.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.03.02.SqlDataProvider">03.03.02.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="03.03.03.SqlDataProvider">03.03.03.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.00.00.SqlDataProvider">04.00.00.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.00.01.SqlDataProvider">04.00.01.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.00.02.SqlDataProvider">04.00.02.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.00.03.SqlDataProvider">04.00.03.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.00.04.SqlDataProvider">04.00.04.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.00.05.SqlDataProvider">04.00.05.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.00.06.SqlDataProvider">04.00.06.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.00.07.SqlDataProvider">04.00.07.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.03.00.SqlDataProvider">04.03.00.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.03.01.SqlDataProvider">04.03.01.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.03.02.SqlDataProvider">04.03.02.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.03.03.SqlDataProvider">04.03.03.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.03.04.SqlDataProvider">04.03.04.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.03.05.SqlDataProvider">04.03.05.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.03.06.SqlDataProvider">04.03.06.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Data.SqlDataProvider">DotNetNuke.Data.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Schema.SqlDataProvider">DotNetNuke.Schema.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.SetUp.SqlDataProvider">DotNetNuke.SetUp.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="InstallCommon.sql">InstallCommon.sql</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="InstallMembership.sql">InstallMembership.sql</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="InstallProfile.sql">InstallProfile.sql</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="InstallRoles.sql">InstallRoles.sql</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="UnInstall.SqlDataProvider">UnInstall.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="Upgrade.SqlDataProvider">Upgrade.SqlDataProvider</ProjectItem>
+          </Folder>
+        </Folder>
+        <Folder Name="HtmlEditorProviders" TargetFolderName="HtmlEditorProviders">
+          <Folder Name="Ftb3HtmlEditorProvider" TargetFolderName="Ftb3HtmlEditorProvider">
+            <Folder Name="ftb3" TargetFolderName="ftb3">
+              <Folder Name="App_LocalResources" TargetFolderName="App_LocalResources">
+                <ProjectItem ReplaceParameters="false" TargetFileName="ftb.createlink.aspx.resx">ftb.createlink.aspx.resx</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="ftb.insertsmiley.aspx.resx">ftb.insertsmiley.aspx.resx</ProjectItem>
+              </Folder>
+              <Folder Name="images" TargetFolderName="images">
+                <ProjectItem ReplaceParameters="false" TargetFileName="bold.gif">bold.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="bulletedlist.gif">bulletedlist.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="buttons.gif">buttons.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="buttons.png">buttons.png</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="copy.gif">copy.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="createlink.gif">createlink.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="csharp.gif">csharp.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="cut.gif">cut.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="delete.gif">delete.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="deletetablecolumn.gif">deletetablecolumn.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="deletetablerow.gif">deletetablerow.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="edittable.gif">edittable.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="fontbackcolorpicker.gif">fontbackcolorpicker.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="fontforecolorpicker.gif">fontforecolorpicker.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="iespellcheck.gif">iespellcheck.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="indent.gif">indent.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="insertbutton.gif">insertbutton.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="insertcheckbox.gif">insertcheckbox.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="insertdate.gif">insertdate.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="insertdropdownlist.gif">insertdropdownlist.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="insertform.gif">insertform.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="insertimage.gif">insertimage.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="insertimagefromgallery.gif">insertimagefromgallery.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="insertlistbox.gif">insertlistbox.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="insertradiobutton.gif">insertradiobutton.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="insertrule.gif">insertrule.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="insertsmiley.gif">insertsmiley.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="inserttable.gif">inserttable.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="inserttablecolumn.gif">inserttablecolumn.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="inserttablecolumnafter.gif">inserttablecolumnafter.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="inserttablecolumnbefore.gif">inserttablecolumnbefore.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="inserttablerow.gif">inserttablerow.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="inserttablerowafter.gif">inserttablerowafter.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="inserttablerowbefore.gif">inserttablerowbefore.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="inserttextarea.gif">inserttextarea.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="inserttextbox.gif">inserttextbox.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="inserttime.gif">inserttime.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="italic.gif">italic.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="justifycenter.gif">justifycenter.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="justifyfull.gif">justifyfull.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="justifyleft.gif">justifyleft.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="justifyright.gif">justifyright.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="mergecells.gif">mergecells.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="mergecolumns.gif">mergecolumns.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="mode.design.gif">mode.design.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="mode.html.gif">mode.html.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="netspell.gif">netspell.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="numberedlist.gif">numberedlist.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="outdent.gif">outdent.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="paste.gif">paste.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="preview.gif">preview.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="print.gif">print.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="redo.gif">redo.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="removeformat.gif">removeformat.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="save.gif">save.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="selectall.gif">selectall.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="separator.horizontal.gif">separator.horizontal.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="separator.vertical.gif">separator.vertical.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="spacer.gif">spacer.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="spellcheck.gif">spellcheck.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="strikethrough.gif">strikethrough.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="subscript.gif">subscript.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="superscript.gif">superscript.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbar.horizontal.background.gif">toolbar.horizontal.background.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbar.horizontal.end.gif">toolbar.horizontal.end.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbar.horizontal.start.gif">toolbar.horizontal.start.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbar.vertical.background.gif">toolbar.vertical.background.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbar.vertical.end.gif">toolbar.vertical.end.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbar.vertical.start.gif">toolbar.vertical.start.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbarbutton.background.gif">toolbarbutton.background.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbarbutton.down.gif">toolbarbutton.down.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbarbutton.off.out.gif">toolbarbutton.off.out.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbarbutton.off.over.gif">toolbarbutton.off.over.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbarbutton.on.out.gif">toolbarbutton.on.out.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbarbutton.on.over.gif">toolbarbutton.on.over.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbarbutton.over.gif">toolbarbutton.over.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbarbuttoncss.off.out.gif">toolbarbuttoncss.off.out.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbarbuttoncss.off.over.gif">toolbarbuttoncss.off.over.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbarbuttoncss.on.out.gif">toolbarbuttoncss.on.out.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="toolbarbuttoncss.on.over.gif">toolbarbuttoncss.on.over.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="underline.gif">underline.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="undo.gif">undo.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="unlink.gif">unlink.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="wordclean.gif">wordclean.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="wordcount.gif">wordcount.gif</ProjectItem>
+              </Folder>
+              <Folder Name="Languages" TargetFolderName="Languages">
+                <ProjectItem ReplaceParameters="false" TargetFileName="ar-SA.xml">ar-SA.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="ca-CA.xml">ca-CA.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="ca-ES.xml">ca-ES.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="cs-CZ.xml">cs-CZ.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="da-DK.xml">da-DK.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="de-de.xml">de-de.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="el-GR.xml">el-GR.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="en-US.xml">en-US.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="es-ES.xml">es-ES.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="fr-FR.xml">fr-FR.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="he-IL.xml">he-IL.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="hu-HU.xml">hu-HU.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="it-IT.xml">it-IT.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="ja-JP.xml">ja-JP.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="ko-kr.xml">ko-kr.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="Languages.xml">Languages.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="nb-NO.xml">nb-NO.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="nl-nl.xml">nl-nl.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="pl-PL.xml">pl-PL.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="pt-pt.xml">pt-pt.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="Readme.txt">Readme.txt</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="ro-RO.xml">ro-RO.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="ru-ru.xml">ru-ru.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="sv-se.xml">sv-se.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="zh-cn.xml">zh-cn.xml</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="zh-TW.xml">zh-TW.xml</ProjectItem>
+              </Folder>
+              <Folder Name="Utility" TargetFolderName="Utility">
+                <ProjectItem ReplaceParameters="false" TargetFileName="folder.big.gif">folder.big.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="folder.small.gif">folder.small.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="folder.up.gif">folder.up.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="image.gif">image.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="locked.gif">locked.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="restore.gif">restore.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="spacer.gif">spacer.gif</ProjectItem>
+                <ProjectItem ReplaceParameters="false" TargetFileName="unlocked.gif">unlocked.gif</ProjectItem>
+              </Folder>
+              <ProjectItem ReplaceParameters="false" TargetFileName="FTB-DotNetNuke.js">FTB-DotNetNuke.js</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="FTB-FreeTextBox.js">FTB-FreeTextBox.js</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="FTB-ImageGallery.js">FTB-ImageGallery.js</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="FTB-Pro.js">FTB-Pro.js</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="FTB-ToolbarItems.js">FTB-ToolbarItems.js</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="FTB-Utility.js">FTB-Utility.js</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="ftb.createlink.aspx">ftb.createlink.aspx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="ftb.imagegallery.aspx">ftb.imagegallery.aspx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="ftb.insertsmiley.aspx">ftb.insertsmiley.aspx</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="FTBPopup.css">FTBPopup.css</ProjectItem>
+            </Folder>
+          </Folder>
+        </Folder>
+        <Folder Name="LoggingProviders" TargetFolderName="LoggingProviders">
+          <Folder Name="XMLLoggingProvider" TargetFolderName="XMLLoggingProvider">
+            <ProjectItem ReplaceParameters="false" TargetFileName="Log.xslt">Log.xslt</ProjectItem>
+          </Folder>
+        </Folder>
+      </Folder>
+      <ProjectItem ReplaceParameters="false" TargetFileName="403-3.gif">403-3.gif</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="403-3.htm">403-3.htm</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="404.htm">404.htm</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="500.htm">500.htm</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Default.aspx">Default.aspx</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Default.aspx.vb">Default.aspx.vb</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="development.config">development.config</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.ico">DotNetNuke.ico</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.vstemplate">DotNetNuke.vstemplate</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.webproj">DotNetNuke.webproj</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="ErrorPage.aspx">ErrorPage.aspx</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="ErrorPage.aspx.vb">ErrorPage.aspx.vb</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="favicon.ico">favicon.ico</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Global.asax">Global.asax</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="KeepAlive.aspx">KeepAlive.aspx</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="KeepAlive.aspx.vb">KeepAlive.aspx.vb</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="logo.gif">logo.gif</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="release.config">release.config</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="RSS.aspx">RSS.aspx</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="RSS.aspx.vb">RSS.aspx.vb</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="spacer.gif">spacer.gif</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="web.config">web.config</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

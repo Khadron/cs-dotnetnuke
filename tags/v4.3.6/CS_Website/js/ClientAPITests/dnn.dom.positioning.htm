@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>dnn.dom.positioning</title>
+<meta name=vs_defaultClientScript content="JavaScript">
+<meta name=vs_targetSchema content="http://schemas.microsoft.com/intellisense/ie3-2nav3-0">
+<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+<meta name=ProgId content=VisualStudio.HTML>
+<meta name=Originator content="Microsoft Visual Studio .NET 7.1">
+	<link href="dnnunittest.css" rel="stylesheet" type="text/css">
+
+	<script src="../dnn.js"></script>
+	<script src="../dnn.diagnostics.js"></script>
+	<script src="../dnn.dom.positioning.js"></script>
+	<script language=javascript>
+	<!--
+		
+		dnn_dom_positioning.prototype.UnitTests = function()
+		{
+			
+			dnn.diagnostics.assertNotNaN('elementTop', dnn.dom.positioning.elementTop(dnn.dom.getById('tdTitle')));
+			dnn.diagnostics.assertNotNaN('elementLeft', dnn.dom.positioning.elementLeft(dnn.dom.getById('tdTitle')));
+			dnn.diagnostics.assertNotNaN('elementWidth', dnn.dom.positioning.elementWidth(dnn.dom.getById('tdTitle')));
+			dnn.diagnostics.assertNotNaN('elementHeight', dnn.dom.positioning.elementHeight(dnn.dom.getById('tdTitle')));
+			dnn.diagnostics.assertNotNull('dims', new dnn.dom.positioning.dims(dnn.dom.getById('tdTitle')));
+			dnn.diagnostics.assertNotNull('Enabling drag drop on Title1', dnn.dom.positioning.enableDragAndDrop(dnn.dom.getById('tblContainer'), dnn.dom.getById('tdTitle'), 'dragComplete()'));
+			dnn.diagnostics.assertNotNull('Enabling drag drop on Title2', dnn.dom.positioning.enableDragAndDrop(dnn.dom.getById('tblContainer'), dnn.dom.getById('tdTitle2'), 'dragComplete()'));
+
+		}
+
+	function dragComplete()
+	{
+		window.status = (dnn.dom.positioning.dragCtr.id + ' Drag Complete Event');
+	}
+					
+	//-->
+	</script>
+	
+</head>
+<body>
+	<form ID="Form1">
+	<img src="poweredbydnn537x36.gif">	
+	<h1>DotNetNuke Client API - dnn.dom.positioning Namespace</h1>	
+	<p class="summary">The methods found in this object are responsible for providing a uniform way to get the position and coordinates of objects found in the DOM.</p>
+	<div class="funccontent">
+		<table ID="Table1">
+			<tr>
+				<td class="funcname">bodyScrollLeft</td>
+				<td class="funcdesc">Gets the body scroll position from left</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Number containing coordinate</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">bodyScrollTop</td>
+				<td class="funcdesc">Gets the body scroll position from top</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Number containing coordinate</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">dims</td>
+				<td class="funcdesc">This is an object that gets an element's dimensions and returns an object with the top, left, height, width, right, and bottom.  Must be instantiated.</td>
+			</tr>
+			<tr>
+				<td class="paramname">eSrc</td>
+				<td class="paramdesc">Object reference to element</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">elementHeight</td>
+				<td class="funcdesc">Gets an element's height</td>
+			</tr>
+			<tr>
+				<td class="paramname">eSrc</td>
+				<td class="paramdesc">Object reference to element</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Number containing measurement</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">elementLeft</td>
+				<td class="funcdesc">Gets element's total offset from left</td>
+			</tr>
+			<tr>
+				<td class="paramname">eSrc</td>
+				<td class="paramdesc">Object reference to element</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Number containing measurement</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">elementOverlapScore</td>
+				<td class="funcdesc">Gets area of overlap between passed in elements</td>
+			</tr>
+			<tr>
+				<td class="paramname">oDims1</td>
+				<td class="paramdesc">Dimension object for element 1</td>
+			</tr>
+			<tr>
+				<td class="paramname">oDims2</td>
+				<td class="paramdesc">Dimension object for element 2</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Area (length x height) of overlap</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">elementTop</td>
+				<td class="funcdesc">Gets element's total offset from top</td>
+			</tr>
+			<tr>
+				<td class="paramname">eSrc</td>
+				<td class="paramdesc">Object reference to element</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Number containing measurement</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">elementWidth</td>
+				<td class="funcdesc">Gets an element's width</td>
+			</tr>
+			<tr>
+				<td class="paramname">eSrc</td>
+				<td class="paramdesc">Object reference to element</td>
+			</tr>
+			<tr>
+				<td class="paramnameret">Returns</td>
+				<td class="paramdesc">Number containing measurement</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+				<td class="funcname">enableDragAndDrop</td>
+				<td class="funcdesc">Enables drag and drop functionality for any element</td>
+			</tr>
+			<tr>
+				<td class="paramname">oContainer</td>
+				<td class="paramdesc">Element object reference for the container to be dragged</td>
+			</tr>
+			<tr>
+				<td class="paramname">oTitle</td>
+				<td class="paramdesc">Element object reference for the title that causes drag</td>
+			</tr>
+			<tr>
+				<td class="paramnameopt">sDragCompleteEvent</td>
+				<td class="paramdesc">Optional String representing function to be executed after drag drop complete</td>
+			</tr>
+			<tr>
+				<td class="paramnameopt">sDragOverEvent</td>
+				<td class="paramdesc">Optional String representing function to be executed during drag drop operation</td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+		</table>
+	</div>
+	
+	<table id="tblContainer" style="width: 300; height: 100; position: relative;">
+		<tr><td id="tdTitle" style="color: white; background-color: navy;">Title</td><td id="tdTitle2" style="color: white; background-color: navy;">...</td></tr>
+		<tr><td style="background-color: silver; height: 100%;" colspan="2">&nbsp;</td></tr>
+	</table>
+	<textarea id="__dnnDebugOutput" rows="10" cols="100" class="unittestcontent" NAME="__dnnDebugOutput"></textarea>
+	<br>
+	<input type="button" onclick="dnn_diagnosticTests(dnn);" value="Unit Tests" ID="Button1" NAME="Button1">
+	</form>
+</body>
+</html>

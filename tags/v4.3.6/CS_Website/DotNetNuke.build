@@ -1,0 +1,224 @@
+<?xml version="1.0"?>
+
+<project name="DotNetNuke.Build" default="BuildAndZip">
+	<description>
+	This is the primary build file for DotNetNuke.  It includes targets for compiling 
+	the application, creating the zip files, and running the nUnit tests.  The build 
+	file accepts five command line properties:
+	
+	  - rootWeb: http://{your domain}/
+	      (default:  http://localhost/)
+	      This value determines the domain of the project URL.  By default this points
+	      to localhost.  This should be changed to match the root defined in .webinfo 
+	      for the project files.
+	      
+	  - webAlias: {Project Virtual Directory}
+	      (default:  DotNetNuke)
+	      This value determines the alias for the virtual directory used for the 
+	      project files.  This should match the settings in the .sln and .webinfo 
+	      files.
+	  	  
+	  - debug:   [true | false] 
+	      (default: false)
+	      This value determines whether to compile the application using the debug or 
+	      release configurations
+	      
+	  - verbose: [true | false]  
+	      (default: false)
+	      This value determines whether to output selected property values.
+	      
+	  - solutionName: [All | Controls | Core | DesktopModules | HTTPModules | Providers]
+	      (default: All)
+	      This value determines which solution to use when compiling.
+	</description>
+	
+	<target name="init">
+		<property name="bin.dir" value="bin" />
+		<property name="controls.dir" value="controls" />
+		<property name="localresource.dir" value="App_LocalResources" />
+		<property name="globalresource.dir" value="App_GlobalResources" />
+		<property name="portal.dir" value="Portals" />
+		<property name="countrylist.dir" value="controls/CountryListBox/data" />
+		<property name="modules.dir" value="DesktopModules" />
+		<property name="survey.dir" value="${modules.dir}/Survey" />
+		<property name="usersonline.dir" value="${modules.dir}/UsersOnline" />
+		<property name="code.dir" value="app_code" />
+		<property name="data.dir" value="app_data" />
+
+		<property name="dnn" value="${bin.dir}/DotNetNuke.dll" />
+
+		<property name="binZip" value="Install" />
+		<property name="srcZip" value="Source" />
+
+		<property name="copy.drive" value="c:" overwrite="false" />
+		<property name="package.dir" value="package" overwrite="false" />
+		<property name="rootWeb" value="http://localhost/" overwrite="false" />
+		<property name="webAlias" value="DotNetNuke" overwrite="false" />
+		<property name="solutionName" value="All" overwrite="false" /> 
+		<property name="verbose" value="false" overwrite="false" />
+
+		<property name="debug" value="false" overwrite="false" />
+		<property name="config" value="debug" if="${debug}" />
+		<property name="config" value="release" unless="${debug}" />
+				
+		<property name="solutionTypeValid" value="false" />
+		<foreach item="String" in="All,Controls,Core,DesktopModules,HTTPModules,Providers" delim="," property="sType">
+		    <if test="${solutionName==sType}" >
+		    	<property name="solutionType" value="${sType}" />
+		    </if>
+		</foreach>
+		
+		<ifnot test="${property::exists('solutionType')}" >
+			<property name="solutionType" value="All" overwrite="true"/>
+		</ifnot>
+ 
+		<if test="${verbose}">
+			<echo message="solutionName: ${solutionName}" />
+			<echo message="solutionType: ${solutionType}" />
+			<echo message="debug:        ${debug}" />
+			<echo message="config:       ${config}" />
+		</if>
+		
+	</target>
+	
+	<target name="CleanCopyBin" depends="init">
+		<delete dir="${copy.dir}" if="${directory::exists('${copy.dir}')}" />
+	</target>
+	
+	<target name="CopyBinDir" depends="CleanCopyBin">
+		<mkdir dir="${copy.dir}" unless="${directory::exists(copy.dir)}" />
+		<copy todir="${copy.dir}">
+			<fileset>
+				<include name="${bin.dir}/*.dll" />
+				<include name="**/${localresource.dir}/*.resx" />
+				<include name="**/${globalresource.dir}/*.resx" />
+				<include name="**/${portal.dir}/_default/*.txt" />
+				<include name="**/${countrylist.dir}/*.dat" />				
+				<include name="**/*.sqldataprovider" />
+				<include name="**/*.template" />
+				<include name="**/*.resources" />
+				<include name="**/*.sql" />
+				<include name="**/*.ascx" />
+				<include name="**/*.aspx" />
+				<include name="**/*.asax" />
+				<include name="**/*.xsd" />
+				<include name="**/*.xslt" />
+				<include name="**/*.htm" />
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.js" />
+				<include name="**/*.config" />
+				<include name="**/*.png" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+				<include name="**/*.ico" />
+				<include name="**/*.xml" />
+				<include name="**/*.txt" />
+				<include name="**/*.vb" />
+				<include name="**/*.mdf" />
+				<include name="DotNetNuke.vstemplate" />
+				<include name="DotNetNuke.webproj" />
+ 
+				<exclude name="${survey.dir}/**/*" />
+				<exclude name="${usersonline.dir}/**/*" />
+				<exclude name="${bin.dir}/*.BuildSupport.dll" />
+				<exclude name="**/${globalresource.dir}/template.resx" />
+				<exclude name="${bin.dir}/*.xml" />
+				<exclude name="development.config" />
+				<exclude name="web.config" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="CreateInstallDir" depends="CleanCopyBin">
+		<mkdir dir="${copy.dir}" unless="${directory::exists(copy.dir)}" />
+		<copy todir="${copy.dir}">
+			<fileset>
+				<include name="${bin.dir}/*.dll" />
+				<include name="**/${localresource.dir}/*.resx" />
+				<include name="**/${globalresource.dir}/*.resx" />
+				<include name="**/${portal.dir}/_default/*.txt" />
+				<include name="**/${countrylist.dir}/*.dat" />				
+				<include name="**/*.sqldataprovider" />
+				<include name="**/*.template" />
+				<include name="**/*.resources" />
+				<include name="**/*.sql" />
+				<include name="**/*.ascx" />
+				<include name="**/*.aspx" />
+				<include name="**/*.asax" />
+				<include name="**/*.xsd" />
+				<include name="**/*.xslt" />
+				<include name="**/*.htm" />
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.js" />
+				<include name="**/*.config" />
+				<include name="**/*.png" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+				<include name="**/*.ico" />
+				<include name="**/*.xml" />
+				<include name="**/*.zip" />
+				<include name="**/*.txt" />
+				<include name="**/*.vb" />
+				<include name="**/*.mdf" />
+				<include name="DotNetNuke.vstemplate" />
+				<include name="DotNetNuke.webproj" />
+ 
+				<exclude name="${survey.dir}/**/*" />
+				<exclude name="${usersonline.dir}/**/*" />
+				<exclude name="${bin.dir}/*.BuildSupport.dll" />
+				<exclude name="**/${globalresource.dir}/template.resx" />
+				<exclude name="${bin.dir}/*.xml" />
+			</fileset>
+		</copy>
+                <copy file="release.config" tofile="${copy.dir}/web.config"></copy>
+	</target>
+
+	<target name="CreateUpgradeDir" depends="CleanCopyBin">
+		<mkdir dir="${copy.dir}" unless="${directory::exists(copy.dir)}" />
+		<copy todir="${copy.dir}">
+			<fileset>
+				<include name="${bin.dir}/*.dll" />
+				<include name="**/${localresource.dir}/*.resx" />
+				<include name="**/${globalresource.dir}/*.resx" />
+				<include name="**/${portal.dir}/_default/*.txt" />
+				<include name="**/${countrylist.dir}/*.dat" />				
+				<include name="**/*.sqldataprovider" />
+				<include name="**/*.template" />
+				<include name="**/*.resources" />
+				<include name="**/*.sql" />
+				<include name="**/*.ascx" />
+				<include name="**/*.aspx" />
+				<include name="**/*.asax" />
+				<include name="**/*.xsd" />
+				<include name="**/*.xslt" />
+				<include name="**/*.htm" />
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.js" />
+				<include name="**/*.config" />
+				<include name="**/*.png" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+				<include name="**/*.ico" />
+				<include name="**/*.xml" />
+				<include name="**/*.txt" />
+				<include name="**/*.vb" />
+				<include name="**/*.mdf" />
+				<include name="DotNetNuke.vstemplate" />
+				<include name="DotNetNuke.webproj" />
+ 
+				<exclude name="${survey.dir}/**/*" />
+				<exclude name="${usersonline.dir}/**/*" />
+				<exclude name="${bin.dir}/*.BuildSupport.dll" />
+				<exclude name="**/${globalresource.dir}/template.resx" />
+				<exclude name="${bin.dir}/*.xml" />
+				<exclude name="web.config" />
+				<exclude name="${data.dir}/Database.mdf" />
+			</fileset>
+		</copy>
+	</target>
+	
+</project>
+

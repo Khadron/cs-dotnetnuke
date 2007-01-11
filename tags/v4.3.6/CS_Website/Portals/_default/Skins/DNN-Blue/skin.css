@@ -1,0 +1,166 @@
+/* 
+================================
+Skin styles for DotNetNuke
+================================
+*/   
+
+.pagemaster {
+	width: 100%;
+	height: 100%;	
+	background-color: #fefefe;
+}
+.skinmaster {
+	height: 100%;
+	background-color: #f3f5fa;
+	border-right: #7994cb 1px solid; 
+	border-top: #7994cb 1px solid; 
+	border-left: #7994cb 1px solid; 
+	border-bottom: #7994cb 1px solid; 
+	moz-border-radius-bottomleft: 15px; 
+	moz-border-radius-bottomright: 15px; 
+	moz-border-radius-topleft: 3px; 
+	moz-border-radius-topright: 3px; 
+}
+.skinheader {
+}
+.skingradient {
+	background-image: url(gradient_DkBlue.jpg); 
+	height:30px;
+}
+.controlpanel {
+	width: 100%;
+	background-color: #dfe5f2;
+}
+.toppane {
+	width: 100%;
+	background-color: transparent;
+	padding-left: 6px;
+	padding-right: 4px;
+	padding-top: 6px;
+}
+.leftpane {
+	width: 175px;
+	background-color: transparent;
+	padding-left: 6px;
+	padding-right: 4px;
+	padding-top: 6px;
+}
+.contentpane {
+	width: 100%;
+	background-color: transparent;
+	padding-left: 6px;
+	padding-right: 4px;
+	padding-top: 6px;
+}
+.rightpane {
+	width: 175px;
+	background-color: transparent;
+	padding-left: 6px;
+	padding-right: 4px;
+	padding-top: 6px;
+}
+.bottompane {
+	width: 100%;
+	background-color: transparent;
+	padding-left: 6px;
+	padding-right: 4px;
+	padding-top: 6px;
+}
+.MainMenu_MenuContainer {
+	background-color: transparent; 
+}
+.MainMenu_MenuBar {
+	cursor: pointer; 
+	cursor: hand;
+	height:16px;
+	background-color: Transparent;
+}
+.MainMenu_MenuItem {
+	border-left: #cad5ea 0px solid; 
+	border-bottom: #cad5ea 1px solid; 
+	border-top: #cad5ea 1px solid; 
+	border-right: #cad5ea 0px solid;
+	cursor: pointer; 
+	cursor: hand; 
+	color: #000000; 
+	font-size: 9pt; 
+	font-weight: bold; 
+	font-style: normal; 
+	background-color: Transparent;
+	font-family: Tahoma, Arial, Helvetica; 
+}
+.MainMenu_MenuIcon {
+	background-color: #cad5ea; 
+	border-left: #cad5ea 1px solid; 
+	border-bottom: #cad5ea 1px solid; 
+	border-top: #cad5ea 1px solid; 
+	cursor: pointer; 
+	cursor: hand; 
+	text-align: center; 
+	width: 15px; 
+	height: 21px;
+}
+.MainMenu_SubMenu {
+	background-color: #cad5ea;  
+	z-index: 1000; 
+	cursor: pointer; 
+	cursor: hand; 
+	filter:progid:DXImageTransform.Microsoft.Shadow(color='#696969', Direction=135, Strength=3); 
+}
+.MainMenu_MenuBreak {
+	height: 1px;
+}
+.MainMenu_MenuItemSel {
+	background-color: #8da4d3; 
+	cursor: pointer; 
+	cursor: hand; 
+	color: black; 
+	font-family: Tahoma, Arial, Helvetica; 
+	font-size: 9pt; 
+	font-weight: bold; 
+	font-style: normal;
+	height: 21px;
+}
+.MainMenu_MenuArrow {
+	border-right: #cad5ea 1px solid; 
+	border-bottom: #cad5ea 1px solid; 
+	border-top: #cad5ea 0px solid;
+	font-family: webdings; 
+	font-size: 10pt; 
+	cursor: pointer; 
+	cursor: hand; 
+}
+.MainMenu_RootMenuArrow {
+	font-family: webdings; 
+	font-size: 10pt; 
+	cursor: pointer; 
+	cursor: hand;
+}
+.StandardButton {
+  background: #7994cb none; 
+  color: #ffffff;
+  font-family: verdana, sans-serif; 
+  font-size: 11px;
+  font-weight: normal;
+}
+.TreeViewMenu {
+	width: 175px;
+	background-color: #dfe5f2;
+	border-right: #7994cb 1px solid; 
+	border-top: #7994cb 1px solid; 
+	border-left: #7994cb 1px solid; 
+	border-bottom: #7994cb 1px solid; 
+	moz-border-radius-bottomleft: 15px; 
+	moz-border-radius-bottomright: 15px; 
+	moz-border-radius-topleft: 3px; 
+	moz-border-radius-topright: 3px;
+}
+.TreeViewMenu_Header {
+	background-image: url(gradient_LtBlue.jpg);
+}
+.Head {
+   font-family: Tahoma, Arial, Helvetica;
+   font-size:  18px;
+   font-weight: normal;
+   color: #333333;
+}

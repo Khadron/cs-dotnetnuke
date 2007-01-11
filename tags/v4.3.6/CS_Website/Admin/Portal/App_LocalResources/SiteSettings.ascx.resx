@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="BasicSettings.Text">
+		<value>Basic Settings</value>
+	</data>
+	<data name="BasicSettingsHelp.Text">
+		<value>In this section, you can set up the basic settings for your site.</value>
+	</data>
+	<data name="SiteDetails.Text">
+		<value>Site Details</value>
+	</data>
+	<data name="plPortalName.Text">
+		<value>Title:</value>
+	</data>
+	<data name="plPortalName.Help">
+		<value>This is the Title for your portal.  The text you enter will show up in the Title Bar.</value>
+	</data>
+	<data name="plDescription.Text">
+		<value>Description:</value>
+	</data>
+	<data name="plDescription.Help">
+		<value>Enter a description about your site here.</value>
+	</data>
+	<data name="plKeyWords.Text">
+		<value>Key Words:</value>
+	</data>
+	<data name="plKeyWords.Help">
+		<value>Enter some keywords for your site (separated by commas).  These keywords are used by search engines to help index your site.</value>
+	</data>
+	<data name="Appearance.Text">
+		<value>Appearance</value>
+	</data>
+	<data name="plLogo.Text">
+		<value>Logo:</value>
+	</data>
+	<data name="plLogo.Help">
+		<value>Depending on the skin chosen, this image will appear in the top left corner of the page.</value>
+	</data>
+	<data name="plPortalSkin.Text">
+		<value>Portal Skin:</value>
+	</data>
+	<data name="plPortalSkin.Help">
+		<value>The selected skin will be applied to all pages on the site, unless overridden at the Page level.</value>
+	</data>
+	<data name="plPortalContainer.Text">
+		<value>Portal Container:</value>
+	</data>
+	<data name="plPortalContainer.Help">
+		<value>The selected container will be applied to all modules on the site, unless overridden at the Page or Module level.</value>
+	</data>
+	<data name="plAdminSkin.Text">
+		<value>Admin Skin:</value>
+	</data>
+	<data name="plAdminSkin.Help">
+		<value>The selected skin will be applied to all admin pages on the site.</value>
+	</data>
+	<data name="plAdminContainer.Text">
+		<value>Admin Container:</value>
+	</data>
+	<data name="plAdminContainer.Help">
+		<value>The selected container will be applied to all admin modules on the site.</value>
+	</data>
+	<data name="plBackground.Text">
+		<value>Body Background:</value>
+	</data>
+	<data name="plBackground.Help">
+		<value>Depending on the skin, if selected, an image will display in the background of all pages.</value>
+	</data>
+	<data name="AdvancedSettings.Text">
+		<value>Advanced Settings</value>
+	</data>
+	<data name="AdvancedSettingsHelp.Text">
+		<value>In this section, you can set up more advanced settings for your site.</value>
+	</data>
+	<data name="SecuritySettings.Text">
+		<value>Security Settings</value>
+	</data>
+	<data name="plUserRegistration.Text">
+		<value>User Registration:</value>
+	</data>
+	<data name="plUserRegistration.Help">
+		<value>The type of user registration allowed for this site</value>
+	</data>
+	<data name="None.Text">
+		<value>None</value>
+	</data>
+	<data name="Private.Text">
+		<value>Private</value>
+	</data>
+	<data name="Public.Text">
+		<value>Public</value>
+	</data>
+	<data name="Verified.Text">
+		<value>Verified</value>
+	</data>
+	<data name="Pages.Text">
+		<value>Page Management</value>
+	</data>
+	<data name="plSplashTabId.Text">
+		<value>Splash Page:</value>
+	</data>
+	<data name="plSplashTabId.Help">
+		<value>The Splash Page for your site.</value>
+	</data>
+	<data name="plHomeTabId.Text">
+		<value>Home Page:</value>
+	</data>
+	<data name="plHomeTabId.Help">
+		<value>The Home Page for your site.</value>
+	</data>
+	<data name="plLoginTabId.Text">
+		<value>Login Page:</value>
+	</data>
+	<data name="plLoginTabId.Help">
+		<value>The Login Page for your site.</value>
+	</data>
+	<data name="plUserTabId.Text">
+		<value>User Page:</value>
+	</data>
+	<data name="plUserTabId.Help">
+		<value>The User Page for your site.</value>
+	</data>
+	<data name="Payment.Text">
+		<value>Payment Settings</value>
+	</data>
+	<data name="plCurrency.Text">
+		<value>Currency:</value>
+	</data>
+	<data name="plCurrency.Help">
+		<value>The Currency used on the site.</value>
+	</data>
+	<data name="plProcessor.Text">
+		<value>Payment Processor:</value>
+	</data>
+	<data name="plProcessor.Help">
+		<value>The Payment Processor used to handle payments on the site.</value>
+	</data>
+	<data name="ProcessorWebSite.Text">
+		<value>Go To Payment Processor WebSite</value>
+	</data>
+	<data name="plUserId.Text">
+		<value>Processor UserId:</value>
+	</data>
+	<data name="plUserId.Help">
+		<value>The UserId for the Payment Processor.</value>
+	</data>
+	<data name="plPassword.Text">
+		<value>Processor Password:</value>
+	</data>
+	<data name="plPassword.Help">
+		<value>User Password for the Payment Processor.</value>
+	</data>
+	<data name="Other.Text">
+		<value>Other Settings</value>
+	</data>
+	<data name="plFooterText.Text">
+		<value>Copyright:</value>
+	</data>
+	<data name="plFooterText.Help">
+		<value>If supported by the skin this Copyright text is displayed on your site.</value>
+	</data>
+	<data name="plBannerAdvertising.Text">
+		<value>Banner Advertising:</value>
+	</data>
+	<data name="plBannerAdvertising.Help">
+		<value>What type of Banner Advertising do you want on your site.</value>
+	</data>
+	<data name="Site.Text">
+		<value>Site</value>
+	</data>
+	<data name="Host.Text">
+		<value>Host</value>
+	</data>
+	<data name="plAdministrator.Text">
+		<value>Administrator:</value>
+	</data>
+	<data name="plAdministrator.Help">
+		<value>The Administrator User for the site.</value>
+	</data>
+	<data name="plDefaultLanguage.Text">
+		<value>Default Language:</value>
+	</data>
+	<data name="plDefaultLanguage.Help">
+		<value>The Default Language for the site.</value>
+	</data>
+	<data name="plTimeZone.Text">
+		<value>Portal TimeZone:</value>
+	</data>
+	<data name="plTimeZone.Help">
+		<value>The TimeZone for the location of the site.</value>
+	</data>
+	<data name="HostSettings.Text">
+		<value>Host Settings</value>
+	</data>
+	<data name="plPortalAlias.Text">
+		<value>Portal Alias:</value>
+	</data>
+	<data name="plPortalAlias.Help">
+		<value>The Portal Alias is the url used to reach the portal.</value>
+	</data>
+	<data name="plExpiryDate.Text">
+		<value>Expiry Date:</value>
+	</data>
+	<data name="plExpiryDate.Help">
+		<value>The Expiry Date is the date that the Hosting Contract for the portal expires.</value>
+	</data>
+	<data name="plHostFee.Text">
+		<value>Hosting Fee:</value>
+	</data>
+	<data name="plHostFee.Help">
+		<value>The Hosting Fee is the monthly charge for hosting this site.</value>
+	</data>
+	<data name="plHostSpace.Text">
+		<value>Disk Space:</value>
+	</data>
+  <data name="plHostSpace.Help">
+    <value>The amount of Disk Space in MB allowed for this site (enter 0 for unlimited space).</value>
+  </data>
+  <data name="plSiteLogHistory.Text">
+		<value>Site Log History (Days):</value>
+	</data>
+	<data name="plSiteLogHistory.Help">
+		<value>The number of days of site activity that is kept for this site.</value>
+	</data>
+	<data name="plDesktopModules.Text">
+		<value>Premium Modules</value>
+	</data>
+	<data name="plDesktopModules.Help">
+		<value>Premium modules are only available to specific portals</value>
+	</data>
+	<data name="StylesheetEditor.Text">
+		<value>Stylesheet Editor</value>
+	</data>
+	<data name="SaveStyleSheet.Text">
+		<value>Save Style Sheet</value>
+	</data>
+	<data name="RestoreDefaultStyleSheet.Text">
+		<value>Restore Default Style Sheet</value>
+	</data>
+	<data name="LoginInstructions.Text">
+		<value>Login Instructions</value>
+	</data>
+	<data name="RegistrationInstructions.Text">
+		<value>Registration Instructions</value>
+	</data>
+	<data name="NewUserSignupMessage.Text">
+		<value>New User Signup Message</value>
+	</data>
+	<data name="DeleteMessage.Text">
+		<value>Are You Sure You Wish To Delete This Portal ?</value>
+	</data>
+	<data name="SubmitGoogle.Text">
+		<value>Submit Site To Google</value>
+	</data>
+	<data name="LastPortal.Text">
+		<value>You Can Not Delete The Last Portal In Your Database</value>
+	</data>
+	<data name="plHomeDirectory.Text">
+		<value>Home Directory:</value>
+	</data>
+	<data name="plHomeDirectory.Help">
+		<value>Enter the Home Directory for this site</value>
+	</data>
+	<data name="ControlTitle_.Text">
+		<value>Site Settings</value>
+	</data>
+	<data name="ControlTitle_edit.Text">
+		<value>Edit Portals</value>
+	</data>
+	<data name="SkinUpload.Text">
+		<value>Upload Skin</value>
+	</data>
+	<data name="ContainerUpload.Text">
+		<value>Upload Container</value>
+	</data>
+	<data name="ModuleHelp.Text">
+		<value>&lt;h1&gt;About Site Settings&lt;/h1&gt;&lt;p&gt;The Site Settings module represents the local options for your portal. Local settings allow you to customize your portal to meet your business requirements.&lt;/p&gt;</value>
+	</data>
+	<data name="cmdGoogle.Text">
+		<value>Submit Site To Google</value>
+	</data>
+	<data name="RestoreCCSMessage.Text">
+		<value>Are You Sure You Want To Restore The Default Stylesheet (All Changes To The Current Stylesheet Will Be Lost) ? </value>
+	</data>
+</root>

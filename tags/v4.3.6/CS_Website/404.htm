@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>DotNetNuke Configuration Error</title>
+  </head>
+  <body>
+    <center>
+    <table height="100%" width="90%">
+      <tr>
+        <td align="center" valign="middle">
+	  <h1>DotNetNuke Configuration Error</h1>
+          <b>Domain Name "[DOMAINNAME]" Does Not Exist In The Database</b>
+          <br><br> 
+          DotNetNuke supports multiple portals from a single database/codebase. It accomplishes this by converting the URL of the client browser Request to a valid PortalID in the Portals database table. The following steps describe the process:
+          <br><br>
+          <table>
+            <tr>
+              <td valign="top"><b>1.</b></td>
+              <td><b>Web Server Processing</b><br>
+                <li>
+                  When a web server receives a Request from a client browser, it compares the file name extension on the target URL resource to its Application Extension Mappings defined in IIS.
+                </li>
+                <li>
+                  Based on the corresponding match, IIS then sends the Request to the defined Executable Path ( aspnet_asapi.dll in the case of ASP.NET Requests ).
+                </li>
+                <li>
+                  The aspnet_isapi.dll engine processes the Request in an ordered series of events beginning with Application_BeginRequest.
+                </li>
+                <br><br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top"><b>2.</b></td>
+              <td><b>Application_BeginRequest ( Common.Globals.asax.vb )</b><br>
+                <li>
+                  The Request URL is parsed based on the "/" character
+                </li>
+                <li>
+                  A Domain Name is constructed using each of the relevant parsed URL segments.
+                  <br><br>
+                  Examples:
+                  <br><br>
+                  URL: http://www.domain.com/default.aspx = Domain Name: www.domain.com<br>
+                  URL: http://209.75.24.131/default.aspx = Domain Name: 209.75.24.131<br>
+                  URL: http://localhost/DotNetNuke/default.aspx = Domain Name: localhost/DotNetNuke<br>
+                  URL: http://www.domain.com/virtualdirectory/default.aspx = Domain Name: www.domain.com/virtualdirectory<br>
+                  URL: http://www.domain.com/directory/default.aspx = Domain Name: www.domain.com/directory<br>
+                  <br>
+                </li>
+                <li>
+                  Using the Domain Name, the application queries the database ( Portals table - PortalAlias field ) to locate a matching record.         
+                  <br><br>
+                  Note: If there are multiple URLs which correspond to the same portal then the PortalAlias field must contain each valid Domain Name in a comma seperated list.
+                  <br><br>
+                  Example:
+                  <br><br>
+                  URL: http://localhost/DotNetNuke/default.aspx<br>
+                  URL: http://MACHINENAME/DotNetNuke/default.aspx<br>
+                  URL: http://209.32.134.65/DotNetNuke/default.aspx<br>
+                  PortalAlias: localhost/DotNetNuke,MACHINENAME/DotNetNuke,209.32.134.65/DotNetNuke
+                  <br><br>
+                  Note: If you are installing the application to a remote server you must modify the PortalAlias field value for the default record in the Portals table according to the rules defined above.
+                </li>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </center>
+  </body>
+</html>

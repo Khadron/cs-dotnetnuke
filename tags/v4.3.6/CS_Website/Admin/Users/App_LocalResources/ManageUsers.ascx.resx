@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Roles.Action">
+    <value>Manage Roles for this User</value>
+  </data>
+  <data name="UsernameExists.Text">
+    <value>Registration Failed! Username &lt;u&gt;{0}&lt;/u&gt; is already registered.&lt;br&gt;Please select a different Username.</value>
+  </data>
+  <data name="ControlTitle_edit.Text">
+    <value>Edit User Accounts</value>
+  </data>
+  <data name="ModuleHelp.Text">
+    <value>&lt;h1&gt;About the User Management Module&lt;/h1&gt;&lt;p&gt;Administrators can manage their registered users. This module allows you to add new users, modify existing users, delete users, and manage the security roles for users.&lt;/p&gt;
+</value>
+  </data>
+  <data name="UserLockedOut.Text">
+    <value>This account is currently locked out due to too many unsuccessful login attempts.</value>
+  </data>
+  <data name="InvalidUser.Text">
+    <value>This account is not a User in the current Portal.</value>
+  </data>
+  <data name="SuperUser.Text">
+    <value>This account represents a SuperUser.  You do not have the rights to edit a SuperUser Account.</value>
+  </data>
+  <data name="NoUser.Text">
+    <value>This account doesn't exist</value>
+  </data>
+  <data name="plNewPassword.Text">
+    <value>New Password:</value>
+  </data>
+  <data name="plNewPassword.Help">
+    <value>Enter the New Password</value>
+  </data>
+  <data name="plNewConfirm.Text">
+    <value>Confirm New Password:</value>
+  </data>
+  <data name="plNewConfirm.Help">
+    <value>Re-Enter the new password to make sure you haven't made a typing mistake</value>
+  </data>
+  <data name="ResetPassword.Text">
+    <value>Reset Password</value>
+  </data>
+  <data name="cmdUpdatePassword.Text">
+    <value>Update Password</value>
+  </data>
+  <data name="NewPassword.Text">
+    <value>You must enter a new password.</value>
+  </data>
+  <data name="PasswordChanged.Text">
+    <value>The password has been reset.</value>
+  </data>
+  <data name="PasswordResetFailed.Text">
+    <value>There was an error setting the password. The password has not been changed.</value>
+  </data>
+  <data name="UserTitle.Text">
+    <value>Edit User - {0} (Id: {1})</value>
+  </data>
+  <data name="MembershipTitle.Text">
+    <value>Membership Information</value>
+  </data>
+  <data name="AddContent.Action">
+    <value>Add New User</value>
+  </data>
+  <data name="Profile.Action">
+    <value>Manage User's Profile</value>
+  </data>
+  <data name="Password.Action">
+    <value>Manage User's Password</value>
+  </data>
+  <data name="cmdUser.Text">
+    <value>Manage User Credentials</value>
+  </data>
+  <data name="cmdRoles.Text">
+    <value>Manage Roles for this User</value>
+  </data>
+  <data name="cmdPassword.Text">
+    <value>Manage Password</value>
+  </data>
+  <data name="cmdProfile.Text">
+    <value>Manage Profile</value>
+  </data>
+  <data name="AddUser.Text">
+    <value>Add New User</value>
+  </data>
+  <data name="UserUnAuthorized.Text">
+    <value>User successfully Un-Authorized</value>
+  </data>
+  <data name="UserAuthorized.Text">
+    <value>User successfully Authorized</value>
+  </data>
+  <data name="InvalidPasswordAnswer.Text">
+    <value>Password Answer must be provided</value>
+  </data>
+  <data name="InvalidPasswordQuestion.Text">
+    <value>Password Question must be provided</value>
+  </data>
+  <data name="PasswordQAChanged.Text">
+    <value>Password Question and Answer successfully updated.</value>
+  </data>
+  <data name="ControlTitle_profile.Text">
+    <value>Manage Profile</value>
+  </data>
+  <data name="NotAuthorized.Text">
+    <value>You are not authorized to edit this user.</value>
+  </data>
+  <data name="ControlTitle_register.Text">
+    <value>Register</value>
+  </data>
+  <data name="Register.Text">
+    <value>Preferred User Information</value>
+  </data>
+  <data name="PrivateMembership.Text">
+    <value>&lt;b&gt;*Note:&lt;/b&gt; Membership to this portal is Private. Once your account information has been submitted, the portal Administrator will be notified and your application will be subjected to a screening procedure. If your application is authorized, you will receive notification of your access to the portal environment.</value>
+  </data>
+  <data name="PublicMembership.Text">
+    <value>&lt;b&gt;*Note:&lt;/b&gt; Membership to this portal is Public. Once your account information has been submitted, you will be immediately granted access to the portal environment.</value>
+  </data>
+  <data name="VerifiedMembership.Text">
+    <value>&lt;b&gt;*Note:&lt;/b&gt; Membership to this portal is Verified. Once your account information has been submitted, you will receive an email containing your unique Verification Code. The Verification Code will be required the first time you attempt to sign in to the portal environment.</value>
+  </data>
+  <data name="Required.Text">
+    <value> All fields marked with an asterisk (*) are required.</value>
+  </data>
+  <data name="VerifiedConfirmationMessage.Text">
+    <value>&lt;b&gt;An e-mail with your verification code has been sent to your e-mail address: {0}&lt;br&gt;Please access your in-box and get the verification code, which is required to log-in first time.&lt;/b&gt;</value>
+  </data>
+  <data name="PrivateConfirmationMessage.Text">
+    <value>&lt;b&gt;An e-mail with your details has been sent to the portal administrator for verification. Once your registration has been approved an e-mail will be sent to your e-mail address: {0}.&lt;/b&gt;</value>
+  </data>
+  <data name="cmdServices.Text">
+    <value>Manage Services</value>
+  </data>
+  <data name="ManageProfile.Action">
+    <value>Manage Profile Properties</value>
+  </data>
+  <data name="cmdRegister.Text">
+    <value>Register</value>
+  </data>
+  <data name="PasswordInvalid.Text">
+    <value>You must enter a valid password.  Please check with the Portal Administrator if you do not know the password requirements.</value>
+  </data>
+  <data name="PasswordMismatch.Text">
+    <value>Password Values Entered Do Not Match.</value>
+  </data>
+  <data name="PasswordMissing.Text">
+    <value>You must provide your current password in order to change the password.</value>
+  </data>
+  <data name="PasswordNotDifferent.Text">
+    <value>The new password is the same as the old password.  Please enter a different password</value>
+  </data>
+  <data name="PasswordMailError.Text">
+    <value>The password has been reset, but there was an error sending the Email reminder message.</value>
+  </data>
+</root>
