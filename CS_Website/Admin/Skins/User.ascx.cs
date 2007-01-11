@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -17,8 +17,8 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
-using System.Diagnostics;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Services.Exceptions;
@@ -26,8 +26,6 @@ using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.UI.Skins.Controls
 {
-    /// <summary></summary>
-    /// <remarks></remarks>
     /// <history>
     /// 	[cniknet]	10/15/2004	Replaced public members with properties and removed
     ///                             brackets from property names
@@ -38,6 +36,7 @@ namespace DotNetNuke.UI.Skins.Controls
 
         private string _text;
         private string _cssClass;
+        private string _url;
 
         public string Text
         {
@@ -60,6 +59,18 @@ namespace DotNetNuke.UI.Skins.Controls
             set
             {
                 _cssClass = value;
+            }
+        }
+
+        public string URL
+        {
+            get
+            {
+                return _url;
+            }
+            set
+            {
+                _url = value;
             }
         }
 
@@ -89,15 +100,21 @@ namespace DotNetNuke.UI.Skins.Controls
                         {
                             hypRegister.Text = Localization.GetString( "Register", Localization.GetResourceFile( this, MyFileName ) );
                         }
-                        if( PortalSettings.UserTabId != - 1 )
+                        if (!String.IsNullOrEmpty(URL))
                         {
-                            // user defined tab
-                            hypRegister.NavigateUrl = Globals.NavigateURL( PortalSettings.UserTabId );
+                            hypRegister.NavigateUrl = URL;
                         }
-                        else
                         {
-                            // admin tab
-                            hypRegister.NavigateUrl = Globals.NavigateURL( "Register" );
+                            if( PortalSettings.UserTabId != - 1 )
+                            {
+                                // user defined tab
+                                hypRegister.NavigateUrl = Globals.NavigateURL( PortalSettings.UserTabId );
+                            }
+                            else
+                            {
+                                // admin tab
+                                hypRegister.NavigateUrl = Globals.NavigateURL( "Register" );
+                            }
                         }
                         hypRegister.Visible = true;
                     }
@@ -121,7 +138,7 @@ namespace DotNetNuke.UI.Skins.Controls
                         }
                         else
                         {
-                            hypRegister.NavigateUrl = Globals.NavigateURL( PortalSettings.ActiveTab.TabID, "Profile", "UserID=" + objUserInfo.UserID.ToString() );
+                            hypRegister.NavigateUrl = Globals.NavigateURL( PortalSettings.ActiveTab.TabID, "Profile", "UserID=" + objUserInfo.UserID );
                         }
                     }
                 }

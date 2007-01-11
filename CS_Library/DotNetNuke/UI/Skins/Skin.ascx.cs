@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -628,8 +628,18 @@ namespace DotNetNuke.UI.Skins
                                 objPortalModuleBase = new PortalModuleBase();
                             }
                             else // load the control dynamically
-                            {
-                                objPortalModuleBase = (PortalModuleBase)this.LoadControl("~/" + objModule.ControlSrc);
+                            {                                
+                                if (objModule.ContainerSrc.ToLower().EndsWith(".ascx"))
+                                {
+                                    // load from a user control on the file system
+                                    objPortalModuleBase = (PortalModuleBase)(this.LoadControl("~/" + objModule.ControlSrc));
+                                }
+                                else
+                                {
+                                    // load from a typename in an assembly ( ie. server control )
+                                    Type objType = Type.GetType(objModule.ControlSrc, true, true);
+                                    objPortalModuleBase = (PortalModuleBase)(this.LoadControl(objType, null));
+                                }
                             }
 
                             // set the control ID to the resource file name ( ie. controlname.ascx = controlname )

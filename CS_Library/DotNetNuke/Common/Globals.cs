@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -84,12 +84,12 @@ namespace DotNetNuke.Common
         }
 
         public const string glbAboutPage = "about.htm";
-        public const string glbAppCompany = "Perpetual Motion Interactive Systems Inc.";
-        public const string glbAppDescription = "DotNetNuke Web Application Framework";
+        public const string glbAppCompany = "DotNetNuke Corporation";
+        public const string glbAppDescription = "Open Source Web Application Framework";
         public const string glbAppTitle = "DotNetNuke";
         public const string glbAppUrl = "http://www.dotnetnuke.com";
-
-        public const string glbAppVersion = "04.03.05";
+        public const string glbUpgradeUrl = "http://update.dotnetnuke.com";
+        public const string glbAppVersion = "04.03.06";
         public const string glbConfigFolder = "\\Config\\";
         public const string glbDefaultAdminContainer = "Image Header - Color Background.ascx";
         public const string glbDefaultAdminSkin = "Horizontal Menu - Fixed Width.ascx";
@@ -104,7 +104,7 @@ namespace DotNetNuke.Common
         public const string glbHelpUrl = "http://www.dotnetnuke.com/default.aspx?tabid=787";
         public const string glbHostSkinFolder = "_default";
         public const string glbImageFileTypes = "jpg,jpeg,jpe,gif,bmp,png,swf";
-        public const string glbLegalCopyright = "DotNetNuke® is copyright 2002-YYYY by Perpetual Motion Interactive Systems Inc.";
+        public const string glbLegalCopyright = "DotNetNuke® is copyright 2002-YYYY by DotNetNuke Corporation";
 
         public const string glbProtectedExtension = ".resources";
 
@@ -117,7 +117,7 @@ namespace DotNetNuke.Common
         public const string glbRoleUnauthUserName = "Unauthenticated Users";
 
         public const int glbSuperUserAppName = -1;
-        public const string glbTrademark = "DotNetNuke";
+        public const string glbTrademark = "DotNetNuke,DNN";
         private static string _ApplicationMapPath;
 
         // global constants for the life of the application ( set in Application_Start )
@@ -1408,8 +1408,7 @@ namespace DotNetNuke.Common
                 portalRoot = objPortal.HomeDirectoryMapPath;
             }
 
-            FolderController objFolders = new FolderController();
-            FolderInfo objFolder = objFolders.GetFolder(PortalId, Folder);
+            FolderInfo objFolder = FileSystemUtils.GetFolder(PortalId, Folder);
             if (objFolder != null)
             {
                 FileController objFiles = new FileController();

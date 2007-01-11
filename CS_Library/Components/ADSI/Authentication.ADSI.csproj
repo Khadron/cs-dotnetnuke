@@ -75,6 +75,7 @@
     <Reference Include="System.DirectoryServices">
       <Name>System.DirectoryServices</Name>
     </Reference>
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

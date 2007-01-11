@@ -54,6 +54,9 @@
 	<data name="QueryError.Text">
 		<value>There is an error in your query!</value>
 	</data>
+	<data name="QuerySuccess.Text">
+		<value>The Query completed successfully!</value>
+	</data>
 	<data name="ControlTitle_.Text">
 		<value>SQL</value>
 	</data>

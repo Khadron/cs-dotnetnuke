@@ -2,7 +2,7 @@
 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -19,13 +19,14 @@
 // DEALINGS IN THE SOFTWARE.
 
 #endregion
+
 using System;
 using System.Collections;
-using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Web;
 using System.Web.Caching;
+using DotNetNuke.Data;
 using DotNetNuke.Entities.Host;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
@@ -71,12 +72,26 @@ namespace DotNetNuke.Common.Utilities
                     //Add the new File
                     AddFile( portalId, fInfo.OpenRead(), strFile, "", fInfo.Length, sourceFolderName, true, clearCache );
                 }
+                else
+                {
+                    if( file.Size != fInfo.Length )
+                    {
+                        //optimistic assumption for speed: update only if filesize has changed
+                        string extension = Path.GetExtension( strFile ).Replace( ".", "" );
+                        UpdateFileData( file.FileId, folderId, portalId, sourceFileName, extension, GetContentType( extension ), fInfo.Length, sourceFolderName );
+                    }
+                }
             }
             catch( Exception ex )
             {
                 retValue = ex.Message;
             }
             return retValue;
+        }
+
+        private static string AddFile( int PortalId, Stream inStream, string fileName, string contentType, long length, string folderName, bool closeInputStream, bool clearCache )
+        {
+            return AddFile( PortalId, inStream, fileName, contentType, length, folderName, closeInputStream, clearCache, false );
         }
 
         /// <summary>
@@ -92,16 +107,13 @@ namespace DotNetNuke.Common.Utilities
         /// <param name="clearCache">A flag that indicates whether the file cache should be cleared</param>
         /// <remarks>This method adds a new file
         /// </remarks>
-        private static string AddFile( int portalId, Stream inStream, string fileName, string contentType, long length, string folderName, bool closeInputStream, bool clearCache )
+        private static string AddFile( int portalId, Stream inStream, string fileName, string contentType, long length, string folderName, bool closeInputStream, bool clearCache, bool synchronize )
         {
             FolderController objFolderController = new FolderController();
             FileController objFileController = new FileController();
             string sourceFolderName = Globals.GetSubFolderPath( fileName );
             FolderInfo folder = objFolderController.GetFolder( portalId, sourceFolderName );
-            string sourceFileName = GetFileName( fileName );
-            int imageWidth = 0;
-            int imageHeight = 0;
-            int intFileID;
+            string sourceFileName = GetFileName( fileName );            
             string retValue = "";
 
             retValue += CheckValidFileName( fileName );
@@ -111,42 +123,22 @@ namespace DotNetNuke.Common.Utilities
             }
 
             string extension = Path.GetExtension( fileName ).Replace( ".", "" );
-            if( contentType == "" )
+            if( String.IsNullOrEmpty( contentType) )
             {
                 contentType = GetContentType( extension );
             }
 
             //Add file to Database
-            intFileID = objFileController.AddFile( portalId, sourceFileName, extension, length, imageWidth, imageHeight, contentType, folderName, folder.FolderID, clearCache );
+            int intFileID = objFileController.AddFile( portalId, sourceFileName, extension, length, Null.NullInteger, Null.NullInteger, contentType, folderName, folder.FolderID, clearCache );
 
             //Save file to File Storage
-            WriteStream( intFileID, inStream, fileName, folder.StorageLocation, closeInputStream );
-
-            //If an image lets try and find out the image size and the file size.  In this scenario the file will exist
-            //on the file system so lets load the file
-            if( Convert.ToBoolean( ( Globals.glbImageFileTypes + ",".IndexOf( extension.ToLower() + ",", 0 ) + 1 ) ) )
+            if( folder.StorageLocation != (int)FolderController.StorageLocationTypes.InsecureFileSystem | synchronize == false )
             {
-                try
-                {
-                    Services.FileSystem.FileInfo objFile = objFileController.GetFileById( intFileID, portalId );
-                    Stream imageStream = GetFileStream( objFile );
-                    Image imgImage = Image.FromStream( imageStream );
-                    imageHeight = imgImage.Height;
-                    imageWidth = imgImage.Width;
-                    imgImage.Dispose();
-                    imageStream.Close();
-                }
-                catch
-                {
-                    // error loading image file
-                    contentType = "application/octet-stream";
-                }
-                finally
-                {
-                    //Update the File info
-                    objFileController.UpdateFile( intFileID, sourceFileName, extension, length, imageWidth, imageHeight, contentType, folderName, folder.FolderID );
-                }
+                WriteStream( intFileID, inStream, fileName, folder.StorageLocation, closeInputStream );
             }
+
+            //Update the FileData
+            retValue += UpdateFileData( intFileID, folder.FolderID, portalId, sourceFileName, extension, contentType, length, folderName );
 
             if( folder.StorageLocation != (int)FolderController.StorageLocationTypes.InsecureFileSystem )
             {
@@ -275,6 +267,12 @@ namespace DotNetNuke.Common.Utilities
             string retValue = "";
             try
             {
+                //try and delete the Insecure file
+                AttemptFileDeletion(strSourceFile);
+
+                //try and delete the Secure file
+                AttemptFileDeletion(strSourceFile + Globals.glbProtectedExtension);
+
                 string folderName = Globals.GetSubFolderPath( strSourceFile );
                 string fileName = GetFileName( strSourceFile );
                 int PortalId = GetFolderPortalId( settings );
@@ -284,12 +282,6 @@ namespace DotNetNuke.Common.Utilities
                 FolderController objFolders = new FolderController();
                 FolderInfo objFolder = objFolders.GetFolder( PortalId, folderName );
                 objFileController.DeleteFile( PortalId, fileName, objFolder.FolderID, ClearCache );
-
-                //try and delete the Insecure file
-                AttemptFileDeletion( strSourceFile );
-
-                //try and delete the Secure file
-                AttemptFileDeletion( strSourceFile + Globals.glbProtectedExtension );
             }
             catch( Exception ex )
             {
@@ -320,48 +312,91 @@ namespace DotNetNuke.Common.Utilities
                 // check folder view permissions
                 if( PortalSecurity.IsInRoles( GetRoles( objFile.Folder, FolderPortalId, "READ" ) ) )
                 {
-                    HttpResponse objResponse = HttpContext.Current.Response;
-
-                    objResponse.ClearContent();
-                    objResponse.ClearHeaders();
-
-                    // force download dialog
-                    if( ForceDownload | objFile.Extension.ToLower().Equals( "pdf" ) )
+                    // auto sync
+                    bool blnFileExists = true;
+                    if (DotNetNuke.Entities.Host.HostSettings.GetHostSetting("EnableFileAutoSync") != "N")
                     {
-                        objResponse.AppendHeader( "content-disposition", "attachment; filename=" + objFile.FileName );
-                    }
-                    else
-                    {
-                        //use proper file name when browser forces download because of file type (save as name should match file name)
-                        objResponse.AppendHeader( "content-disposition", "inline; filename=" + objFile.FileName );
-                    }
-                    objResponse.AppendHeader( "Content-Length", objFile.Size.ToString() );
-                    objResponse.ContentType = GetContentType( objFile.Extension.Replace( ".", "" ) );
-
-                    //Stream the file to the response
-                    Stream objStream = GetFileStream( objFile );
-                    try
-                    {
-                        WriteStream( objResponse, objStream );
-                    }
-                    catch( Exception ex )
-                    {
-                        // Trap the error, if any.
-                        objResponse.Write( "Error : " + ex.Message );
-                    }
-                    finally
-                    {
-                        if( objStream != null )
+                        string strFile = "";
+                        if (objFile.StorageLocation == (int)FolderController.StorageLocationTypes.InsecureFileSystem)
                         {
-                            // Close the file.
-                            objStream.Close();
+                                strFile = objFile.PhysicalPath;
+                        }
+                        else if (objFile.StorageLocation == (int)FolderController.StorageLocationTypes.SecureFileSystem)
+                        {
+                                strFile = objFile.PhysicalPath + Globals.glbProtectedExtension;
+                        }
+                        if (strFile != "")
+                        {
+                            // synchronize file
+                            System.IO.FileInfo objFileInfo = new System.IO.FileInfo(strFile);
+                            if (objFileInfo.Exists)
+                            {
+                                if (objFile.Size != objFileInfo.Length)
+                                {
+                                    objFile.Size = System.Convert.ToInt32(objFileInfo.Length);
+                                    UpdateFileData(FileId, objFile.FolderId, FolderPortalId, objFile.FileName, objFile.Extension, GetContentType(objFile.Extension), objFileInfo.Length, objFile.Folder);
+                                }
+                            }
+                            else // file does not exist
+                            {
+                                RemoveOrphanedFile(objFile, FolderPortalId);
+                                blnFileExists = false;
+                            }
                         }
                     }
 
-                    objResponse.Flush();
-                    objResponse.Close();
+                    // download file
+                    if (blnFileExists)
+                    {
+                        // save script timeout
+                        int scriptTimeOut = HttpContext.Current.Server.ScriptTimeout;
 
-                    blnDownload = true;
+                        // temporarily set script timeout to large value ( this value is only applicable when application is not running in Debug mode )
+                        HttpContext.Current.Server.ScriptTimeout = int.MaxValue;
+
+                        HttpResponse objResponse = HttpContext.Current.Response;
+
+                        objResponse.ClearContent();
+                        objResponse.ClearHeaders();
+
+                        // force download dialog
+                        if( ForceDownload | objFile.Extension.ToLower().Equals( "pdf" ) )
+                        {
+                            objResponse.AppendHeader( "content-disposition", "attachment; filename=" + objFile.FileName );
+                        }
+                        else
+                        {
+                            //use proper file name when browser forces download because of file type (save as name should match file name)
+                            objResponse.AppendHeader( "content-disposition", "inline; filename=" + objFile.FileName );
+                        }
+                        objResponse.AppendHeader( "Content-Length", objFile.Size.ToString() );
+                        objResponse.ContentType = GetContentType( objFile.Extension.Replace( ".", "" ) );
+
+                        //Stream the file to the response
+                        Stream objStream = GetFileStream( objFile );
+                        try
+                        {
+                            WriteStream( objResponse, objStream );
+                        }
+                        catch( Exception ex )
+                        {
+                            // Trap the error, if any.
+                            objResponse.Write( "Error : " + ex.Message );
+                        }
+                        finally
+                        {
+                            if( objStream != null )
+                            {
+                                // Close the file.
+                                objStream.Close();
+                            }
+                        }
+
+                        objResponse.Flush();
+                        objResponse.Close();
+
+                        blnDownload = true;
+                    }
                 }
             }
 
@@ -519,6 +554,65 @@ namespace DotNetNuke.Common.Utilities
             return fileStream;
         }
 
+        public static void RemoveOrphanedFolders(int PortalId)
+        {
+            bool blnInvalidateCache = false;
+            DotNetNuke.Services.FileSystem.FolderController objFolderController = new DotNetNuke.Services.FileSystem.FolderController();
+            ArrayList arrFolders = GetFolders(PortalId);
+            foreach (FolderInfo objFolder in arrFolders)
+            {
+                if (objFolder.StorageLocation != (int)FolderController.StorageLocationTypes.DatabaseSecure)
+                {
+                    if (Directory.Exists(objFolder.PhysicalPath) == false)
+                    {
+                        RemoveOrphanedFiles(objFolder, PortalId);
+                        objFolderController.DeleteFolder(PortalId, objFolder.FolderPath);
+                        blnInvalidateCache = true;
+                    }
+                }
+            }
+            if (blnInvalidateCache)
+            {
+                DataCache.RemoveCache("Folders:" + PortalId.ToString());
+            }
+        }
+
+        private static void RemoveOrphanedFiles(FolderInfo folder, int PortalId)
+        {
+            FileController objFileController = new FileController();
+
+            if (folder.StorageLocation != (int)FolderController.StorageLocationTypes.DatabaseSecure)
+            {
+                foreach (DotNetNuke.Services.FileSystem.FileInfo objFile in GetFilesByFolder(PortalId, folder.FolderID))
+                {
+                    RemoveOrphanedFile(objFile, PortalId);
+                }
+            }
+        }
+
+        private static void RemoveOrphanedFile(DotNetNuke.Services.FileSystem.FileInfo objFile, int PortalId)
+        {
+            FileController objFileController = new FileController();
+
+            string strFile = "";
+            if (objFile.StorageLocation == (int)FolderController.StorageLocationTypes.InsecureFileSystem)
+            {
+                strFile = objFile.PhysicalPath;
+            }
+            else if (objFile.StorageLocation == (int)FolderController.StorageLocationTypes.SecureFileSystem)
+            {
+                strFile = objFile.PhysicalPath + Globals.glbProtectedExtension;
+            }
+
+            if (!String.IsNullOrEmpty( strFile))
+            {
+                if (!(File.Exists(strFile)))
+                {
+                    objFileController.DeleteFile(PortalId, objFile.FileName, objFile.FolderId, true);
+                }
+            }
+        }
+
         public static ArrayList GetFilesByFolder( int PortalId, int folderId )
         {
             FileController objFileController = new FileController();
@@ -542,39 +636,31 @@ namespace DotNetNuke.Common.Utilities
         /// <param name="PortalID">The Id of the Portal</param>
         /// <remarks>
         /// </remarks>
-        public static ArrayList GetFolders( int PortalID )
+        public static ArrayList GetFolders(int PortalID)
         {
-            ArrayList arrFolders = (ArrayList)( DataCache.GetCache( "Folders:" + PortalID ) );
-            if( arrFolders == null )
+            FolderController objFolderController = new FolderController();
+            ArrayList arrFolders = (ArrayList)(DataCache.GetCache("Folders:" + PortalID.ToString()));
+            if (arrFolders == null)
             {
-                FolderController objFolderController = new FolderController();
-                arrFolders = objFolderController.GetFoldersByPortal( PortalID );
-
-                if( HostSettings.GetHostSetting( "EnableFileAutoSync" ) == "Y" )
-                {
-                    //Check that the FileSystem and the Database are in Sync
-                    foreach( FolderInfo folder in arrFolders )
-                    {
-                        SynchronizeFolder( folder );
-                    }
-
-                    //Add a dependency of the Cache on the filepaths so if any folder is modified in the 
-                    //Filesystem the Cache will be cleared, and we can resync.
-                    string[] filePaths = new string[arrFolders.Count];
-                    int iCount = 0;
-                    foreach( FolderInfo folder in arrFolders )
-                    {
-                        filePaths[iCount] = folder.PhysicalPath;
-                        iCount += 1;
-                    }
-                    DataCache.SetCache( "Folders:" + PortalID, arrFolders, new CacheDependency( filePaths ) );
-                }
-                else
-                {
-                    DataCache.SetCache( "Folders:" + PortalID, arrFolders );
-                }
+                arrFolders = objFolderController.GetFoldersByPortal(PortalID);
+                DataCache.SetCache("Folders:" + PortalID.ToString(), arrFolders);
             }
             return arrFolders;
+        }
+
+        public static FolderInfo GetFolder(int PortalID, string FolderPath)
+        {
+            FolderController objFolderController = new FolderController();
+            FolderInfo objFolder = objFolderController.GetFolder(PortalID, FolderPath);
+            if (DotNetNuke.Entities.Host.HostSettings.GetHostSetting("EnableFileAutoSync") != "N")
+            {
+                // synchronize files in folder
+                if (objFolder != null)
+                {
+                    SynchronizeFolder(objFolder.PortalID, objFolder.PhysicalPath, objFolder.FolderPath, false, true, false);
+                }
+            }
+            return objFolder;
         }
 
         /// <summary>
@@ -707,7 +793,7 @@ namespace DotNetNuke.Common.Utilities
         {
             if( strOrigPath.IndexOf( "\\" ) != -1 )
             {
-                return strOrigPath.Replace( "0\\", "" );                
+                return strOrigPath.Replace( "0\\", "" );
             }
             else
             {
@@ -752,6 +838,46 @@ namespace DotNetNuke.Common.Utilities
             catch( Exception ex )
             {
                 return ex.Message;
+            }
+
+            ArrayList sortedFolders = new ArrayList();
+
+            objZipEntry = objZipInputStream.GetNextEntry();
+            //add initial entry if required
+            if (objZipEntry.IsDirectory)
+            {
+                sortedFolders.Add(objZipEntry.Name.ToString());
+            }
+            //iterate other folders
+            while (objZipEntry != null)
+            {
+                if (objZipEntry.IsDirectory)
+                {
+                    try
+                    {
+                        sortedFolders.Add(objZipEntry.Name.ToString());
+                    }
+                    catch (Exception ex)
+                    {
+                        objZipInputStream.Close();
+                        return ex.Message;
+                    }
+                }
+                objZipEntry = objZipInputStream.GetNextEntry();
+            }
+
+            sortedFolders.Sort();
+
+            foreach (string s in sortedFolders)
+            {
+                try
+                {
+                    AddFolder(settings, DestFolder, s.ToString(), storageLocation);
+                }
+                catch (Exception ex)
+                {
+                    return ex.Message;
+                }
             }
 
             objZipEntry = objZipInputStream.GetNextEntry();
@@ -1200,16 +1326,19 @@ namespace DotNetNuke.Common.Utilities
         /// </history>
         public static void SetFolderPermissions( int PortalId, int FolderId, string relativePath )
         {
-            string parentFolderPath = relativePath.Substring( 0, relativePath.Substring( 0, relativePath.Length - 1 ).LastIndexOf( "/" ) + 1 );
-
-            //Get Parents permissions
-            FolderPermissionController objFolderPermissionController = new FolderPermissionController();
-            FolderPermissionCollection objFolderPermissions = objFolderPermissionController.GetFolderPermissionsCollectionByFolderPath( PortalId, parentFolderPath );
-
-            //Iterate parent permissions to see if permisison has already been added
-            foreach( FolderPermissionInfo objPermission in objFolderPermissions )
+            if(!String.IsNullOrEmpty( relativePath))
             {
-                SetFolderPermission( PortalId, FolderId, objPermission.PermissionID, objPermission.RoleID, relativePath );
+                string parentFolderPath = relativePath.Substring( 0, relativePath.Substring( 0, relativePath.Length - 1 ).LastIndexOf( "/" ) + 1 );
+
+                //Get Parents permissions
+                FolderPermissionController objFolderPermissionController = new FolderPermissionController();
+                FolderPermissionCollection objFolderPermissions = objFolderPermissionController.GetFolderPermissionsCollectionByFolderPath( PortalId, parentFolderPath );
+
+                //Iterate parent permissions to see if permisison has already been added
+                foreach( FolderPermissionInfo objPermission in objFolderPermissions )
+                {
+                    SetFolderPermission( PortalId, FolderId, objPermission.PermissionID, objPermission.RoleID, relativePath );
+                }
             }
         }
 
@@ -1222,88 +1351,108 @@ namespace DotNetNuke.Common.Utilities
             SynchronizeFolder( PortalId, PhysicalRoot, VirtualRoot, true );
         }
 
-        public static void SynchronizeFolder( FolderInfo folder )
+        public static void SynchronizeFolder(int PortalId, string physicalPath, string relativePath, bool isRecursive)
         {
-            DirectoryInfo dirInfo = new DirectoryInfo( folder.PhysicalPath );
-            if( dirInfo.Exists )
-            {
-                if( dirInfo.LastWriteTimeUtc > folder.LastUpdated )
-                {
-                    //Synchronize Folder as it has changed
-                    SynchronizeFolder( folder.PortalID, folder.PhysicalPath, folder.FolderPath, true );
-                }
-            }
+            SynchronizeFolder(PortalId, physicalPath, relativePath, isRecursive, true, true);
         }
 
-        public static void SynchronizeFolder( int PortalId, string physicalPath, string relativePath, bool isRecursive )
+        public static void SynchronizeFolder(int PortalId, string physicalPath, string relativePath, bool isRecursive, bool syncFiles, bool forceFolderSync)
         {
+            FolderController objFolderController = new FolderController();
+            int FolderId = 0;
             bool isInSync = true;
 
-            DirectoryInfo dirInfo = new DirectoryInfo( physicalPath );
-            if( dirInfo.Exists )
+            // synchronize folder collection
+            if (forceFolderSync == true & relativePath == "")
             {
-                //Attempt to get the folder
-                FolderController objFolderController = new FolderController();
-                FolderInfo folder = objFolderController.GetFolder( PortalId, relativePath );
+                RemoveOrphanedFolders(PortalId);
+            }
 
+            //Attempt to get the folder
+            FolderInfo folder = (FolderInfo)(CBO.FillObject(DataProvider.Instance().GetFolder(PortalId, relativePath), typeof(Services.FileSystem.FolderInfo)));
+
+            DirectoryInfo dirInfo = new DirectoryInfo(physicalPath);
+            if (dirInfo.Exists)
+            {
                 // check to see if the folder exists in the db
-                if( folder == null )
+                if (folder == null)
                 {
-                    //Add Folder
-                    int folderId = AddFolder( PortalId, relativePath, (int)FolderController.StorageLocationTypes.InsecureFileSystem );
-                    folder = objFolderController.GetFolderInfo( PortalId, folderId );
-
-                    //If the folder didn't exist then none of its contents would either
-                    isInSync = false;
-                }
-                else
-                {
-                    //Check whether existing folder is in sync
-                    if( dirInfo.LastWriteTimeUtc > folder.LastUpdated )
+                    // check if folder contains files or subfolders
+                    if (dirInfo.GetFileSystemInfos("*").Length != 0)
                     {
+                        //Add Folder to database
+                        FolderId = AddFolder(PortalId, relativePath, (int)FolderController.StorageLocationTypes.InsecureFileSystem);
+                        folder = objFolderController.GetFolderInfo(PortalId, FolderId);
                         isInSync = false;
                     }
                 }
-
-                if( !isInSync )
+                else
                 {
-                    //Get Files in this Folder and sync them
-                    string[] strFiles = Directory.GetFiles( physicalPath );
-                    foreach( string strFileName in strFiles )
+                    //Check whether existing folder is in sync by comparing LastWriteTime of the physical folder with the LastUpdated value in the database
+                    //*NOTE: dirInfo.LastWriteTime is updated when files are added to or deleted from a directory - but NOT when existing files are overwritten ( this is a known Windows Operating System issue )
+                    isInSync = (dirInfo.LastWriteTime.ToString("yyyyMMddhhmmss") == folder.LastUpdated.ToString("yyyyMMddhhmmss"));
+                }
+
+                if (folder != null)
+                {
+                    if (syncFiles == true & (isInSync == false | forceFolderSync == true))
                     {
-                        //Add the File if it doesn't exist
-                        AddFile( strFileName, PortalId, false, folder.FolderID );
+                        //Get Physical Files in this Folder and sync them
+                        string[] strFiles = Directory.GetFiles(physicalPath);
+                        foreach (string strFileName in strFiles)
+                        {
+                            //Add the File if it doesn't exist, Update it if the file size has changed
+                            AddFile(strFileName, PortalId, false, folder.FolderID);
+                        }
+
+                        //Removed orphaned files
+                        RemoveOrphanedFiles(folder, PortalId);
+
+                        //Update the folder with the LastWriteTime of the directory
+                        folder.LastUpdated = dirInfo.LastWriteTime;
+                        objFolderController.UpdateFolder(folder);
                     }
 
-                    //Get Sub Folders (and synchronize recursively)
-                    if( isRecursive )
+                    //Get Physical Sub Folders (and synchronize recursively)
+                    if (isRecursive)
                     {
-                        string[] strFolders = Directory.GetDirectories( physicalPath );
-                        foreach( string strFolder in strFolders )
+                        string[] strFolders = Directory.GetDirectories(physicalPath);
+                        foreach (string strFolder in strFolders)
                         {
-                            DirectoryInfo dir = new DirectoryInfo( strFolder );
-                            string relPath;
-                            if( relativePath == "" )
+                            DirectoryInfo dir = new DirectoryInfo(strFolder);
+                            string relPath = Null.NullString;
+                            if (relativePath == "")
                             {
                                 relPath = dir.Name + "/";
                             }
                             else
                             {
                                 relPath = relativePath;
-                                if( !( relativePath.EndsWith( "/" ) ) )
+                                if (!(relativePath.EndsWith("/")))
                                 {
                                     relPath = relPath + "/";
                                 }
                                 relPath = relPath + dir.Name + "/";
                             }
-                            SynchronizeFolder( PortalId, strFolder, relPath, true );
+                            SynchronizeFolder(PortalId, strFolder, relPath, true, syncFiles, forceFolderSync);
                         }
                     }
-
-                    //Update the folder with the Updated time
-                    objFolderController.UpdateFolder( folder );
                 }
             }
+            else // physical folder does not exist on file system
+            {
+                if (folder != null)
+                {
+                    // folder exists in DB
+                    if (folder.StorageLocation != (int)FolderController.StorageLocationTypes.DatabaseSecure)
+                    {
+                        // remove files and folder from DB
+                        RemoveOrphanedFiles(folder, PortalId);
+                        objFolderController.DeleteFolder(PortalId, relativePath.Replace("\\", "/"));
+                    }
+                }
+            }
+
         }
 
         public static void UnzipResources( ZipInputStream zipStream, string destPath )
@@ -1395,6 +1544,48 @@ namespace DotNetNuke.Common.Utilities
             }
         }
 
+        private static string UpdateFileData(int fileID, int folderID, int PortalId, string fileName, string extension, string contentType, long length, string folderName)
+        {
+            string retvalue = "";
+            try
+            {
+                DotNetNuke.Services.FileSystem.FileController objFileController = new DotNetNuke.Services.FileSystem.FileController();
+                System.Drawing.Image imgImage = null;
+                int imageWidth = 0;
+                int imageHeight = 0;
+
+                if (Convert.ToBoolean((Globals.glbImageFileTypes + ",".IndexOf(extension.ToLower() + ",", 0) + 1)))
+                {
+                    try
+                    {
+                        DotNetNuke.Services.FileSystem.FileInfo objFile = objFileController.GetFileById(fileID, PortalId);
+                        Stream imageStream = GetFileStream(objFile);
+                        imgImage = System.Drawing.Image.FromStream(imageStream);
+                        imageHeight = imgImage.Height;
+                        imageWidth = imgImage.Width;
+                        imgImage.Dispose();
+                        imageStream.Close();
+                    }
+                    catch
+                    {
+                        // error loading image file
+                        contentType = "application/octet-stream";
+                    }
+                    finally
+                    {
+                        //Update the File info
+                        objFileController.UpdateFile(fileID, fileName, extension, length, imageWidth, imageHeight, contentType, folderName, folderID);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                retvalue = ex.Message;
+            }
+
+            return retvalue;
+        }
+
         /// <summary>
         /// Writes a Stream to the appropriate File Storage
         /// </summary>
@@ -1409,28 +1600,33 @@ namespace DotNetNuke.Common.Utilities
         {
             FileController objFileController = new FileController();
 
-            //Clear any existing content from the db
-            objFileController.ClearFileContent( fileId );
-
-            // Buffer to read 10K bytes in chunk:
+            // Buffer to read 2K bytes in chunk:
             byte[] arrData = new byte[2049];
             Stream outStream = null;
-            if( storageLocation == (int)FolderController.StorageLocationTypes.DatabaseSecure )
+            if (storageLocation == (int)FolderController.StorageLocationTypes.DatabaseSecure)
             {
+                objFileController.ClearFileContent(fileId);
                 outStream = new MemoryStream();
             }
-            else if( storageLocation == (int)FolderController.StorageLocationTypes.SecureFileSystem )
+            else if (storageLocation == (int)FolderController.StorageLocationTypes.SecureFileSystem)
             {
-                outStream = new FileStream( fileName + Globals.glbProtectedExtension, FileMode.Create );
+                if (File.Exists(fileName + Globals.glbProtectedExtension) == true)
+                {
+                    File.Delete(fileName + Globals.glbProtectedExtension);
+                }
+                outStream = new FileStream(fileName + Globals.glbProtectedExtension, FileMode.Create);
             }
-            else if( storageLocation == (int)FolderController.StorageLocationTypes.InsecureFileSystem )
+            else if (storageLocation == (int)FolderController.StorageLocationTypes.InsecureFileSystem)
             {
-                outStream = new FileStream( fileName, FileMode.Create );
+                if (File.Exists(fileName) == true)
+                {
+                    File.Delete(fileName);
+                }
+                outStream = new FileStream(fileName, FileMode.Create);
             }
 
             try
             {
-
                 // Total bytes to read:
                 // Read the data in buffer
                 int intLength = inStream.Read( arrData, 0, arrData.Length );
@@ -1520,7 +1716,7 @@ namespace DotNetNuke.Common.Utilities
             }
             finally
             {
-                if ( objStream != null)
+                if( objStream != null )
                 {
                     // Close the file.
                     objStream.Close();

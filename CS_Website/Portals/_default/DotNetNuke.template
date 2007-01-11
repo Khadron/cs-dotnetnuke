@@ -1,17 +1,10 @@
 ﻿<portal version="3.0">
-  <description>My Website</description>
+  <description>Default website template</description>
   <settings>
     <logofile>logo.gif</logofile>
     <footertext>Copyright 2006 by My Website</footertext>
-    <expirydate>0001-01-01T00:00:00.0000000-08:00</expirydate>
     <userregistration>2</userregistration>
     <banneradvertising>0</banneradvertising>
-    <currency>USD</currency>
-    <hostfee>0</hostfee>
-    <hostspace>0</hostspace>
-    <backgroundfile />
-    <paymentprocessor>PayPal</paymentprocessor>
-    <siteloghistory>0</siteloghistory>
     <defaultlanguage>en-US</defaultlanguage>
     <timezoneoffset>-480</timezoneoffset>
   </settings>
@@ -190,8 +183,8 @@
       <url />
       <skinsrc />
       <containersrc />
-      <startdate>0001-01-01T00:00:00.0000000-08:00</startdate>
-      <enddate>0001-01-01T00:00:00.0000000-08:00</enddate>
+      <startdate>0001-01-01T00:00:00</startdate>
+      <enddate>0001-01-01T00:00:00</enddate>
       <tabpermissions>
         <permission>
           <permissioncode>SYSTEM_TAB</permissioncode>
@@ -216,121 +209,6 @@
       <pageheadtext />
       <panes>
         <pane>
-          <name>ContentPane</name>
-          <modules>
-            <module>
-              <moduleID>345</moduleID>
-              <title>Welcome To My Website...</title>
-              <cachetime>60</cachetime>
-              <alignment>left</alignment>
-              <color />
-              <border />
-              <iconfile />
-              <alltabs>false</alltabs>
-              <visibility>Maximized</visibility>
-              <header />
-              <footer />
-              <startdate>0001-01-01T00:00:00.0000000-08:00</startdate>
-              <enddate>0001-01-01T00:00:00.0000000-08:00</enddate>
-              <containersrc />
-              <displaytitle>true</displaytitle>
-              <displayprint>true</displayprint>
-              <displaysyndicate>true</displaysyndicate>
-              <inheritviewpermissions>true</inheritviewpermissions>
-              <modulepermissions>
-                <permission>
-                  <permissioncode>SYSTEM_MODULE_DEFINITION</permissioncode>
-                  <permissionkey>EDIT</permissionkey>
-                  <rolename>Administrators</rolename>
-                  <allowaccess>true</allowaccess>
-                </permission>
-              </modulepermissions>
-              <definition>DNN_HTML</definition>
-              <content type="TextHTML" version="03.03.00"><![CDATA[&lt;htmltext&gt;&lt;desktophtml&gt;&lt;![CDATA[
-		&amp;lt;b&amp;gt;Administrator Login:&amp;lt;/b&amp;gt;
-		&amp;lt;br /&amp;gt;
-		&amp;lt;br /&amp;gt;Username: admin&amp;lt;br /&amp;gt;Password: dnnadmin&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;* Select the Admin tab to manage the portal settings as the Administrator. &amp;lt;font color=&amp;quot;#ff0000&amp;quot;&amp;gt;Make sure you change the default password and specify a valid Email address for this account.&amp;lt;br /&amp;gt;&amp;lt;/font&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;b&amp;gt;Host Login:&amp;lt;/b&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;Username: host&amp;lt;br /&amp;gt;Password: dnnhost&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;* Select the Host tab to manage multiple portals as the Host. &amp;lt;font color=&amp;quot;#ff0000&amp;quot;&amp;gt;Make sure you change the default password and specify a valid Email address for this account.&amp;lt;br /&amp;gt;&amp;lt;/font&amp;gt;]]&gt;&lt;/desktophtml&gt;&lt;desktopsummary&gt;&lt;![CDATA[]]&gt;&lt;/desktopsummary&gt;&lt;/htmltext&gt;]]></content>
-            </module>
-            <module>
-              <moduleID>346</moduleID>
-              <title>DotNetNuke® Open Source License</title>
-              <cachetime>0</cachetime>
-              <alignment>left</alignment>
-              <color />
-              <border />
-              <iconfile />
-              <alltabs>false</alltabs>
-              <visibility>Maximized</visibility>
-              <header />
-              <footer />
-              <startdate>0001-01-01T00:00:00.0000000-08:00</startdate>
-              <enddate>0001-01-01T00:00:00.0000000-08:00</enddate>
-              <containersrc />
-              <displaytitle>true</displaytitle>
-              <displayprint>true</displayprint>
-              <displaysyndicate>false</displaysyndicate>
-              <inheritviewpermissions>true</inheritviewpermissions>
-              <modulepermissions>
-                <permission>
-                  <permissioncode>SYSTEM_MODULE_DEFINITION</permissioncode>
-                  <permissionkey>VIEW</permissionkey>
-                  <rolename>Administrators</rolename>
-                  <allowaccess>true</allowaccess>
-                </permission>
-                <permission>
-                  <permissioncode>SYSTEM_MODULE_DEFINITION</permissioncode>
-                  <permissionkey>EDIT</permissionkey>
-                  <rolename>Administrators</rolename>
-                  <allowaccess>true</allowaccess>
-                </permission>
-              </modulepermissions>
-              <definition>DNN_HTML</definition>
-              <content type="TextHTML" version="03.03.00"><![CDATA[&lt;htmltext&gt;&lt;desktophtml&gt;&lt;![CDATA[DotNetNuke&#174; - &lt;A href=&quot;http://www.dotnetnuke.com/&quot;&gt;http://www.dotnetnuke.com&lt;/A&gt;&lt;BR&gt;Copyright (c) 2002-2006&lt;BR&gt;by Perpetual Motion Interactive Systems Inc. ( &lt;A href=&quot;http://www.perpetualmotion.ca/&quot;&gt;http://www.perpetualmotion.ca&lt;/A&gt; )&lt;BR&gt;&lt;BR&gt;Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:&lt;BR&gt;&lt;BR&gt;The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.&lt;BR&gt;&lt;BR&gt;THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.]]&gt;&lt;/desktophtml&gt;&lt;desktopsummary&gt;&lt;![CDATA[]]&gt;&lt;/desktopsummary&gt;&lt;/htmltext&gt;]]></content>
-            </module>
-            <module>
-              <moduleID>347</moduleID>
-              <title>DotNetNuke® Benefactor Program</title>
-              <cachetime>0</cachetime>
-              <alignment>left</alignment>
-              <color />
-              <border />
-              <iconfile />
-              <alltabs>false</alltabs>
-              <visibility>Maximized</visibility>
-              <header />
-              <footer />
-              <startdate>0001-01-01T00:00:00.0000000-08:00</startdate>
-              <enddate>0001-01-01T00:00:00.0000000-08:00</enddate>
-              <containersrc />
-              <displaytitle>true</displaytitle>
-              <displayprint>true</displayprint>
-              <displaysyndicate>false</displaysyndicate>
-              <inheritviewpermissions>true</inheritviewpermissions>
-              <modulepermissions>
-                <permission>
-                  <permissioncode>SYSTEM_MODULE_DEFINITION</permissioncode>
-                  <permissionkey>VIEW</permissionkey>
-                  <rolename>Administrators</rolename>
-                  <allowaccess>true</allowaccess>
-                </permission>
-                <permission>
-                  <permissioncode>SYSTEM_MODULE_DEFINITION</permissioncode>
-                  <permissionkey>EDIT</permissionkey>
-                  <rolename>Administrators</rolename>
-                  <allowaccess>true</allowaccess>
-                </permission>
-              </modulepermissions>
-              <definition>DNN_HTML</definition>
-              <content type="TextHTML" version="03.03.00"><![CDATA[&lt;htmltext&gt;&lt;desktophtml&gt;&lt;![CDATA[
-		&amp;lt;p&amp;gt;The DotNetNuke&amp;#174; project was founded on pure open source ideals. These principles permeate every aspect of the project and are fundamental to our business philosophy. At our core, we believe that every organization, company, or individual should have access to high quality, functional software under the most liberal license possible, regardless of their industry focus, geographical location, size, technical aptitude, or financial capabilities. But the freedom does not stop there. We believe that our valued members should have the right to optionally choose to support the project, by participating in premium service programs which are focused on their specific needs. The combination of these influences provide the basis for a strong and healthy core foundation, resulting in a vibrant community ecosystem that is ultimately supported by the people, for the people. &amp;lt;/p&amp;gt;
-		&amp;lt;p align=&amp;quot;center&amp;quot;&amp;gt;
-				&amp;lt;a href=&amp;quot;http://www.dotnetnuke.com/About/BenefactorProgram/tabid/894/Default.aspx&amp;quot;&amp;gt;Become A DotNetNuke Benefactor Today!&amp;lt;/a&amp;gt;
-		&amp;lt;/p&amp;gt;
-]]&gt;&lt;/desktophtml&gt;&lt;desktopsummary&gt;&lt;![CDATA[]]&gt;&lt;/desktopsummary&gt;&lt;/htmltext&gt;]]></content>
-            </module>
-          </modules>
-        </pane>
-        <pane>
           <name>RightPane</name>
           <modules>
             <module>
@@ -345,8 +223,8 @@
               <visibility>Maximized</visibility>
               <header />
               <footer />
-              <startdate>0001-01-01T00:00:00.0000000-08:00</startdate>
-              <enddate>0001-01-01T00:00:00.0000000-08:00</enddate>
+              <startdate>0001-01-01T00:00:00</startdate>
+              <enddate>0001-01-01T00:00:00</enddate>
               <containersrc />
               <displaytitle>true</displaytitle>
               <displayprint>true</displayprint>
@@ -367,6 +245,7 @@
                 </permission>
               </modulepermissions>
               <definition>DNN_HTML</definition>
+              <moduledefinition>Text/HTML</moduledefinition>
               <content type="TextHTML" version="03.03.00"><![CDATA[&lt;htmltext&gt;&lt;desktophtml&gt;&lt;![CDATA[
 		&lt;center&gt;
 				&lt;img alt=&quot;OSI Certified License&quot; src=&quot;osi.gif&quot; /&gt;
@@ -389,8 +268,8 @@
               <visibility>Maximized</visibility>
               <header />
               <footer />
-              <startdate>0001-01-01T00:00:00.0000000-08:00</startdate>
-              <enddate>0001-01-01T00:00:00.0000000-08:00</enddate>
+              <startdate>0001-01-01T00:00:00</startdate>
+              <enddate>0001-01-01T00:00:00</enddate>
               <containersrc />
               <displaytitle>true</displaytitle>
               <displayprint>true</displayprint>
@@ -405,69 +284,131 @@
                 </permission>
               </modulepermissions>
               <definition>DNN_HTML</definition>
+              <moduledefinition>Text/HTML</moduledefinition>
+              <content type="TextHTML" version="03.03.00"><![CDATA[&lt;htmltext&gt;&lt;desktophtml&gt;&lt;![CDATA[&lt;CENTER&gt;&lt;BR&gt;&lt;A href=&quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http://www.asp.net&amp;amp;tabid=957&amp;amp;mid=1739&quot; target=new&gt;&lt;IMG alt=&quot;The Official Microsoft ASP.NET Site&quot; src=&quot;aspnet.gif&quot; border=0&gt; &lt;/A&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;A href=&quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http://www.maximumasp.com&amp;amp;tabid=957&amp;amp;mid=1739&quot; target=new&gt;&lt;IMG alt=&quot;MaximumASP - Serious Web Hosting For Serious Microsoft Developers&quot; src=&quot;MaximumASP.gif&quot; border=0&gt; &lt;/A&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;A href=&quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http://sourcegear.com&amp;amp;tabid=957&amp;amp;mid=1739&quot; target=new&gt;&lt;IMG alt=&quot;SourceGear - Tools for Developers&quot; src=&quot;sourcegear.gif&quot; border=0&gt; &lt;/A&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;A href=&quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http://www.telerik.com/dnn/&amp;amp;tabid=957&amp;amp;mid=1739&quot; target=new&gt;&lt;IMG alt=&quot;Telerik - The Most Comprehensive Toolset For ASP.NET&quot; src=&quot;telerik.gif&quot; border=0&gt; &lt;/A&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;A href=&quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http://cutesoft.net/Products/DotNetNuke/default.aspx&amp;amp;tabid=957&amp;amp;mid=1739&quot; target=new&gt;&lt;IMG alt=&quot;HTML Editor, Chat, Web Messenger and Live Support&quot; src=&quot;cutesoft.jpg&quot; border=0&gt; &lt;/A&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;A href=&quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http://www.powerdnn.com&amp;amp;tabid=957&amp;amp;mid=1739&quot; target=new&gt;&lt;IMG alt=&quot;PowerDNN – Reliable Servers &amp;amp; Quality Support – DotNetNuke Done Right&quot; src=&quot;powerdnn.gif&quot; border=0&gt; &lt;/A&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;A href=&quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http://www.easycgi.com&amp;amp;tabid=957&amp;amp;mid=1739&quot; target=new&gt;&lt;IMG alt=&quot;easyCGI – Advanced Hosting. Easy Solutions.&quot; src=&quot;easycgi.gif&quot; border=0&gt; &lt;/A&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;A href=&quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http://email.exacttarget.com/ETWeb/default.aspx&amp;amp;tabid=957&amp;amp;mid=1739&quot; target=new&gt;&lt;IMG alt=ExactTarget src=&quot;exacttarget.gif&quot; border=0&gt; &lt;/A&gt;&lt;BR&gt;&lt;/CENTER&gt;]]&gt;&lt;/desktophtml&gt;&lt;desktopsummary&gt;&lt;![CDATA[]]&gt;&lt;/desktopsummary&gt;&lt;/htmltext&gt;]]></content>
+            </module>
+          </modules>
+        </pane>
+        <pane>
+          <name>ContentPane</name>
+          <modules>
+            <module>
+              <moduleID>345</moduleID>
+              <title>Welcome To DotNetNuke®</title>
+              <cachetime>60</cachetime>
+              <alignment>left</alignment>
+              <color />
+              <border />
+              <iconfile />
+              <alltabs>false</alltabs>
+              <visibility>Maximized</visibility>
+              <header />
+              <footer />
+              <startdate>0001-01-01T00:00:00</startdate>
+              <enddate>0001-01-01T00:00:00</enddate>
+              <containersrc />
+              <displaytitle>true</displaytitle>
+              <displayprint>true</displayprint>
+              <displaysyndicate>true</displaysyndicate>
+              <inheritviewpermissions>true</inheritviewpermissions>
+              <modulepermissions>
+                <permission>
+                  <permissioncode>SYSTEM_MODULE_DEFINITION</permissioncode>
+                  <permissionkey>EDIT</permissionkey>
+                  <rolename>Administrators</rolename>
+                  <allowaccess>true</allowaccess>
+                </permission>
+              </modulepermissions>
+              <definition>DNN_HTML</definition>
+              <moduledefinition>Text/HTML</moduledefinition>
               <content type="TextHTML" version="03.03.00"><![CDATA[&lt;htmltext&gt;&lt;desktophtml&gt;&lt;![CDATA[
-		&amp;lt;center&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;a href=&amp;quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http%3a%2f%2fwww.perpetualmotion.ca&amp;amp;amp;tabid=957&amp;amp;amp;mid=1739&amp;quot;&amp;gt;
-						&amp;lt;img alt=&amp;quot;Perpetual Motion Interactive Systems Inc.&amp;quot; src=&amp;quot;PerpetualMotion.gif&amp;quot; border=&amp;quot;0&amp;quot; /&amp;gt;
-				&amp;lt;/a&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;a href=&amp;quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http%3a%2f%2fwww.asp.net&amp;amp;amp;tabid=957&amp;amp;amp;mid=1739&amp;quot;&amp;gt;
-						&amp;lt;img alt=&amp;quot;The Official Microsoft ASP.NET Site&amp;quot; src=&amp;quot;aspnet.gif&amp;quot; border=&amp;quot;0&amp;quot; /&amp;gt;
-				&amp;lt;/a&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;a href=&amp;quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http%3a%2f%2fwww.maximumasp.com&amp;amp;amp;tabid=957&amp;amp;amp;mid=1739&amp;quot;&amp;gt;
-						&amp;lt;img alt=&amp;quot;MaximumASP - Serious Web Hosting For Serious Microsoft Developers&amp;quot; src=&amp;quot;MaximumASP.gif&amp;quot; border=&amp;quot;0&amp;quot; /&amp;gt;
-				&amp;lt;/a&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;a href=&amp;quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http%3a%2f%2fsourcegear.com&amp;amp;amp;tabid=957&amp;amp;amp;mid=1739&amp;quot;&amp;gt;
-						&amp;lt;img alt=&amp;quot;SourceGear - Tools for Developers&amp;quot; src=&amp;quot;sourcegear.gif&amp;quot; border=&amp;quot;0&amp;quot; /&amp;gt;
-				&amp;lt;/a&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;a href=&amp;quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http%3a%2f%2fwww.telerik.com%2fdnn%2f&amp;amp;amp;tabid=957&amp;amp;amp;mid=1739&amp;quot;&amp;gt;
-						&amp;lt;img alt=&amp;quot;Telerik - The Most Comprehensive Toolset For ASP.NET&amp;quot; src=&amp;quot;telerik.gif&amp;quot; border=&amp;quot;0&amp;quot; /&amp;gt;
-				&amp;lt;/a&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;a href=&amp;quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http%3a%2f%2fwww.onyaktech.com&amp;amp;amp;tabid=957&amp;amp;amp;mid=1739&amp;quot;&amp;gt;
-						&amp;lt;img alt=&amp;quot;OnyakTech - DotNetNuke Solutions - Professional Modules&amp;quot; src=&amp;quot;onyaktech.gif&amp;quot; border=&amp;quot;0&amp;quot; /&amp;gt;
-				&amp;lt;/a&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;a href=&amp;quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http%3a%2f%2fwww.powerdnn.com&amp;amp;amp;tabid=957&amp;amp;amp;mid=1739&amp;quot;&amp;gt;
-						&amp;lt;img alt=&amp;quot;PowerDNN – Reliable Servers &amp;amp;amp; Quality Support – DotNetNuke Done Right&amp;quot; src=&amp;quot;powerdnn.gif&amp;quot; border=&amp;quot;0&amp;quot; /&amp;gt;
-				&amp;lt;/a&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;a href=&amp;quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http%3a%2f%2fwww.easycgi.com&amp;amp;amp;tabid=957&amp;amp;amp;mid=1739&amp;quot;&amp;gt;
-						&amp;lt;img alt=&amp;quot;easyCGI – Advanced Hosting. Easy Solutions.&amp;quot; src=&amp;quot;easycgi.gif&amp;quot; border=&amp;quot;0&amp;quot; /&amp;gt;
-				&amp;lt;/a&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;br /&amp;gt;
-				&amp;lt;a href=&amp;quot;http://www.dotnetnuke.com/LinkClick.aspx?link=http%3a%2f%2femail.exacttarget.com%2fETWeb%2fdefault.aspx&amp;amp;amp;tabid=957&amp;amp;amp;mid=1739&amp;quot;&amp;gt;
-						&amp;lt;img alt=&amp;quot;ExactTarget&amp;quot; src=&amp;quot;exacttarget.gif&amp;quot; border=&amp;quot;0&amp;quot; /&amp;gt;
-				&amp;lt;/a&amp;gt;
-				&amp;lt;br /&amp;gt;
-		&amp;lt;/center&amp;gt;
+		&amp;lt;b&amp;gt;Administrator Login:&amp;lt;/b&amp;gt;
+		&amp;lt;br /&amp;gt;
+		&amp;lt;br /&amp;gt;Username: admin&amp;lt;br /&amp;gt;Password: dnnadmin&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;* Select the Admin tab to manage the portal settings as the Administrator. &amp;lt;font color=&amp;quot;#ff0000&amp;quot;&amp;gt;Make sure you change the default password and specify a valid Email address for this account.&amp;lt;br /&amp;gt;&amp;lt;/font&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;b&amp;gt;Host Login:&amp;lt;/b&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;Username: host&amp;lt;br /&amp;gt;Password: dnnhost&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;* Select the Host tab to manage multiple portals as the Host. &amp;lt;font color=&amp;quot;#ff0000&amp;quot;&amp;gt;Make sure you change the default password and specify a valid Email address for this account.&amp;lt;br /&amp;gt;&amp;lt;/font&amp;gt;]]&gt;&lt;/desktophtml&gt;&lt;desktopsummary&gt;&lt;![CDATA[]]&gt;&lt;/desktopsummary&gt;&lt;/htmltext&gt;]]></content>
+            </module>
+            <module>
+              <moduleID>371</moduleID>
+              <title>DotNetNuke® Community Services</title>
+              <cachetime>1200</cachetime>
+              <alignment>left</alignment>
+              <color />
+              <border />
+              <iconfile />
+              <alltabs>false</alltabs>
+              <visibility>Maximized</visibility>
+              <header />
+              <footer />
+              <startdate>0001-01-01T00:00:00</startdate>
+              <enddate>0001-01-01T00:00:00</enddate>
+              <containersrc />
+              <displaytitle>true</displaytitle>
+              <displayprint>true</displayprint>
+              <displaysyndicate>false</displaysyndicate>
+              <inheritviewpermissions>true</inheritviewpermissions>
+              <modulepermissions>
+                <permission>
+                  <permissioncode>SYSTEM_MODULE_DEFINITION</permissioncode>
+                  <permissionkey>VIEW</permissionkey>
+                  <rolename>Administrators</rolename>
+                  <allowaccess>true</allowaccess>
+                </permission>
+                <permission>
+                  <permissioncode>SYSTEM_MODULE_DEFINITION</permissioncode>
+                  <permissionkey>EDIT</permissionkey>
+                  <rolename>Administrators</rolename>
+                  <allowaccess>true</allowaccess>
+                </permission>
+              </modulepermissions>
+              <definition>DNN_HTML</definition>
+              <moduledefinition>Text/HTML</moduledefinition>
+              <content type="TextHTML" version="03.03.00"><![CDATA[&lt;htmltext&gt;&lt;desktophtml&gt;&lt;![CDATA[
+		&amp;lt;p&amp;gt;Extra functionality can be added to this application by acquiring and installing new Features. Features include custom Modules for managing content, Skins for enhancing the look and feel, and Language Packs for localizing the application for different cultures. In order to protect the integrity of your application, you should always obtain Features from a reliable source.&amp;lt;/p&amp;gt;
+		&amp;lt;p align=&amp;quot;center&amp;quot;&amp;gt;
+				&amp;lt;a class=&amp;quot;Head&amp;quot; href=&amp;quot;http://marketplace.dotnetnuke.com&amp;quot; target=&amp;quot;new&amp;quot;&amp;gt;Visit The DotNetNuke Marketplace!&amp;lt;/a&amp;gt;
+		&amp;lt;/p&amp;gt;
+		&amp;lt;p&amp;gt;The DotNetNuke&amp;#174; project was founded on pure open source ideals. These principles permeate every aspect of the project and are fundamental to our business philosophy. At our core, we believe that every organization, company, or individual should have access to high quality, functional software under the most liberal license possible, regardless of their industry focus, geographical location, size, technical aptitude, or financial capabilities. But the freedom does not stop there. We believe that our valued members should have the right to optionally choose to support the project, by participating in premium service programs which are focused on their specific needs. The combination of these influences provide the basis for a strong and healthy core foundation, resulting in a vibrant community ecosystem that is ultimately supported by the people, for the people. &amp;lt;/p&amp;gt;
+		&amp;lt;p align=&amp;quot;center&amp;quot;&amp;gt;
+				&amp;lt;a class=&amp;quot;Head&amp;quot; href=&amp;quot;http://www.dotnetnuke.com/About/BenefactorProgram/tabid/894/Default.aspx&amp;quot; target=&amp;quot;new&amp;quot;&amp;gt;Become A DotNetNuke Benefactor!&amp;lt;/a&amp;gt;
+		&amp;lt;/p&amp;gt;
+]]&gt;&lt;/desktophtml&gt;&lt;desktopsummary&gt;&lt;![CDATA[]]&gt;&lt;/desktopsummary&gt;&lt;/htmltext&gt;]]></content>
+            </module>
+            <module>
+              <moduleID>346</moduleID>
+              <title>DotNetNuke® Open Source License</title>
+              <cachetime>0</cachetime>
+              <alignment>left</alignment>
+              <color />
+              <border />
+              <iconfile />
+              <alltabs>false</alltabs>
+              <visibility>Maximized</visibility>
+              <header />
+              <footer />
+              <startdate>0001-01-01T00:00:00</startdate>
+              <enddate>0001-01-01T00:00:00</enddate>
+              <containersrc />
+              <displaytitle>true</displaytitle>
+              <displayprint>true</displayprint>
+              <displaysyndicate>false</displaysyndicate>
+              <inheritviewpermissions>true</inheritviewpermissions>
+              <modulepermissions>
+                <permission>
+                  <permissioncode>SYSTEM_MODULE_DEFINITION</permissioncode>
+                  <permissionkey>VIEW</permissionkey>
+                  <rolename>Administrators</rolename>
+                  <allowaccess>true</allowaccess>
+                </permission>
+                <permission>
+                  <permissioncode>SYSTEM_MODULE_DEFINITION</permissioncode>
+                  <permissionkey>EDIT</permissionkey>
+                  <rolename>Administrators</rolename>
+                  <allowaccess>true</allowaccess>
+                </permission>
+              </modulepermissions>
+              <definition>DNN_HTML</definition>
+              <moduledefinition>Text/HTML</moduledefinition>
+              <content type="TextHTML" version="03.03.00"><![CDATA[&lt;htmltext&gt;&lt;desktophtml&gt;&lt;![CDATA[
+		&amp;lt;p&amp;gt;DotNetNuke&amp;#174; - &amp;lt;a href=&amp;quot;http://www.dotnetnuke.com/&amp;quot;&amp;gt;http://www.dotnetnuke.com/&amp;lt;/a&amp;gt;&amp;lt;br /&amp;gt;Copyright (c) 2002-2006&amp;lt;br /&amp;gt;by DotNetNuke Corporation&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &amp;quot;Software&amp;quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;THE SOFTWARE IS PROVIDED &amp;quot;AS IS&amp;quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.&amp;lt;/p&amp;gt;
 ]]&gt;&lt;/desktophtml&gt;&lt;desktopsummary&gt;&lt;![CDATA[]]&gt;&lt;/desktopsummary&gt;&lt;/htmltext&gt;]]></content>
             </module>
           </modules>
@@ -487,8 +428,8 @@
               <visibility>Maximized</visibility>
               <header />
               <footer />
-              <startdate>0001-01-01T00:00:00.0000000-08:00</startdate>
-              <enddate>0001-01-01T00:00:00.0000000-08:00</enddate>
+              <startdate>0001-01-01T00:00:00</startdate>
+              <enddate>0001-01-01T00:00:00</enddate>
               <containersrc />
               <displaytitle>true</displaytitle>
               <displayprint>true</displayprint>
@@ -503,7 +444,8 @@
                 </permission>
               </modulepermissions>
               <definition>DNN_Links</definition>
-              <content type="Links" version="03.03.00"><![CDATA[&lt;links&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[DotNetNuke&#174; Website]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[0]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[The Official DotNetNuke Website]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Project Downloads]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/tabid/125/Default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[1]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[DotNetNuke Project Downloads]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Resource Directory]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/tabid/702/Default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[2]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[The DotNetNuke Resource Directory]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Discussion Forum]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/tabid/795/Default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[3]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[The Official DotNetNuke Discussion Forum]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Project Blogs]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/tabid/825/default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[4]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[DotNetNuke Project Blogs]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Guided Tour]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/guidedtour]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[5]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[The DotNetNuke Guided Tour]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Benefactor Program]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/tabid/894/Default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[6]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[The DotNetNuke Benefactor Program]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Language Packs]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/tabid/785/Default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[7]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[Language Packs for DotNetNuke]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Issue Tracking]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://support.dotnetnuke.com/Default.aspx?x=1]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[8]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[The DotNetNuke Issue Tracking System]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Community Events]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/Community/EventsCalendar/tabid/644/Default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[9]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[DotNetNuke Community Events Calendar]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;/links&gt;]]></content>
+              <moduledefinition>Links</moduledefinition>
+              <content type="Links" version="03.03.00"><![CDATA[&lt;links&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[DotNetNuke&#174; Website]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[0]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[The Official DotNetNuke Website]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Project Downloads]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/tabid/125/Default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[1]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[DotNetNuke Project Downloads]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Resource Directory]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/tabid/702/Default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[2]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[The DotNetNuke Resource Directory]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Discussion Forum]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/tabid/795/Default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[3]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[The Official DotNetNuke Discussion Forum]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Project Blogs]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/tabid/825/default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[4]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[DotNetNuke Project Blogs]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Guided Tour]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/guidedtour]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[5]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[The DotNetNuke Guided Tour]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Language Packs]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/tabid/785/Default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[7]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[Language Packs for DotNetNuke]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Issue Tracking]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://support.dotnetnuke.com/Default.aspx?x=1]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[8]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[The DotNetNuke Issue Tracking System]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;link&gt;&lt;title&gt;&lt;![CDATA[Community Events]]&gt;&lt;/title&gt;&lt;url&gt;&lt;![CDATA[http://www.dotnetnuke.com/Community/EventsCalendar/tabid/644/Default.aspx]]&gt;&lt;/url&gt;&lt;vieworder&gt;&lt;![CDATA[9]]&gt;&lt;/vieworder&gt;&lt;description&gt;&lt;![CDATA[DotNetNuke Community Events Calendar]]&gt;&lt;/description&gt;&lt;newwindow&gt;&lt;![CDATA[False]]&gt;&lt;/newwindow&gt;&lt;/link&gt;&lt;/links&gt;]]></content>
             </module>
             <module>
               <moduleID>351</moduleID>
@@ -517,8 +459,8 @@
               <visibility>Maximized</visibility>
               <header />
               <footer />
-              <startdate>0001-01-01T00:00:00.0000000-08:00</startdate>
-              <enddate>0001-01-01T00:00:00.0000000-08:00</enddate>
+              <startdate>0001-01-01T00:00:00</startdate>
+              <enddate>0001-01-01T00:00:00</enddate>
               <containersrc />
               <displaytitle>true</displaytitle>
               <displayprint>true</displayprint>
@@ -533,6 +475,7 @@
                 </permission>
               </modulepermissions>
               <definition>DNN_HTML</definition>
+              <moduledefinition>Text/HTML</moduledefinition>
               <content type="TextHTML" version="03.03.00"><![CDATA[&lt;htmltext&gt;&lt;desktophtml&gt;&lt;![CDATA[
 		&amp;lt;center&amp;gt;
 				&amp;lt;table cellspacing=&amp;quot;0&amp;quot; cellpadding=&amp;quot;4&amp;quot; width=&amp;quot;100%&amp;quot; border=&amp;quot;0&amp;quot;&amp;gt;
@@ -660,8 +603,8 @@
       <url />
       <skinsrc />
       <containersrc />
-      <startdate>0001-01-01T00:00:00.0000000-08:00</startdate>
-      <enddate>0001-01-01T00:00:00.0000000-08:00</enddate>
+      <startdate>0001-01-01T00:00:00</startdate>
+      <enddate>0001-01-01T00:00:00</enddate>
       <tabpermissions>
         <permission>
           <permissioncode>SYSTEM_TAB</permissioncode>
@@ -700,8 +643,8 @@
               <visibility>Maximized</visibility>
               <header />
               <footer />
-              <startdate>0001-01-01T00:00:00.0000000-08:00</startdate>
-              <enddate>0001-01-01T00:00:00.0000000-08:00</enddate>
+              <startdate>0001-01-01T00:00:00</startdate>
+              <enddate>0001-01-01T00:00:00</enddate>
               <containersrc />
               <displaytitle>true</displaytitle>
               <displayprint>true</displayprint>
@@ -709,6 +652,7 @@
               <inheritviewpermissions>true</inheritviewpermissions>
               <modulepermissions />
               <definition>Search Results</definition>
+              <moduledefinition>Search Results</moduledefinition>
             </module>
           </modules>
         </pane>
@@ -741,132 +685,124 @@
       </folderpermissions>
       <files>
         <file>
-          <filename>aspnet.gif</filename>
-          <extension>gif</extension>
-          <size>2814</size>
-          <width>120</width>
-          <height>60</height>
           <contenttype>image/gif</contenttype>
+          <extension>gif</extension>
+          <filename>aspnet.gif</filename>
+          <height>60</height>
+          <size>2965</size>
+          <width>120</width>
         </file>
         <file>
-          <filename>book_dummies1.jpg</filename>
+          <contenttype>image/jpeg</contenttype>
           <extension>jpg</extension>
+          <filename>book_dummies1.jpg</filename>
+          <height>75</height>
           <size>2942</size>
           <width>59</width>
-          <height>75</height>
-          <contenttype>image/jpeg</contenttype>
         </file>
         <file>
-          <filename>book_packt1.jpg</filename>
+          <contenttype>image/jpeg</contenttype>
           <extension>jpg</extension>
+          <filename>book_packt1.jpg</filename>
+          <height>75</height>
           <size>2247</size>
           <width>61</width>
-          <height>75</height>
-          <contenttype>image/jpeg</contenttype>
         </file>
         <file>
-          <filename>book_wrox1.jpg</filename>
+          <contenttype>image/jpeg</contenttype>
           <extension>jpg</extension>
+          <filename>book_wrox1.jpg</filename>
+          <height>75</height>
           <size>2830</size>
           <width>59</width>
-          <height>75</height>
-          <contenttype>image/jpeg</contenttype>
         </file>
         <file>
-          <filename>book_wrox2.jpg</filename>
+          <contenttype>image/jpeg</contenttype>
           <extension>jpg</extension>
+          <filename>book_wrox2.jpg</filename>
+          <height>75</height>
           <size>2362</size>
           <width>59</width>
-          <height>75</height>
-          <contenttype>image/jpeg</contenttype>
         </file>
         <file>
-          <filename>easycgi.gif</filename>
+          <contenttype>image/jpeg</contenttype>
+          <extension>jpg</extension>
+          <filename>cutesoft.jpg</filename>
+          <height>60</height>
+          <size>6450</size>
+          <width>120</width>
+        </file>
+        <file>
+          <contenttype>image/gif</contenttype>
           <extension>gif</extension>
+          <filename>easycgi.gif</filename>
+          <height>60</height>
           <size>5665</size>
           <width>120</width>
-          <height>60</height>
-          <contenttype>image/gif</contenttype>
         </file>
         <file>
-          <filename>exacttarget.gif</filename>
+          <contenttype>image/gif</contenttype>
           <extension>gif</extension>
+          <filename>exacttarget.gif</filename>
+          <height>60</height>
           <size>4270</size>
           <width>120</width>
-          <height>60</height>
-          <contenttype>image/gif</contenttype>
         </file>
         <file>
+          <contenttype>image/gif</contenttype>
+          <extension>gif</extension>
           <filename>logo.gif</filename>
-          <extension>gif</extension>
-          <size>5464</size>
-          <width>200</width>
-          <height>75</height>
-          <contenttype>image/gif</contenttype>
+          <height>86</height>
+          <size>3632</size>
+          <width>279</width>
         </file>
         <file>
-          <filename>maximumasp.gif</filename>
+          <contenttype>image/gif</contenttype>
           <extension>gif</extension>
+          <filename>maximumasp.gif</filename>
+          <height>46</height>
           <size>4412</size>
           <width>120</width>
-          <height>46</height>
-          <contenttype>image/gif</contenttype>
         </file>
         <file>
-          <filename>onyaktech.gif</filename>
+          <contenttype>image/gif</contenttype>
           <extension>gif</extension>
-          <size>3711</size>
-          <width>120</width>
-          <height>60</height>
-          <contenttype>image/gif</contenttype>
-        </file>
-        <file>
           <filename>osi.gif</filename>
-          <extension>gif</extension>
+          <height>100</height>
           <size>2897</size>
           <width>120</width>
-          <height>100</height>
-          <contenttype>image/gif</contenttype>
         </file>
         <file>
-          <filename>perpetualmotion.gif</filename>
-          <extension>gif</extension>
-          <size>3738</size>
-          <width>120</width>
-          <height>60</height>
-          <contenttype>image/gif</contenttype>
-        </file>
-        <file>
-          <filename>portal.css</filename>
+          <contenttype>application/octet-stream</contenttype>
           <extension>css</extension>
+          <filename>portal.css</filename>
+          <height>0</height>
           <size>2832</size>
           <width>0</width>
-          <height>0</height>
-          <contenttype>application/octet-stream</contenttype>
         </file>
         <file>
-          <filename>powerdnn.gif</filename>
+          <contenttype>image/gif</contenttype>
           <extension>gif</extension>
+          <filename>powerdnn.gif</filename>
+          <height>60</height>
           <size>7523</size>
           <width>120</width>
-          <height>60</height>
-          <contenttype>image/gif</contenttype>
         </file>
         <file>
-          <filename>sourcegear.gif</filename>
+          <contenttype>image/gif</contenttype>
           <extension>gif</extension>
+          <filename>sourcegear.gif</filename>
+          <height>60</height>
           <size>5186</size>
           <width>120</width>
-          <height>60</height>
-          <contenttype>image/gif</contenttype>
         </file>
         <file>
-          <filename>telerik.gif</filename>
-          <extension>gif</extension>
-          <size>3738</size>
-          <width>120</width>
-          <height>60</height>
           <contenttype>image/gif</contenttype>
+          <extension>gif</extension>
+          <filename>telerik.gif</filename>
+          <height>60</height>
+          <size>1525</size>
+          <width>120</width>
         </file>
       </files>
     </folder>

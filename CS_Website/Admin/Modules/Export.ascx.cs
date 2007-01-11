@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -17,6 +17,7 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.IO;
 using DotNetNuke.Common;
@@ -95,67 +96,74 @@ namespace DotNetNuke.Modules.Admin.Modules
             string strMessage = "";
 
             ModuleController objModules = new ModuleController();
-            ModuleInfo objModule = objModules.GetModule( ModuleID, TabId );
-            if( objModule != null )
+            ModuleInfo objModule = objModules.GetModule(ModuleID, TabId);
+            if (objModule != null)
             {
-                if( !String.IsNullOrEmpty(objModule.BusinessControllerClass) && objModule.IsPortable )
+                if (objModule.BusinessControllerClass != "" & objModule.IsPortable)
                 {
                     try
                     {
-                        object objObject = Reflection.CreateObject( objModule.BusinessControllerClass, objModule.BusinessControllerClass );
+                        object objObject = Reflection.CreateObject(objModule.BusinessControllerClass, objModule.BusinessControllerClass);
 
                         //Double-check
-                        if( objObject is IPortable )
+                        if (objObject is IPortable)
                         {
-                            string Content = Convert.ToString( ( (IPortable)objObject ).ExportModule( ModuleID ) );
 
-                            if( !String.IsNullOrEmpty(Content) )
+                            string Content = Convert.ToString(((IPortable)objObject).ExportModule(ModuleID));
+
+                            if (Content != "")
                             {
                                 // add attributes to XML document
-                                Content = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>" + "<content type=\"" + CleanName( objModule.FriendlyName ) + "\" version=\"" + objModule.Version + "\">" + Content + "</content>";
+                                Content = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>" + "<content type=\"" + CleanName(objModule.FriendlyName) + "\" version=\"" + objModule.Version + "\">" + Content + "</content>";
 
                                 //First check the Portal limits will not be exceeded (this is approximate)
                                 PortalController objPortalController = new PortalController();
                                 string strFile = PortalSettings.HomeDirectoryMapPath + FileName;
-                                if( objPortalController.HasSpaceAvailable( PortalId, Content.Length ) )
+                                if (objPortalController.HasSpaceAvailable(PortalId, Content.Length))
                                 {
                                     // save the file
-                                    StreamWriter objStream;
-                                    objStream = File.CreateText( strFile );
-                                    objStream.WriteLine( Content );
+                                    StreamWriter objStream = File.CreateText(strFile);
+                                    objStream.WriteLine(Content);
                                     objStream.Close();
 
                                     // add file to Files table
                                     FileController objFiles = new FileController();
-                                    FileInfo finfo = new FileInfo( strFile );
+                                    FileInfo finfo = new FileInfo(strFile);
                                     FolderController objFolders = new FolderController();
                                     FolderInfo objFolder = objFolders.GetFolder(PortalId, "");
-                                    objFiles.AddFile(PortalId, lblFile.Text, "xml", finfo.Length, 0, 0, "application/octet-stream", "", objFolder.FolderID, true);
-
+                                    Services.FileSystem.FileInfo objFile = objFiles.GetFile(lblFile.Text, PortalId, objFolder.FolderID);
+                                    if (objFile == null)
+                                    {
+                                        objFiles.AddFile(PortalId, lblFile.Text, "xml", finfo.Length, 0, 0, "application/octet-stream", "", objFolder.FolderID, true);
+                                    }
+                                    else
+                                    {
+                                        objFiles.UpdateFile(objFile.FileId, objFile.FileName, "xml", finfo.Length, 0, 0, "application/octet-stream", "", objFolder.FolderID);
+                                    }
                                 }
                                 else
                                 {
-                                    strMessage += "<br>" + string.Format( Localization.GetString( "DiskSpaceExceeded" ), strFile, null );
+                                    strMessage += "<br>" + string.Format(Localization.GetString("DiskSpaceExceeded"), strFile);
                                 }
                             }
                             else
                             {
-                                strMessage = Localization.GetString( "NoContent", this.LocalResourceFile );
+                                strMessage = Localization.GetString("NoContent", this.LocalResourceFile);
                             }
                         }
                         else
                         {
-                            strMessage = Localization.GetString( "ExportNotSupported", this.LocalResourceFile );
+                            strMessage = Localization.GetString("ExportNotSupported", this.LocalResourceFile);
                         }
                     }
                     catch
                     {
-                        strMessage = Localization.GetString( "Error", this.LocalResourceFile );
+                        strMessage = Localization.GetString("Error", this.LocalResourceFile);
                     }
                 }
                 else
                 {
-                    strMessage = Localization.GetString( "ExportNotSupported", this.LocalResourceFile );
+                    strMessage = Localization.GetString("ExportNotSupported", this.LocalResourceFile);
                 }
             }
 

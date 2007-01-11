@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -17,11 +17,14 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
+using System;
 using System.Configuration;
 using System.Xml;
 
 namespace DotNetNuke.Framework.Providers
 {
+    [Obsolete("This class is obsolete. It is no longer used to load provider configurations, as there are medium trust issues")]
     internal class ProviderConfigurationHandler : IConfigurationSectionHandler
     {
         public virtual object Create( object parent, object context, XmlNode node )

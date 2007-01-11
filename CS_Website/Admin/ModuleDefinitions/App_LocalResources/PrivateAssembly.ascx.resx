@@ -43,30 +43,33 @@
         <value>Create</value>
     </data>
     <data name="LogTitle.Text">
-        <value>Private Assembly Log</value>
+        <value>Module Package Log</value>
     </data>
     <data name="LOG.MESSAGE.Success">
-        <value>&lt;p&gt;Successfully created the Private Assembly:  {0}&lt;/p&gt;</value>
+        <value>&lt;p&gt;Successfully created the Module Package:  {0}&lt;/p&gt;</value>
     </data>
     <data name="LOG.MESSAGE.Error">
-        <value>&lt;p&gt;There was an error creating the Private Assembly.  Please review the log below for more details.&lt;/p&gt;</value>
+        <value>&lt;p&gt;There was an error creating the Module Package. Please review the log below for more details.&lt;/p&gt;</value>
     </data>
     <data name="ControlTitle_package.Text">
-        <value>Create Private Assembly</value>
+        <value>Create Module Package</value>
     </data>
     <data name="lblLink.Text">
-        <value>Private Assemblies can be downloaded from the &lt;i&gt;"Host Root"&lt;/i&gt; directory using the &lt;a href="{0}"&gt;File Manager&lt;/a&gt;</value>
+        <value>Module Packages can be downloaded from the &lt;i&gt;"Host Root"&lt;/i&gt; directory using the &lt;a href="{0}"&gt;File Manager&lt;/a&gt;</value>
     </data>
     <data name="plFileName.Text">
         <value>File Name:</value>
     </data>
     <data name="plFileName.Help">
-        <value>You can optionally provide a file name for the resulting zip file.  The default is 'ModuleName.zip'</value>
+        <value>Enter a file name for your Module Package</value>
     </data>
     <data name="plSource.Text">
         <value>Include Source?</value>
     </data>
     <data name="plSource.Help">
         <value>You can optionaly include the source files in the package.</value>
+    </data>
+    <data name="Create.ErrorMessage">
+        <value>Please enter a file name for your Module Package</value>
     </data>
 </root>

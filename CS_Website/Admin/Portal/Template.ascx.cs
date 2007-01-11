@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -171,10 +171,9 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// </history>
         
         public void SerializeFiles(XmlDocument xmlTemplate, XmlNode nodeFiles, PortalInfo objportal, string folderPath, ref ZipOutputStream zipFile)
-        {
-            FileController objFiles = new FileController();
+        {            
             FolderController objFolders = new FolderController();
-            FolderInfo objFolder = objFolders.GetFolder(PortalId, folderPath);
+            FolderInfo objFolder = objFolders.GetFolder( objportal.PortalID, folderPath );
             ArrayList arrFiles = FileSystemUtils.GetFilesByFolder(objportal.PortalID, objFolder.FolderID);
 
             XmlSerializer xser = new XmlSerializer(typeof(FileInfo));
@@ -182,7 +181,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
             foreach (FileInfo objFile in arrFiles)
             {
                 // verify that the file exists on the file system
-                string filePath = PortalSettings.HomeDirectoryMapPath + folderPath + objFile.FileName;
+                string filePath = objportal.HomeDirectoryMapPath + folderPath + objFile.FileName;
                 if (File.Exists(filePath))
                 {
                     StringWriter sw = new StringWriter();

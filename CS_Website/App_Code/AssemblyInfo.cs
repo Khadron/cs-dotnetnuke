@@ -8,10 +8,10 @@ using System.Reflection;
 // Review the values of the assembly attributes
 
 [assembly: AssemblyTitle("CS_DotNetNuke")]
-[assembly: AssemblyDescription("ASP.NET Open Source Portal Application")]
-[assembly: AssemblyCompany("Perpetual Motion Interactive Systems Inc.")]
+[assembly: AssemblyDescription("Open Source Web Application Framework")]
+[assembly: AssemblyCompany("DotNetNuke Corporation")]
 [assembly: AssemblyProduct("http://www.dotnetnuke.com")]
-[assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2005 by Perpetual Motion Interactive Systems Inc. All Rights Reserved.")]
+[assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2006 by DotNetNuke Corporation. All Rights Reserved.")]
 [assembly: AssemblyTrademark("DotNetNuke")]
 [assembly: CLSCompliant(true)]
 
@@ -25,4 +25,4 @@ using System.Reflection;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("4.3.5.*")]
+[assembly: AssemblyVersion("4.3.6.*")]

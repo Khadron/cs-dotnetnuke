@@ -85,18 +85,21 @@
 		<value>Remove</value>
 	</data>
 	<data name="UploadTypeSkin.Text">
-		<value>Upload Skin Package</value>
+		<value>Install Skin Package</value>
 	</data>
 	<data name="UploadTypeFile.Text">
 		<value>Upload Content Files</value>
 	</data>
 	<data name="UploadTypeModule.Text">
-		<value>Upload Custom Module</value>
+		<value>Install Module</value>
 	</data>
 	<data name="UploadTypeLanguagePack.Text">
-		<value>Upload Language Pack</value>
+		<value>Install Language Pack</value>
 	</data>
 	<data name="ModuleHelp.Text">
 		<value>&lt;h1&gt;About Web Upload&lt;/h1&gt;&lt;p&gt;Allows you to upload files to the portal.&lt;/p&gt;</value>
+	</data>
+	<data name="cmdUpload.Text">
+		<value>Save File</value>
 	</data>
 </root>

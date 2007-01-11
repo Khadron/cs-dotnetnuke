@@ -714,8 +714,11 @@
 	<data name="WordCleanButton.Text">
 		<value>Clean MS Word HTML</value>
 	</data>
-	<data name="INSTALL_Aborted.Text">
-		<value>Install aborted - New Version older than Installed Version</value>
+  <data name="INSTALL_Aborted.Text">
+    <value>Install aborted - The module being installed is older than the version which is already installed in your host application</value>
+  </data>
+  <data name="INSTALL_Compatibility.Text">
+		<value>Install aborted - The module being installed is not compatible with your host application version ( an upgrade is required )</value>
 	</data>
 	<data name="First.Text">
 		<value>First</value>

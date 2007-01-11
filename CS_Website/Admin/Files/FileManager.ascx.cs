@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -654,29 +654,32 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         ///                                 the grid
         ///     [cnurse]        04/24/2006  Updated to use new Secure Storage
         /// </history>
-        private void GetFilesByFolder( string strFolderName )
+        private void GetFilesByFolder(string strFolderName)
         {
+
             DataTable tblFiles = GetFileTable();
-            FolderController objFolders = new FolderController();
-            FolderInfo objFolder = objFolders.GetFolder(FolderPortalID, strFolderName);
-            ArrayList arrFiles = FileSystemUtils.GetFilesByFolder(FolderPortalID, objFolder.FolderID);
 
-            DataView dv = new DataView();
-
-            foreach( Services.FileSystem.FileInfo objFile in arrFiles )
+            FolderInfo objFolder = FileSystemUtils.GetFolder(FolderPortalID, strFolderName);
+            if (objFolder != null)
             {
-                AddFileToTable( tblFiles, objFile );
+                ArrayList arrFiles = FileSystemUtils.GetFilesByFolder(FolderPortalID, objFolder.FolderID);
+                foreach (DotNetNuke.Services.FileSystem.FileInfo objFile in arrFiles)
+                {
+                    AddFileToTable(tblFiles, objFile);
+                }
             }
 
+            DataView dv = new DataView();
             dv.Table = tblFiles;
             dv.Sort = Sort;
-            if( !String.IsNullOrEmpty(FilterFiles) )
+            if (FilterFiles != "")
             {
                 dv.RowFilter = "FileName like '%" + this.FilterFiles + "%'";
             }
 
             dgFileList.DataSource = dv;
             dgFileList.DataBind();
+
         }
 
         /// <summary>
@@ -1832,6 +1835,26 @@ namespace DotNetNuke.Modules.Admin.FileSystem
             BindFolderTree();
             BindFileList();
 
+        }
+
+        /// <summary>
+        /// The lnkSyncFolders_Click server event handler on this user control runs when the
+        /// Synchronize Folders button is clicked.
+        /// </summary>
+        protected void lnkSyncFolders_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+        {
+            if (IsHostMenu)
+            {
+                FileSystemUtils.SynchronizeFolder(Null.NullInteger, Common.Globals.HostMapPath, "", true, false, true);
+            }
+            else
+            {
+                FileSystemUtils.SynchronizeFolder(PortalId, PortalSettings.HomeDirectoryMapPath, "", true, false, true);
+            }
+
+            DataCache.RemoveCache("Folders:" + FolderPortalID.ToString());
+            BindFolderTree();
+            BindFileList();
         }
 
         /// <summary>

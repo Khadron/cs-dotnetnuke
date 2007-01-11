@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -24,6 +24,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
 {
     public class PaFolder
     {
+        private string _CompatibleVersions;
         private string _BusinessControllerClass;
         private ArrayList _Controls;
         private string _Description;
@@ -48,6 +49,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             this._ResourceFile = Null.NullString;
             this._ProviderType = Null.NullString;
             this._BusinessControllerClass = Null.NullString;
+            this._CompatibleVersions = Null.NullString;
             this._Modules = new ArrayList();
             this._Controls = new ArrayList();
             this._Files = new ArrayList();
@@ -62,6 +64,18 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             set
             {
                 this._BusinessControllerClass = value;
+            }
+        }
+
+        public string CompatibleVersions
+        {
+            get
+            {
+                return _CompatibleVersions;
+            }
+            set
+            {
+                _CompatibleVersions = value;
             }
         }
 

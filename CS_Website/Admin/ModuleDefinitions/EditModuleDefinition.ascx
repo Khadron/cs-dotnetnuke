@@ -4,19 +4,23 @@
 <table cellspacing="0" cellpadding="4" border="0" summary="Module Definitions Design Table">
 	<tr>
 		<td>
-			<table id="tabModule" runat="server" cellspacing="0" cellpadding="4" border="0" summary="Module Definitions Design Table">
-				<tr id="rowManifest" runat="server">
-					<td class="SubHead" width="150"><dnn:label id="plManifest" text="Manifest:" controlname="cboManifest" runat="server" /></td>
+			<table id="tabManifest" runat="server" border="0" cellpadding="4" cellspacing="0" summary="Manifest Design Table">
+				<tr>
+					<td class="SubHead" style="width: 150;"><dnn:label id="plManifest" text="Manifest:" controlname="cboManifest" runat="server" /></td>
 					<td>
 						<asp:dropdownlist id="cboManifest" runat="server" width="390" cssclass="NormalTextBox"></asp:dropdownlist>
-						<asp:linkbutton id="cmdInstall" resourcekey="cmdInstall" text="Install" runat="server" class="CommandButton" borderstyle="none" CausesValidation="False" OnClick="cmdInstall_Click" />
+						<asp:LinkButton ID="cmdInstallManifest" runat="server" BorderStyle="none" CausesValidation="False" class="CommandButton" OnClick="cmdInstallManifest_Click" resourcekey="cmdInstall"
+                            Text="Install">
+                        </asp:LinkButton>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">&nbsp;</td>
+					<td colspan="2"><hr /></td>
 				</tr>
-				<tr>
-					<td class="SubHead" width="150"><dnn:label id="plModuleName" text="Module Name:" controlname="txtModuleName" runat="server" /></td>
+            </table>
+            <table id="tabModule" runat="server" border="0" cellpadding="4" cellspacing="0" summary="Module Definitions Design Table">
+                <tr>
+					<td class="SubHead" style="width: 150;"><dnn:label id="plModuleName" text="Module Name:" controlname="txtModuleName" runat="server" /></td>
 					<td>
 						<asp:textbox id="txtModuleName" cssclass="NormalTextBox" width="390" columns="30" maxlength="150"
 							runat="server" enabled="False" />
@@ -25,7 +29,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="SubHead" width="150"><dnn:label id="plFolderName" text="Folder Name:" controlname="txtFolderName" runat="server" /></td>
+					<td class="SubHead" style="width: 150;"><dnn:label id="plFolderName" text="Folder Name:" controlname="txtFolderName" runat="server" /></td>
 					<td>
 						<asp:textbox id="txtFolderName" cssclass="NormalTextBox" width="390" columns="30" maxlength="150"
 							runat="server" enabled="False" />
@@ -34,24 +38,32 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="SubHead" width="150"><dnn:label id="plFriendlyName" text="Friendly Name:" controlname="txtFriendlyName" runat="server" /></td>
+					<td class="SubHead" style="width: 150;"><dnn:label id="plFriendlyName" text="Friendly Name:" controlname="txtFriendlyName" runat="server" /></td>
 					<td>
 						<asp:textbox id="txtFriendlyName" cssclass="NormalTextBox" width="390" columns="30" maxlength="150"
 							runat="server" />
 					</td>
 				</tr>
 				<tr>
-					<td class="SubHead" width="150" valign="top"><dnn:label id="plDescription" text="Description:" controlname="txtDescription" runat="server" /></td>
+					<td class="SubHead" style="width: 150;" valign="top"><dnn:label id="plDescription" text="Description:" controlname="txtDescription" runat="server" /></td>
 					<td><asp:textbox id="txtDescription" cssclass="NormalTextBox" width="390" columns="30" textmode="MultiLine"
 							rows="10" maxlength="2000" runat="server" /></td>
 				</tr>
 				<tr>
-					<td class="SubHead" width="150" valign="top"><dnn:label id="plVersion" text="Version:" controlname="txtVersion" runat="server" /></td>
+					<td class="SubHead" style="width: 150;" valign="top"><dnn:label id="plVersion" text="Version:" controlname="txtVersion" runat="server" /></td>
 					<td><asp:textbox id="txtVersion" cssclass="NormalTextBox" width="390" columns="30" maxlength="150"
 							runat="server" enabled="False" /></td>
 				</tr>
+                <tr>
+                    <td class="SubHead" valign="top" style="width:150;">
+                        <dnn:Label ID="plCompatibleVersions" runat="server" ControlName="txtCompatibleVersions" Text="Compatibility:" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="txtCompatibleVersions" runat="server" Columns="30" CssClass="NormalTextBox" Enabled="False" MaxLength="500" Rows="2" TextMode="MultiLine" Width="390">
+                        </asp:TextBox></td>
+                </tr>
 				<tr>
-					<td class="SubHead" width="150"><dnn:label id="plBusinessClass" text="Business Controller Class:" controlname="txtBusinessClass"
+					<td class="SubHead" style="width: 150;"><dnn:label id="plBusinessClass" text="Business Controller Class:" controlname="txtBusinessClass"
 							runat="server" /></td>
 					<td>
 						<asp:textbox id="txtBusinessClass" cssclass="NormalTextBox" width="390" columns="30" maxlength="150"
@@ -59,7 +71,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="SubHead" width="150"><dnn:label id="plSupportedFeatures" text="Supported Features:" controlname="txtSupportedFeatures"
+					<td class="SubHead" style="width: 150;"><dnn:label id="plSupportedFeatures" text="Supported Features:" controlname="txtSupportedFeatures"
 							runat="server" /></td>
 					<td class="SubHead" valign="top">
 						<asp:checkbox id="chkPortable" runat="server" cssclass="NormalTextBox" AutoPostBack="False" enabled="False" />&nbsp;
@@ -73,7 +85,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="SubHead" width="150" valign="top"><dnn:label id="plPremium" text="Premium?" controlname="chkPremium" runat="server" /></td>
+					<td class="SubHead" style="width: 150;" valign="top"><dnn:label id="plPremium" text="Premium?" controlname="chkPremium" runat="server" /></td>
 					<td>
 						<asp:checkbox id="chkPremium" runat="server" cssclass="NormalTextBox" AutoPostBack="True" OnCheckedChanged="chkPremium_CheckedChanged"></asp:checkbox><br>
 						<portal:duallist id="ctlPortals" runat="server" ListBoxWidth="130" ListBoxHeight="130" DataValueField="PortalID"
@@ -90,11 +102,13 @@
 				&nbsp;
 				<asp:linkbutton id="cmdDelete" resourcekey="cmdDelete" text="Delete" causesvalidation="False" runat="server"
 					cssclass="CommandButton" borderstyle="none" OnClick="cmdDelete_Click" />
+				&nbsp;
+                <asp:CheckBox ID="chkDelete" runat="server" CssClass="SubHead" resourcekey="chkDelete" Text="Delete Files?" TextAlign="Right" />
 			</p>
 			<hr/>
 			<table id="tabDefinitions" runat="server" cellspacing="0" cellpadding="4" border="0" summary="Module Definitions Design Table">
 				<tr>
-					<td class="SubHead" width="150" valign="top"><dnn:label id="plDefinitions" text="Definitions:" controlname="cboDefinitions" runat="server" /></td>
+					<td class="SubHead" style="width: 150;" valign="top"><dnn:label id="plDefinitions" text="Definitions:" controlname="cboDefinitions" runat="server" /></td>
 					<td>
 						<asp:dropdownlist id="cboDefinitions" runat="server" width="290px" cssclass="NormalTextBox" datatextfield="FriendlyName"
 							datavaluefield="ModuleDefId" autopostback="True" OnSelectedIndexChanged="cboDefinitions_SelectedIndexChanged"></asp:dropdownlist>
@@ -104,7 +118,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="SubHead" width="150" valign="top"><dnn:label id="plDefinition" text="New Definition:" controlname="txtDefinition" runat="server" /></td>
+					<td class="SubHead" style="width: 150;" valign="top"><dnn:label id="plDefinition" text="New Definition:" controlname="txtDefinition" runat="server" /></td>
 					<td>
 						<asp:textbox id="txtDefinition" cssclass="NormalTextBox" width="290px" columns="30" maxlength="128"
 							runat="server" />
@@ -114,11 +128,11 @@
 					</td>
 				</tr>
 			</table>
-			<hr>
+			<hr/>
 			<table id="tabCache" runat="server" cellspacing="0" cellpadding="4" border="0" width="100%"
 				summary="Module Definitions Design Table">
 				<tr>
-					<td class="SubHead" width="150" valign="top"><dnn:label id="plCacheTime" text="Default Cache Time:" controlname="txtCacheTime" runat="server" /></td>
+					<td class="SubHead" style="width: 150;" valign="top"><dnn:label id="plCacheTime" text="Default Cache Time:" controlname="txtCacheTime" runat="server" /></td>
 					<td>
 						<asp:textbox id="txtCacheTime" cssclass="NormalTextBox" width="290px" columns="30" maxlength="128"
 							runat="server" />
@@ -133,13 +147,13 @@
 				summary="Module Definitions Design Table">
 				<tr>
 					<td colspan="2">
-						<asp:datagrid id="grdControls" runat="server" width="100%" border="0" cellspacing="3" autogeneratecolumns="false"
+						<asp:datagrid id="grdControls" runat="server" width="100%" cellspacing="3" autogeneratecolumns="false"
 							enableviewstate="true" summary="Module Controls Design Table" GridLines="None" BorderWidth="0px">
 							<Columns>
 								<asp:TemplateColumn>
 									<ItemStyle Width="20px"></ItemStyle>
 									<ItemTemplate>
-										<asp:HyperLink id=Hyperlink1 runat="server" NavigateUrl='<%# FormatURL("modulecontrolid",DataBinder.Eval(Container.DataItem,"ModuleControlId").ToString()) %>'>
+										<asp:HyperLink id="Hyperlink1" runat="server" NavigateUrl='<%# FormatURL("modulecontrolid",DataBinder.Eval(Container.DataItem,"ModuleControlId").ToString()) %>'>
 											<asp:image imageurl="~/images/edit.gif" alternatetext="Edit" runat="server" id="Hyperlink1Image" />
 										</asp:HyperLink>
 									</ItemTemplate>

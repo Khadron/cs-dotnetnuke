@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -750,14 +750,13 @@ namespace DotNetNuke.Data
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetDesktopModulesByPortal", PortalId );
         }
 
-        public override int AddDesktopModule( string ModuleName, string FolderName, string FriendlyName, string Description, string Version, bool IsPremium, bool IsAdmin, string BusinessControllerClass, int SupportedFeatures )
+        public override int AddDesktopModule(string ModuleName, string FolderName, string FriendlyName, string Description, string Version, bool IsPremium, bool IsAdmin, string BusinessControllerClass, int SupportedFeatures, string CompatibleVersions)
         {
-            return Convert.ToInt32( SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "AddDesktopModule", ModuleName, FolderName, FriendlyName, GetNull( Description ), GetNull( Version ), IsPremium, IsAdmin, BusinessControllerClass, SupportedFeatures ) );
+            return System.Convert.ToInt32(SqlHelper.ExecuteScalar(ConnectionString, DatabaseOwner + ObjectQualifier + "AddDesktopModule", ModuleName, FolderName, FriendlyName, GetNull(Description), GetNull(Version), IsPremium, IsAdmin, BusinessControllerClass, SupportedFeatures, GetNull(CompatibleVersions)));
         }
-
-        public override void UpdateDesktopModule( int DesktopModuleId, string ModuleName, string FolderName, string FriendlyName, string Description, string Version, bool IsPremium, bool IsAdmin, string BusinessControllerClass, int SupportedFeatures )
+        public override void UpdateDesktopModule(int DesktopModuleId, string ModuleName, string FolderName, string FriendlyName, string Description, string Version, bool IsPremium, bool IsAdmin, string BusinessControllerClass, int SupportedFeatures, string CompatibleVersions)
         {
-            SqlHelper.ExecuteNonQuery( ConnectionString, DatabaseOwner + ObjectQualifier + "UpdateDesktopModule", DesktopModuleId, ModuleName, FolderName, FriendlyName, GetNull( Description ), GetNull( Version ), IsPremium, IsAdmin, BusinessControllerClass, SupportedFeatures );
+            SqlHelper.ExecuteNonQuery(ConnectionString, DatabaseOwner + ObjectQualifier + "UpdateDesktopModule", DesktopModuleId, ModuleName, FolderName, FriendlyName, GetNull(Description), GetNull(Version), IsPremium, IsAdmin, BusinessControllerClass, SupportedFeatures, GetNull(CompatibleVersions));
         }
 
         public override void DeleteDesktopModule( int DesktopModuleId )
@@ -1342,18 +1341,15 @@ namespace DotNetNuke.Data
             return SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner + ObjectQualifier + "GetFolderByFolderPath", GetNull(PortalID), FolderPath);
         }        
 
-        //CP - Change - Secure Storage Enhancement
-        public override int AddFolder( int PortalID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached )
+        public override int AddFolder(int PortalID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached, System.DateTime LastUpdated)
         {
-            return Convert.ToInt32( SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "AddFolder", GetNull( PortalID ), FolderPath, StorageLocation, IsProtected, IsCached ) );
+            return System.Convert.ToInt32(SqlHelper.ExecuteScalar(ConnectionString, DatabaseOwner + ObjectQualifier + "AddFolder", GetNull(PortalID), FolderPath, StorageLocation, IsProtected, IsCached, GetNull(LastUpdated)));
         }
-
-        public override void UpdateFolder( int PortalID, int FolderID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached )
+        public override void UpdateFolder(int PortalID, int FolderID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached, System.DateTime LastUpdated)
         {
-            SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "UpdateFolder", GetNull( PortalID ), FolderID, FolderPath, StorageLocation, IsProtected, IsCached );
+            SqlHelper.ExecuteScalar(ConnectionString, DatabaseOwner + ObjectQualifier + "UpdateFolder", GetNull(PortalID), FolderID, FolderPath, StorageLocation, IsProtected, IsCached, GetNull(LastUpdated));
         }
-
-        // End Change
+        
         public override void DeleteFolder( int PortalID, string FolderPath )
         {
             SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "DeleteFolder", GetNull( PortalID ), FolderPath );

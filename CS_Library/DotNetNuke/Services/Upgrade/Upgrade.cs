@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -1143,10 +1143,7 @@ namespace DotNetNuke.Services.Upgrade
                         for (PortalCount = 0; PortalCount <= arrPortals.Count - 1; PortalCount++)
                         {
                             PortalInfo objPortal = (PortalInfo)arrPortals[PortalCount];
-                            int FolderID;
-                            //CP - Change - Secure Storage Enhancement
-                            FolderID = objFolderController.AddFolder(objPortal.PortalID, "", (int)FolderController.StorageLocationTypes.InsecureFileSystem, true, false);
-                            //END change
+                            int FolderID = objFolderController.AddFolder(objPortal.PortalID, "", (int)FolderController.StorageLocationTypes.InsecureFileSystem, true, false);
 
                             FolderPermissionInfo objFolderPermission = new FolderPermissionInfo();
                             objFolderPermission.FolderID = FolderID;
@@ -1170,9 +1167,8 @@ namespace DotNetNuke.Services.Upgrade
                         ModuleDefinitionController objModuleDefinitionController = new ModuleDefinitionController();
                         ArrayList arrModuleDefinitions = objModuleDefinitionController.GetModuleDefinitions(Null.NullInteger);
 
-                        ArrayList arrModules;
                         ModuleController objModuleController = new ModuleController();
-                        arrModules = objModuleController.GetAllModules();
+                        ArrayList arrModules = objModuleController.GetAllModules();
 
                         ModulePermissionController objModulePermissionController = new ModulePermissionController();
                         int ModCount;

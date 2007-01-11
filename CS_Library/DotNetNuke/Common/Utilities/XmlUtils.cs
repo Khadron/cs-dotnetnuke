@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -35,8 +35,19 @@ namespace DotNetNuke.Common.Utilities
         {
             XmlAttribute attribute = objDoc.CreateAttribute(attName);
             attribute.Value = attValue;
-
             return attribute;
+        }
+
+        public static void CreateAttribute(XmlDocument objDoc, XmlNode objNode, string attName, string attValue)
+        {
+            XmlAttribute attribute = objDoc.CreateAttribute(attName);
+            attribute.Value = attValue;
+            objNode.Attributes.Append(attribute);
+        }
+
+        public static XmlElement CreateElement(XmlDocument objDoc, string NodeName)
+        {
+            return objDoc.CreateElement(NodeName);
         }
 
         public static XmlElement CreateElement(XmlDocument objDoc, string NodeName, string NodeValue)
@@ -230,9 +241,7 @@ namespace DotNetNuke.Common.Utilities
         /// <returns>An XslTransform</returns>
         public static XslTransform GetXSLContent(string ContentURL)
         {
-            XslTransform returnValue;
-
-            returnValue = new XslTransform();
+            XslTransform returnValue = new XslTransform();
             WebRequest req = WebRequest.Create(ContentURL);
             WebResponse result = req.GetResponse();
             Stream ReceiveStream = result.GetResponseStream();

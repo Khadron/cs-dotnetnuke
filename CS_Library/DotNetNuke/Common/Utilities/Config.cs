@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -110,7 +110,7 @@ namespace DotNetNuke.Common.Utilities
 
         public static object GetSection(string section)
         {
-            return WebConfigurationManager.GetSection(section);
+            return WebConfigurationManager.GetWebApplicationSection(section);
         }
 
         public static string GetSetting(string setting)
@@ -121,9 +121,7 @@ namespace DotNetNuke.Common.Utilities
         public static XmlDocument Load()
         {
             // open the web.config file
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(Globals.ApplicationMapPath + "\\web.config");
-            return xmlDoc;
+            return Load( "web.config" );
         }
 
         public static XmlDocument Load(string filename)
@@ -155,21 +153,7 @@ namespace DotNetNuke.Common.Utilities
 
         public static string Save(XmlDocument xmlDoc, string filename)
         {
-            try
-            {
-                // save the config file
-                XmlTextWriter writer = new XmlTextWriter(Globals.ApplicationMapPath + "\\" + filename, null);
-                writer.Formatting = Formatting.Indented;
-                xmlDoc.WriteTo(writer);
-                writer.Flush();
-                writer.Close();
-                return "";
-            }
-            catch (Exception exc)
-            {
-                // the file may be read-only or the file permissions may not be set properly
-                return exc.Message;
-            }
+            return Save( xmlDoc, "web.config" );
         }
 
         public static bool Touch()
@@ -193,50 +177,58 @@ namespace DotNetNuke.Common.Utilities
 
             return xmlConfig;
         }
+        
         public static void AddCodeSubDirectory(string name)
         {
-            Configuration webConfig = WebConfigurationManager.OpenWebConfiguration(Globals.ApplicationPath + "/");
+            XmlDocument xmlConfig = Load();
+            XmlNode xmlCompilation = xmlConfig.SelectSingleNode("configuration/system.web/compilation");
 
-            CompilationSection configSection = (CompilationSection)webConfig.GetSection("system.web/compilation");
-            bool directoryFound = false;
-            foreach (CodeSubDirectory codeSubDirectory in configSection.CodeSubDirectories)
+            //Get the CodeSubDirectories Node
+            XmlNode xmlSubDirectories = xmlCompilation.SelectSingleNode("codeSubDirectories");
+            if (xmlSubDirectories == null)
             {
-                if (codeSubDirectory.DirectoryName == name)
-                {
-                    directoryFound = true;
-                    break;
-                }
+                //Add Node
+                xmlSubDirectories = xmlConfig.CreateElement("codeSubDirectories");
+                xmlCompilation.AppendChild(xmlSubDirectories);
             }
-        
 
-            if (!directoryFound)
+            //Check if the node is already present
+            XmlNode xmlSubDirectory = xmlSubDirectories.SelectSingleNode("add[@directoryName='" + name + "']");
+            if (xmlSubDirectory == null)
             {
-                configSection.CodeSubDirectories.Add(new CodeSubDirectory(name));
-                webConfig.Save();
+                //Add Node
+                xmlSubDirectory = xmlConfig.CreateElement("add");
+                XmlUtils.CreateAttribute(xmlConfig, xmlSubDirectory, "directoryName", name);
+                xmlSubDirectories.AppendChild(xmlSubDirectory);
             }
+
+            Save(xmlConfig);
+
         }
 
         public static void RemoveCodeSubDirectory(string name)
         {
-            Configuration webConfig = WebConfigurationManager.OpenWebConfiguration(Globals.ApplicationPath);
+            XmlDocument xmlConfig = Load();
+            XmlNode xmlCompilation = xmlConfig.SelectSingleNode("configuration/system.web/compilation");
 
-            CompilationSection configSection = (CompilationSection)webConfig.GetSection("system.web/compilation");
-            bool directoryFound = false;
-            foreach (CodeSubDirectory codeSubDirectory in configSection.CodeSubDirectories)
+            //Get the CodeSubDirectories Node
+            XmlNode xmlSubDirectories = xmlCompilation.SelectSingleNode("codeSubDirectories");
+            if (xmlSubDirectories == null)
             {
-                if (codeSubDirectory.DirectoryName == name)
-                {
-                    directoryFound = true;
-                    break;
-                }
+                //Parent doesn't exist so subDirectory node can't exist
+                return;
             }
-        
 
-            if (directoryFound)
+            //Check if the node is present
+            XmlNode xmlSubDirectory = xmlSubDirectories.SelectSingleNode("add[@directoryName='" + name + "']");
+            if (xmlSubDirectory != null)
             {
-                configSection.CodeSubDirectories.Remove(name);
-                webConfig.Save();
+                //Remove Node
+                xmlSubDirectories.RemoveChild(xmlSubDirectory);
             }
+
+            Save(xmlConfig);
+
         }
     }
 }

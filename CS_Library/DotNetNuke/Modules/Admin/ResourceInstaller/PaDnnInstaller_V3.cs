@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -118,6 +118,9 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             // V3 .dnn file format adds the optional businesscontrollerclass node to the folder node element
             objDesktopModule.BusinessControllerClass = Folder.BusinessControllerClass;
 
+            // V4.3.6 .dnn file format adds the optional compatibleversions node to the folder node element
+            objDesktopModule.CompatibleVersions = Folder.CompatibleVersions;
+
             //V3.1 adds the IsSearchable/IsPortable properties - set them to false
             objDesktopModule.IsSearchable = false;
             objDesktopModule.IsPortable = false;
@@ -188,10 +191,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                 oAppStartMessage.ExpirationDate = DateTime.Now.AddYears(-1);
                 //send it
                 EventQueueController oEventQueueController = new EventQueueController();
-                oEventQueueController.SendMessage(oAppStartMessage, "Application_Start");
-
-                //force an app restart
-                Config.Touch();
+                oEventQueueController.SendMessage(oAppStartMessage, "Application_Start");                
             }
             //TODO: Need to implement a feedback loop to display the results of the upgrade.
 

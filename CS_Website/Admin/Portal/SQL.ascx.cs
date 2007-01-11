@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -21,9 +21,9 @@ using System;
 using System.Data;
 using System.Web.UI.WebControls;
 using DotNetNuke.Common;
+using DotNetNuke.Common.Utilities;
 using DotNetNuke.Data;
 using DotNetNuke.Entities.Modules;
-using DotNetNuke.Entities.Portals;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 
@@ -32,9 +32,6 @@ namespace DotNetNuke.Modules.Admin.SQL
     /// <summary>
     /// The SQL PortalModuleBase is used run SQL Scripts on the Database
     /// </summary>
-    /// <returns></returns>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
@@ -46,9 +43,6 @@ namespace DotNetNuke.Modules.Admin.SQL
         /// <summary>
         /// Page_Load runs when the control is loaded.
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -78,9 +72,6 @@ namespace DotNetNuke.Modules.Admin.SQL
         /// <summary>
         /// cmdExecute_Click runs when the Execute button is clicked
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/28/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -93,7 +84,16 @@ namespace DotNetNuke.Modules.Admin.SQL
                 {
                     if( chkRunAsScript.Checked )
                     {
-                        lblMessage.Text = PortalSettings.ExecuteScript( txtQuery.Text );
+                        
+                        string strError = Entities.Portals.PortalSettings.ExecuteScript(txtQuery.Text);
+                        if (strError == Null.NullString)
+                        {
+                            lblMessage.Text = Localization.GetString("QuerySuccess", this.LocalResourceFile);
+                        }
+                        else
+                        {
+                            lblMessage.Text = strError;
+                        }
                     }
                     else
                     {

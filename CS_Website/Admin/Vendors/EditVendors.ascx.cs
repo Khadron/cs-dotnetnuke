@@ -2,7 +2,7 @@
 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -72,9 +72,7 @@ namespace DotNetNuke.Modules.Admin.Vendors
             try
             {
                 TabController objTabs = new TabController();
-                TabInfo objTab;
-                ModuleController objModules = new ModuleController();
-
+                
                 bool blnBanner = false;
                 bool blnSignup = false;
 
@@ -178,7 +176,7 @@ namespace DotNetNuke.Modules.Admin.Vendors
                         pnlAffiliates.Visible = false;
                     }
 
-                    if( blnSignup == true || blnBanner == true )
+                    if( blnSignup || blnBanner )
                     {
                         rowVendor1.Visible = false;
                         rowVendor2.Visible = false;
@@ -186,7 +184,7 @@ namespace DotNetNuke.Modules.Admin.Vendors
                         cmdDelete.Visible = false;
                         pnlAudit.Visible = false;
 
-                        if( blnBanner == true )
+                        if( blnBanner )
                         {
                             cmdUpdate.Visible = false;
                         }
@@ -197,6 +195,7 @@ namespace DotNetNuke.Modules.Admin.Vendors
                     }
                     else
                     {
+                        TabInfo objTab;
                         if( PortalSettings.ActiveTab.ParentId == PortalSettings.SuperTabId )
                         {
                             objTab = objTabs.GetTabByName( "Vendors", Null.NullInteger );
@@ -272,11 +271,9 @@ namespace DotNetNuke.Modules.Admin.Vendors
         {
             try
             {
-                int intPortalID;
-                string strLogoFile = "";
-
                 if( Page.IsValid )
                 {
+                    int intPortalID;
                     if( PortalSettings.ActiveTab.ParentId == PortalSettings.SuperTabId )
                     {
                         intPortalID = - 1;
@@ -311,13 +308,20 @@ namespace DotNetNuke.Modules.Admin.Vendors
                     objVendor.Authorized = chkAuthorized.Checked;
 
                     if( VendorID == - 1 )
-                    {
-                        VendorID = objVendors.AddVendor( objVendor );
+                    {                        
+                        try
+                        {
+                            VendorID = objVendors.AddVendor(objVendor);
+                        }
+                        catch
+                        {
+                            AddModuleMessage("ErrorAddVendor", ModuleMessageType.RedError);
+                            return;
+                        }
                     }
                     else
                     {
-                        VendorInfo objVendorCheck = new VendorInfo();
-                        objVendorCheck = objVendors.GetVendor( VendorID, intPortalID );
+                        VendorInfo objVendorCheck = objVendors.GetVendor( VendorID, intPortalID );
                         if( objVendorCheck != null )
                         {
                             objVendors.UpdateVendor( objVendor );
@@ -331,10 +335,9 @@ namespace DotNetNuke.Modules.Admin.Vendors
                     // update vendor classifications
                     ClassificationController objClassifications = new ClassificationController();
                     objClassifications.DeleteVendorClassifications( VendorID );
-                    ListItem lstItem;
-                    foreach( ListItem tempLoopVar_lstItem in lstClassifications.Items )
-                    {
-                        lstItem = tempLoopVar_lstItem;
+                    
+                    foreach( ListItem lstItem in lstClassifications.Items )
+                    {                    
                         if( lstItem.Selected )
                         {
                             objClassifications.AddVendorClassification( VendorID, int.Parse( lstItem.Value ) );
@@ -360,8 +363,7 @@ namespace DotNetNuke.Modules.Admin.Vendors
                         Custom.Add( txtEmail.Text );
                         Custom.Add( txtWebsite.Text );
 
-                        string strMessage = Null.NullString;
-                        strMessage = Mail.SendMail( txtEmail.Text, PortalSettings.Email, "", Localization.GetSystemMessage( PortalSettings, "EMAIL_VENDOR_REGISTRATION_ADMINISTRATOR_SUBJECT" ), Localization.GetSystemMessage( PortalSettings, "EMAIL_VENDOR_REGISTRATION_ADMINISTRATOR_BODY", Localization.GlobalResourceFile, Custom ), "", "", " ", "", "", "" );
+                        string strMessage = Mail.SendMail( txtEmail.Text, PortalSettings.Email, "", Localization.GetSystemMessage( PortalSettings, "EMAIL_VENDOR_REGISTRATION_ADMINISTRATOR_SUBJECT" ), Localization.GetSystemMessage( PortalSettings, "EMAIL_VENDOR_REGISTRATION_ADMINISTRATOR_BODY", Localization.GlobalResourceFile, Custom ), "", "", " ", "", "", "" );
 
                         if( strMessage == "" )
                         {

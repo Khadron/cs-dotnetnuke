@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -40,10 +40,17 @@ namespace DotNetNuke.UI.WebControls
         /// <Param name="postCollection">
         /// A name value collection of postback data
         /// </Param>
-        public override bool LoadPostData( string postDataKey, NameValueCollection postCollection )
+        public override bool LoadPostData(string postDataKey, NameValueCollection postCollection)
         {
             this.EnsureChildControls();
-            return base.LoadPostData( ( this.ClientID + "edit" ), postCollection );
+            if (postCollection[postDataKey] != null)
+            {
+                return base.LoadPostData(postDataKey + "edit", postCollection);
+            }
+            else
+            {
+                return base.LoadPostData(this.ClientID + "edit", postCollection);
+            }
         }
 
         /// <Summary>CreateChildControls creates the controls collection</Summary>

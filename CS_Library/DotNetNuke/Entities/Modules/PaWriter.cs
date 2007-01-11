@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -24,6 +24,7 @@ using System.Xml;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules.Definitions;
+using DotNetNuke.Framework.Providers;
 using DotNetNuke.Modules.Admin.ResourceInstaller;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
@@ -171,21 +172,18 @@ namespace DotNetNuke.Entities.Modules
 
         private void AddFile(PaFileInfo File, bool AllowUnsafeExtensions)
         {
-            PaFileInfo objPaFileInfo;
             bool blnAdd = true;
-            foreach (PaFileInfo tempLoopVar_objPaFileInfo in _Files)
+            foreach (PaFileInfo objPaFileInfo in _Files)
             {
-                objPaFileInfo = tempLoopVar_objPaFileInfo;
                 if (objPaFileInfo.FullName == File.FullName)
                 {
                     blnAdd = false;
-                    goto endOfForLoop;
+                    break;
                 }
             }
-        endOfForLoop:
             if (!AllowUnsafeExtensions)
             {
-                if (File.FullName.Substring(File.FullName.Length - 3, 3).ToLower() == "dnn")
+                if (File.FullName.Substring(File.FullName.Length - 3).ToLower() == "dnn")
                 {
                     blnAdd = false;
                 }
@@ -195,6 +193,7 @@ namespace DotNetNuke.Entities.Modules
             {
                 _Files.Add(File);
             }
+
         }
 
         private void AddFile(PaFileInfo File)
@@ -202,6 +201,10 @@ namespace DotNetNuke.Entities.Modules
             AddFile(File, false);
         }
 
+        /// <summary>
+        /// Creates the DNN manifest.
+        /// </summary>
+        /// <param name="objDesktopModule">The obj desktop module.</param>
         private void CreateDnnManifest(DesktopModuleInfo objDesktopModule)
         {
             string filename = "";
@@ -238,12 +241,20 @@ namespace DotNetNuke.Entities.Modules
             nodeFolder.AppendChild(XmlUtils.CreateElement(xmlManifest, "version", objDesktopModule.Version));
             nodeFolder.AppendChild(XmlUtils.CreateElement(xmlManifest, "businesscontrollerclass", objDesktopModule.BusinessControllerClass));
 
+            nodeFolder.AppendChild(XmlUtils.CreateElement(xmlManifest, "version", objDesktopModule.Version));
+            nodeFolder.AppendChild(XmlUtils.CreateElement(xmlManifest, "businesscontrollerclass", objDesktopModule.BusinessControllerClass));
+            if (objDesktopModule.CompatibleVersions != "")
+            {
+                nodeFolder.AppendChild(XmlUtils.CreateElement(xmlManifest, "compatibleversions", objDesktopModule.CompatibleVersions));
+            }
+
             //Add Source files
-            //If _IncludeSource Then
-            //    Dim resourcesFile As String = objDesktopModule.ModuleName & "_Source.zip"
-            //    CreateResourceFile(_Folder & "\" & resourcesFile)
-            //    nodeFolder.AppendChild(XmlUtils.CreateElement(xmlManifest, "resourcefile", resourcesFile))
-            //End If
+            if (_IncludeSource)
+            {
+                string resourcesFile = objDesktopModule.ModuleName + "_Source.zip";
+                CreateResourceFile(_Folder + "\\" + resourcesFile);
+                nodeFolder.AppendChild(XmlUtils.CreateElement(xmlManifest, "resourcefile", resourcesFile));
+            }            
 
             //Modules Element
             XmlNode nodeModules = xmlManifest.CreateElement("modules");
@@ -276,8 +287,6 @@ namespace DotNetNuke.Entities.Modules
                 foreach (ModuleControlInfo objModuleControl in arrModuleControls)
                 {
                     XmlNode nodeControl = xmlManifest.CreateElement("control");
-
-                    //Dim src As String = objModuleControl.ControlSrc.Replace("DesktopModules/" & _Name & "/", "")
 
                     //Add module control properties
                     XmlUtils.AppendElement(ref xmlManifest, nodeControl, "key", objModuleControl.ControlKey, false);
@@ -334,38 +343,175 @@ namespace DotNetNuke.Entities.Modules
 
         private void CreateFileList()
         {
-            //Add the files in the DesktopModules Folder
-            ParseFolder(_Folder, _Folder);
+            //Create the DirectoryInfo object
+            DirectoryInfo folder = new DirectoryInfo(_Folder);
 
-            //Add the files in the AppCode Folder
-            ParseFolder(_AppCodeFolder, _AppCodeFolder);
+            //Get the Project File in the folder
+            FileInfo[] files = folder.GetFiles("*.??proj");
+
+            if (files.Length == 0) //Assume Dynamic (App_Code based) Module
+            {
+                //Add the files in the DesktopModules Folder
+                ParseFolder(_Folder, _Folder);
+
+                //Add the files in the AppCode Folder
+                ParseFolder(_AppCodeFolder, _AppCodeFolder);
+
+            }
+            else //WAP Project File is present
+            {
+                //Parse the Project files (probably only one)
+                foreach (FileInfo projFile in files)
+                {
+                    ParseProject(projFile);
+                }
+            }
+        }
+
+        private void AddFile(XmlNode xmlFile)
+        {
+            string relPath = xmlFile.Attributes["Include"].Value.Replace("/", "\\");
+            string path = "";
+            string name = relPath;
+            string fullPath = _Folder;
+            if (relPath.LastIndexOf("\\") > -1)
+            {
+                path = relPath.Substring(0, relPath.LastIndexOf("\\"));
+                name = relPath.Replace(path + "\\", "");
+                fullPath = fullPath + "\\" + path;
+            }
+
+            AddFile(new PaFileInfo(name, path, fullPath));
+        }
+
+        private void AddSourceFiles(DirectoryInfo folder, string fileType, ref ZipOutputStream resourcesFile)
+        {
+            //Get the Source Files in the folder
+            FileInfo[] sourceFiles = folder.GetFiles(fileType);
+
+            foreach (FileInfo sourceFile in sourceFiles)
+            {
+                string filePath = sourceFile.FullName;
+                string fileName = sourceFile.Name;
+                string folderName = folder.FullName.Replace(_Folder, "");
+                if (folderName != "")
+                {
+                    folderName += "\\";
+                }
+                if (folderName.StartsWith("\\"))
+                {
+                    folderName = folderName.Substring(1);
+                }
+
+                FileSystemUtils.AddToZip(ref resourcesFile, filePath, fileName, folderName);
+            }
+        }
+
+        private void CreateResourceFile(string fileName)
+        {
+            //Create the DirectoryInfo object
+            DirectoryInfo folder = new DirectoryInfo(_Folder);
+
+            //Create Zip File to hold files
+            ZipOutputStream resourcesFile = new ZipOutputStream(File.Create(fileName));
+            resourcesFile.SetLevel(6);
+
+            ParseFolder(folder, ref resourcesFile);
+
+            //Add Resources File to File List
+            AddFile(new PaFileInfo(fileName.Replace(_Folder + "\\", ""), "", _Folder));
+
+            //Finish and Close Zip file
+            resourcesFile.Finish();
+            resourcesFile.Close();
+        }
+
+        private void ParseFolder(DirectoryInfo folder, ref ZipOutputStream resourcesFile)
+        {
+            //Add the resource files
+            AddSourceFiles(folder, "*.sln", ref resourcesFile);
+            AddSourceFiles(folder, "*.??proj", ref resourcesFile);
+            AddSourceFiles(folder, "*.cs", ref resourcesFile);
+            AddSourceFiles(folder, "*.vb", ref resourcesFile);
+            AddSourceFiles(folder, "*.resx", ref resourcesFile);
+
+            //Check for Provider scripts
+            ProviderConfiguration objProviderConfiguration = ProviderConfiguration.GetProviderConfiguration("data");
+            foreach (DictionaryEntry entry in objProviderConfiguration.Providers)
+            {
+                Provider objProvider = (Provider)entry.Value;
+                string providerName = objProvider.Name;
+                AddSourceFiles(folder, "*." + providerName, ref resourcesFile);
+            }
+
+            //Get the sub-folders in the folder
+            DirectoryInfo[] folders = folder.GetDirectories();
+
+            //Recursively call ParseFolder to add files from sub-folder tree
+            foreach (DirectoryInfo subfolder in folders)
+            {
+                ParseFolder(subfolder, ref resourcesFile);
+            }
+        }
+
+        private void ParseProject(FileInfo projFile)
+        {
+            string assemblyFolder = Globals.ApplicationMapPath + "/bin";
+
+            //Create and load the Project file xml
+            XmlDocument xmlProject = new XmlDocument();
+            xmlProject.Load(projFile.FullName);
+
+            // Create an XmlNamespaceManager to resolve the default namespace.
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlProject.NameTable);
+            nsmgr.AddNamespace("proj", "http://schemas.microsoft.com/developer/msbuild/2003");
+
+            //Get the Assembly Name and add to File List
+            XmlNode xmlSettings = xmlProject.DocumentElement.SelectSingleNode("proj:PropertyGroup/proj:AssemblyName", nsmgr);
+            string assemblyName = xmlSettings.InnerText;
+            AddFile(new PaFileInfo(assemblyName + ".dll", "", assemblyFolder));
+
+            //Add all the files that are classified as None
+            foreach (XmlNode xmlFile in xmlProject.DocumentElement.SelectNodes("proj:ItemGroup/proj:None", nsmgr))
+            {
+                AddFile(xmlFile);
+            }
+
+            //Add all the files that are classified as Content
+            foreach (XmlNode xmlFile in xmlProject.DocumentElement.SelectNodes("proj:ItemGroup/proj:Content", nsmgr))
+            {
+                AddFile(xmlFile);
+            }
         }
 
         private void ParseFolder(string folderName, string rootPath)
         {
-            DirectoryInfo folder = new DirectoryInfo(folderName);
-
-            //Recursively parse the subFolders
-            DirectoryInfo[] subFolders = folder.GetDirectories();
-            foreach (DirectoryInfo subFolder in subFolders)
+            if (Directory.Exists(folderName))
             {
-                ParseFolder(subFolder.FullName, rootPath);
-            }
+                DirectoryInfo folder = new DirectoryInfo( folderName );
 
-            //Add the Files in the Folder
-            FileInfo[] files = folder.GetFiles();
-            foreach (FileInfo file in files)
-            {
-                string path = folder.FullName.Replace(rootPath, "");
-                if (path.StartsWith("\\"))
+                //Recursively parse the subFolders
+                DirectoryInfo[] subFolders = folder.GetDirectories();
+                foreach( DirectoryInfo subFolder in subFolders )
                 {
-                    path = path.Substring(1);
+                    ParseFolder( subFolder.FullName, rootPath );
                 }
-                if (folder.FullName.ToLower().Contains("app_code"))
+
+                //Add the Files in the Folder
+                FileInfo[] files = folder.GetFiles();
+                foreach( FileInfo file in files )
                 {
-                    path = "[app_code]" + path;
+                    string path = folder.FullName.Replace( rootPath, "" );
+                    if( path.StartsWith( "\\" ) )
+                    {
+                        path = path.Substring( 1 );
+                    }
+                    if( folder.FullName.ToLower().Contains( "app_code" ) )
+                    {
+                        path = "[app_code]" + path;
+                    }
+                    AddFile( new PaFileInfo( file.Name, path, folder.FullName ) );
                 }
-                AddFile(new PaFileInfo(file.Name, path, folder.FullName));
             }
         }
     }

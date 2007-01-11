@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -136,8 +136,8 @@ namespace DotNetNuke.Data
         public abstract IDataReader GetDesktopModuleByModuleName( string ModuleName );
         public abstract IDataReader GetDesktopModules();
         public abstract IDataReader GetDesktopModulesByPortal( int PortalID );
-        public abstract int AddDesktopModule( string ModuleName, string FolderName, string FriendlyName, string Description, string Version, bool IsPremium, bool IsAdmin, string BusinessControllerClass, int SupportedFeatures );
-        public abstract void UpdateDesktopModule( int DesktopModuleId, string ModuleName, string FolderName, string FriendlyName, string Description, string Version, bool IsPremium, bool IsAdmin, string BusinessControllerClass, int SupportedFeatures );
+        public abstract int AddDesktopModule(string ModuleName, string FolderName, string FriendlyName, string Description, string Version, bool IsPremium, bool IsAdmin, string BusinessControllerClass, int SupportedFeatures, string CompatibleVersions);
+        public abstract void UpdateDesktopModule(int DesktopModuleId, string ModuleName, string FolderName, string FriendlyName, string Description, string Version, bool IsPremium, bool IsAdmin, string BusinessControllerClass, int SupportedFeatures, string CompatibleVersions);
         public abstract void DeleteDesktopModule( int DesktopModuleId );
 
         public abstract IDataReader GetPortalDesktopModules( int PortalID, int DesktopModuleID );
@@ -248,8 +248,8 @@ namespace DotNetNuke.Data
         public abstract IDataReader GetFoldersByUser(int PortalID, int UserID, bool IncludeSecure, bool IncludeDatabase, bool AllowAccess, string Permissions);
         public abstract IDataReader GetFolder(int PortalID, int FolderID);
         public abstract IDataReader GetFolder(int PortalID, string FolderPath);
-        public abstract int AddFolder(int PortalID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached);
-        public abstract void UpdateFolder(int PortalID, int FolderID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached);
+        public abstract int AddFolder(int PortalID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached, System.DateTime LastUpdated);
+        public abstract void UpdateFolder(int PortalID, int FolderID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached, System.DateTime LastUpdated);
         public abstract void DeleteFolder(int PortalID, string FolderPath);
 
 

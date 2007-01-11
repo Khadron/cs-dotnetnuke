@@ -1,7 +1,7 @@
 #region DotNetNuke License
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
-// by Perpetual Motion Interactive Systems Inc. ( http://www.perpetualmotion.ca )
+// by DotNetNuke Corporation
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 // documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
@@ -471,33 +471,38 @@ namespace DotNetNuke.Security.Authentication
             return AuthenticationGroup.AuthenticationMember.Contains( AuthenticationUser.DistinguishedName );
         }
 
-        private void FillUserInfo( DirectoryEntry UserEntry, UserInfo UserInfo )
+        private void FillUserInfo( DirectoryEntry UserEntry, UserInfo userInfo )
         {
-            UserInfo with_1 = UserInfo;
-            with_1.IsSuperUser = false;
-            with_1.Username = UserInfo.Username;
-            with_1.Membership.Approved = true;
-            with_1.Membership.LastLoginDate = DateTime.Today;
-            with_1.Email = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_EMAIL].Value );
-            with_1.CName = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_CNAME].Value.ToString() );
-            with_1.DistinguishedName = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_DISTINGUISHEDNAME].Value.ToString() );
-            with_1.sAMAccountName = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_ACCOUNTNAME].Value.ToString() );
-            with_1.Profile.FirstName = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_FIRSTNAME].Value );
-            with_1.Profile.LastName = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_LASTNAME].Value );
-            with_1.Profile.Street = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_STREET].Value );
-            with_1.Profile.City = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_CITY].Value );
-            with_1.Profile.Region = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_REGION].Value );
-            with_1.Profile.PostalCode = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_POSTALCODE].Value );
-            with_1.Profile.Country = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_COUNTRY].Value );
-            with_1.Profile.Telephone = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_TELEPHONE].Value );
-            with_1.Profile.Fax = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_FAX].Value );
-            with_1.Profile.Cell = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_CELL].Value );
-            with_1.Profile.Website = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_WEBSITE].Value );
-            with_1.AuthenticationExists = true;
-            // obtain firstname from username if admin has not enter enough user info
-            if( with_1.Profile.FirstName.Length == 0 )
+
+            userInfo.IsSuperUser = false;
+            userInfo.Username = userInfo.Username;
+            userInfo.Membership.Approved = true;
+            userInfo.Membership.LastLoginDate = DateTime.Today;
+            userInfo.Email = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_EMAIL].Value );
+            userInfo.CName = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_CNAME].Value.ToString() );
+            userInfo.DisplayName = Utilities.CheckNullString(UserEntry.Properties[ADSI.Configuration.ADSI_DISPLAYNAME].Value);
+            if (userInfo.DisplayName == "")
             {
-                with_1.Profile.FirstName = Utilities.TrimUserDomainName( UserInfo.Username );
+                userInfo.DisplayName = userInfo.CName;
+            }
+            userInfo.DistinguishedName = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_DISTINGUISHEDNAME].Value.ToString() );
+            userInfo.sAMAccountName = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_ACCOUNTNAME].Value.ToString() );
+            userInfo.Profile.FirstName = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_FIRSTNAME].Value );
+            userInfo.Profile.LastName = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_LASTNAME].Value );
+            userInfo.Profile.Street = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_STREET].Value );
+            userInfo.Profile.City = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_CITY].Value );
+            userInfo.Profile.Region = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_REGION].Value );
+            userInfo.Profile.PostalCode = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_POSTALCODE].Value );
+            userInfo.Profile.Country = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_COUNTRY].Value );
+            userInfo.Profile.Telephone = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_TELEPHONE].Value );
+            userInfo.Profile.Fax = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_FAX].Value );
+            userInfo.Profile.Cell = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_CELL].Value );
+            userInfo.Profile.Website = Utilities.CheckNullString( UserEntry.Properties[ADSI.Configuration.ADSI_WEBSITE].Value );
+            userInfo.AuthenticationExists = true;
+            // obtain firstname from username if admin has not enter enough user info
+            if( userInfo.Profile.FirstName.Length == 0 )
+            {
+                userInfo.Profile.FirstName = Utilities.TrimUserDomainName( userInfo.Username );
             }
         }
 
