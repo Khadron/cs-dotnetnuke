@@ -160,18 +160,20 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         {
             get
             {
-                ModuleActionCollection actions = new ModuleActionCollection();
-                actions.Add( GetNextActionID(), Localization.GetString( ModuleActionType.AddContent, LocalResourceFile ), ModuleActionType.AddContent, "", "", EditUrl(), false, SecurityAccessLevel.Host, true, false );
+                ModuleActionCollection actionCollection = new ModuleActionCollection();
 
-                ModuleInfo FileManagerModule = ( new ModuleController() ).GetModuleByDefinition( Null.NullInteger, "File Manager" );
+                // install new module
+                ModuleInfo fileManagerModule = (new ModuleController()).GetModuleByDefinition(Null.NullInteger, "File Manager");
+                string[] strings = new string[3];
+                strings[0] = "mid=" + fileManagerModule.ModuleID;
+                strings[1] = "ftype=" + UploadType.Module;
+                strings[2] = "rtab=" + this.TabId;
+                actionCollection.Add(GetNextActionID(), Localization.GetString("ModuleUpload.Action", LocalResourceFile), ModuleActionType.AddContent, "", "", Globals.NavigateURL(fileManagerModule.TabID, "Edit", strings), false, SecurityAccessLevel.Host, true, false);
 
-                string[] additionalParameters = new string[3];
+                // create new module
+                actionCollection.Add(GetNextActionID(), Localization.GetString(ModuleActionType.AddContent, LocalResourceFile), ModuleActionType.AddContent, "", "", EditUrl(), false, SecurityAccessLevel.Host, true, false);
 
-                additionalParameters[0] = "mid=" + FileManagerModule.ModuleID;
-                additionalParameters[1] = "ftype=" + UploadType.Module;
-                additionalParameters[2] = "rtab=" + this.TabId;
-                actions.Add( GetNextActionID(), Localization.GetString( "ModuleUpload.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "", Globals.NavigateURL( FileManagerModule.TabID, "Edit", additionalParameters ), false, SecurityAccessLevel.Host, true, false );
-                return actions;
+                return actionCollection;
             }
         }
 

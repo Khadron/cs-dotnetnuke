@@ -18,6 +18,7 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 using System.ComponentModel;
+using System.Xml.Serialization;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.UI.WebControls;
@@ -30,6 +31,7 @@ namespace DotNetNuke.Entities.Profile
     /// The ProfilePropertyDefinition class provides a Business Layer entity for
     /// property Definitions
     /// </Summary>
+    [XmlRoot("profiledefinition", IsNullable = false)]
     public class ProfilePropertyDefinition
     {
         private int _DataType;
@@ -57,7 +59,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets the Data Type of the Profile Property</Summary>
-        [Editor( "DotNetNuke.UI.WebControls.DNNListEditControl, DotNetNuke", typeof( EditControl ) ), SortOrderAttribute( 1 ), RequiredAttribute( true ), IsReadOnlyAttribute( true ), ListAttribute( "DataType", "", ListBoundField.Id, ListBoundField.Value )]
+        [XmlIgnore, Editor( "DotNetNuke.UI.WebControls.DNNListEditControl, DotNetNuke", typeof( EditControl ) ), SortOrderAttribute( 1 ), RequiredAttribute( true ), IsReadOnlyAttribute( true ), ListAttribute( "DataType", "", ListBoundField.Id, ListBoundField.Value )]
         public int DataType
         {
             get
@@ -75,7 +77,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets the Default Value of the Profile Property</Summary>
-        [SortOrderAttribute( 4 )]
+        [XmlIgnore, SortOrderAttribute(4)]
         public string DefaultValue
         {
             get
@@ -95,7 +97,7 @@ namespace DotNetNuke.Entities.Profile
         /// <Summary>
         /// Gets whether the Definition has been modified since it has been retrieved
         /// </Summary>
-        [BrowsableAttribute( false )]
+        [XmlIgnore, BrowsableAttribute(false)]
         public bool IsDirty
         {
             get
@@ -105,7 +107,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets the Length of the Profile Property</Summary>
-        [SortOrderAttribute( 3 )]
+        [XmlElement("length"), SortOrderAttribute( 3 )]
         public int Length
         {
             get
@@ -123,7 +125,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets the ModuleDefId</Summary>
-        [BrowsableAttribute( false )]
+        [XmlIgnore, BrowsableAttribute(false)]
         public int ModuleDefId
         {
             get
@@ -137,7 +139,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets the PortalId</Summary>
-        [BrowsableAttribute( false )]
+        [XmlIgnore, BrowsableAttribute(false)]
         public int PortalId
         {
             get
@@ -151,7 +153,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets the Category of the Profile Property</Summary>
-        [SortOrderAttribute( 2 ), RequiredAttribute( true )]
+        [XmlElement("propertycategory"), SortOrderAttribute( 2 ), RequiredAttribute( true )]
         public string PropertyCategory
         {
             get
@@ -169,7 +171,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets the Id of the ProfilePropertyDefinition</Summary>
-        [BrowsableAttribute( false )]
+        [XmlIgnore, BrowsableAttribute(false)]
         public int PropertyDefinitionId
         {
             get
@@ -183,7 +185,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets the Name of the Profile Property</Summary>
-        [SortOrderAttribute( 0 ), RequiredAttribute( true ), IsReadOnlyAttribute( true )]
+        [XmlElement("propertyname"), SortOrderAttribute( 0 ), RequiredAttribute( true ), IsReadOnlyAttribute( true )]
         public string PropertyName
         {
             get
@@ -201,7 +203,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets the Value of the Profile Property</Summary>
-        [BrowsableAttribute( false )]
+        [XmlIgnore, BrowsableAttribute(false)]
         public string PropertyValue
         {
             get
@@ -219,7 +221,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets whether the property is required</Summary>
-        [SortOrderAttribute( 6 )]
+        [XmlIgnore, SortOrderAttribute(6)]
         public bool Required
         {
             get
@@ -239,7 +241,7 @@ namespace DotNetNuke.Entities.Profile
         /// <Summary>
         /// Gets and sets a Validation Expression (RegEx) for the Profile Property
         /// </Summary>
-        [SortOrderAttribute( 5 )]
+        [XmlIgnore, SortOrderAttribute(5)]
         public string ValidationExpression
         {
             get
@@ -257,7 +259,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets the View Order of the Property</Summary>
-        [RequiredAttribute( true ), SortOrderAttribute( 8 )]
+        [XmlIgnore, RequiredAttribute(true), SortOrderAttribute(8)]
         public int ViewOrder
         {
             get
@@ -275,7 +277,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets whether the property is visible</Summary>
-        [BrowsableAttribute( false )]
+        [XmlIgnore, BrowsableAttribute(false)]
         public UserVisibilityMode Visibility
         {
             get
@@ -293,7 +295,7 @@ namespace DotNetNuke.Entities.Profile
         }
 
         /// <Summary>Gets and sets whether the property is visible</Summary>
-        [SortOrderAttribute( 7 )]
+        [XmlIgnore, SortOrderAttribute(7)]
         public bool Visible
         {
             get
