@@ -1,0 +1,1668 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProjectGuid>{BD54C946-FE71-4E5F-B4B0-61BE98FCBF35}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyName>DotNetNuke</AssemblyName>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DotNetNuke</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="SharpZipLib">
+      <Name>SharpZipLib</Name>
+      <HintPath>..\..\SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration">
+      <Name>System.Configuration</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.SqlXml">
+      <Name>System.Data.SqlXml</Name>
+    </Reference>
+    <Reference Include="System.Deployment">
+      <Name>System.Deployment</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Name>System.EnterpriseServices</Name>
+    </Reference>
+    <Reference Include="System.Management">
+      <Name>System.Management</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting">
+      <Name>System.Runtime.Remoting</Name>
+    </Reference>
+    <Reference Include="System.Transactions">
+      <Name>System.Transactions</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.Xml</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DotNetNuke\Common\Controls\Form.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\FileItem.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Globals.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Lists\ListController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Lists\ListEntryInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Lists\ListEntryInfoCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Lists\ListInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Lists\ListInfoCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\Calendar.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\CBO.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\Config.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\CoreCacheType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\DataCache.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\FileSystemUtils.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\HtmlUtils.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\Null.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\UrlController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\UrlInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\UrlLogInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\UrlTrackingInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\UrlUtils.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\Utilities\XmlUtils.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Common\XmlValidatorBase.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Container.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Data\DataProvider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Data\NonCommandParameterAttribute.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Data\SqlCommandGenerator.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Data\SqlParameterAttribute.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Host\HostSettings.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Host\HostSettingsController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Actions\ActionEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Actions\ActionEventHandler.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Actions\ModuleAction.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Actions\ModuleActionCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Actions\ModuleActionEventListener.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Actions\ModuleActionType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Communications\ModuleCommunicate.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Communications\ModuleCommunicationEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Communications\ModuleCommunicationEventHandler.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Communications\ModuleCommunicators.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Communications\ModuleListeners.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Communications\RoleChangeEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Definitions\ModuleDefinitionController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Definitions\ModuleDefinitionInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Definitions\ModuleDefinitionValidator.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Definitions\ModuleDefinitionVersion.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\DesktopModuleController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\DesktopModuleInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\DesktopModuleSupportedFeature.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\DisplayMode.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\EventMessageProcessor.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\ModuleControlController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\ModuleControlInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\ModuleController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\ModuleInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\ModuleSettingsBase.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\PaFileInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\PaWriter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\PortalDesktopModuleInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\PortalModuleBase.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\UserModuleBase.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\UsersControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\VisibilityState.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Portals\PortalAliasCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Portals\PortalAliasController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Portals\PortalAliasInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Portals\PortalController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Portals\PortalInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Portals\PortalSettings.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Portals\PortalTemplateModuleAction.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Portals\PortalTemplateValidator.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Profile\ProfileController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Profile\ProfilePropertyDefinition.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Profile\ProfilePropertyDefinitionCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Profile\ProfilePropertyDefinitionComparer.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Tabs\TabController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Tabs\TabInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Tabs\TabType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Users\AnonymousUserInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Users\BaseUserInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Users\OnlineUserInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Users\PurgeUsersOnline.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Users\UserController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Users\UserInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Users\UserMembership.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Users\UserOnlineController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Users\UserProfile.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Users\UserRoleInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Users\UserTime.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Users\UserVisibilityMode.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Framework\CDefault.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Framework\PageBase.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Framework\Providers\Provider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Framework\Providers\ProviderConfiguration.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Framework\Providers\ProviderConfigurationHandler.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Framework\Reflection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Framework\UserControlBase.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\InstallResources.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaDataProviderComparer.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaDnnAdapterBase.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaDnnAdapter_V2.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaDnnAdapter_V2Provider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaDnnAdapter_V2Skin.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaDnnAdapter_V3.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaDnnInstallerBase.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaDnnInstaller_V2Provider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaDnnInstaller_V2Skin.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaDnnInstaller_V3.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaDnnLoaderFactory.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaFile.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaFileType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaFolder.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaFolderCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaInstaller.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaInstallInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaLogEntry.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaLogger.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaLogType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\PaTextEncoding.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\ResourceInstaller.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\Admin\ResourceInstaller\ResourceInstallerBase.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\HTMLEditorProvider\HtmlEditorProvider.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\NavigationProvider\NavigationEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\NavigationProvider\NavigationProvider.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\SearchInput\SearchInputController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Modules\SearchInput\SearchResultsModuleInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\NavDataSource.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Authentication\AuthenticationController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Authentication\AuthenticationMode.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Authentication\AuthenticationProvider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Authentication\AuthenticationStatus.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Authentication\Configuration.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Authentication\GroupController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Authentication\GroupInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Authentication\ObjectClass.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Authentication\UserController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Authentication\UserInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Membership\MembershipProvider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Membership\MembershipProviderConfig.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Membership\PasswordConfig.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Membership\PasswordFormat.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Membership\PasswordUpdateStatus.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Membership\UserCreateStatus.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Membership\UserLoginStatus.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Membership\UserRegistrationStatus.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\CompareFolderPermissions.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\CompareModulePermissions.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\CompareTabPermissions.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\Controls\FolderPermissionsGrid.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\Controls\ModulePermissionsGrid.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\Controls\PermissionsGrid.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\Controls\TabPermissionsGrid.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\FolderPermissionCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\FolderPermissionController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\FolderPermissionInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\ModulePermissionCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\ModulePermissionController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\ModulePermissionInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\PermissionController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\PermissionInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\TabPermissionCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\TabPermissionController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Permissions\TabPermissionInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\PortalSecurity.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Profile\ProfileProvider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Profile\ProfileProviderConfig.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Roles\RoleComparer.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Roles\RoleController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Roles\RoleGroupInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Roles\RoleInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Roles\RoleProvider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\SecurityAccessLevel.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Cache\CachingProvider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Cache\PurgeCache.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\EventQueue\Config\EventQueueConfiguration.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\EventQueue\Config\EventQueueSubscribers.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\EventQueue\Config\PublishedEvent.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\EventQueue\Config\PublishedEvents.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\EventQueue\Config\SubscriberInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\EventQueue\EventMessage.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\EventQueue\EventMessageCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\EventQueue\EventMessageProcessorBase.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\EventQueue\EventQueueController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\EventQueue\MessagePriority.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Exceptions\BasePortalException.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Exceptions\ErrorContainer.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Exceptions\ExceptionInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Exceptions\Exceptions.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Exceptions\ModuleLoadException.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Exceptions\PageLoadException.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Exceptions\SchedulerException.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Exceptions\SecurityException.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\FileSystem\FileController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\FileSystem\FileInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\FileSystem\FileManagerFunctions.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\FileSystem\FileServerHandler.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\FileSystem\FolderController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\FileSystem\FolderInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\FileSystem\SynchronizeFileSystem.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\FileSystem\UploadType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\CultureDropDownTypes.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\CultureInfoComparer.cs" />
+    <Compile Include="DotNetNuke\Services\Localization\LanguagePackType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\Locale.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\LocaleCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\LocaleCollectionWrapper.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\LocaleFileCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\LocaleFileInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\LocaleFilePack.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\LocaleFilePackReader.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\LocaleFilePackWriter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\LocaleFileUtil.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\LocaleType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Localization\Localization.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\EventLogController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\ExceptionLogController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\LogController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\LogDetailInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\LoggingProvider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\LogInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\LogInfoArray.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\LogProperties.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\LogTypeConfigInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\LogTypeInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\LogTypeSortFriendlyName.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\PortalSortTitle.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\PurgeLogBuffer.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\EventLog\SendLogNotifications.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\SiteLog\BufferedSiteLog.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\SiteLog\PurgeSiteLog.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\SiteLog\SiteLogController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Log\SiteLog\SiteLogInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Mail\Mail.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Mail\MailFormat.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Mail\MailPriority.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Mail\MessageType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Mail\SendBulkEmail.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Personalization\Personalization.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Personalization\PersonalizationController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Personalization\PersonalizationInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\ResourceLoader.cs" />
+    <Compile Include="DotNetNuke\Services\Scheduling\EventName.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\PurgeScheduleHistory.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\ScheduleHistoryItem.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\ScheduleHistorySortStartDate.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\ScheduleItem.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\SchedulerClient.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\SchedulerMode.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\ScheduleSource.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\ScheduleStatus.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\ScheduleStatusSortRemainingTimeDescending.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\SchedulingProvider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\WorkCompleted.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\WorkErrored.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\WorkProgressing.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Scheduling\WorkStarted.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Search\IndexingProvider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Search\SearchDataStoreProvider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Search\SearchEngine.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Search\SearchEngineScheduler.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Search\SearchItemInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Search\SearchItemInfoCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Search\SearchResultsInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Search\SearchResultsInfoCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Upgrade\Upgrade.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Url\FriendlyUrl\FriendlyUrlProvider.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Vendors\AffiliateController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Vendors\AffiliateInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Vendors\BannerController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Vendors\BannerInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Vendors\BannerType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Vendors\BannerTypeController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Vendors\BannerTypeInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Vendors\ClassificationController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Vendors\ClassificationInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Vendors\VendorController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Vendors\VendorInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Wizards\Wizard.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Wizards\WizardCancelEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Wizards\WizardCancelEventHandler.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Wizards\WizardCommand.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Wizards\WizardEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Wizards\WizardEventHandler.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Wizards\WizardPage.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Wizards\WizardPageCollection.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Wizards\WizardPageType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Services\Wizards\WizardSuccess.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Skin.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Containers\ActionBase.ascx.cs">
+      <Name>Compile</Name>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Containers\Container.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\ControlPanels\ControlPanelBase.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Navigation.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Skins\Controls\ModuleMessage.ascx.cs">
+      <Name>Compile</Name>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Skins\NavObjectBase.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Skins\Skin.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Skins\SkinControl.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Skins\SkinController.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Skins\SkinFileProcessor.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Skins\SkinInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Skins\SkinObjectBase.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Skins\SkinParser.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Skins\SkinThumbNailControl.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Skins\SkinType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\UserControls\Address.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\UserControls\DualListControl.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\UserControls\Help.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\UserControls\HelpButtonControl.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\UserControls\LabelControl.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\UserControls\ListItemComparer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\UserControls\ModuleAuditControl.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\UserControls\SectionHeadControl.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\UserControls\TextEditor.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\UserControls\UrlControl.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\UserControls\URLTrackingControl.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\UserControls\User.ascx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Utilities\DNNClientAPI.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\CaptchaControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\CaptchaHandler.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\CheckBoxColumn.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\CheckBoxColumnTemplate.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\CheckEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\CollectionEditorControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\CollectionEditorInfoAdapter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\CommandButton.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\ControlStyleAttribute.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\Design\DefaultDesignerInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\Design\DesignerTest.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\Design\PropertyEditorControlDesigner.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNCountryEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNDataGrid.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNDataGridCheckChangedEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNDataGridCheckedColumnEventHandler.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNListEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNLocaleEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNPageEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNRegionEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNRichTextEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\DNNTimeZoneEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\EditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\EditControlFactory.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\EditorDisplayMode.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\EditorInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\EnumEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\FieldEditorControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\GroupByMode.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\ImageCommandColumn.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\ImageCommandColumnEditMode.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\ImageCommandColumnTemplate.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\IntegerEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\IsReadOnlyAttribute.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\LabelMode.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\LabelModeAttribute.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\ListAttribute.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\ListBoundField.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\MaxLengthAttribute.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\MultiLineTextEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\PagingControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\ProfileEditorControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\PropertyCategoryComparer.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\PropertyChangedEventHandler.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\PropertyEditorControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\PropertyEditorEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\PropertyEditorMode.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\PropertyLabelControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\PropertyNameComparer.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\PropertySortOrderComparer.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\PropertySortType.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\RegularExpressionValidatorAttribute.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\RequiredAttribute.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\SettingInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\SettingNameComparer.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\SettingsEditorControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\SettingsEditorInfoAdapter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\SortOrderAttribute.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\StandardEditorInfoAdapter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\TextColumn.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\TextColumnTemplate.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\TextEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\TrueFalseEditControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\VisibilityControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="NavDataPageHierarchicalEnumerable.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="NavDataPageHierarchyData.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="NavDataSourceView.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Communications\IModuleCommunicator.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\Communications\IModuleListener.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\IActionable.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\IPortable.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\ISearchable.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Entities\Modules\IUpgradeable.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\Security\Authentication\IAuthenticationObjectBase.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\WebControls\IEditorInfoAdapter.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Controls\CountryListBox\CountryListBox.csproj">
+      <Project>{89093FD0-076F-48CD-9232-B665226CDBF0}</Project>
+      <Name>CountryListBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="Controls\WebControls\WebControls.csproj">
+      <Project>{2C2FC1EF-C61F-448A-AD25-87391E1208F6}</Project>
+      <Name>WebControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="Controls\WebUtility\WebUtility.csproj">
+      <Project>{54F96926-802C-408E-A04B-F56859C0308C}</Project>
+      <Name>WebUtility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\GlobalResources.de-DE.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\GlobalResources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SharedResources.de-DE.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SharedResources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Template.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

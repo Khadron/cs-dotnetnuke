@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            <xsd:complexType>
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" />
+                            <xsd:attribute name="type" type="xsd:string" />
+                            <xsd:attribute name="mimetype" type="xsd:string" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" />
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:complexType>
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="ResMimeType">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="Version">
+        <value>1.0.0.0</value>
+    </resheader>
+    <resheader name="Reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="Writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="BasicSettings.Text">
+        <value>Basic Settings</value>
+    </data>
+    <data name="BasicSettingsDescription.Text">
+        <value>In this section, you can set up the basic settings for this role.</value>
+    </data>
+    <data name="RoleName.Text">
+        <value>Role Name</value>
+    </data>
+    <data name="RoleName.Help">
+        <value>Enter the name of the role.</value>
+    </data>
+    <data name="Description.Text">
+        <value>Description</value>
+    </data>
+    <data name="Description.Help">
+        <value>Enter a description of the role.</value>
+    </data>
+    <data name="PublicRole.Text">
+        <value>Public Role?</value>
+    </data>
+    <data name="PublicRole.Help">
+        <value>Is this Role a Public Role?</value>
+    </data>
+    <data name="AutoAssignment.Text">
+        <value>Auto Assignment?</value>
+    </data>
+    <data name="AutoAssignment.Help">
+        <value>Is this role automatically assigned to users?</value>
+    </data>
+    <data name="AdvancedSettings.Text">
+        <value>Advanced Settings</value>
+    </data>
+    <data name="AdvancedSettingsHelp.Text">
+        <value>In this section, you can set up more advanced settings for this role.</value>
+    </data>
+    <data name="ServiceFee.Text">
+        <value>Service Fee</value>
+    </data>
+    <data name="ServiceFee.Help">
+        <value>Enter the Fee charged for users in this role.</value>
+    </data>
+    <data name="BillingPeriod.Text">
+        <value>Billing Period (Every)</value>
+    </data>
+    <data name="BillingPeriod.Help">
+        <value>These two fields are used in conjunction to enter a Billing Period. e.g 2 weeks, or 1 month</value>
+    </data>
+    <data name="TrialFee.Text">
+        <value>Trial Fee</value>
+    </data>
+    <data name="TrialFee.Help">
+        <value>Enter the trial fee charged for users in this role</value>
+    </data>
+    <data name="TrialPeriod.Text">
+        <value>Trial Period (Every)</value>
+    </data>
+    <data name="TrialPeriod.Help">
+        <value>These two fields are used in conjunction to enter a Trial Period. e.g 2 weeks, or 1 month</value>
+    </data>
+    <data name="cmdManage.Text">
+        <value>Manage Users in this Role</value>
+    </data>
+    <data name="valRoleName.Text">
+        <value>&lt;br&gt;You Must Enter a Valid Name</value>
+    </data>
+    <data name="valServiceFee1.Text">
+        <value>&lt;br&gt;Service Fee Value Entered Is Not Valid</value>
+    </data>
+    <data name="valServiceFee2.Text">
+        <value>&lt;br&gt;Service Fee Must Be Greater Than or Equal to Zero</value>
+    </data>
+    <data name="valBillingPeriod1.Text">
+        <value>&lt;br&gt;Billing Period Value Entered Is Not Valid</value>
+    </data>
+    <data name="valBillingPeriod2.Text">
+        <value>&lt;br&gt;Billing Period Must Be Greater Than Zero</value>
+    </data>
+    <data name="valTrialFee1.Text">
+        <value>&lt;br&gt;Trial Fee Value Entered Is Not Valid</value>
+    </data>
+    <data name="valTrialFee2.Text">
+        <value>&lt;br&gt;Trial Fee Must Be Greater Than or Equal to Zero</value>
+    </data>
+    <data name="valTrialPeriod1.Text">
+        <value>&lt;br&gt;Trial Period Value Entered Is Not Valid</value>
+    </data>
+    <data name="valTrialPeriod2.Text">
+        <value>&lt;br&gt;Trial Period Must Be Greater Than Zero</value>
+    </data>
+    <data name="ControlTitle_edit.Text">
+        <value>Edit Security Roles</value>
+    </data>
+    <data name="ModuleHelp.Text">
+        <value>&lt;h1&gt;About Edit Security Roles&lt;/h1&gt;&lt;p&gt;Administrators can manage the security roles defined for their portal. The module allows you to add new security roles, modify existing security roles, delete security roles, and manage the users assigned to security roles.&lt;/p&gt;</value>
+    </data>
+    <data name="plRoleGroups.Text">
+        <value>Role Group</value>
+    </data>
+    <data name="plRoleGroups.Help">
+        <value>Select the Role Group to which this role belongs.</value>
+    </data>
+    <data name="plRSVPCode.Text">
+        <value>RSVP Code:</value>
+    </data>
+    <data name="plRSVPCode.Help">
+        <value>Enter an RSVP Code for the role.  This code can be used to provide a fast method for users to subscribe to one or more roles.</value>
+    </data>
+    <data name="plIcon.Text">
+        <value>Icon:</value>
+    </data>
+    <data name="plIcon.Help">
+        <value>Select an icon for the role.</value>
+    </data>
+	<data name="DuplicateRole.Text">
+		<value>A role with the same name already exists. The role was not added.</value>
+	</data>
+</root>

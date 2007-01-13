@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="Duplicate.ErrorMessage">
+		<value>This Locale Is Already Defined</value>
+	</data>
+	<data name="Delete.ErrorMessage">
+		<value>System Locale (en-US) Cannot Be Deleted</value>
+	</data>
+	<data name="AddNewLocale.Text">
+		<value>Add New Locale</value>
+	</data>
+	<data name="SupportedLocales.Text">
+		<value>Supported Locales</value>
+	</data>
+	<data name="KeyFormat.ErrorMessage">
+		<value>&lt;br&gt;Key Format: xx-YY  (Where xx Is Language Code And YY Is Country/Region Code)</value>
+	</data>
+	<data name="Name.Header">
+		<value>Name</value>
+	</data>
+	<data name="Key.Header">
+		<value>Key</value>
+	</data>
+	<data name="DeleteFiles.Text">
+		<value>Delete All Resource Files When Deleting A Locale?</value>
+	</data>
+	<data name="TimeZones.Action">
+		<value>TimeZone Editor</value>
+	</data>
+	<data name="Languages.Action">
+		<value>Language Editor</value>
+	</data>
+	<data name="Save.ErrorMessage">
+		<value>A File Operation Failed. Please Check Resource File Permissions So Files Can Be Edited.</value>
+	</data>
+	<data name="NewLocale.ErrorMessage">
+		<value>A default Timezones file has been created for the new locale. You must localize this Timezones file to the new language.</value>
+	</data>
+	<data name="Verify.Action">
+		<value>Resource File Verifier</value>
+	</data>
+	<data name="ControlTitle_.Text">
+		<value>Languages</value>
+	</data>
+	<data name="PackageGenerate.Action">
+		<value>Create Language Pack</value>
+	</data>
+	<data name="PackageImport.Action">
+		<value>Upload Language Pack</value>
+	</data>
+	<data name="ModuleHelp.Text">
+		<value>&lt;h1&gt;About Languages&lt;/h1&gt;&lt;p&gt;The Super User can manage the supported languages installed on the system.&lt;/p&gt;</value>
+	</data>
+	<data name="lbLocale.Text">
+		<value>Language</value>
+	</data>
+	<data name="lbLocale.Help">
+		<value>Select a locale to add to the portal</value>
+	</data>
+	<data name="Enable.Text">
+		<value>Enable</value>
+	</data>
+	<data name="Disable.Text">
+		<value>Disable</value>
+	</data>
+	<data name="Enabled.Text">
+		<value>Enabled</value>
+	</data>
+	<data name="Disabled.Text">
+		<value>Disabled</value>
+	</data>
+	<data name="Status.Header">
+		<value>Status</value>
+	</data>
+	<data name="Disable.ErrorMessage">
+		<value>You cannot delete or disable the last enabled language.</value>
+	</data>
+	<data name="DisableCurrent.ErrorMessage">
+		<value>You cannot delete or disable the default language for the portal.</value>
+	</data>
+	<data name="DisplayEnglish.Text">
+		<value>Display English Name</value>
+	</data>
+	<data name="DisplayNative.Text">
+		<value>Display Native Name</value>
+	</data>
+</root>

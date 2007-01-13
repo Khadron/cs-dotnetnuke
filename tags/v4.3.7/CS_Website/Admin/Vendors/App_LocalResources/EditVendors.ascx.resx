@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="plVendorName.Text">
+		<value>Company</value>
+	</data>
+	<data name="plVendorName.Help">
+		<value>Enter the name of the Vendor.</value>
+	</data>
+	<data name="plFirstName.Text">
+		<value>First Name</value>
+	</data>
+	<data name="plFirstName.Help">
+		<value>Enter the first name of the Vendor Contact.</value>
+	</data>
+	<data name="plLastName.Text">
+		<value>Last Name</value>
+	</data>
+	<data name="plLastName.Help">
+		<value>Enter the last name of the Vendor Contact.</value>
+	</data>
+	<data name="plEmail.Text">
+		<value>Email Address</value>
+	</data>
+	<data name="plEmail.Help">
+		<value>Enter the email address of the Vendor Contact</value>
+	</data>
+	<data name="plFax.Text">
+		<value>Fax</value>
+	</data>
+	<data name="plFax.Help">
+		<value>Enter the fax number of the Vendor</value>
+	</data>
+	<data name="plWebsite.Text">
+		<value>Website</value>
+	</data>
+	<data name="plWebsite.Help">
+		<value>Enter the website of the Vendor (eg www.vendor.com)</value>
+	</data>
+	<data name="plLogo.Text">
+		<value>Logo</value>
+	</data>
+	<data name="plLogo.Help">
+		<value>Select a Logo for the Vendor</value>
+	</data>
+	<data name="plAuthorized.Text">
+		<value>Authorized</value>
+	</data>
+	<data name="plAuthorized.Help">
+		<value>Is this Vendor Authorized</value>
+	</data>
+	<data name="plClassifications.Text">
+		<value>Classifications</value>
+	</data>
+	<data name="plClassifications.Help">
+		<value>Enter the classifcations for the Vendor</value>
+	</data>
+	<data name="plKeyWords.Text">
+		<value>Key Words</value>
+	</data>
+	<data name="plKeyWords.Help">
+		<value>Enter key words for the Vendor</value>
+	</data>
+	<data name="Settings.Text">
+		<value>Vendor Details</value>
+	</data>
+	<data name="Address.Text">
+		<value>Address Details</value>
+	</data>
+	<data name="Other.Text">
+		<value>Other Details</value>
+	</data>
+	<data name="VendorClassification.Text">
+		<value>Vendor Classification</value>
+	</data>
+	<data name="Views.Text">
+		<value>Views</value>
+	</data>
+	<data name="Clicks.Text">
+		<value>Click Throughs</value>
+	</data>
+	<data name="BannerAdvertising.Text">
+		<value>Banner Advertising</value>
+	</data>
+	<data name="AffiliateReferrals.Text">
+		<value>Affiliate Referrals</value>
+	</data>
+	<data name="ControlTitle_edit.Text">
+		<value>Edit Vendors</value>
+	</data>
+	<data name="ControlTitle_view vendor.Text">
+		<value>View Vendor</value>
+	</data>
+	<data name="ModuleHelp.Text">
+		<value>&lt;h1&gt;About Vendors&lt;/h1&gt;&lt;p&gt;Administrators can manage the Vendors and Banners associated to the portal. This module allows you to add a new vendor, modify an existing vendor, and delete a vendor.&lt;/p&gt;</value>
+	</data>
+  <data name="EmailErrorAdmin.Text">
+    <value>There was a problem with sending the email to the Administrator.</value>
+  </data>
+  <data name="EmailErrorVendor.Text">
+    <value>There was a problem with sending the email to the Vendor.</value>
+  </data>
+</root>

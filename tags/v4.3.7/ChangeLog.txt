@@ -1,0 +1,39 @@
+2007-01-13  
+  Andrew Cates <catesandrew@gmail.com>
+ 
+
+	* CS_Library/DotNetNuke.Library.csproj, CS_Library/DotNetNuke/Common/Globals.cs,
+	  CS_Library/DotNetNuke/Data/DataProvider.cs,
+	  CS_Library/DotNetNuke/Entities/Profile/ProfilePropertyDefinition.cs,
+	  CS_Library/DotNetNuke/Services/Upgrade/Upgrade.cs,
+	  CS_Library/HttpModules/UrlRewrite/UrlRewriteModule.cs,
+	  CS_Library/Properties/AssemblyInfo.cs,
+	  CS_Library/Providers/DataProviders/SqlDataProvider/SqlDataProvider.cs,
+	  CS_Website/Admin/ModuleDefinitions/App_LocalResources/ModuleDefinitions.ascx.resx,
+	  CS_Website/Admin/ModuleDefinitions/ModuleDefinitions.ascx.cs,
+	  CS_Website/Admin/Portal/Template.ascx.cs, CS_Website/App_Code/AssemblyInfo.cs,
+	  CS_Website/Portals/_default/admin.template: Upgraded code from v4.3.6 to v4.3.7.
+
+2007-01-12  
+  Andrew Cates <catesandrew@gmail.com>
+ 
+
+	* CS_Website/Providers/DataProviders/SqlDataProvider/04.03.07.SqlDataProvider: Added 4.3.7
+	  sql script.
+	* CS_Website/ErrorPage.aspx: test
+	* trunk: Removed file/folder
+	* Modules.sln, trunk/Modules.sln: Moved remotely
+	* Library.sln, trunk/Library.sln: Moved remotely
+	* DotNetNuke.sln, trunk/DotNetNuke.sln: Moved remotely
+	* CS_DotNetNuke.sln, trunk/CS_DotNetNuke.sln: Moved remotely
+	* trunk/Website, Website: Moved remotely
+	* trunk/WebControls, WebControls: Moved remotely
+	* Library, trunk/Library: Moved remotely
+	* DomainModel, trunk/DomainModel: Moved remotely
+	* DataSource, trunk/DataSource: Moved remotely
+	* CS_Website, trunk/CS_Website: Moved remotely
+	* CS_Library, trunk/CS_Library: Moved remotely
+	* CS_DotNetNuke, trunk/CS_DotNetNuke: Moved remotely
+	* trunk: Resurected dnn from revison 507
+	* .: Created folder remotely
+

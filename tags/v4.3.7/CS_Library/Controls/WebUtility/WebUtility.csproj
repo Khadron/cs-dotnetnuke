@@ -1,0 +1,103 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProjectGuid>{54F96926-802C-408E-A04B-F56859C0308C}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyName>DotNetNuke.WebUtility</AssemblyName>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Configuration">
+      <Name>System.Configuration</Name>
+    </Reference>
+    <Reference Include="System.Data.SqlXml">
+      <Name>System.Data.SqlXml</Name>
+    </Reference>
+    <Reference Include="System.Deployment">
+      <Name>System.Deployment</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Management">
+      <Name>System.Management</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting">
+      <Name>System.Runtime.Remoting</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.Xml</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DotNetNuke\UI\Utilities\ClientAPI.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Utilities\ClientAPICallBackResponse.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Utilities\ClientAPIPostBackControl.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Utilities\ClientAPIPostBackEventArgs.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Utilities\DataCache.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Utilities\Globals.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+    <Compile Include="DotNetNuke\UI\Utilities\IClientAPICallbackEventHandler.cs">
+      <SubType>Code</SubType>
+      <Name>Compile</Name>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

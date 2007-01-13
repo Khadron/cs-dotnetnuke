@@ -1,0 +1,17 @@
+/* 
+================================
+ Container Styles for DotNetNuke
+================================
+*/   
+
+.containermaster_free {
+	width: 100%;
+	background-color: #ffffff;
+}
+.containerrow1_free {
+	background-color: #EBEBEB;
+}
+.containerrow2_free {
+	background-color: #ffffff;
+}
+
