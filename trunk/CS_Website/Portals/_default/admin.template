@@ -453,7 +453,7 @@
 	  <title>Site Wizard</title>
 	  <description></description>
 	  <keywords></keywords>
-	  <visible>false</visible>
+	  <visible>True</visible>
 	  <disabled>False</disabled>
 	  <iconfile>icon_sitesettings_16px.gif</iconfile>
 	  <parent>Admin</parent>

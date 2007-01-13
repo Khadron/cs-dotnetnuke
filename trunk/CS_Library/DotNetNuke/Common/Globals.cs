@@ -89,7 +89,7 @@ namespace DotNetNuke.Common
         public const string glbAppTitle = "DotNetNuke";
         public const string glbAppUrl = "http://www.dotnetnuke.com";
         public const string glbUpgradeUrl = "http://update.dotnetnuke.com";
-        public const string glbAppVersion = "04.03.06";
+        public const string glbAppVersion = "04.03.07";
         public const string glbConfigFolder = "\\Config\\";
         public const string glbDefaultAdminContainer = "Image Header - Color Background.ascx";
         public const string glbDefaultAdminSkin = "Horizontal Menu - Fixed Width.ascx";
@@ -1179,6 +1179,11 @@ namespace DotNetNuke.Common
             return objDesktopModule;
         }
 
+        public static string GetDomainName(HttpRequest Request)
+        {
+            return GetDomainName(Request, false);
+        }
+
         // returns the domain name of the current request ( ie. www.domain.com or 207.132.12.123 or www.domain.com/directory if subhost )
         // Actually, more to the point, returns the URL for the portal of this request.url.
         //   USE:
@@ -1186,8 +1191,8 @@ namespace DotNetNuke.Common
         //   ASSUMPTIONS:
         //       portal access is always centric thru *.aspx or *.axd file;
         //       DotNetNuke application directory names are special (and not part of portal alias);
-        //           only certain DNN top directory names are checked... so beware of the future!
-        public static string GetDomainName( HttpRequest Request )
+        //           so only specific DNN top level directory names are examined
+        public static string GetDomainName(HttpRequest Request, bool ParsePortNumber)
         {
             StringBuilder DomainName = new StringBuilder();
             string[] URL;
@@ -1200,71 +1205,76 @@ namespace DotNetNuke.Common
             // just consider left of '?' in URI
             // Binary, else '?' isn't taken literally; only interested in one (left) string
             URI = Request.Url.ToString();
-            string hostHeader = Config.GetSetting( "HostHeader" );
-            if( hostHeader != null )
+            string hostHeader = Config.GetSetting("HostHeader");
+            if (hostHeader != null)
             {
-                if( hostHeader.Length > 0 )
+                if (hostHeader.Length > 0)
                 {
-                    URI = URI.ToLower().Replace( hostHeader.ToLower(), "" );
+                    URI = URI.ToLower().Replace(hostHeader.ToLower(), "");
                 }
             }
-            intURL = Strings.InStr( URI, "?", CompareMethod.Binary );
-            if( intURL > 0 )
+            intURL = (URI.IndexOf("?", 0) + 1);
+            if (intURL > 0)
             {
-                URI = URI.Substring( 0, intURL - 1 );
+                URI = URI.Substring(0, intURL - 1);
             }
 
-            URL = URI.Split( '/' );
+            URL = URI.Split('/');
 
-            for( intURL = 2; intURL <= URL.GetUpperBound( 0 ); intURL++ )
+            for (intURL = 2; intURL <= URL.GetUpperBound(0); intURL++)
             {
-                switch( URL[intURL].ToLower() )
+                switch (URL[intURL].ToLower())
                 {
                     case "admin":
-                        goto endOfForLoop;
-
                     case "controls":
-                        goto endOfForLoop;
-
                     case "desktopmodules":
-                        goto endOfForLoop;
-
                     case "mobilemodules":
-                        goto endOfForLoop;
-
                     case "premiummodules":
-                        goto endOfForLoop;
-
-                    case "providers":
-
-                        goto endOfForLoop;
+                    case "providers":                        
+                        goto ExitLabel1;
                     default:
-
-                        // exclude filenames ENDing in ".aspx" or ".axd" ---
+                        // exclude filenames ENDing in ".aspx" or ".axd" --- 
                         //   we'll use reverse match,
                         //   - but that means we are checking position of left end of the match;
                         //   - and to do that, we need to ensure the string we test against is long enough;
-                        if( URL[intURL].Length >= ".aspx".Length ) //long enough for both tests
+                        if (URL[intURL].Length >= ".aspx".Length) //long enough for both tests
                         {
-                            if( Strings.InStrRev( URL[intURL], ".aspx", -1, 0 ) == ( URL[intURL].Length - ( ".aspx".Length - 1 ) ) || Strings.InStrRev( URL[intURL], ".axd", -1, 0 ) == ( URL[intURL].Length - ( ".axd".Length - 1 ) ) )
+                            if ((URL[intURL].LastIndexOf(".aspx") + 1) == (URL[intURL].Length - (".aspx".Length - 1)) | (URL[intURL].LastIndexOf(".axd") + 1) == (URL[intURL].Length - (".axd".Length - 1)))
                             {
-                                goto endOfForLoop;
+                                goto ExitLabel1;
                             }
                         }
                         // non of the exclusionary names found
-                        DomainName.Append( ( DomainName.ToString() != "" ? "/" : "" ) + URL[intURL] );
+                        DomainName.Append(((DomainName.ToString() != "") ? "/" : "") + URL[intURL]);
                         break;
                 }
             }
-            endOfForLoop:
+        ExitLabel1:
+
+            // handle port specification
+            if (ParsePortNumber)
+            {
+                if (DomainName.ToString().IndexOf(":") != -1)
+                {
+                    bool usePortNumber = (!Request.IsLocal);
+                    if (Config.GetSetting("UsePortNumber") != null)
+                    {
+                        usePortNumber = bool.Parse(Config.GetSetting("UsePortNumber"));
+                    }
+                    if (usePortNumber == false)
+                    {
+                        DomainName = DomainName.Replace(":" + Request.Url.Port, "");
+                    }
+                }
+            }
 
             return DomainName.ToString();
+
         }
 
         public static HttpWebRequest GetExternalRequest( string Address )
         {
             // Obtain PortalSettings from Current Context
-//            PortalSettings portalSettings = PortalController.GetCurrentPortalSettings();
 
             // Create the request object
             HttpWebRequest objRequest = (HttpWebRequest)WebRequest.Create( Address );

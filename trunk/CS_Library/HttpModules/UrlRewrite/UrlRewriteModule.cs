@@ -261,20 +261,6 @@ namespace DotNetNuke.HttpModules
             // parse the Request URL into a Domain Name token
             DomainName = Globals.GetDomainName( Request );
 
-            // handle port specification
-            if (DomainName.IndexOf(":") != -1)
-            {
-                bool usePortNumber = false;
-                if (Common.Utilities.Config.GetSetting("UsePortNumber") != null)
-                {
-                    usePortNumber = bool.Parse(Common.Utilities.Config.GetSetting("UsePortNumber"));
-                }
-                if (usePortNumber == false)
-                {
-                    DomainName = DomainName.Replace(":" + Request.Url.Port.ToString(), "");
-                }
-            }
-
             // PortalId identifies a portal when set
             if( PortalAlias == null )
             {

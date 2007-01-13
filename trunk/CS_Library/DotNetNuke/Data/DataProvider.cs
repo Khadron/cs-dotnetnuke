@@ -51,7 +51,9 @@ namespace DotNetNuke.Data
         public abstract void ExecuteNonQuery( string ProcedureName, params object[] commandParameters );
         public abstract IDataReader ExecuteReader( string ProcedureName, params object[] commandParameters );
         public abstract object ExecuteScalar( string ProcedureName, params object[] commandParameters );
-        public abstract IDataReader ExecuteSQL( string Script );
+        public abstract IDataReader ExecuteSQL(string SQL);
+        public abstract IDataReader ExecuteSQL(string SQL, params IDataParameter[] commandParameters);
+
 
         // general
         public abstract object GetNull( object Field );

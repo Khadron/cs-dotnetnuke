@@ -35,6 +35,8 @@ using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Skins;
+using DotNetNuke.Entities.Profile;
+using DotNetNuke.Common.Lists;
 using ICSharpCode.SharpZipLib.Zip;
 using FileInfo=DotNetNuke.Services.FileSystem.FileInfo;
 
@@ -148,6 +150,13 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
             nodeSettings.RemoveChild( nodeSettings.SelectSingleNode( "logintabid" ) );
             nodeSettings.RemoveChild( nodeSettings.SelectSingleNode( "usertabid" ) );
             nodeSettings.RemoveChild( nodeSettings.SelectSingleNode( "homedirectory" ) );
+            nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("expirydate"));
+            nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("currency"));
+            nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("hostfee"));
+            nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("hostspace"));
+            nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("backgroundfile"));
+            nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("paymentprocessor"));
+            nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("siteloghistory"));
 
             AddSkinXml( xmlSettings, nodeSettings, SkinInfo.RootSkin, "portal", objportal.PortalID );
             AddSkinXml( xmlSettings, nodeSettings, SkinInfo.RootContainer, "portal", objportal.PortalID );
@@ -216,6 +225,9 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// </history>        
         public void SerializeFolders( XmlDocument xmlTemplate, XmlNode nodeFolders, PortalInfo objportal, ref ZipOutputStream zipFile )
         {
+            // Sync db and filesystem before exporting so all required files are found
+            FileSystemUtils.Synchronize(objportal.PortalID, objportal.AdministratorRoleId, objportal.HomeDirectoryMapPath);
+
             FolderController objFolders = new FolderController();
             ArrayList arrFolders = objFolders.GetFoldersByPortal( objportal.PortalID );
 
@@ -272,6 +284,55 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                 nodePermission.AppendChild( XmlUtils.CreateElement( xmlTemplate, "allowaccess", objPermission.AllowAccess.ToString().ToLower() ) );
                 nodePermissions.AppendChild( nodePermission );
             }
+        }
+
+        /// <summary>
+        /// Serializes all Profile Definitions
+        /// </summary>
+        /// <param name="xmlTemplate">Reference to XmlDocument context</param>
+        /// <param name="nodeProfileDefinitions">Node to add the serialized objects</param>
+        /// <param name="objportal">Portal to serialize</param>
+        /// <remarks>
+        /// The serialization uses the xml attributes defined in ProfilePropertyDefinition class.
+        /// </remarks>
+        /// <history>
+        /// </history>
+        public void SerializeProfileDefinitions(XmlDocument xmlTemplate, XmlNode nodeProfileDefinitions, PortalInfo objportal)
+        {
+            XmlSerializer xser = null;
+            StringWriter sw = null;
+            XmlNode newnode = null;
+            XmlNode nodeProfileDefinition = null;
+            XmlDocument xmlPropertyDefinition = null;
+
+            ListController objListController = new ListController();
+            ListEntryInfo objList = null;
+
+            xser = new XmlSerializer(typeof(ProfilePropertyDefinition));
+            foreach (ProfilePropertyDefinition objProfileProperty in ProfileController.GetPropertyDefinitionsByPortal(objportal.PortalID))
+            {
+                sw = new StringWriter();
+                xser.Serialize(sw, objProfileProperty);
+
+                xmlPropertyDefinition = new XmlDocument();
+                xmlPropertyDefinition.LoadXml(sw.GetStringBuilder().ToString());
+                nodeProfileDefinition = xmlPropertyDefinition.SelectSingleNode("profiledefinition");
+                nodeProfileDefinition.Attributes.Remove(nodeProfileDefinition.Attributes["xmlns:xsd"]);
+                nodeProfileDefinition.Attributes.Remove(nodeProfileDefinition.Attributes["xmlns:xsi"]);
+                objList = objListController.GetListEntryInfo(objProfileProperty.DataType);
+                newnode = xmlPropertyDefinition.CreateElement("datatype");
+                if (objList == null)
+                {
+                    newnode.InnerXml = "Unknown";
+                }
+                else
+                {
+                    newnode.InnerXml = objList.Value;
+                }
+                nodeProfileDefinition.AppendChild(newnode);
+                nodeProfileDefinitions.AppendChild(xmlTemplate.ImportNode(nodeProfileDefinition, true));
+            }
+
         }
 
         /// <summary>
@@ -586,9 +647,12 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                 //Serialize portal settings
                 PortalController objportals = new PortalController();
                 PortalInfo objportal = objportals.GetPortal( Convert.ToInt32( cboPortals.SelectedValue ) );
+                SerializeSettings(xmlTemplate, nodePortal, objportal);
 
-                // Sync db and filesystem before exporting so all required files are found
-                FileSystemUtils.Synchronize( objportal.PortalID, objportal.AdministratorRoleId, objportal.HomeDirectoryMapPath );
+                // Serialize Profile Definitions
+                XmlNode nodeProfileDefinitions = null;
+                nodeProfileDefinitions = nodePortal.AppendChild(xmlTemplate.CreateElement("profiledefinitions"));
+                SerializeProfileDefinitions(xmlTemplate, nodeProfileDefinitions, objportal);
 
                 SerializeSettings( xmlTemplate, nodePortal, objportal );
 

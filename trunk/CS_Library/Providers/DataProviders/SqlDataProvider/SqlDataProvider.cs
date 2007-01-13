@@ -916,14 +916,29 @@ namespace DotNetNuke.Data
             SqlHelper.ExecuteNonQuery( ConnectionString, DatabaseOwner + ObjectQualifier + "DeleteSiteLog", DateTime, PortalId );
         }
 
-        // database
-        public override IDataReader ExecuteSQL( string SQL )
+        public override IDataReader ExecuteSQL(string SQL)
         {
-            SQL = SQL.Replace( "{databaseOwner}", DatabaseOwner );
-            SQL = SQL.Replace( "{objectQualifier}", ObjectQualifier );
+            return ExecuteSQL(SQL, null);
+        }
+
+        public override IDataReader ExecuteSQL(string SQL, params IDataParameter[] commandParameters)
+        {
+            SqlParameter[] sqlCommandParameters = null;
+            if (commandParameters != null)
+            {
+                sqlCommandParameters = new SqlParameter[commandParameters.Length];
+                for (int intIndex = 0; intIndex < commandParameters.Length; intIndex++)
+                {
+                    sqlCommandParameters[intIndex] = (SqlParameter)(commandParameters[intIndex]);
+                }
+            }
+
+            SQL = SQL.Replace("{databaseOwner}", DatabaseOwner);
+            SQL = SQL.Replace("{objectQualifier}", ObjectQualifier);
+
             try
             {
-                return SqlHelper.ExecuteReader( ConnectionString, CommandType.Text, SQL );
+                return SqlHelper.ExecuteReader(ConnectionString, CommandType.Text, SQL, sqlCommandParameters);
             }
             catch
             {
@@ -1564,5 +1579,7 @@ namespace DotNetNuke.Data
         {
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetPortalAliasByPortalAliasID", PortalAliasID );
         }
+
+        
     }
 }

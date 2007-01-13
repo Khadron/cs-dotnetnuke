@@ -307,7 +307,7 @@ namespace DotNetNuke.Services.Upgrade
 
                 if (HttpContext.Current != null)
                 {
-                    strDomain = Globals.GetDomainName(HttpContext.Current.Request).Replace("/Install", "");
+                    strDomain = Globals.GetDomainName(HttpContext.Current.Request, true).Replace("/Install", "");
                 }
 
                 string strPortalName = XmlUtils.GetNodeValue(node, "portalname", "");
@@ -868,12 +868,12 @@ namespace DotNetNuke.Services.Upgrade
                     AddSearchResults(moduleDefId);
                 }
 
-                // add the site wizard module to the admin tab (but make it hidden, only available from icon bar)
+                // add the site wizard module to the admin tab 
                 if (CoreModuleExists("Site Wizard") == false)
                 {
                     moduleDefId = AddModuleDefinition("Site Wizard", "The Administrator can use this user-friendly wizard to set up the common features of the Portal/Site.", "Site Wizard");
                     AddModuleControl(moduleDefId, "", "", "Admin/Portal/Sitewizard.ascx", "", SecurityAccessLevel.Admin, 0);
-                    AddAdminPages("Site Wizard", "icon_sitesettings_16px.gif", false, moduleDefId, "Site Wizard", "icon_sitesettings_16px.gif");
+                    AddAdminPages("Site Wizard", "icon_sitesettings_16px.gif", true, moduleDefId, "Site Wizard", "icon_sitesettings_16px.gif");
                 }
 
                 // add portal alias module
