@@ -17,6 +17,8 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
+using System;
 using System.IO;
 using System.Web;
 using System.Xml;
@@ -31,7 +33,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
     public class ResourceInstaller
     {
 
-        private void DeleteFile(string fileName)
+        private static void DeleteFile(string fileName)
         {
             // delete the file
             try
@@ -39,7 +41,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                 File.SetAttributes(fileName, FileAttributes.Normal);
                 File.Delete(fileName);
             }
-            catch
+            catch(Exception)
             {
                 // error removing the file
             }
@@ -189,7 +191,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             }
         }
 
-        private void InstallModules(string strFile, bool status, int indent)
+        private static void InstallModules(string strFile, bool status, int indent)
         {
             // install custom module
             if (strFile.ToLower().IndexOf("\\module\\") != -1)
@@ -199,9 +201,9 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                 {
                     if (status)
                     {
-                        HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Module File " + strFile + ": ");
+                        HtmlUtils.WriteFeedback(HttpContext.Current.Response, indent, "Installing Module File " + Path.GetFileNameWithoutExtension(strFile) + ": ");
                     }
-                    PaInstaller objPaInstaller = new PaInstaller(strFile, Common.Globals.ApplicationMapPath);
+                    PaInstaller objPaInstaller = new PaInstaller(strFile, Globals.ApplicationMapPath);
                     bool blnSuccess = objPaInstaller.Install();
                     HtmlUtils.WriteSuccessError(HttpContext.Current.Response, blnSuccess);
                     // delete file (also when error on installing)

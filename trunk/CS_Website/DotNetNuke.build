@@ -44,6 +44,7 @@
 		<property name="usersonline.dir" value="${modules.dir}/UsersOnline" />
 		<property name="code.dir" value="app_code" />
 		<property name="data.dir" value="app_data" />
+		<property name="installmodule.dir" value="Install/Module" />
 
 		<property name="dnn" value="${bin.dir}/DotNetNuke.dll" />
 
@@ -85,51 +86,6 @@
 		<delete dir="${copy.dir}" if="${directory::exists('${copy.dir}')}" />
 	</target>
 	
-	<target name="CopyBinDir" depends="CleanCopyBin">
-		<mkdir dir="${copy.dir}" unless="${directory::exists(copy.dir)}" />
-		<copy todir="${copy.dir}">
-			<fileset>
-				<include name="${bin.dir}/*.dll" />
-				<include name="**/${localresource.dir}/*.resx" />
-				<include name="**/${globalresource.dir}/*.resx" />
-				<include name="**/${portal.dir}/_default/*.txt" />
-				<include name="**/${countrylist.dir}/*.dat" />				
-				<include name="**/*.sqldataprovider" />
-				<include name="**/*.template" />
-				<include name="**/*.resources" />
-				<include name="**/*.sql" />
-				<include name="**/*.ascx" />
-				<include name="**/*.aspx" />
-				<include name="**/*.asax" />
-				<include name="**/*.xsd" />
-				<include name="**/*.xslt" />
-				<include name="**/*.htm" />
-				<include name="**/*.html" />
-				<include name="**/*.css" />
-				<include name="**/*.js" />
-				<include name="**/*.config" />
-				<include name="**/*.png" />
-				<include name="**/*.gif" />
-				<include name="**/*.jpg" />
-				<include name="**/*.ico" />
-				<include name="**/*.xml" />
-				<include name="**/*.txt" />
-				<include name="**/*.vb" />
-				<include name="**/*.mdf" />
-				<include name="DotNetNuke.vstemplate" />
-				<include name="DotNetNuke.webproj" />
- 
-				<exclude name="${survey.dir}/**/*" />
-				<exclude name="${usersonline.dir}/**/*" />
-				<exclude name="${bin.dir}/*.BuildSupport.dll" />
-				<exclude name="**/${globalresource.dir}/template.resx" />
-				<exclude name="${bin.dir}/*.xml" />
-				<exclude name="development.config" />
-				<exclude name="web.config" />
-			</fileset>
-		</copy>
-	</target>
-
 	<target name="CreateInstallDir" depends="CleanCopyBin">
 		<mkdir dir="${copy.dir}" unless="${directory::exists(copy.dir)}" />
 		<copy todir="${copy.dir}">
@@ -170,6 +126,14 @@
 				<exclude name="${bin.dir}/*.BuildSupport.dll" />
 				<exclude name="**/${globalresource.dir}/template.resx" />
 				<exclude name="${bin.dir}/*.xml" />
+
+				<exclude name="${bin.dir}/DotNetNuke.ASP2MenuNavigationProvider.dll" />
+				<exclude name="${bin.dir}/DotNetNuke.Caching.BroadcastPollingCachingProvider.dll" />
+				<exclude name="${bin.dir}/DotNetNuke.Caching.BroadcastPollingCachingProvider.SQLDataProvider.dll" />
+				<exclude name="${bin.dir}/DotNetNuke.DNNDropDownNavigationProvider.dll" />
+				<exclude name="${bin.dir}/DotNetNuke.DNNMenuNavigationProvider.dll" />
+				<exclude name="${bin.dir}/DotNetNuke.DNNTreeNavigationProvider.dll" />
+				<exclude name="${bin.dir}/DotNetNuke.XMLLoggingProvider.dll" />
 			</fileset>
 		</copy>
                 <copy file="release.config" tofile="${copy.dir}/web.config"></copy>
@@ -203,6 +167,7 @@
 				<include name="**/*.jpg" />
 				<include name="**/*.ico" />
 				<include name="**/*.xml" />
+				<include name="**/*.zip" />
 				<include name="**/*.txt" />
 				<include name="**/*.vb" />
 				<include name="**/*.mdf" />
@@ -216,6 +181,16 @@
 				<exclude name="${bin.dir}/*.xml" />
 				<exclude name="web.config" />
 				<exclude name="${data.dir}/Database.mdf" />
+				<exclude name="${installmodule.dir}/*.zip" />
+				<exclude name="${installmodule.dir}/*.resources" />
+
+				<exclude name="${bin.dir}/DotNetNuke.ASP2MenuNavigationProvider.dll" />
+				<exclude name="${bin.dir}/DotNetNuke.Caching.BroadcastPollingCachingProvider.dll" />
+				<exclude name="${bin.dir}/DotNetNuke.Caching.BroadcastPollingCachingProvider.SQLDataProvider.dll" />
+				<exclude name="${bin.dir}/DotNetNuke.DNNDropDownNavigationProvider.dll" />
+				<exclude name="${bin.dir}/DotNetNuke.DNNMenuNavigationProvider.dll" />
+				<exclude name="${bin.dir}/DotNetNuke.DNNTreeNavigationProvider.dll" />
+				<exclude name="${bin.dir}/DotNetNuke.XMLLoggingProvider.dll" />
 			</fileset>
 		</copy>
 	</target>

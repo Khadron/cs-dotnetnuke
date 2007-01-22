@@ -61,13 +61,7 @@ namespace DotNetNuke.Services.FileSystem
                 moduleId = int.Parse(context.Request.QueryString["mid"]);
             }
 
-            // get UserId
-            int UserId = -1;
-            UserInfo objUserInfo = UserController.GetCurrentUserInfo();
-            if (context.Request.IsAuthenticated)
-            {
-                UserId = objUserInfo.UserID;
-            }
+            
 
             // get the URL
             string URL = "";
@@ -120,17 +114,27 @@ namespace DotNetNuke.Services.FileSystem
 
                 // update clicks
                 UrlController objUrls = new UrlController();
-                objUrls.UpdateUrlTracking(portalSettings.PortalId, URL, moduleId, UserId);
+                objUrls.UpdateUrlTracking(portalSettings.PortalId, URL, moduleId, -1);
 
                 // clear the current response
                 context.Response.Clear();
 
                 if (UrlType == TabType.File)
-                {
+{
                     // serve the file
-                    if (!FileSystemUtils.DownloadFile(portalSettings, int.Parse(UrlUtils.GetParameterValue(URL)), blnClientCache, blnForceDownload))
+                    if (tabId == Null.NullInteger)
                     {
-                        context.Response.Write(Localization.Localization.GetString("FilePermission.Error"));
+                        if (! (FileSystemUtils.DownloadFile(portalSettings.PortalId, int.Parse(UrlUtils.GetParameterValue(URL)), blnClientCache, blnForceDownload)))
+                        {
+                            context.Response.Write(Services.Localization.Localization.GetString("FilePermission.Error"));
+                        }
+                    }
+                    else
+                    {
+                        if (! (FileSystemUtils.DownloadFile(portalSettings, int.Parse(UrlUtils.GetParameterValue(URL)), blnClientCache, blnForceDownload)))
+                        {
+                            context.Response.Write(Services.Localization.Localization.GetString("FilePermission.Error"));
+                        }
                     }
                 }
                 else

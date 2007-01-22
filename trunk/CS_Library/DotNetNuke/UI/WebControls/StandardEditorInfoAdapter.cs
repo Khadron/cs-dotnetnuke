@@ -17,7 +17,7 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
-using System;
+
 using System.ComponentModel;
 using System.Reflection;
 using System.Web.UI.WebControls;
@@ -54,23 +54,12 @@ namespace DotNetNuke.UI.WebControls
         }
 
         /// <Summary>GetEditorInfo builds an EditorInfo object for a propoerty</Summary>
-        private EditorInfo GetEditorInfo( object dataSource, PropertyInfo objProperty )
+        private static EditorInfo GetEditorInfo( object dataSource, PropertyInfo objProperty )
         {
             EditorInfo editInfo = new EditorInfo();
 
             //Get the Name of the property
-            editInfo.Name = objProperty.Name;
-
-            //Get the value of the property
-            object value = objProperty.GetValue(dataSource, null);
-            if (Null.IsNull(value))
-            {
-                editInfo.Value = string.Empty; //Null.NullString
-            }
-            else
-            {
-                editInfo.Value = Convert.ToString(objProperty.GetValue(dataSource, null));
-            }
+            editInfo.Value = objProperty.GetValue(dataSource, null);
 
             //Get the type of the property
             editInfo.Type = objProperty.PropertyType.AssemblyQualifiedName;
@@ -178,7 +167,7 @@ namespace DotNetNuke.UI.WebControls
         }
 
         /// <Summary>GetProperty returns the property that is being "bound" to</Summary>
-        private PropertyInfo GetProperty( object dataSource, string fieldName )
+        private static PropertyInfo GetProperty( object dataSource, string fieldName )
         {
             if (dataSource != null)
             {

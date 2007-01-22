@@ -185,3 +185,5 @@ for (var i=__dnn_m_aNamespaces.length-1; i>=0; i--)
 
 //--- End dnn.diagnostics
 //dnn_diagnosticTests(dnn);
+
+dnn.dom.setScriptLoaded('dnn.diagnostics.js');	//callback for dynamically loaded script

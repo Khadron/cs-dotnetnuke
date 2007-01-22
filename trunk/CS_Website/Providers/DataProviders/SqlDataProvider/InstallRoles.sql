@@ -16,17 +16,6 @@ PRINT 'Starting execution of InstallRoles.SQL'
 PRINT '--------------------------------------'
 GO
 
--- In the area between the ASP.NET SPECIAL REGION "BEGIN" and "END" marker
--- comments, ASP.NET SQL Registration Tool will optionally:
--- 1. Replace the name of the database in all "USE" statements.
--- 2. Replace the value of the local variable @dbname
--- The replacement happens only in memory when the tool is running.
-
--- Inside such regions, user can only modify the name of the database.
-
-
--- Explicitly set the options that the server stores with the object in sysobjects.status
--- so that it doesn't matter IF the script is run using a DBLib or ODBC based client.
 SET QUOTED_IDENTIFIER OFF -- We don't use quoted identifiers
 SET ANSI_NULLS ON         -- We don't want (NULL = NULL) == TRUE
 GO
@@ -89,11 +78,11 @@ IF (NOT EXISTS (SELECT name
 BEGIN
   PRINT 'Creating the aspnet_Roles table...'
   CREATE TABLE dbo.aspnet_Roles (
-        ApplicationId    UNIQUEIDENTIFIER    NOT NULL FOREIGN KEY REFERENCES dbo.aspnet_Applications(ApplicationId),
-        RoleId           UNIQUEIDENTIFIER    PRIMARY KEY  NONCLUSTERED DEFAULT NEWID(),
-        RoleName         NVARCHAR(256)       NOT NULL,
-        LoweredRoleName  NVARCHAR(256)       NOT NULL,
-        Description      NVARCHAR(256)       )
+        ApplicationId    uniqueidentifier    NOT NULL FOREIGN KEY REFERENCES dbo.aspnet_Applications(ApplicationId),
+        RoleId           uniqueidentifier    PRIMARY KEY  NONCLUSTERED DEFAULT NEWID(),
+        RoleName         nvarchar(256)       NOT NULL,
+        LoweredRoleName  nvarchar(256)       NOT NULL,
+        Description      nvarchar(256)       )
  CREATE UNIQUE  CLUSTERED  INDEX aspnet_Roles_index1 ON  dbo.aspnet_Roles(ApplicationId, LoweredRoleName)
 END
 GO
@@ -108,8 +97,8 @@ IF (NOT EXISTS (SELECT name
 BEGIN
   PRINT 'Creating the aspnet_UsersInRoles table...'
   CREATE TABLE dbo.aspnet_UsersInRoles (
-        UserId     UNIQUEIDENTIFIER NOT NULL PRIMARY KEY(UserId, RoleId) FOREIGN KEY REFERENCES dbo.aspnet_Users (UserId),
-        RoleId     UNIQUEIDENTIFIER NOT NULL FOREIGN KEY REFERENCES dbo.aspnet_Roles (RoleId))
+        UserId     uniqueidentifier NOT NULL PRIMARY KEY(UserId, RoleId) FOREIGN KEY REFERENCES dbo.aspnet_Users (UserId),
+        RoleId     uniqueidentifier NOT NULL FOREIGN KEY REFERENCES dbo.aspnet_Roles (RoleId))
 
   CREATE INDEX aspnet_UsersInRoles_index ON  dbo.aspnet_UsersInRoles(RoleId)
 END
@@ -128,19 +117,19 @@ DROP PROCEDURE dbo.aspnet_UsersInRoles_IsUserInRole
 GO
 
 CREATE PROCEDURE dbo.aspnet_UsersInRoles_IsUserInRole
-    @ApplicationName  NVARCHAR(256),
-    @UserName         NVARCHAR(256),
-    @RoleName         NVARCHAR(256)
+    @ApplicationName  nvarchar(256),
+    @UserName         nvarchar(256),
+    @RoleName         nvarchar(256)
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
     SELECT  @ApplicationId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
     IF (@ApplicationId IS NULL)
         RETURN(2)
-    DECLARE @UserId UNIQUEIDENTIFIER
+    DECLARE @UserId uniqueidentifier
     SELECT  @UserId = NULL
-    DECLARE @RoleId UNIQUEIDENTIFIER
+    DECLARE @RoleId uniqueidentifier
     SELECT  @RoleId = NULL
 
     SELECT  @UserId = UserId
@@ -175,16 +164,16 @@ DROP PROCEDURE dbo.aspnet_UsersInRoles_GetRolesForUser
 GO
 
 CREATE PROCEDURE dbo.aspnet_UsersInRoles_GetRolesForUser
-    @ApplicationName  NVARCHAR(256),
-    @UserName         NVARCHAR(256)
+    @ApplicationName  nvarchar(256),
+    @UserName         nvarchar(256)
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
     SELECT  @ApplicationId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
     IF (@ApplicationId IS NULL)
         RETURN(1)
-    DECLARE @UserId UNIQUEIDENTIFIER
+    DECLARE @UserId uniqueidentifier
     SELECT  @UserId = NULL
 
     SELECT  @UserId = UserId
@@ -211,17 +200,17 @@ IF (EXISTS (SELECT name
 DROP PROCEDURE dbo.aspnet_Roles_CreateRole
 GO
 CREATE PROCEDURE dbo.aspnet_Roles_CreateRole
-    @ApplicationName  NVARCHAR(256),
-    @RoleName         NVARCHAR(256)
+    @ApplicationName  nvarchar(256),
+    @RoleName         nvarchar(256)
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
 
-    DECLARE @ErrorCode     INT
+    DECLARE @ErrorCode     int
     SET @ErrorCode = 0
 
-    DECLARE @TranStarted   BIT
+    DECLARE @TranStarted   bit
     SET @TranStarted = 0
 
     IF( @@TRANCOUNT = 0 )
@@ -288,21 +277,21 @@ DROP PROCEDURE dbo.aspnet_Roles_DeleteRole
 GO
 
 CREATE PROCEDURE dbo.aspnet_Roles_DeleteRole
-    @ApplicationName            NVARCHAR(256),
-    @RoleName                   NVARCHAR(256),
-    @DeleteOnlyIfRoleIsEmpty    BIT
+    @ApplicationName            nvarchar(256),
+    @RoleName                   nvarchar(256),
+    @DeleteOnlyIfRoleIsEmpty    bit
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
     SELECT  @ApplicationId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
     IF (@ApplicationId IS NULL)
         RETURN(1)
 
-    DECLARE @ErrorCode     INT
+    DECLARE @ErrorCode     int
     SET @ErrorCode = 0
 
-    DECLARE @TranStarted   BIT
+    DECLARE @TranStarted   bit
     SET @TranStarted = 0
 
     IF( @@TRANCOUNT = 0 )
@@ -313,7 +302,7 @@ BEGIN
     ELSE
         SET @TranStarted = 0
 
-    DECLARE @RoleId   UNIQUEIDENTIFIER
+    DECLARE @RoleId   uniqueidentifier
     SELECT  @RoleId = NULL
     SELECT  @RoleId = RoleId FROM dbo.aspnet_Roles WHERE LoweredRoleName = LOWER(@RoleName) AND ApplicationId = @ApplicationId
 
@@ -379,11 +368,11 @@ DROP PROCEDURE dbo.aspnet_Roles_RoleExists
 GO
 
 CREATE PROCEDURE dbo.aspnet_Roles_RoleExists
-    @ApplicationName  NVARCHAR(256),
-    @RoleName         NVARCHAR(256)
+    @ApplicationName  nvarchar(256),
+    @RoleName         nvarchar(256)
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
     SELECT  @ApplicationId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
     IF (@ApplicationId IS NULL)
@@ -404,116 +393,6 @@ IF (EXISTS (SELECT name
                AND (type = 'P')))
 DROP PROCEDURE dbo.aspnet_UsersInRoles_AddUsersToRoles
 GO
-
-CREATE PROCEDURE dbo.aspnet_UsersInRoles_AddUsersToRoles
-    @ApplicationName        NVARCHAR(256),
-    @UserNames              NVARCHAR(4000),
-    @RoleNames              NVARCHAR(4000),
-    @TimeZoneAdjustment     INT
-AS
-BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
-    SELECT  @ApplicationId = NULL
-    SELECT  @ApplicationId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
-    IF (@ApplicationId IS NULL)
-        RETURN(2)
-
-
-    DECLARE @TranStarted   BIT
-    DECLARE @ErrorCode INT
-    SET @ErrorCode   = 0
-    SET @TranStarted = 0
-
-    IF( @@TRANCOUNT = 0 )
-    BEGIN
-        BEGIN TRANSACTION
-        SET @TranStarted = 1
-    END
-    ELSE
-        SET @TranStarted = 0
-
-    DECLARE @RoleId UNIQUEIDENTIFIER
-    DECLARE @UserId UNIQUEIDENTIFIER
-    DECLARE @UserName     NVARCHAR(256)
-    DECLARE @RoleName     NVARCHAR(256)
-
-    DECLARE @CurrentPosU  INT
-    DECLARE @NextPosU     INT
-    DECLARE @CurrentPosR  INT
-    DECLARE @NextPosR     INT
-
-    SELECT  @CurrentPosU = 1
-
-    WHILE(@CurrentPosU <= LEN(@UserNames))
-    BEGIN
-        SELECT @NextPosU = CHARINDEX(N',', @UserNames,  @CurrentPosU)
-        IF (@NextPosU = 0 OR @NextPosU IS NULL)
-            SELECT @NextPosU = LEN(@UserNames) + 1
-
-        SELECT @UserName = SUBSTRING(@UserNames, @CurrentPosU, @NextPosU - @CurrentPosU)
-        SELECT @CurrentPosU = @NextPosU+1
-
-        SELECT @CurrentPosR = 1
-        WHILE(@CurrentPosR <= LEN(@RoleNames))
-        BEGIN
-            SELECT @NextPosR = CHARINDEX(N',', @RoleNames,  @CurrentPosR)
-            IF (@NextPosR = 0 OR @NextPosR IS NULL)
-                SELECT @NextPosR = LEN(@RoleNames) + 1
-            SELECT @RoleName = SUBSTRING(@RoleNames, @CurrentPosR, @NextPosR - @CurrentPosR)
-            SELECT @CurrentPosR = @NextPosR+1
-
-
-            SELECT @RoleId = NULL
-            SELECT @RoleId = RoleId FROM dbo.aspnet_Roles WHERE LoweredRoleName = LOWER(@RoleName) AND ApplicationId = @ApplicationId
-            IF (@RoleId IS NULL)
-            BEGIN
-                SELECT @RoleName
-                SET @ErrorCode = 2
-                GOTO Cleanup
-            END
-
-            SELECT @UserId = NULL
-            SELECT @UserId = UserId FROM dbo.aspnet_Users WHERE LoweredUserName = LOWER(@UserName) AND ApplicationId = @ApplicationId
-            IF (@UserId IS NULL)
-            BEGIN
-                DECLARE @DateTimeNowUTC DATETIME
-                EXEC dbo.aspnet_GetUtcDate @TimeZoneAdjustment, @DateTimeNowUTC OUTPUT
-                EXEC dbo.aspnet_Users_CreateUser @ApplicationId, @UserName, 0, @DateTimeNowUTC, @UserId OUTPUT
-            END
-
-            IF (EXISTS(SELECT * FROM dbo.aspnet_UsersInRoles WHERE @UserId = UserId AND @RoleId = RoleId))
-            BEGIN
-                SELECT @UserName, @RoleName
-                SET @ErrorCode = 3
-                GOTO Cleanup
-            END
-            INSERT INTO dbo.aspnet_UsersInRoles (UserId, RoleId) VALUES(@UserId, @RoleId)
-        END
-    END
-
-    IF( @TranStarted = 1 )
-    BEGIN
-        SET @TranStarted = 0
-        COMMIT TRANSACTION
-    END
-
-    RETURN(0)
-
-Cleanup:
-
-    IF( @TranStarted = 1 )
-    BEGIN
-        SET @TranStarted = 0
-        ROLLBACK TRANSACTION
-    END
-
-    RETURN @ErrorCode
-END
-GO
-
-/*************************************************************/
-/*************************************************************/
-
 IF (EXISTS (SELECT name
               FROM sysobjects
              WHERE (name = N'aspnet_UsersInRoles_RemoveUsersFromRoles')
@@ -521,110 +400,442 @@ IF (EXISTS (SELECT name
 DROP PROCEDURE dbo.aspnet_UsersInRoles_RemoveUsersFromRoles
 GO
 
-CREATE PROCEDURE dbo.aspnet_UsersInRoles_RemoveUsersFromRoles
-    @ApplicationName  NVARCHAR(256),
-    @UserNames        NVARCHAR(4000),
-    @RoleNames        NVARCHAR(4000)
+DECLARE @ver            int
+DECLARE @version        nchar(100)
+DECLARE @dot            int
+DECLARE @hyphen         int
+DECLARE @SqlToExec      nchar(4000)
+
+SELECT @ver = 7
+SELECT @version = @@Version
+SELECT @hyphen  = CHARINDEX(N' - ', @version)
+IF (NOT(@hyphen IS NULL) AND @hyphen > 0)
+BEGIN
+    SELECT @hyphen = @hyphen + 3
+    SELECT @dot    = CHARINDEX(N'.', @version, @hyphen)
+    IF (NOT(@dot IS NULL) AND @dot > @hyphen)
+    BEGIN
+        SELECT @version = SUBSTRING(@version, @hyphen, @dot - @hyphen)
+        SELECT @ver     = CONVERT(int, @version)
+    END
+END
+
+IF (@ver > 7)
+SELECT @SqlToExec = N'
+CREATE PROCEDURE dbo.aspnet_UsersInRoles_AddUsersToRoles
+	@ApplicationName  nvarchar(256),
+	@UserNames		  nvarchar(4000),
+	@RoleNames		  nvarchar(4000),
+	@CurrentTimeUtc   datetime
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
-    SELECT  @ApplicationId = NULL
-    SELECT  @ApplicationId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
-    IF (@ApplicationId IS NULL)
-        RETURN(2)
+	DECLARE @AppId uniqueidentifier
+	SELECT  @AppId = NULL
+	SELECT  @AppId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
+	IF (@AppId IS NULL)
+		RETURN(2)
+	DECLARE @TranStarted   bit
+	SET @TranStarted = 0
+
+	IF( @@TRANCOUNT = 0 )
+	BEGIN
+		BEGIN TRANSACTION
+		SET @TranStarted = 1
+	END
+
+	DECLARE @tbNames	table(Name nvarchar(256) NOT NULL PRIMARY KEY)
+	DECLARE @tbRoles	table(RoleId uniqueidentifier NOT NULL PRIMARY KEY)
+	DECLARE @tbUsers	table(UserId uniqueidentifier NOT NULL PRIMARY KEY)
+	DECLARE @Num		int
+	DECLARE @Pos		int
+	DECLARE @NextPos	int
+	DECLARE @Name		nvarchar(256)
+
+	SET @Num = 0
+	SET @Pos = 1
+	WHILE(@Pos <= LEN(@RoleNames))
+	BEGIN
+		SELECT @NextPos = CHARINDEX(N'','', @RoleNames,  @Pos)
+		IF (@NextPos = 0 OR @NextPos IS NULL)
+			SELECT @NextPos = LEN(@RoleNames) + 1
+		SELECT @Name = RTRIM(LTRIM(SUBSTRING(@RoleNames, @Pos, @NextPos - @Pos)))
+		SELECT @Pos = @NextPos+1
+
+		INSERT INTO @tbNames VALUES (@Name)
+		SET @Num = @Num + 1
+	END
+
+	INSERT INTO @tbRoles
+	  SELECT RoleId
+	  FROM   dbo.aspnet_Roles ar, @tbNames t
+	  WHERE  LOWER(t.Name) = ar.LoweredRoleName AND ar.ApplicationId = @AppId
+
+	IF (@@ROWCOUNT <> @Num)
+	BEGIN
+		SELECT TOP 1 Name
+		FROM   @tbNames
+		WHERE  LOWER(Name) NOT IN (SELECT ar.LoweredRoleName FROM dbo.aspnet_Roles ar,  @tbRoles r WHERE r.RoleId = ar.RoleId)
+		IF( @TranStarted = 1 )
+			ROLLBACK TRANSACTION
+		RETURN(2)
+	END
+
+	DELETE FROM @tbNames WHERE 1=1
+	SET @Num = 0
+	SET @Pos = 1
+
+	WHILE(@Pos <= LEN(@UserNames))
+	BEGIN
+		SELECT @NextPos = CHARINDEX(N'','', @UserNames,  @Pos)
+		IF (@NextPos = 0 OR @NextPos IS NULL)
+			SELECT @NextPos = LEN(@UserNames) + 1
+		SELECT @Name = RTRIM(LTRIM(SUBSTRING(@UserNames, @Pos, @NextPos - @Pos)))
+		SELECT @Pos = @NextPos+1
+
+		INSERT INTO @tbNames VALUES (@Name)
+		SET @Num = @Num + 1
+	END
+
+	INSERT INTO @tbUsers
+	  SELECT UserId
+	  FROM   dbo.aspnet_Users ar, @tbNames t
+	  WHERE  LOWER(t.Name) = ar.LoweredUserName AND ar.ApplicationId = @AppId
+
+	IF (@@ROWCOUNT <> @Num)
+	BEGIN
+		DELETE FROM @tbNames
+		WHERE LOWER(Name) IN (SELECT LoweredUserName FROM dbo.aspnet_Users au,  @tbUsers u WHERE au.UserId = u.UserId)
+
+		INSERT dbo.aspnet_Users (ApplicationId, UserId, UserName, LoweredUserName, IsAnonymous, LastActivityDate)
+		  SELECT @AppId, NEWID(), Name, LOWER(Name), 0, @CurrentTimeUtc
+		  FROM   @tbNames
+
+		INSERT INTO @tbUsers
+		  SELECT  UserId
+		  FROM	dbo.aspnet_Users au, @tbNames t
+		  WHERE   LOWER(t.Name) = au.LoweredUserName AND au.ApplicationId = @AppId
+	END
+
+	IF (EXISTS (SELECT * FROM dbo.aspnet_UsersInRoles ur, @tbUsers tu, @tbRoles tr WHERE tu.UserId = ur.UserId AND tr.RoleId = ur.RoleId))
+	BEGIN
+		SELECT TOP 1 UserName, RoleName
+		FROM		 dbo.aspnet_UsersInRoles ur, @tbUsers tu, @tbRoles tr, aspnet_Users u, aspnet_Roles r
+		WHERE		u.UserId = tu.UserId AND r.RoleId = tr.RoleId AND tu.UserId = ur.UserId AND tr.RoleId = ur.RoleId
+
+		IF( @TranStarted = 1 )
+			ROLLBACK TRANSACTION
+		RETURN(3)
+	END
+
+	INSERT INTO dbo.aspnet_UsersInRoles (UserId, RoleId)
+	SELECT UserId, RoleId
+	FROM @tbUsers, @tbRoles
+
+	IF( @TranStarted = 1 )
+		COMMIT TRANSACTION
+	RETURN(0)
+END'
+ELSE
+SELECT @SqlToExec = N'
+CREATE PROCEDURE dbo.aspnet_UsersInRoles_AddUsersToRoles
+	@ApplicationName	nvarchar(256),
+	@UserNames			nvarchar(4000),
+	@RoleNames			nvarchar(4000),
+	@CurrentTimeUtc		datetime
+AS
+BEGIN
+	DECLARE @AppId uniqueidentifier
+	SELECT  @AppId = NULL
+	SELECT  @AppId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
+	IF (@AppId IS NULL)
+		RETURN(2)
+
+	DECLARE @TranStarted   bit
+	SET @TranStarted = 0
+	IF( @@TRANCOUNT = 0 )
+	BEGIN
+		BEGIN TRANSACTION
+		SET @TranStarted = 1
+	END
+
+	DECLARE @RoleId		uniqueidentifier
+	DECLARE @UserId		uniqueidentifier
+	DECLARE @UserName	nvarchar(256)
+	DECLARE @RoleName	nvarchar(256)
+
+	DECLARE @CurrentPosU	int
+	DECLARE @NextPosU		int
+	DECLARE @CurrentPosR	int
+	DECLARE @NextPosR		int
+
+	SELECT  @CurrentPosU = 1
+
+	WHILE(@CurrentPosU <= LEN(@UserNames))
+	BEGIN
+		SELECT @NextPosU = CHARINDEX(N'','', @UserNames,  @CurrentPosU)
+		IF (@NextPosU = 0 OR @NextPosU IS NULL)
+			SELECT @NextPosU = LEN(@UserNames) + 1
+
+		SELECT @UserName = SUBSTRING(@UserNames, @CurrentPosU, @NextPosU - @CurrentPosU)
+		SELECT @CurrentPosU = @NextPosU+1
+
+		SELECT @CurrentPosR = 1
+		WHILE(@CurrentPosR <= LEN(@RoleNames))
+		BEGIN
+			SELECT @NextPosR = CHARINDEX(N'','', @RoleNames,  @CurrentPosR)
+			IF (@NextPosR = 0 OR @NextPosR IS NULL)
+				SELECT @NextPosR = LEN(@RoleNames) + 1
+			SELECT @RoleName = SUBSTRING(@RoleNames, @CurrentPosR, @NextPosR - @CurrentPosR)
+			SELECT @CurrentPosR = @NextPosR+1
+			SELECT @RoleId = NULL
+			SELECT @RoleId = RoleId FROM dbo.aspnet_Roles WHERE LoweredRoleName = LOWER(@RoleName) AND ApplicationId = @AppId
+			IF (@RoleId IS NULL)
+			BEGIN
+				SELECT @RoleName
+				IF( @TranStarted = 1 )
+					ROLLBACK TRANSACTION
+				RETURN(2)
+			END
+
+			SELECT @UserId = NULL
+			SELECT @UserId = UserId FROM dbo.aspnet_Users WHERE LoweredUserName = LOWER(@UserName) AND ApplicationId = @AppId
+			IF (@UserId IS NULL)
+			BEGIN
+				EXEC dbo.aspnet_Users_CreateUser @AppId, @UserName, 0, @CurrentTimeUtc, @UserId OUTPUT
+			END
+
+			IF (EXISTS(SELECT * FROM dbo.aspnet_UsersInRoles WHERE @UserId = UserId AND @RoleId = RoleId))
+			BEGIN
+				SELECT @UserName, @RoleName
+				IF( @TranStarted = 1 )
+					ROLLBACK TRANSACTION
+				RETURN(3)
+			END
+			INSERT INTO dbo.aspnet_UsersInRoles (UserId, RoleId) VALUES(@UserId, @RoleId)
+		END
+	END
+	IF( @TranStarted = 1 )
+		COMMIT TRANSACTION
+	RETURN(0)
+END'
+
+EXEC sp_executesql @SqlToExec
+
+IF (@ver > 7)
+SELECT @SqlToExec = N'
+CREATE PROCEDURE dbo.aspnet_UsersInRoles_RemoveUsersFromRoles
+	@ApplicationName  nvarchar(256),
+	@UserNames		  nvarchar(4000),
+	@RoleNames		  nvarchar(4000)
+AS
+BEGIN
+	DECLARE @AppId uniqueidentifier
+	SELECT  @AppId = NULL
+	SELECT  @AppId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
+	IF (@AppId IS NULL)
+		RETURN(2)
 
 
-    DECLARE @TranStarted   BIT
-    DECLARE @ErrorCode INT
-    SET @ErrorCode   = 0
-    SET @TranStarted = 0
+	DECLARE @TranStarted   bit
+	SET @TranStarted = 0
 
-    IF( @@TRANCOUNT = 0 )
-    BEGIN
-        BEGIN TRANSACTION
-        SET @TranStarted = 1
-    END
-    ELSE
-        SET @TranStarted = 0
+	IF( @@TRANCOUNT = 0 )
+	BEGIN
+		BEGIN TRANSACTION
+		SET @TranStarted = 1
+	END
+
+	DECLARE @tbNames  table(Name nvarchar(256) NOT NULL PRIMARY KEY)
+	DECLARE @tbRoles  table(RoleId uniqueidentifier NOT NULL PRIMARY KEY)
+	DECLARE @tbUsers  table(UserId uniqueidentifier NOT NULL PRIMARY KEY)
+	DECLARE @Num	  int
+	DECLARE @Pos	  int
+	DECLARE @NextPos  int
+	DECLARE @Name	  nvarchar(256)
+	DECLARE @CountAll int
+	DECLARE @CountU	  int
+	DECLARE @CountR	  int
 
 
-    DECLARE @RoleId UNIQUEIDENTIFIER
-    DECLARE @UserId UNIQUEIDENTIFIER
-    DECLARE @UserName     NVARCHAR(256)
-    DECLARE @RoleName     NVARCHAR(256)
+	SET @Num = 0
+	SET @Pos = 1
+	WHILE(@Pos <= LEN(@RoleNames))
+	BEGIN
+		SELECT @NextPos = CHARINDEX(N'','', @RoleNames,  @Pos)
+		IF (@NextPos = 0 OR @NextPos IS NULL)
+			SELECT @NextPos = LEN(@RoleNames) + 1
+		SELECT @Name = RTRIM(LTRIM(SUBSTRING(@RoleNames, @Pos, @NextPos - @Pos)))
+		SELECT @Pos = @NextPos+1
 
-    DECLARE @CurrentPosU  INT
-    DECLARE @NextPosU     INT
-    DECLARE @CurrentPosR  INT
-    DECLARE @NextPosR     INT
+		INSERT INTO @tbNames VALUES (@Name)
+		SET @Num = @Num + 1
+	END
 
-    SELECT  @CurrentPosU = 1
+	INSERT INTO @tbRoles
+	  SELECT RoleId
+	  FROM   dbo.aspnet_Roles ar, @tbNames t
+	  WHERE  LOWER(t.Name) = ar.LoweredRoleName AND ar.ApplicationId = @AppId
+	SELECT @CountR = @@ROWCOUNT
 
-    WHILE(@CurrentPosU <= LEN(@UserNames))
-    BEGIN
-        SELECT @NextPosU = CHARINDEX(N',', @UserNames,  @CurrentPosU)
-        IF (@NextPosU = 0  OR @NextPosU IS NULL)
-            SELECT @NextPosU = LEN(@UserNames)+1
-        SELECT @UserName = SUBSTRING(@UserNames, @CurrentPosU, @NextPosU - @CurrentPosU)
-        SELECT @CurrentPosU = @NextPosU+1
+	IF (@CountR <> @Num)
+	BEGIN
+		SELECT TOP 1 N'''', Name
+		FROM   @tbNames
+		WHERE  LOWER(Name) NOT IN (SELECT ar.LoweredRoleName FROM dbo.aspnet_Roles ar,  @tbRoles r WHERE r.RoleId = ar.RoleId)
+		IF( @TranStarted = 1 )
+			ROLLBACK TRANSACTION
+		RETURN(2)
+	END
 
-        SELECT @CurrentPosR = 1
-        WHILE(@CurrentPosR <= LEN(@RoleNames))
-        BEGIN
-            SELECT @NextPosR = CHARINDEX(N',', @RoleNames,  @CurrentPosR)
-            IF (@NextPosR = 0 OR @NextPosR IS NULL)
-                SELECT @NextPosR = LEN(@RoleNames)+1
-            SELECT @RoleName = SUBSTRING(@RoleNames, @CurrentPosR, @NextPosR - @CurrentPosR)
-            SELECT @CurrentPosR = @NextPosR+1
 
-            SELECT @RoleId = NULL
-            SELECT @RoleId = RoleId FROM dbo.aspnet_Roles WHERE LoweredRoleName = LOWER(@RoleName) AND ApplicationId = @ApplicationId
-            IF (@RoleId IS NULL)
-            BEGIN
-                SELECT N'', @RoleName
-                SET @ErrorCode = 2
-                GOTO Cleanup
-            END
+	DELETE FROM @tbNames WHERE 1=1
+	SET @Num = 0
+	SET @Pos = 1
 
-            SELECT @UserId = NULL
-            SELECT @UserId = UserId FROM dbo.aspnet_Users WHERE LoweredUserName = LOWER(@UserName) AND ApplicationId = @ApplicationId
-            IF (@UserId IS NULL)
-            BEGIN
-                SELECT @UserName, N''
-                SET @ErrorCode = 1
-                GOTO Cleanup
-            END
 
-            IF (NOT(EXISTS(SELECT * FROM dbo.aspnet_UsersInRoles WHERE @UserId = UserId AND @RoleId = RoleId)))
-            BEGIN
-                SELECT @UserName, @RoleName
-                SET @ErrorCode = 3
-                GOTO Cleanup
-            END
-            DELETE FROM dbo.aspnet_UsersInRoles WHERE (UserId = @UserId AND RoleId = @RoleId)
-        END
-    END
+	WHILE(@Pos <= LEN(@UserNames))
+	BEGIN
+		SELECT @NextPos = CHARINDEX(N'','', @UserNames,  @Pos)
+		IF (@NextPos = 0 OR @NextPos IS NULL)
+			SELECT @NextPos = LEN(@UserNames) + 1
+		SELECT @Name = RTRIM(LTRIM(SUBSTRING(@UserNames, @Pos, @NextPos - @Pos)))
+		SELECT @Pos = @NextPos+1
 
-    IF( @TranStarted = 1 )
-    BEGIN
-        SET @TranStarted = 0
-        COMMIT TRANSACTION
-    END
+		INSERT INTO @tbNames VALUES (@Name)
+		SET @Num = @Num + 1
+	END
 
-    RETURN(0)
+	INSERT INTO @tbUsers
+	  SELECT UserId
+	  FROM   dbo.aspnet_Users ar, @tbNames t
+	  WHERE  LOWER(t.Name) = ar.LoweredUserName AND ar.ApplicationId = @AppId
 
-Cleanup:
+	SELECT @CountU = @@ROWCOUNT
+	IF (@CountU <> @Num)
+	BEGIN
+		SELECT TOP 1 Name, N''''
+		FROM   @tbNames
+		WHERE  LOWER(Name) NOT IN (SELECT au.LoweredUserName FROM dbo.aspnet_Users au,  @tbUsers u WHERE u.UserId = au.UserId)
 
-    IF( @TranStarted = 1 )
-    BEGIN
-        SET @TranStarted = 0
-        ROLLBACK TRANSACTION
-    END
+		IF( @TranStarted = 1 )
+			ROLLBACK TRANSACTION
+		RETURN(1)
+	END
 
-    RETURN @ErrorCode
+	SELECT  @CountAll = COUNT(*)
+	FROM	dbo.aspnet_UsersInRoles ur, @tbUsers u, @tbRoles r
+	WHERE   ur.UserId = u.UserId AND ur.RoleId = r.RoleId
+
+	IF (@CountAll <> @CountU * @CountR)
+	BEGIN
+		SELECT TOP 1 UserName, RoleName
+		FROM		 @tbUsers tu, @tbRoles tr, dbo.aspnet_Users u, dbo.aspnet_Roles r
+		WHERE		 u.UserId = tu.UserId AND r.RoleId = tr.RoleId AND
+					 tu.UserId NOT IN (SELECT ur.UserId FROM dbo.aspnet_UsersInRoles ur WHERE ur.RoleId = tr.RoleId) AND
+					 tr.RoleId NOT IN (SELECT ur.RoleId FROM dbo.aspnet_UsersInRoles ur WHERE ur.UserId = tu.UserId)
+		IF( @TranStarted = 1 )
+			ROLLBACK TRANSACTION
+		RETURN(3)
+	END
+
+	DELETE FROM dbo.aspnet_UsersInRoles
+	WHERE UserId IN (SELECT UserId FROM @tbUsers)
+	  AND RoleId IN (SELECT RoleId FROM @tbRoles)
+	IF( @TranStarted = 1 )
+		COMMIT TRANSACTION
+	RETURN(0)
 END
-GO
+'
+ELSE
+SELECT @SqlToExec = N'
+CREATE PROCEDURE dbo.aspnet_UsersInRoles_RemoveUsersFromRoles
+	@ApplicationName  nvarchar(256),
+	@UserNames		  nvarchar(4000),
+	@RoleNames		  nvarchar(4000)
+AS
+BEGIN
+	DECLARE @AppId uniqueidentifier
+	SELECT  @AppId = NULL
+	SELECT  @AppId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
+	IF (@AppId IS NULL)
+		RETURN(2)
 
+
+	DECLARE @TranStarted   bit
+	SET @TranStarted = 0
+
+	IF( @@TRANCOUNT = 0 )
+	BEGIN
+		BEGIN TRANSACTION
+		SET @TranStarted = 1
+	END
+
+	DECLARE @RoleId		uniqueidentifier
+	DECLARE @UserId		uniqueidentifier
+	DECLARE @UserName	nvarchar(256)
+	DECLARE @RoleName	nvarchar(256)
+
+	DECLARE @CurrentPosU	int
+	DECLARE @NextPosU		int
+	DECLARE @CurrentPosR	int
+	DECLARE @NextPosR		int
+
+	SELECT  @CurrentPosU = 1
+
+	WHILE(@CurrentPosU <= LEN(@UserNames))
+	BEGIN
+		SELECT @NextPosU = CHARINDEX(N'','', @UserNames,  @CurrentPosU)
+		IF (@NextPosU = 0  OR @NextPosU IS NULL)
+			SELECT @NextPosU = LEN(@UserNames)+1
+		SELECT @UserName = SUBSTRING(@UserNames, @CurrentPosU, @NextPosU - @CurrentPosU)
+		SELECT @CurrentPosU = @NextPosU+1
+
+		SELECT @CurrentPosR = 1
+		WHILE(@CurrentPosR <= LEN(@RoleNames))
+		BEGIN
+			SELECT @NextPosR = CHARINDEX(N'','', @RoleNames,  @CurrentPosR)
+			IF (@NextPosR = 0 OR @NextPosR IS NULL)
+				SELECT @NextPosR = LEN(@RoleNames)+1
+			SELECT @RoleName = SUBSTRING(@RoleNames, @CurrentPosR, @NextPosR - @CurrentPosR)
+			SELECT @CurrentPosR = @NextPosR+1
+
+			SELECT @RoleId = NULL
+			SELECT @RoleId = RoleId FROM dbo.aspnet_Roles WHERE LoweredRoleName = LOWER(@RoleName) AND ApplicationId = @AppId
+			IF (@RoleId IS NULL)
+			BEGIN
+				SELECT N'''', @RoleName
+				IF( @TranStarted = 1 )
+					ROLLBACK TRANSACTION
+				RETURN(2)
+			END
+
+			SELECT @UserId = NULL
+			SELECT @UserId = UserId FROM dbo.aspnet_Users WHERE LoweredUserName = LOWER(@UserName) AND ApplicationId = @AppId
+			IF (@UserId IS NULL)
+			BEGIN
+				SELECT @UserName, N''''
+				IF( @TranStarted = 1 )
+					ROLLBACK TRANSACTION
+				RETURN(1)
+			END
+
+			IF (NOT(EXISTS(SELECT * FROM dbo.aspnet_UsersInRoles WHERE @UserId = UserId AND @RoleId = RoleId)))
+			BEGIN
+				SELECT @UserName, @RoleName
+				IF( @TranStarted = 1 )
+					ROLLBACK TRANSACTION
+				RETURN(3)
+			END
+			DELETE FROM dbo.aspnet_UsersInRoles WHERE (UserId = @UserId AND RoleId = @RoleId)
+		END
+	END
+	IF( @TranStarted = 1 )
+		COMMIT TRANSACTION
+	RETURN(0)
+END
+'
+EXEC sp_executesql @SqlToExec
+GO
 /*************************************************************/
 /*************************************************************/
 
@@ -636,16 +847,16 @@ DROP PROCEDURE dbo.aspnet_UsersInRoles_GetUsersInRoles
 GO
 
 CREATE PROCEDURE dbo.aspnet_UsersInRoles_GetUsersInRoles
-    @ApplicationName  NVARCHAR(256),
-    @RoleName         NVARCHAR(256)
+    @ApplicationName  nvarchar(256),
+    @RoleName         nvarchar(256)
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
     SELECT  @ApplicationId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
     IF (@ApplicationId IS NULL)
         RETURN(1)
-     DECLARE @RoleId UNIQUEIDENTIFIER
+     DECLARE @RoleId uniqueidentifier
      SELECT  @RoleId = NULL
 
      SELECT  @RoleId = RoleId
@@ -674,17 +885,17 @@ DROP PROCEDURE dbo.aspnet_UsersInRoles_FindUsersInRole
 GO
 
 CREATE PROCEDURE dbo.aspnet_UsersInRoles_FindUsersInRole
-    @ApplicationName  NVARCHAR(256),
-    @RoleName         NVARCHAR(256),
-    @UserNameToMatch  NVARCHAR(256)
+    @ApplicationName  nvarchar(256),
+    @RoleName         nvarchar(256),
+    @UserNameToMatch  nvarchar(256)
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
     SELECT  @ApplicationId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
     IF (@ApplicationId IS NULL)
         RETURN(1)
-     DECLARE @RoleId UNIQUEIDENTIFIER
+     DECLARE @RoleId uniqueidentifier
      SELECT  @RoleId = NULL
 
      SELECT  @RoleId = RoleId
@@ -713,10 +924,10 @@ DROP PROCEDURE dbo.aspnet_Roles_GetAllRoles
 GO
 
 CREATE PROCEDURE dbo.aspnet_Roles_GetAllRoles (
-    @ApplicationName           NVARCHAR(256))
+    @ApplicationName           nvarchar(256))
 AS
 BEGIN
-    DECLARE @ApplicationId UNIQUEIDENTIFIER
+    DECLARE @ApplicationId uniqueidentifier
     SELECT  @ApplicationId = NULL
     SELECT  @ApplicationId = ApplicationId FROM aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
     IF (@ApplicationId IS NULL)
@@ -768,9 +979,9 @@ GO
 --Create Role Manager schema version
 --
 
-declare @command nvarchar(4000)
-set @command = 'grant execute on [dbo].aspnet_RegisterSchemaVersion to ' + QUOTENAME(user)
-exec (@command)
+DECLARE @command nvarchar(4000)
+SET @command = 'GRANT EXECUTE ON [dbo].aspnet_RegisterSchemaVersion TO ' + QUOTENAME(user)
+EXECUTE (@command)
 GO
 
 EXEC [dbo].aspnet_RegisterSchemaVersion N'Role Manager', N'1', 1, 1
@@ -853,36 +1064,12 @@ GO
 /*************************************************************/
 /*************************************************************/
 
-declare @command nvarchar(4000)
-set @command = 'revoke execute on [dbo].aspnet_RegisterSchemaVersion from ' + QUOTENAME(user)
-exec (@command)
+DECLARE @command nvarchar(4000)
+SET @command = 'REVOKE EXECUTE ON [dbo].aspnet_RegisterSchemaVersion FROM ' + QUOTENAME(user)
+EXECUTE (@command)
 GO
 
 PRINT '---------------------------------------'
 PRINT 'Completed execution of InstallRoles.SQL'
 PRINT '---------------------------------------'
 
-Drop TABLE dbo.temp_aspnet_Permissions
-GO
-
-
-GO
-
---WSHA FIX
-declare @username sysname
-set @username = user
-if (@username <> 'dbo')
-	begin
-		declare @statement nvarchar(2000)
-		set @statement = 'sp_addrolemember N''aspnet_Roles_FullAccess'', ''' + @username + ''''
-		exec (@statement)
-		set @statement = 'sp_addrolemember N''aspnet_Profile_FullAccess'', ''' + @username + ''''
-		exec (@statement)
-		set @statement = 'sp_addrolemember N''aspnet_Membership_FullAccess'', ''' + @username + ''''
-		exec (@statement)
-	end
-GO
---WSHA FIX
-
-/*************************************************************/
-/*************************************************************/

@@ -1,7 +1,7 @@
 <%@ Control Inherits="DotNetNuke.Modules.Admin.Host.HostSettingsModule" Language="C#" AutoEventWireup="true" CodeFile="HostSettings.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
-<%@ Register TagPrefix="dnn" Namespace="DotNetNuke.UI.WebControls" Assembly="DotNetNuke" %>
+<%@ Register TagPrefix="dnn" Namespace="DotNetNuke.UI.WebControls" Assembly="DotNetNuke.WebControls" %>
 <%@ Register TagPrefix="dnn" TagName="FriendlyUrls" Src="~/admin/Host/FriendlyUrls.ascx" %>
 <%@ Register TagPrefix="Portal" TagName="Skin" Src="~/controls/SkinControl.ascx" %>
 <!-- Settings Tables -->
@@ -150,10 +150,18 @@
 								<td><asp:dropdownlist id="cboHostCurrency" cssclass="NormalTextBox" datavaluefield="value" datatextfield="text"
 										width="150" runat="server"></asp:dropdownlist></td>
 							</tr>
-							<tr>
+                            <tr>
 								<td class="SubHead" style="width: 150;"><dnn:label id="plHostSpace" text="Hosting Space (MB):" controlname="txtHostSpace" runat="server" /></td>
-								<td><asp:textbox id="txtHostSpace" cssclass="NormalTextBox" runat="server" maxlength="6" width="300"></asp:textbox></td>
+								<td><asp:textbox id="txtHostSpace" cssclass="NormalTextBox" runat="server" maxlength="6" width="100"></asp:textbox></td>
 							</tr>
+							<tr>
+								<td class="SubHead" style="width: 150;"><dnn:label id="plPageQuota" text="Page Quota:" controlname="txtPageQuota" runat="server" /></td>
+								<td><asp:textbox id="txtPageQuota" cssclass="NormalTextBox" runat="server" maxlength="6" width="100"></asp:textbox></td>
+							</tr>
+							<tr>
+								<td class="SubHead" style="width: 150;"><dnn:label id="plUserQuota" text="User Quota:" controlname="txtUserQuota" runat="server" /></td>
+								<td><asp:textbox id="txtUserQuota" cssclass="NormalTextBox" runat="server" maxlength="6" width="100"></asp:textbox></td>
+							</tr>							
 							<tr>
 								<td class="SubHead" style="width: 150;"><dnn:label id="plDemoPeriod" text="Demo Period (Days):" controlname="txtDemoPeriod" runat="server" /></td>
 								<td><asp:textbox id="txtDemoPeriod" cssclass="NormalTextBox" runat="server" maxlength="3" width="300"></asp:textbox></td>
@@ -247,6 +255,12 @@
 								</td>
 							</tr>
 							<tr>
+								<td class="SubHead" style="width: 150;"><dnn:label id="plSMTPEnableSSL" text="SMTP Enable SSL:" controlname="chkSMTPEnableSSL" runat="server" /></td>
+								<td>
+        							<asp:CheckBox ID="chkSMTPEnableSSL" runat="server" />&nbsp;
+                                </td>
+							</tr>
+							<tr>
 								<td class="SubHead" style="width: 150;"><dnn:label id="plSMTPUsername" text="SMTP Username:" controlname="txtSMTPUsername" runat="server" /></td>
 								<td><asp:textbox id="txtSMTPUsername" cssclass="NormalTextBox" runat="server" maxlength="256" width="300"></asp:textbox></td>
 							</tr>
@@ -257,6 +271,113 @@
 							</tr>
 						</table>
 						<br/>
+						<dnn:sectionhead id="dshPerformance" cssclass="Head" runat="server" text="Performance Settings" isexpanded="False"
+							section="tblPerformance" resourcekey="Performance" />
+						<table id="tblPerformance" cellspacing="2" cellpadding="2" summary="Performance Design Table"
+							border="0" runat="server">
+							<tr>
+								<td class="SubHead" style="width: 200;" valign="top"><dnn:label id="plPageState" runat="server" controlname="cboPageState" text="Page State Persistence:"></dnn:label></td>
+								<td>
+									<asp:radiobuttonlist id="cboPageState" cssclass="Normal" runat="server" repeatdirection="Horizontal">
+										<asp:listitem resourcekey="Page" value="P">Page</asp:listitem>
+										<asp:listitem resourcekey="Memory" value="M">Memory</asp:listitem>
+									</asp:radiobuttonlist>
+								</td>
+							</tr>
+							<tr>
+								<td class="SubHead" style="width: 200;" valign="top"><dnn:label id="plCacheMethod" runat="server" controlname="cboCacheMethod" text="Cache Method:"></dnn:label></td>
+								<td>
+									<asp:radiobuttonlist id="cboCacheMethod" cssclass="Normal" runat="server" repeatdirection="Horizontal">
+										<asp:listitem resourcekey="Memory" value="M">Memory</asp:listitem>
+										<asp:listitem resourcekey="Disk" value="D">Disk</asp:listitem>
+									</asp:radiobuttonlist>
+								</td>
+							</tr>
+							<tr>
+								<td class="SubHead" style="width: 200;"><dnn:label id="plPerformance" text="Performance Setting:" controlname="cboPerformance" runat="server" /></td>
+								<td>
+									<asp:dropdownlist id="cboPerformance" runat="server" Width="150">
+										<asp:listitem resourcekey="NoCaching" value="0">No Caching</asp:listitem>
+										<asp:listitem resourcekey="LightCaching" value="1">Light Caching</asp:listitem>
+										<asp:listitem resourcekey="ModerateCaching" value="3">Moderate Caching</asp:listitem>
+										<asp:listitem resourcekey="HeavyCaching" value="6">Heavy Caching</asp:listitem>
+									</asp:dropdownlist>
+									&nbsp;
+									<asp:linkbutton id="cmdCache" resourcekey="ClearCache" runat="server" cssclass="CommandButton">Clear Cache</asp:linkbutton>
+								</td>
+							</tr>
+							<tr>
+								<td class="SubHead" style="width: 200;"><dnn:label id="plCacheability" text="Authenticated Cacheability:" controlname="cboCacheability" runat="server" /></td>
+								<td>
+									<asp:dropdownlist id="cboCacheability" runat="server" Width="150">
+										<asp:listitem resourcekey="NoCache" value="0">NoCache</asp:listitem>
+										<asp:listitem resourcekey="Private" value="1">Private</asp:listitem>
+										<asp:listitem resourcekey="Public" value="2">Public</asp:listitem>
+										<asp:listitem resourcekey="Server" value="3">Server</asp:listitem>
+										<asp:listitem resourcekey="ServerAndNoCache" value="4">ServerAndNoCache</asp:listitem>
+										<asp:listitem resourcekey="ServerAndPrivate" value="5">ServerAndPrivate</asp:listitem>
+									</asp:dropdownlist>
+								</td>
+							</tr>						
+							<tr>
+								<td class="SubHead" style="width: 200;"><dnn:label id="plCompression" text="Compression Setting:" controlname="cboCompression" runat="server" /></td>
+								<td>
+									<asp:dropdownlist id="cboCompression" runat="server" Width="150">
+										<asp:listitem resourcekey="NoCompression" value="0">No Compression</asp:listitem>
+										<asp:listitem resourcekey="Deflate" value="2">Deflate Compression</asp:listitem>
+										<asp:listitem resourcekey="GZip" value="1">GZip Compression</asp:listitem>
+									</asp:dropdownlist>
+								</td>
+							</tr>
+							<tr>
+								<td class="SubHead" style="width: 200;"><dnn:label id="plCompressionLevel" text="Compression Level:" controlname="cboLevel" runat="server" /></td>
+								<td>
+									<asp:dropdownlist id="cboLevel" runat="server" Width="150">
+										<asp:listitem value="0">None</asp:listitem>
+										<asp:listitem value="1">1</asp:listitem>
+										<asp:listitem value="2">2</asp:listitem>
+										<asp:listitem value="3">3</asp:listitem>
+										<asp:listitem value="4">4</asp:listitem>
+										<asp:listitem value="5">5</asp:listitem>
+										<asp:listitem value="6">6</asp:listitem>
+										<asp:listitem value="7">7</asp:listitem>
+										<asp:listitem value="8">8</asp:listitem>
+										<asp:listitem value="9">9</asp:listitem>
+									</asp:dropdownlist>
+								</td>
+							</tr>
+							<tr>
+								<td class="SubHead" style="width: 150;"><dnn:label id="plWhitespace" text="Use Whitespace Filter:" controlname="chkWhitespace" runat="server" /></td>
+								<td>
+        							<asp:CheckBox ID="chkWhitespace" runat="server" />&nbsp;
+                                </td>
+							</tr>
+						</table>
+						<br/>
+                        <dnn:sectionhead id="dshCompression" cssclass="Head" runat="server" text="Compression Settings" isexpanded="False"
+							section="tblCompression" resourcekey="Compression" />
+						<table id="tblCompression" cellspacing="2" cellpadding="2" summary="Compression Design Table"
+							border="0" runat="server">
+							<tr>
+								<td class="SubHead" style="width: 200;" valign="top"><dnn:label id="plExcludedMimeTypes" runat="server" controlname="txtExcludedMimeTypes" text="Excluded Mime Types:"></dnn:label></td>
+								<td><asp:textbox id="txtExcludedMimeTypes" cssclass="NormalTextBox" runat="server" maxlength="256" width="300" textmode="MultiLine" rows="3"></asp:textbox></td>
+							</tr>
+							<tr>
+								<td class="SubHead" style="width: 200;" valign="top"><dnn:label id="plExcludedPaths" runat="server" controlname="txtExcludedPaths" text="Excluded Paths:"></dnn:label></td>
+								<td><asp:textbox id="txtExcludedPaths" cssclass="NormalTextBox" runat="server" maxlength="256" width="300" textmode="MultiLine" rows="3"></asp:textbox></td>
+							</tr>
+							<tr>
+								<td class="SubHead" style="width: 200;" valign="top"><dnn:label id="plWhitespaceFilter" runat="server" controlname="txtWhitespaceFilter" text="Whitespace Filter:"></dnn:label></td>
+								<td><asp:textbox id="txtWhitespaceFilter" cssclass="NormalTextBox" runat="server" maxlength="256" width="300" textmode="MultiLine" rows="3"></asp:textbox></td>
+							</tr>
+							<tr>
+							    <td colspan="2">
+    						        <asp:linkbutton cssclass="CommandButton" id="cmdUpdateCompression" resourcekey="cmdUpdate" runat="server" text="Update" OnClick="cmdUpdateCompression_Click"></asp:linkbutton>
+							    </td>
+							</tr>
+						</table>
+						<br/>
+						
 						<dnn:sectionhead id="dshOther" cssclass="Head" runat="server" text="Other Settings" isexpanded="False"
 							section="tblOther" resourcekey="Other" />
 						<table id="tblOther" cellspacing="2" cellpadding="2" summary="Appearance Design Table"
@@ -314,41 +435,7 @@
 									</asp:radiobuttonlist>
 								</td>
 							</tr>
-							<tr>
-								<td class="SubHead" style="width: 200;" valign="top"><dnn:label id="plCacheMethod" runat="server" controlname="cboCacheMethod" text="Cache Method:"></dnn:label></td>
-								<td>
-									<asp:radiobuttonlist id="cboCacheMethod" cssclass="Normal" runat="server" repeatdirection="Horizontal">
-										<asp:listitem resourcekey="Memory" value="M">Memory</asp:listitem>
-										<asp:listitem resourcekey="Disk" value="D">Disk</asp:listitem>
-									</asp:radiobuttonlist>
-								</td>
-							</tr>
-							<tr>
-								<td class="SubHead" style="width: 150;"><dnn:label id="plPerformance" text="Performance Setting:" controlname="cboPerformance" runat="server" /></td>
-								<td>
-									<asp:dropdownlist id="cboPerformance" runat="server">
-										<asp:listitem resourcekey="NoCaching" value="0">No Caching</asp:listitem>
-										<asp:listitem resourcekey="LightCaching" value="1">Light Caching</asp:listitem>
-										<asp:listitem resourcekey="ModerateCaching" value="3">Moderate Caching</asp:listitem>
-										<asp:listitem resourcekey="HeavyCaching" value="6">Heavy Caching</asp:listitem>
-									</asp:dropdownlist>
-									&nbsp;
-									<asp:linkbutton id="cmdCache" resourcekey="ClearCache" runat="server" cssclass="CommandButton" OnClick="cmdCache_Click">Clear Cache</asp:linkbutton>
-								</td>
-							</tr>
-							<tr>
-								<td class="SubHead" style="width: 150;"><dnn:label id="plCacheability" text="Authenticated Cacheability:" controlname="cboCacheability" runat="server" /></td>
-								<td>
-									<asp:dropdownlist id="cboCacheability" runat="server">
-										<asp:listitem resourcekey="NoCache" value="0">NoCache</asp:listitem>
-										<asp:listitem resourcekey="Private" value="1">Private</asp:listitem>
-										<asp:listitem resourcekey="Public" value="2">Public</asp:listitem>
-										<asp:listitem resourcekey="Server" value="3">Server</asp:listitem>
-										<asp:listitem resourcekey="ServerAndNoCache" value="4">ServerAndNoCache</asp:listitem>
-										<asp:listitem resourcekey="ServerAndPrivate" value="5">ServerAndPrivate</asp:listitem>
-									</asp:dropdownlist>
-								</td>
-							</tr>
+							
 							<tr>
 								<td class="SubHead" style="width: 150;"><dnn:label id="plSchedulerMode" text="Scheduler Mode:" controlname="cboSchedulerMode" runat="server" /></td>
 								<td>

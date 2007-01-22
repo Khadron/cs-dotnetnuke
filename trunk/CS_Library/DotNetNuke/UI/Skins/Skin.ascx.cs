@@ -33,6 +33,7 @@ using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Framework;
 using DotNetNuke.Security;
+using DotNetNuke.Security.Permissions;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Containers;
@@ -335,8 +336,6 @@ namespace DotNetNuke.UI.Skins
                 // load container control
                 UserControl ctlContainer = null;
 
-                SkinController objSkins = new SkinController();
-
                 //Save the current ContainerSrc/Path (in case we are in "Preview" mode)
                 string strOldContainerSource = objModule.ContainerSrc;
                 string strOldContainerPath = objModule.ContainerPath;
@@ -521,8 +520,6 @@ namespace DotNetNuke.UI.Skins
 
                 // get container pane
                 Control objCell = ctlContainer.FindControl(Globals.glbDefaultPane);
-                string EditText = "";
-                bool DisplayOptions = false;
 
                 if (objCell != null)
                 {
@@ -623,7 +620,7 @@ namespace DotNetNuke.UI.Skins
                         if (blnContent)
                         {
                             // if the module has caching and the user does not have EDIT permissions
-                            if (objModule.CacheTime != 0 && PortalSecurity.HasEditPermissions(objModule.ModuleID) == false) // use output caching
+                            if (objModule.CacheTime != 0 && PortalSecurity.HasEditPermissions(objModule.ModulePermissions) == false) // use output caching
                             {
                                 objPortalModuleBase = new PortalModuleBase();
                             }
@@ -827,11 +824,8 @@ namespace DotNetNuke.UI.Skins
         public void ModuleAction_Click( object sender, ActionEventArgs e )
         {
             //Search through the listeners
-            ModuleActionEventListener Listener;
-            foreach (ModuleActionEventListener tempLoopVar_Listener in ActionEventListeners)
+            foreach (ModuleActionEventListener Listener in ActionEventListeners)
             {
-                Listener = tempLoopVar_Listener;
-
                 //If the associated module has registered a listener
                 if (e.ModuleConfiguration.ModuleID == Listener.ModuleID)
                 {
@@ -862,7 +856,7 @@ namespace DotNetNuke.UI.Skins
         private void Page_Init( object sender, EventArgs e )
         {
             ModuleController objModules = new ModuleController();
-            ModuleInfo objModule = null;
+            ModuleInfo objModule;
             Control ctlPane;
             bool blnLayoutMode = Globals.IsLayoutMode();
 
@@ -964,7 +958,7 @@ namespace DotNetNuke.UI.Skins
                     }
                     if (!blnExpired)
                     {
-                        if ((PortalSettings.ActiveTab.StartDate < DateTime.Now && PortalSettings.ActiveTab.EndDate > DateTime.Now) || blnLayoutMode == true)
+                        if ((PortalSettings.ActiveTab.StartDate < DateTime.Now && PortalSettings.ActiveTab.EndDate > DateTime.Now) || blnLayoutMode)
                         {
                             // process panes
                             if (blnLayoutMode)
@@ -1000,10 +994,10 @@ namespace DotNetNuke.UI.Skins
                                     objModule = tempLoopVar_objModule;
 
                                     // if user is allowed to view module and module is not deleted
-                                    if (PortalSecurity.IsInRoles(objModule.AuthorizedViewRoles) == true && objModule.IsDeleted == false)
+                                    if (PortalSecurity.IsInRoles(objModule.AuthorizedViewRoles) && objModule.IsDeleted == false)
                                     {
                                         // if current date is within module display schedule or user is admin
-                                        if ((objModule.StartDate < DateTime.Now && objModule.EndDate > DateTime.Now) || blnLayoutMode == true)
+                                        if ((objModule.StartDate < DateTime.Now && objModule.EndDate > DateTime.Now) || blnLayoutMode)
                                         {
                                             // modules which are displayed on all tabs should not be displayed on the Admin or Super tabs
                                             if (objModule.AllTabs == false || PortalSettings.ActiveTab.IsAdminTab == false)
@@ -1068,163 +1062,164 @@ namespace DotNetNuke.UI.Skins
             {
                 int ModuleId = -1;
                 string Key = "";
+                ModuleInfo slaveModule = null;
 
                 // get ModuleId
-                if (!Information.IsNothing(Request.QueryString["mid"]))
+                if (Request.QueryString["mid"] != null)
                 {
-                    ModuleId = int.Parse(Request.QueryString["mid"]);
+                    ModuleId = Int32.Parse(Request.QueryString["mid"]);
                 }
 
                 // get ControlKey
-                if (!Information.IsNothing(Request.QueryString["ctl"]))
+                if (Request.QueryString["ctl"] != null)
                 {
                     Key = Request.QueryString["ctl"];
                 }
 
                 // initialize moduleid for modulesettings
-                if (!Information.IsNothing(Request.QueryString["moduleid"]) && (Key.ToLower() == "module" || Key.ToLower() == "help"))
+                if (Request.QueryString["moduleid"] != null & (Key.ToLower() == "module" | Key.ToLower() == "help"))
                 {
-                    ModuleId = int.Parse(Request.QueryString["moduleid"]);
+                    ModuleId = Int32.Parse(Request.QueryString["moduleid"]);
                 }
 
                 if (ModuleId != -1)
                 {
                     // get master module security settings
-                    objModule = objModules.GetModule(ModuleId, PortalSettings.ActiveTab.TabID);
+                    objModule = objModules.GetModule(ModuleId, PortalSettings.ActiveTab.TabID, false);
                     if (objModule != null)
                     {
-                        if (objModule.InheritViewPermissions)
+                        //Clone the Master Module as we do not want to modify the cached module
+                        slaveModule = objModule.Clone();
+                        if (slaveModule.InheritViewPermissions)
                         {
-                            objModule.AuthorizedViewRoles = PortalSettings.ActiveTab.AuthorizedRoles;
+                            slaveModule.AuthorizedViewRoles = PortalSettings.ActiveTab.AuthorizedRoles;
                         }
                     }
                 }
-                if (objModule == null)
+
+                if (slaveModule == null)
                 {
                     // initialize object not related to a module
-                    objModule = new ModuleInfo();
-                    objModule.ModuleID = ModuleId;
-                    objModule.ModuleDefID = -1;
-                    objModule.TabID = PortalSettings.ActiveTab.TabID;
-                    objModule.AuthorizedEditRoles = "";
-                    objModule.AuthorizedViewRoles = "";
+                    slaveModule = new ModuleInfo();
+                    slaveModule.ModuleID = ModuleId;
+                    slaveModule.ModuleDefID = -1;
+                    slaveModule.TabID = PortalSettings.ActiveTab.TabID;
+                    slaveModule.AuthorizedEditRoles = "";
+                    slaveModule.AuthorizedViewRoles = "";
+                    ModulePermissionController objModulePermissionController = new ModulePermissionController();
+                    slaveModule.ModulePermissions = objModulePermissionController.GetModulePermissionsCollectionByModuleID(slaveModule.ModuleID, slaveModule.TabID);
                 }
 
                 // initialize moduledefid for modulesettings
-                if (!Information.IsNothing(Request.QueryString["moduleid"]) && (Key.ToLower() == "module" || Key.ToLower() == "help"))
+                if (Request.QueryString["moduleid"] != null & (Key.ToLower() == "module" | Key.ToLower() == "help"))
                 {
-                    objModule.ModuleDefID = -1;
+                    slaveModule.ModuleDefID = -1;
                 }
 
                 // override slave module settings
                 if (Request.QueryString["dnnprintmode"] != "true")
                 {
-                    objModule.ModuleTitle = "";
+                    slaveModule.ModuleTitle = "";
                 }
-                objModule.Header = "";
-                objModule.Footer = "";
-                objModule.StartDate = DateTime.MinValue;
-                objModule.EndDate = DateTime.MaxValue;
-                objModule.PaneName = Globals.glbDefaultPane;
-                objModule.Visibility = VisibilityState.None;
-                objModule.Color = "";
+                slaveModule.Header = "";
+                slaveModule.Footer = "";
+                slaveModule.StartDate = DateTime.MinValue;
+                slaveModule.EndDate = DateTime.MaxValue;
+                slaveModule.PaneName = Globals.glbDefaultPane;
+                slaveModule.Visibility = VisibilityState.None;
+                slaveModule.Color = "";
                 if (Request.QueryString["dnnprintmode"] != "true")
                 {
-                    objModule.Alignment = "center";
+                    slaveModule.Alignment = "center";
                 }
-                objModule.Border = "";
-                objModule.DisplayTitle = true;
-                objModule.DisplayPrint = false;
-                objModule.DisplaySyndicate = false;
+                slaveModule.Border = "";
+                slaveModule.DisplayTitle = true;
+                slaveModule.DisplayPrint = false;
+                slaveModule.DisplaySyndicate = false;
 
                 // get portal container for slave module
-                SkinInfo objSkin = SkinController.GetSkin(SkinInfo.RootContainer, PortalSettings.PortalId, SkinType.Portal);
-                if (objSkin != null)
+                if (PortalSettings.PortalContainer != null)
                 {
-                    objModule.ContainerSrc = objSkin.SkinSrc;
+                    slaveModule.ContainerSrc = PortalSettings.PortalContainer.SkinSrc;
                 }
-                else
+                if (string.IsNullOrEmpty(slaveModule.ContainerSrc))
                 {
-                    objModule.ContainerSrc = "[G]" + SkinInfo.RootContainer + Globals.glbDefaultContainerFolder + Globals.glbDefaultContainer;
+                    slaveModule.ContainerSrc = "[G]" + SkinInfo.RootContainer + Globals.glbDefaultContainerFolder + Globals.glbDefaultContainer;
                 }
-                objModule.ContainerSrc = SkinController.FormatSkinSrc(objModule.ContainerSrc, PortalSettings);
-                objModule.ContainerPath = SkinController.FormatSkinPath(objModule.ContainerSrc);
+                slaveModule.ContainerSrc = SkinController.FormatSkinSrc(slaveModule.ContainerSrc, PortalSettings);
+                slaveModule.ContainerPath = SkinController.FormatSkinPath(slaveModule.ContainerSrc);
 
                 // get the pane
-                Control parent = this.FindControl(objModule.PaneName);
+                Control parent = this.FindControl(slaveModule.PaneName);
 
                 // load the controls
                 ModuleControlController objModuleControls = new ModuleControlController();
-                int intCounter;
 
-                ArrayList arrModuleControls = objModuleControls.GetModuleControlsByKey(Key, objModule.ModuleDefID);
+                ArrayList arrModuleControls = objModuleControls.GetModuleControlsByKey(Key, slaveModule.ModuleDefID);
 
-                for (intCounter = 0; intCounter <= arrModuleControls.Count - 1; intCounter++)
+                for (int intCounter = 0; intCounter < arrModuleControls.Count; intCounter++)
                 {
-                    ModuleControlInfo objModuleControl = (ModuleControlInfo)arrModuleControls[intCounter];
+                    ModuleControlInfo objModuleControl = (ModuleControlInfo)(arrModuleControls[intCounter]);
 
                     // initialize control values
-                    objModule.ModuleControlId = objModuleControl.ModuleControlID;
-                    objModule.ControlSrc = objModuleControl.ControlSrc;
-                    objModule.ControlType = objModuleControl.ControlType;
-                    objModule.IconFile = objModuleControl.IconFile;
-                    objModule.HelpUrl = objModuleControl.HelpURL;
+                    slaveModule.ModuleControlId = objModuleControl.ModuleControlID;
+                    slaveModule.ControlSrc = objModuleControl.ControlSrc;
+                    slaveModule.ControlType = objModuleControl.ControlType;
+                    slaveModule.IconFile = objModuleControl.IconFile;
+                    slaveModule.HelpUrl = objModuleControl.HelpURL;
 
-                    if (!Null.IsNull(objModuleControl.ControlTitle))
+                    if (!(Null.IsNull(objModuleControl.ControlTitle)))
                     {
                         // try to localize control title
-                        objModule.ModuleTitle = Localization.LocalizeControlTitle(objModuleControl.ControlTitle, objModule.ControlSrc, Key);
+                        slaveModule.ModuleTitle = Localization.LocalizeControlTitle(objModuleControl.ControlTitle, slaveModule.ControlSrc, Key);
                     }
 
                     // verify that the current user has access to this control
                     bool blnAuthorized = true;
-                    switch (objModule.ControlType)
+                    if (slaveModule.ControlType == SecurityAccessLevel.Anonymous) // anonymous
                     {
-                        case SecurityAccessLevel.Anonymous: // anonymous
-
-                            break;
-                        case SecurityAccessLevel.View: // view
-
-                            if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) == false && PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()) == false)
+                    }
+                    else if (slaveModule.ControlType == SecurityAccessLevel.View) // view
+                    {
+                        if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) == false & PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()) == false)
+                        {
+                            if (!(PortalSecurity.IsInRoles(slaveModule.AuthorizedViewRoles)))
                             {
-                                if (!PortalSecurity.IsInRoles(objModule.AuthorizedViewRoles))
+                                blnAuthorized = false;
+                            }
+                        }
+                    }
+                    else if (slaveModule.ControlType == SecurityAccessLevel.Edit) // edit
+                    {
+                        if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) == false & PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()) == false)
+                        {
+                            if (!(PortalSecurity.IsInRoles(slaveModule.AuthorizedViewRoles)))
+                            {
+                                blnAuthorized = false;
+                            }
+                            else
+                            {
+                                if (!(PortalSecurity.HasEditPermissions(slaveModule.ModulePermissions)))
                                 {
                                     blnAuthorized = false;
                                 }
                             }
-                            break;
-                        case SecurityAccessLevel.Edit: // edit
-
-                            if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) == false && PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()) == false)
-                            {
-                                if (!PortalSecurity.IsInRoles(objModule.AuthorizedViewRoles))
-                                {
-                                    blnAuthorized = false;
-                                }
-                                else
-                                {
-                                    if (!PortalSecurity.HasEditPermissions(objModule.ModulePermissions))
-                                    {
-                                        blnAuthorized = false;
-                                    }
-                                }
-                            }
-                            break;
-                        case SecurityAccessLevel.Admin: // admin
-
-                            if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) == false && PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()) == false)
-                            {
-                                blnAuthorized = false;
-                            }
-                            break;
-                        case SecurityAccessLevel.Host: // host
-
-                            UserInfo objUserInfo = UserController.GetCurrentUserInfo();
-                            if (!objUserInfo.IsSuperUser)
-                            {
-                                blnAuthorized = false;
-                            }
-                            break;
+                        }
+                    }
+                    else if (slaveModule.ControlType == SecurityAccessLevel.Admin) // admin
+                    {
+                        if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) == false & PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString()) == false)
+                        {
+                            blnAuthorized = false;
+                        }
+                    }
+                    else if (slaveModule.ControlType == SecurityAccessLevel.Host) // host
+                    {
+                        UserInfo objUserInfo = UserController.GetCurrentUserInfo();
+                        if (!objUserInfo.IsSuperUser)
+                        {
+                            blnAuthorized = false;
+                        }
                     }
 
                     if (blnAuthorized)
@@ -1232,7 +1227,7 @@ namespace DotNetNuke.UI.Skins
                         //try to inject the module into the skin
                         try
                         {
-                            InjectModule(parent, objModule, PortalSettings);
+                            InjectModule(parent, slaveModule, PortalSettings);
                         }
                         catch (Exception)
                         {
@@ -1243,7 +1238,9 @@ namespace DotNetNuke.UI.Skins
                     {
                         Response.Redirect(Globals.AccessDeniedURL(MODULEACCESS_ERROR), true);
                     }
+
                 }
+
             }
 
             if (!blnLayoutMode)
@@ -1256,7 +1253,7 @@ namespace DotNetNuke.UI.Skins
                 Skin.AddPageMessage(this, CRITICAL_ERROR, Server.HtmlEncode(Request.QueryString["error"]), ModuleMessageType.RedError);
             }
 
-            if (!(PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName) || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString())))
+            if (!(PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName) | PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString())))
             {
                 // only display the warning to non-administrators (adminsitrators will see the errors)
                 if (!bSuccess)

@@ -32,7 +32,7 @@ namespace DotNetNuke.Modules.Admin.Modules
 {
     public partial class Import : PortalModuleBase
     {
-        private int moduleId = - 1;
+        private int m_moduleId = - 1;
 
         protected void Page_Load( Object sender, EventArgs e )
         {
@@ -40,18 +40,16 @@ namespace DotNetNuke.Modules.Admin.Modules
             {
                 if( Request.QueryString["moduleid"] != null )
                 {
-                    moduleId = int.Parse( Request.QueryString["moduleid"] );
+                    m_moduleId = int.Parse( Request.QueryString["moduleid"] );
                 }
 
                 ModuleController objModules = new ModuleController();
-                ModuleInfo objModule = objModules.GetModule( moduleId, TabId );
+                ModuleInfo objModule = objModules.GetModule(ModuleId, TabId, false);
                 if( objModule != null )
                 {
                     ArrayList arrFiles = Globals.GetFileList( PortalId, "xml", false );
-                    FileItem objFile;
-                    foreach( FileItem tempLoopVar_objFile in arrFiles )
+                    foreach( FileItem objFile in arrFiles )
                     {
-                        objFile = tempLoopVar_objFile;
                         if( objFile.Text.IndexOf( "content." + CleanName( objModule.FriendlyName ) ) != - 1 )
                         {
                             cboFiles.Items.Add( objFile.Text );
@@ -84,7 +82,7 @@ namespace DotNetNuke.Modules.Admin.Modules
             {
                 if( cboFiles.SelectedItem != null )
                 {
-                    string strMessage = ImportModule( moduleId, cboFiles.SelectedItem.Value );
+                    string strMessage = ImportModule( m_moduleId, cboFiles.SelectedItem.Value );
                     if( strMessage == "" )
                     {
                         Response.Redirect( Globals.NavigateURL(), true );
@@ -110,7 +108,7 @@ namespace DotNetNuke.Modules.Admin.Modules
             string strMessage = "";
 
             ModuleController objModules = new ModuleController();
-            ModuleInfo objModule = objModules.GetModule( moduleId, TabId );
+            ModuleInfo objModule = objModules.GetModule( moduleId, TabId, false );
             if( objModule != null )
             {
                 if( FileName.IndexOf( "." + CleanName( objModule.FriendlyName ) + "." ) != - 1 )
@@ -179,13 +177,12 @@ namespace DotNetNuke.Modules.Admin.Modules
             return strMessage;
         }
 
-        private string CleanName( string Name )
+        private static string CleanName( string Name )
         {
             string strName = Name;
             string strBadChars = ". ~`!@#$%^&*()-_+={[}]|\\:;<,>?/" + '\u0022' + '\u0027';
 
-            int intCounter;
-            for( intCounter = 0; intCounter <= strBadChars.Length - 1; intCounter++ )
+            for( int intCounter = 0; intCounter <= strBadChars.Length - 1; intCounter++ )
             {
                 strName = strName.Replace( strBadChars.Substring( intCounter, 1 ), "" );
             }

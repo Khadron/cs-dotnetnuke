@@ -432,10 +432,12 @@
       <SubType>Code</SubType>
       <Name>Compile</Name>
     </Compile>
+    <Compile Include="DotNetNuke\Framework\CachePageStatePersister.cs" />
     <Compile Include="DotNetNuke\Framework\CDefault.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
       <Name>Compile</Name>
     </Compile>
+    <Compile Include="DotNetNuke\Framework\DiskPageStatePersister.cs" />
     <Compile Include="DotNetNuke\Framework\PageBase.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
       <Name>Compile</Name>
@@ -1175,8 +1177,8 @@
       <Name>Compile</Name>
     </Compile>
     <Compile Include="DotNetNuke\Services\Wizards\Wizard.ascx.cs">
-      <SubType>ASPXCodeBehind</SubType>
       <Name>Compile</Name>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="DotNetNuke\Services\Wizards\WizardCancelEventArgs.cs">
       <SubType>Code</SubType>

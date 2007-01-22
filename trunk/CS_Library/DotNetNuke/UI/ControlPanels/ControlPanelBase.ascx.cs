@@ -22,6 +22,7 @@ using System.Collections;
 using System.Web;
 using System.Web.UI;
 using DotNetNuke.Common;
+using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Definitions;
@@ -94,6 +95,7 @@ namespace DotNetNuke.UI.ControlPanels
         private ModulePermissionInfo AddModulePermission(int moduleId, PermissionInfo permission, int roleId)
         {
             RoleController objRoles = new RoleController();
+            string roleName = Null.NullString;
             ModulePermissionInfo objModulePermission = new ModulePermissionInfo();
             objModulePermission.ModuleID = moduleId;
             objModulePermission.PermissionID = permission.PermissionID;
@@ -101,18 +103,30 @@ namespace DotNetNuke.UI.ControlPanels
             objModulePermission.PermissionKey = permission.PermissionKey;
             objModulePermission.AllowAccess = false;
 
-            // allow access to the permission if the role is in the list of administrator roles for the page
-            RoleInfo objRole = objRoles.GetRole(objModulePermission.RoleID, PortalSettings.PortalId);
-            if (objRole != null)
+            if (roleId == int.Parse(Globals.glbRoleUnauthUser))
             {
-                if (PortalSettings.ActiveTab.AdministratorRoles.IndexOf(objRole.RoleName) != -1)
+                roleName = Globals.glbRoleUnauthUserName;
+            }
+            else if (roleId == int.Parse(Globals.glbRoleAllUsers))
+            {
+                roleName = Globals.glbRoleAllUsersName;
+            }
+            else
+            {
+                RoleInfo objRole = objRoles.GetRole(objModulePermission.RoleID, PortalSettings.PortalId);
+                if (objRole != null)
+                {
+                    roleName = objRole.RoleName;
+                }
+            }
+            if (!(string.IsNullOrEmpty(roleName)))
+            {
+                if (PortalSettings.ActiveTab.AdministratorRoles.IndexOf(roleName) != -1)
                 {
                     objModulePermission.AllowAccess = true;
                 }
             }
-
             return objModulePermission;
-
         }
 
         protected void AddExistingModule(int moduleId, int tabId, string paneName, int position, string align)
@@ -128,7 +142,7 @@ namespace DotNetNuke.UI.ControlPanels
                 UserId = objUserInfo.UserID;
             }
 
-            ModuleInfo objModule = objModules.GetModule(moduleId, tabId);
+            ModuleInfo objModule = objModules.GetModule(moduleId, tabId, false);
             if (objModule != null)
             {
                 objModule.TabID = PortalSettings.ActiveTab.TabID;
@@ -151,7 +165,6 @@ namespace DotNetNuke.UI.ControlPanels
             ModuleDefinitionController objModuleDefinitions = new ModuleDefinitionController();
             Services.Log.EventLog.EventLogController objEventLog = new Services.Log.EventLog.EventLogController();
             int intIndex;
-            int j;
 
             try
             {
@@ -188,10 +201,7 @@ namespace DotNetNuke.UI.ControlPanels
             {
                 ModuleDefinitionInfo objModuleDefinition = (ModuleDefinitionInfo)(arrModuleDefinitions[intIndex]);
 
-                if (title == "")
-                {
-                    title = objModuleDefinition.FriendlyName;
-                }
+                
 
                 ModuleInfo objModule = new ModuleInfo();
                 objModule.Initialize(PortalSettings.PortalId);
@@ -199,6 +209,15 @@ namespace DotNetNuke.UI.ControlPanels
                 objModule.PortalID = PortalSettings.PortalId;
                 objModule.TabID = PortalSettings.ActiveTab.TabID;
                 objModule.ModuleOrder = position;
+                if (String.IsNullOrEmpty(title))
+                {
+                    objModule.ModuleTitle = objModuleDefinition.FriendlyName;
+                }
+                else
+                {
+                    objModule.ModuleTitle = title;
+                }
+
                 objModule.ModuleTitle = title;
                 objModule.PaneName = paneName;
                 objModule.ModuleDefID = objModuleDefinition.ModuleDefID;
@@ -218,6 +237,7 @@ namespace DotNetNuke.UI.ControlPanels
                     // get the system module permissions for the permissionkey
                     ArrayList arrSystemModulePermissions = objPermissionController.GetPermissionByCodeAndKey("SYSTEM_MODULE_DEFINITION", objTabPermission.PermissionKey);
                     // loop through the system module permissions
+                    int j;
                     for (j = 0; j < arrSystemModulePermissions.Count; j++)
                     {
                         // create the module permission

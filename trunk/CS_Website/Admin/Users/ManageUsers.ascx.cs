@@ -201,7 +201,7 @@ namespace DotNetNuke.Modules.Admin.Users
                 //If trying to add a SuperUser - check that user is a SuperUser
                 if( AddUser && IsHostMenu && ! this.UserInfo.IsSuperUser )
                 {
-                    AddModuleMessage( "SuperUser", ModuleMessageType.YellowWarning, true );
+                    AddModuleMessage( "NoUser", ModuleMessageType.YellowWarning, true );
                     DisableForm();
                     return;
                 }
@@ -217,7 +217,7 @@ namespace DotNetNuke.Modules.Admin.Users
                 //Check if User is a SuperUser and that the current User is a SuperUser
                 if( User.IsSuperUser && ! this.UserInfo.IsSuperUser )
                 {
-                    AddModuleMessage( "SuperUser", ModuleMessageType.YellowWarning, true );
+                    AddModuleMessage( "NoUser", ModuleMessageType.YellowWarning, true );
                     DisableForm();
                     return;
                 }
@@ -360,6 +360,7 @@ namespace DotNetNuke.Modules.Admin.Users
             if( AddUser )
             {
                 ctlUser.ShowUpdate = false;
+                CheckQuota();
             }
             ctlUser.User = User;
             ctlUser.DataBind();
@@ -373,6 +374,34 @@ namespace DotNetNuke.Modules.Admin.Users
             {
                 BindMembership();
             }
+        }
+
+        /// <summary>
+        /// CheckQuota checks whether the User Quota will be exceeded
+        /// </summary>
+        /// <history>
+        /// 	[cnurse]	11/16/2006	Created
+        /// </history>
+        private void CheckQuota()
+        {
+
+            if (PortalSettings.Users < PortalSettings.UserQuota | UserInfo.IsSuperUser | PortalSettings.UserQuota == 0)
+            {
+                cmdRegister.Enabled = true;
+            }
+            else
+            {
+                cmdRegister.Enabled = false;
+                if (IsRegister)
+                {
+                    AddModuleMessage("ExceededRegisterQuota", ModuleMessageType.YellowWarning, true);
+                }
+                else
+                {
+                    AddModuleMessage("ExceededUserQuota", ModuleMessageType.YellowWarning, true);
+                }
+            }
+
         }
 
         /// <summary>
@@ -863,8 +892,6 @@ namespace DotNetNuke.Modules.Admin.Users
             {
                 if( e.CreateStatus == UserCreateStatus.Success )
                 {
-                    UserInfo objUser = e.NewUser;
-
                     if( IsRegister )
                     {
                         // send notification to portal administrator of new user registration

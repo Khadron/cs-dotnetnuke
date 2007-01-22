@@ -45,22 +45,21 @@ namespace DotNetNuke.Entities.Modules
         //Source Folder of PA
         private string _Folder;
         private bool _IncludeSource = false;
+        private bool _CreateManifest = true;
+        private string _ResourceFileName;
+        private bool _SupportsProbingPrivatePath = false;
 
         //Name of PA
         private string _Name;
         private PaLogger _ProgressLog = new PaLogger();
         private string _ZipFile;
 
-        public bool IncludeSource
+        protected bool IncludeSource
         {
             get
             {
                 return _IncludeSource;
-            }
-            set
-            {
-                _IncludeSource = value;
-            }
+            }           
         }
 
         public PaLogger ProgressLog
@@ -83,32 +82,101 @@ namespace DotNetNuke.Entities.Modules
             }
         }
 
+        protected string AppCodeFolder
+        {
+            get
+            {
+                return _AppCodeFolder;
+            }
+        }
+
+        protected bool CreateManifest
+        {
+            get
+            {
+                return _CreateManifest;
+            }
+        }
+
+        protected string Folder
+        {
+            get
+            {
+                return _Folder;
+            }
+        }
+
+        protected string ResourceFileName
+        {
+            get
+            {
+                return _ResourceFileName;
+            }
+        }
+
+        protected bool SupportsProbingPrivatePath
+        {
+            get
+            {
+                return _SupportsProbingPrivatePath;
+            }
+        }
+
         public PaWriter()
             : this(false, "")
         {
+            _IncludeSource = false;
+            _CreateManifest = true;
+            _SupportsProbingPrivatePath = false;
         }
 
         public PaWriter(bool IncludeSource, string ZipFile)
         {
             _IncludeSource = IncludeSource;
+            _ZipFile = ZipFile;            
+        }
+
+        public PaWriter(bool IncludeSource, bool CreateManifest, bool SupportsProbingPrivatePath, string ZipFile) : this()
+        {
+            _CreateManifest = CreateManifest;
+            _IncludeSource = IncludeSource;
+            _SupportsProbingPrivatePath = SupportsProbingPrivatePath;
             _ZipFile = ZipFile;
         }
 
         public string CreatePrivateAssembly(int DesktopModuleId)
         {
+
             string Result = "";
 
             //Get the Module Definition File for this Module
             DesktopModuleController objDesktopModuleController = new DesktopModuleController();
             DesktopModuleInfo objModule = objDesktopModuleController.GetDesktopModule(DesktopModuleId);
+            _Folder = Globals.ApplicationMapPath + "\\DesktopModules\\" + objModule.FolderName;
+            _AppCodeFolder = Globals.ApplicationMapPath + "\\App_Code\\" + objModule.FolderName;
 
-            ProgressLog.StartJob(string.Format(Localization.GetString("LOG.PAWriter.CreateManifest"), objModule.FriendlyName));
-            CreateDnnManifest(objModule);
-            ProgressLog.EndJob(string.Format(Localization.GetString("LOG.PAWriter.CreateManifest"), objModule.FriendlyName));
+            if (IncludeSource)
+            {
+                _ResourceFileName = objModule.ModuleName + "_Source.zip";
+                CreateResourceFile();
+            }
+
+            //Create File List
+            CreateFileList();
+
+            if (CreateManifest)
+            {
+                ProgressLog.StartJob(string.Format(Localization.GetString("LOG.PAWriter.CreateManifest"), objModule.FriendlyName));
+                CreateDnnManifest(objModule);
+                ProgressLog.EndJob((string.Format(Localization.GetString("LOG.PAWriter.CreateManifest"), objModule.FriendlyName)));
+            }
+
+            //Always add Manifest file to file list
+            AddFile(new PaFileInfo(objModule.ModuleName + ".dnn", "", Folder), true);
 
             ProgressLog.StartJob(string.Format(Localization.GetString("LOG.PAWriter.CreateZipFile"), objModule.FriendlyName));
             CreateZipFile();
-            ProgressLog.EndJob(string.Format(Localization.GetString("LOG.PAWriter.CreateZipFile"), objModule.FriendlyName));
+            ProgressLog.EndJob((string.Format(Localization.GetString("LOG.PAWriter.CreateZipFile"), objModule.FriendlyName)));
 
             return Result;
         }
@@ -136,8 +204,11 @@ namespace DotNetNuke.Entities.Modules
                     strmZipStream.SetLevel(CompressionLevel);
                     foreach (PaFileInfo PaFile in _Files)
                     {
-                        FileSystemUtils.AddToZip(ref strmZipStream, PaFile.FullName, PaFile.Name, "");
-                        ProgressLog.AddInfo(string.Format(Localization.GetString("LOG.PAWriter.SavedFile"), PaFile.Name));
+                        if (File.Exists(PaFile.FullName))
+                        {
+                            FileSystemUtils.AddToZip( ref strmZipStream, PaFile.FullName, PaFile.Name, "" );
+                            ProgressLog.AddInfo( string.Format( Localization.GetString( "LOG.PAWriter.SavedFile" ), PaFile.Name ) );
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -209,8 +280,6 @@ namespace DotNetNuke.Entities.Modules
         {
             string filename = "";
             _Name = objDesktopModule.ModuleName;
-            _Folder = Globals.ApplicationMapPath + "\\DesktopModules\\" + objDesktopModule.FolderName;
-            _AppCodeFolder = Globals.ApplicationMapPath + "\\App_Code\\" + objDesktopModule.FolderName;
 
             //Create Manifest Document
             XmlDocument xmlManifest = new XmlDocument();
@@ -248,13 +317,16 @@ namespace DotNetNuke.Entities.Modules
                 nodeFolder.AppendChild(XmlUtils.CreateElement(xmlManifest, "compatibleversions", objDesktopModule.CompatibleVersions));
             }
 
-            //Add Source files
-            if (_IncludeSource)
+            if (SupportsProbingPrivatePath)
             {
-                string resourcesFile = objDesktopModule.ModuleName + "_Source.zip";
-                CreateResourceFile(_Folder + "\\" + resourcesFile);
-                nodeFolder.AppendChild(XmlUtils.CreateElement(xmlManifest, "resourcefile", resourcesFile));
-            }            
+                nodeFolder.AppendChild(XmlUtils.CreateElement(xmlManifest, "supportsprobingprivatepath", SupportsProbingPrivatePath.ToString()));
+            }
+
+            //Add Source files
+            if (IncludeSource)
+            {
+                nodeFolder.AppendChild(XmlUtils.CreateElement(xmlManifest, "resourcefile", ResourceFileName));
+            }          
 
             //Modules Element
             XmlNode nodeModules = xmlManifest.CreateElement("modules");
@@ -303,16 +375,13 @@ namespace DotNetNuke.Entities.Modules
                     //Determine the filename for the Manifest file (It should be saved with the other Module files)
                     if (filename == "")
                     {
-                        filename = _Folder + "\\" + objDesktopModule.ModuleName + ".dnn";
+                        filename = Folder + "\\" + objDesktopModule.ModuleName + ".dnn";
                     }
                 }
 
                 //Add module Node to modules
                 nodeModules.AppendChild(nodeModule);
             }
-
-            //Create File List
-            CreateFileList();
 
             //Files Element
             XmlNode nodeFiles = xmlManifest.CreateElement("files");
@@ -337,34 +406,36 @@ namespace DotNetNuke.Entities.Modules
             //Save Manifest file
             xmlManifest.Save(filename);
 
-            //Add Manifest file to file list
-            AddFile(new PaFileInfo(objDesktopModule.ModuleName + ".dnn", "", _Folder), true);
         }
 
         private void CreateFileList()
         {
+
             //Create the DirectoryInfo object
-            DirectoryInfo folder = new DirectoryInfo(_Folder);
+            DirectoryInfo folderInfo = new DirectoryInfo(Folder);
 
             //Get the Project File in the folder
-            FileInfo[] files = folder.GetFiles("*.??proj");
+            FileInfo[] files = folderInfo.GetFiles("*.??proj");
 
             if (files.Length == 0) //Assume Dynamic (App_Code based) Module
             {
+
                 //Add the files in the DesktopModules Folder
-                ParseFolder(_Folder, _Folder);
+                ParseFolder(Folder, Folder);
 
                 //Add the files in the AppCode Folder
-                ParseFolder(_AppCodeFolder, _AppCodeFolder);
+                ParseFolder(AppCodeFolder, AppCodeFolder);
 
             }
             else //WAP Project File is present
             {
+
                 //Parse the Project files (probably only one)
                 foreach (FileInfo projFile in files)
                 {
                     ParseProject(projFile);
                 }
+
             }
         }
 
@@ -373,7 +444,7 @@ namespace DotNetNuke.Entities.Modules
             string relPath = xmlFile.Attributes["Include"].Value.Replace("/", "\\");
             string path = "";
             string name = relPath;
-            string fullPath = _Folder;
+            string fullPath = Folder;
             if (relPath.LastIndexOf("\\") > -1)
             {
                 path = relPath.Substring(0, relPath.LastIndexOf("\\"));
@@ -393,7 +464,7 @@ namespace DotNetNuke.Entities.Modules
             {
                 string filePath = sourceFile.FullName;
                 string fileName = sourceFile.Name;
-                string folderName = folder.FullName.Replace(_Folder, "");
+                string folderName = folder.FullName.Replace(Folder, "");
                 if (folderName != "")
                 {
                     folderName += "\\";
@@ -407,23 +478,26 @@ namespace DotNetNuke.Entities.Modules
             }
         }
 
-        private void CreateResourceFile(string fileName)
+        private void CreateResourceFile()
         {
+
             //Create the DirectoryInfo object
-            DirectoryInfo folder = new DirectoryInfo(_Folder);
+            DirectoryInfo folderInfo = new DirectoryInfo(Folder);
+            string filename = Folder + "\\" + ResourceFileName;
 
             //Create Zip File to hold files
-            ZipOutputStream resourcesFile = new ZipOutputStream(File.Create(fileName));
+            ZipOutputStream resourcesFile = new ZipOutputStream(File.Create(filename));
             resourcesFile.SetLevel(6);
 
-            ParseFolder(folder, ref resourcesFile);
+            ParseFolder(folderInfo, ref resourcesFile);
 
             //Add Resources File to File List
-            AddFile(new PaFileInfo(fileName.Replace(_Folder + "\\", ""), "", _Folder));
+            AddFile(new PaFileInfo(filename.Replace(Folder + "\\", ""), "", Folder));
 
             //Finish and Close Zip file
             resourcesFile.Finish();
             resourcesFile.Close();
+
         }
 
         private void ParseFolder(DirectoryInfo folder, ref ZipOutputStream resourcesFile)

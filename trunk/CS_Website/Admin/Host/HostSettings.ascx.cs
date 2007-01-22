@@ -17,6 +17,7 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
 using System.IO;
@@ -24,6 +25,8 @@ using System.Net;
 using System.Security.Principal;
 using System.Threading;
 using System.Web.UI.WebControls;
+using System.Xml;
+using System.Xml.XPath;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Lists;
 using DotNetNuke.Common.Utilities;
@@ -206,22 +209,7 @@ namespace DotNetNuke.Modules.Admin.Host
             {
                 cboHostCurrency.Items.FindByValue( "USD" ).Selected = true;
             }
-            if( cboPerformance.Items.FindByValue( Convert.ToString( Globals.HostSettings["PerformanceSetting"] ) ) != null )
-            {
-                cboPerformance.Items.FindByValue( Globals.HostSettings["PerformanceSetting"].ToString() ).Selected = true;
-            }
-            else
-            {
-                cboPerformance.Items.FindByValue( "3" ).Selected = true;
-            }
-            if( cboCacheability.Items.FindByValue( Convert.ToString( Globals.HostSettings["AuthenticatedCacheability"] ) ) != null )
-            {
-                cboCacheability.Items.FindByValue( Globals.HostSettings["AuthenticatedCacheability"].ToString() ).Selected = true;
-            }
-            else
-            {
-                cboCacheability.Items.FindByValue( "4" ).Selected = true;
-            }
+            
             if( cboSchedulerMode.Items.FindByValue( Convert.ToString( Globals.HostSettings["SchedulerMode"] ) ) != null )
             {
                 cboSchedulerMode.Items.FindByValue( Globals.HostSettings["SchedulerMode"].ToString() ).Selected = true;
@@ -232,6 +220,9 @@ namespace DotNetNuke.Modules.Admin.Host
             }
 
             txtHostSpace.Text = Convert.ToString( Globals.HostSettings["HostSpace"] );
+            txtPageQuota.Text = Convert.ToString(Globals.HostSettings["PageQuota"]);
+            txtUserQuota.Text = Convert.ToString(Globals.HostSettings["UserQuota"]);
+
             if( Convert.ToString( Globals.HostSettings["SiteLogStorage"] ) == "" )
             {
                 optSiteLogStorage.Items.FindByValue( "D" ).Selected = true;
@@ -250,6 +241,15 @@ namespace DotNetNuke.Modules.Admin.Host
             }
             txtSiteLogHistory.Text = Convert.ToString( Globals.HostSettings["SiteLogHistory"] );
 
+            if (Convert.ToString(Globals.HostSettings["PageStatePersister"]) == "")
+            {
+                cboPageState.Items.FindByValue("P").Selected = true;
+            }
+            else
+            {
+                cboPageState.Items.FindByValue(Convert.ToString(Globals.HostSettings["PageStatePersister"])).Selected = true;
+            }
+
             if( Convert.ToString( Globals.HostSettings["ModuleCaching"] ) == "" )
             {
                 cboCacheMethod.Items.FindByValue( "M" ).Selected = true;
@@ -258,6 +258,67 @@ namespace DotNetNuke.Modules.Admin.Host
             {
                 cboCacheMethod.Items.FindByValue( Convert.ToString( Globals.HostSettings["ModuleCaching"] ) ).Selected = true;
             }
+
+            if (cboPerformance.Items.FindByValue(Convert.ToString(Globals.HostSettings["PerformanceSetting"])) != null)
+            {
+                cboPerformance.Items.FindByValue(Globals.HostSettings["PerformanceSetting"].ToString()).Selected = true;
+            }
+            else
+            {
+                cboPerformance.Items.FindByValue("3").Selected = true;
+            }
+            if (cboCacheability.Items.FindByValue(Convert.ToString(Globals.HostSettings["AuthenticatedCacheability"])) != null)
+            {
+                cboCacheability.Items.FindByValue(Globals.HostSettings["AuthenticatedCacheability"].ToString()).Selected = true;
+            }
+            else
+            {
+                cboCacheability.Items.FindByValue("4").Selected = true;
+            }
+            if (cboCompression.Items.FindByValue(Convert.ToString(Globals.HostSettings["HttpCompression"])) != null)
+            {
+                cboCompression.Items.FindByValue(Globals.HostSettings["HttpCompression"].ToString()).Selected = true;
+            }
+            else
+            {
+                cboCompression.Items.FindByValue("0").Selected = true;
+            }
+            if (cboLevel.Items.FindByValue(Convert.ToString(Globals.HostSettings["HttpCompressionLevel"])) != null)
+            {
+                cboLevel.Items.FindByValue(Globals.HostSettings["HttpCompressionLevel"].ToString()).Selected = true;
+            }
+            else
+            {
+                cboLevel.Items.FindByValue("0").Selected = true;
+            }
+            if (Convert.ToString(Globals.HostSettings["WhitespaceFilter"]) == "Y")
+            {
+                chkWhitespace.Checked = true;
+            }
+            else
+            {
+                chkWhitespace.Checked = false;
+            }
+
+
+
+            string filePath = Globals.ApplicationMapPath + "\\Compression.config";
+            if (File.Exists(filePath))
+            {
+                FileStream fileReader = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                XPathDocument doc = new XPathDocument(fileReader);
+                foreach (XPathNavigator nav in doc.CreateNavigator().Select("compression/excludedMimeTypes/mimeType"))
+                {
+                    txtExcludedMimeTypes.Text += nav.Value.ToLower() + Environment.NewLine;
+                }
+                foreach (XPathNavigator nav in doc.CreateNavigator().Select("compression/excludedPaths/path"))
+                {
+                    txtExcludedPaths.Text += nav.Value.ToLower() + Environment.NewLine;
+                }
+                txtWhitespaceFilter.Text = doc.CreateNavigator().SelectSingleNode("compression/whitespace").Value;
+            }
+
+
 
             txtDemoPeriod.Text = Convert.ToString( Globals.HostSettings["DemoPeriod"] );
             if( Convert.ToString( Globals.HostSettings["DemoSignup"] ) == "Y" )
@@ -305,6 +366,15 @@ namespace DotNetNuke.Modules.Admin.Host
             else
             {
                 optSMTPAuthentication.Items.FindByValue( "0" ).Selected = true;
+            }
+
+            if (Convert.ToString(Globals.HostSettings["SMTPEnableSSL"]) == "Y")
+            {
+                chkSMTPEnableSSL.Checked = true;
+            }
+            else
+            {
+                chkSMTPEnableSSL.Checked = false;
             }
 
             txtSMTPUsername.Text = Convert.ToString( Globals.HostSettings["SMTPUsername"] );
@@ -388,7 +458,7 @@ namespace DotNetNuke.Modules.Admin.Host
 
             if (Globals.HostSettings.ContainsKey("EnableFileAutoSync"))
             {
-                if (Globals.HostSettings["EnableFileAutoSync"].ToString() != "N")
+                if (Globals.HostSettings["EnableFileAutoSync"].ToString() == "Y")
                 {
                     chkAutoSync.Checked = true;
                 }
@@ -399,8 +469,9 @@ namespace DotNetNuke.Modules.Admin.Host
             }
             else
             {
-                chkAutoSync.Checked = true;
+                chkAutoSync.Checked = false;
             }
+
 
             ViewState["SelectedSchedulerMode"] = cboSchedulerMode.SelectedItem.Value;
             ViewState["SelectedLogBufferEnabled"] = chkLogBuffer.Checked;
@@ -435,7 +506,7 @@ namespace DotNetNuke.Modules.Admin.Host
             lnkUploadContainer.NavigateUrl = Globals.NavigateURL( FileManagerModule.TabID, "Edit", additionalParameters );
         }
 
-        private bool SkinChanged( string SkinRoot, int portalId, SkinType SkinType, string PostedSkinSrc )
+        protected static bool SkinChanged( string SkinRoot, int portalId, SkinType SkinType, string PostedSkinSrc )
         {
             //SkinController objSkins = new SkinController();
             SkinInfo objSkinInfo;
@@ -587,6 +658,8 @@ namespace DotNetNuke.Modules.Admin.Host
                 objHostSettings.UpdateHostSetting( "HostFee", txtHostFee.Text );
                 objHostSettings.UpdateHostSetting( "HostCurrency", cboHostCurrency.SelectedItem.Value );
                 objHostSettings.UpdateHostSetting( "HostSpace", txtHostSpace.Text );
+                objHostSettings.UpdateHostSetting("PageQuota", txtPageQuota.Text);
+                objHostSettings.UpdateHostSetting("UserQuota", txtUserQuota.Text);
                 objHostSettings.UpdateHostSetting( "SiteLogStorage", optSiteLogStorage.SelectedItem.Value );
                 objHostSettings.UpdateHostSetting( "SiteLogBuffer", txtSiteLogBuffer.Text );
                 objHostSettings.UpdateHostSetting( "SiteLogHistory", txtSiteLogHistory.Text );
@@ -642,15 +715,20 @@ namespace DotNetNuke.Modules.Admin.Host
                 objHostSettings.UpdateHostSetting( "SMTPAuthentication", optSMTPAuthentication.SelectedItem.Value );
                 objHostSettings.UpdateHostSetting( "SMTPUsername", txtSMTPUsername.Text, true );
                 objHostSettings.UpdateHostSetting( "SMTPPassword", txtSMTPPassword.Text, true );
+                objHostSettings.UpdateHostSetting("SMTPEnableSSL", Convert.ToString((chkSMTPEnableSSL.Checked ? "Y" : "N")));
                 objHostSettings.UpdateHostSetting( "FileExtensions", txtFileExtensions.Text );
                 objHostSettings.UpdateHostSetting( "SkinUpload", optSkinUpload.SelectedItem.Value );
-                objHostSettings.UpdateHostSetting( "PerformanceSetting", cboPerformance.SelectedItem.Value );
-                objHostSettings.UpdateHostSetting( "AuthenticatedCacheability", cboCacheability.SelectedItem.Value );
                 objHostSettings.UpdateHostSetting( "UseCustomErrorMessages", Convert.ToString( chkUseCustomErrorMessages.Checked ? "Y" : "N" ) );
                 objHostSettings.UpdateHostSetting( "UseFriendlyUrls", Convert.ToString( chkUseFriendlyUrls.Checked ? "Y" : "N" ) );
                 objHostSettings.UpdateHostSetting( "ControlPanel", cboControlPanel.SelectedItem.Value );
                 objHostSettings.UpdateHostSetting( "SchedulerMode", cboSchedulerMode.SelectedItem.Value );
-                objHostSettings.UpdateHostSetting( "ModuleCaching", cboCacheMethod.SelectedItem.Value );
+                objHostSettings.UpdateHostSetting("PerformanceSetting", cboPerformance.SelectedItem.Value);
+                objHostSettings.UpdateHostSetting("AuthenticatedCacheability", cboCacheability.SelectedItem.Value);
+                objHostSettings.UpdateHostSetting("PageStatePersister", cboPageState.SelectedItem.Value);
+                objHostSettings.UpdateHostSetting("ModuleCaching", cboCacheMethod.SelectedItem.Value);
+                objHostSettings.UpdateHostSetting("HttpCompression", cboCompression.SelectedItem.Value);
+                objHostSettings.UpdateHostSetting("HttpCompressionLevel", cboLevel.SelectedItem.Value);
+                objHostSettings.UpdateHostSetting("WhitespaceFilter", Convert.ToString((chkWhitespace.Checked ? "Y" : "N")));
                 objHostSettings.UpdateHostSetting( "EnableModuleOnLineHelp", Convert.ToString( chkEnableHelp.Checked ? "Y" : "N" ) );
                 objHostSettings.UpdateHostSetting( "EnableFileAutoSync", Convert.ToString( chkAutoSync.Checked ? "Y" : "N" ) );
                 objHostSettings.UpdateHostSetting( "HelpURL", txtHelpURL.Text );
@@ -783,10 +861,63 @@ namespace DotNetNuke.Modules.Admin.Host
         /// 	[cnurse]	9/27/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
-        protected void cmdRestart_Click(object sender, System.EventArgs e)
+        protected void cmdRestart_Click(object sender, EventArgs e)
         {
             Config.Touch();
             Response.Redirect(Globals.NavigateURL(), true);
+        }
+
+        protected void cmdUpdateCompression_Click(object sender, EventArgs e)
+        {
+
+            //Create XML Document
+            XmlDocument xmlCompression = new XmlDocument();
+
+            //Root Element
+            XmlNode nodeRoot = xmlCompression.CreateElement("compression");
+
+            //ExcludedMimeTypes Element
+            XmlNode nodeExcludedMimeTypes = xmlCompression.CreateElement("excludedMimeTypes");
+            nodeRoot.AppendChild(nodeExcludedMimeTypes);
+
+            //Add ExcludedMimeTypes
+            string[] split = new string[1] { Environment.NewLine };
+            foreach (string strItem in txtExcludedMimeTypes.Text.Split(split, StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (strItem.Trim() != "")
+                {
+                    XmlUtils.AppendElement(ref xmlCompression, nodeExcludedMimeTypes, "mimeType", strItem.Trim(), false);
+                }
+            }
+
+            //ExcludedPaths Element
+            XmlNode nodeExcludedPaths = xmlCompression.CreateElement("excludedPaths");
+            nodeRoot.AppendChild(nodeExcludedPaths);
+
+            //Add ExcludedPaths
+            foreach (string strItem in txtExcludedPaths.Text.Split(split, StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (strItem.Trim() != "")
+                {
+                    XmlUtils.AppendElement(ref xmlCompression, nodeExcludedPaths, "path", strItem.Trim(), false);
+                }
+            }
+
+            //Whitespace Element
+            XmlUtils.AppendElement(ref xmlCompression, nodeRoot, "whitespace", txtWhitespaceFilter.Text, false, true);
+
+            //Add Root element to document
+            xmlCompression.AppendChild(nodeRoot);
+
+            //Create XML declaration. 
+            XmlDeclaration xmlDeclaration = xmlCompression.CreateXmlDeclaration("1.0", "utf-8", null);
+            xmlCompression.InsertBefore(xmlDeclaration, nodeRoot);
+
+            //Save Compression file
+            string strFile = Globals.ApplicationMapPath + "\\Compression.config";
+            File.SetAttributes(strFile, FileAttributes.Normal);
+            xmlCompression.Save(strFile);
+            
         }
     }
 }

@@ -1,11 +1,11 @@
 //------------------------------------------------------//
 // Solution Partner's ASP.NET Hierarchical Menu Control //
-// Copyright (c) 2002-2006                              //
+// Copyright (c) 2002-2005                              //
 // Jon Henning - Solution Partner's Inc                 //  
 // jhenning@solpart.com   -   http://www.solpart.com    //
 // Compatible Menu Version:  <Min: 1400>             //
-//                           <Max: 1.6.1.0>             //
-// <Script Version: 1611>                               //
+//                           <Max: 1.7.2.0>             //
+// <Script Version: 1720>                               //
 //------------------------------------------------------//
 var m_oSolpartMenu;
 if (m_oSolpartMenu == null)
@@ -766,8 +766,8 @@ SolpartMenu.prototype.GetMenuItems = function (oParent)
 		spm_getById("td" + sID).className = spm_fixCSSForMac(this.getIntCSSName('spmitmsel') + this.cssMenuItemSel + ' ' + spm_getAttr(oRow, 'saveselcss', ''));
 		spm_getById("arrow" + sID).className = spm_fixCSSForMac(this.getIntCSSName('spmitmsel spmarw') + this.cssMenuItemSel + ' ' + this.cssMenuArrow + ' ' + spm_getAttr(oRow, 'saveselcss', ''));
 		
-		spm_applyRowBorder(oRow, 1, this.selBorderColor, true);
-
+		if (this.selBorderColor != '')
+			spm_applyRowBorder(oRow, 1, this.selBorderColor, true);
 
 		if (this.minDelay != 0 && bBypassDelay != true)
 		{
@@ -850,7 +850,8 @@ SolpartMenu.prototype.GetMenuItems = function (oParent)
 		  spm_getById("td" + sID).className = spm_fixCSSForMac(this.getIntCSSName('spmitm') + ' ' + this.cssMenuItem + ' ' + spm_getAttr(oRow, 'savecss', ''));
 		  spm_getById("arrow" + sID).className = spm_fixCSSForMac(this.getIntCSSName('spmarw') + this.cssMenuArrow);
 			
-			spm_applyRowBorder(oRow, 1, "", false);
+			if (this.selBorderColor != '')
+				spm_applyRowBorder(oRow, 1, "", false);
 
       this.stopTransition();
 	}
@@ -1042,7 +1043,14 @@ SolpartMenu.prototype.GetMenuItems = function (oParent)
 			if (spm_browserType() != 'ie') //since mozilla doesn't set width greater than window size we need to store it here
 				 oOrigMDims = new spm_elementDims(oMenu);
 			
-			oMenu.style.left = spm_getCoord(oPDims.l + oPDims.w - spm_getBodyScrollLeft());
+      if (me.direction == 'rtl')                
+      {
+          var oMDims2 = new spm_elementDims(oMenu);
+          oMenu.style.left = spm_getCoord((oPDims.l) - oMDims2.w - spm_getBodyScrollLeft());
+      }
+      else
+          oMenu.style.left = spm_getCoord(oPDims.l + oPDims.w - spm_getBodyScrollLeft());
+					
 			oMDims = new spm_elementDims(oMenu);
 			if (oOrigMDims == null)
 				oOrigMDims = oMDims;
@@ -1383,27 +1391,23 @@ SolpartMenu.prototype.GetMenuItems = function (oParent)
     return window.document.body.clientWidth;
 	}
 	
-	function spm_getBodyScrollTop()
-	{
-		if ('|ie|op|mo|ns|'.indexOf('|' + spm_browserType() + '|') != -1)
-		{
-			if (document.body.scrollTop != null)
-				return document.body.scrollTop;
-		}
-		return 0;
-	}
+  function spm_getBodyScrollTop()
+  {
+		if (window.pageYOffset)
+			return window.pageYOffset;
+		
+		var oBody = (document.compatMode && document.compatMode != "BackCompat") ? document.documentElement : document.body;		
+		return oBody.scrollTop;
+  }
 
-	function spm_getBodyScrollLeft(bOverride)
-	{
-		if ('|op|'.indexOf('|' + spm_browserType() + '|') != -1 || bOverride == true)
-		{
-			if (document.body.scrollLeft != null)
-			{
-				return document.body.scrollLeft;
-			}
-		}
-		return 0;
-	}
+  function spm_getBodyScrollLeft(bOverride)
+  { 
+		if (window.pageXOffset)
+			return window.pageXOffset;
+
+		var oBody = (document.compatMode && document.compatMode != "BackCompat") ? document.documentElement : document.body;
+		return oBody.scrollLeft;
+  }
 	
 	function spm_getViewPortHeight()
 	{
@@ -1512,17 +1516,7 @@ SolpartMenu.prototype.GetMenuItems = function (oParent)
 
 	function spm_itemHasChildren(sID, ns)
 	{
-		objTable = spm_getById(ns + "tbl" + sID);
-		if (objTable != null)
-		{
-			if (objTable.rows != null)
-			{
-				if (objTable.rows.length > 0)
-					return true;
-				else
-					return false;
-			}		
-		}
+		return spm_getById("tbl" + sID) != null;
 	}
 
 function spm_getMenuItemStyle(sType, oNode)

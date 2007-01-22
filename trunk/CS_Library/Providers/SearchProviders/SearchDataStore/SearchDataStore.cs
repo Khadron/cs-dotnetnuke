@@ -269,7 +269,7 @@ namespace DotNetNuke.Services.Search
                     object tabAllowed = hashTabsAllowed[SearchResult.TabId];
                     if( tabAllowed == null )
                     {
-                        TabInfo objTab = objTabController.GetTab( SearchResult.TabId );
+                        TabInfo objTab = objTabController.GetTab( SearchResult.TabId, PortalID, false );
                         if( PortalSecurity.IsInRoles( objTab.AuthorizedRoles ) )
                         {
                             hashModulesAllowed = new Hashtable();
@@ -300,7 +300,7 @@ namespace DotNetNuke.Services.Search
                         if( !( hashModulesAllowed.ContainsKey( SearchResult.ModuleId ) ) )
                         {
                             //Now check if authorized to view module
-                            objModule = objModuleController.GetModule( SearchResult.ModuleId, SearchResult.TabId );
+                            objModule = objModuleController.GetModule( SearchResult.ModuleId, SearchResult.TabId, false );
                             addResult = ( objModule.IsDeleted == false && PortalSecurity.IsInRoles( objModule.AuthorizedViewRoles ) );
                             hashModulesAllowed.Add( SearchResult.ModuleId, addResult );
                         }

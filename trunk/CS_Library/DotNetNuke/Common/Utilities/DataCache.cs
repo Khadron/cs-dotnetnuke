@@ -19,6 +19,7 @@
 #endregion
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Web.Caching;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Tabs;
@@ -28,26 +29,65 @@ namespace DotNetNuke.Common.Utilities
 {
     public class DataCache
     {
+        private static string strCachePersistenceEnabled = "";
+
+        public const string PortalDictionaryCacheKey = "PortalDictionary";
+        public const string PortalCacheKey = "Portal{0}";
+        public const int PortalCacheTimeOut = 20;
+
+        public const string TabCacheKey = "Tabs{0}";
+        public const int TabCacheTimeOut = 20;
+
+        public const string TabPermissionCacheKey = "TabPermissions{0}";
+        public const int TabPermissionCacheTimeOut = 20;
+
+        public const string TabModuleCacheKey = "TabModules{0}";
+        public const int TabModuleCacheTimeOut = 20;
+
+        public const string ModulePermissionCacheKey = "ModulePermissions{0}";
+        public const int ModulePermissionCacheTimeOut = 20;
+
+        
+
         public static bool CachePersistenceEnabled
         {
             get
             {
-                if( Config.GetSetting( "EnableCachePersistence" ) != null )
+                if (string.IsNullOrEmpty(strCachePersistenceEnabled))
                 {
-                    if( Config.GetSetting( "EnableCachePersistence" ) == "true" )
+                    if (Config.GetSetting("EnableCachePersistence") == null)
                     {
-                        return true;
+                        strCachePersistenceEnabled = "false";
                     }
                     else
                     {
-                        return false;
+                        strCachePersistenceEnabled = Config.GetSetting("EnableCachePersistence");
                     }
                 }
-                else
-                {
-                    return false;
-                }
+                return bool.Parse(strCachePersistenceEnabled);
             }
+        }
+
+        public static void ClearModuleCache(int TabId)
+        {
+            RemoveCache(string.Format(TabModuleCacheKey, TabId));
+            ClearModulePermissionsCache(TabId);
+        }
+
+        public static void ClearModulePermissionsCache(int TabId)
+        {
+            RemoveCache(string.Format(ModulePermissionCacheKey, TabId));
+        }
+
+        public static void ClearTabsCache(int PortalId)
+        {
+            RemoveCache(string.Format(TabCacheKey, PortalId));
+            ClearTabPermissionsCache(PortalId);
+        }
+
+        public static void ClearTabPermissionsCache(int PortalId)
+        {
+            RemoveCache(string.Format(TabPermissionCacheKey, PortalId));
         }
 
         public static object GetCache( string CacheKey )
@@ -55,9 +95,9 @@ namespace DotNetNuke.Common.Utilities
             return CachingProvider.Instance().GetItem( CacheKey );
         }
 
-        public static object GetPersistentCacheItem( string CacheKey, Type objType )
+        public static object GetPersistentCacheItem(string CacheKey, Type objType)
         {
-            return CachingProvider.Instance().GetPersistentCacheItem( CacheKey, objType );
+            return CachingProvider.Instance().GetPersistentCacheItem(CacheKey, objType);
         }
 
         [Obsolete( "This method is obsolete. Use the new specific methods: ClearHostCache, ClearPortalCache, ClearTabCache." )]
@@ -86,67 +126,49 @@ namespace DotNetNuke.Common.Utilities
             }
         }
 
-        public static void ClearHostCache( bool Cascade )
+        public static void ClearHostCache(bool Cascade)
         {
-            RemoveCache( "GetHostSettings" );
-
-            RemoveCache( "GetPortalByAlias" );
-
-            RemoveCache( "CSS" );
-
-            RemoveCache( "Folders:-1" );
-
-            if( Cascade )
+            RemoveCache("GetHostSettings");
+            RemoveCache("GetPortalByAlias");
+            RemoveCache("CSS");
+            RemoveCache("Folders:-1");
+            if (Cascade)
             {
                 PortalController objPortals = new PortalController();
-                PortalInfo objPortal;
+                PortalInfo objPortal = null;
                 ArrayList arrPortals = objPortals.GetPortals();
 
-                int intIndex;
-                for( intIndex = 0; intIndex <= arrPortals.Count - 1; intIndex++ )
+                int intIndex = 0;
+                for (intIndex = 0; intIndex < arrPortals.Count; intIndex++)
                 {
-                    objPortal = (PortalInfo)arrPortals[intIndex];
-                    ClearPortalCache( objPortal.PortalID, Cascade );
+                    objPortal = (PortalInfo)(arrPortals[intIndex]);
+                    ClearPortalCache(objPortal.PortalID, Cascade);
                 }
             }
         }
 
-        public static void ClearPortalCache( int PortalId, bool Cascade )
+        public static void ClearPortalCache(int PortalId, bool Cascade)
         {
-            ArrayList arrTabs = (ArrayList)GetCache( "GetTabs" + PortalId.ToString() );
-
-            RemovePersistentCacheItem( "GetPortalSettings" + PortalId.ToString() );
-
-            RemoveCache( "GetTabs" + PortalId.ToString() );
-
-            RemoveCache( "Folders:" + PortalId.ToString() );
-
-            if( Cascade )
+            RemovePersistentCacheItem(string.Format(PortalCacheKey, PortalId));
+            RemoveCache("Folders:" + PortalId.ToString());
+            RemoveCache("GetSkins" + PortalId.ToString());
+            if (Cascade)
             {
-                TabInfo objTab;
-
-                if( arrTabs == null )
+                TabController objTabs = new TabController();
+                foreach (KeyValuePair<int, TabInfo> tabPair in objTabs.GetTabsByPortal(PortalId))
                 {
-                    TabController objTabs = new TabController();
-                    arrTabs = objTabs.GetTabs( PortalId );
+                    TabInfo objTab = tabPair.Value;
+                    ClearModuleCache(objTab.TabID);
                 }
-
-                int intIndex;
-                for( intIndex = 0; intIndex <= arrTabs.Count - 1; intIndex++ )
-                {
-                    objTab = (TabInfo)arrTabs[intIndex];
-                    ClearTabCache( objTab.TabID );
-                }
-
-                RemoveCache( "GetTabPermissionsByPortal" + PortalId.ToString() );
+                ClearTabPermissionsCache(PortalId);
             }
+            ClearTabsCache(PortalId);
         }
 
-        public static void ClearTabCache( int TabId, int PortalId )
+        private static void ClearTabCache(int TabId, int PortalId)
         {
-            ClearTabCache( TabId );
-
-            RemoveCache( "GetTabPermissionsByPortal" + PortalId.ToString() );
+            ClearModuleCache(TabId);
+            ClearTabPermissionsCache(PortalId);
         }
 
         private static void ClearTabCache( int TabId )
@@ -156,14 +178,14 @@ namespace DotNetNuke.Common.Utilities
             RemoveCache( "GetPortalTabModules" + TabId.ToString() );
         }
 
-        public static void RemoveCache( string CacheKey )
+        public static void RemoveCache(string CacheKey)
         {
-            CachingProvider.Instance().Remove( CacheKey );
+            CachingProvider.Instance().Remove(CacheKey);
         }
 
-        public static void RemovePersistentCacheItem( string CacheKey )
+        public static void RemovePersistentCacheItem(string CacheKey)
         {
-            CachingProvider.Instance().RemovePersistentCacheItem( CacheKey );
+            CachingProvider.Instance().RemovePersistentCacheItem(CacheKey);
         }
 
         public static void SetCache( string CacheKey, object objObject )

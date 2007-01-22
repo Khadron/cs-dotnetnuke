@@ -1,219 +1,318 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" />
-							<xsd:attribute name="type" type="xsd:string" />
-							<xsd:attribute name="mimetype" type="xsd:string" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="ResMimeType">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="Version">
-		<value>1.0.0.0</value>
-	</resheader>
-	<resheader name="Reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="Writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="BasicSettings.Text">
-		<value>Basic Settings</value>
-	</data>
-	<data name="BasicSettingsHelp.Text">
-		<value>In this section, you can set up the basic settings for this page.</value>
-	</data>
-	<data name="TabName.Text">
-		<value>Page Name</value>
-	</data>
-	<data name="TabNameHelp.Text">
-		<value>This is the name of the Page.  The text you enter will be displayed in the menu system.</value>
-	</data>
-	<data name="Title.Text">
-		<value>Page Title</value>
-	</data>
-	<data name="TitleHelp.Text">
-		<value>Enter a title for the Page here. The text you enter will be displayed in the browser window title.</value>
-	</data>
-	<data name="Description.Text">
-		<value>Description</value>
-	</data>
-	<data name="DescriptionHelp.Text">
-		<value>Enter a description about this page here.</value>
-	</data>
-	<data name="ParentTab.Text">
-		<value>Parent Page</value>
-	</data>
-	<data name="ParentTabHelp.Text">
-		<value>Select the page that you would like this page to be a child of.</value>
-	</data>
-	<data name="Template.Text">
-		<value>Page Template</value>
-	</data>
-	<data name="TemplateHelp.Text">
-		<value>Select a page template which you would like to use to create this page.</value>
-	</data>
-	<data name="DefaultTemplate.Text">
-		<value>Default</value>
-	</data>
-	<data name="Url.Text">
-		<value>Link Url</value>
-	</data>
-	<data name="UrlHelp.Text">
-		<value>If you would like this page to behave as a navigation link to another resource, you can specify the Link URL value here. Please note that this field is optional.</value>
-	</data>
-	<data name="Copy.Text">
-		<value>Copy Page</value>
-	</data>
-	<data name="CopyModules.Text">
-		<value>Copy From Page</value>
-	</data>
-	<data name="CopyModulesHelp.Text">
-		<value>Select the page (if any) that you would like to copy modules from.</value>
-	</data>
-	<data name="CopyContent.Text">
-		<value>Specify Modules</value>
-	</data>
-	<data name="CopyContentHelp.Text">
-		<value>Select the modules that you wish to copy and enter the title for the module. In addition specify if you want to create a New module ( without content ), a Copy of the module ( with content ), or a Reference to an existing module ( shared content ).</value>
-	</data>
-	<data name="ModuleNew.Text">
-		<value>New</value>
-	</data>
-	<data name="ModuleCopy.Text">
-		<value>Copy</value>
-	</data>
-	<data name="ModuleReference.Text">
-		<value>Reference</value>
-	</data>
-	<data name="AdvancedSettings.Text">
-		<value>Advanced Settings</value>
-	</data>
-	<data name="AdvancedSettingsHelp.Text">
-		<value>In this section, you can set up more advanced settings for this page.</value>
-	</data>
-	<data name="Appearance.Text">
-		<value>Appearance</value>
-	</data>
-	<data name="Icon.Text">
-		<value>Icon</value>
-	</data>
-	<data name="IconHelp.Text">
-		<value>You can choose an icon that can be used in the menu.</value>
-	</data>
-	<data name="TabSkin.Text">
-		<value>Page Skin</value>
-	</data>
-	<data name="TabSkinHelp.Text">
-		<value>The selected skin will be applied to this page.</value>
-	</data>
-	<data name="TabContainer.Text">
-		<value>Page Container</value>
-	</data>
-	<data name="TabContainerHelp.Text">
-		<value>The selected container will be applied to all modules on this page.</value>
-	</data>
-	<data name="Hidden.Text">
-		<value>Hidden</value>
-	</data>
-	<data name="HiddenHelp.Text">
-		<value>If the page is hidden it does not show up on the menu. However you can still link to it based on its page URL.</value>
-	</data>
-	<data name="Disabled.Text">
-		<value>Disabled</value>
-	</data>
-	<data name="DisabledHelp.Text">
-		<value>If the page is disabled it is not available to users of the site.  You can use this option to suppress content that you might wish to show at a later time.</value>
-	</data>
-	<data name="SecuritySettings.Text">
-		<value>Security Settings</value>
-	</data>
-	<data name="Permissions.Text">
-		<value>Permissions</value>
-	</data>
-	<data name="PermissionsHelp.Text">
-		<value>Choose the groups of people that can view and administer this page.</value>
-	</data>
-	<data name="OtherSettings.Text">
-		<value>Other Settings</value>
-	</data>
-	<data name="KeyWords.Text">
-		<value>Key Words</value>
-	</data>
-	<data name="KeyWordsHelp.Text">
-		<value>Enter some keywords for this page (separated by commas).  These keywords are used by search engines to help index your site's pages.</value>
-	</data>
-	<data name="plStartDate.Text">
-		<value>Start Date:</value>
-	</data>
-	<data name="plStartDate.Help">
-		<value>Enter the start date for displaying this page. You may use the Calendar to pick a date.</value>
-	</data>
-	<data name="plEndDate.Text">
-		<value>End Date:</value>
-	</data>
-	<data name="plEndDate.Help">
-		<value>Enter the end date for displaying this page. You may use the Calendar to pick a date.</value>
-	</data>
-	<data name="SubmitToGoogle.Text">
-		<value>Submit Page To Google</value>
-	</data>
-	<data name="ControlTitle_tab.Text">
-		<value>Page Management</value>
-	</data>
-	<data name="ControlTitle_edit.Text">
-		<value>Edit Page</value>
-	</data>
-	<data name="valTabName.ErrorMessage">
-		<value>&lt;br&gt;Page Name Is Required</value>
-	</data>
-	<data name="DeleteSpecialPage.Text">
-		<value>A page defined as Home, Splash, Login or User Page for the portal, or the last visible Page in the portal cannot be deleted.</value>
-	</data>
-	<data name="valStartDate.ErrorMessage">
-		<value>&lt;br&gt;Invalid Start Date</value>
-	</data>
-	<data name="valEndDate.ErrorMessage">
-		<value>&lt;br&gt;Invalid End Date</value>
-	</data>
-	<data name="ModuleHelp.Text">
-		<value>&lt;h1&gt;Page Management&lt;/h1&gt;&lt;p&gt;This module allows you to modify the settings for an existing page, delete the page, or submit it to Google for indexing.&lt;/p&gt;</value>
-	</data>
-	<data name="PageDetails.Text">
-		<value>Page Details</value>
-	</data>
-	<data name="RefreshInterval.Text">
-		<value>Refresh Interval (seconds)</value>
-	</data>
-	<data name="RefreshInterval.Help">
-		<value>Enter the interval to wait between automatic page refeshes. (Example: Enter "60" for 1 minute or leave blank to disable.)</value>
-	</data>
-	<data name="PageHeadText.Text">
-		<value>Page Header Tags</value>
-	</data>
-	<data name="PageHeadText.Help">
-		<value>Enter any tags (i.e. META tags) that should be rendered in the "HEAD" tag of the HTML for this page.</value>
-	</data>	
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BasicSettings.Text" xml:space="preserve">
+    <value>Basic Settings</value>
+  </data>
+  <data name="BasicSettingsHelp.Text" xml:space="preserve">
+    <value>In this section, you can set up the basic settings for this page.</value>
+  </data>
+  <data name="TabName.Text" xml:space="preserve">
+    <value>Page Name</value>
+  </data>
+  <data name="TabNameHelp.Text" xml:space="preserve">
+    <value>This is the name of the Page.  The text you enter will be displayed in the menu system.</value>
+  </data>
+  <data name="Title.Text" xml:space="preserve">
+    <value>Page Title</value>
+  </data>
+  <data name="TitleHelp.Text" xml:space="preserve">
+    <value>Enter a title for the Page here. The text you enter will be displayed in the browser window title.</value>
+  </data>
+  <data name="Description.Text" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DescriptionHelp.Text" xml:space="preserve">
+    <value>Enter a description about this page here.</value>
+  </data>
+  <data name="ParentTab.Text" xml:space="preserve">
+    <value>Parent Page</value>
+  </data>
+  <data name="ParentTabHelp.Text" xml:space="preserve">
+    <value>Select the page that you would like this page to be a child of.</value>
+  </data>
+  <data name="Template.Text" xml:space="preserve">
+    <value>Page Template</value>
+  </data>
+  <data name="TemplateHelp.Text" xml:space="preserve">
+    <value>Select a page template which you would like to use to create this page.</value>
+  </data>
+  <data name="DefaultTemplate.Text" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Url.Text" xml:space="preserve">
+    <value>Link Url</value>
+  </data>
+  <data name="UrlHelp.Text" xml:space="preserve">
+    <value>If you would like this page to behave as a navigation link to another resource, you can specify the Link URL value here. Please note that this field is optional.</value>
+  </data>
+  <data name="Copy.Text" xml:space="preserve">
+    <value>Copy Page</value>
+  </data>
+  <data name="CopyModules.Text" xml:space="preserve">
+    <value>Copy From Page</value>
+  </data>
+  <data name="CopyModulesHelp.Text" xml:space="preserve">
+    <value>Select the page (if any) that you would like to copy modules from.</value>
+  </data>
+  <data name="CopyContent.Text" xml:space="preserve">
+    <value>Specify Modules</value>
+  </data>
+  <data name="CopyContentHelp.Text" xml:space="preserve">
+    <value>Select the modules that you wish to copy and enter the title for the module. In addition specify if you want to create a New module ( without content ), a Copy of the module ( with content ), or a Reference to an existing module ( shared content ).</value>
+  </data>
+  <data name="ModuleNew.Text" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="ModuleCopy.Text" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="ModuleReference.Text" xml:space="preserve">
+    <value>Reference</value>
+  </data>
+  <data name="AdvancedSettings.Text" xml:space="preserve">
+    <value>Advanced Settings</value>
+  </data>
+  <data name="AdvancedSettingsHelp.Text" xml:space="preserve">
+    <value>In this section, you can set up more advanced settings for this page.</value>
+  </data>
+  <data name="Appearance.Text" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="Icon.Text" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="IconHelp.Text" xml:space="preserve">
+    <value>You can choose an icon that can be used in the menu.</value>
+  </data>
+  <data name="TabSkin.Text" xml:space="preserve">
+    <value>Page Skin</value>
+  </data>
+  <data name="TabSkinHelp.Text" xml:space="preserve">
+    <value>The selected skin will be applied to this page.</value>
+  </data>
+  <data name="TabContainer.Text" xml:space="preserve">
+    <value>Page Container</value>
+  </data>
+  <data name="TabContainerHelp.Text" xml:space="preserve">
+    <value>The selected container will be applied to all modules on this page.</value>
+  </data>
+  <data name="Hidden.Text" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="HiddenHelp.Text" xml:space="preserve">
+    <value>If the page is hidden it does not show up on the menu. However you can still link to it based on its page URL.</value>
+  </data>
+  <data name="Disabled.Text" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="DisabledHelp.Text" xml:space="preserve">
+    <value>If the page is disabled it is not available to users of the site.  You can use this option to suppress content that you might wish to show at a later time.</value>
+  </data>
+  <data name="SecuritySettings.Text" xml:space="preserve">
+    <value>Security Settings</value>
+  </data>
+  <data name="Permissions.Text" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="PermissionsHelp.Text" xml:space="preserve">
+    <value>Choose the groups of people that can view and administer this page.</value>
+  </data>
+  <data name="OtherSettings.Text" xml:space="preserve">
+    <value>Other Settings</value>
+  </data>
+  <data name="KeyWords.Text" xml:space="preserve">
+    <value>Key Words</value>
+  </data>
+  <data name="KeyWordsHelp.Text" xml:space="preserve">
+    <value>Enter some keywords for this page (separated by commas).  These keywords are used by search engines to help index your site's pages.</value>
+  </data>
+  <data name="plStartDate.Text" xml:space="preserve">
+    <value>Start Date:</value>
+  </data>
+  <data name="plStartDate.Help" xml:space="preserve">
+    <value>Enter the start date for displaying this page. You may use the Calendar to pick a date.</value>
+  </data>
+  <data name="plEndDate.Text" xml:space="preserve">
+    <value>End Date:</value>
+  </data>
+  <data name="plEndDate.Help" xml:space="preserve">
+    <value>Enter the end date for displaying this page. You may use the Calendar to pick a date.</value>
+  </data>
+  <data name="SubmitToGoogle.Text" xml:space="preserve">
+    <value>Submit Page To Google</value>
+  </data>
+  <data name="ControlTitle_tab.Text" xml:space="preserve">
+    <value>Page Management</value>
+  </data>
+  <data name="ControlTitle_edit.Text" xml:space="preserve">
+    <value>Edit Page</value>
+  </data>
+  <data name="valTabName.ErrorMessage" xml:space="preserve">
+    <value>&lt;br&gt;Page Name Is Required</value>
+  </data>
+  <data name="DeleteSpecialPage.Text" xml:space="preserve">
+    <value>A page defined as Home, Splash, Login or User Page for the portal, or the last visible Page in the portal cannot be deleted.</value>
+  </data>
+  <data name="valStartDate.ErrorMessage" xml:space="preserve">
+    <value>&lt;br&gt;Invalid Start Date</value>
+  </data>
+  <data name="valEndDate.ErrorMessage" xml:space="preserve">
+    <value>&lt;br&gt;Invalid End Date</value>
+  </data>
+  <data name="ModuleHelp.Text" xml:space="preserve">
+    <value>&lt;h1&gt;Page Management&lt;/h1&gt;&lt;p&gt;This module allows you to modify the settings for an existing page, delete the page, or submit it to Google for indexing.&lt;/p&gt;</value>
+  </data>
+  <data name="PageDetails.Text" xml:space="preserve">
+    <value>Page Details</value>
+  </data>
+  <data name="RefreshInterval.Text" xml:space="preserve">
+    <value>Refresh Interval (seconds)</value>
+  </data>
+  <data name="RefreshInterval.Help" xml:space="preserve">
+    <value>Enter the interval to wait between automatic page refeshes. (Example: Enter "60" for 1 minute or leave blank to disable.)</value>
+  </data>
+  <data name="PageHeadText.Text" xml:space="preserve">
+    <value>Page Header Tags</value>
+  </data>
+  <data name="PageHeadText.Help" xml:space="preserve">
+    <value>Enter any tags (i.e. META tags) that should be rendered in the "HEAD" tag of the HTML for this page.</value>
+  </data>
+  <data name="cmdCopySkin.Text" xml:space="preserve">
+    <value>Copy design</value>
+  </data>
+  <data name="plCopySkin.Help" xml:space="preserve">
+    <value>Copies the currently selected design (skin and container) for the page to descendant pages.</value>
+  </data>
+  <data name="plCopySkin.Text" xml:space="preserve">
+    <value>Copy design to descendants:</value>
+  </data>
+  <data name="cmdCopyPerm.Text" xml:space="preserve">
+    <value>Copy permissions</value>
+  </data>
+  <data name="plCopyPerm.Help" xml:space="preserve">
+    <value>Copies the currently selected permissions for the page to descendant pages.</value>
+  </data>
+  <data name="plCopyPerm.Text" xml:space="preserve">
+    <value>Copy permissions to descendants:</value>
+  </data>
+  <data name="ExceededQuota.Text" xml:space="preserve">
+    <value>Adding this page will exceed the Page Quota for this site.  Please contact your hosting provider for inquiries related to increasing your Page Quota.</value>
+  </data>
 </root>

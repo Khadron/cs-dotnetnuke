@@ -2,157 +2,161 @@
 <%@ Register TagPrefix="dnn" TagName="Skin" Src="~/controls/SkinThumbNailControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="url" Src="~/controls/UrlControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="label" Src="~/controls/LabelControl.ascx" %>
-<table id="Wizard" cellspacing="0" cellpadding="0" border="0" runat="server">
-	<tr>
-		<td id="WizardBody" runat="server" class="WizardBody" valign="top">
-			<asp:panel id="pnlTemplate" runat="server">
-				<table cellspacing="0" cellpadding="0" border="0">
-					<tr>
-						<td colspan="3" class="SubHead"><dnn:label id="lblTemplateTitle" runat="server" text="Choose a Template" /></td>
-					</tr>
-					<tr>
-						<td colspan="3" height="15"></td>
-					</tr>
-					<tr>
-						<td colspan="3"><asp:checkbox id="chkTemplate" runat="server" cssclass="WizardText" autopostback="True" resourcekey="TemplateDetail"
-								Text="Build your site from a template (below)"></asp:checkbox></td>
-					</tr>
-					<tr>
-						<td colspan="3" height="10"></td>
-					</tr>
-					<tr>
-						<td width="150" aliign="center"><asp:listbox id="lstTemplate" runat="server" width="150" rows="8" autopostback="True"></asp:listbox></td>
-						<td colspan="2" valign="top" align="left" width="300"><asp:label id="lblTemplateMessage" runat="server" cssclass="NormalRed" style="overflow:auto; width:280px; height:150px"></asp:label></td>
-					</tr>
-					<tr>
-						<td colspan="3" height="15"></td>
-					</tr>
-					<tr>
-						<td colspan="3">
-							<asp:label id="lblMergeTitle" runat="server" resourcekey="MergeDetail" cssclass="WizardText">
-								<p>
-									If you elect to build your site using a template, you need to choose how to 
-									deal with duplicate Modules (Modules that are in the Template and also already 
-									on your site).
-								</p>
-							</asp:label>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3" height="15"></td>
-					</tr>
-					<tr>
-						<td colspan="3" align="center">
-							<asp:radiobuttonlist id="optMerge" cssclass="WizardText" runat="server" repeatdirection="Horizontal">
-								<asp:listitem selected value="Ignore" resourcekey="Ignore">Ignore</asp:listitem>
-								<asp:listitem value="Replace" resourcekey="Replace">Replace</asp:listitem>
-								<asp:listitem value="Merge" resourcekey="Merge">Merge</asp:listitem>
-							</asp:radiobuttonlist>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3">
-							<asp:label id="lblMergeWarning" runat="server" resourcekey="MergeWarning" cssclass="WizardText">
-								<p class="NormalRed">
-									Note: If you choose "Replace", all existing content on pages that are also in 
-									the template will be lost.
-								</p>
-							</asp:label>
-						</td>
-					</tr>
-				</table>
-			</asp:panel>
-			<asp:panel id="pnlSkin" runat="server">
-				<table cellspacing="0" cellpadding="0" border="0">
-					<tr>
-						<td class="SubHead"><dnn:label id="lblSkinTitle" runat="server" text="Select a Skin:" /></td>
-					</tr>
-					<tr>
-						<td height="15"></td>
-					</tr>
-					<tr>
-						<td>
-							<asp:label id="lblSkinDetail" runat="server" resourcekey="SkinDetail" cssclass="WizardText">Select a Skin from the Skin Viewer (below)</asp:label>
-						</td>
-					</tr>
-					<tr>
-						<td height="15"></td>
-					</tr>
-					<tr>
-						<td align="center"><dnn:skin id="ctlPortalSkin" runat="server"></dnn:skin></td>
-					</tr>
-				</table>
-			</asp:panel>
-			<asp:panel id="pnlContainer" runat="server">
-				<table cellspacing="0" cellpadding="0" border="0">
-					<tr>
-						<td colspan="2" class="SubHead"><dnn:label id="lblContainerTitle" runat="server" text="Select a Container:" /></td>
-					</tr>
-					<tr>
-						<td height="15"></td>
-					</tr>
-					<tr>
-						<td><asp:label id="lblContainerDetail" runat="server" resourcekey="ContainerDetail" cssclass="WizardText">Select a Container from Viewer:</asp:label></td>
-						<td align="center"><asp:CheckBox ID="chkIncludeAll" CssClass="WizardText" Runat="server" resourcekey="IncludeAll" TextAlign="Left" Text="Show All Containers:" AutoPostBack="True"></asp:CheckBox></td>
-					</tr>
-					<tr>
-						<td height="15"></td>
-					</tr>
-					<tr>
-						<td align="center"colspan="2" ><dnn:skin id="ctlPortalContainer" runat="server"></dnn:skin></td>
-					</tr>
-				</table>
-			</asp:panel>
-			<asp:panel id="pnlDetails" runat="server">
-				<table cellspacing="0" cellpadding="0" border="0">
-					<tr>
-						<td colspan="2" class="SubHead"><dnn:label id="lblDetailsTitle" runat="server" text="Site Details" /></td>
-					</tr>
-					<tr>
-						<td colspan="2" height="15"></td>
-					</tr>
-					<tr>
-						<td colspan="2"><asp:label id="lblDetailsDetail" runat="server" resourcekey="DetailsDetail" cssclass="WizardText">Provide some basic information about your site.</asp:label></td>
-					</tr>
-					<tr>
-						<td colspan="2" height="15"></td>
-					</tr>
-					<tr>
-						<td class="SubHead" width="150"><dnn:label id="lblPortalName" runat="server" text="Name/Title:" controlname="txtPortalName" /></td>
-						<td class="NormalTextBox" valign="top" align="left"><asp:textbox id="txtPortalName" cssclass="NormalTextBox" runat="server" width="300" maxlength="128"></asp:textbox></td>
-					</tr>
-					<tr>
-						<td colspan="2" height="15"></td>
-					</tr>
-					<tr>
-						<td class="SubHead" valign="top" width="150"><dnn:label id="lblDescription" runat="server" text="Description:" /></td>
-						<td class="NormalTextBox" align="left"><asp:textbox id="txtDescription" cssclass="NormalTextBox" runat="server" width="300" maxlength="475" rows="3" textmode="MultiLine"></asp:textbox></td>
-					</tr>
-					<tr>
-						<td colspan="2" height="15"></td>
-					</tr>
-					<tr>
-						<td class="SubHead" valign="top" width="150"><dnn:label id="lblKeyWords" runat="server" text="Key Words:" /></td>
-						<td class="NormalTextBox" align="left"><asp:textbox id="txtKeyWords" cssclass="NormalTextBox" runat="server" width="300" maxlength="475" rows="3" textmode="MultiLine"></asp:textbox></td>
-					</tr>
-				</table>
-			</asp:panel>
-			<asp:panel id="pnlLogo" runat="server">
-				<table cellspacing="0" cellpadding="0" border="0">
-					<tr>
-						<td colspan="2" class="SubHead"><dnn:label id="lblLogoTitle" runat="server" text="Choose a Logo:" /></td>
-					</tr>
-					<tr>
-						<td height="15"></td>
-					</tr>
-					<tr>
-						<td class="SubHead" valign="top" width="120"><dnn:label id="lblLogo" runat="server" text="Logo:" /></td>
-						<td class="NormalTextBox" align="left">
-							<dnn:url id="urlLogo" runat="server" showLog="False" showTabs="False" showUrls="False" showTrack="false" required="false"/>
-						</td>
-					</tr>
-				</table>
-			</asp:panel>
-		</td>
-	</tr>
-</table>
+<asp:Wizard ID="Wizard" runat="server" ActiveStepIndex="0" CellPadding="5" CellSpacing="5" CssClass="Wizard" DisplaySideBar="false" FinishCompleteButtonType="Link"
+    FinishPreviousButtonType="Link" StartNextButtonType="Link" StepNextButtonType="Link" StepPreviousButtonType="Link">
+    <StepStyle VerticalAlign="Top" />
+    <NavigationButtonStyle BackColor="Transparent" BorderStyle="None" CssClass="CommandButton" />
+    <HeaderTemplate>
+        <asp:Label ID="lblTitle" runat="server" CssClass="Head"><% =Localization.GetString(Wizard.ActiveStep.Title + ".Title", this.LocalResourceFile)%></asp:Label><br />
+        <br />
+        <asp:Label ID="lblTitleHelp" runat="server" CssClass="WizardText"><% =Localization.GetString(Wizard.ActiveStep.Title + ".Help", this.LocalResourceFile)%></asp:Label>
+    </HeaderTemplate>
+    <WizardSteps>
+        <asp:WizardStep ID="wizIntroduction" runat="server" AllowReturn="false" StepType="Start" Title="Introduction">
+        </asp:WizardStep>
+        <asp:WizardStep ID="wizTemplate" runat="server" Title="Template">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td colspan="3" style="height: 5;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <asp:CheckBox ID="chkTemplate" runat="server" AutoPostBack="True" CssClass="WizardText" resourcekey="TemplateDetail" Text="Build your site from a template (below)" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="height: 5;">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style="width: 150;">
+                        <asp:ListBox ID="lstTemplate" runat="server" AutoPostBack="True" Rows="8" Width="150"></asp:ListBox>
+                    </td>
+                    <td align="left" colspan="2" valign="top" style="width: 300;">
+                        <asp:Label ID="lblTemplateMessage" runat="server" CssClass="NormalRed" Style="overflow: auto; width: 280px; height: 150px"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="height: 5;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <asp:Label ID="lblMergeTitle" runat="server" CssClass="WizardText" resourcekey="MergeDetail"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="height: 5;">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="3">
+                        <asp:RadioButtonList ID="optMerge" runat="server" CssClass="WizardText" RepeatDirection="Horizontal">
+                            <asp:ListItem resourcekey="Ignore" Selected="" Value="Ignore">Ignore</asp:ListItem>
+                            <asp:ListItem resourcekey="Replace" Value="Replace">Replace</asp:ListItem>
+                            <asp:ListItem resourcekey="Merge" Value="Merge">Merge</asp:ListItem>
+                        </asp:RadioButtonList>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="height: 5;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <asp:Label ID="lblMergeWarning" runat="server" CssClass="WizardText" resourcekey="MergeWarning"></asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </asp:WizardStep>
+        <asp:WizardStep ID="wizSkin" runat="server" Title="Skin">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="height: 5;">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <dnn:Skin ID="ctlPortalSkin" runat="server" />
+                    </td>
+                </tr>
+            </table>
+        </asp:WizardStep>
+        <asp:WizardStep ID="wizContainer" runat="server" Title="Container">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="height: 5;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:CheckBox ID="chkIncludeAll" runat="server" AutoPostBack="True" CssClass="WizardText" resourcekey="IncludeAll" Text="Show All Containers:" TextAlign="Left" /></td>
+                </tr>
+                <tr>
+                    <td style="height: 5;">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="2">
+                        <dnn:Skin ID="ctlPortalContainer" runat="server" />
+                    </td>
+                </tr>
+            </table>
+        </asp:WizardStep>
+        <asp:WizardStep ID="wizDetails" runat="server" Title="Details">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td colspan="2" style="height: 5;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="SubHead" style="width: 150;">
+                        <dnn:label ID="lblPortalName" runat="server" ControlName="txtPortalName" Text="Name/Title:" />
+                    </td>
+                    <td align="left" class="NormalTextBox" valign="top">
+                        <asp:TextBox ID="txtPortalName" runat="server" CssClass="NormalTextBox" MaxLength="128" Width="300"></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="height: 5;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="SubHead" valign="top" style="width: 150;">
+                        <dnn:label ID="lblDescription" runat="server" Text="Description:" />
+                    </td>
+                    <td align="left" class="NormalTextBox">
+                        <asp:TextBox ID="txtDescription" runat="server" CssClass="NormalTextBox" MaxLength="475" Rows="3" TextMode="MultiLine" Width="300"></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="height: 5;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="SubHead" valign="top" style="width: 150;">
+                        <dnn:label ID="lblKeyWords" runat="server" Text="Key Words:" />
+                    </td>
+                    <td align="left" class="NormalTextBox">
+                        <asp:TextBox ID="txtKeyWords" runat="server" CssClass="NormalTextBox" MaxLength="475" Rows="3" TextMode="MultiLine" Width="300"></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="height: 5;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="SubHead" valign="top" style="width: 120;">
+                        <dnn:label ID="lblLogo" runat="server" Text="Logo:" />
+                    </td>
+                    <td align="left" class="NormalTextBox">
+                        <dnn:url ID="urlLogo" runat="server" Required="false" ShowLog="False" ShowTabs="False" ShowTrack="false" ShowUrls="False" />
+                    </td>
+                </tr>
+            </table>
+        </asp:WizardStep>
+        <asp:WizardStep ID="wizComplete" runat="server" StepType="Complete">
+            <asp:Label ID="lblWizardTitle" runat="server" CssClass="Head" resourcekey="Complete.Title"></asp:Label><br />
+            <br />
+            <asp:Label ID="lblHelp" runat="server" CssClass="WizardText" resourcekey="Complete.Help"></asp:Label>
+        </asp:WizardStep>
+    </WizardSteps>
+</asp:Wizard>

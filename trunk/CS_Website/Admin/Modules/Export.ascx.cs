@@ -46,7 +46,7 @@ namespace DotNetNuke.Modules.Admin.Modules
                 }
 
                 ModuleController objModules = new ModuleController();
-                ModuleInfo objModule = objModules.GetModule( moduleId, TabId );
+                ModuleInfo objModule = objModules.GetModule( ModuleId, TabId, false );
                 if( objModule != null )
                 {
                     lblFile.Text = "content." + CleanName( objModule.FriendlyName ) + "." + CleanName( objModule.ModuleTitle ) + ".xml";
@@ -96,7 +96,7 @@ namespace DotNetNuke.Modules.Admin.Modules
             string strMessage = "";
 
             ModuleController objModules = new ModuleController();
-            ModuleInfo objModule = objModules.GetModule(ModuleID, TabId);
+            ModuleInfo objModule = objModules.GetModule( ModuleID, TabId, false );
             if (objModule != null)
             {
                 if (objModule.BusinessControllerClass != "" & objModule.IsPortable)
@@ -170,7 +170,7 @@ namespace DotNetNuke.Modules.Admin.Modules
             return strMessage;
         }
 
-        private string CleanName( string Name )
+        private static string CleanName( string Name )
         {
             string strName = Name;
             string strBadChars = ". ~`!@#$%^&*()-_+={[}]|\\:;<,>?/" + '\u0022' + '\u0027';

@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
@@ -420,14 +421,25 @@ namespace DotNetNuke.UI.ControlPanels
             ModuleController objModules = new ModuleController();
             ArrayList arrModules = new ArrayList();
 
-            ArrayList arrPortalModules = objModules.GetPortalTabModules( PortalSettings.PortalId, int.Parse( cboTabs.SelectedItem.Value ) );
-            foreach( ModuleInfo tempLoopVar_objModule in arrPortalModules )
+//            ArrayList arrPortalModules = objModules.GetPortalTabModules( PortalSettings.PortalId, int.Parse( cboTabs.SelectedItem.Value ) );            
+//            foreach( ModuleInfo objModule in arrPortalModules )
+//            {
+//                if( PortalSecurity.IsInRoles( objModule.AuthorizedEditRoles ) && objModule.IsDeleted == false )
+//                {
+//                    arrModules.Add( objModule );
+//                }
+//            }
+
+            Dictionary<int, ModuleInfo> arrPortalModules = objModules.GetTabModules(int.Parse(cboTabs.SelectedItem.Value));
+            foreach( KeyValuePair<int, ModuleInfo> module in arrPortalModules )
             {
-                ModuleInfo objModule = tempLoopVar_objModule;
-                if( PortalSecurity.IsInRoles( objModule.AuthorizedEditRoles ) && objModule.IsDeleted == false )
+                ModuleInfo info = module.Value;
+
+                if (PortalSecurity.IsInRoles(info.AuthorizedEditRoles) && info.IsDeleted == false)
                 {
-                    arrModules.Add( objModule );
+                    arrModules.Add(info);
                 }
+                
             }
 
             cboModules.DataSource = arrModules;
@@ -450,17 +462,15 @@ namespace DotNetNuke.UI.ControlPanels
             cmdAddModule.Click += new EventHandler(AddModule_Click);
             cmdAddModuleIcon.Click += new EventHandler(AddModule_Click);
 
-            cmdInstallFeatures.Click += new System.EventHandler(cmdInstallFeatures_Click);
+            cmdInstallFeatures.Click += new EventHandler(cmdInstallFeatures_Click);
 
             this.ID = "IconBar.ascx";
         }
         
-        protected void cmdInstallFeatures_Click(object sender, System.EventArgs e)
+        protected void cmdInstallFeatures_Click(object sender, EventArgs e)
         {
-            string URL = Request.RawUrl;
-            URL = BuildURL(Null.NullInteger, "Module Definitions");
+            string URL = BuildURL(PortalSettings.PortalId, "Module Definitions");
             Response.Redirect(URL, true);
-
         }
     }
 }

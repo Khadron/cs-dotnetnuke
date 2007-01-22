@@ -2,7 +2,13 @@
 <%@ Register TagPrefix="Portal" TagName="URL" Src="~/controls/URLControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="Audit" Src="~/controls/ModuleAuditControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
-<br>
+<%@ Register Assembly="DotNetNuke.WebControls" Namespace="DotNetNuke.UI.WebControls" TagPrefix="dnn" %>
+<style type="text/css">
+.GroupSuggestMenu {
+    width: 300px;
+}
+</style>
+<br/>
 <table cellspacing="2" cellpadding="0" width="560" summary="Edit Banner Design Table">
     <tr valign="top">
         <td colspan="2">
@@ -51,9 +57,9 @@
             <dnn:label id="plBannerGroup" runat="server" controlname="txtBannerGroup" suffix=":">
             </dnn:label></td>
         <td width="400">
-            <asp:TextBox ID="txtBannerGroup" runat="server" MaxLength="100" Columns="30" Width="300"
-                CssClass="NormalTextBox"></asp:TextBox>
-        </td>
+            <dnn:DNNTextSuggest ID="DNNTxtBannerGroup" runat="server" Columns="30" CssClass="NormalTextBox" DefaultNodeCssClassOver="SuggestNodeOver" LookupDelay="500" MaxLength="100"
+                TextSuggestCssClass="SuggestTextMenu GroupSuggestMenu" Width="300px">
+            </dnn:DNNTextSuggest></td>
     </tr>
     <tr>
         <td colspan="2">

@@ -22,6 +22,7 @@ using System.Collections;
 using System.IO;
 using System.Web.UI.WebControls;
 using System.Xml;
+using System.Collections.Generic;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Portals;
@@ -42,8 +43,6 @@ namespace DotNetNuke.Modules.Admin.Tabs
     /// <summary>
     /// The ManageTabs PortalModuleBase is used to manage a Tab/Page
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
@@ -55,8 +54,6 @@ namespace DotNetNuke.Modules.Admin.Tabs
         /// <summary>
         /// BindData loads the Controls with Tab Data from the Database
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -64,7 +61,7 @@ namespace DotNetNuke.Modules.Admin.Tabs
         public void BindData()
         {
             TabController objTabs = new TabController();
-            TabInfo objTab = objTabs.GetTab( TabId );
+            TabInfo objTab = objTabs.GetTab( TabId, PortalId, false );
 
             //Load TabControls
             LoadTabControls( objTab );
@@ -114,10 +111,29 @@ namespace DotNetNuke.Modules.Admin.Tabs
         }
 
         /// <summary>
+        /// CheckQuota checks whether the Page Quota will be exceeded
+        /// </summary>
+        /// <history>
+        /// 	[cnurse]	11/16/2006	Created
+        /// </history>
+        private void CheckQuota()
+        {
+
+            if (PortalSettings.Pages < PortalSettings.PageQuota | UserInfo.IsSuperUser | PortalSettings.PageQuota == 0)
+            {
+                cmdUpdate.Enabled = true;
+            }
+            else
+            {
+                cmdUpdate.Enabled = false;
+                DotNetNuke.UI.Skins.Skin.AddModuleMessage(this, Localization.GetString("ExceededQuota", this.LocalResourceFile), ModuleMessageType.YellowWarning);
+            }
+
+        }
+
+        /// <summary>
         /// InitializeTab loads the Controls with default Tab Data
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -174,24 +190,20 @@ namespace DotNetNuke.Modules.Admin.Tabs
         /// <summary>
         /// SaveTabData saves the Tab to the Database
         /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <param name="strAction">The action to perform "edit" or "add"</param>
+        /// <param name="action">The action to perform "edit" or "add"</param>
         /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
-        public int SaveTabData( string strAction )
+        public int SaveTabData( string action )
         {
             EventLogController objEventLog = new EventLogController();
 
-            string strIcon = "";
-            strIcon = ctlIcon.Url;
+            string strIcon = ctlIcon.Url;
 
             TabController objTabs = new TabController();
 
             TabInfo objTab = new TabInfo();
-            //objTab = CType(CBO.InitializeObject(objTab, GetType(TabInfo)), TabInfo)
 
             objTab.TabID = TabId;
             objTab.PortalID = PortalId;
@@ -225,14 +237,14 @@ namespace DotNetNuke.Modules.Admin.Tabs
             {
                 objTab.EndDate = Null.NullDate;
             }
-            int refreshInt = 0;
+            int refreshInt;
             if( txtRefreshInterval.Text.Length > 0 && Int32.TryParse(txtRefreshInterval.Text, out refreshInt ) )
             {
                 objTab.RefreshInterval = Convert.ToInt32( txtRefreshInterval.Text );
             }
             objTab.PageHeadText = txtPageHeadText.Text;
 
-            if( strAction == "edit" )
+            if( action == "edit" )
             {
                 // trap circular tab reference
                 if( objTab.TabID != int.Parse( cboTab.SelectedItem.Value ) && ! IsCircularReference( int.Parse( cboTab.SelectedItem.Value ) ) )
@@ -248,28 +260,20 @@ namespace DotNetNuke.Modules.Admin.Tabs
 
                 if( int.Parse( cboCopyPage.SelectedItem.Value ) != - 1 )
                 {
-                    DataGridItem objDataGridItem;
                     ModuleController objModules = new ModuleController();
-                    ModuleInfo objModule;
-                    CheckBox chkModule;
-                    RadioButton optNew;
-                    RadioButton optCopy;
-                    RadioButton optReference;
-                    TextBox txtCopyTitle;
 
-                    foreach( DataGridItem tempLoopVar_objDataGridItem in grdModules.Items )
+                    foreach( DataGridItem objDataGridItem in grdModules.Items )
                     {
-                        objDataGridItem = tempLoopVar_objDataGridItem;
-                        chkModule = (CheckBox)objDataGridItem.FindControl( "chkModule" );
+                        CheckBox chkModule = (CheckBox)objDataGridItem.FindControl( "chkModule" );
                         if( chkModule.Checked )
                         {
                             int intModuleID = Convert.ToInt32( grdModules.DataKeys[ objDataGridItem.ItemIndex ] );
-                            optNew = (RadioButton)objDataGridItem.FindControl( "optNew" );
-                            optCopy = (RadioButton)objDataGridItem.FindControl( "optCopy" );
-                            optReference = (RadioButton)objDataGridItem.FindControl( "optReference" );
-                            txtCopyTitle = (TextBox)objDataGridItem.FindControl( "txtCopyTitle" );
-
-                            objModule = objModules.GetModule( intModuleID, int.Parse( cboCopyPage.SelectedItem.Value ) );
+                            //RadioButton optNew = (RadioButton)objDataGridItem.FindControl( "optNew" );
+                            RadioButton optCopy = (RadioButton)objDataGridItem.FindControl( "optCopy" );
+                            RadioButton optReference = (RadioButton)objDataGridItem.FindControl( "optReference" );
+                            TextBox txtCopyTitle = (TextBox)objDataGridItem.FindControl( "txtCopyTitle" );
+                            
+                            ModuleInfo objModule = objModules.GetModule( intModuleID, Int32.Parse( cboCopyPage.SelectedItem.Value ), false );
                             if( objModule != null )
                             {
                                 if( ! optReference.Checked )
@@ -343,9 +347,6 @@ namespace DotNetNuke.Modules.Admin.Tabs
         /// Checks if parent tab will cause a circular reference
         /// </summary>
         /// <param name="intTabId">Tabid</param>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[VMasanas]	28/11/2004	Created
         /// </history>
@@ -354,7 +355,7 @@ namespace DotNetNuke.Modules.Admin.Tabs
             if( intTabId != - 1 )
             {
                 TabController objTabs = new TabController();
-                TabInfo objtab = objTabs.GetTab( intTabId );
+                TabInfo objtab = objTabs.GetTab( intTabId, PortalId, false );
 
                 if( objtab.Level == 0 )
                 {
@@ -381,7 +382,7 @@ namespace DotNetNuke.Modules.Admin.Tabs
         /// <summary>
         /// Deletes Tab
         /// </summary>
-        /// <param name="Tabid">ID of the parent tab</param>
+        /// <param name="tabId">ID of the parent tab</param>
         /// <remarks>
         /// Will delete tab
         /// </remarks>
@@ -389,19 +390,19 @@ namespace DotNetNuke.Modules.Admin.Tabs
         /// 	[VMasanas]	30/09/2004	Created
         ///     [VMasanas]  01/09/2005  A tab will be deleted only if all descendants can be deleted
         /// </history>
-        private bool DeleteTab( int TabId )
+        private bool DeleteTab( int tabId )
         {
             bool bDeleted = true;
 
-            if( TabId != PortalSettings.AdminTabId && TabId != PortalSettings.SplashTabId && TabId != PortalSettings.HomeTabId && TabId != PortalSettings.LoginTabId && TabId != PortalSettings.UserTabId )
+            if( tabId != PortalSettings.AdminTabId && tabId != PortalSettings.SplashTabId && tabId != PortalSettings.HomeTabId && tabId != PortalSettings.LoginTabId && tabId != PortalSettings.UserTabId )
             {
                 TabController objTabs = new TabController();
 
-                ArrayList tabs = Globals.GetPortalTabs(PortalSettings.DesktopTabs, TabId, false, false, false, false, false);
+                ArrayList tabs = Globals.GetPortalTabs(PortalSettings.DesktopTabs, tabId, false, false, false, false, false);
 
                 if( tabs.Count > 0 )
                 {
-                    TabInfo objTab = objTabs.GetTab( TabId );
+                    TabInfo objTab = objTabs.GetTab( tabId, PortalId, false );
                     if( objTab != null )
                     {
                         //delete child tabs
@@ -452,14 +453,12 @@ namespace DotNetNuke.Modules.Admin.Tabs
         private bool DeleteChildTabs( int intTabid )
         {
             TabController objtabs = new TabController();
-            TabInfo objtab;
-            ArrayList arrTabs = objtabs.GetTabsByParentId( intTabid );
+            ArrayList arrTabs = objtabs.GetTabsByParentId( intTabid, PortalId );
 
             bool bDeleted = true;
 
-            foreach( TabInfo tempLoopVar_objtab in arrTabs )
+            foreach( TabInfo objtab in arrTabs )
             {
-                objtab = tempLoopVar_objtab;
                 if( objtab.TabID != PortalSettings.AdminTabId && objtab.TabID != PortalSettings.SplashTabId && objtab.TabID != PortalSettings.HomeTabId && objtab.TabID != PortalSettings.LoginTabId && objtab.TabID != PortalSettings.UserTabId )
                 {
                     //delete child tabs
@@ -513,7 +512,7 @@ namespace DotNetNuke.Modules.Admin.Tabs
                 if( cboTab.Items.FindByValue( objTab.ParentId.ToString() ) == null )
                 {
                     TabController objtabs = new TabController();
-                    TabInfo objparent = objtabs.GetTab( objTab.ParentId );
+                    TabInfo objparent = objtabs.GetTab( objTab.ParentId, objTab.PortalID, false );
                     cboTab.Items.Add( new ListItem( objparent.TabName, objparent.TabID.ToString() ) );
                 }
             }
@@ -523,11 +522,9 @@ namespace DotNetNuke.Modules.Admin.Tabs
         {
             ArrayList arrTabs = new ArrayList();
 
-            TabInfo objTab;
             ArrayList arrPortalTabs = Globals.GetPortalTabs(PortalSettings.DesktopTabs, false, true);
-            foreach( TabInfo tempLoopVar_objTab in arrPortalTabs )
+            foreach( TabInfo objTab in arrPortalTabs )
             {
-                objTab = tempLoopVar_objTab;
                 if( PortalSecurity.IsInRoles( objTab.AuthorizedRoles ) )
                 {
                     arrTabs.Add( objTab );
@@ -537,40 +534,85 @@ namespace DotNetNuke.Modules.Admin.Tabs
             return arrTabs;
         }
 
-        private ArrayList LoadTemplates()
+        private static ArrayList LoadTemplates()
         {
             ArrayList arrTemplates = new ArrayList();
 
-            string[] arrFiles;
-            string strFile;
-
-            arrFiles = Directory.GetFiles(Globals.HostMapPath + "Templates\\", "*.page.template");
-            foreach( string tempLoopVar_strFile in arrFiles )
+            string[] arrFiles = Directory.GetFiles(Globals.HostMapPath + "Templates\\", "*.page.template");
+            foreach( string strFile in arrFiles )
             {
-                strFile = tempLoopVar_strFile;
                 arrTemplates.Add( new ListItem( Path.GetFileName( strFile ).Replace( ".page.template", "" ), strFile ) );
             }
 
             return arrTemplates;
         }
 
-        private ArrayList LoadTabModules( int TabID )
+        private static ArrayList LoadTabModules( int TabID )
         {
             ModuleController objModules = new ModuleController();
             ArrayList arrModules = new ArrayList();
 
-            ModuleInfo objModule;
-            ArrayList arrTabModules = objModules.GetPortalTabModules( PortalId, TabID );
-            foreach( ModuleInfo tempLoopVar_objModule in arrTabModules )
-            {
-                objModule = tempLoopVar_objModule;
-                if( PortalSecurity.IsInRoles( objModule.AuthorizedEditRoles ) == true && objModule.IsDeleted == false && objModule.AllTabs == false )
+            Dictionary<int, ModuleInfo> dict = objModules.GetTabModules( TabID );
+            foreach( KeyValuePair<int, ModuleInfo> pair in dict )
+            {                
+                ModuleInfo objModule = pair.Value;
+                if (PortalSecurity.IsInRoles(objModule.AuthorizedEditRoles) && objModule.IsDeleted == false && objModule.AllTabs == false)
                 {
-                    arrModules.Add( objModule );
+                    arrModules.Add(objModule);
                 }
-            }
+            }            
 
             return arrModules;
+        }
+
+        /// <summary>
+        /// Gets all children tabs where user has edit access
+        /// </summary>
+        /// <returns>All the childen tabs where current user has edit permission</returns>
+        /// <remarks>
+        /// To get desired tabs it first selects children tabs (by using the taborder and level) 
+        /// and then filters only those where the user has access
+        /// </remarks>
+        private ArrayList GetEditableTabs()
+        {
+            ArrayList arr = new ArrayList();
+            int i = 0;
+            bool Finished = false;
+
+            while (i < PortalSettings.DesktopTabs.Count & !Finished)
+            {
+                TabInfo objTab = PortalSettings.DesktopTabs[i] as TabInfo;
+                if(objTab != null)
+                {
+                    if (objTab.TabOrder > PortalSettings.ActiveTab.TabOrder)
+                    {
+                    
+                        if (objTab.Level > PortalSettings.ActiveTab.Level)
+                        {
+                            // we are in a descendant
+                            arr.Add(PortalSettings.DesktopTabs[i]);
+                        }
+                        else
+                        {
+                            // exit condition
+                            Finished = true;
+                        }
+                    }
+                }
+                i += 1;
+            }
+
+            if (PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName))
+            {
+                // shortcut for admins
+                return arr;
+            }
+            else
+            {
+                // filter tabs where user has access
+                return Globals.GetPortalTabs(arr, PortalSettings.ActiveTab.TabID, false, true, false, true, true);
+            }
+
         }
 
         private void DisplayTabModules()
@@ -593,9 +635,7 @@ namespace DotNetNuke.Modules.Admin.Tabs
         /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <history>
+                /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         ///     [VMasanas]  9/28/2004   Changed redirect to Access Denied
@@ -603,9 +643,7 @@ namespace DotNetNuke.Modules.Admin.Tabs
         protected void Page_Load( Object sender, EventArgs e )
         {
             try
-            {
-                ModuleController objModules = new ModuleController();
-
+            {                
                 // Verify that the current user has access to edit this module
                 if( PortalSecurity.IsInRoles( PortalSettings.AdministratorRoleName ) == false && PortalSecurity.IsInRoles( PortalSettings.ActiveTab.AdministratorRoles.ToString() ) == false )
                 {
@@ -661,24 +699,27 @@ namespace DotNetNuke.Modules.Admin.Tabs
 
                     ctlURL.Width = "275px";
 
+                    rowCopySkin.Visible = false;
+                    rowCopyPerm.Visible = false;
+
                     switch( strAction )
                     {
                         case "": // add
-
+                            CheckQuota();
                             InitializeTab();
                             cboCopyPage.SelectedIndex = 0;
                             cmdDelete.Visible = false;
-                            cmdGoogle.Visible = false;
                             break;
                         case "edit":
-
+                            rowCopySkin.Visible = true;
+                            rowCopyPerm.Visible = true;
                             BindData();
                             rowTemplate.Visible = false;
                             dshCopy.Visible = false;
                             tblCopy.Visible = false;
                             break;
                         case "copy":
-
+                            CheckQuota();
                             BindData();
                             rowTemplate.Visible = false;
                             if( cboCopyPage.Items.FindByValue( TabId.ToString() ) != null )
@@ -687,7 +728,6 @@ namespace DotNetNuke.Modules.Admin.Tabs
                                 DisplayTabModules();
                             }
                             cmdDelete.Visible = false;
-                            cmdGoogle.Visible = false;
                             break;
                         case "delete":
 
@@ -716,9 +756,7 @@ namespace DotNetNuke.Modules.Admin.Tabs
         /// <summary>
         /// cmdCancel_Click runs when the Cancel Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <history>
+                /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
@@ -745,9 +783,7 @@ namespace DotNetNuke.Modules.Admin.Tabs
         /// <summary>
         /// cmdUpdate_Click runs when the Update Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <history>
+                /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
@@ -787,9 +823,7 @@ namespace DotNetNuke.Modules.Admin.Tabs
         /// <summary>
         /// cmdDelete_Click runs when the Delete Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <history>
+                /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         ///     [VMasanas]  30/09/2004  When a parent tab is deleted all child are also marked as deleted.
@@ -820,9 +854,7 @@ namespace DotNetNuke.Modules.Admin.Tabs
         /// <summary>
         /// cmdGoogle_Click runs when the Submit Page to Google  Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <history>
+                /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
         /// </history>
@@ -843,7 +875,7 @@ namespace DotNetNuke.Modules.Admin.Tabs
                     strComments += " " + txtKeyWords.Text;
                 }
 
-                strURL += "http://www.google.com/addurl?q=" + Globals.HTTPPOSTEncode(Globals.AddHTTP(Globals.GetDomainName(Request)) + "/" + Globals.glbDefaultPage + "?tabid=" + TabId.ToString());
+                strURL += "http://www.google.com/addurl?q=" + Globals.HTTPPOSTEncode(Globals.AddHTTP(Globals.GetDomainName(Request)) + "/" + Globals.glbDefaultPage + "?tabid=" + TabId);
                 strURL += "&dq=" + Globals.HTTPPOSTEncode(strComments);
                 strURL += "&submit=Add+URL";
 
@@ -852,6 +884,37 @@ namespace DotNetNuke.Modules.Admin.Tabs
             catch( Exception exc ) //Module failed to load
             {
                 Exceptions.ProcessModuleLoadException( this, exc );
+            }
+        }
+
+
+
+        protected void cmdCopySkin_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TabController objtabs = new TabController();
+                ArrayList arr = GetEditableTabs();
+
+                objtabs.CopyDesignToChildren(arr, ctlSkin.SkinSrc, ctlContainer.SkinSrc);
+            }
+            catch (Exception ex)
+            {
+                Exceptions.ProcessModuleLoadException(this, ex);
+            }
+        }
+        protected void cmdCopyPerm_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TabController objtabs = new TabController();
+                ArrayList arr = GetEditableTabs();
+
+                objtabs.CopyPermissionsToChildren(arr, dgPermissions.Permissions);
+            }
+            catch (Exception ex)
+            {
+                Exceptions.ProcessModuleLoadException(this, ex);
             }
         }
 

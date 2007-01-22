@@ -153,4 +153,25 @@
   <data name="lblUpdate.Text" xml:space="preserve">
     <value>This application contains an Update Service which displays an icon when a new version of a Module is available. Clicking the icon will redirect you to a location where you will be able to acquire the Module for immediate installation. Please note that the Update Service only applies to Modules which demonstrate a measurable level of quality criteria.</value>
   </data>
+  <data name="Features.Text" xml:space="preserve">
+    <value>Features</value>
+  </data>
+  <data name="Available.Text" xml:space="preserve">
+    <value>Available Modules</value>
+  </data>
+  <data name="Installed.Text" xml:space="preserve">
+    <value>Installed Modules</value>
+  </data>
+  <data name="cmdInstall.Text" xml:space="preserve">
+    <value>Install Selected Modules</value>
+  </data>
+  <data name="lblAvailable.Text" xml:space="preserve">
+    <value>The following modules are included with your application, but have not yet been installed.  To install any of these modules, check the appropriate box(es) and click Install.</value>
+  </data>
+  <data name="Installing.Text" xml:space="preserve">
+    <value>Installing: </value>
+  </data>
+  <data name="cmdRefresh.Text" xml:space="preserve">
+    <value>Refresh Page</value>
+  </data>
 </root>

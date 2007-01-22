@@ -156,7 +156,7 @@ namespace DotNetNuke.UI.Containers
             }
         }
 
-        private void GetClientScriptURL( ModuleAction Action, WebControl control )
+        private static void GetClientScriptURL( ModuleAction Action, WebControl control )
         {
             if( Action.ClientScript.Length > 0 )
             {
@@ -220,15 +220,23 @@ namespace DotNetNuke.UI.Containers
                                 {
                                     Image ModuleActionIcon = new Image(); //New ImageButton
                                     LinkButton ModuleActionLink = new LinkButton();
-                                    if( !String.IsNullOrEmpty(IconFile) )
+                                    if (!String.IsNullOrEmpty(IconFile))
                                     {
-                                        ModuleActionIcon.ImageUrl = PortalModule.ModuleConfiguration.ContainerPath.Substring( 0, PortalModule.ModuleConfiguration.ContainerPath.LastIndexOf( "/" ) + 1 ) + IconFile;
+                                        ModuleActionIcon.ImageUrl = PortalModule.ModuleConfiguration.ContainerPath.Substring(0, PortalModule.ModuleConfiguration.ContainerPath.LastIndexOf("/") + 1) + IconFile;
                                     }
                                     else
                                     {
-                                        ModuleActionIcon.ImageUrl = "~/images/" + action.Icon;
+                                        if (action.Icon.IndexOf("/") > 0)
+                                        {
+                                            ModuleActionIcon.ImageUrl = action.Icon;
+                                        }
+                                        else
+                                        {
+                                            ModuleActionIcon.ImageUrl = "~/images/" + action.Icon;
+                                        }
                                     }
                                     ModuleActionIcon.ToolTip = action.Title;
+                                    ModuleActionIcon.AlternateText = action.Title;
                                     ModuleActionLink.ID = "ico" + action.ID;
                                     ModuleActionLink.CausesValidation = false;
                                     ModuleActionLink.EnableViewState = false;

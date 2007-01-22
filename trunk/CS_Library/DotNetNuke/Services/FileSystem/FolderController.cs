@@ -1,5 +1,4 @@
 #region DotNetNuke License
-
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2006
 // by DotNetNuke Corporation
@@ -17,9 +16,7 @@
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
-
 #endregion
-
 using System;
 using System.Collections;
 using System.Data;
@@ -51,7 +48,11 @@ namespace DotNetNuke.Services.FileSystem
                 string parentFolderPath = FolderPath.Substring( 0, FolderPath.Substring( 0, FolderPath.Length - 1 ).LastIndexOf( "/" ) + 1 );
 
                 FolderInfo objFolder = GetFolder( PortalID, parentFolderPath );
-                UpdateFolder( objFolder );
+                
+                if (objFolder != null)
+                {
+                    UpdateFolder(objFolder);
+                }
             }
         }
 

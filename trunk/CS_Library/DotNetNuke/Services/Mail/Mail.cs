@@ -66,7 +66,7 @@ namespace DotNetNuke.Services.Mail
             objMail.BodyEncoding = BodyEncoding;
             objMail.Body = Body;
 
-            // external SMTP server
+            // external SMTP server alternate port
             int SmtpPort = Null.NullInteger;
             int portPos = SMTPServer.IndexOf(":");
             if (portPos > -1)
@@ -96,6 +96,7 @@ namespace DotNetNuke.Services.Mail
 
                         if (!String.IsNullOrEmpty(SMTPUsername) && !String.IsNullOrEmpty(SMTPPassword))
                         {
+                            smtpClient.UseDefaultCredentials = false;
                             smtpClient.Credentials = new NetworkCredential(SMTPUsername, SMTPPassword);
                         }
                         break;
@@ -106,6 +107,10 @@ namespace DotNetNuke.Services.Mail
                 }
             }
 
+            if (Convert.ToString(Globals.HostSettings["SMTPEnableSSL"]) == "Y")
+            {
+                smtpClient.EnableSsl = true;
+            }
             try
             {
                 smtpClient.Send(objMail);
@@ -114,8 +119,16 @@ namespace DotNetNuke.Services.Mail
             catch (Exception objException)
             {
                 // mail configuration problem
-                returnValue = objException.Message;
-                Exceptions.Exceptions.LogException(objException);
+                if (objException.InnerException != null)
+                {
+                    returnValue = string.Concat(objException.Message, Environment.NewLine, objException.InnerException.Message);
+                    Exceptions.Exceptions.LogException(objException.InnerException);
+                }
+                else
+                {
+                    returnValue = objException.Message;
+                    Exceptions.Exceptions.LogException(objException);
+                }
             }
 
             return returnValue;

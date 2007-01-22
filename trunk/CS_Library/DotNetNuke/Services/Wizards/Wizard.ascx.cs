@@ -30,6 +30,7 @@ namespace DotNetNuke.Services.Wizards
     /// The Wizard class defines a custom base class inherited by all
     /// Wizard controls.  Wizard itself inherits from PortalModuleBase.
     /// </Summary>
+    [Obsolete("This class has been obsoleted, as .NET provides a Wizard Framework")]
     public class Wizard : PortalModuleBase
     {
 
@@ -198,8 +199,8 @@ namespace DotNetNuke.Services.Wizards
 
         public Wizard()
         {
-            base.Init += new EventHandler( this.Page_Init );
-            base.Load += new EventHandler( this.Page_Load );
+            Init += new EventHandler( this.Page_Init );
+            Load += new EventHandler( this.Page_Load );
             this.m_Pages = new WizardPageCollection();
             this.m_EnableBack = true;
             this.m_EnableNext = true;

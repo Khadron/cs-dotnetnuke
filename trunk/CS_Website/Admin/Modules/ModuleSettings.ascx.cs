@@ -17,6 +17,7 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
 using System.Web.UI.WebControls;
@@ -25,7 +26,6 @@ using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
 using DotNetNuke.Entities.Modules.Definitions;
 using DotNetNuke.Security;
-using DotNetNuke.Security.Permissions;
 using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
@@ -33,7 +33,6 @@ using DotNetNuke.UI.Skins;
 using DotNetNuke.UI.Utilities;
 using Microsoft.VisualBasic;
 using Calendar=DotNetNuke.Common.Utilities.Calendar;
-using DataCache=DotNetNuke.Common.Utilities.DataCache;
 using Globals=DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Modules.Admin.Modules
@@ -42,19 +41,13 @@ namespace DotNetNuke.Modules.Admin.Modules
     /// The ModuleSettingsPage PortalModuleBase is used to edit the settings for a
     /// module.
     /// </summary>
-    /// <returns></returns>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	10/18/2004	documented
     /// 	[cnurse]	10/19/2004	modified to support custm module specific settings
     /// </history>
     public partial class ModuleSettingsPage : PortalModuleBase
     {
-
         protected ModuleSettingsBase ctlSpecific;
-
-
 
         private int moduleId = - 1;
         private int tabModuleId = -1;
@@ -62,18 +55,11 @@ namespace DotNetNuke.Modules.Admin.Modules
         /// <summary>
         /// BindData loads the settings from the Database
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	10/18/2004	documented
         /// </history>
         private void BindData()
         {
-            bool HasSetViewPermissions = false;
-            ModulePermissionController objModulePermissionController = new ModulePermissionController();
-            ModulePermissionCollection objModulePermissionsCollection = objModulePermissionController.GetModulePermissionsCollectionByModuleID( moduleId );
-            ModulePermissionInfo objModulePermission;
-
             // declare roles
             ArrayList arrAvailableAuthViewRoles = new ArrayList();
             ArrayList arrAvailableAuthEditRoles = new ArrayList();
@@ -81,9 +67,9 @@ namespace DotNetNuke.Modules.Admin.Modules
             // add an entry of All Users for the View roles
             arrAvailableAuthViewRoles.Add( new ListItem( "All Users", Globals.glbRoleAllUsers ) );
             // add an entry of Unauthenticated Users for the View roles
-            arrAvailableAuthViewRoles.Add(new ListItem("Unauthenticated Users", Globals.glbRoleUnauthUser));
+            arrAvailableAuthViewRoles.Add( new ListItem( "Unauthenticated Users", Globals.glbRoleUnauthUser ) );
             // add an entry of All Users for the Edit roles
-            arrAvailableAuthEditRoles.Add(new ListItem("All Users", Globals.glbRoleAllUsers));
+            arrAvailableAuthEditRoles.Add( new ListItem( "All Users", Globals.glbRoleAllUsers ) );
 
             // process portal roles
             RoleController objRoles = new RoleController();
@@ -102,7 +88,7 @@ namespace DotNetNuke.Modules.Admin.Modules
 
             // get module
             ModuleController objModules = new ModuleController();
-            ModuleInfo objModule = objModules.GetModule( moduleId, TabId );
+            ModuleInfo objModule = objModules.GetModule( moduleId, TabId, false );
             if( objModule != null )
             {
                 // configure grid
@@ -125,8 +111,8 @@ namespace DotNetNuke.Modules.Admin.Modules
                 cboVisibility.SelectedIndex = (int)objModule.Visibility;
 
                 ModuleDefinitionController objModuleDefController = new ModuleDefinitionController();
-                ModuleDefinitionInfo objModuleDef = objModuleDefController.GetModuleDefinition(objModule.ModuleDefID);
-                if (objModuleDef.DefaultCacheTime == Null.NullInteger)
+                ModuleDefinitionInfo objModuleDef = objModuleDefController.GetModuleDefinition( objModule.ModuleDefID );
+                if( objModuleDef.DefaultCacheTime == Null.NullInteger )
                 {
                     rowCache.Visible = false;
                 }
@@ -137,52 +123,42 @@ namespace DotNetNuke.Modules.Admin.Modules
 
                 txtCacheTime.Text = objModule.CacheTime.ToString();
 
-                string strRole;
-                ListItem objListItem;
-
                 // populate view roles
                 ArrayList arrAssignedAuthViewRoles = new ArrayList();
                 Array arrAuthViewRoles = Strings.Split( objModule.AuthorizedViewRoles, ";", -1, 0 );
-                foreach( string tempLoopVar_strRole in arrAuthViewRoles )
+                foreach( string strRole in arrAuthViewRoles )
                 {
-                    strRole = tempLoopVar_strRole;
-                    if( !String.IsNullOrEmpty(strRole) )
+                    if( !String.IsNullOrEmpty( strRole ) )
                     {
-                        foreach( ListItem tempLoopVar_objListItem in arrAvailableAuthViewRoles )
-                        {
-                            objListItem = tempLoopVar_objListItem;
+                        foreach( ListItem objListItem in arrAvailableAuthViewRoles )
+                        {                            
                             if( objListItem.Value == strRole )
                             {
                                 arrAssignedAuthViewRoles.Add( objListItem );
                                 arrAvailableAuthViewRoles.Remove( objListItem );
-                                goto endOfForLoop;
+                                break;
                             }
                         }
-                        endOfForLoop:
-                        1.GetHashCode(); //nop
                     }
                 }
 
                 // populate edit roles
                 ArrayList arrAssignedAuthEditRoles = new ArrayList();
                 Array arrAuthEditRoles = Strings.Split( objModule.AuthorizedEditRoles, ";", -1, 0 );
-                foreach( string tempLoopVar_strRole in arrAuthEditRoles )
+                foreach( string strRole in arrAuthEditRoles )
                 {
-                    strRole = tempLoopVar_strRole;
-                    if( !String.IsNullOrEmpty(strRole) )
+                    
+                    if( !String.IsNullOrEmpty( strRole ) )
                     {
-                        foreach( ListItem tempLoopVar_objListItem in arrAvailableAuthEditRoles )
-                        {
-                            objListItem = tempLoopVar_objListItem;
+                        foreach( ListItem objListItem in arrAvailableAuthEditRoles )
+                        {                            
                             if( objListItem.Value == strRole )
                             {
                                 arrAssignedAuthEditRoles.Add( objListItem );
                                 arrAvailableAuthEditRoles.Remove( objListItem );
-                                goto endOfForLoop1;
+                                break;
                             }
                         }
-                        endOfForLoop1:
-                        1.GetHashCode(); //nop
                     }
                 }
 
@@ -220,8 +196,6 @@ namespace DotNetNuke.Modules.Admin.Modules
         /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	10/18/2004	documented
         /// 	[cnurse]	10/19/2004	modified to support custm module specific settings
@@ -231,8 +205,6 @@ namespace DotNetNuke.Modules.Admin.Modules
         {
             try
             {
-                ModuleController objModules = new ModuleController();
-
                 // Verify that the current user has access to edit this module
                 if( PortalSecurity.IsInRoles( PortalSettings.AdministratorRoleName ) == false && PortalSecurity.IsInRoles( PortalSettings.ActiveTab.AdministratorRoles.ToString() ) == false )
                 {
@@ -246,12 +218,13 @@ namespace DotNetNuke.Modules.Admin.Modules
                 if( Page.IsPostBack == false )
                 {
                     ctlIcon.FileFilter = Globals.glbImageFileTypes;
-
+                    
+                    dgPermissions.TabId = PortalSettings.ActiveTab.TabID;
                     dgPermissions.ModuleID = moduleId;
 
                     ClientAPI.AddButtonConfirm( cmdDelete, Localization.GetString( "DeleteItem" ) );
 
-                    cboTab.DataSource = Globals.GetPortalTabs(PortalSettings.DesktopTabs, -1, false, true, false, false, true);
+                    cboTab.DataSource = Globals.GetPortalTabs( PortalSettings.DesktopTabs, -1, false, true, false, false, true );
                     cboTab.DataBind();
                     //if is and admin or host tab, then add current tab
                     if( PortalSettings.ActiveTab.ParentId == PortalSettings.AdminTabId || PortalSettings.ActiveTab.ParentId == PortalSettings.SuperTabId )
@@ -305,8 +278,6 @@ namespace DotNetNuke.Modules.Admin.Modules
         /// chkInheritPermissions_CheckedChanged runs when the Inherit View Permissions
         ///	check box is changed
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	10/18/2004	documented
         /// </history>
@@ -326,8 +297,6 @@ namespace DotNetNuke.Modules.Admin.Modules
         /// cmdCancel_Click runs when the Cancel LinkButton is clicked.  It returns the user
         /// to the referring page
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	10/18/2004	documented
         /// </history>
@@ -348,8 +317,6 @@ namespace DotNetNuke.Modules.Admin.Modules
         /// It deletes the current portal form the Database.  It can only run in Host
         /// (SuperUser) mode
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	10/18/2004	documented
         /// </history>
@@ -373,8 +340,6 @@ namespace DotNetNuke.Modules.Admin.Modules
         /// cmdUpdate_Click runs when the Update LinkButton is clicked.
         /// It saves the current Site Settings
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	10/18/2004	documented
         /// 	[cnurse]	10/19/2004	modified to support custm module specific settings
@@ -387,8 +352,7 @@ namespace DotNetNuke.Modules.Admin.Modules
                 {
                     ModuleController objModules = new ModuleController();
                     bool AllTabsChanged = false;
-
-                    ListItem item;
+                   
                     // tab administrators can only manage their own tab
                     if( PortalSecurity.IsInRoles( PortalSettings.AdministratorRoleName ) == false )
                     {
@@ -399,7 +363,7 @@ namespace DotNetNuke.Modules.Admin.Modules
                     }
 
                     // update module
-                    ModuleInfo objModule = objModules.GetModule( moduleId, TabId );
+                    ModuleInfo objModule = objModules.GetModule( moduleId, TabId, false );
 
                     objModule.ModuleID = moduleId;
                     objModule.ModuleTitle = txtTitle.Text;
@@ -407,7 +371,7 @@ namespace DotNetNuke.Modules.Admin.Modules
                     objModule.Color = txtColor.Text;
                     objModule.Border = txtBorder.Text;
                     objModule.IconFile = ctlIcon.Url;
-                    if( !String.IsNullOrEmpty(txtCacheTime.Text) )
+                    if( !String.IsNullOrEmpty( txtCacheTime.Text ) )
                     {
                         objModule.CacheTime = int.Parse( txtCacheTime.Text );
                     }
@@ -439,7 +403,7 @@ namespace DotNetNuke.Modules.Admin.Modules
                     objModule.IsDeleted = false;
                     objModule.Header = txtHeader.Text;
                     objModule.Footer = txtFooter.Text;
-                    if( !String.IsNullOrEmpty(txtStartDate.Text) )
+                    if( !String.IsNullOrEmpty( txtStartDate.Text ) )
                     {
                         objModule.StartDate = Convert.ToDateTime( txtStartDate.Text );
                     }
@@ -447,7 +411,7 @@ namespace DotNetNuke.Modules.Admin.Modules
                     {
                         objModule.StartDate = Null.NullDate;
                     }
-                    if( !String.IsNullOrEmpty(txtEndDate.Text) )
+                    if( !String.IsNullOrEmpty( txtEndDate.Text ) )
                     {
                         objModule.EndDate = Convert.ToDateTime( txtEndDate.Text );
                     }
@@ -488,7 +452,7 @@ namespace DotNetNuke.Modules.Admin.Modules
                     //'Check if Module is to be Added/Removed from all Tabs
                     if( AllTabsChanged )
                     {
-                        ArrayList arrTabs = Globals.GetPortalTabs(PortalSettings.DesktopTabs, false, true);
+                        ArrayList arrTabs = Globals.GetPortalTabs( PortalSettings.DesktopTabs, false, true );
                         if( chkAllTabs.Checked )
                         {
                             objModules.CopyModule( moduleId, TabId, arrTabs, true );
@@ -498,9 +462,6 @@ namespace DotNetNuke.Modules.Admin.Modules
                             objModules.DeleteAllModules( moduleId, TabId, arrTabs, false, false );
                         }
                     }
-
-                    // clear portal cache
-                    DataCache.ClearPortalCache( PortalId, true );
 
                     // Navigate back to admin page
                     Response.Redirect( Globals.NavigateURL(), true );
@@ -512,16 +473,10 @@ namespace DotNetNuke.Modules.Admin.Modules
             }
         }
 
-
-
         protected void Page_Init( Object sender, EventArgs e )
         {
-          
-
             ModuleController objModules = new ModuleController();
             ModuleControlController objModuleControlController = new ModuleControlController();
-            ModuleControlInfo objModuleControlInfo;
-            ArrayList arrModuleControls = new ArrayList();
 
             // get ModuleId
             if( ( Request.QueryString["ModuleId"] != null ) )
@@ -530,17 +485,17 @@ namespace DotNetNuke.Modules.Admin.Modules
             }
 
             // get module
-            ModuleInfo objModule = objModules.GetModule( moduleId, TabId );
+            ModuleInfo objModule = objModules.GetModule( moduleId, TabId, false );
             if( objModule != null )
             {
                 tabModuleId = objModule.TabModuleID;
 
                 //get Settings Control(s)
-                arrModuleControls = objModuleControlController.GetModuleControlsByKey( "Settings", objModule.ModuleDefID );
+                ArrayList arrModuleControls = objModuleControlController.GetModuleControlsByKey( "Settings", objModule.ModuleDefID );
 
                 if( arrModuleControls.Count > 0 )
                 {
-                    objModuleControlInfo = (ModuleControlInfo)arrModuleControls[0];
+                    ModuleControlInfo objModuleControlInfo = (ModuleControlInfo)arrModuleControls[0];
                     string src = "~/" + objModuleControlInfo.ControlSrc;
                     ctlSpecific = (ModuleSettingsBase)LoadControl( src );
                     ctlSpecific.ID = src.Substring( src.LastIndexOf( "/" ) + 1 );
@@ -554,7 +509,7 @@ namespace DotNetNuke.Modules.Admin.Modules
                         rowspecifichelp.Visible = true;
                         imgSpecificHelp.AlternateText = Localization.GetString( ModuleActionType.ModuleHelp, Localization.GlobalResourceFile );
                         lnkSpecificHelp.Text = Localization.GetString( ModuleActionType.ModuleHelp, Localization.GlobalResourceFile );
-                        lnkSpecificHelp.NavigateUrl = Globals.NavigateURL( TabId, "Help", "ctlid=" + objModuleControlInfo.ModuleControlID.ToString(), "moduleid=" + moduleId );
+                        lnkSpecificHelp.NavigateUrl = Globals.NavigateURL( TabId, "Help", "ctlid=" + objModuleControlInfo.ModuleControlID, "moduleid=" + moduleId );
                     }
                     else
                     {

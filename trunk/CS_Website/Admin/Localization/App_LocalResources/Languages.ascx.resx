@@ -1,126 +1,210 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" />
-							<xsd:attribute name="type" type="xsd:string" />
-							<xsd:attribute name="mimetype" type="xsd:string" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="ResMimeType">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="Version">
-		<value>1.0.0.0</value>
-	</resheader>
-	<resheader name="Reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="Writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="Duplicate.ErrorMessage">
-		<value>This Locale Is Already Defined</value>
-	</data>
-	<data name="Delete.ErrorMessage">
-		<value>System Locale (en-US) Cannot Be Deleted</value>
-	</data>
-	<data name="AddNewLocale.Text">
-		<value>Add New Locale</value>
-	</data>
-	<data name="SupportedLocales.Text">
-		<value>Supported Locales</value>
-	</data>
-	<data name="KeyFormat.ErrorMessage">
-		<value>&lt;br&gt;Key Format: xx-YY  (Where xx Is Language Code And YY Is Country/Region Code)</value>
-	</data>
-	<data name="Name.Header">
-		<value>Name</value>
-	</data>
-	<data name="Key.Header">
-		<value>Key</value>
-	</data>
-	<data name="DeleteFiles.Text">
-		<value>Delete All Resource Files When Deleting A Locale?</value>
-	</data>
-	<data name="TimeZones.Action">
-		<value>TimeZone Editor</value>
-	</data>
-	<data name="Languages.Action">
-		<value>Language Editor</value>
-	</data>
-	<data name="Save.ErrorMessage">
-		<value>A File Operation Failed. Please Check Resource File Permissions So Files Can Be Edited.</value>
-	</data>
-	<data name="NewLocale.ErrorMessage">
-		<value>A default Timezones file has been created for the new locale. You must localize this Timezones file to the new language.</value>
-	</data>
-	<data name="Verify.Action">
-		<value>Resource File Verifier</value>
-	</data>
-	<data name="ControlTitle_.Text">
-		<value>Languages</value>
-	</data>
-	<data name="PackageGenerate.Action">
-		<value>Create Language Pack</value>
-	</data>
-	<data name="PackageImport.Action">
-		<value>Upload Language Pack</value>
-	</data>
-	<data name="ModuleHelp.Text">
-		<value>&lt;h1&gt;About Languages&lt;/h1&gt;&lt;p&gt;The Super User can manage the supported languages installed on the system.&lt;/p&gt;</value>
-	</data>
-	<data name="lbLocale.Text">
-		<value>Language</value>
-	</data>
-	<data name="lbLocale.Help">
-		<value>Select a locale to add to the portal</value>
-	</data>
-	<data name="Enable.Text">
-		<value>Enable</value>
-	</data>
-	<data name="Disable.Text">
-		<value>Disable</value>
-	</data>
-	<data name="Enabled.Text">
-		<value>Enabled</value>
-	</data>
-	<data name="Disabled.Text">
-		<value>Disabled</value>
-	</data>
-	<data name="Status.Header">
-		<value>Status</value>
-	</data>
-	<data name="Disable.ErrorMessage">
-		<value>You cannot delete or disable the last enabled language.</value>
-	</data>
-	<data name="DisableCurrent.ErrorMessage">
-		<value>You cannot delete or disable the default language for the portal.</value>
-	</data>
-	<data name="DisplayEnglish.Text">
-		<value>Display English Name</value>
-	</data>
-	<data name="DisplayNative.Text">
-		<value>Display Native Name</value>
-	</data>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Duplicate.ErrorMessage" xml:space="preserve">
+    <value>This Locale Is Already Defined</value>
+  </data>
+  <data name="Delete.ErrorMessage" xml:space="preserve">
+    <value>System Locale (en-US) Cannot Be Deleted</value>
+  </data>
+  <data name="AddNewLocale.Text" xml:space="preserve">
+    <value>Add New Locale Definition</value>
+  </data>
+  <data name="SupportedLocales.Text" xml:space="preserve">
+    <value>Supported Locales</value>
+  </data>
+  <data name="KeyFormat.ErrorMessage" xml:space="preserve">
+    <value>&lt;br&gt;Key Format: xx-YY  (Where xx Is Language Code And YY Is Country/Region Code)</value>
+  </data>
+  <data name="Name.Header" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Key.Header" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="DeleteFiles.Text" xml:space="preserve">
+    <value>Delete All Resource Files When Deleting A Locale?</value>
+  </data>
+  <data name="TimeZones.Action" xml:space="preserve">
+    <value>TimeZone Editor</value>
+  </data>
+  <data name="Languages.Action" xml:space="preserve">
+    <value>Language Editor</value>
+  </data>
+  <data name="Save.ErrorMessage" xml:space="preserve">
+    <value>A File Operation Failed. Please Check Resource File Permissions So Files Can Be Edited.</value>
+  </data>
+  <data name="NewLocale.ErrorMessage" xml:space="preserve">
+    <value>A default Timezones file has been created for the new locale. You must localize this Timezones file to the new language.</value>
+  </data>
+  <data name="Verify.Action" xml:space="preserve">
+    <value>Resource File Verifier</value>
+  </data>
+  <data name="ControlTitle_.Text" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="PackageGenerate.Action" xml:space="preserve">
+    <value>Create Language Pack</value>
+  </data>
+  <data name="PackageImport.Action" xml:space="preserve">
+    <value>Upload Language Pack</value>
+  </data>
+  <data name="ModuleHelp.Text" xml:space="preserve">
+    <value>&lt;h1&gt;About Languages&lt;/h1&gt;&lt;p&gt;The Super User can manage the supported languages installed on the system.&lt;/p&gt;</value>
+  </data>
+  <data name="lbLocale.Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="lbLocale.Help" xml:space="preserve">
+    <value>Select a locale to add to the portal</value>
+  </data>
+  <data name="Enable.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Disable.Text" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="Enabled.Text" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="Disabled.Text" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Status.Header" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Disable.ErrorMessage" xml:space="preserve">
+    <value>You cannot delete or disable the last enabled language.</value>
+  </data>
+  <data name="DisableCurrent.ErrorMessage" xml:space="preserve">
+    <value>You cannot delete or disable the default language for the portal.</value>
+  </data>
+  <data name="DisplayEnglish.Text" xml:space="preserve">
+    <value>Display English Name</value>
+  </data>
+  <data name="DisplayNative.Text" xml:space="preserve">
+    <value>Display Native Name</value>
+  </data>
+  <data name="EnableBrowserHost.Text" xml:space="preserve">
+    <value>Enable Browser Language Detection?</value>
+  </data>
+  <data name="EnableBrowserPortal.Text" xml:space="preserve">
+    <value>Enable Browser Language Detection For Current Portal?</value>
+  </data>
 </root>

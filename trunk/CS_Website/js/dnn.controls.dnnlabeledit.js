@@ -5,8 +5,11 @@ if (typeof(dnn_control) == 'undefined')
 
 dnn_control.prototype.initLabelEdit = function (oCtl) 
 {
-	dnn.controls.controls[oCtl.id] = new dnn.controls.DNNLabelEdit(oCtl);
-	return dnn.controls.controls[oCtl.id];
+	if (oCtl)
+	{
+		dnn.controls.controls[oCtl.id] = new dnn.controls.DNNLabelEdit(oCtl);
+		return dnn.controls.controls[oCtl.id];
+	}
 }
 
 //------- Constructor -------//
@@ -18,7 +21,18 @@ dnn_control.prototype.DNNLabelEdit = function (o)
 	this.editContainer = null; //stores container of the control (necessary for iframe controls)
 	this.editControl = null; //stores reference to underlying edit control (input, span, textarea)
 	this.prevText = '';	
-
+	
+	this.onblurSave = (dnn.dom.getAttr(o, 'blursave', '1') == '1');
+	
+	this.toolbarId = dnn.dom.getAttr(o, 'tbId', '');
+	this.nsPrefix = dnn.dom.getAttr(o, 'nsPrefix', '');
+	this.toolbarEventName = dnn.dom.getAttr(o, 'tbEvent', 'onmousemove');
+	this.toolbar = null;
+	//this.scriptPath = dnn.dom.getScriptPath();
+	//var oThisScript = dnn.dom.getScript('dnn.controls.dnnlabeledit.js');
+	//if (oThisScript)
+	//	this.scriptPath = oThisScript.src.replace('dnn.controls.dnnlabeledit.js', '');
+		
 	this.css = o.className;	
 	this.cssEdit = dnn.dom.getAttr(o, 'cssEdit', '');
 	this.cssWork = dnn.dom.getAttr(o, 'cssWork', '');
@@ -26,6 +40,7 @@ dnn_control.prototype.DNNLabelEdit = function (o)
 	this.sysImgPath = dnn.dom.getAttr(o, 'sysimgpath', '');
 	this.callBack = dnn.dom.getAttr(o, 'callback', '');
 	this.callBackStatFunc = dnn.dom.getAttr(o, 'callbackSF', '');
+	this.beforeSaveFunc = dnn.dom.getAttr(o, 'beforeSaveF', '');
 	this.eventName = dnn.dom.getAttr(o, 'eventName', 'onclick');
 	this.editEnabled = dnn.dom.getAttr(o, 'editEnabled', '1') == '1';
 	this.multiLineEnabled = dnn.dom.getAttr(o, 'multiline', '0') == '1';
@@ -35,60 +50,147 @@ dnn_control.prototype.DNNLabelEdit = function (o)
 		this.supportsCE = false;//Safari content editable still buggy...
 	this.supportsRichText = (this.supportsCE || (dnn.dom.browser.isType(dnn.dom.browser.Mozilla) && navigator.productSub >= '20050111'));	//i belive firefox only works well with 1.5 or later, need a better way to detect this!
 	
-	dnn.dom.addSafeHandler(o, this.eventName, this, 'performEdit');
-	dnn.dom.addSafeHandler(o, 'onmouseover', this, 'mouseOver');
+	if (this.eventName != 'none')
+		dnn.dom.addSafeHandler(o, this.eventName, this, 'performEdit');
+	if (this.toolbarId.length > 0)
+		dnn.dom.addSafeHandler(o, this.toolbarEventName, this, 'showToolBar');
+	dnn.dom.addSafeHandler(o, 'onmousemove', this, 'mouseMove');
 	dnn.dom.addSafeHandler(o, 'onmouseout', this, 'mouseOut');
 	
 }
 
 dnn_control.prototype.DNNLabelEdit.prototype = 
 {
-//--- Event Handlers ---//
-performEdit: function () 
-{
-	this.initEditWrapper();
-	this.editContainer.style.height = dnn.dom.positioning.elementHeight(this.control) + 4;
-	this.editContainer.style.width = dnn.dom.positioning.elementWidth(this.control.parentNode) //'100%';
-	this.editContainer.style.display = '';
-	//this.editContainer.style.visibility = '';	//firefox workaround... can't do display none
-	this.editContainer.style.overflow = 'auto';
-	this.editContainer.style.overflowX = 'hidden';
 
-	
-	this.prevText = this.control.innerHTML;
-	this.editWrapper.setText(this.prevText);
-	this.initEditControl();
-	this.control.style.display = 'none';
+isEditMode: function()
+{
+	return (this.control.style.display != '')
 },
 
-mouseOver: function () 
+initToolbar: function()
 {
+	if (this.toolbar == null)
+	{
+		var sStatus = dnn.dom.scriptStatus('dnn.controls.dnntoolbar.js');
+		if (sStatus == 'complete')
+		{
+			this.toolbar = new dnn.controls.DNNToolBar(this.ns);
+			this.toolbar.loadDefinition(this.toolbarId, this.nsPrefix, this.control, this.control.parentNode, this.control, dnn.createDelegate(this, this.toolbarAction));			
+			this.handleToolbarDisplay();
+		}
+		else if (sStatus == '')	//not loaded
+			dnn.dom.loadScript(dnn.dom.getScriptPath() + 'dnn.controls.dnntoolbar.js', '', dnn.createDelegate(this, this.initToolbar));
+	}
+
+},
+
+toolbarAction: function(btn, src)
+{
+	var sCA = btn.clickAction;
+	if (sCA == 'edit')
+		this.performEdit();
+	else if (sCA == 'save')
+	{
+		this.persistEdit();
+		this.toolbar.hide();
+	}
+	else if (sCA == 'cancel')
+	{
+		this.cancelEdit();
+		this.toolbar.hide();	
+	}	
+	else if (this.isFormatButton(sCA))
+	{
+		if (this.editWrapper)
+		{
+			var s;
+			if (sCA == 'createlink' && dnn.dom.browser.isType(dnn.dom.browser.InternetExplorer) == false)
+				s = prompt(btn.tooltip);
+				
+			this.editWrapper.focus();
+			this.editWrapper.execCommand(sCA, null, s);
+		}
+	}
+		
+},
+
+performEdit: function () 
+{
+	if (this.toolbar)
+		this.toolbar.hide();
+	this.initEditWrapper();
+	if (this.editContainer != null)
+	{
+		if (dnn.dom.browser.isType(dnn.dom.browser.Mozilla))
+			this.control.style.display = '-moz-inline-box';
+		this.editContainer.style.height = dnn.dom.positioning.elementHeight(this.control) + 4;
+		this.editContainer.style.width = dnn.dom.positioning.elementWidth(this.control.parentNode) //'100%';
+		this.editContainer.style.display = '';
+		//this.editContainer.style.visibility = '';	//firefox workaround... can't do display none
+		this.editContainer.style.overflow = 'auto';
+		this.editContainer.style.overflowX = 'hidden';
+
+		this.prevText = this.control.innerHTML;
+		if (dnn.dom.browser.isType(dnn.dom.browser.Safari) && this.control.innerText)		//safari gets strange chars... use innerText
+			this.prevText = this.control.innerText;
+		this.editWrapper.setText(this.prevText);
+		this.initEditControl();
+		this.control.style.display = 'none';
+		this.handleToolbarDisplay();
+	}
+},
+
+showToolBar: function ()
+{
+	this.initToolbar();
+	if (this.toolbar)
+		this.toolbar.show(true);	
+},
+
+mouseMove: function () 
+{
+	if (this.toolbarId.length > 0 && this.toolbarEventName == 'onmousemove')
+		this.showToolBar();
 	this.control.className = this.css + ' ' + this.cssOver;
 },
 
 mouseOut: function () 
 {
+	//this.initToolbar();
+	if (this.toolbar)
+		this.toolbar.beginHide();
 	this.control.className = this.css;
 },
+
 
 initEditWrapper: function()
 {
 	if (this.editWrapper == null)
 	{
-		var oTxt;
-		if (this.richTextEnabled && this.supportsRichText)	//disabling firefox for now
+		var bRichText = (this.richTextEnabled && this.supportsRichText);
+		var sScript = (bRichText ? 'dnn.controls.dnnrichtext.js' : 'dnn.controls.dnninputtext.js');
+		
+		var sStatus = dnn.dom.scriptStatus(sScript);
+		if (sStatus == 'complete')
 		{
-			var func = dnn.dom.getObjMethRef(this, 'initEditControl');
-			oTxt = new dnn.controls.DNNRichText(func);
+			var oTxt;
+			if (this.richTextEnabled && this.supportsRichText)
+			{
+				var func = dnn.dom.getObjMethRef(this, 'initEditControl');
+				oTxt = new dnn.controls.DNNRichText(func);
+			}
+			else
+				oTxt = new dnn.controls.DNNInputText(this.multiLineEnabled);
+					
+			this.editWrapper = oTxt;
+			this.editContainer = this.editWrapper.container;
+			//this.control.parentNode.appendChild(this.editContainer);
+			this.control.parentNode.insertBefore(this.editContainer, this.control);
+			if (this.richTextEnabled && this.supportsCE)	//control is instantly available (not an iframe)
+				this.initEditControl();
 		}
-		else
-			oTxt = new dnn.controls.DNNInputText(this.multiLineEnabled);
-				
-		this.editWrapper = oTxt;
-		this.editContainer = this.editWrapper.container;
-		this.control.parentNode.appendChild(this.editContainer);
-		if (this.richTextEnabled && this.supportsCE)	//control is instantly available (not an iframe)
-			this.initEditControl();
+		else if (sStatus == '') //not loaded
+			dnn.dom.loadScript(dnn.dom.getScriptPath() + sScript, '', dnn.createDelegate(this, this.performEdit));		//should call self or performEdit?
 	}
 },
 
@@ -101,13 +203,19 @@ initEditControl: function()
 		this.editWrapper.focus();
 		if (this.editWrapper.supportsCE || this.editWrapper.isRichText == false)	//if browser supports contentEditable or is a simple INPUT control
 		{
-			dnn.dom.addSafeHandler(this.editContainer, 'onblur', this, 'persistEdit');	
+			if (this.onblurSave)
+				dnn.dom.addSafeHandler(this.editContainer, 'onblur', this, 'persistEdit');	
 			dnn.dom.addSafeHandler(this.editControl, 'onkeypress', this, 'handleKeyPress');	
+			dnn.dom.addSafeHandler(this.editControl, 'onmousemove', this, 'mouseMove');	
+			dnn.dom.addSafeHandler(this.editControl, 'onmouseout', this, 'mouseOut');	
 		}
 		else	//IFRAME event handlers
 		{
-			dnn.dom.attachEvent(this.editContainer.contentWindow.document, 'onblur', dnn.dom.getObjMethRef(this, 'persistEdit'));	
+			if (this.onblurSave)
+				dnn.dom.attachEvent(this.editContainer.contentWindow.document, 'onblur', dnn.dom.getObjMethRef(this, 'persistEdit'));	
 			dnn.dom.attachEvent(this.editContainer.contentWindow.document, 'onkeypress', dnn.dom.getObjMethRef(this, 'handleKeyPress'));			
+			dnn.dom.attachEvent(this.editContainer.contentWindow.document, 'onmousemove', dnn.dom.getObjMethRef(this, 'mouseMove'));	
+			dnn.dom.attachEvent(this.editContainer.contentWindow.document, 'onmouseout', dnn.dom.getObjMethRef(this, 'mouseOut'));	
 		}
 	}
 },
@@ -116,11 +224,24 @@ persistEdit: function()
 {
 	if (this.editWrapper.getText() != this.prevText)
 	{
-		this.editControl.className = this.control.className + ' ' + this.cssWork;
-		eval(this.callBack.replace('[TEXT]', dnn.escapeForEval(this.editWrapper.getText())));
+		if (this.raiseEvent('beforeSaveFunc', null, this))
+		{
+			this.editControl.className = this.control.className + ' ' + this.cssWork;
+			eval(this.callBack.replace('[TEXT]', dnn.escapeForEval(this.editWrapper.getText())));
+		}
 	}
 	else
 		this.showLabel();
+},
+
+raiseEvent: function(sFunc, evt, element)
+{
+	if (this[sFunc].length > 0)
+	{
+		var oPtr = eval(this[sFunc]);
+		return oPtr(evt, element) != false;
+	}
+	return true;
 },
 
 cancelEdit: function () 
@@ -145,6 +266,31 @@ callBackSuccess: function (result, ctx)
 	ctx.showLabel();
 },
 
+handleToolbarDisplay: function()
+{
+	if (this.toolbar)
+	{
+		var bInEdit = this.isEditMode();
+		
+		for (var sKey in this.toolbar.buttons)
+		{
+			if (sKey == 'edit')
+				this.toolbar.buttons[sKey].visible = !bInEdit;
+			else if (this.isFormatButton(sKey))
+				this.toolbar.buttons[sKey].visible = (bInEdit && this.editWrapper && this.editWrapper.isRichText);
+			else
+				this.toolbar.buttons[sKey].visible = bInEdit;					
+		
+		}
+		this.toolbar.refresh();
+	}
+},
+
+isFormatButton: function(sKey)
+{
+	return '~bold~italic~underline~justifyleft~justifycenter~justifyright~insertorderedlist~insertunorderedlist~outdent~indent~createlink~'.indexOf('~' + sKey + '~') > -1;
+},
+
 showLabel: function () 
 {
 	this.control.innerHTML = this.editWrapper.getText();
@@ -153,10 +299,12 @@ showLabel: function ()
 	//this.editContainer.style.width = 0; //firefox workaround
 	//this.editContainer.style.visibility = 'hidden';	//firefox workaround
 	this.editContainer.style.display = 'none';
+	this.handleToolbarDisplay();
 },
 
 callBackFail: function (result, ctx) 
 {
+	alert(result);
 	ctx.cancelEdit();
 },
 
@@ -179,144 +327,6 @@ handleKeyPress: function (e)
 }
 }
 
-//DNNRichText
-dnn_control.prototype.DNNRichText = function (fInit)
-{
-	this.supportsCE = (document.body.contentEditable != null);
-	this.text = '';
-	this.supportsMultiLine = true;
-	this.document = null;
-	this.control = null;
-	this.initialized = false;
-	this.isRichText = true;
-
-	if (this.supportsCE)
-	{
-		this.document = document;
-		this.container = document.createElement('span');
-		this.container.contentEditable = true;	//ie doesn't need no stinkin' iframe
-		this.control = this.container;
-		this.initialized = true;
-	}
-	else
-	{
-		this.container = document.createElement('iframe');
-		this.container.src = '';
-		this.container.style.border = '0';
-		this.initFunc = fInit;	//pointer to function to call when iframe completely loads
-		dnn.doDelay(this.container.id + 'initEdit', 10, dnn.dom.getObjMethRef(this, 'initDocument'));	//onreadystate and onload not completely reliable
-	}
-}
-
-dnn_control.prototype.DNNRichText.prototype = 
-{
-focus: function()
-{
-	if (this.supportsCE)
-	{
-		this.control.focus();
-		//this.execCommand('selectall');
-	}
-	else
-		this.container.contentWindow.focus();
-},
-
-execCommand: function(cmd)
-{
-	this.document.execCommand(cmd, false, ';');	
-},
-
-getText: function()
-{
-		return this.control.innerHTML;
-},
-
-setText: function (s)
-{
-	if (this.initialized)
-		this.control.innerHTML = s;		
-	else
-		this.text = s;
-},
-
-//method continually called until iframe is completely loaded
-initDocument: function ()
-{
-	if (this.container.contentDocument != null)
-	{
-		if (this.document == null)	//iframe loaded, now write some HTML, thus causing it to not be loaded again
-		{
-			this.container.contentDocument.designMode = 'on';
-			this.document = this.container.contentWindow.document;
-			this.document.open();
-			dnn.dom.addSafeHandler(this.container, 'onload', this, 'initDocument');
-			this.document.write('<HEAD>' + __dl_getCSS() + '</HEAD><BODY id="__dnn_body"></BODY>');
-			this.document.close();
-		}
-		else if (this.control == null && this.document.getElementById('__dnn_body') != null)	//iframe loaded, now check if body is loaded
-		{
-			this.control = this.document.getElementById('__dnn_body');
-			this.control.style.margin = 0;			
-			this.control.tabIndex = 0;
-			this.initialized = true;
-			this.setText(this.text);
-			this.initFunc();		
-		}
-	}
-	if (this.initialized == false)	//iframe and body not loaded, call ourselves until it is
-		dnn.doDelay(this.container.id + 'initEdit', 10, dnn.dom.getObjMethRef(this, 'initDocument'));
-}
-}
-
-//DNNInputText
-dnn_control.prototype.DNNInputText = function (bMultiLine)
-{
-	if (bMultiLine)
-		this.control = document.createElement('textarea');	
-	else
-	{
-		this.control = document.createElement('input');
-		this.control.type = 'text';
-	}
-	this.container = this.control;
-	this.initialized = true;
-	this.supportsMultiLine = bMultiLine;
-	this.isRichText = false;
-
-}
-
-dnn_control.prototype.DNNInputText.prototype = 
-{
-focus: function ()
-{
-	this.control.focus();
-	var iChars = this.getText().length;
-	if (this.control.createTextRange)
-	{
-		var oRange = this.control.createTextRange();
-		oRange.moveStart('character', iChars);
-		oRange.moveEnd('character', iChars);
-		oRange.collapse();
-		oRange.select();
-	}
-	else
-	{
-		this.control.selectionStart = iChars;
-		this.control.selectionEnd = iChars;
-	}
-	//this.control.select();
-},
-
-getText: function ()
-{
-	return this.control.value;
-},
-
-setText: function (s)
-{
-	this.control.value = s;
-}
-}
 
 function __dl_getCSS()	//probably a better way to handle this...
 {

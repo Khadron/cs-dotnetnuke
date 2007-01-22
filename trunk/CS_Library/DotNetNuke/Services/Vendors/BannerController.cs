@@ -17,8 +17,11 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
+using System.Data;
+using System.Text;
 using System.Web;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
@@ -37,6 +40,11 @@ namespace DotNetNuke.Services.Vendors
         public BannerInfo GetBanner(int BannerId, int VendorId, int PortalId)
         {
             return ((BannerInfo)CBO.FillObject(DataProvider.Instance().GetBanner(BannerId, VendorId, PortalId), typeof(BannerInfo)));
+        }
+
+        public DataTable GetBannerGroups(int PortalId)
+        {
+            return DataProvider.Instance().GetBannerGroups(PortalId);
         }
 
         public void DeleteBanner(int BannerId)
@@ -60,12 +68,10 @@ namespace DotNetNuke.Services.Vendors
             ClearBannerCache();
         }
 
-        private void ClearBannerCache()
+        private static void ClearBannerCache()
         {
-            DictionaryEntry objDictionaryEntry;
-            foreach (DictionaryEntry tempLoopVar_objDictionaryEntry in HttpRuntime.Cache)
+            foreach (DictionaryEntry objDictionaryEntry in HttpRuntime.Cache)
             {
-                objDictionaryEntry = tempLoopVar_objDictionaryEntry;
                 if (Convert.ToString(objDictionaryEntry.Key).StartsWith("Banners:"))
                 {
                     DataCache.RemoveCache(Convert.ToString(objDictionaryEntry.Key));
@@ -78,9 +84,6 @@ namespace DotNetNuke.Services.Vendors
             ArrayList returnValue;
 
             ArrayList arrBanners;
-            BannerInfo objBanner;
-            int intCounter;
-            bool blnValid;
 
             if (GroupName == null)
             {
@@ -88,7 +91,7 @@ namespace DotNetNuke.Services.Vendors
             }
 
             // cache key
-            string strCacheKey = "Banners:" + PortalId.ToString() + ":" + BannerTypeId.ToString() + ":" + GroupName.ToString() + ":";
+            string strCacheKey = "Banners:" + PortalId + ":" + BannerTypeId + ":" + GroupName + ":";
 
             // get banners
             arrBanners = (ArrayList)DataCache.GetCache(strCacheKey + "ArrayList");
@@ -116,7 +119,7 @@ namespace DotNetNuke.Services.Vendors
                     intLastBannerIndex = Convert.ToInt32(objLastBannerIndex);
                 }
 
-                intCounter = 1;
+                int intCounter = 1;
                 while (intCounter <= arrBanners.Count && returnValue.Count != Banners)
                 {
                     // manage the rotation
@@ -127,10 +130,10 @@ namespace DotNetNuke.Services.Vendors
                     }
 
                     // get the banner object
-                    objBanner = (BannerInfo)arrBanners[intLastBannerIndex];
+                    BannerInfo objBanner = (BannerInfo)arrBanners[intLastBannerIndex];
 
                     // check criteria
-                    blnValid = true;
+                    bool blnValid = true;
                     if (Null.IsNull(objBanner.StartDate) == false && DateTime.Now < objBanner.StartDate)
                     {
                         blnValid = false;
@@ -200,10 +203,10 @@ namespace DotNetNuke.Services.Vendors
                 strWindow = "_self";
             }
 
-            string strURL = "";
+            string strURL;
             if (BannerId != -1)
             {
-                strURL = Globals.ApplicationPath + "/Admin/Vendors/BannerClickThrough.aspx?BannerId=" + BannerId.ToString() + "&VendorId=" + VendorId.ToString();
+                strURL = Globals.ApplicationPath + "/Admin/Vendors/BannerClickThrough.aspx?BannerId=" + BannerId + "&VendorId=" + VendorId;
             }
             else
             {
@@ -284,40 +287,42 @@ namespace DotNetNuke.Services.Vendors
             return strBanner;
         }
 
-        private string FormatImage(string File, int Width, int Height, string BannerName, string Description)
+        private static string FormatImage(string File, int Width, int Height, string BannerName, string Description)
         {
-            string Image = "";
 
-            Image += "<img src=\"" + File + "\" border=\"0\"";
-            if (!String.IsNullOrEmpty(Description))
+            StringBuilder Image = new StringBuilder();
+
+            Image.Append("<img src=\"" + File + "\" border=\"0\"");
+            if (Description != "")
             {
-                Image += " alt=\"" + Description + "\"";
+                Image.Append(" alt=\"" + Description + "\"");
             }
             else
             {
-                Image += " alt=\"" + BannerName + "\"";
+                Image.Append(" alt=\"" + BannerName + "\"");
             }
             if (Width > 0)
             {
-                Image += " width=\"" + Width.ToString() + "\"";
+                Image.Append(" width=\"" + Width + "\"");
             }
             if (Height > 0)
             {
-                Image += " height=\"" + Height.ToString() + "\"";
+                Image.Append(" height=\"" + Height + "\"");
             }
-            Image += "\">";
+            Image.Append(">");
 
-            return Image;
+            return Image.ToString();
+
         }
 
-        private string FormatFlash(string File, int Width, int Height)
+        private static string FormatFlash(string File, int Width, int Height)
         {
             string Flash = "";
 
-            Flash += "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4,0,2,0\" width=\"" + Width.ToString() + "\" height=\"" + Height.ToString() + "\">";
+            Flash += "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4,0,2,0\" width=\"" + Width + "\" height=\"" + Height + "\">";
             Flash += "<param name=movie value=\"" + File + "\">";
             Flash += "<param name=quality value=high>";
-            Flash += "<embed src=\"" + File + "\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"" + Width.ToString() + "\" height=\"" + Height.ToString() + "\">";
+            Flash += "<embed src=\"" + File + "\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"" + Width + "\" height=\"" + Height + "\">";
             Flash += "</embed>";
             Flash += "</object>";
 

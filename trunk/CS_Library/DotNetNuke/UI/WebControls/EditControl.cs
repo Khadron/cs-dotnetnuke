@@ -236,7 +236,8 @@ namespace DotNetNuke.UI.WebControls
         /// <Param name="writer">A HtmlTextWriter.</Param>
         protected override void Render( HtmlTextWriter writer )
         {
-            if (EditMode == PropertyEditorMode.Edit || (Required && OldValue.ToString() == ""))
+            string strOldValue = OldValue as string;
+            if (EditMode == PropertyEditorMode.Edit | (Required & string.IsNullOrEmpty(strOldValue)))
             {
                 RenderEditMode(writer);
             }

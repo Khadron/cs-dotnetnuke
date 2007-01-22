@@ -56,6 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DotNetNuke\UI\Utilities\Browser.cs" />
+    <Compile Include="DotNetNuke\UI\Utilities\BrowserCaps.cs" />
+    <Compile Include="DotNetNuke\UI\Utilities\BrowserCollection.cs" />
     <Compile Include="DotNetNuke\UI\Utilities\ClientAPI.cs">
       <SubType>Code</SubType>
       <Name>Compile</Name>
@@ -76,6 +79,8 @@
       <SubType>Code</SubType>
       <Name>Compile</Name>
     </Compile>
+    <Compile Include="DotNetNuke\UI\Utilities\FunctionalityCollection.cs" />
+    <Compile Include="DotNetNuke\UI\Utilities\FunctionalityInfo.cs" />
     <Compile Include="DotNetNuke\UI\Utilities\Globals.cs">
       <SubType>Code</SubType>
       <Name>Compile</Name>

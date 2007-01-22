@@ -17,8 +17,8 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
-using System.Diagnostics;
 using System.Web;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Localization;
@@ -28,13 +28,11 @@ namespace DotNetNuke.Modules.Admin.Security
 {
     public partial class AccessDeniedPage : PortalModuleBase
     {
-
-
         protected void Page_Load( Object sender, EventArgs e )
         {
             if( Request.QueryString["message"] != "" )
             {
-                UI.Skins.Skin.AddModuleMessage( this, HttpUtility.UrlDecode( Request.QueryString["message"] ), ModuleMessageType.YellowWarning );
+                UI.Skins.Skin.AddModuleMessage(this, HttpUtility.HtmlEncode(HttpUtility.UrlDecode(Request.QueryString["message"])), ModuleMessageType.YellowWarning);
             }
             else
             {

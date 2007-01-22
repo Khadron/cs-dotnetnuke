@@ -17,6 +17,7 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
 using System.IO;
@@ -26,6 +27,7 @@ using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
+using DotNetNuke.Modules.Admin.ResourceInstaller;
 using DotNetNuke.Security;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.FileSystem;
@@ -57,9 +59,9 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                 GetFeatures();
             }
 
-            if (Convert.ToString(Common.Globals.HostSettings["CheckUpgrade"]) == "N")
+            if (Convert.ToString(Globals.HostSettings["CheckUpgrade"]) == "N")
             {
-                tabUpgrade.Visible = false;
+                lblUpdate.Visible = false;
                 grdDefinitions.Columns[4].HeaderText = "";
             }
 
@@ -84,6 +86,48 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
             grdDefinitions.DataBind();
         }
 
+        private void BindModules()
+        {
+            string InstallPath = Globals.ApplicationMapPath + "\\Install\\Module";
+
+            if (Directory.Exists(InstallPath))
+            {
+                string[] arrFiles = Directory.GetFiles(InstallPath);
+                foreach (string strFile in arrFiles)
+                {
+                    string strResource = strFile.Replace(InstallPath + "\\", "");
+                    if (strResource.ToLower() != "placeholder.txt")
+                    {
+                        ListItem moduleItem = new ListItem();
+                        moduleItem.Value = strResource;
+                        strResource = strResource.Replace(".zip", "");
+                        strResource = strResource.Replace(".resources", "");
+                        strResource = strResource.Replace("_Install", ")");
+                        strResource = strResource.Replace("_Source", ")");
+                        strResource = strResource.Replace("_", " (");
+                        moduleItem.Text = strResource;
+                        lstModules.Items.Add(moduleItem);
+                    }
+                }
+            }
+        }
+
+        private void DeleteFile(string strFile)
+        {
+
+            // delete the file
+            try
+            {
+                File.SetAttributes(strFile, FileAttributes.Normal);
+                File.Delete(strFile);
+            }
+            catch
+            {
+                // error removing the file
+            }
+
+        }
+
         private void GetFeatures()
         {
             string strFileName = "Features.config";
@@ -98,8 +142,7 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
             }
 
             // open Features configuration file
-            StreamReader objStreamReader = null;
-            objStreamReader = File.OpenText(Globals.ApplicationMapPath + "\\" + strFileName);
+            StreamReader objStreamReader = File.OpenText(Globals.ApplicationMapPath + "\\" + strFileName);
             string strItems = objStreamReader.ReadToEnd();
             objStreamReader.Close();
 
@@ -124,9 +167,15 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
             // hide Features functionality if none specified
             if (cboSites.Items.Count == 0)
             {
-                tabFeatures.Visible = false;
+                rowFeatures.Visible = false;
             }
 
+        }
+
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            this.cmdInstall.Click +=new EventHandler(cmdInstall_Click);
+            this.cmdRefresh.Click +=new EventHandler(cmdRefresh_Click);
         }
 
         /// <summary>
@@ -141,6 +190,10 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
             try
             {
                 BindData();
+                if (!Page.IsPostBack)
+                {
+                    BindModules();
+                }
             }
             catch( Exception exc ) //Module failed to load
             {
@@ -148,12 +201,62 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
             }
         }
 
-        protected void cmdGo_Click(object sender, System.EventArgs e)
+        protected void cmdGo_Click(object sender, EventArgs e)
         {
             if (cboSites.SelectedItem != null)
             {
-                Response.Write("<script>window.open('" + cboSites.SelectedItem.Value + "', 'new');</script>");
+                UrlUtils.OpenNewWindow( cboSites.SelectedItem.Value );
             }
+        }
+
+
+        protected void cmdInstall_Click(object sender, EventArgs e)
+        {
+
+            string InstallPath = Globals.ApplicationMapPath + "\\Install\\Module\\";
+
+            foreach (ListItem moduleItem in lstModules.Items)
+            {
+                if (moduleItem.Selected)
+                {
+                    string strFile = InstallPath + moduleItem.Value;
+                    string strExtension = Path.GetExtension(strFile);
+
+                    if (strExtension.ToLower() == ".zip" | strExtension.ToLower() == ".resources")
+                    {
+                        phPaLogs.Visible = true;
+                        PaInstaller objPaInstaller = new PaInstaller(strFile, Globals.ApplicationMapPath);
+                        objPaInstaller.InstallerInfo.Log.StartJob(Localization.GetString("Installing", LocalResourceFile) + moduleItem.Text);
+                        if (objPaInstaller.Install())
+                        {
+                            // delete package
+                            DeleteFile(strFile);
+                        }
+                        else
+                        {
+                            // save error log
+                            phPaLogs.Controls.Add(objPaInstaller.InstallerInfo.Log.GetLogsTable());
+                        }
+                    }
+                }
+            }
+
+            if (phPaLogs.Controls.Count > 0)
+            {
+                // display error log
+                cmdRefresh.Visible = true;
+            }
+            else
+            {
+                // refresh installed module list
+                Response.Redirect(Request.RawUrl);
+            }
+
+        }
+
+        protected void cmdRefresh_Click(object sender, EventArgs e)
+        {
+            Response.Redirect(Request.RawUrl, true);
         }
 
         public ModuleActionCollection ModuleActions
@@ -182,7 +285,7 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// </summary>
         public string UpgradeStatusURL(string Version, string ModuleName)
         {
-            if (Convert.ToString(Common.Globals.HostSettings["CheckUpgrade"]) != "N" & ModuleName != "" & Version != "")
+            if (Convert.ToString(Globals.HostSettings["CheckUpgrade"]) != "N" & ModuleName != "" & Version != "")
             {
                 return Globals.glbUpgradeUrl + "/update.aspx?version=" + Version.Replace(".", "") + "&modulename=" + ModuleName;
             }
@@ -193,13 +296,13 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         }
 
         /// <summary>
-        /// UpgradeURL returns the imageurl for the upgrade button for the module
-        /// </summary>        
+        /// UpgradeURL returns the url for the upgrade button for the module
+        /// </summary>
         public string UpgradeURL(string ModuleName)
         {
-            if (Convert.ToString(Common.Globals.HostSettings["CheckUpgrade"]) != "N" & ModuleName != "")
+            if (Convert.ToString(Globals.HostSettings["CheckUpgrade"]) != "N" & ModuleName != "")
             {
-                return Globals.glbUpgradeUrl + "/Redirect.aspx?modulename=" + ModuleName;
+                return Globals.glbUpgradeUrl + "/redirect.aspx?modulename=" + ModuleName;
             }
             else
             {

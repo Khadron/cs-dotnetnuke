@@ -67,7 +67,7 @@ namespace DotNetNuke.UI.UserControls
             string FriendlyName = "";
 
             ModuleController objModules = new ModuleController();
-            ModuleInfo objModule = objModules.GetModule( ModuleId, TabId );
+            ModuleInfo objModule = objModules.GetModule( ModuleId, TabId, false );
             if( objModule != null )
             {
                 FriendlyName = objModule.FriendlyName;

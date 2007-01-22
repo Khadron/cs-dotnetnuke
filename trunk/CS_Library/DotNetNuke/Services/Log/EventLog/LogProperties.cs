@@ -21,10 +21,12 @@ using System;
 using System.Collections;
 using System.Text;
 using System.Xml.Serialization;
+using System.IO;
+using System.Text;
+using System.Xml;
 
 namespace DotNetNuke.Services.Log.EventLog
 {
-    [Serializable(), XmlInclude(typeof(LogDetailInfo))]
     public class LogProperties : ArrayList
     {
         const int MAX_LEN = 75;
@@ -49,18 +51,69 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
+        public void Deserialize(string content)
+        {
+            using (XmlReader reader = XmlReader.Create(new StringReader(content)))
+            {
+                reader.ReadStartElement("LogProperties");
+                if (reader.ReadState != ReadState.EndOfFile & reader.NodeType != XmlNodeType.None & reader.LocalName != "")
+                {
+                    ReadXml(reader);
+                }
+                reader.Close();
+            }
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            do
+            {
+                reader.ReadStartElement("LogProperty");
+
+                //Create new LogDetailInfo object
+                LogDetailInfo logDetail = new LogDetailInfo();
+
+                //Load it from the Xml
+                logDetail.ReadXml(reader);
+
+                //Add to the collection
+                this.Add(logDetail);
+
+            } while (reader.ReadToNextSibling("LogProperty"));
+        }
+
+        public string Serialize()
+        {
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.ConformanceLevel = ConformanceLevel.Fragment;
+            settings.OmitXmlDeclaration = true;
+
+            StringBuilder sb = new StringBuilder();
+
+            XmlWriter writer = XmlWriter.Create(sb, settings);
+            WriteXml(writer);
+            writer.Close();
+            return sb.ToString();
+        }
+
         public override string ToString()
         {
-            StringBuilder t = new StringBuilder();
-            for (int i = 0; i < this.Count; i++)
+            StringBuilder sb = new StringBuilder();
+            foreach (LogDetailInfo logDetail in this)
             {
-                LogDetailInfo ldi = this[i] as LogDetailInfo;
-                if(ldi!=null)
-                {
-                    t.Append(ldi.ToString());
-                }
+                sb.Append(logDetail.ToString());
             }
-            return t.ToString();
+            return sb.ToString();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteStartElement("LogProperties");
+            foreach (LogDetailInfo logDetail in this)
+            {
+                logDetail.WriteXml(writer);
+            }
+            writer.WriteEndElement();
         }
     }
 }

@@ -407,8 +407,8 @@ namespace DotNetNuke.UI.WebControls
             propLabel.ID = editInfo.Name + "_Label";
             propLabel.HelpStyle.CopyFrom(HelpStyle);
             propLabel.LabelStyle.CopyFrom(LabelStyle);
-            string strValue = Convert.ToString(editInfo.Value);
-            if (editInfo.EditMode == PropertyEditorMode.Edit || (editInfo.Required && strValue == ""))
+            string strValue = editInfo.Value as string;
+            if (editInfo.EditMode == PropertyEditorMode.Edit | (editInfo.Required & string.IsNullOrEmpty(strValue)))
             {
                 propLabel.ShowHelp = true;
             }
@@ -435,9 +435,10 @@ namespace DotNetNuke.UI.WebControls
         {
             Image img = null;
 
-            string strValue = Convert.ToString(editInfo.Value);
-            if (ShowRequired && editInfo.Required && (editInfo.EditMode == PropertyEditorMode.Edit || (editInfo.Required && strValue == "")))
+            string strValue = editInfo.Value as string;
+            if (ShowRequired && editInfo.Required && (editInfo.EditMode == PropertyEditorMode.Edit | (editInfo.Required & string.IsNullOrEmpty(strValue))))
             {
+
                 img = new Image();
                 if (RequiredUrl == Null.NullString)
                 {

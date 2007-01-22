@@ -17,6 +17,7 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
 using System.IO;
@@ -332,15 +333,15 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                 oAppStartMessage.Attributes.Add("BusinessControllerClass", BusinessControllerClass);
                 oAppStartMessage.Attributes.Add("DesktopModuleId", DesktopModuleId.ToString());
                 oAppStartMessage.Priority = MessagePriority.High;
-                oAppStartMessage.SentDate = System.DateTime.Now;
+                oAppStartMessage.SentDate = DateTime.Now;
                 oAppStartMessage.Body = "";
                 //make it expire as soon as it's processed
-                oAppStartMessage.ExpirationDate = System.DateTime.Now.AddYears(-1);
+                oAppStartMessage.ExpirationDate = DateTime.Now.AddYears(-1);
                 //send it
                 EventQueueController oEventQueueController = new EventQueueController();
                 oEventQueueController.SendMessage(oAppStartMessage, "Application_Start");
                 //force an app restart
-                DotNetNuke.Common.Utilities.Config.Touch();
+                Config.Touch();
             }
         }
 
@@ -362,11 +363,11 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
             {
                 if( DesktopModuleId != - 2 )
                 {
-                    _FormatUrl = EditUrl( strKeyName, strKeyValue, "Control", "desktopmoduleid=" + DesktopModuleId.ToString(), "moduledefid=" + cboDefinitions.SelectedItem.Value );
+                    _FormatUrl = EditUrl( strKeyName, strKeyValue, "Control", "desktopmoduleid=" + DesktopModuleId, "moduledefid=" + cboDefinitions.SelectedItem.Value );
                 }
                 else
                 {
-                    _FormatUrl = EditUrl( strKeyName, strKeyValue, "Control", "desktopmoduleid=" + DesktopModuleId.ToString(), "moduledefid=-1" );
+                    _FormatUrl = EditUrl( strKeyName, strKeyValue, "Control", "desktopmoduleid=" + DesktopModuleId, "moduledefid=-1" );
                 }
             }
             catch( Exception exc ) //Module failed to load
@@ -417,6 +418,7 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                         txtModuleName.Enabled = true;
                         txtFolderName.Enabled = true;
                         txtVersion.Enabled = true;
+                        txtVersion.Text = "01.00.00";
                         txtBusinessClass.Enabled = true;
                         txtCompatibleVersions.Enabled = true;
 
@@ -454,6 +456,11 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                         {
                             if (Request.IsLocal)
                             {
+                                txtModuleName.Enabled = true;
+                                txtFolderName.Enabled = true;
+                                txtVersion.Enabled = true;
+                                txtBusinessClass.Enabled = true;
+                                txtCompatibleVersions.Enabled = true;
                                 chkDelete.Checked = false;
                             }
                             else
@@ -531,8 +538,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// </history>
         protected void cmdAddDefinition_Click( object sender, EventArgs e )
         {
-            int ModuleDefId;
-
             if( !String.IsNullOrEmpty(txtDefinition.Text) )
             {
                 ModuleDefinitionInfo objModuleDefinition = new ModuleDefinitionInfo();
@@ -557,6 +562,7 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
 
                 ModuleDefinitionController objModuleDefinitions = new ModuleDefinitionController();
 
+                int ModuleDefId;
                 try
                 {
                     ModuleDefId = objModuleDefinitions.AddModuleDefinition( objModuleDefinition );
@@ -630,10 +636,6 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         {
             try
             {
-                string strFileName;
-                string strFileExtension;
-                string[] arrFiles;
-
                 if( ! Null.IsNull( DesktopModuleId ) )
                 {
                     string strRoot = Request.MapPath( "~/DesktopModules/" + txtFolderName.Text ) + "\\";
@@ -660,7 +662,7 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                         {
                             //runtime so remove files/folders
                             // find dnn manifest file
-                            arrFiles = Directory.GetFiles( strRoot, "*.dnn.config" );
+                            string[] arrFiles = Directory.GetFiles( strRoot, "*.dnn.config" );
                             if( arrFiles.Length == 0 )
                             {
                                 arrFiles = Directory.GetFiles( strRoot, "*.dnn" ); // legacy versions stored the *.dnn files unprotected
@@ -717,9 +719,9 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
 
                                     // loop through file nodes
                                     foreach (XmlNode nodeFile in myNodeModule.SelectNodes("files/file"))
-                                    {                                        
-                                        strFileName = nodeFile.SelectSingleNode( "name" ).InnerText.Trim();
-                                        strFileExtension = Path.GetExtension( strFileName ).Replace( ".", "" );
+                                    {
+                                        string strFileName = nodeFile.SelectSingleNode( "name" ).InnerText.Trim();
+                                        string strFileExtension = Path.GetExtension( strFileName ).Replace( ".", "" );
                                         if( strFileExtension == "dll" )
                                         {
                                             // remove DLL from /bin

@@ -24,6 +24,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
 {
     public class PaFolder
     {
+        private bool _SupportsProbingPrivatePath;
         private string _CompatibleVersions;
         private string _BusinessControllerClass;
         private ArrayList _Controls;
@@ -53,6 +54,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             this._Modules = new ArrayList();
             this._Controls = new ArrayList();
             this._Files = new ArrayList();
+            this._SupportsProbingPrivatePath = false;
         }
 
         public string BusinessControllerClass
@@ -64,6 +66,18 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             set
             {
                 this._BusinessControllerClass = value;
+            }
+        }
+
+        public bool SupportsProbingPrivatePath
+        {
+            get
+            {
+                return _SupportsProbingPrivatePath;
+            }
+            set
+            {
+                _SupportsProbingPrivatePath = value;
             }
         }
 

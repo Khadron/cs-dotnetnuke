@@ -17,6 +17,7 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
 using System.IO;
@@ -28,7 +29,6 @@ using System.Xml;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Framework.Providers;
 using DotNetNuke.Services.Scheduling;
-using Microsoft.VisualBasic;
 using Globals=DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Services.Log.EventLog
@@ -74,7 +74,7 @@ namespace DotNetNuke.Services.Log.EventLog
         private static ReaderWriterLock lockLog = new ReaderWriterLock();
         private static ReaderWriterLock lockNotif = new ReaderWriterLock();
         private static ReaderWriterLock lockPurgeLog = new ReaderWriterLock();
-        public static Collection LogQueue = new Collection();
+        public static ArrayList LogQueue = new ArrayList();
 //        public static ArrayList LogQueue = new ArrayList();
         private static XmlDocument xmlConfigDoc;
 
@@ -409,7 +409,7 @@ namespace DotNetNuke.Services.Log.EventLog
                 if( FileIsCorrupt )
                 {
                     string s = "A log file is corrupt '" + LogFile + "'.";
-                    if( Strings.InStr( LogFile, "Exceptions.xml.resources", 0 ) > 0 )
+                    if (LogFile.IndexOf( "Exceptions.xml.resources", 0) > 0)
                     {
                         s += "  This could be due to an older exception log file being written to by the new logging provider.  Try removing 'Exceptions.xml.resources' from the logs directory to solve the problem.";
                     }
@@ -472,88 +472,10 @@ namespace DotNetNuke.Services.Log.EventLog
             }
 
             LogInfoArray arrLog = new LogInfoArray();
-            XmlNode XmlNode;
 
-            foreach( XmlNode tempLoopVar_XmlNode in xmlLogFiles.DocumentElement.SelectNodes( "logs/log[position()>=" + LowNum.ToString() + " and position()<" + HighNum.ToString() + "]" ) )
+            foreach (XmlNode XmlNode in xmlLogFiles.DocumentElement.SelectNodes("logs/log[position()>=" + LowNum.ToString() + " and position()<" + HighNum.ToString() + "]"))
             {
-                XmlNode = tempLoopVar_XmlNode;
-                LogInfo Log = new LogInfo();
-                LogProperties logProp = new LogProperties();
-                if( XmlNode.Attributes["LogTypeKey"] != null )
-                {
-                    Log.LogTypeKey = Convert.ToString( XmlNode.Attributes["LogTypeKey"].Value );
-                }
-                if( XmlNode.Attributes["LogCreateDate"] != null )
-                {
-                    Log.LogCreateDate = Convert.ToDateTime( XmlNode.Attributes["LogCreateDate"].Value );
-                }
-                if( XmlNode.Attributes["LogCreateDateNum"] != null )
-                {
-                    Log.LogCreateDateNum = long.Parse( XmlNode.Attributes["LogCreateDateNum"].Value );
-                }
-                if( XmlNode.Attributes["LogGUID"] != null )
-                {
-                    Log.LogGUID = Convert.ToString( XmlNode.Attributes["LogGUID"].Value );
-                }
-                if( XmlNode.Attributes["LogUserID"] != null )
-                {
-                    Log.LogUserID = Convert.ToInt32( XmlNode.Attributes["LogUserID"].Value );
-                }
-                if( XmlNode.Attributes["LogUserName"] != null )
-                {
-                    Log.LogUserName = Convert.ToString( XmlNode.Attributes["LogUserName"].Value );
-                }
-                if( XmlNode.Attributes["LogPortalID"] != null )
-                {
-                    Log.LogPortalID = Convert.ToInt32( XmlNode.Attributes["LogPortalID"].Value );
-                }
-                if( XmlNode.Attributes["LogPortalName"] != null )
-                {
-                    Log.LogPortalName = Convert.ToString( XmlNode.Attributes["LogPortalName"].Value );
-                }
-                if( XmlNode.Attributes["LogFileID"] != null )
-                {
-                    Log.LogFileID = Convert.ToString( XmlNode.Attributes["LogFileID"].Value );
-                }
-                if( XmlNode.Attributes["LogServerName"] != null )
-                {
-                    Log.LogServerName = Convert.ToString( XmlNode.Attributes["LogServerName"].Value );
-                }
-
-                XmlNodeList xmlPropertyNodes;
-                xmlPropertyNodes = XmlNode.SelectNodes( "properties/property" );
-
-                XmlNode PropertyNode;
-                string propertyName;
-                string propertyValue;
-                foreach( XmlNode tempLoopVar_PropertyNode in xmlPropertyNodes )
-                {
-                    PropertyNode = tempLoopVar_PropertyNode;
-                    LogDetailInfo logDetails = new LogDetailInfo();
-                    propertyName = XmlUtils.GetNodeValue( PropertyNode, "name", "" );
-                    if( propertyName == "logdetail" )
-                    {
-                        XmlDocument xmlDetail = new XmlDocument();
-                        xmlDetail.LoadXml( XmlUtils.GetNodeValue( PropertyNode, "value", "" ) );
-                        XmlNode childNode;
-                        foreach( XmlNode tempLoopVar_childNode in xmlDetail.DocumentElement.ChildNodes )
-                        {
-                            childNode = tempLoopVar_childNode;
-                            if( childNode.HasChildNodes == false )
-                            {
-                                propertyName = childNode.Name;
-                                propertyValue = childNode.InnerText;
-                                logProp.Add( new LogDetailInfo( propertyName, propertyValue ) );
-                            }
-                        }
-                    }
-                    else
-                    {
-                        propertyValue = XmlUtils.GetNodeValue( PropertyNode, "value", "" );
-                        logProp.Add( new LogDetailInfo( propertyName, propertyValue ) );
-                    }
-                }
-                Log.LogProperties = logProp;
+                LogInfo Log = new LogInfo(XmlNode.OuterXml);
                 arrLog.Add( Log );
             }
             return arrLog;
@@ -663,10 +585,10 @@ namespace DotNetNuke.Services.Log.EventLog
                 objLogTypeConfigInfo.KeepMostRecent = "*";
             }
             objLogTypeConfigInfo.ID = xmlLogTypeInfo.Attributes["LogFileID"].Value;
-            objLogTypeConfigInfo.LoggingIsActive = Convert.ToBoolean( ( Strings.LCase( xmlLogTypeInfo.Attributes["LoggingStatus"].Value.ToString() ) == "on" ) ? true : false );
+            objLogTypeConfigInfo.LoggingIsActive = Convert.ToBoolean( ( ( xmlLogTypeInfo.Attributes["LoggingStatus"].Value.ToString().ToLower() ) == "on" ) ? true : false );
             if( xmlLogTypeInfo.Attributes["EmailNotificationStatus"] == null )
             {
-                objLogTypeConfigInfo.EmailNotificationIsActive = Convert.ToBoolean( ( Strings.LCase( xmlLogTypeInfo.Attributes["EmailNotificationStatus"].Value.ToString() ) == "on" ) ? true : false );
+                objLogTypeConfigInfo.EmailNotificationIsActive = Convert.ToBoolean( ( ( xmlLogTypeInfo.Attributes["EmailNotificationStatus"].Value.ToString().ToLower() ) == "on" ) ? true : false );
             }
             else
             {
@@ -915,20 +837,18 @@ namespace DotNetNuke.Services.Log.EventLog
 
             LogTypeConfigInfo objLogTypeConfigInfo;
             objLogTypeConfigInfo = GetLogTypeConfig( ConfigPortalID, objLogInfo.LogTypeKey );
-            if( objLogTypeConfigInfo != null && objLogTypeConfigInfo.LoggingIsActive )
+            if (objLogTypeConfigInfo != null && objLogTypeConfigInfo.LoggingIsActive)
             {
-                string LogString;
                 objLogInfo.LogFileID = objLogTypeConfigInfo.ID;
-                objLogInfo.LogCreateDateNum = DateToNum( objLogInfo.LogCreateDate );
-                LogString = XmlUtils.Serialize( objLogInfo );
+                objLogInfo.LogCreateDateNum = DateToNum(objLogInfo.LogCreateDate);
                 LogQueueItem objLogQueueItem = new LogQueueItem();
-                objLogQueueItem.LogString = LogString;
+                objLogQueueItem.LogString = objLogInfo.Serialize();
                 objLogQueueItem.LogTypeConfigInfo = objLogTypeConfigInfo;
 
                 bool UseEventLogBuffer = true;
-                if( Globals.HostSettings.ContainsKey( "EventLogBuffer" ) )
+                if (Globals.HostSettings.ContainsKey("EventLogBuffer"))
                 {
-                    if( Convert.ToString( Globals.HostSettings["EventLogBuffer"] ) != "Y" )
+                    if (Convert.ToString(Globals.HostSettings["EventLogBuffer"]) != "Y")
                     {
                         UseEventLogBuffer = false;
                     }
@@ -939,13 +859,13 @@ namespace DotNetNuke.Services.Log.EventLog
                 }
 
                 SchedulingProvider scheduler = SchedulingProvider.Instance();
-                if( objLogInfo.BypassBuffering || SchedulingProvider.Enabled == false || scheduler.GetScheduleStatus() == ScheduleStatus.STOPPED || UseEventLogBuffer == false )
+                if (objLogInfo.BypassBuffering | SchedulingProvider.Enabled == false | scheduler.GetScheduleStatus()  == ScheduleStatus.STOPPED | UseEventLogBuffer == false)
                 {
-                    WriteLog( objLogQueueItem );
+                    WriteLog(objLogQueueItem);
                 }
                 else
                 {
-                    LogQueue.Add( objLogQueueItem, null, null, null );
+                    LogQueue.Add(objLogQueueItem);
                 }
             }
         }
@@ -1132,7 +1052,7 @@ namespace DotNetNuke.Services.Log.EventLog
             {
                 lockPurgeLog.AcquireWriterLock( WriterLockTimeout );
                 int i;
-                Collection c = LogQueue;
+                ArrayList c = LogQueue;
                 int j = c.Count;
                 for( i = 1; i <= c.Count; i++ )
                 {

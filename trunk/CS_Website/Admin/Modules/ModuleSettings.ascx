@@ -29,8 +29,11 @@
 							</tr>
 							<tr>
 								<td class="SubHead" style="width: 200;" valign="top"><br/>
-									<dnn:label id="plPermissions" runat="server" controlname="ctlPermissions" text="Permissions:"></dnn:label></td>
-								<td>
+									<dnn:label id="plPermissions" runat="server" controlname="ctlPermissions" text="Permissions:"></dnn:label>
+							    </td>							
+                            </tr>
+                            <tr>
+                                <td align="center" colspan="2">
 									<table border="0" cellpadding="0" cellspacing="0">
 										<tr>
 											<td><dnn:modulepermissionsgrid id="dgPermissions" runat="server"/></td>
@@ -193,15 +196,14 @@
 				section="tblSpecific" isexpanded="False" includerule="True" />
 			<table id="tblSpecific" cellspacing="0" cellpadding="2" width="525" summary="Specific Settings Design Table"
 				border="0" runat="server">
-				<tr>
-					<td colspan="2"><asp:label id="lblSpecificSettingsHelp" cssclass="Normal" runat="server" resourcekey="SpecificSettingsHelp"
-							enableviewstate="False">In this section, you can set up settings that are specific for this module.</asp:label></td>
-				</tr>
-				<tr id="rowspecifichelp" runat="server">
-					<td colSpan="2" class="NormalBold" align="left">
-						<asp:Image id="imgSpecificHelp" runat="server" ImageUrl="~/images/help.gif"></asp:Image>
-						<asp:HyperLink id="lnkSpecificHelp" runat="server"></asp:HyperLink></td>
-				</tr>
+                <tr id="rowspecifichelp" runat="server">
+                    <td align="left" class="NormalBold" colspan="2">
+                        <asp:Image ID="imgSpecificHelp" runat="server" ImageUrl="~/images/help.gif" />
+                        <asp:HyperLink ID="lnkSpecificHelp" runat="server"></asp:HyperLink>&nbsp;:&nbsp;
+                        <asp:Label ID="lblSpecificSettingsHelp" runat="server" CssClass="Normal" EnableViewState="False" resourcekey="SpecificSettingsHelp">In this section, you can set up settings that are specific for this module.</asp:Label><br />
+                        <br />
+                    </td>
+                </tr>
 				<tr>
 					<td style="width: 25;"></td>
 					<td valign="top" style="width: 475;">

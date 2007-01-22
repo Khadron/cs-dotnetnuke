@@ -17,8 +17,10 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Web;
@@ -27,7 +29,6 @@ using DotNetNuke.Common.Utilities;
 using DotNetNuke.Data;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Tabs;
-using DotNetNuke.Entities.Users;
 using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Skins;
@@ -55,6 +56,8 @@ namespace DotNetNuke.Entities.Portals
         private string _Email;
         private float _HostFee;
         private int _HostSpace;
+        private int _PageQuota;
+        private int _UserQuota;
         private int _AdministratorRoleId;
         private string _AdministratorRoleName;
         private int _RegisteredRoleId;
@@ -76,6 +79,12 @@ namespace DotNetNuke.Entities.Portals
         private ArrayList _DesktopTabs;
         private TabInfo _ActiveTab;
         private PortalAliasInfo _PortalAlias;
+        private SkinInfo _AdminContainer;
+        private SkinInfo _AdminSkin;
+        private SkinInfo _PortalContainer;
+        private SkinInfo _PortalSkin;
+        private int _Users;
+        private int _Pages;
 
         public int PortalId
         {
@@ -239,6 +248,29 @@ namespace DotNetNuke.Entities.Portals
             set
             {
                 _HostSpace = value;
+            }
+        }
+
+        public int PageQuota
+        {
+            get
+            {
+                return _PageQuota;
+            }
+            set
+            {
+                _PageQuota = value;
+            }
+        }
+        public int UserQuota
+        {
+            get
+            {
+                return _UserQuota;
+            }
+            set
+            {
+                _UserQuota = value;
             }
         }
 
@@ -502,6 +534,73 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
+        public SkinInfo AdminContainer
+        {
+            get
+            {
+                return _AdminContainer;
+            }
+            set
+            {
+                _AdminContainer = value;
+            }
+        }
+        public SkinInfo AdminSkin
+        {
+            get
+            {
+                return _AdminSkin;
+            }
+            set
+            {
+                _AdminSkin = value;
+            }
+        }
+        public SkinInfo PortalContainer
+        {
+            get
+            {
+                return _PortalContainer;
+            }
+            set
+            {
+                _PortalContainer = value;
+            }
+        }
+        public SkinInfo PortalSkin
+        {
+            get
+            {
+                return _PortalSkin;
+            }
+            set
+            {
+                _PortalSkin = value;
+            }
+        }
+        public int Users
+        {
+            get
+            {
+                return _Users;
+            }
+            set
+            {
+                _Users = value;
+            }
+        }
+        public int Pages
+        {
+            get
+            {
+                return _Pages;
+            }
+            set
+            {
+                _Pages = value;
+            }
+        }
+
         /// <summary>
         /// The PortalSettings Constructor encapsulates all of the logic
         /// necessary to obtain configuration settings necessary to render
@@ -522,17 +621,17 @@ namespace DotNetNuke.Entities.Portals
         {
         }
 
-        private void GetBreadCrumbsRecursively( ref ArrayList objBreadCrumbs, int intTabId )
+        private void GetBreadCrumbsRecursively( ArrayList objBreadCrumbs, int intTabId )
         {
             // find the tab in the desktoptabs collection
             bool blnFound = false;
-            TabInfo objTab = null;
-            foreach( TabInfo tempLoopVar_objTab in this.DesktopTabs )
+            TabInfo foundTab = null;
+            foreach( TabInfo objTab in this.DesktopTabs )
             {
-                objTab = tempLoopVar_objTab;
                 if( objTab.TabID == intTabId )
                 {
                     blnFound = true;
+                    foundTab = objTab;
                     break;
                 }
             }            
@@ -541,12 +640,12 @@ namespace DotNetNuke.Entities.Portals
             if( blnFound )
             {
                 // add tab to breadcrumb collection
-                objBreadCrumbs.Insert( 0, objTab.Clone() );
+                objBreadCrumbs.Insert(0, foundTab.Clone());
 
                 // get the tab parent
-                if( !Null.IsNull( objTab.ParentId ) )
+                if (!Null.IsNull(foundTab.ParentId))
                 {
-                    GetBreadCrumbsRecursively( ref objBreadCrumbs, objTab.ParentId );
+                    GetBreadCrumbsRecursively(objBreadCrumbs, foundTab.ParentId);
                 }
             }
         }
@@ -558,71 +657,20 @@ namespace DotNetNuke.Entities.Portals
         /// </remarks>
         ///	<param name="TabId">The current tabs id</param>
         ///	<param name="objPortalAliasInfo">The Portal Alias object</param>
-        private void GetPortalSettings( int TabId, PortalAliasInfo objPortalAliasInfo )
+        private void GetPortalSettings(int TabId, PortalAliasInfo objPortalAliasInfo)
         {
             PortalController objPortals = new PortalController();
-            PortalInfo objPortal;
+            PortalInfo objPortal = null;
             TabController objTabs = new TabController();
-            ArrayList arrTabs;
-            TabInfo objTab;
             ModuleController objModules = new ModuleController();
-            ArrayList arrModules;
-            ModuleInfo objModule;
-            SkinInfo objSkin;
-
-            // data caching settings
-            int intCacheTimeout;
-            // calculate the cache settings based on the performance setting
-            intCacheTimeout = 20*Convert.ToInt32( Globals.PerformanceSetting );
+            ModuleInfo objModule = null;
+            SkinInfo objSkin = null;
 
             PortalId = objPortalAliasInfo.PortalID;
 
             // get portal settings
-            objPortal = (PortalInfo)DataCache.GetPersistentCacheItem( "GetPortalSettings" + PortalId.ToString(), typeof( PortalInfo ) );
-            if( objPortal == null )
-            {
-                // get portal settings
-                objPortal = objPortals.GetPortal( PortalId );
-                if( objPortal != null )
-                {
-                    // set custom properties
-                    if( Null.IsNull( objPortal.HostSpace ) )
-                    {
-                        objPortal.HostSpace = 0;
-                    }
-                    if( Null.IsNull( objPortal.DefaultLanguage ) )
-                    {
-                        objPortal.DefaultLanguage = Localization.SystemLocale;
-                    }
-                    if( Null.IsNull( objPortal.TimeZoneOffset ) )
-                    {
-                        objPortal.TimeZoneOffset = Localization.SystemTimeZoneOffset;
-                    }
-                    objPortal.HomeDirectory = Globals.ApplicationPath + "/" + objPortal.HomeDirectory + "/";
-
-                    // get application version
-                    Array arrVersion = Globals.glbAppVersion.Split( Convert.ToChar( "." ) );
-                    int intMajor = Convert.ToInt32( arrVersion.GetValue( 0 ) );
-                    int intMinor = Convert.ToInt32( arrVersion.GetValue( 1 ) );
-                    int intBuild = Convert.ToInt32( arrVersion.GetValue( 2 ) );
-                    objPortal.Version = intMajor.ToString() + "." + intMinor.ToString() + "." + intBuild.ToString();
-
-                    // get administrator email
-                    UserInfo objUser;
-                    objUser = UserController.GetUser( objPortal.PortalID, objPortal.AdministratorId, false );
-                    if( objUser != null )
-                    {
-                        objPortal.Email = objUser.Email;
-                    }
-
-                    // cache object
-                    if( intCacheTimeout != 0 )
-                    {
-                        DataCache.SetCache( "GetPortalSettings" + PortalId.ToString(), objPortal, TimeSpan.FromMinutes( intCacheTimeout ), true );
-                    }
-                }
-            }
-            if( objPortal != null )
+            objPortal = objPortals.GetPortal(PortalId);
+            if (objPortal != null)
             {
                 this.PortalAlias = objPortalAliasInfo;
                 this.PortalId = objPortal.PortalID;
@@ -637,6 +685,8 @@ namespace DotNetNuke.Entities.Portals
                 this.Email = objPortal.Email;
                 this.HostFee = objPortal.HostFee;
                 this.HostSpace = objPortal.HostSpace;
+                this.PageQuota = objPortal.PageQuota;
+                this.UserQuota = objPortal.UserQuota;
                 this.AdministratorRoleId = objPortal.AdministratorRoleId;
                 this.AdministratorRoleName = objPortal.AdministratorRoleName;
                 this.RegisteredRoleId = objPortal.RegisteredRoleId;
@@ -656,244 +706,200 @@ namespace DotNetNuke.Entities.Portals
                 this.TimeZoneOffset = objPortal.TimeZoneOffset;
                 this.HomeDirectory = objPortal.HomeDirectory;
                 this.Version = objPortal.Version;
-            }
+                this.AdminSkin = SkinController.GetSkin(SkinInfo.RootSkin, PortalId, SkinType.Admin);
+                this.PortalSkin = SkinController.GetSkin(SkinInfo.RootSkin, PortalId, SkinType.Portal);
+                this.AdminContainer = SkinController.GetSkin(SkinInfo.RootContainer, PortalId, SkinType.Admin);
+                this.PortalContainer = SkinController.GetSkin(SkinInfo.RootContainer, PortalId, SkinType.Portal);
+                this.Pages = objPortal.Pages;
+                this.Users = objPortal.Users;
 
-            // get portal tabs
-            arrTabs = (ArrayList)DataCache.GetCache( "GetTabs" + this.PortalId.ToString() );
-            if( arrTabs == null )
-            {
-                arrTabs = objTabs.GetTabs( this.PortalId );
-                if( arrTabs != null )
+                // set custom properties
+                if (Null.IsNull(this.HostSpace))
                 {
-                    // set custom properties
-                    foreach( TabInfo tempLoopVar_objTab in arrTabs )
-                    {
-                        objTab = tempLoopVar_objTab;
-                        if( objTab.TabOrder == 0 )
-                        {
-                            objTab.TabOrder = 999;
-                        }
-                        if( Null.IsNull( objTab.StartDate ) )
-                        {
-                            objTab.StartDate = DateTime.MinValue;
-                        }
-                        if( Null.IsNull( objTab.EndDate ) )
-                        {
-                            objTab.EndDate = DateTime.MaxValue;
-                        }
-                        objTab.IsSuperTab = false;
-                    }
-
-                    // host tab
-                    objTab = objTabs.GetTab( this.SuperTabId );
-                    if( objTab != null )
-                    {
-                        // set custom properties
-                        objTab.PortalID = this.PortalId;
-                        objTab.StartDate = DateTime.MinValue;
-                        objTab.EndDate = DateTime.MaxValue;
-                        objTab.IsSuperTab = true;
-                        arrTabs.Add( objTab );
-                    }
-
-                    // host child tabs
-                    ArrayList arrHostTabs = objTabs.GetTabsByParentId( this.SuperTabId );
-                    if( arrHostTabs != null )
-                    {
-                        foreach( TabInfo tempLoopVar_objTab in arrHostTabs )
-                        {
-                            objTab = tempLoopVar_objTab;
-                            // set custom properties
-                            objTab.PortalID = this.PortalId;
-                            objTab.StartDate = DateTime.MinValue;
-                            objTab.EndDate = DateTime.MaxValue;
-                            objTab.IsSuperTab = true;
-                            arrTabs.Add( objTab );
-                        }
-                    }
-
-                    // cache collection
-                    if( intCacheTimeout != 0 )
-                    {
-                        DataCache.SetCache( "GetTabs" + this.PortalId.ToString(), arrTabs, TimeSpan.FromMinutes( intCacheTimeout ) );
-                    }
+                    this.HostSpace = 0;
                 }
-            }
-            foreach( TabInfo tempLoopVar_objTab in arrTabs )
-            {
-                objTab = tempLoopVar_objTab;
-                // clone the tab object ( to avoid creating an object reference to the data cache )
-                this.DesktopTabs.Add( objTab.Clone() );
-            }
-
-            // verify tab for portal
-            int intTabId = VerifyPortalTab( PortalId, TabId );
-
-            //  current tab settings
-            objTab = (TabInfo)DataCache.GetCache( "GetTab" + intTabId.ToString() );
-            if( objTab == null )
-            {
-                objTab = objTabs.GetTab( intTabId );
-                if( objTab != null )
+                if (Null.IsNull(this.DefaultLanguage))
                 {
-                    // set custom properties
-                    if( Null.IsNull( objTab.StartDate ) )
-                    {
-                        objTab.StartDate = DateTime.MinValue;
-                    }
-                    if( Null.IsNull( objTab.EndDate ) )
-                    {
-                        objTab.EndDate = DateTime.MaxValue;
-                    }
+                    this.DefaultLanguage = Localization.SystemLocale;
+                }
+                if (Null.IsNull(this.TimeZoneOffset))
+                {
+                    this.TimeZoneOffset = Localization.SystemTimeZoneOffset;
+                }
+                this.HomeDirectory = Globals.ApplicationPath + "/" + objPortal.HomeDirectory + "/";
+
+                // get application version
+                Array arrVersion = Globals.glbAppVersion.Split(Convert.ToChar("."));
+                int intMajor = Convert.ToInt32(arrVersion.GetValue((0)));
+                int intMinor = Convert.ToInt32(arrVersion.GetValue((1)));
+                int intBuild = Convert.ToInt32(arrVersion.GetValue((2)));
+                this.Version = string.Format( "{0}.{1}.{2}", intMajor, intMinor, intBuild );
+
+            }
+
+            //Add each portal Tab to DekstopTabs
+            TabInfo objPortalTab = null;
+            foreach (KeyValuePair<int, TabInfo> tabPair in objTabs.GetTabsByPortal(this.PortalId))
+            {
+                // clone the tab object ( to avoid creating an object reference to the data cache )
+                objPortalTab = tabPair.Value.Clone();
+
+                // set custom properties
+                if (objPortalTab.TabOrder == 0)
+                {
+                    objPortalTab.TabOrder = 999;
+                }
+                if (Null.IsNull(objPortalTab.StartDate))
+                {
+                    objPortalTab.StartDate = DateTime.MinValue;
+                }
+                if (Null.IsNull(objPortalTab.EndDate))
+                {
+                    objPortalTab.EndDate = DateTime.MaxValue;
+                }
+                objPortalTab.IsSuperTab = false;
+
+                this.DesktopTabs.Add(objPortalTab);
+            }
+
+            //Add each host Tab to DesktopTabs
+            TabInfo objHostTab = null;
+            foreach (KeyValuePair<int, TabInfo> tabPair in objTabs.GetTabsByPortal(Null.NullInteger))
+            {
+                // clone the tab object ( to avoid creating an object reference to the data cache )
+                objHostTab = tabPair.Value.Clone();
+                objHostTab.PortalID = this.PortalId;
+                objHostTab.StartDate = DateTime.MinValue;
+                objHostTab.EndDate = DateTime.MaxValue;
+                objHostTab.IsSuperTab = true;
+
+                this.DesktopTabs.Add(objHostTab);
+            }
+
+            //At this point the DesktopTabs Collection contains all the Tabs for the current portal
+            //verify tab for portal. This assigns the Active Tab based on the Tab Id/PortalId
+            if (VerifyPortalTab(PortalId, TabId))
+            {
+                if (this.ActiveTab != null)
+                {
                     // skin
-                    if( objTab.SkinSrc == "" )
+                    if (this.ActiveTab.SkinSrc == "")
                     {
-                        if( Globals.IsAdminSkin( objTab.IsAdminTab ) )
+                        if (Globals.IsAdminSkin(this.ActiveTab.IsAdminTab))
                         {
-                            objSkin = SkinController.GetSkin( SkinInfo.RootSkin, PortalId, SkinType.Admin );
+                            objSkin = this.AdminSkin;
                         }
                         else
                         {
-                            objSkin = SkinController.GetSkin( SkinInfo.RootSkin, PortalId, SkinType.Portal );
+                            objSkin = this.PortalSkin;
                         }
-                        if( objSkin != null )
+                        if (objSkin != null)
                         {
-                            objTab.SkinSrc = objSkin.SkinSrc;
+                            this.ActiveTab.SkinSrc = objSkin.SkinSrc;
                         }
                     }
-                    if( objTab.SkinSrc == "" )
+                    if (this.ActiveTab.SkinSrc == "")
                     {
-                        if( Globals.IsAdminSkin( objTab.IsAdminTab ) )
+                        if (Globals.IsAdminSkin(this.ActiveTab.IsAdminTab))
                         {
-                            objTab.SkinSrc = "[G]" + SkinInfo.RootSkin + Globals.glbDefaultSkinFolder + Globals.glbDefaultAdminSkin;
+                            this.ActiveTab.SkinSrc = "[G]" + SkinInfo.RootSkin + Globals.glbDefaultSkinFolder + Globals.glbDefaultAdminSkin;
                         }
                         else
                         {
-                            objTab.SkinSrc = "[G]" + SkinInfo.RootSkin + Globals.glbDefaultSkinFolder + Globals.glbDefaultSkin;
+                            this.ActiveTab.SkinSrc = "[G]" + SkinInfo.RootSkin + Globals.glbDefaultSkinFolder + Globals.glbDefaultSkin;
                         }
                     }
-                    objTab.SkinSrc = SkinController.FormatSkinSrc( objTab.SkinSrc, this );
-                    objTab.SkinPath = SkinController.FormatSkinPath( objTab.SkinSrc );
+                    this.ActiveTab.SkinSrc = SkinController.FormatSkinSrc(this.ActiveTab.SkinSrc, this);
+                    this.ActiveTab.SkinPath = SkinController.FormatSkinPath(this.ActiveTab.SkinSrc);
                     // container
-                    if( objTab.ContainerSrc == "" )
+                    if (this.ActiveTab.ContainerSrc == "")
                     {
-                        if( Globals.IsAdminSkin( objTab.IsAdminTab ) )
+                        if (Globals.IsAdminSkin(this.ActiveTab.IsAdminTab))
                         {
-                            objSkin = SkinController.GetSkin( SkinInfo.RootContainer, PortalId, SkinType.Admin );
+                            objSkin = this.AdminContainer;
                         }
                         else
                         {
-                            objSkin = SkinController.GetSkin( SkinInfo.RootContainer, PortalId, SkinType.Portal );
+                            objSkin = this.PortalContainer;
                         }
-                        if( objSkin != null )
+                        if (objSkin != null)
                         {
-                            objTab.ContainerSrc = objSkin.SkinSrc;
+                            this.ActiveTab.ContainerSrc = objSkin.SkinSrc;
                         }
                     }
-                    if( objTab.ContainerSrc == "" )
+                    if (this.ActiveTab.ContainerSrc == "")
                     {
-                        if( Globals.IsAdminSkin( objTab.IsAdminTab ) )
+                        if (Globals.IsAdminSkin(this.ActiveTab.IsAdminTab))
                         {
-                            objTab.ContainerSrc = "[G]" + SkinInfo.RootContainer + Globals.glbDefaultContainerFolder + Globals.glbDefaultAdminContainer;
+                            this.ActiveTab.ContainerSrc = "[G]" + SkinInfo.RootContainer + Globals.glbDefaultContainerFolder + Globals.glbDefaultAdminContainer;
                         }
                         else
                         {
-                            objTab.ContainerSrc = "[G]" + SkinInfo.RootContainer + Globals.glbDefaultContainerFolder + Globals.glbDefaultContainer;
+                            this.ActiveTab.ContainerSrc = "[G]" + SkinInfo.RootContainer + Globals.glbDefaultContainerFolder + Globals.glbDefaultContainer;
                         }
                     }
-                    objTab.ContainerSrc = SkinController.FormatSkinSrc( objTab.ContainerSrc, this );
-                    objTab.ContainerPath = SkinController.FormatSkinPath( objTab.ContainerSrc );
+                    this.ActiveTab.ContainerSrc = SkinController.FormatSkinSrc(this.ActiveTab.ContainerSrc, this);
+                    this.ActiveTab.ContainerPath = SkinController.FormatSkinPath(this.ActiveTab.ContainerSrc);
 
                     // initialize collections
-                    objTab.BreadCrumbs = new ArrayList();
-                    objTab.Panes = new ArrayList();
-                    objTab.Modules = new ArrayList();
-                    if( objTab.ParentId == this.SuperTabId )
-                    {
-                        objTab.IsSuperTab = true;
-                    }
+                    this.ActiveTab.BreadCrumbs = new ArrayList();
+                    this.ActiveTab.Panes = new ArrayList();
+                    this.ActiveTab.Modules = new ArrayList();
 
                     // get breadcrumbs for current tab
-                    ArrayList breadCrumbs = objTab.BreadCrumbs;
-                    GetBreadCrumbsRecursively( ref breadCrumbs, intTabId );
+                    GetBreadCrumbsRecursively(this.ActiveTab.BreadCrumbs, this.ActiveTab.TabID);
+                }
+            }
 
-                    // cache object
-                    if( intCacheTimeout != 0 )
-                    {
-                        DataCache.SetCache( "GetTab" + intTabId.ToString(), objTab, TimeSpan.FromMinutes( intCacheTimeout ) );
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-            if( objTab != null )
-            {
-                // clone the tab object ( to avoid creating an object reference to the data cache )
-                this.ActiveTab = objTab.Clone();
-            }
+            Hashtable objPaneModules = new Hashtable();
 
             // get current tab modules
-            Hashtable objPaneModules = new Hashtable();
-            arrModules = (ArrayList)DataCache.GetCache( "GetPortalTabModules" + intTabId.ToString() );
-            if( arrModules == null )
+            foreach (KeyValuePair<int, ModuleInfo> kvp in objModules.GetTabModules(this.ActiveTab.TabID))
             {
-                arrModules = objModules.GetPortalTabModules( this.PortalId, this.ActiveTab.TabID );
-                if( arrModules != null )
-                {
-                    // set custom properties
-                    foreach( ModuleInfo tempLoopVar_objModule in arrModules )
-                    {
-                        objModule = tempLoopVar_objModule;
-                        if( Null.IsNull( objModule.StartDate ) )
-                        {
-                            objModule.StartDate = DateTime.MinValue;
-                        }
-                        if( Null.IsNull( objModule.EndDate ) )
-                        {
-                            objModule.EndDate = DateTime.MaxValue;
-                        }
-                        // container
-                        if( objModule.ContainerSrc == "" )
-                        {
-                            objModule.ContainerSrc = this.ActiveTab.ContainerSrc;
-                        }
-                        objModule.ContainerSrc = SkinController.FormatSkinSrc( objModule.ContainerSrc, this );
-                        objModule.ContainerPath = SkinController.FormatSkinPath( objModule.ContainerSrc );
-                        // process tab panes
-                        if( objPaneModules.ContainsKey( objModule.PaneName ) == false )
-                        {
-                            objPaneModules.Add( objModule.PaneName, 0 );
-                        }
-                        objModule.PaneModuleCount = 0;
-                        if( !objModule.IsDeleted )
-                        {
-                            objPaneModules[objModule.PaneName] = Convert.ToInt32( objPaneModules[objModule.PaneName] ) + 1;
-                            objModule.PaneModuleIndex = Convert.ToInt32( objPaneModules[objModule.PaneName] ) - 1;
-                        }
-                    }
+                objModule = kvp.Value;
 
-                    // set pane module count
-                    foreach( ModuleInfo tempLoopVar_objModule in arrModules )
-                    {
-                        objModule = tempLoopVar_objModule;
-                        objModule.PaneModuleCount = Convert.ToInt32( objPaneModules[objModule.PaneName] );
-                    }
-
-                    // cache collection
-                    if( intCacheTimeout != 0 )
-                    {
-                        DataCache.SetCache( "GetPortalTabModules" + intTabId.ToString(), arrModules, TimeSpan.FromMinutes( intCacheTimeout ) );
-                    }
-                }
-            }
-            foreach( ModuleInfo tempLoopVar_objModule in arrModules )
-            {
-                objModule = tempLoopVar_objModule;
                 // clone the module object ( to avoid creating an object reference to the data cache )
-                this.ActiveTab.Modules.Add( objModule.Clone() );
+                ModuleInfo cloneModule = objModule.Clone();
+
+                // set custom properties
+                if (Null.IsNull(cloneModule.StartDate))
+                {
+                    cloneModule.StartDate = DateTime.MinValue;
+                }
+                if (Null.IsNull(cloneModule.EndDate))
+                {
+                    cloneModule.EndDate = DateTime.MaxValue;
+                }
+                // container
+                if (cloneModule.ContainerSrc == "")
+                {
+                    cloneModule.ContainerSrc = this.ActiveTab.ContainerSrc;
+                }
+                cloneModule.ContainerSrc = SkinController.FormatSkinSrc(cloneModule.ContainerSrc, this);
+                cloneModule.ContainerPath = SkinController.FormatSkinPath(cloneModule.ContainerSrc);
+
+                // process tab panes
+                if (objPaneModules.ContainsKey(cloneModule.PaneName) == false)
+                {
+                    objPaneModules.Add(cloneModule.PaneName, 0);
+                }
+                cloneModule.PaneModuleCount = 0;
+                if (!cloneModule.IsDeleted)
+                {
+                    objPaneModules[cloneModule.PaneName] = Convert.ToInt32(objPaneModules[cloneModule.PaneName]) + 1;
+                    cloneModule.PaneModuleIndex = Convert.ToInt32(objPaneModules[cloneModule.PaneName]) - 1;
+                }
+
+                this.ActiveTab.Modules.Add(cloneModule);
             }
+
+            // set pane module count
+            foreach (ModuleInfo objModuleWithinLoop in this.ActiveTab.Modules)
+            {
+                objModule = objModuleWithinLoop;
+                objModuleWithinLoop.PaneModuleCount = Convert.ToInt32(objPaneModules[objModuleWithinLoop.PaneName]);
+            }
+
         }
 
         /// <summary>
@@ -903,65 +909,82 @@ namespace DotNetNuke.Entities.Portals
         /// <returns></returns>
         /// <remarks>
         /// </remarks>
-        ///	<param name="portalId">The Portal's id</param>
-        ///	<param name="tabId">The current tab's id</param>
-        private int VerifyPortalTab( int portalId, int tabId )
+        ///	<param name="PortalId">The Portal's id</param>
+        ///	<param name="TabId">The current tab's id</param>
+        private bool VerifyPortalTab(int PortalId, int TabId)
         {
-            int returnValue;
 
-            TabInfo objTab;
-            returnValue = -1;
+            TabInfo objTab = null;
+            TabInfo objSplashTab = null;
+            TabInfo objHomeTab = null;
+            bool isVerified = false;
+            TabController objTabs = new TabController();
 
-            if( tabId != -1 )
+            // find the tab in the desktoptabs collection
+            if (TabId != Null.NullInteger)
             {
-                // find the tab in the desktoptabs collection
-                foreach( TabInfo tempLoopVar_objTab in this.DesktopTabs )
+                foreach (TabInfo objTabWithinLoop in this.DesktopTabs)
                 {
-                    objTab = tempLoopVar_objTab;
-                    if( objTab.TabID == tabId )
+                    objTab = objTabWithinLoop;
+                    if (objTabWithinLoop.TabID == TabId)
                     {
                         //Check if Tab has been deleted (is in recycle bin)
-                        if( !( objTab.IsDeleted ) )
+                        if (!(objTabWithinLoop.IsDeleted))
                         {
-                            returnValue = objTab.TabID;
-                            break;            
+                            this.ActiveTab = objTabWithinLoop.Clone();
+                            isVerified = true;
+                            break;
                         }
                     }
                 }
             }
 
-            // if tab was not found
-            if( returnValue == -1 && this.SplashTabId > 0 )
+            // if tab was not found 
+            if (!isVerified & this.SplashTabId > 0)
             {
                 // use the splash tab ( if specified )
-                returnValue = this.SplashTabId;
+                objSplashTab = objTabs.GetTab(this.SplashTabId, PortalId, false);
+                this.ActiveTab = objSplashTab.Clone();
+                isVerified = true;
             }
 
-            // if tab was not found
-            if( returnValue == -1 && this.HomeTabId > 0 )
+            // if tab was not found 
+            if (!isVerified & this.HomeTabId > 0)
             {
                 // use the home tab ( if specified )
-                returnValue = this.HomeTabId;
+                objHomeTab = objTabs.GetTab(this.HomeTabId, PortalId, false);
+                this.ActiveTab = objHomeTab.Clone();
+                isVerified = true;
             }
 
-            // if tab was not found
-            if( returnValue == -1 )
+            // if tab was not found 
+            if (!isVerified)
             {
                 // get the first tab in the collection (that is valid)
-                int i;
-                for( i = 0; i <= this.DesktopTabs.Count; i++ )
+                for (int i = 0; i <= this.DesktopTabs.Count; i++)
                 {
-                    objTab = (TabInfo)this.DesktopTabs[i];
+                    objTab = (TabInfo)(this.DesktopTabs[i]);
                     //Check if Tab has not been deleted (not in recycle bin) and is visible
-                    if( !( objTab.IsDeleted ) && objTab.IsVisible )
+                    if (!(objTab.IsDeleted) & objTab.IsVisible)
                     {
-                        returnValue = objTab.TabID;
+                        this.ActiveTab = objTab.Clone();
+                        isVerified = true;
                         break;
                     }
                 }
             }
 
-            return returnValue;
+            if (Null.IsNull(this.ActiveTab.StartDate))
+            {
+                this.ActiveTab.StartDate = DateTime.MinValue;
+            }
+            if (Null.IsNull(this.ActiveTab.EndDate))
+            {
+                this.ActiveTab.EndDate = DateTime.MaxValue;
+            }
+
+            return isVerified;
+
         }
 
         /// <summary>
@@ -1231,7 +1254,7 @@ namespace DotNetNuke.Entities.Portals
 
             // get the tab
             TabController objTabs = new TabController();
-            TabInfo objTab = objTabs.GetTab( TabID );
+            TabInfo objTab = objTabs.GetTab(TabID, Null.NullInteger, false);            
             if( objTab != null )
             {
                 // ignore deleted tabs

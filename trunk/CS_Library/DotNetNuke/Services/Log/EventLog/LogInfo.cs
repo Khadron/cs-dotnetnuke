@@ -20,10 +20,13 @@
 using System;
 using System.Text;
 using System.Xml.Serialization;
+using System.IO;
+using System.Text;
+using System.Xml;
+using DotNetNuke.Common.Utilities;
 
 namespace DotNetNuke.Services.Log.EventLog
 {
-    [XmlRoot("log", IsNullable = false)]
     public class LogInfo
     {
         private bool _BypassBuffering;
@@ -40,7 +43,6 @@ namespace DotNetNuke.Services.Log.EventLog
         private int _LogUserID;
         private string _LogUserName;
 
-        [XmlAttributeAttribute("BypassBuffering")]
         public bool BypassBuffering
         {
             get
@@ -53,7 +55,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlAttributeAttribute("LogConfigID")]
         public string LogConfigID
         {
             get
@@ -66,7 +67,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlAttributeAttribute("LogCreateDate")]
         public DateTime LogCreateDate
         {
             get
@@ -79,7 +79,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlAttributeAttribute("LogCreateDateNum")]
         public long LogCreateDateNum
         {
             get
@@ -92,7 +91,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlAttributeAttribute("LogFileID")]
         public string LogFileID
         {
             get
@@ -105,7 +103,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlAttributeAttribute("LogGUID")]
         public string LogGUID
         {
             get
@@ -118,7 +115,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlAttributeAttribute("LogPortalID")]
         public int LogPortalID
         {
             get
@@ -131,7 +127,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlAttributeAttribute("LogPortalName")]
         public string LogPortalName
         {
             get
@@ -144,7 +139,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlArray("properties"), XmlArrayItem(ElementName = "property", Type = typeof(LogDetailInfo))]
         public LogProperties LogProperties
         {
             get
@@ -157,7 +151,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlAttributeAttribute("LogServerName")]
         public string LogServerName
         {
             get
@@ -170,7 +163,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlAttributeAttribute("LogTypeKey")]
         public string LogTypeKey
         {
             get
@@ -183,7 +175,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlAttributeAttribute("LogUserID")]
         public int LogUserID
         {
             get
@@ -196,7 +187,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlAttributeAttribute("LogUserName")]
         public string LogUserName
         {
             get
@@ -213,11 +203,88 @@ namespace DotNetNuke.Services.Log.EventLog
         {
             _LogGUID = Guid.NewGuid().ToString();
             _BypassBuffering = false;
-            LogProperties = new LogProperties();
+            _LogProperties = new LogProperties();
             _LogPortalID = -1;
             _LogPortalName = "";
             _LogUserID = -1;
             _LogUserName = "";
+        }
+        
+        public LogInfo(string content) : this()
+        {
+            this.Deserialize(content);
+        }
+
+        public void Deserialize(string content)
+        {
+            using (XmlReader reader = XmlReader.Create(new StringReader(content)))
+            {
+                if (reader.Read())
+                {
+                    ReadXml(reader);
+                }
+                reader.Close();
+            }
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            if (reader.HasAttributes)
+            {
+                while (reader.MoveToNextAttribute())
+                {
+                    switch (reader.Name)
+                    {
+                        case "LogGUID":
+                            LogGUID = reader.ReadContentAsString();
+                            break;
+                        case "LogFileID":
+                            LogFileID = reader.ReadContentAsString();
+                            break;
+                        case "LogTypeKey":
+                            LogTypeKey = reader.ReadContentAsString();
+                            break;
+                        case "LogUserID":
+                            LogUserID = reader.ReadContentAsInt();
+                            break;
+                        case "LogUserName":
+                            LogUserName = reader.ReadContentAsString();
+                            break;
+                        case "LogPortalID":
+                            LogPortalID = reader.ReadContentAsInt();
+                            break;
+                        case "LogPortalName":
+                            LogPortalName = reader.ReadContentAsString();
+                            break;
+                        case "LogCreateDate":
+                            LogCreateDate = System.DateTime.Parse(reader.ReadContentAsString());
+                            break;
+                        case "LogCreateDateNum":
+                            LogCreateDateNum = reader.ReadContentAsLong();
+                            break;
+                        case "BypassBuffering":
+                            BypassBuffering = bool.Parse(reader.ReadContentAsString());
+                            break;
+                        case "LogServerName":
+                            LogServerName = reader.ReadContentAsString();
+                            break;
+                        case "LogConfigID":
+                            LogConfigID = reader.ReadContentAsString();
+                            break;
+                    }
+                }
+            }
+
+            //Check for LogProperties child node
+            reader.Read();
+            if (reader.NodeType == XmlNodeType.Element & reader.LocalName == "LogProperties")
+            {
+                reader.ReadStartElement("LogProperties");
+                if (reader.ReadState != ReadState.EndOfFile & reader.NodeType != XmlNodeType.None & reader.LocalName != "")
+                {
+                    LogProperties.ReadXml(reader);
+                }
+            }
         }
 
         public static bool IsSystemType(string PropName)
@@ -262,6 +329,22 @@ namespace DotNetNuke.Services.Log.EventLog
             return false;
         }
 
+        public string Serialize()
+        {
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.ConformanceLevel = ConformanceLevel.Fragment;
+            settings.OmitXmlDeclaration = true;
+
+            StringBuilder sb = new StringBuilder();
+
+            XmlWriter writer = XmlWriter.Create(sb, settings);
+            WriteXml(writer);
+            writer.Close();
+
+            return sb.ToString();
+
+        }
+
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
@@ -275,6 +358,28 @@ namespace DotNetNuke.Services.Log.EventLog
             str.Append("<b>ServerName:</b> " + LogServerName + "<br>");
             str.Append(LogProperties.ToString());
             return str.ToString();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteStartElement("log");
+            writer.WriteAttributeString("LogGUID", LogGUID);
+            writer.WriteAttributeString("LogFileID", LogFileID);
+            writer.WriteAttributeString("LogTypeKey", LogTypeKey);
+            writer.WriteAttributeString("LogUserID", LogUserID.ToString());
+            writer.WriteAttributeString("LogUserName", LogUserName);
+            writer.WriteAttributeString("LogPortalID", LogPortalID.ToString());
+            writer.WriteAttributeString("LogPortalName", LogPortalName);
+            writer.WriteAttributeString("LogCreateDate", LogCreateDate.ToString());
+            writer.WriteAttributeString("LogCreateDateNum", LogCreateDateNum.ToString());
+            writer.WriteAttributeString("BypassBuffering", BypassBuffering.ToString());
+            writer.WriteAttributeString("LogServerName", LogServerName);
+            writer.WriteAttributeString("LogConfigID", LogConfigID);
+
+            LogProperties.WriteXml(writer);
+
+            writer.WriteEndElement();
+
         }
 
         public void AddProperty(string PropertyName, string PropertyValue)

@@ -89,7 +89,7 @@ namespace DotNetNuke.Common
         public const string glbAppTitle = "DotNetNuke";
         public const string glbAppUrl = "http://www.dotnetnuke.com";
         public const string glbUpgradeUrl = "http://update.dotnetnuke.com";
-        public const string glbAppVersion = "04.03.07";
+        public const string glbAppVersion = "04.04.40";
         public const string glbConfigFolder = "\\Config\\";
         public const string glbDefaultAdminContainer = "Image Header - Color Background.ascx";
         public const string glbDefaultAdminSkin = "Horizontal Menu - Fixed Width.ascx";
@@ -128,6 +128,7 @@ namespace DotNetNuke.Common
         private static Hashtable _HostSettings;
         private static PerformanceSettings _PerformanceSetting;
         private static string _ServerName;
+        private static string strWebFarmEnabled;
 
         public static string ApplicationMapPath
         {
@@ -221,23 +222,22 @@ namespace DotNetNuke.Common
         {
             get
             {
-                if( Config.GetSetting( "EnableWebFarmSupport" ) != null )
+                if (string.IsNullOrEmpty(strWebFarmEnabled))
                 {
-                    if( Config.GetSetting( "EnableWebFarmSupport" ).ToLower() == "true" )
+                    if (Config.GetSetting("EnableWebFarmSupport") == null)
                     {
-                        return true;
+                        strWebFarmEnabled = "false";
                     }
                     else
                     {
-                        return false;
+                        strWebFarmEnabled = Config.GetSetting("EnableWebFarmSupport").ToLower();
                     }
                 }
-                else
-                {
-                    return false;
-                }
+                return bool.Parse(strWebFarmEnabled);
             }
         }
+
+
 
         public static string AccessDeniedURL()
         {
@@ -1008,7 +1008,7 @@ namespace DotNetNuke.Common
             string strTabPath = "";
             TabController objTabs = new TabController();
             TabInfo objTab;
-            objTab = objTabs.GetTab( ParentId );
+            objTab = objTabs.GetTab( ParentId, Null.NullInteger, false );
             while( objTab != null )
             {
                 string strTabName = HtmlUtils.StripNonWord( objTab.TabName, false );
@@ -1019,7 +1019,7 @@ namespace DotNetNuke.Common
                 }
                 else
                 {
-                    objTab = objTabs.GetTab( objTab.ParentId );
+                    objTab = objTabs.GetTab( objTab.ParentId, objTab.PortalID, false );
                 }
             }
 
@@ -1617,31 +1617,28 @@ namespace DotNetNuke.Common
             return portalSettings;
         }
 
-        public static ArrayList GetPortalTabs( int intPortalId, bool blnNoneSpecified, bool blnHidden, bool blnDeleted, bool blnURL, bool bCheckAuthorised )
+        public static ArrayList GetPortalTabs(int intPortalId, bool blnNoneSpecified, bool blnHidden, bool blnDeleted, bool blnURL, bool bCheckAuthorised)
         {
+
             TabController objTabs = new TabController();
-            ArrayList arrTabs;
+            ArrayList arrTabs = null;
 
             // Obtain current PortalSettings from Current Context
             PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
 
             //Get the portal's tabs
-            if( intPortalId == _portalSettings.PortalId )
+            if (intPortalId == _portalSettings.PortalId)
             {
                 //Load current Portals tabs into arrTabs
                 arrTabs = _portalSettings.DesktopTabs;
-                return GetPortalTabs( arrTabs, -1, blnNoneSpecified, blnHidden, blnDeleted, blnURL, bCheckAuthorised );
             }
             else
             {
                 //We are editing a different portal (as host) so get the portal's tabs
-                arrTabs = (ArrayList)DataCache.GetCache( "GetTabs" + intPortalId );
-                if( arrTabs == null )
-                {
-                    arrTabs = objTabs.GetTabs( intPortalId );
-                }
-                return GetPortalTabs( arrTabs, -1, blnNoneSpecified, blnHidden, blnDeleted, blnURL, bCheckAuthorised );
+                arrTabs = objTabs.GetTabs(intPortalId);
             }
+            return GetPortalTabs(arrTabs, -1, blnNoneSpecified, blnHidden, blnDeleted, blnURL, bCheckAuthorised);
+
         }
 
         public static ArrayList GetPortalTabs( ArrayList objDesktopTabs, bool blnNoneSpecified, bool blnHidden )
@@ -1918,7 +1915,7 @@ namespace DotNetNuke.Common
             {
                 ModuleController objModuleController = new ModuleController();
                 FileController objFileController = new FileController();
-                ModuleInfo objModule = objModuleController.GetModule( ModuleId, Null.NullInteger );
+                ModuleInfo objModule = objModuleController.GetModule( ModuleId, Null.NullInteger, true );
 
                 strUrl = "FileID=" + objFileController.ConvertFilePathToFileId( url, objModule.PortalID );
             }
@@ -2032,7 +2029,10 @@ namespace DotNetNuke.Common
                 }
 
                 // tabid is required to identify the portal where the click originated
-                strLink += "&tabid=" + TabID;
+                if(TabID != Null.NullInteger)
+                {
+                    strLink += "&tabid=" + TabID;
+                }
 
                 // moduleid is used to identify the module where the url is stored
                 if( ModuleID != -1 )

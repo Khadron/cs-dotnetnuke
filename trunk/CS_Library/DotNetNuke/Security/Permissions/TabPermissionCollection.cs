@@ -76,11 +76,10 @@ namespace DotNetNuke.Security.Permissions
             InnerList.Sort(new CompareTabPermissions());
             objTabPermissionCollection.InnerList.Sort(new CompareTabPermissions());
 
-            TabPermissionInfo objTabPermission;
+            
             int i = 0;
-            foreach (TabPermissionInfo tempLoopVar_objTabPermission in objTabPermissionCollection)
+            foreach (TabPermissionInfo objTabPermission in objTabPermissionCollection)
             {
-                objTabPermission = tempLoopVar_objTabPermission;
                 if (objTabPermissionCollection[i].TabPermissionID != this[i].TabPermissionID || objTabPermissionCollection[i].AllowAccess != this[i].AllowAccess)
                 {
                     return false;

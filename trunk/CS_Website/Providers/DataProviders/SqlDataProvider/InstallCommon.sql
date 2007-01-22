@@ -2,7 +2,7 @@
 /* InstallCommon.SQL                                                  */
 /*                                                                    */
 /* Installs the tables, triggers and stored procedures necessary for  */
-/* supporting the aspnet feature of ASP.Net                           */
+/* supporting some features of ASP.Net                                */
 /*
 ** Copyright Microsoft, Inc. 2003
 ** All Rights Reserved.
@@ -14,17 +14,6 @@ PRINT 'Starting execution of InstallCommon.SQL'
 PRINT '---------------------------------------'
 GO
 
--- In the area between the ASP.NET SPECIAL REGION "BEGIN" and "END" marker
--- comments, ASP.NET SQL Registration Tool will optionally:
--- 1. Replace the name of the database in all "USE" statements.
--- 2. Replace the value of the local variable @dbname
--- The replacement happens only in memory when the tool is running.
-
--- Inside such regions, user can only modify the name of the database.
-
-
--- Explicitly set the options that the server stores with the object in sysobjects.status
--- so that it doesn't matter IF the script is run using a DBLib or ODBC based client.
 SET QUOTED_IDENTIFIER OFF
 SET ANSI_NULLS ON         -- We don't want (NULL = NULL) == TRUE
 GO
@@ -80,7 +69,7 @@ BEGIN
     DECLARE @action varchar(20)
     DECLARE @grantee sysname
     DECLARE @cmd nvarchar(500)
-    DECLARE c1 CURSOR FORWARD_ONLY FOR
+    DECLARE c1 cursor FORWARD_ONLY FOR
         SELECT Object, ProtectType, [Action], Grantee FROM dbo.temp_aspnet_Permissions where Object = @name
 
     OPEN c1
@@ -93,11 +82,10 @@ BEGIN
         FETCH c1 INTO @object, @protectType, @action, @grantee
     END
 
-    close c1
-    deallocate c1
+    CLOSE c1
+    DEALLOCATE c1
 END
 GO
-
 
 /*************************************************************/
 /*************************************************************/
@@ -127,7 +115,7 @@ BEGIN
 
     DECLARE @user_id smallint
     DECLARE @cmd nvarchar(500)
-    DECLARE c1 CURSOR FORWARD_ONLY FOR
+    DECLARE c1 cursor FORWARD_ONLY FOR
         SELECT User_id FROM #aspnet_RoleMembers
 
     OPEN c1
@@ -140,8 +128,8 @@ BEGIN
         FETCH c1 INTO @user_id
     END
 
-    close c1
-    deallocate c1
+    CLOSE c1
+    DEALLOCATE c1
 END
 GO
 
@@ -157,10 +145,10 @@ IF (NOT EXISTS (SELECT name
 BEGIN
   PRINT 'Creating the aspnet_Applications table...'
   CREATE TABLE [dbo].aspnet_Applications (
-    ApplicationName         NVARCHAR(256)               NOT NULL UNIQUE,
-    LoweredApplicationName  NVARCHAR(256)               NOT NULL UNIQUE,
-    ApplicationId           UNIQUEIDENTIFIER            PRIMARY KEY NONCLUSTERED DEFAULT NEWID(),
-    Description             NVARCHAR(256)       )
+    ApplicationName         nvarchar(256)               NOT NULL UNIQUE,
+    LoweredApplicationName  nvarchar(256)               NOT NULL UNIQUE,
+    ApplicationId           uniqueidentifier            PRIMARY KEY NONCLUSTERED DEFAULT NEWID(),
+    Description             nvarchar(256)       )
   CREATE CLUSTERED INDEX aspnet_Applications_Index ON [dbo].aspnet_Applications(LoweredApplicationName)
 END
 GO
@@ -176,12 +164,12 @@ IF (NOT EXISTS (SELECT name
 BEGIN
   PRINT 'Creating the aspnet_Users table...'
   CREATE TABLE [dbo].aspnet_Users (
-    ApplicationId    UNIQUEIDENTIFIER    NOT NULL FOREIGN KEY REFERENCES [dbo].aspnet_Applications(ApplicationId),
-    UserId           UNIQUEIDENTIFIER    NOT NULL PRIMARY KEY NONCLUSTERED DEFAULT NEWID(),
-    UserName         NVARCHAR(256)       NOT NULL,
-    LoweredUserName  NVARCHAR(256)	     NOT NULL,
-    MobileAlias      NVARCHAR(16)        DEFAULT NULL,
-    IsAnonymous      BIT                 NOT NULL DEFAULT 0,
+    ApplicationId    uniqueidentifier    NOT NULL FOREIGN KEY REFERENCES [dbo].aspnet_Applications(ApplicationId),
+    UserId           uniqueidentifier    NOT NULL PRIMARY KEY NONCLUSTERED DEFAULT NEWID(),
+    UserName         nvarchar(256)       NOT NULL,
+    LoweredUserName  nvarchar(256)	     NOT NULL,
+    MobileAlias      nvarchar(16)        DEFAULT NULL,
+    IsAnonymous      bit                 NOT NULL DEFAULT 0,
     LastActivityDate DATETIME            NOT NULL)
 
    CREATE UNIQUE CLUSTERED INDEX aspnet_Users_Index ON [dbo].aspnet_Users(ApplicationId, LoweredUserName)
@@ -200,9 +188,9 @@ IF (NOT EXISTS (SELECT name
 BEGIN
   PRINT 'Creating the aspnet_SchemaVersions table...'
   CREATE TABLE [dbo].aspnet_SchemaVersions (
-    Feature                  NVARCHAR(128)  NOT NULL PRIMARY KEY CLUSTERED( Feature, CompatibleSchemaVersion ),
-    CompatibleSchemaVersion  NVARCHAR(128)	NOT NULL,
-    IsCurrentVersion         BIT            NOT NULL )
+    Feature                  nvarchar(128)  NOT NULL PRIMARY KEY CLUSTERED( Feature, CompatibleSchemaVersion ),
+    CompatibleSchemaVersion  nvarchar(128)	NOT NULL,
+    IsCurrentVersion         bit            NOT NULL )
 END
 GO
 
@@ -221,10 +209,10 @@ DROP PROCEDURE [dbo].aspnet_RegisterSchemaVersion
 GO
 
 CREATE PROCEDURE [dbo].aspnet_RegisterSchemaVersion
-    @Feature                   NVARCHAR(128),
-    @CompatibleSchemaVersion   NVARCHAR(128),
-    @IsCurrentVersion          BIT,
-    @RemoveIncompatibleSchema  BIT
+    @Feature                   nvarchar(128),
+    @CompatibleSchemaVersion   nvarchar(128),
+    @IsCurrentVersion          bit,
+    @RemoveIncompatibleSchema  bit
 AS
 BEGIN
     IF( @RemoveIncompatibleSchema = 1 )
@@ -246,12 +234,12 @@ BEGIN
 END
 GO
 
-declare @command nvarchar(4000)
+DECLARE @command nvarchar(4000)
 
-set @command = 'grant execute on [dbo].aspnet_Setup_RestorePermissions to ' + QUOTENAME(user)
-exec (@command)
-set @command = 'grant execute on [dbo].aspnet_RegisterSchemaVersion to ' + QUOTENAME(user)
-exec (@command)
+SET @command = 'GRANT EXECUTE ON [dbo].aspnet_Setup_RestorePermissions TO ' + QUOTENAME(user)
+EXEC (@command)
+SET @command = 'GRANT EXECUTE ON [dbo].aspnet_RegisterSchemaVersion TO ' + QUOTENAME(user)
+EXEC (@command)
 GO
 
 -- Restore the permissions
@@ -274,8 +262,8 @@ DROP PROCEDURE [dbo].aspnet_CheckSchemaVersion
 GO
 
 CREATE PROCEDURE [dbo].aspnet_CheckSchemaVersion
-    @Feature                   NVARCHAR(128),
-    @CompatibleSchemaVersion   NVARCHAR(128)
+    @Feature                   nvarchar(128),
+    @CompatibleSchemaVersion   nvarchar(128)
 AS
 BEGIN
     IF (EXISTS( SELECT  *
@@ -304,17 +292,17 @@ DROP PROCEDURE [dbo].aspnet_Applications_CreateApplication
 GO
 
 CREATE PROCEDURE [dbo].aspnet_Applications_CreateApplication
-    @ApplicationName      NVARCHAR(256),
-    @ApplicationId        UNIQUEIDENTIFIER OUTPUT
+    @ApplicationName      nvarchar(256),
+    @ApplicationId        uniqueidentifier OUTPUT
 AS
 BEGIN
     SELECT  @ApplicationId = ApplicationId FROM dbo.aspnet_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
 
     IF(@ApplicationId IS NULL)
     BEGIN
-        DECLARE @TranStarted   BIT
+        DECLARE @TranStarted   bit
         SET @TranStarted = 0
-        
+
         IF( @@TRANCOUNT = 0 )
         BEGIN
 	        BEGIN TRANSACTION
@@ -322,9 +310,9 @@ BEGIN
         END
         ELSE
     	    SET @TranStarted = 0
-        
-        SELECT  @ApplicationId = ApplicationId 
-        FROM dbo.aspnet_Applications WITH (UPDLOCK, HOLDLOCK) 
+
+        SELECT  @ApplicationId = ApplicationId
+        FROM dbo.aspnet_Applications WITH (UPDLOCK, HOLDLOCK)
         WHERE LOWER(@ApplicationName) = LoweredApplicationName
 
         IF(@ApplicationId IS NULL)
@@ -333,8 +321,8 @@ BEGIN
             INSERT  dbo.aspnet_Applications (ApplicationId, ApplicationName, LoweredApplicationName)
             VALUES  (@ApplicationId, @ApplicationName, LOWER(@ApplicationName))
         END
-        
-        
+
+
         IF( @TranStarted = 1 )
         BEGIN
             IF(@@ERROR = 0)
@@ -343,7 +331,7 @@ BEGIN
 	        COMMIT TRANSACTION
             END
             ELSE
-            BEGIN 
+            BEGIN
                 SET @TranStarted = 0
                 ROLLBACK TRANSACTION
             END
@@ -368,8 +356,8 @@ DROP PROCEDURE [dbo].aspnet_UnRegisterSchemaVersion
 GO
 
 CREATE PROCEDURE [dbo].aspnet_UnRegisterSchemaVersion
-    @Feature                   NVARCHAR(128),
-    @CompatibleSchemaVersion   NVARCHAR(128)
+    @Feature                   nvarchar(128),
+    @CompatibleSchemaVersion   nvarchar(128)
 AS
 BEGIN
     DELETE FROM dbo.aspnet_SchemaVersions
@@ -393,11 +381,11 @@ DROP PROCEDURE [dbo].aspnet_Users_CreateUser
 GO
 
 CREATE PROCEDURE [dbo].aspnet_Users_CreateUser
-    @ApplicationId    UNIQUEIDENTIFIER,
-    @UserName         NVARCHAR(256),
-    @IsUserAnonymous  BIT,
+    @ApplicationId    uniqueidentifier,
+    @UserName         nvarchar(256),
+    @IsUserAnonymous  bit,
     @LastActivityDate DATETIME,
-    @UserId           UNIQUEIDENTIFIER OUTPUT
+    @UserId           uniqueidentifier OUTPUT
 AS
 BEGIN
     IF( @UserId IS NULL )
@@ -431,17 +419,17 @@ IF (EXISTS (SELECT name
 DROP PROCEDURE [dbo].aspnet_Users_DeleteUser
 GO
 CREATE PROCEDURE [dbo].aspnet_Users_DeleteUser
-    @ApplicationName  NVARCHAR(256),
-    @UserName         NVARCHAR(256),
-    @TablesToDeleteFrom INT,
-    @NumTablesDeletedFrom INT OUTPUT
+    @ApplicationName  nvarchar(256),
+    @UserName         nvarchar(256),
+    @TablesToDeleteFrom int,
+    @NumTablesDeletedFrom int OUTPUT
 AS
 BEGIN
-    DECLARE @UserId               UNIQUEIDENTIFIER
+    DECLARE @UserId               uniqueidentifier
     SELECT  @UserId               = NULL
     SELECT  @NumTablesDeletedFrom = 0
 
-    DECLARE @TranStarted   BIT
+    DECLARE @TranStarted   bit
     SET @TranStarted = 0
 
     IF( @@TRANCOUNT = 0 )
@@ -452,8 +440,8 @@ BEGIN
     ELSE
 	SET @TranStarted = 0
 
-    DECLARE @ErrorCode   INT
-    DECLARE @RowCount    INT
+    DECLARE @ErrorCode   int
+    DECLARE @RowCount    int
 
     SET @ErrorCode = 0
     SET @RowCount  = 0
@@ -471,7 +459,7 @@ BEGIN
 
     -- Delete from Membership table if (@TablesToDeleteFrom & 1) is set
     IF ((@TablesToDeleteFrom & 1) <> 0 AND
-        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'aspnet_Membership') AND (type = 'U'))))
+        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'vw_aspnet_MembershipUsers') AND (type = 'V'))))
     BEGIN
         DELETE FROM dbo.aspnet_Membership WHERE @UserId = UserId
 
@@ -487,7 +475,7 @@ BEGIN
 
     -- Delete from aspnet_UsersInRoles table if (@TablesToDeleteFrom & 2) is set
     IF ((@TablesToDeleteFrom & 2) <> 0  AND
-        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'aspnet_UsersInRoles') AND (type = 'U'))) )
+        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'vw_aspnet_UsersInRoles') AND (type = 'V'))) )
     BEGIN
         DELETE FROM dbo.aspnet_UsersInRoles WHERE @UserId = UserId
 
@@ -503,7 +491,7 @@ BEGIN
 
     -- Delete from aspnet_Profile table if (@TablesToDeleteFrom & 4) is set
     IF ((@TablesToDeleteFrom & 4) <> 0  AND
-        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'aspnet_Profile') AND (type = 'U'))) )
+        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'vw_aspnet_Profiles') AND (type = 'V'))) )
     BEGIN
         DELETE FROM dbo.aspnet_Profile WHERE @UserId = UserId
 
@@ -519,7 +507,7 @@ BEGIN
 
     -- Delete from aspnet_PersonalizationPerUser table if (@TablesToDeleteFrom & 8) is set
     IF ((@TablesToDeleteFrom & 8) <> 0  AND
-        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'aspnet_PersonalizationPerUser') AND (type = 'U'))) )
+        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'vw_aspnet_WebPartState_User') AND (type = 'V'))) )
     BEGIN
         DELETE FROM dbo.aspnet_PersonalizationPerUser WHERE @UserId = UserId
 
@@ -579,77 +567,117 @@ GO
 /*************************************************************/
 /*************************************************************/
 
-IF (EXISTS (SELECT name
-              FROM sysobjects
-             WHERE (name = N'aspnet_GetUtcDate')
-               AND (type = 'P')))
-DROP PROCEDURE [dbo].aspnet_GetUtcDate
-GO
-
-/*************************************************************/
-
-DECLARE @ver INT
-DECLARE @version NCHAR(100)
-DECLARE @dot INT
-DECLARE @hyphen INT
-DECLARE @SqlToExec NCHAR(400)
-
-SELECT @ver = 8
-SELECT @version = @@Version
-SELECT @hyphen  = CHARINDEX(N' - ', @version)
-IF (NOT(@hyphen IS NULL) AND @hyphen > 0)
-BEGIN
-    SELECT @hyphen = @hyphen + 3
-    SELECT @dot    = CHARINDEX(N'.', @version, @hyphen)
-    IF (NOT(@dot IS NULL) AND @dot > @hyphen)
-    BEGIN
-        SELECT @version = SUBSTRING(@version, @hyphen, @dot - @hyphen)
-        SELECT @ver     = CONVERT(INT, @version)
-    END
-END
-
-
-/*************************************************************/
-
-IF (@ver < 8)
-    SET @SqlToExec = N'
-CREATE PROCEDURE [dbo].aspnet_GetUtcDate
-    @TimeZoneAdjustment INT,
-    @DateNow            DATETIME OUTPUT
-AS
-BEGIN
-    SELECT @DateNow = DATEADD(n, -@TimeZoneAdjustment, GETDATE())
-END
-'
-ELSE
-    SET @SqlToExec = N'
-CREATE PROCEDURE [dbo].aspnet_GetUtcDate
-    @TimeZoneAdjustment INT,
-    @DateNow            DATETIME OUTPUT
-AS
-BEGIN
-    SELECT @DateNow = GETUTCDATE()
-END
-'
-
-EXEC (@SqlToExec)
-GO
-
-IF (OBJECT_ID('tempdb.#AspstateVer') IS NOT NULL)
-BEGIN
-    DROP TABLE #AspstateVer
-END
-GO
-
-/*************************************************************/
-/*************************************************************/
-
 -- Restore the permissions
 EXEC [dbo].aspnet_Setup_RestorePermissions N'aspnet_Users_DeleteUser'
 GO
 
-EXEC [dbo].aspnet_Setup_RestorePermissions N'aspnet_GetUtcDate'
+/*************************************************************/
+/*************************************************************/
+--- aspnet_AnyDataInTables SP
+
+IF (EXISTS (SELECT name
+              FROM sysobjects
+             WHERE (name = N'aspnet_AnyDataInTables')
+               AND (type = 'P')))
+DROP PROCEDURE [dbo].aspnet_AnyDataInTables
 GO
+CREATE PROCEDURE [dbo].aspnet_AnyDataInTables
+    @TablesToCheck int
+AS
+BEGIN
+    -- Check Membership table if (@TablesToCheck & 1) is set
+    IF ((@TablesToCheck & 1) <> 0 AND
+        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'vw_aspnet_MembershipUsers') AND (type = 'V'))))
+    BEGIN
+        IF (EXISTS(SELECT TOP 1 UserId FROM dbo.aspnet_Membership))
+        BEGIN
+            SELECT N'aspnet_Membership'
+            RETURN
+        END
+    END
+
+    -- Check aspnet_Roles table if (@TablesToCheck & 2) is set
+    IF ((@TablesToCheck & 2) <> 0  AND
+        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'vw_aspnet_Roles') AND (type = 'V'))) )
+    BEGIN
+        IF (EXISTS(SELECT TOP 1 RoleId FROM dbo.aspnet_Roles))
+        BEGIN
+            SELECT N'aspnet_Roles'
+            RETURN
+        END
+    END
+
+    -- Check aspnet_Profile table if (@TablesToCheck & 4) is set
+    IF ((@TablesToCheck & 4) <> 0  AND
+        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'vw_aspnet_Profiles') AND (type = 'V'))) )
+    BEGIN
+        IF (EXISTS(SELECT TOP 1 UserId FROM dbo.aspnet_Profile))
+        BEGIN
+            SELECT N'aspnet_Profile'
+            RETURN
+        END
+    END
+
+    -- Check aspnet_PersonalizationPerUser table if (@TablesToCheck & 8) is set
+    IF ((@TablesToCheck & 8) <> 0  AND
+        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'vw_aspnet_WebPartState_User') AND (type = 'V'))) )
+    BEGIN
+        IF (EXISTS(SELECT TOP 1 UserId FROM dbo.aspnet_PersonalizationPerUser))
+        BEGIN
+            SELECT N'aspnet_PersonalizationPerUser'
+            RETURN
+        END
+    END
+
+    -- Check aspnet_PersonalizationPerUser table if (@TablesToCheck & 16) is set
+    IF ((@TablesToCheck & 16) <> 0  AND
+        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'aspnet_WebEvent_LogEvent') AND (type = 'P'))) )
+    BEGIN
+        IF (EXISTS(SELECT TOP 1 * FROM dbo.aspnet_WebEvent_Events))
+        BEGIN
+            SELECT N'aspnet_WebEvent_Events'
+            RETURN
+        END
+    END
+
+    -- Check aspnet_Users table if (@TablesToCheck & 1,2,4 & 8) are all set
+    IF ((@TablesToCheck & 1) <> 0 AND
+        (@TablesToCheck & 2) <> 0 AND
+        (@TablesToCheck & 4) <> 0 AND
+        (@TablesToCheck & 8) <> 0 AND
+        (@TablesToCheck & 32) <> 0 AND
+        (@TablesToCheck & 128) <> 0 AND
+        (@TablesToCheck & 256) <> 0 AND
+        (@TablesToCheck & 512) <> 0 AND
+        (@TablesToCheck & 1024) <> 0)
+    BEGIN
+        IF (EXISTS(SELECT TOP 1 UserId FROM dbo.aspnet_Users))
+        BEGIN
+            SELECT N'aspnet_Users'
+            RETURN
+        END
+        IF (EXISTS(SELECT TOP 1 ApplicationId FROM dbo.aspnet_Applications))
+        BEGIN
+            SELECT N'aspnet_Applications'
+            RETURN
+        END
+    END
+END
+GO
+
+/*************************************************************/
+/*************************************************************/
+/*************************************************************/
+/*************************************************************/
+DECLARE @command nvarchar(400)
+SET @command = 'GRANT EXECUTE ON [dbo].aspnet_AnyDataInTables TO ' + QUOTENAME(user)
+EXEC (@command)
+GO
+
+-- Restore the permissions
+EXEC [dbo].aspnet_Setup_RestorePermissions N'aspnet_AnyDataInTables'
+GO
+
 /*************************************************************/
 /*************************************************************/
 
@@ -661,7 +689,7 @@ BEGIN
   PRINT 'Creating the vw_aspnet_Applications view...'
   EXEC('
   CREATE VIEW [dbo].[vw_aspnet_Applications]
-  AS SELECT [dbo].[aspnet_Applications].[ApplicationName], [dbo].[aspnet_Applications].[ApplicationId], [dbo].[aspnet_Applications].[Description]
+  AS SELECT [dbo].[aspnet_Applications].[ApplicationName], [dbo].[aspnet_Applications].[LoweredApplicationName], [dbo].[aspnet_Applications].[ApplicationId], [dbo].[aspnet_Applications].[Description]
   FROM [dbo].[aspnet_Applications]
   ')
 END
@@ -692,15 +720,17 @@ GO
 
 /*************************************************************/
 /*************************************************************/
-declare @command nvarchar(4000)
+DECLARE @command nvarchar(4000)
 
-set @command = 'revoke execute on [dbo].aspnet_Setup_RestorePermissions from ' + QUOTENAME(user)
-exec (@command)
-set @command = 'revoke execute on [dbo].aspnet_RegisterSchemaVersion from ' + QUOTENAME(user)
-exec (@command)
+SET @command = 'REVOKE EXECUTE ON [dbo].aspnet_Setup_RestorePermissions from ' + QUOTENAME(user)
+EXEC (@command)
+SET @command = 'REVOKE EXECUTE ON [dbo].aspnet_RegisterSchemaVersion from ' + QUOTENAME(user)
+EXEC (@command)
 GO
 
 PRINT '----------------------------------------'
 PRINT 'Completed execution of InstallCommon.SQL'
 PRINT '----------------------------------------'
 
+Drop TABLE dbo.temp_aspnet_Permissions
+GO

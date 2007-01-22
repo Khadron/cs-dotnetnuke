@@ -42,7 +42,9 @@
 					<td>
 						<asp:textbox id="txtFriendlyName" cssclass="NormalTextBox" width="390" columns="30" maxlength="150"
 							runat="server" />
-					</td>
+                        <asp:RequiredFieldValidator ID="valFriendlyName" runat="server" ControlToValidate="txtFriendlyName" Display="Dynamic" ErrorMessage="<br>A Module must have a Friendly Name" resourcekey="valFriendlyName.ErrorMessage">
+                        </asp:RequiredFieldValidator>
+                    </td>
 				</tr>
 				<tr>
 					<td class="SubHead" style="width: 150;" valign="top"><dnn:label id="plDescription" text="Description:" controlname="txtDescription" runat="server" /></td>
@@ -51,8 +53,14 @@
 				</tr>
 				<tr>
 					<td class="SubHead" style="width: 150;" valign="top"><dnn:label id="plVersion" text="Version:" controlname="txtVersion" runat="server" /></td>
-					<td><asp:textbox id="txtVersion" cssclass="NormalTextBox" width="390" columns="30" maxlength="150"
-							runat="server" enabled="False" /></td>
+                    <td>
+                        <asp:TextBox ID="txtVersion" runat="server" Columns="30" CssClass="NormalTextBox" Enabled="False" MaxLength="150" Width="390">
+                        </asp:TextBox>
+                        <asp:RequiredFieldValidator ID="valVersion1" runat="server" ControlToValidate="txtVersion" Display="Dynamic" ErrorMessage="<br>A Module must have a Version number in the form of ##.##.##" resourcekey="valVersion.ErrorMessage">
+                        </asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="valVersion2" runat="server" ControlToValidate="txtVersion" Display="dynamic" ErrorMessage="<br>A Module must have a Version number in the form of ##.##.##" resourceKey="valVersion.ErrorMesage" ValidationExpression="[0-9]{1}[0-9]{1}.[0-9]{1}[0-9]{1}.[0-9]{1}[0-9]{1}">
+                        </asp:RegularExpressionValidator>
+                    </td>
 				</tr>
                 <tr>
                     <td class="SubHead" valign="top" style="width:150;">

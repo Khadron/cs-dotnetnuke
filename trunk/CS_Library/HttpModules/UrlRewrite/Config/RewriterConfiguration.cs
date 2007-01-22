@@ -21,6 +21,7 @@ using System;
 using System.IO;
 using System.Web.Caching;
 using System.Xml.Serialization;
+using System.Xml.XPath;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 
@@ -45,48 +46,78 @@ namespace DotNetNuke.HttpModules.Config
 
         public static RewriterConfiguration GetConfig()
         {
-            RewriterConfiguration config = (RewriterConfiguration)DataCache.GetCache( "RewriterConfig" );
-
-            if( config == null )
+            RewriterConfiguration Config = new RewriterConfiguration();
+            Config.Rules = new RewriterRuleCollection();
+            FileStream fileReader = null;
+            string filePath = "";
+            try
             {
-                string filePath = Globals.ApplicationMapPath + "\\SiteUrls.config";
+                Config = (RewriterConfiguration)(DataCache.GetCache("RewriterConfig"));
 
-                if( ! File.Exists( filePath ) )
+                if (Config == null)
                 {
-                    //Copy from \Config
-                    if( File.Exists( Globals.ApplicationMapPath + Globals.glbConfigFolder + "SiteUrls.config" ) )
+                    filePath = Globals.ApplicationMapPath + "\\SiteUrls.config";
+
+                    if (!(File.Exists(filePath)))
                     {
-                        File.Copy( Globals.ApplicationMapPath + Globals.glbConfigFolder + "SiteUrls.config", Globals.ApplicationMapPath + "\\SiteUrls.config", true );
+                        //Copy from \Config
+                        if (File.Exists(Globals.ApplicationMapPath + Globals.glbConfigFolder + "SiteUrls.config"))
+                        {
+                            File.Copy(Globals.ApplicationMapPath + Globals.glbConfigFolder + "SiteUrls.config", Globals.ApplicationMapPath + "\\SiteUrls.config", true);
+                        }
                     }
-                }
 
-                // Create a new Xml Serializer
-                XmlSerializer ser = new XmlSerializer( typeof( RewriterConfiguration ) );
+                    //Create a FileStream for the Config file
+                    fileReader = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-                //Create a FileStream for the Config file
-                FileStream fileReader = new FileStream( filePath, FileMode.Open, FileAccess.Read, FileShare.Read );
+                    XPathDocument doc = new XPathDocument(fileReader);
+                    Config = new RewriterConfiguration();
+                    Config.Rules = new RewriterRuleCollection();
 
-                // Open up the file to deserialize
-                StreamReader reader = new StreamReader( fileReader );
+                    foreach (XPathNavigator nav in doc.CreateNavigator().Select("RewriterConfig/Rules/RewriterRule"))
+                    {
+                        RewriterRule rule = new RewriterRule();
+                        rule.LookFor = nav.SelectSingleNode("LookFor").Value;
+                        rule.SendTo = nav.SelectSingleNode("SendTo").Value;
+                        Config.Rules.Add(rule);
+                    }
 
-                // Deserialize into RewriterConfiguration
-                config = (RewriterConfiguration)ser.Deserialize( reader );
 
-                // Close the Readers
-                reader.Close();
-                fileReader.Close();
+                    if (File.Exists(filePath))
+                    {
+                        // Create a dependancy on SiteUrls.config
+                        CacheDependency dep = new CacheDependency(filePath);
 
-                if( File.Exists( filePath ) )
-                {
-                    // Create a dependancy on SiteUrls.config
-                    CacheDependency dep = new CacheDependency( filePath );
+                        // Set back into Cache
+                        DataCache.SetCache("RewriterConfig", Config, dep);
+                    }
 
-                    // Set back into Cache
-                    DataCache.SetCache( "RewriterConfig", config, dep );
                 }
             }
+            catch (Exception ex)
+            {
+                //log it
+                Services.Log.EventLog.EventLogController objEventLog = new Services.Log.EventLog.EventLogController();
+                Services.Log.EventLog.LogInfo objEventLogInfo = new Services.Log.EventLog.LogInfo();
+                objEventLogInfo.AddProperty("UrlRewriter.RewriterConfiguration", "GetConfig Failed");
+                objEventLogInfo.AddProperty("FilePath", filePath);
+                objEventLogInfo.AddProperty("ExceptionMessage", ex.Message);
+                objEventLogInfo.LogTypeKey = Services.Log.EventLog.EventLogController.EventLogType.HOST_ALERT.ToString();
+                objEventLog.AddLog(objEventLogInfo);
 
-            return config;
+            }
+            finally
+            {
+                if (fileReader != null)
+                {
+                    //Close the Reader
+                    fileReader.Close();
+                }
+
+            }
+
+            return Config;
+
         }
 
         public static void SaveConfig( RewriterRuleCollection rules )

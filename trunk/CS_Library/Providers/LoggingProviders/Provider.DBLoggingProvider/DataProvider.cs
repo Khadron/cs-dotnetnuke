@@ -50,11 +50,6 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider.Data
             return objProvider;
         }
 
-        //---------------------------------------------------------------------
-        // TODO Declare DAL methods. Should be implemented in each DAL DataProvider
-        // Use CodeSmith templates to generate this code
-        //---------------------------------------------------------------------
-
         public abstract void AddLog( string LogGUID, string LogTypeKey, int LogUserID, string LogUserName, int LogPortalID, string LogPortalName, DateTime LogCreateDate, string LogServerName, string LogProperties, int LogConfigID );
         public abstract void DeleteLog( string LogGUID );
         public abstract void PurgeLog();

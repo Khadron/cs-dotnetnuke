@@ -31,7 +31,7 @@ namespace DotNetNuke.UI.UserControls
     /// SectionHeadControl is a user control that provides all the server code to allow a
     /// section to be collapsed/expanded, using user provided images for the button.
     /// </Summary>
-    public class SectionHeadControl : UserControl
+    public partial class SectionHeadControl : UserControl
     {
         private bool _includeRule = false;
         private bool _isExpanded = true;

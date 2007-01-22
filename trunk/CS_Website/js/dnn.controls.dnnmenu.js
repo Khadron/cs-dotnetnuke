@@ -366,8 +366,11 @@ collapseNode: function (oMNode)
 positionMenu: function (oMNode, oMenu)
 {
 	var oPCtl = this.getChildControl(oMNode.id, 'ctr');
-	if (oPCtl.tagName == 'TR' && oPCtl.childNodes.length > 0)
-		oPCtl = oPCtl.childNodes[oPCtl.childNodes.length-1];	//fix for Safari and Opera... use TD instead of TR
+	if (dnn.dom.browser.isType(dnn.dom.browser.Safari))
+	{
+		if (oPCtl.tagName == 'TR' && oPCtl.childNodes.length > 0)
+			oPCtl = oPCtl.childNodes[oPCtl.childNodes.length-1];	//fix for Safari... use TD instead of TR
+	}
 		
 	var oPDims = new dnn.dom.positioning.dims(oPCtl);
 	var oMDims = new dnn.dom.positioning.dims(oMenu);

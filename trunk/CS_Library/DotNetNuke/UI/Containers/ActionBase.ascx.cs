@@ -170,7 +170,6 @@ namespace DotNetNuke.UI.Containers
 
         public ActionBase()
         {
-            Init += new EventHandler( this.Page_Init );
             Load += new EventHandler( this.Page_Load );
             this._editMode = false;
             this.m_adminControl = false;
@@ -308,7 +307,7 @@ namespace DotNetNuke.UI.Containers
         {
             ModuleController objModules = new ModuleController();
 
-            ModuleInfo objModule = objModules.GetModule(int.Parse(Command.CommandArgument), PortalModule.TabId);
+            ModuleInfo objModule = objModules.GetModule(int.Parse(Command.CommandArgument), PortalModule.TabId, false);
             if (objModule != null)
             {
                 objModules.DeleteTabModule(PortalModule.TabId, int.Parse(Command.CommandArgument));
@@ -380,10 +379,6 @@ namespace DotNetNuke.UI.Containers
             {
                 ActionEvent(this, e);
             }
-        }
-
-        protected void Page_Init( object sender, EventArgs e )
-        {
         }
 
         /// <Summary>Page_Load runs when the class is loaded</Summary>

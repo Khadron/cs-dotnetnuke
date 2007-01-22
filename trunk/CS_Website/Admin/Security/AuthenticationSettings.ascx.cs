@@ -40,7 +40,6 @@ namespace DotNetNuke.Modules.Authentication
 			try
 			{
 				// Obtain PortalSettings from Current Context
-				PortalSettings _portalSettings = PortalController.GetCurrentPortalSettings();
 				AuthenticationController objAuthenticationController = new AuthenticationController();
 				
 				// Reset config
@@ -51,8 +50,8 @@ namespace DotNetNuke.Modules.Authentication
 				{
 					string strDomain = GetUserDomainName(UserInfo.Username);
 					if (strDomain.ToLower() == Request.ServerVariables["SERVER_NAME"].ToLower())
-					{
-						UI.Skins.Skin.AddModuleMessage(this, string.Format(Localization.GetString("SameDomainError", this.LocalResourceFile), strDomain, Request.ServerVariables["SERVER_NAME"]), ModuleMessageType.YellowWarning);
+					{						
+                        DotNetNuke.UI.Skins.Skin.AddModuleMessage(this, string.Format(Localization.GetString("SameDomainError", this.LocalResourceFile), strDomain, HttpUtility.HtmlEncode(Request.ServerVariables["SERVER_NAME"])), ModuleMessageType.YellowWarning);
 						DisableScreen();
 						return;
 					}
@@ -69,11 +68,9 @@ namespace DotNetNuke.Modules.Authentication
 					txtUserName.Text = config.UserName;
 					txtEmailDomain.Text = config.EmailDomain;
 					
-					object _Provider;
 					// Bind Authentication provider list, this allows each portal could use different provider for authentication
-					foreach (object tempLoopVar__Provider in objProviderConfiguration.Providers)
+					foreach (object _Provider in objProviderConfiguration.Providers)
 					{
-						_Provider = tempLoopVar__Provider;
 						DictionaryEntry objProvider = (DictionaryEntry) _Provider;
 						string ProviderName = Convert.ToString(objProvider.Key);
 						string ProviderType = ((Provider) objProvider.Value).Type;
@@ -106,7 +103,7 @@ namespace DotNetNuke.Modules.Authentication
 			}
 		}
 		
-		private string GetUserDomainName(string UserName)
+		private static string GetUserDomainName(string UserName)
 		{
 			string strReturn = "";
 			if (UserName.IndexOf("\\") > 0)

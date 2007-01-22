@@ -21,6 +21,7 @@ using System;
 using System.Collections;
 using DotNetNuke.Data;
 using DotNetNuke.Entities.Tabs;
+using DotNetNuke.Entities.Users;
 using DotNetNuke.Services.FileSystem;
 
 namespace DotNetNuke.Common.Utilities
@@ -89,25 +90,34 @@ namespace DotNetNuke.Common.Utilities
             }
         }
 
-        public void UpdateUrlTracking( int PortalID, string Url, int ModuleId, int UserID )
+        public void UpdateUrlTracking(int PortalID, string Url, int ModuleId, int UserID)
         {
-            TabType UrlType = Globals.GetURLType( Url );
-            if( UrlType == TabType.File && Url.ToLower().StartsWith( "fileid=" ) == false )
+
+            TabType UrlType = Globals.GetURLType(Url);
+            if (UrlType == TabType.File & Url.ToLower().StartsWith("fileid=") == false)
             {
                 // to handle legacy scenarios before the introduction of the FileServerHandler
                 FileController objFiles = new FileController();
-                Url = "FileID=" + objFiles.ConvertFilePathToFileId( Url, PortalID );
+                Url = "FileID=" + objFiles.ConvertFilePathToFileId(Url, PortalID);
             }
 
-            UrlTrackingInfo objUrlTracking = GetUrlTracking( PortalID, Url, ModuleId );
-            if( objUrlTracking != null )
+            UrlTrackingInfo objUrlTracking = GetUrlTracking(PortalID, Url, ModuleId);
+            if (objUrlTracking != null)
             {
-                DataProvider.Instance().UpdateUrlTrackingStats( PortalID, Url, ModuleId );
-                if( objUrlTracking.LogActivity )
+                if (objUrlTracking.TrackClicks)
                 {
-                    DataProvider.Instance().AddUrlLog( objUrlTracking.UrlTrackingID, UserID );
+                    DataProvider.Instance().UpdateUrlTrackingStats(PortalID, Url, ModuleId);
+                    if (objUrlTracking.LogActivity)
+                    {
+                        if (UserID == -1)
+                        {
+                            UserID = UserController.GetCurrentUserInfo().UserID;
+                        }
+                        DataProvider.Instance().AddUrlLog(objUrlTracking.UrlTrackingID, UserID);
+                    }
                 }
             }
+
         }
     }
 }

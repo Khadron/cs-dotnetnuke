@@ -18,11 +18,12 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 using System;
+using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace DotNetNuke.Services.Log.EventLog
 {
-    [Serializable(), XmlRoot("property")]
     public class LogDetailInfo
     {
         private string _PropertyName;
@@ -39,7 +40,6 @@ namespace DotNetNuke.Services.Log.EventLog
             _PropertyValue = value;
         }
 
-        [XmlElement("name")]
         public string PropertyName
         {
             get
@@ -52,7 +52,6 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
-        [XmlElement("value")]
         public string PropertyValue
         {
             get
@@ -65,9 +64,40 @@ namespace DotNetNuke.Services.Log.EventLog
             }
         }
 
+        public void ReadXml(XmlReader reader)
+        {
+            reader.ReadStartElement("PropertyName");
+            PropertyName = reader.ReadString();
+            reader.ReadEndElement();
+            if (!reader.IsEmptyElement)
+            {
+                reader.ReadStartElement("PropertyValue");
+                PropertyValue = reader.ReadString();
+                reader.ReadEndElement();
+            }
+            else
+            {
+                reader.Read();
+            }
+        }
+
         public override string ToString()
         {
-            return "<b>" + PropertyName + "</b>: " + PropertyValue + ";&nbsp;";
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<b>");
+            sb.Append(PropertyName);
+            sb.Append("</b>: ");
+            sb.Append(PropertyValue);
+            sb.Append(";&nbsp;");
+            return sb.ToString();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteStartElement("LogProperty");
+            writer.WriteElementString("PropertyName", PropertyName);
+            writer.WriteElementString("PropertyValue", PropertyValue);
+            writer.WriteEndElement();
         }
     }
 }

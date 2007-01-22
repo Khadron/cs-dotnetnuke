@@ -40,6 +40,7 @@ namespace DotNetNuke.UI.Utilities
         public enum CallBackTypeCode
         {
             Simple = 0,
+            ProcessPage
         }
 
         public enum TransportTypeCode

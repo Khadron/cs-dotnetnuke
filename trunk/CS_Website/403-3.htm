@@ -1,42 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
-	<head>
-		<title>DotNetNuke Configuration Error</title>
-	</head>
-	<body>
-		<center>
-			<table height="100%" width="90%">
-				<tr>
-					<td align="center" valign="middle">
-						<h1>DotNetNuke Configuration Error</h1>
-						[MESSAGE]
-						<br>
-						<br>
-						DotNetNuke has extensive file upload capabilities for content, modules, and 
-						skins. These features require custom security settings so that the application 
-						is able to create and remove files in your website.
-						<br>
-						<br>
-						Using Windows Explorer, browse to the root folder of the website ( 
-						C:\DotNetNuke by default ). Right-click the folder and select Sharing and 
-						Security from the popup menu ( please note that if you are using Windows XP you 
-						may need to <a href="http://whoozoo.co.uk/winxpFilePerms.htm" target="new">Enable 
-							Simple File Sharing</a> before these options are displayed ). Select the 
-						Security tab. Add the appropriate User Account and set the Permissions.
-						<br>
-						<br>
-						<b>If using Windows 2000 - IIS5</b><br>
-						- the {Server}\ASPNET User Account must have Read, Write, and Change Control of 
-						the virtual root of your website<br>
-						<br>
-						<b>If using Windows 2003 - IIS6</b><br>
-						- the NT AUTHORITY\NETWORK SERVICE User Account must have Read, Write, and 
-						Change Control of the virtual root of your website
-						<br>
-						<br>
-						<img src="403-3.gif">
-					</td>
-				</tr>
-			</table>
-		</center>
-	</body>
+<head>
+	<title>DotNetNuke Configuration Error</title>
+</head>
+<body>
+	<div style="text-align: center; height: 100%; width:90%; vertical-align: middle;">
+		<h1>DotNetNuke Configuration Error</h1>
+		[MESSAGE]
+		<br/>
+		<br/>
+		DotNetNuke has extensive file upload capabilities for content, modules, and 
+		skins. These features require custom security settings so that the application 
+		is able to create and remove files in your website.
+		<br/>
+		<br/>
+		Using Windows Explorer, browse to the root folder of the website ( 
+		C:\DotNetNuke by default ). Right-click the folder and select Sharing and 
+		Security from the popup menu ( please note that if you are using Windows XP you 
+		may need to <a href="http://whoozoo.co.uk/winxpFilePerms.htm" target="_blank">Enable 
+		Simple File Sharing</a> before these options are displayed ). Select the 
+		Security tab. Add the appropriate User Account and set the Permissions.
+		<br/>
+		<br/>
+		<ul style="text-align: left; list-style-type: none; list-style-position: outside;">
+		  <li>
+		    <strong>If using Windows 2000 - IIS5</strong>
+		    <br/>
+		    <ol style="list-style-type: circle;">
+		      <li>the {Server}\ASPNET User Account must have Read, Write, and Change Control of the virtual root of your website.</li>
+		    </ol>
+		    <br/>
+		  </li>
+		  <li>
+		    <strong>If using Windows 2003 - IIS6</strong>
+		    <br/>
+		    <ol style="list-style-type: circle;">
+		      <li>the NT AUTHORITY\NETWORK SERVICE User Account must have Read, Write, and Change Control of the virtual root of your website.</li>
+		    </ol>
+		  </li>
+		</ul>
+		<br/>
+		<br/>
+		<img alt="Image showing the security settings for the root folder of the website must be set to Read, Write and Change Control for the ASPNET or NT AUTHORITY/NETWORK SERVICE accounts." src="403-3.gif">
+  </div>
+</body>
 </html>

@@ -101,11 +101,6 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider.Data
             return Null.GetNull( Field, DBNull.Value );
         }
 
-        //---------------------------------------------------------------------
-        // TODO Implement DAL methods.
-        // Use CodeSmith templates to generate this code
-        //---------------------------------------------------------------------
-
         public override void AddLog( string LogGUID, string LogTypeKey, int LogUserID, string LogUserName, int LogPortalID, string LogPortalName, DateTime LogCreateDate, string LogServerName, string LogProperties, int LogConfigID )
         {
             SqlHelper.ExecuteNonQuery( ConnectionString, DatabaseOwner + ObjectQualifier + "AddEventLog", LogGUID, LogTypeKey, GetNull( LogUserID ), GetNull( LogUserName ), GetNull( LogPortalID ), GetNull( LogPortalName ), LogCreateDate, LogServerName, LogProperties, LogConfigID );

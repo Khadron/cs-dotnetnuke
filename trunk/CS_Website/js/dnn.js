@@ -24,7 +24,6 @@ if (typeof(__dnn_m_aNamespaces) == 'undefined')	//include in each DNN ClientAPI 
 		this.vars = null;
 		this.dependencies = new Array();
 		this.isLoaded = false;
-
 		this.delay = new Array();
 	}
 	
@@ -168,6 +167,7 @@ __dnn.prototype =
 		return true;
 	},
 
+
 	loadNamespace: function()
 	{
 		if (this.isLoaded == false)
@@ -211,6 +211,50 @@ __dnn.prototype =
 		}
 	}
 
+	__dnn.prototype.ScriptRequest = function(sSrc, sText, fCallBack)
+	{
+		this.ctl = null;
+		this.src = null;
+		this.text = null;
+		if (sSrc != null && sSrc.length > 0)
+			this.src = sSrc;
+		if (sText != null && sText.length > 0)
+			this.text = sText;
+		this.callBack = fCallBack;
+		this.status = 'init';
+		//this.alreadyLoaded = false;
+	}
+	__dnn.prototype.ScriptRequest.prototype = 
+	{
+		load: function()
+		{
+			this.status = 'loading';
+			this.ctl = document.createElement('SCRIPT');
+			this.ctl.type = 'text/javascript';
+			if (this.src != null)
+				this.ctl.src = this.src;
+			else
+				this.ctl.text = this.text;			
+			
+			var oHeads = dnn.dom.getByTagName('HEAD');
+			if (oHeads)
+				oHeads[0].appendChild(this.ctl);
+			else
+				alert('Cannot load dynamic script, no HEAD tag present.');
+			
+			if (this.src == null)
+				this.complete();
+		},
+				
+		complete: function()
+		{
+			this.status = 'complete';
+			//this.ctl.readyState = 'loaded';
+			if (typeof(this.callBack) != 'undefined')
+				this.callBack(this);			
+		}
+	}
+
 	//--- dnn.dom
 		function dnn_dom()
 		{
@@ -220,6 +264,8 @@ __dnn.prototype =
 			this.isLoaded = false;
 			this.browser = new this.browserObject();
 			this.__leakEvts = new Array();			
+			this.scripts = [];
+			this.scriptElements = [];
 		}
 
 dnn_dom.prototype =
@@ -530,6 +576,32 @@ dnn_dom.prototype =
 			return (function(e)	{e = e||window.event; return obj[methodName](e, this); } );
 		},
 
+		getScript: function(sSrc)
+		{
+			if (this.scriptElements[sSrc]) //perf
+				return this.scriptElements[sSrc];
+				
+			var oScripts = (document.scripts != null ? document.scripts : dnn.dom.getByTagName('SCRIPT'));
+			var oScripts = dnn.dom.getByTagName('SCRIPT');	//safari has document.scripts
+			//for (var s in oScripts)
+			for (var s=0; s<oScripts.length; s++) //safari
+			{
+				if (oScripts[s].src != null && oScripts[s].src.indexOf(sSrc) > -1)
+				{
+					this.scriptElements[sSrc] = oScripts[s];	//cache for perf
+					return oScripts[s]; 
+				}
+			}
+		},
+		
+		getScriptPath: function()
+		{
+			var oThisScript = dnn.dom.getScript('dnn.js');
+			if (oThisScript)
+				return oThisScript.src.replace('dnn.js', '');
+			return '';
+		},
+
 		getSibling: function(oCtl, iOffset)
 		{
 			if (oCtl != null && oCtl.parentNode != null)
@@ -550,7 +622,48 @@ dnn_dom.prototype =
 		{
 			return (oNode.nodeType != 3 && oNode.nodeType != 8); //exclude nodeType of Text (Netscape/Mozilla) issue!
 		},
+
+		scriptFile: function(sSrc)	//trims off path
+		{
+			var ary = sSrc.split('/');
+			return ary[ary.length-1];
+		},
+	
+		loadScript: function(sSrc, sText, callBack)
+		{
+			var sFile;
+			if (sSrc != null && sSrc.length > 0)
+			{
+				sFile = this.scriptFile(sSrc); 
+				if (this.scripts[sFile] != null)	//already loaded
+					return;
+			}
+			var oSR = new dnn.ScriptRequest(sSrc, sText, callBack);
+			if (sFile)
+				this.scripts[sFile] = oSR;
+			oSR.load();		
+		},
 		
+		scriptStatus: function(sSrc)
+		{
+			var sFile = this.scriptFile(sSrc);
+			if (this.scripts[sFile])
+				return this.scripts[sFile].status;	//dynamic load
+			
+			var oScript = this.getScript(sSrc);
+			if (oScript != null)	//not a dynamic load, must be complete if found
+				return 'complete';
+			else
+				return '';
+		},	
+		
+		setScriptLoaded: function(sSrc)	//called by pages js that is dynamically loaded.  Needed since Safari doesn't support onload for script elements
+		{
+			var sFile = this.scriptFile(sSrc);
+			if (this.scripts[sFile] && dnn.dom.scripts[sFile].status != 'complete')
+				dnn.dom.scripts[sFile].complete();		
+		},
+				
 		navigate: function(sURL, sTarget)
 		{
 			if (sTarget != null && sTarget.length > 0)
@@ -581,7 +694,7 @@ dnn_dom.prototype =
 				sExpires = new Date();
 				sExpires.setTime(sExpires.getTime()+(iDays*24*60*60*1000));
 			}
-			document.cookie = sName + "=" + escape(sVal) + ((sExpires) ? "; expires=" + sExpires : "") + 
+			document.cookie = sName + "=" + escape(sVal) + ((sExpires) ? "; expires=" + sExpires.toGMTString() : "") + 
 				((sPath) ? "; path=" + sPath : "") + ((sDomain) ? "; domain=" + sDomain : "") + ((bSecure) ? "; secure" : "");
 			
 			if (document.cookie.length > 0)
@@ -625,7 +738,7 @@ dnn_dom.prototype =
 			var sRet = '';
 			if (oCtl != null)
 			{
-				if (oCtl.tagName.toLowerCase() == 'form')	//if form, faster to loop elements collection
+				if (oCtl.tagName && oCtl.tagName.toLowerCase() == 'form')	//if form, faster to loop elements collection
 				{
 					for (var i=0; i<oCtl.elements.length; i++)
 						sRet += this.getElementPostString(oCtl.elements[i]);					
@@ -634,7 +747,7 @@ dnn_dom.prototype =
 				{
 					sRet = this.getElementPostString(oCtl);
 					for (var i=0; i<oCtl.childNodes.length; i++)
-						sRet += this.getElementPostString(oCtl.childNodes[i]);
+						sRet += this.getFormPostString(oCtl.childNodes[i]);	//1.3 fix (calling self recursive insead of elementpoststring)
 				}
 			}
 			return sRet;		
@@ -720,9 +833,6 @@ dnn_dom.prototype =
 				var temp=sAgent.split("netscape");
 				this.version=parseFloat(temp[1].split("/")[1]);	
 			}
-
-			//this.majorVersion = null;
-			//this.minorVersion = null;
 		}
 		
 dnn_dom.prototype.browserObject.prototype =
@@ -746,19 +856,15 @@ dnn_dom.prototype.browserObject.prototype =
 						
 	//--- End dnn.dom
 
-	//--- dnn.controls - not enough here to justify separate js file
-	//if (typeof(dnn_controltree) != 'undefined')
-	//	dnn_controls.prototype = new dnn_controltree();
-	//if (typeof(dnn_control) != 'undefined')
-	//	dnn_controls.prototype = new dnn_control;
-	
+	//--- dnn.controls - not enough here to justify separate js file	
 	function dnn_controls()
 	{
 		this.pns = 'dnn';
 		this.ns = 'controls';
-		this.dependencies = 'dnn,dnn.dom,dnn.xml'.split(',');
+		this.dependencies = 'dnn,dnn.dom'.split(',');	//,dnn.xml - removed 10/17/06
 		this.isLoaded = false;
 		this.controls = new Array();
+		this.toolbars = [];	//stores JSON toolbar objects
 		
 		this.orient = new Object();
 		this.orient.horizontal = 0;
@@ -775,7 +881,7 @@ dnn_controls.prototype =
 {
 	dependenciesLoaded: function()
 	{
-		return (typeof(dnn) != 'undefined' && typeof(dnn.dom) != 'undefined' && typeof(dnn.xml) != 'undefined');
+		return (typeof(dnn) != 'undefined' && typeof(dnn.dom) != 'undefined');	//removed && typeof(dnn.xml) != 'undefined' - 10/17/06
 	},
 
 	loadNamespace: function()
@@ -857,7 +963,6 @@ dnn_controls.prototype.DNNNode.prototype =
 }//END DNNNode Methods
 	
 //--- End dnn.controls
-
 
 	//--- dnn.utilities
 	function dnn_util()

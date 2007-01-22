@@ -27,6 +27,7 @@ using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Security.Membership.Data;
 using DotNetNuke.Security.Roles;
+using DotNetNuke.Services.Exceptions;
 
 namespace DotNetNuke.Security.Membership
 {
@@ -46,6 +47,77 @@ namespace DotNetNuke.Security.Membership
         static DNNRoleProvider()
         {
             dataProvider = DataProvider.Instance();
+        }
+
+        private RoleInfo FillRoleInfo(IDataReader dr)
+        {
+            return FillRoleInfo(dr, true);
+        }
+
+        private RoleInfo FillRoleInfo(IDataReader dr, bool CheckForOpenDataReader)
+        {
+            RoleInfo objRoleInfo = null;
+
+            // read datareader
+            bool canContinue = true;
+            if (CheckForOpenDataReader)
+            {
+                canContinue = false;
+                if (dr.Read())
+                {
+                    canContinue = true;
+                }
+            }
+            if (canContinue)
+            {
+                objRoleInfo = new RoleInfo();
+                objRoleInfo.RoleID = Convert.ToInt32(Null.SetNull(dr["RoleId"], objRoleInfo.RoleID));
+                objRoleInfo.PortalID = Convert.ToInt32(Null.SetNull(dr["PortalID"], objRoleInfo.PortalID));
+                objRoleInfo.RoleGroupID = Convert.ToInt32(Null.SetNull(dr["RoleGroupId"], objRoleInfo.RoleGroupID));
+                objRoleInfo.RoleName = Convert.ToString(Null.SetNull(dr["RoleName"], objRoleInfo.RoleName));
+                objRoleInfo.Description = Convert.ToString(Null.SetNull(dr["Description"], objRoleInfo.Description));
+                objRoleInfo.ServiceFee = Convert.ToSingle(Null.SetNull(dr["ServiceFee"], objRoleInfo.ServiceFee));
+                objRoleInfo.BillingPeriod = Convert.ToInt32(Null.SetNull(dr["BillingPeriod"], objRoleInfo.BillingPeriod));
+                objRoleInfo.BillingFrequency = Convert.ToString(Null.SetNull(dr["BillingFrequency"], objRoleInfo.BillingFrequency));
+                objRoleInfo.TrialFee = Convert.ToSingle(Null.SetNull(dr["TrialFee"], objRoleInfo.TrialFee));
+                objRoleInfo.TrialPeriod = Convert.ToInt32(Null.SetNull(dr["TrialPeriod"], objRoleInfo.TrialPeriod));
+                objRoleInfo.TrialFrequency = Convert.ToString(Null.SetNull(dr["TrialFrequency"], objRoleInfo.TrialFrequency));
+                objRoleInfo.IsPublic = Convert.ToBoolean(Null.SetNull(dr["IsPublic"], objRoleInfo.IsPublic));
+                objRoleInfo.AutoAssignment = Convert.ToBoolean(Null.SetNull(dr["AutoAssignment"], objRoleInfo.AutoAssignment));
+                objRoleInfo.RSVPCode = Convert.ToString(Null.SetNull(dr["RSVPCode"], objRoleInfo.RSVPCode));
+                objRoleInfo.IconFile = Convert.ToString(Null.SetNull(dr["IconFile"], objRoleInfo.IconFile));
+            }
+
+            return objRoleInfo;
+        }
+
+        private ArrayList FillRoleInfoCollection(IDataReader dr)
+        {
+            ArrayList arr = new ArrayList();
+            try
+            {
+                RoleInfo obj = null;
+                while (dr.Read())
+                {
+                    // fill business object
+                    obj = FillRoleInfo(dr, false);
+                    // add to collection
+                    arr.Add(obj);
+                }
+            }
+            catch (Exception exc)
+            {
+                Exceptions.LogException(exc);
+            }
+            finally
+            {
+                // close datareader
+                if (dr != null)
+                {
+                    dr.Close();
+                }
+            }
+            return arr;
         }
 
         /// <summary>
@@ -151,9 +223,22 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override RoleInfo GetRole( int portalId, int roleId )
+        public override RoleInfo GetRole(int portalId, int roleId)
         {
-            return ( (RoleInfo)CBO.FillObject( dataProvider.GetRole( roleId, portalId ), typeof( RoleInfo ) ) );
+            RoleInfo role = null;
+            IDataReader dr = dataProvider.GetRole(roleId, portalId);
+            try
+            {
+                role = FillRoleInfo(dr);
+            }
+            finally
+            {
+                if (dr != null)
+                {
+                    dr.Close();
+                }
+            }
+            return role;
         }
 
         /// <summary>
@@ -166,9 +251,22 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override RoleInfo GetRole( int portalId, string roleName )
+        public override RoleInfo GetRole(int portalId, string roleName)
         {
-            return ( (RoleInfo)CBO.FillObject( dataProvider.GetRoleByName( portalId, roleName ), typeof( RoleInfo ) ) );
+            RoleInfo role = null;
+            IDataReader dr = dataProvider.GetRoleByName(portalId, roleName);
+            try
+            {
+                role = FillRoleInfo(dr);
+            }
+            finally
+            {
+                if (dr != null)
+                {
+                    dr.Close();
+                }
+            }
+            return role;
         }
 
         /// <summary>
@@ -273,17 +371,17 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override ArrayList GetRoles( int portalId )
+        public override ArrayList GetRoles(int portalId)
         {
-            ArrayList arrRoles;
+            ArrayList arrRoles = null;
 
-            if( portalId == Null.NullInteger )
+            if (portalId == Null.NullInteger)
             {
-                arrRoles = CBO.FillCollection( dataProvider.GetRoles(), typeof( RoleInfo ) );
+                arrRoles = FillRoleInfoCollection(dataProvider.GetRoles());
             }
             else
             {
-                arrRoles = CBO.FillCollection( dataProvider.GetPortalRoles( portalId ), typeof( RoleInfo ) );
+                arrRoles = FillRoleInfoCollection(dataProvider.GetPortalRoles(portalId));
             }
 
             return arrRoles;
@@ -299,9 +397,9 @@ namespace DotNetNuke.Security.Membership
         /// <history>
         ///     [cnurse]	03/28/2006	created
         /// </history>
-        public override ArrayList GetRolesByGroup( int portalId, int roleGroupId )
+        public override ArrayList GetRolesByGroup(int portalId, int roleGroupId)
         {
-            return CBO.FillCollection( dataProvider.GetRolesByGroup( roleGroupId, portalId ), typeof( RoleInfo ) );
+            return FillRoleInfoCollection(dataProvider.GetRolesByGroup(roleGroupId, portalId));
         }
 
         /// <summary>

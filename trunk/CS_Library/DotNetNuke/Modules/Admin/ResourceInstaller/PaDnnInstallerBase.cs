@@ -222,6 +222,21 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             InstallerInfo.Log.AddInfo(FILE_Created + binFullFileName);
         }
 
+        protected virtual void CreatePrivateBinFile(PaFile File)
+        {
+            string binFolder = Path.Combine(InstallerInfo.SitePath, "bin\\Modules");
+
+            // create the private folder
+            if (!(Directory.Exists(binFolder)))
+            {
+                Directory.CreateDirectory(binFolder);
+            }
+
+            string binFullFileName = Path.Combine(binFolder, File.Name);
+            CreateFile(binFullFileName, File.Buffer);
+            InstallerInfo.Log.AddInfo((FILE_Created + binFullFileName));
+        }
+
         protected virtual void CreateDataProviderFile(PaFile file, PaFolder Folder)
         {
             string rootFolder = Path.Combine(InstallerInfo.SitePath, Path.Combine("DesktopModules", Folder.FolderName));
@@ -250,6 +265,10 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             fs.Close();
         }
 
+        /// <summary>
+        /// Creates the files.
+        /// </summary>
+        /// <param name="Folder">The folder.</param>
         protected virtual void CreateFiles(PaFolder Folder)
         {
             InstallerInfo.Log.StartJob(FILES_Creating);
@@ -274,7 +293,14 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                         break;
                     case PaFileType.Dll:
 
-                        CreateBinFile(file);
+                        if (Folder.SupportsProbingPrivatePath)
+                        {
+                            CreatePrivateBinFile(file);
+                        }
+                        else
+                        {
+                            CreateBinFile(file);
+                        }
                         break;
                     case PaFileType.Dnn:
                         CreateModuleFile(file, Folder);

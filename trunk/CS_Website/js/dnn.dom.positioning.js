@@ -13,35 +13,30 @@ function dnn_dom_positioning()
 
 dnn_dom_positioning.prototype.bodyScrollLeft = function ()
 {
-	if (dnn.dom.browser.isType(dnn.dom.browser.InternetExplorer, dnn.dom.browser.Opera, dnn.dom.browser.Mozilla, dnn.dom.browser.Netscape))
-	{
-		if (document.body.scrollLeft != null)
-			return document.body.scrollLeft;
-	}
-	return 0;
+	if (window.pageYOffset)
+		return window.pageYOffset;
+	
+	var oBody = (document.compatMode && document.compatMode != "BackCompat") ? document.documentElement : document.body;		
+	return oBody.scrollLeft;
 }
 
 dnn_dom_positioning.prototype.bodyScrollTop = function()
 {
-	if (dnn.dom.browser.isType(dnn.dom.browser.InternetExplorer, dnn.dom.browser.Opera, dnn.dom.browser.Mozilla, dnn.dom.browser.Netscape))
-	{
-		if (document.body.scrollTop != null)
-			return document.body.scrollTop;
-	}
-	return 0;
+	if (window.pageXOffset)
+		return window.pageXOffset;
+
+	var oBody = (document.compatMode && document.compatMode != "BackCompat") ? document.documentElement : document.body;
+	return oBody.scrollTop;
 }
 
 dnn_dom_positioning.prototype.viewPortHeight = function()
 {
 	// supported in Mozilla, Opera, and Safari
-    if(window.innerHeight)
+  if(window.innerHeight)
 		return window.innerHeight;
-    // supported in standards mode of IE, but not in any other mode
-    if(window.document.documentElement.clientHeight)
-		return document.documentElement.clientHeight;
-	
-    // supported in quirks mode, older versions of IE, and mac IE (anything else).
-    return window.document.body.clientHeight;
+
+	var oBody = (document.compatMode && document.compatMode != "BackCompat") ? document.documentElement : document.body;		
+	return oBody.clientHeight;	
 }
 
 dnn_dom_positioning.prototype.viewPortWidth = function()
@@ -49,12 +44,9 @@ dnn_dom_positioning.prototype.viewPortWidth = function()
 	// supported in Mozilla, Opera, and Safari
 	if(window.innerWidth)
 		return window.innerWidth;
-	// supported in standards mode of IE, but not in any other mode
-	if(window.document.documentElement.clientWidth)
-		return document.documentElement.clientWidth;
 
-	// supported in quirks mode, older versions of IE, and mac IE (anything else).
-	return window.document.body.clientWidth;
+	var oBody = (document.compatMode && document.compatMode != "BackCompat") ? document.documentElement : document.body;		
+	return oBody.clientWidth;	
 }
 
 
@@ -170,7 +162,7 @@ dnn_dom_positioning.prototype.elementPos = function (eSrc)
 		}
 		
 		eParent = eParent.offsetParent;
-		if (eParent == null || (eParent.tagName.toUpperCase() == "BODY" && dnn.dom.browser.isType(dnn.dom.browser.Safari,dnn.dom.browser.Konqueror)))
+		if (eParent == null || (eParent.tagName.toUpperCase() == "BODY" && dnn.dom.browser.isType(dnn.dom.browser.Konqueror)))  //safari no longer needed here
 			break;		
 	}	
 	return oPos;

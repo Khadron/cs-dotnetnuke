@@ -19,7 +19,6 @@
 #endregion
 using System;
 using System.Collections;
-using System.Diagnostics;
 using System.IO;
 using System.Web.UI.WebControls;
 using DotNetNuke.Common.Utilities;
@@ -41,9 +40,6 @@ namespace DotNetNuke.Modules.Admin.Skins
     /// <summary>
     /// The EditSkins PortalModuleBase is used to manage the Available Skins
     /// </summary>
-    /// <returns></returns>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/13/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
@@ -177,10 +173,8 @@ namespace DotNetNuke.Modules.Admin.Skins
                 else
                 {
                     //Get the current portal skin
-                    SkinController objSkins = new SkinController();
-                    SkinInfo objSkin;
                     string skinSrc;
-                    objSkin = SkinController.GetSkin( SkinInfo.RootSkin, PortalSettings.PortalId, SkinType.Portal );
+                    SkinInfo objSkin = SkinController.GetSkin( SkinInfo.RootSkin, PortalSettings.PortalId, SkinType.Portal );
                     if( objSkin != null )
                     {
                         skinSrc = objSkin.SkinSrc;
@@ -189,7 +183,7 @@ namespace DotNetNuke.Modules.Admin.Skins
                     {
                         skinSrc = "[G]" + SkinInfo.RootSkin + Globals.glbDefaultSkinFolder + Globals.glbDefaultSkin;
                     }
-                    strURL = Request.MapPath( SkinController.FormatSkinPath( SkinController.FormatSkinSrc( skinSrc, PortalSettings ) ) );
+                    strURL = Request.MapPath(SkinController.FormatSkinPath(SkinController.FormatSkinSrc(skinSrc, PortalSettings)));                    
                     strURL = strURL.Substring( 0, strURL.LastIndexOf( "\\" ) );
                 }
                 strSkin = strURL.Replace( Globals.ApplicationMapPath, "" );
@@ -346,8 +340,6 @@ namespace DotNetNuke.Modules.Admin.Skins
         private string ProcessContainers( string strFolderPath )
         {
             string strGallery = "";
-            string strContainerType = "";
-            string strURL;
             int intIndex = 0;
 
             if( Directory.Exists( strFolderPath ) )
@@ -357,6 +349,7 @@ namespace DotNetNuke.Modules.Admin.Skins
                     cboContainers.Items.FindByValue( strFolderPath.Replace( Globals.ApplicationMapPath.ToLower(), "" ) ).Selected = true;
                 }
 
+                string strContainerType;
                 if( strFolderPath.ToLower().IndexOf( Globals.HostMapPath.ToLower() ) != - 1 )
                 {
                     strContainerType = "G";
@@ -392,6 +385,7 @@ namespace DotNetNuke.Modules.Admin.Skins
                     strGallery += "<td align=\"center\" valign=\"bottom\" class=\"NormalBold\">";
                     strGallery += Path.GetFileNameWithoutExtension( strFile ) + "<br>";
                     // thumbnail
+                    string strURL;
                     if( File.Exists( strFile.Replace( ".ascx", ".jpg" ) ) )
                     {
                         strURL = strFile.Substring( strFile.IndexOf( "\\portals\\" ) );
@@ -439,7 +433,7 @@ namespace DotNetNuke.Modules.Admin.Skins
             return strGallery;
         }
 
-        private string CreateThumbnail( string strImage )
+        private static string CreateThumbnail( string strImage )
         {
             bool blnCreate = true;
 
