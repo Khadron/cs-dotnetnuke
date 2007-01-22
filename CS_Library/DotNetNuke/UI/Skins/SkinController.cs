@@ -17,6 +17,7 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
 using System.IO;
@@ -106,9 +107,37 @@ namespace DotNetNuke.UI.Skins
             return strSkinSrc;
         }
 
-        public static SkinInfo GetSkin( string skinRoot, int portalId, SkinType skinType )
+        public static SkinInfo GetSkin(string SkinRoot, int PortalId, SkinType SkinType)
         {
-            return ( (SkinInfo)CBO.FillObject( DataProvider.Instance().GetSkin( skinRoot, portalId, ( (int)skinType ) ), typeof( SkinInfo ) ) );
+            SkinInfo objSkin = null;
+            foreach (SkinInfo skin in GetSkins(PortalId))
+            {
+                if (skin.SkinRoot == SkinRoot & skin.SkinType == SkinType)
+                {
+                    objSkin = skin;
+                    break;
+                }
+            }
+            return objSkin;
+        }
+
+        public static ArrayList GetSkins(int PortalId)
+        {
+            // data caching settings
+            // calculate the cache settings based on the performance setting
+            int intCacheTimeout = 20 * Convert.ToInt32(Globals.PerformanceSetting);
+
+            ArrayList arrSkins = (ArrayList)(DataCache.GetCache("GetSkins" + PortalId));
+            if (arrSkins == null)
+            {
+                arrSkins = CBO.FillCollection(DataProvider.Instance().GetSkins(PortalId), typeof(SkinInfo));
+
+                if (intCacheTimeout != 0)
+                {
+                    DataCache.SetCache("GetSkins" + PortalId, arrSkins, TimeSpan.FromMinutes(intCacheTimeout), true);
+                }
+            }
+            return arrSkins;
         }
 
         public static string UploadSkin( string rootPath, string skinRoot, string skinName, string path )
@@ -272,7 +301,7 @@ namespace DotNetNuke.UI.Skins
                 objEventLog.AddLog(objEventLogInfo);
             }
             catch (Exception)
-            {
+            {            
                 // error
             }
 

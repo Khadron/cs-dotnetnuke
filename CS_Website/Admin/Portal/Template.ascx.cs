@@ -19,6 +19,7 @@
 #endregion
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -67,7 +68,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// <history>
         /// 	[VMasanas]	23/09/2004	Created
         /// </history>
-        private void AddSkinXml( XmlDocument xml, XmlNode nodeToAdd, string skinRoot, string skinLevel, int id )
+        private static void AddSkinXml( XmlDocument xml, XmlNode nodeToAdd, string skinRoot, string skinLevel, int id )
         {
             string elementprefix;
 
@@ -145,6 +146,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
             nodeSettings.RemoveChild( nodeSettings.SelectSingleNode( "admintabid" ) );
             nodeSettings.RemoveChild( nodeSettings.SelectSingleNode( "supertabid" ) );
             nodeSettings.RemoveChild( nodeSettings.SelectSingleNode( "users" ) );
+            nodeSettings.RemoveChild( nodeSettings.SelectSingleNode( "pages" ) );
             nodeSettings.RemoveChild( nodeSettings.SelectSingleNode( "splashtabid" ) );
             nodeSettings.RemoveChild( nodeSettings.SelectSingleNode( "hometabid" ) );
             nodeSettings.RemoveChild( nodeSettings.SelectSingleNode( "logintabid" ) );
@@ -154,6 +156,8 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
             nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("currency"));
             nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("hostfee"));
             nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("hostspace"));
+            nodeSettings.RemoveChild( nodeSettings.SelectSingleNode( "pagequota" ) );
+            nodeSettings.RemoveChild( nodeSettings.SelectSingleNode( "userquota" ) );
             nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("backgroundfile"));
             nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("paymentprocessor"));
             nodeSettings.RemoveChild(nodeSettings.SelectSingleNode("siteloghistory"));
@@ -299,28 +303,21 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// </history>
         public void SerializeProfileDefinitions(XmlDocument xmlTemplate, XmlNode nodeProfileDefinitions, PortalInfo objportal)
         {
-            XmlSerializer xser = null;
-            StringWriter sw = null;
-            XmlNode newnode = null;
-            XmlNode nodeProfileDefinition = null;
-            XmlDocument xmlPropertyDefinition = null;
-
             ListController objListController = new ListController();
-            ListEntryInfo objList = null;
 
-            xser = new XmlSerializer(typeof(ProfilePropertyDefinition));
+            XmlSerializer xser = new XmlSerializer(typeof(ProfilePropertyDefinition));
             foreach (ProfilePropertyDefinition objProfileProperty in ProfileController.GetPropertyDefinitionsByPortal(objportal.PortalID))
             {
-                sw = new StringWriter();
+                StringWriter sw = new StringWriter();
                 xser.Serialize(sw, objProfileProperty);
 
-                xmlPropertyDefinition = new XmlDocument();
+                XmlDocument xmlPropertyDefinition = new XmlDocument();
                 xmlPropertyDefinition.LoadXml(sw.GetStringBuilder().ToString());
-                nodeProfileDefinition = xmlPropertyDefinition.SelectSingleNode("profiledefinition");
+                XmlNode nodeProfileDefinition = xmlPropertyDefinition.SelectSingleNode("profiledefinition");
                 nodeProfileDefinition.Attributes.Remove(nodeProfileDefinition.Attributes["xmlns:xsd"]);
                 nodeProfileDefinition.Attributes.Remove(nodeProfileDefinition.Attributes["xmlns:xsi"]);
-                objList = objListController.GetListEntryInfo(objProfileProperty.DataType);
-                newnode = xmlPropertyDefinition.CreateElement("datatype");
+                ListEntryInfo objList = objListController.GetListEntryInfo(objProfileProperty.DataType);
+                XmlNode newnode = xmlPropertyDefinition.CreateElement("datatype");
                 if (objList == null)
                 {
                     newnode.InnerXml = "Unknown";
@@ -350,11 +347,10 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// </history>
         public Hashtable SerializeRoles( XmlDocument xmlTemplate, XmlNode nodeRoles, PortalInfo objportal )
         {
-            XmlSerializer xser;
             RoleController objroles = new RoleController();
             Hashtable hRoles = new Hashtable();
 
-            xser = new XmlSerializer( typeof( RoleInfo ) );
+            XmlSerializer xser = new XmlSerializer( typeof( RoleInfo ) );
             foreach( RoleInfo objrole in objroles.GetPortalRoles( objportal.PortalID ) )
             {
                 StringWriter sw = new StringWriter();
@@ -482,30 +478,33 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     ModuleDefinitionController objModuleDefController = new ModuleDefinitionController();
 
                     XmlSerializer xserModules = new XmlSerializer( typeof( ModuleInfo ) );
-                    foreach( ModuleInfo objmodule in objmodules.GetPortalTabModules( objtab.PortalID, objtab.TabID ) )
-                    {
-                        if( ! objmodule.IsDeleted )
+                    Dictionary<int, ModuleInfo> dict = objmodules.GetTabModules(objtab.TabID);
+                    foreach( KeyValuePair<int, ModuleInfo> pair in dict )
+                    {                        
+                        ModuleInfo objmodule = pair.Value;
+
+                        if (!objmodule.IsDeleted)
                         {
                             sw = new StringWriter();
-                            xserModules.Serialize( sw, objmodule );
+                            xserModules.Serialize(sw, objmodule);
 
                             XmlDocument xmlModule = new XmlDocument();
-                            xmlModule.LoadXml( sw.GetStringBuilder().ToString() );
-                            XmlNode nodeModule = xmlModule.SelectSingleNode( "module" );
-                            nodeModule.Attributes.Remove( nodeModule.Attributes["xmlns:xsd"] );
-                            nodeModule.Attributes.Remove( nodeModule.Attributes["xmlns:xsi"] );
+                            xmlModule.LoadXml(sw.GetStringBuilder().ToString());
+                            XmlNode nodeModule = xmlModule.SelectSingleNode("module");
+                            nodeModule.Attributes.Remove(nodeModule.Attributes["xmlns:xsd"]);
+                            nodeModule.Attributes.Remove(nodeModule.Attributes["xmlns:xsi"]);
 
-                            if( nodePanes.SelectSingleNode( "descendant::pane[name='" + objmodule.PaneName + "']" ) == null )
+                            if (nodePanes.SelectSingleNode("descendant::pane[name='" + objmodule.PaneName + "']") == null)
                             {
                                 // new pane found
-                                XmlNode nodePane = xmlModule.CreateElement( "pane" );
-                                XmlNode nodeName = nodePane.AppendChild( xmlModule.CreateElement( "name" ) );
+                                XmlNode nodePane = xmlModule.CreateElement("pane");
+                                XmlNode nodeName = nodePane.AppendChild(xmlModule.CreateElement("name"));
                                 nodeName.InnerText = objmodule.PaneName;
-                                nodePane.AppendChild( xmlModule.CreateElement( "modules" ) );
-                                nodePanes.AppendChild( xmlTab.ImportNode( nodePane, true ) );
+                                nodePane.AppendChild(xmlModule.CreateElement("modules"));
+                                nodePanes.AppendChild(xmlTab.ImportNode(nodePane, true));
                             }
-                            XmlNode nodeModules = nodePanes.SelectSingleNode( "descendant::pane[name='" + objmodule.PaneName + "']/modules" );
-                            newnode = xmlModule.CreateElement( "definition" );
+                            XmlNode nodeModules = nodePanes.SelectSingleNode("descendant::pane[name='" + objmodule.PaneName + "']/modules");
+                            newnode = xmlModule.CreateElement("definition");
 
                             ModuleDefinitionInfo objModuleDef = objModuleDefController.GetModuleDefinition(objmodule.ModuleDefID);
                             newnode.InnerText = objDesktopModules.GetDesktopModule(objModuleDef.DesktopModuleID).ModuleName;
@@ -516,12 +515,12 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                             nodeDefinition.InnerText = objModuleDef.FriendlyName;
                             nodeModule.AppendChild(nodeDefinition);
 
-                            if( chkContent.Checked )
+                            if (chkContent.Checked)
                             {
-                                AddContent( nodeModule, objmodule );
+                                AddContent(nodeModule, objmodule);
                             }
 
-                            nodeModules.AppendChild( xmlTab.ImportNode( nodeModule, true ) );
+                            nodeModules.AppendChild(xmlTab.ImportNode(nodeModule, true));
                         }
                     }
                     nodeTabs.AppendChild( xmlTemplate.ImportNode( nodeTab, true ) );
@@ -572,7 +571,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
             }
         }
 
-        private string CleanName( string Name )
+        private static string CleanName( string Name )
         {
             string strName = Name;
             string strBadChars = ". ~`!@#$%^&*()-_+={[}]|\\:;<,>?/" + '\u0022' + '\u0027';
@@ -650,8 +649,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                 SerializeSettings(xmlTemplate, nodePortal, objportal);
 
                 // Serialize Profile Definitions
-                XmlNode nodeProfileDefinitions = null;
-                nodeProfileDefinitions = nodePortal.AppendChild(xmlTemplate.CreateElement("profiledefinitions"));
+                XmlNode nodeProfileDefinitions = nodePortal.AppendChild(xmlTemplate.CreateElement("profiledefinitions"));
                 SerializeProfileDefinitions(xmlTemplate, nodeProfileDefinitions, objportal);
 
                 SerializeSettings( xmlTemplate, nodePortal, objportal );

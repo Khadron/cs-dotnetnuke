@@ -51,7 +51,7 @@ dnn_xmlhttp.prototype.init = function ()
 	this.parserName = __dnn_getParser();
 }
 
-dnn_xmlhttp.prototype.doCallBack = function(sControlId, sArg, pSuccessFunc, sContext, pFailureFunc, pStatusFunc, bAsync, sPostChildrenId)
+dnn_xmlhttp.prototype.doCallBack = function(sControlId, sArg, pSuccessFunc, sContext, pFailureFunc, pStatusFunc, bAsync, sPostChildrenId, iType)
 {
 	var oReq = dnn.xmlhttp.createRequestObject();
 	var sURL = document.location.href;
@@ -80,10 +80,13 @@ dnn_xmlhttp.prototype.doCallBack = function(sControlId, sArg, pSuccessFunc, sCon
 		
 	if (sPostChildrenId)
 		sArg += '&' + dnn.dom.getFormPostString($(sPostChildrenId));
+
+	if (iType != 0)
+		sArg += '&__DNNCAPISCT=' + iType;
 		
 	oReq.send('__DNNCAPISCI=' + sControlId + '&__DNNCAPISCP=' + sArg);
 
-	
+	return oReq; //1.3
 }
 
 dnn_xmlhttp.prototype.createRequestObject = function()
@@ -132,6 +135,7 @@ dnn_xmlhttp.prototype.XmlHttpRequest.prototype.dispose = function ()
 		this.statusFunc = null;
 		this.context = null;
 		this.completed = null;
+		this.postData = null;	//1.3
 	}
 }
 
@@ -146,6 +150,7 @@ dnn_xmlhttp.prototype.XmlHttpRequest.prototype.open = function (sMethod, sURL, b
 dnn_xmlhttp.prototype.XmlHttpRequest.prototype.send = function (postData)
 {
 	//this._request.onreadystatechange = this.complete;
+	this.postData = postData;
 	if (dnn.xmlhttp.parserName == 'ActiveX')	
 		this._request.send(postData);
 	else
@@ -156,7 +161,7 @@ dnn_xmlhttp.prototype.XmlHttpRequest.prototype.send = function (postData)
 dnn_xmlhttp.prototype.XmlHttpRequest.prototype.onreadystatechange = function ()
 {
 	if (this.statusFunc != null)
-		this.statusFunc(this._request.readyState, this.context);
+		this.statusFunc(this._request.readyState, this.context, this); //1.3
 		
 	if (this._request.readyState == '4')
 	{
@@ -172,12 +177,12 @@ dnn_xmlhttp.prototype.XmlHttpRequest.prototype.complete = function (sRes)
 	this.completed=true;
 
 	if (sStatusCode == '200')	
-		this.successFunc(sRes, this.context);
+		this.successFunc(sRes, this.context, this);	//1.3
 	else
 	{
 		var sStatusDesc = this.getResponseHeader('__DNNCAPISCSDI');
 		if (this.failureFunc != null)
-			this.failureFunc(sStatusCode + ' - ' + sStatusDesc, this.context);
+			this.failureFunc(sStatusCode + ' - ' + sStatusDesc, this.context, this); //1.3
 		else
 			alert(sStatusCode + ' - ' + sStatusDesc);
 	}

@@ -17,9 +17,9 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
-using System.Diagnostics;
 using System.IO;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -38,7 +38,6 @@ using DotNetNuke.UI.Skins;
 using DotNetNuke.UI.Skins.Controls;
 using DotNetNuke.UI.UserControls;
 using DotNetNuke.UI.Utilities;
-using Microsoft.VisualBasic;
 using Calendar=DotNetNuke.Common.Utilities.Calendar;
 using Globals=DotNetNuke.Common.Globals;
 
@@ -48,42 +47,19 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
     /// The SiteSettings PortalModuleBase is used to edit the main settings for a
     /// portal.
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/8/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
     /// </history>
     public partial class SiteSettings : PortalModuleBase
     {
-        //Settings
-
-        //Basic Settings Section
-
-        //Site Section
-
-        //Appearance Section
-
-        //Advanced Settings Section
-
-        //Security Section
         protected SectionHeadControl dshSecurity;
 
-        //Pages Section
-
-        //Payment Section
-
-        //Other Section
         protected SectionHeadControl dshOther;
         protected LabelControl plAdministratorId;
 
-        //Host Section
-
-        //Stylesheet
         protected Panel pnlStyleSheet;
         protected Label lblStyleSheet;
-
-        //Tasks
 
         protected HtmlTable tblHostingDetails;
         protected TextBox txtPortalAlias;
@@ -93,8 +69,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// <summary>
         /// LoadStyleSheet loads the stylesheet
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/8/2004	Created
         /// </history>
@@ -122,16 +96,13 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// <summary>
         /// SkinChanged changes the skin
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	10/19/2004	documented
         /// </history>
-        private bool SkinChanged( string SkinRoot, int PortalId, DotNetNuke.UI.Skins.SkinType SkinType, string PostedSkinSrc )
+        private static bool SkinChanged( string SkinRoot, int PortalId, SkinType SkinType, string PostedSkinSrc )
         {
-            SkinInfo objSkinInfo;
             string strSkinSrc = "";
-            objSkinInfo = SkinController.GetSkin( SkinRoot, PortalId, SkinType.Admin );
+            SkinInfo objSkinInfo = SkinController.GetSkin( SkinRoot, PortalId, SkinType.Admin );
             if( objSkinInfo != null )
             {
                 strSkinSrc = objSkinInfo.SkinSrc;
@@ -148,8 +119,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// control.
         /// </summary>
         /// <returns>A formatted string</returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/8/2004	Modified
         /// </history>
@@ -173,8 +142,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// control.
         /// </summary>
         /// <returns>A formatted string</returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/8/2004	Modified
         /// </history>
@@ -207,8 +174,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// control.
         /// </summary>
         /// <returns>True if Subscribed, False if not</returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/8/2004	Modified
         /// </history>
@@ -230,21 +195,17 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// control.
         /// </summary>
         /// <returns>True if SuperUser, False if not</returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	10/4/2004	Added
         /// </history>
         public bool IsSuperUser()
         {
-            return this.UserInfo.IsSuperUser;
+            return UserInfo.IsSuperUser;
         }
 
         /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/8/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -268,16 +229,14 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
 
                 //this needs to execute always to the client script code is registred in InvokePopupCal
                 cmdExpiryCalendar.NavigateUrl = Calendar.InvokePopupCal( txtExpiryDate );
-                ClientAPI.AddButtonConfirm( cmdRestore, Localization.GetString( "RestoreCCSMessage", this.LocalResourceFile ) );
+                ClientAPI.AddButtonConfirm( cmdRestore, Localization.GetString( "RestoreCCSMessage", LocalResourceFile ) );
 
                 // If this is the first visit to the page, populate the site data
                 if( Page.IsPostBack == false )
                 {
-                    ClientAPI.AddButtonConfirm( cmdDelete, Localization.GetString( "DeleteMessage", this.LocalResourceFile ) );
+                    ClientAPI.AddButtonConfirm( cmdDelete, Localization.GetString( "DeleteMessage", LocalResourceFile ) );
 
                     PortalController objPortalController = new PortalController();
-                    ModuleController objModules = new ModuleController();
-                    UserController objUsers = new UserController();
                     ListController ctlList = new ListController();
                     ListEntryInfoCollection colProcessor = ctlList.GetListEntryInfoCollection( "Processor" );
 
@@ -298,13 +257,13 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     optUserRegistration.SelectedIndex = objPortal.UserRegistration;
                     optBannerAdvertising.SelectedIndex = objPortal.BannerAdvertising;
 
-                    cboSplashTabId.DataSource = Globals.GetPortalTabs(intPortalId, true, true, false, false, false);
+                    cboSplashTabId.DataSource = Globals.GetPortalTabs( intPortalId, true, true, false, false, false );
                     cboSplashTabId.DataBind();
                     if( cboSplashTabId.Items.FindByValue( objPortal.SplashTabId.ToString() ) != null )
                     {
                         cboSplashTabId.Items.FindByValue( objPortal.SplashTabId.ToString() ).Selected = true;
                     }
-                    cboHomeTabId.DataSource = Globals.GetPortalTabs(intPortalId, true, true, false, false, false);
+                    cboHomeTabId.DataSource = Globals.GetPortalTabs( intPortalId, true, true, false, false, false );
                     cboHomeTabId.DataBind();
                     if( cboHomeTabId.Items.FindByValue( objPortal.HomeTabId.ToString() ) != null )
                     {
@@ -316,7 +275,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     {
                         cboLoginTabId.Items.FindByValue( objPortal.LoginTabId.ToString() ).Selected = true;
                     }
-                    cboUserTabId.DataSource = Globals.GetPortalTabs(intPortalId, true, true, false, false, false);
+                    cboUserTabId.DataSource = Globals.GetPortalTabs( intPortalId, true, true, false, false, false );
                     cboUserTabId.DataBind();
                     if( cboUserTabId.Items.FindByValue( objPortal.UserTabId.ToString() ) != null )
                     {
@@ -355,6 +314,8 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     }
                     txtHostFee.Text = objPortal.HostFee.ToString();
                     txtHostSpace.Text = objPortal.HostSpace.ToString();
+                    txtPageQuota.Text = objPortal.PageQuota.ToString();
+                    txtUserQuota.Text = objPortal.UserQuota.ToString();
                     if( objPortal.SiteLogHistory != 0 )
                     {
                         txtSiteLogHistory.Text = objPortal.SiteLogHistory.ToString();
@@ -363,11 +324,9 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     DesktopModuleController objDesktopModules = new DesktopModuleController();
                     ArrayList arrDesktopModules = objDesktopModules.GetDesktopModules();
 
-                    ArrayList arrPremiumModules = new ArrayList();
-                    DesktopModuleInfo objDesktopModule;
-                    foreach( DesktopModuleInfo tempLoopVar_objDesktopModule in arrDesktopModules )
-                    {
-                        objDesktopModule = tempLoopVar_objDesktopModule;
+                    ArrayList arrPremiumModules = new ArrayList();                    
+                    foreach( DesktopModuleInfo objDesktopModule in arrDesktopModules )
+                    {                        
                         if( objDesktopModule.IsPremium )
                         {
                             arrPremiumModules.Add( objDesktopModule );
@@ -375,27 +334,22 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     }
 
                     ArrayList arrPortalDesktopModules = objDesktopModules.GetPortalDesktopModules( intPortalId, Null.NullInteger );
-                    PortalDesktopModuleInfo objPortalDesktopModule;
-                    foreach( PortalDesktopModuleInfo tempLoopVar_objPortalDesktopModule in arrPortalDesktopModules )
+                    foreach( PortalDesktopModuleInfo objPortalDesktopModule in arrPortalDesktopModules )
                     {
-                        objPortalDesktopModule = tempLoopVar_objPortalDesktopModule;
-                        foreach( DesktopModuleInfo tempLoopVar_objDesktopModule in arrPremiumModules )
-                        {
-                            objDesktopModule = tempLoopVar_objDesktopModule;
+                        foreach( DesktopModuleInfo objDesktopModule in arrPremiumModules )
+                        {                            
                             if( objDesktopModule.DesktopModuleID == objPortalDesktopModule.DesktopModuleID )
                             {
                                 arrPremiumModules.Remove( objDesktopModule );
-                                goto endOfForLoop;
+                                break;
                             }
-                        }
-                        endOfForLoop:
-                        1.GetHashCode(); //nop
+                        }                                                
                     }
 
                     ctlDesktopModules.Available = arrPremiumModules;
                     ctlDesktopModules.Assigned = arrPortalDesktopModules;
 
-                    if( !String.IsNullOrEmpty(objPortal.PaymentProcessor) )
+                    if( !String.IsNullOrEmpty( objPortal.PaymentProcessor ) )
                     {
                         if( cboProcessor.Items.FindByText( objPortal.PaymentProcessor ) != null )
                         {
@@ -477,14 +431,14 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     else
                     {
                         ModuleInfo FileManagerModule = ( new ModuleController() ).GetModuleByDefinition( intPortalId, "File Manager" );
-                        string[] @params = new string[3];
-                        @params[0] = "mid=" + FileManagerModule.ModuleID;
-                        @params[1] = "ftype=" + UploadType.Skin.ToString();
-                        @params[2] = "rtab=" + this.TabId;
-                        lnkUploadSkin.NavigateUrl = Globals.NavigateURL( FileManagerModule.TabID, "Edit", @params );
+                        string[] parameters = new string[3];
+                        parameters[0] = "mid=" + FileManagerModule.ModuleID;
+                        parameters[1] = "ftype=" + UploadType.Skin;
+                        parameters[2] = "rtab=" + TabId;
+                        lnkUploadSkin.NavigateUrl = Globals.NavigateURL( FileManagerModule.TabID, "Edit", parameters );
 
-                        @params[1] = "ftype=" + UploadType.Container.ToString();
-                        lnkUploadContainer.NavigateUrl = Globals.NavigateURL( FileManagerModule.TabID, "Edit", @params );
+                        parameters[1] = "ftype=" + UploadType.Container;
+                        lnkUploadContainer.NavigateUrl = Globals.NavigateURL( FileManagerModule.TabID, "Edit", parameters );
                     }
 
                     if( Request.UrlReferrer != null )
@@ -536,8 +490,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// cmdCancel_Click runs when the Cancel LinkButton is clicked.  It returns the user
         /// to the referring page
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/9/2004	Modified
         /// </history>
@@ -558,8 +510,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// It deletes the current portal form the Database.  It can only run in Host
         /// (SuperUser) mode
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/9/2004	Modified
         ///     [VMasanas]  9/12/2004   Move skin deassignment to DeletePortalInfo.
@@ -569,69 +519,38 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
             try
             {
                 PortalController objPortalController = new PortalController();
+                PortalInfo objPortalInfo = objPortalController.GetPortal( intPortalId );
 
-                // check if this is the last portal
-                ArrayList arrPortals = objPortalController.GetPortals();
-                if( arrPortals.Count > 1 )
+                if( objPortalInfo != null )
                 {
-                    string strServerPath = Globals.GetAbsoluteServerPath(Request);
+                    string strMessage = PortalController.DeletePortal( objPortalInfo, Globals.GetAbsoluteServerPath( Request ) );
 
-                    PortalInfo objPortalInfo = objPortalController.GetPortal( intPortalId );
-                    if( objPortalInfo != null )
+                    if( string.IsNullOrEmpty( strMessage ) )
                     {
-                        //If child portal delete child folder
-                        PortalAliasController objPortalAliasController = new PortalAliasController();
-                        ArrayList arr = objPortalAliasController.GetPortalAliasArrayByPortalID( intPortalId );
-                        PortalAliasInfo objPortalAliasInfo = (PortalAliasInfo)arr[0];
-                        string strPortalName = Globals.GetPortalDomainName(objPortalAliasInfo.HTTPAlias, null, true);
-                        if( Convert.ToBoolean( Strings.InStr( 1, objPortalAliasInfo.HTTPAlias, "/", 0 ) ) )
-                        {
-                            strPortalName = Strings.Mid( objPortalAliasInfo.HTTPAlias, Strings.InStrRev( objPortalAliasInfo.HTTPAlias, "/", -1, 0 ) + 1 );
-                        }
-                        if( !String.IsNullOrEmpty(strPortalName) && Directory.Exists( strServerPath + strPortalName ) )
-                        {
-                            Globals.DeleteFolderRecursive(strServerPath + strPortalName);
-                        }
-
-                        // delete upload directory
-                        Globals.DeleteFolderRecursive(strServerPath + "Portals\\" + objPortalInfo.PortalID.ToString());
-                        string HomeDirectory = objPortalInfo.HomeDirectoryMapPath;
-                        if( Directory.Exists( HomeDirectory ) )
-                        {
-                            Globals.DeleteFolderRecursive(HomeDirectory);
-                        }
-
-                        // delete custom resource files
-                        Globals.DeleteFilesRecursive(strServerPath, ".Portal-" + objPortalInfo.PortalID.ToString() + ".resx");
-
-                        // remove database references
-                        objPortalController.DeletePortalInfo( intPortalId );
-
                         EventLogController objEventLog = new EventLogController();
-                        objEventLog.AddLog( "PortalName", txtPortalName.Text, PortalSettings, UserId, EventLogController.EventLogType.PORTAL_DELETED );
-                    }
+                        objEventLog.AddLog( "PortalName", objPortalInfo.PortalName, PortalSettings, UserId, EventLogController.EventLogType.PORTAL_DELETED );
 
-                    // Redirect to another site
-                    if( intPortalId == PortalId )
-                    {
-                        if( PortalSettings.HostSettings["HostURL"].ToString() != "" )
+                        // Redirect to another site
+                        if( intPortalId == PortalId )
                         {
-                            Response.Redirect(Globals.AddHTTP(PortalSettings.HostSettings["HostURL"].ToString()));
+                            if( PortalSettings.HostSettings["HostURL"].ToString() != "" )
+                            {
+                                Response.Redirect( Globals.AddHTTP( PortalSettings.HostSettings["HostURL"].ToString() ) );
+                            }
+                            else
+                            {
+                                Response.End();
+                            }
                         }
                         else
                         {
-                            Response.End();
+                            Response.Redirect( Convert.ToString( ViewState["UrlReferrer"] ), true );
                         }
                     }
                     else
                     {
-                        Response.Redirect( Convert.ToString( ViewState["UrlReferrer"] ), true );
+                        UI.Skins.Skin.AddModuleMessage( this, strMessage, ModuleMessageType.RedError );
                     }
-                }
-                else
-                {
-                    string strMessage = Localization.GetString( "LastPortal", this.LocalResourceFile );
-                    UI.Skins.Skin.AddModuleMessage( this, strMessage, ModuleMessageType.RedError );
                 }
             }
             catch( Exception exc ) //Module failed to load
@@ -644,8 +563,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// cmdGoogle_Click runs when the Submit to Google Linkbutton is clicked.
         /// It submits the site's Description, DomainName and Keywords to the Google Site.
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/9/2004	Modified
         /// </history>
@@ -661,21 +578,21 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                 if( objPortal != null )
                 {
                     strComments += objPortal.PortalName;
-                    if( !String.IsNullOrEmpty(objPortal.Description) )
+                    if( !String.IsNullOrEmpty( objPortal.Description ) )
                     {
                         strComments += " " + objPortal.Description;
                     }
-                    if( !String.IsNullOrEmpty(objPortal.KeyWords) )
+                    if( !String.IsNullOrEmpty( objPortal.KeyWords ) )
                     {
                         strComments += " " + objPortal.KeyWords;
                     }
                 }
 
-                strURL += "http://www.google.com/addurl?q=" + Globals.HTTPPOSTEncode(Globals.AddHTTP(Globals.GetDomainName(Request)));
-                strURL += "&dq=" + Globals.HTTPPOSTEncode(strComments);
+                strURL += "http://www.google.com/addurl?q=" + Globals.HTTPPOSTEncode( Globals.AddHTTP( Globals.GetDomainName( Request ) ) );
+                strURL += "&dq=" + Globals.HTTPPOSTEncode( strComments );
                 strURL += "&submit=Add+URL";
 
-                Response.Redirect( strURL, true );
+                UrlUtils.OpenNewWindow( strURL );
             }
             catch( Exception exc ) //Module failed to load
             {
@@ -687,8 +604,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// cmdProcessor_Click runs when the Processor Website Linkbutton is clicked. It
         /// redirects the user to the selected processor's website.
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/9/2004	Modified
         /// </history>
@@ -696,7 +611,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         {
             try
             {
-                Response.Redirect(Globals.AddHTTP(cboProcessor.SelectedItem.Value), true);
+                Response.Redirect( Globals.AddHTTP( cboProcessor.SelectedItem.Value ), true );
             }
             catch( Exception exc ) //Module failed to load
             {
@@ -708,8 +623,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// cmdRestore_Click runs when the Restore Default Stylesheet Linkbutton is clicked.
         /// It reloads the default stylesheet (copies from _default Portal to current Portal)
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/9/2004	Modified
         /// </history>
@@ -717,8 +630,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         {
             try
             {
-                string strServerPath = Request.MapPath( Globals.ApplicationPath );
-
                 PortalController objPortalController = new PortalController();
                 PortalInfo objPortal = objPortalController.GetPortal( intPortalId );
                 if( objPortal != null )
@@ -744,8 +655,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// cmdSave_Click runs when the Save Stylesheet Linkbutton is clicked.  It saves
         /// the edited Stylesheet
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/9/2004	Modified
         /// </history>
@@ -784,8 +693,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// cmdUpdate_Click runs when the Update LinkButton is clicked.
         /// It saves the current Site Settings
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/9/2004	Modified
         /// </history>
@@ -800,25 +707,37 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                 strBackground = ctlBackground.Url;
 
                 double dblHostFee = 0;
-                if( !String.IsNullOrEmpty(txtHostFee.Text) )
+                if( !String.IsNullOrEmpty( txtHostFee.Text ) )
                 {
                     dblHostFee = double.Parse( txtHostFee.Text );
                 }
 
                 double dblHostSpace = 0;
-                if( !String.IsNullOrEmpty(txtHostSpace.Text) )
+                if( !String.IsNullOrEmpty( txtHostSpace.Text ) )
                 {
                     dblHostSpace = double.Parse( txtHostSpace.Text );
                 }
 
+                int intPageQuota = 0;
+                if( txtPageQuota.Text != "" )
+                {
+                    intPageQuota = int.Parse( txtPageQuota.Text );
+                }
+
+                double intUserQuota = 0;
+                if( txtUserQuota.Text != "" )
+                {
+                    intUserQuota = int.Parse( txtUserQuota.Text );
+                }
+
                 int intSiteLogHistory = - 1;
-                if( !String.IsNullOrEmpty(txtSiteLogHistory.Text) )
+                if( !String.IsNullOrEmpty( txtSiteLogHistory.Text ) )
                 {
                     intSiteLogHistory = int.Parse( txtSiteLogHistory.Text );
                 }
 
                 DateTime datExpiryDate = Null.NullDate;
-                if( !String.IsNullOrEmpty(txtExpiryDate.Text) )
+                if( !String.IsNullOrEmpty( txtExpiryDate.Text ) )
                 {
                     datExpiryDate = Convert.ToDateTime( txtExpiryDate.Text );
                 }
@@ -847,9 +766,9 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     intUserTabId = int.Parse( cboUserTabId.SelectedItem.Value );
                 }
 
-                if( txtPassword.Attributes[ "value" ] != null )
+                if( txtPassword.Attributes["value"] != null )
                 {
-                    txtPassword.Attributes[ "value" ] = txtPassword.Text;
+                    txtPassword.Attributes["value"] = txtPassword.Text;
                 }
 
                 // update Portal info in the database
@@ -867,6 +786,14 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     {
                         HostChanged = true;
                     }
+                    if( intPageQuota != objPortal.PageQuota )
+                    {
+                        HostChanged = true;
+                    }
+                    if( intUserQuota != objPortal.UserQuota )
+                    {
+                        HostChanged = true;
+                    }
                     if( intSiteLogHistory != objPortal.SiteLogHistory )
                     {
                         HostChanged = true;
@@ -875,14 +802,13 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     {
                         HostChanged = true;
                     }
-                    if( HostChanged == true )
+                    if( HostChanged )
                     {
-                        throw new Exception( );
+                        throw new Exception();
                     }
                 }
 
-                ModuleController objModules = new ModuleController();
-                objPortalController.UpdatePortalInfo( intPortalId, txtPortalName.Text, strLogo, txtFooterText.Text, datExpiryDate, optUserRegistration.SelectedIndex, optBannerAdvertising.SelectedIndex, cboCurrency.SelectedItem.Value, Convert.ToInt32( cboAdministratorId.SelectedItem.Value ), dblHostFee, dblHostSpace, ( cboProcessor.SelectedValue == "" ? "" : cboProcessor.SelectedItem.Text ).ToString(), txtUserId.Text, txtPassword.Text, txtDescription.Text, txtKeyWords.Text, strBackground, intSiteLogHistory, intSplashTabId, intHomeTabId, intLoginTabId, intUserTabId, cboDefaultLanguage.SelectedValue, Convert.ToInt32( cboTimeZone.SelectedValue ), txtHomeDirectory.Text );
+                objPortalController.UpdatePortalInfo( intPortalId, txtPortalName.Text, strLogo, txtFooterText.Text, datExpiryDate, optUserRegistration.SelectedIndex, optBannerAdvertising.SelectedIndex, cboCurrency.SelectedItem.Value, Convert.ToInt32( cboAdministratorId.SelectedItem.Value ), dblHostFee, dblHostSpace, intPageQuota, (int)intUserQuota, ( ( cboProcessor.SelectedValue == "" ) ? "" : cboProcessor.SelectedItem.Text ).ToString(), txtUserId.Text, txtPassword.Text, txtDescription.Text, txtKeyWords.Text, strBackground, intSiteLogHistory, intSplashTabId, intHomeTabId, intLoginTabId, intUserTabId, cboDefaultLanguage.SelectedValue, Convert.ToInt32( cboTimeZone.SelectedValue ), txtHomeDirectory.Text );
                 bool blnAdminSkinChanged = SkinChanged( SkinInfo.RootSkin, PortalId, SkinType.Admin, ctlAdminSkin.SkinSrc ) || SkinChanged( SkinInfo.RootContainer, PortalId, SkinType.Admin, ctlAdminContainer.SkinSrc );
 
                 //Dim objSkins As New UI.Skins.SkinController
@@ -896,11 +822,9 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     // delete old portal module assignments
                     DesktopModuleController objDesktopModules = new DesktopModuleController();
                     objDesktopModules.DeletePortalDesktopModules( intPortalId, Null.NullInteger );
-                    // add new portal module assignments
-                    ListItem objListItem;
-                    foreach( ListItem tempLoopVar_objListItem in ctlDesktopModules.Assigned )
+                    // add new portal module assignments                    
+                    foreach( ListItem objListItem in ctlDesktopModules.Assigned )
                     {
-                        objListItem = tempLoopVar_objListItem;
                         objDesktopModules.AddPortalDesktopModule( intPortalId, int.Parse( objListItem.Value ) );
                     }
                 }
@@ -916,7 +840,5 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                 Exceptions.ProcessModuleLoadException( this, exc );
             }
         }
-
-
     }
 }

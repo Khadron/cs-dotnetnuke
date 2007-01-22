@@ -126,8 +126,7 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
 
                 if( mid > 0 )
                 {
-                    PaWriter PaWriter = new PaWriter( chkSource.Checked, strFileName );
-
+                    PaWriter PaWriter = new PaWriter(chkSource.Checked, chkManifest.Checked, chkPrivate.Checked, strFileName);
                     string PaZipName = PaWriter.CreatePrivateAssembly( mid );
 
                     if( PaWriter.ProgressLog.Valid )

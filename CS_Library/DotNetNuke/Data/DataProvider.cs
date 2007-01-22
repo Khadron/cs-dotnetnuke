@@ -74,32 +74,39 @@ namespace DotNetNuke.Data
         public abstract void UpdateHostSetting( string SettingName, string SettingValue, bool SettingIsSecure );
 
         // portal
-        public abstract int AddPortalInfo( string PortalName, string Currency, string FirstName, string LastName, string Username, string Password, string Email, DateTime ExpiryDate, double HostFee, double HostSpace, int SiteLogHistory, string HomeDirectory );
-        public abstract int CreatePortal( string PortalName, string Currency, DateTime ExpiryDate, double HostFee, double HostSpace, int SiteLogHistory, string HomeDirectory );
-        public abstract void DeletePortalInfo( int PortalId );
-        public abstract IDataReader GetPortal( int PortalId );
-        public abstract IDataReader GetPortalByAlias( string PortalAlias );
-        public abstract IDataReader GetPortalByTab( int TabId, string PortalAlias );
+        public abstract int AddPortalInfo(string PortalName, string Currency, string FirstName, string LastName, string Username, string Password, string Email, System.DateTime ExpiryDate, double HostFee, double HostSpace, int PageQuota, int UserQuota, int SiteLogHistory, string HomeDirectory);
+        public abstract int CreatePortal(string PortalName, string Currency, System.DateTime ExpiryDate, double HostFee, double HostSpace, int PageQuota, int UserQuota, int SiteLogHistory, string HomeDirectory);
+        public abstract void DeletePortalInfo(int PortalId);
+        public abstract IDataReader GetExpiredPortals();
+        public abstract IDataReader GetPortal(int PortalId);
+        public abstract IDataReader GetPortalByAlias(string PortalAlias);
+        public abstract IDataReader GetPortalByTab(int TabId, string PortalAlias);
+        public abstract int GetPortalCount();
         public abstract IDataReader GetPortals();
-        public abstract IDataReader GetPortalSpaceUsed( int PortalId );
-        public abstract void UpdatePortalInfo( int PortalId, string PortalName, string LogoFile, string FooterText, DateTime ExpiryDate, int UserRegistration, int BannerAdvertising, string Currency, int AdministratorId, double HostFee, double HostSpace, string PaymentProcessor, string ProcessorUserId, string ProcessorPassword, string Description, string KeyWords, string BackgroundFile, int SiteLogHistory, int SplashTabId, int HomeTabId, int LoginTabId, int UserTabId, string DefaultLanguage, int TimeZoneOffset, string HomeDirectory );
-        public abstract void UpdatePortalSetup( int PortalId, int AdministratorId, int AdministratorRoleId, int RegisteredRoleId, int SplashTabId, int HomeTabId, int LoginTabId, int UserTabId, int AdminTabId );
-        public abstract IDataReader VerifyPortalTab( int PortalId, int TabId );
-        public abstract IDataReader VerifyPortal( int PortalId );
+        public abstract IDataReader GetPortalsByName(string nameToMatch, int pageIndex, int pageSize);
+        public abstract IDataReader GetPortalSpaceUsed(int PortalId);
+        public abstract void UpdatePortalInfo(int PortalId, string PortalName, string LogoFile, string FooterText, System.DateTime ExpiryDate, int UserRegistration, int BannerAdvertising, string Currency, int AdministratorId, double HostFee, double HostSpace, int PageQuota, int UserQuota, string PaymentProcessor, string ProcessorUserId, string ProcessorPassword, string Description, string KeyWords, string BackgroundFile, int SiteLogHistory, int SplashTabId, int HomeTabId, int LoginTabId, int UserTabId, string DefaultLanguage, int TimeZoneOffset, string HomeDirectory);
+        public abstract void UpdatePortalSetup(int PortalId, int AdministratorId, int AdministratorRoleId, int RegisteredRoleId, int SplashTabId, int HomeTabId, int LoginTabId, int UserTabId, int AdminTabId);
+        public abstract IDataReader VerifyPortalTab(int PortalId, int TabId);
+        public abstract IDataReader VerifyPortal(int PortalId);
+
 
         // tab
-        public abstract int AddTab( int PortalId, string TabName, bool IsVisible, bool DisableLink, int ParentId, string IconFile, string Title, string Description, string KeyWords, string Url, string SkinSrc, string ContainerSrc, string TabPath, DateTime StartDate, DateTime EndDate, int RefreshInterval, string PageHeadText );
-        public abstract void UpdateTab( int TabId, string TabName, bool IsVisible, bool DisableLink, int ParentId, string IconFile, string Title, string Description, string KeyWords, bool IsDeleted, string Url, string SkinSrc, string ContainerSrc, string TabPath, DateTime StartDate, DateTime EndDate );
-        public abstract void UpdateTab( int TabId, string TabName, bool IsVisible, bool DisableLink, int ParentId, string IconFile, string Title, string Description, string KeyWords, bool IsDeleted, string Url, string SkinSrc, string ContainerSrc, string TabPath, DateTime StartDate, DateTime EndDate, int RefreshInterval, string PageHeadText );
-        public abstract void UpdateTabOrder( int TabId, int TabOrder, int Level, int ParentId );
-        public abstract void DeleteTab( int TabId );
-        public abstract IDataReader GetTabs( int PortalId );
+        public abstract int AddTab(int PortalId, string TabName, bool IsVisible, bool DisableLink, int ParentId, string IconFile, string Title, string Description, string KeyWords, string Url, string SkinSrc, string ContainerSrc, string TabPath, System.DateTime StartDate, System.DateTime EndDate, int RefreshInterval, string PageHeadText);
+        public abstract void UpdateTab(int TabId, string TabName, bool IsVisible, bool DisableLink, int ParentId, string IconFile, string Title, string Description, string KeyWords, bool IsDeleted, string Url, string SkinSrc, string ContainerSrc, string TabPath, System.DateTime StartDate, System.DateTime EndDate);
+        public abstract void UpdateTab(int TabId, string TabName, bool IsVisible, bool DisableLink, int ParentId, string IconFile, string Title, string Description, string KeyWords, bool IsDeleted, string Url, string SkinSrc, string ContainerSrc, string TabPath, System.DateTime StartDate, System.DateTime EndDate, int RefreshInterval, string PageHeadText);
+        public abstract void UpdateTabOrder(int TabId, int TabOrder, int Level, int ParentId);
+        public abstract void DeleteTab(int TabId);
+        public abstract IDataReader GetTabs(int PortalId);
         public abstract IDataReader GetAllTabs();
-        public abstract IDataReader GetTab( int TabId );
-        public abstract IDataReader GetTabByName( string TabName, int PortalId );
-        public abstract IDataReader GetTabsByParentId( int ParentId );
-        public abstract IDataReader GetPortalTabModules( int PortalId, int TabId );
-        public abstract IDataReader GetTabPanes( int TabId );
+        public abstract IDataReader GetTab(int TabId);
+        public abstract IDataReader GetTabByName(string TabName, int PortalId);
+        public abstract IDataReader GetTabsByParentId(int ParentId);
+        public abstract int GetTabCount(int PortalId);
+        public abstract IDataReader GetPortalTabModules(int PortalId, int TabId);
+        public abstract IDataReader GetTabModules(int TabId);
+        public abstract IDataReader GetTabPanes(int TabId);
+
 
         // module
         public abstract IDataReader GetAllModules();
@@ -197,6 +204,7 @@ namespace DotNetNuke.Data
         // banners
         public abstract IDataReader GetBanners( int VendorId );
         public abstract IDataReader GetBanner( int BannerId, int VendorId, int PortalID );
+        public abstract DataTable GetBannerGroups(int PortalId);
         public abstract void DeleteBanner( int BannerId );
         public abstract int AddBanner( string BannerName, int VendorId, string ImageFile, string URL, int Impressions, double CPM, DateTime StartDate, DateTime EndDate, string UserName, int BannerTypeId, string Description, string GroupName, int Criteria, int Width, int Height );
         public abstract void UpdateBanner( int BannerId, string BannerName, string ImageFile, string URL, int Impressions, double CPM, DateTime StartDate, DateTime EndDate, string UserName, int BannerTypeId, string Description, string GroupName, int Criteria, int Width, int Height );
@@ -214,6 +222,7 @@ namespace DotNetNuke.Data
 
         // skins/containers
         public abstract IDataReader GetSkin( string SkinRoot, int PortalId, int SkinType );
+        public abstract IDataReader GetSkins(int PortalId);
         public abstract void DeleteSkin( string SkinRoot, int PortalId, int SkinType );
         public abstract int AddSkin( string SkinRoot, int PortalId, int SkinType, string SkinSrc );
 
@@ -270,6 +279,7 @@ namespace DotNetNuke.Data
         public abstract IDataReader GetModulePermission( int modulePermissionID );
         public abstract IDataReader GetModulePermissionsByModuleID( int moduleID, int PermissionID );
         public abstract IDataReader GetModulePermissionsByPortal( int PortalID );
+        public abstract IDataReader GetModulePermissionsByTabID(int TabID);
         public abstract void DeleteModulePermissionsByModuleID( int ModuleID );
         public abstract void DeleteModulePermission( int modulePermissionID );
         public abstract int AddModulePermission( int moduleID, int PermissionID, int roleID, bool AllowAccess );

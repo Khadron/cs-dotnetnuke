@@ -117,155 +117,161 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Roles.Action">
+  <data name="Roles.Action" xml:space="preserve">
     <value>Manage Roles for this User</value>
   </data>
-  <data name="UsernameExists.Text">
+  <data name="UsernameExists.Text" xml:space="preserve">
     <value>Registration Failed! Username &lt;u&gt;{0}&lt;/u&gt; is already registered.&lt;br&gt;Please select a different Username.</value>
   </data>
-  <data name="ControlTitle_edit.Text">
+  <data name="ControlTitle_edit.Text" xml:space="preserve">
     <value>Edit User Accounts</value>
   </data>
-  <data name="ModuleHelp.Text">
+  <data name="ModuleHelp.Text" xml:space="preserve">
     <value>&lt;h1&gt;About the User Management Module&lt;/h1&gt;&lt;p&gt;Administrators can manage their registered users. This module allows you to add new users, modify existing users, delete users, and manage the security roles for users.&lt;/p&gt;
 </value>
   </data>
-  <data name="UserLockedOut.Text">
+  <data name="UserLockedOut.Text" xml:space="preserve">
     <value>This account is currently locked out due to too many unsuccessful login attempts.</value>
   </data>
-  <data name="InvalidUser.Text">
+  <data name="InvalidUser.Text" xml:space="preserve">
     <value>This account is not a User in the current Portal.</value>
   </data>
-  <data name="SuperUser.Text">
+  <data name="SuperUser.Text" xml:space="preserve">
     <value>This account represents a SuperUser.  You do not have the rights to edit a SuperUser Account.</value>
   </data>
-  <data name="NoUser.Text">
+  <data name="NoUser.Text" xml:space="preserve">
     <value>This account doesn't exist</value>
   </data>
-  <data name="plNewPassword.Text">
+  <data name="plNewPassword.Text" xml:space="preserve">
     <value>New Password:</value>
   </data>
-  <data name="plNewPassword.Help">
+  <data name="plNewPassword.Help" xml:space="preserve">
     <value>Enter the New Password</value>
   </data>
-  <data name="plNewConfirm.Text">
+  <data name="plNewConfirm.Text" xml:space="preserve">
     <value>Confirm New Password:</value>
   </data>
-  <data name="plNewConfirm.Help">
+  <data name="plNewConfirm.Help" xml:space="preserve">
     <value>Re-Enter the new password to make sure you haven't made a typing mistake</value>
   </data>
-  <data name="ResetPassword.Text">
+  <data name="ResetPassword.Text" xml:space="preserve">
     <value>Reset Password</value>
   </data>
-  <data name="cmdUpdatePassword.Text">
+  <data name="cmdUpdatePassword.Text" xml:space="preserve">
     <value>Update Password</value>
   </data>
-  <data name="NewPassword.Text">
+  <data name="NewPassword.Text" xml:space="preserve">
     <value>You must enter a new password.</value>
   </data>
-  <data name="PasswordChanged.Text">
+  <data name="PasswordChanged.Text" xml:space="preserve">
     <value>The password has been reset.</value>
   </data>
-  <data name="PasswordResetFailed.Text">
+  <data name="PasswordResetFailed.Text" xml:space="preserve">
     <value>There was an error setting the password. The password has not been changed.</value>
   </data>
-  <data name="UserTitle.Text">
+  <data name="UserTitle.Text" xml:space="preserve">
     <value>Edit User - {0} (Id: {1})</value>
   </data>
-  <data name="MembershipTitle.Text">
+  <data name="MembershipTitle.Text" xml:space="preserve">
     <value>Membership Information</value>
   </data>
-  <data name="AddContent.Action">
+  <data name="AddContent.Action" xml:space="preserve">
     <value>Add New User</value>
   </data>
-  <data name="Profile.Action">
+  <data name="Profile.Action" xml:space="preserve">
     <value>Manage User's Profile</value>
   </data>
-  <data name="Password.Action">
+  <data name="Password.Action" xml:space="preserve">
     <value>Manage User's Password</value>
   </data>
-  <data name="cmdUser.Text">
+  <data name="cmdUser.Text" xml:space="preserve">
     <value>Manage User Credentials</value>
   </data>
-  <data name="cmdRoles.Text">
+  <data name="cmdRoles.Text" xml:space="preserve">
     <value>Manage Roles for this User</value>
   </data>
-  <data name="cmdPassword.Text">
+  <data name="cmdPassword.Text" xml:space="preserve">
     <value>Manage Password</value>
   </data>
-  <data name="cmdProfile.Text">
+  <data name="cmdProfile.Text" xml:space="preserve">
     <value>Manage Profile</value>
   </data>
-  <data name="AddUser.Text">
+  <data name="AddUser.Text" xml:space="preserve">
     <value>Add New User</value>
   </data>
-  <data name="UserUnAuthorized.Text">
+  <data name="UserUnAuthorized.Text" xml:space="preserve">
     <value>User successfully Un-Authorized</value>
   </data>
-  <data name="UserAuthorized.Text">
+  <data name="UserAuthorized.Text" xml:space="preserve">
     <value>User successfully Authorized</value>
   </data>
-  <data name="InvalidPasswordAnswer.Text">
+  <data name="InvalidPasswordAnswer.Text" xml:space="preserve">
     <value>Password Answer must be provided</value>
   </data>
-  <data name="InvalidPasswordQuestion.Text">
+  <data name="InvalidPasswordQuestion.Text" xml:space="preserve">
     <value>Password Question must be provided</value>
   </data>
-  <data name="PasswordQAChanged.Text">
+  <data name="PasswordQAChanged.Text" xml:space="preserve">
     <value>Password Question and Answer successfully updated.</value>
   </data>
-  <data name="ControlTitle_profile.Text">
+  <data name="ControlTitle_profile.Text" xml:space="preserve">
     <value>Manage Profile</value>
   </data>
-  <data name="NotAuthorized.Text">
+  <data name="NotAuthorized.Text" xml:space="preserve">
     <value>You are not authorized to edit this user.</value>
   </data>
-  <data name="ControlTitle_register.Text">
+  <data name="ControlTitle_register.Text" xml:space="preserve">
     <value>Register</value>
   </data>
-  <data name="Register.Text">
+  <data name="Register.Text" xml:space="preserve">
     <value>Preferred User Information</value>
   </data>
-  <data name="PrivateMembership.Text">
+  <data name="PrivateMembership.Text" xml:space="preserve">
     <value>&lt;b&gt;*Note:&lt;/b&gt; Membership to this portal is Private. Once your account information has been submitted, the portal Administrator will be notified and your application will be subjected to a screening procedure. If your application is authorized, you will receive notification of your access to the portal environment.</value>
   </data>
-  <data name="PublicMembership.Text">
+  <data name="PublicMembership.Text" xml:space="preserve">
     <value>&lt;b&gt;*Note:&lt;/b&gt; Membership to this portal is Public. Once your account information has been submitted, you will be immediately granted access to the portal environment.</value>
   </data>
-  <data name="VerifiedMembership.Text">
+  <data name="VerifiedMembership.Text" xml:space="preserve">
     <value>&lt;b&gt;*Note:&lt;/b&gt; Membership to this portal is Verified. Once your account information has been submitted, you will receive an email containing your unique Verification Code. The Verification Code will be required the first time you attempt to sign in to the portal environment.</value>
   </data>
-  <data name="Required.Text">
+  <data name="Required.Text" xml:space="preserve">
     <value> All fields marked with an asterisk (*) are required.</value>
   </data>
-  <data name="VerifiedConfirmationMessage.Text">
+  <data name="VerifiedConfirmationMessage.Text" xml:space="preserve">
     <value>&lt;b&gt;An e-mail with your verification code has been sent to your e-mail address: {0}&lt;br&gt;Please access your in-box and get the verification code, which is required to log-in first time.&lt;/b&gt;</value>
   </data>
-  <data name="PrivateConfirmationMessage.Text">
+  <data name="PrivateConfirmationMessage.Text" xml:space="preserve">
     <value>&lt;b&gt;An e-mail with your details has been sent to the portal administrator for verification. Once your registration has been approved an e-mail will be sent to your e-mail address: {0}.&lt;/b&gt;</value>
   </data>
-  <data name="cmdServices.Text">
+  <data name="cmdServices.Text" xml:space="preserve">
     <value>Manage Services</value>
   </data>
-  <data name="ManageProfile.Action">
+  <data name="ManageProfile.Action" xml:space="preserve">
     <value>Manage Profile Properties</value>
   </data>
-  <data name="cmdRegister.Text">
+  <data name="cmdRegister.Text" xml:space="preserve">
     <value>Register</value>
   </data>
-  <data name="PasswordInvalid.Text">
+  <data name="PasswordInvalid.Text" xml:space="preserve">
     <value>You must enter a valid password.  Please check with the Portal Administrator if you do not know the password requirements.</value>
   </data>
-  <data name="PasswordMismatch.Text">
+  <data name="PasswordMismatch.Text" xml:space="preserve">
     <value>Password Values Entered Do Not Match.</value>
   </data>
-  <data name="PasswordMissing.Text">
+  <data name="PasswordMissing.Text" xml:space="preserve">
     <value>You must provide your current password in order to change the password.</value>
   </data>
-  <data name="PasswordNotDifferent.Text">
+  <data name="PasswordNotDifferent.Text" xml:space="preserve">
     <value>The new password is the same as the old password.  Please enter a different password</value>
   </data>
-  <data name="PasswordMailError.Text">
+  <data name="PasswordMailError.Text" xml:space="preserve">
     <value>The password has been reset, but there was an error sending the Email reminder message.</value>
+  </data>
+  <data name="ExceededRegisterQuota.Text" xml:space="preserve">
+    <value>You cannot register at this time for this site. Please contact your the site Administrator to find out when Registration will be reopened.</value>
+  </data>
+  <data name="ExceededUserQuota.Text" xml:space="preserve">
+    <value>Adding this user will exceed the User Quota for this site. Please contact your hosting provider for inquiries related to increasing your User Quota.</value>
   </data>
 </root>

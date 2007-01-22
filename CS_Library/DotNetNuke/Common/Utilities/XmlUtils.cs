@@ -58,6 +58,13 @@ namespace DotNetNuke.Common.Utilities
             return element;
         }
 
+        public static XmlElement CreateCDataElement(XmlDocument objDoc, string NodeName, string NodeValue)
+        {
+            XmlElement element = objDoc.CreateElement(NodeName);
+            element.AppendChild(objDoc.CreateCDataSection(NodeValue));
+            return element;
+        }
+
         public static object Deserialize(string xmlObject, Type type)
         {
             XmlSerializer ser = new XmlSerializer(type);
@@ -287,11 +294,23 @@ namespace DotNetNuke.Common.Utilities
 
         public static void AppendElement(ref XmlDocument objDoc, XmlNode objNode, string attName, string attValue, bool includeIfEmpty)
         {
-            if (attValue == "" && !includeIfEmpty)
+            AppendElement(ref objDoc, objNode, attName, attValue, includeIfEmpty, false);
+        }
+
+        public static void AppendElement(ref XmlDocument objDoc, XmlNode objNode, string attName, string attValue, bool includeIfEmpty, bool CDATA)
+        {
+            if (attValue == "" & !includeIfEmpty)
             {
                 return;
             }
-            objNode.AppendChild(CreateElement(objDoc, attName, attValue));
+            if (CDATA)
+            {
+                objNode.AppendChild(CreateCDataElement(objDoc, attName, attValue));
+            }
+            else
+            {
+                objNode.AppendChild(CreateElement(objDoc, attName, attValue));
+            }
         }
 
         public static void XSLTransform(XmlDocument doc, ref StreamWriter writer, string xsltUrl)

@@ -297,21 +297,30 @@ namespace DotNetNuke.Security
         /// <summary>
         /// Verifies edit permissions on a module
         /// </summary>
-        /// <param name="objModulePermissions"></param>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         public static bool HasEditPermissions( ModulePermissionCollection objModulePermissions )
         {
             return ModulePermissionController.HasModulePermission( objModulePermissions, "EDIT" );
         }
 
+        /// <summary>
+        /// Verifies edit permissions on a module
+        /// </summary>
+        [Obsolete("This method has been deprecated.  Please use HasEditPermissions(ModuleID,TabId)")]
         public static bool HasEditPermissions( int ModuleId )
         {
             ModulePermissionController objModulePermissionController = new ModulePermissionController();
             ModulePermissionCollection objModulePermissions = objModulePermissionController.GetModulePermissionsCollectionByModuleID( ModuleId );
             return HasEditPermissions( objModulePermissions );
         }
+
+        /// <summary>
+        /// Verifies edit permissions on a module
+        /// </summary>
+        public static bool HasEditPermissions(int ModuleId, int Tabid)
+        {
+            return ModulePermissionController.HasModulePermission(ModuleId, Tabid, "EDIT");
+        }
+
 
         /// <summary>
         /// Determines is user has the necessary permissions to access the an item with the

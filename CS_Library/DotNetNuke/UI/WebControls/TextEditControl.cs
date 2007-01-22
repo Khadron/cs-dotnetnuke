@@ -51,7 +51,12 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return Convert.ToString( Value );
+                string strValue = Null.NullString;
+                if (Value != null)
+                {
+                    strValue = Convert.ToString(Value);
+                }
+                return strValue;
             }
             set
             {

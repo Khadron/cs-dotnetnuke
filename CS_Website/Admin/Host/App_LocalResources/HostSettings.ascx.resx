@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
+  <!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,533 +59,611 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="metadata">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" />
-							</xsd:sequence>
-							<xsd:attribute name="name" use="required" type="xsd:string" />
-							<xsd:attribute name="type" type="xsd:string" />
-							<xsd:attribute name="mimetype" type="xsd:string" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="assembly">
-						<xsd:complexType>
-							<xsd:attribute name="alias" type="xsd:string" />
-							<xsd:attribute name="name" type="xsd:string" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>2.0</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="Configuration.Text">
-		<value>Site Configuration</value>
-	</data>
-	<data name="plVersion.Text">
-		<value>DotNetNuke Version:</value>
-	</data>
-	<data name="plDataProvider.Text">
-		<value>Data Provider:</value>
-	</data>
-	<data name="plFramework.Text">
-		<value>.NET Framework:</value>
-	</data>
-	<data name="plIdentity.Text">
-		<value>ASP.NET Identity:</value>
-	</data>
-	<data name="plHostName.Text">
-		<value>Host Name:</value>
-	</data>
-	<data name="plVersion.Help">
-		<value>The DotNetNuke application version you are running</value>
-	</data>
-	<data name="plDataProvider.Help">
-		<value>The provider name which is identified as the default data provider in the web.config file</value>
-	</data>
-	<data name="plFramework.Help">
-		<value>The .NET Framework version which the application is running on - specified through IIS</value>
-	</data>
-	<data name="plIdentity.Help">
-		<value>The Windows user account under which the application is running. This is the account which needs to be granted folder permissions on the server.</value>
-	</data>
-	<data name="plHostName.Help">
-		<value>The Host Name of the site.</value>
-	</data>
-	<data name="plHostPortal.Text">
-		<value>Host Portal:</value>
-	</data>
-	<data name="plHostTitle.Text">
-		<value>Host Title:</value>
-	</data>
-	<data name="plHostURL.Text">
-		<value>Host URL:</value>
-	</data>
-	<data name="plHostEmail.Text">
-		<value>Host Email:</value>
-	</data>
-	<data name="plHostSkin.Text">
-		<value>Host Skin:</value>
-	</data>
-	<data name="plHostContainer.Text">
-		<value>Host Container:</value>
-	</data>
-	<data name="plAdminSkin.Text">
-		<value>Admin Skin:</value>
-	</data>
-	<data name="plAdminContainer.Text">
-		<value>Admin Container:</value>
-	</data>
-	<data name="plProcessor.Text">
-		<value>Payment Processor:</value>
-	</data>
-	<data name="plUserId.Text">
-		<value>Processor UserId:</value>
-	</data>
-	<data name="plPassword.Text">
-		<value>Processor Password:</value>
-	</data>
-	<data name="plHostFee.Text">
-		<value>Hosting Fee:</value>
-	</data>
-	<data name="plHostCurrency.Text">
-		<value>Hosting Currency:</value>
-	</data>
-	<data name="plHostSpace.Text">
-		<value>Hosting Space (MB):</value>
-	</data>
-	<data name="plDemoPeriod.Text">
-		<value>Demo Period (Days):</value>
-	</data>
-	<data name="plDemoSignup.Text">
-		<value>Anonymous Demo Signup?</value>
-	</data>
-	<data name="plSiteLogBuffer.Text">
-		<value>Site Log Buffer (Items):</value>
-	</data>
-	<data name="plSiteLogHistory.Text">
-		<value>Site Log History (Days):</value>
-	</data>
-	<data name="plUsersOnline.Text">
-		<value>Disable Users Online?</value>
-	</data>
-	<data name="plUsersOnlineTime.Text">
-		<value>Users Online Time (Minutes):</value>
-	</data>
-	<data name="plProxyServer.Text">
-		<value>Proxy Server:</value>
-	</data>
-	<data name="plProxyPort.Text">
-		<value>Proxy Port:</value>
-	</data>
-	<data name="plProxyUsername.Text">
-		<value>Proxy Username:</value>
-	</data>
-	<data name="plProxyPassword.Text">
-		<value>Proxy Password:</value>
-	</data>
-	<data name="plWebRequestTimeout.Text">
-		<value>Web Request Timeout:</value>
-	</data>
-	<data name="plSMTPServer.Text">
-		<value>SMTP Server:</value>
-	</data>
-	<data name="EmailTest.Text">
-		<value>Test</value>
-	</data>
-	<data name="plSMTPAuthentication.Text">
-		<value>SMTP Authentication:</value>
-	</data>
-	<data name="plSMTPUsername.Text">
-		<value>SMTP Username:</value>
-	</data>
-	<data name="plSMTPPassword.Text">
-		<value>SMTP Password:</value>
-	</data>
-	<data name="plFileExtensions.Text">
-		<value>File Upload Extensions:</value>
-	</data>
-	<data name="plSkinUpload.Text">
-		<value>Skin Upload Permission:</value>
-	</data>
-	<data name="plCache.Text">
-		<value>Cache Timeout (seconds):</value>
-	</data>
-	<data name="ClearCache.Text">
-		<value>Clear Cache</value>
-	</data>
-	<data name="plCopyright.Text">
-		<value>Show Copyright Credits?</value>
-	</data>
-	<data name="plUseCustomErrorMessages.Text">
-		<value>Use Custom Error Messages?</value>
-	</data>
-	<data name="UpgradeLog.Text">
-		<value>Upgrade Log For Version</value>
-	</data>
-	<data name="EmailSentMessage.Text">
-		<value>Email Sent Successfully</value>
-	</data>
-	<data name="SpecifyHostEmailMessage.Text">
-		<value>You Must Specify The Host Email Address</value>
-	</data>
-	<data name="plSchedulerMode.Text">
-		<value>Scheduler Mode:</value>
-	</data>
-	<data name="plSchedulerMode.Help">
-		<value>The Timer Method maintains a separate thread to execute scheduled tasks while the worker process is alive. Alternatively, the Request Method executes tasks when HTTP Requests are made.  You can also disable the scheduler by selecting Disabled.</value>
-	</data>
-	<data name="Disabled.Text">
-		<value>Disabled</value>
-	</data>
-	<data name="TimerMethod.Text">
-		<value>Timer Method</value>
-	</data>
-	<data name="RequestMethod.Text">
-		<value>Request Method</value>
-	</data>
-	<data name="15Seconds.Text">
-		<value>15 Seconds</value>
-	</data>
-	<data name="30Seconds.Text">
-		<value>30 Seconds</value>
-	</data>
-	<data name="45Seconds.Text">
-		<value>45 Seconds</value>
-	</data>
-	<data name="60Seconds.Text">
-		<value>60 Seconds</value>
-	</data>
-	<data name="plPerformance.Text">
-		<value>Performance Setting:</value>
-	</data>
-	<data name="HeavyCaching.Text">
-		<value>Heavy Caching</value>
-	</data>
-	<data name="ModerateCaching.Text">
-		<value>Moderate Caching</value>
-	</data>
-	<data name="LightCaching.Text">
-		<value>Light Caching</value>
-	</data>
-	<data name="NoCaching.Text">
-		<value>No Caching</value>
-	</data>
-	<data name="BasicSettingsHelp.Text">
-		<value>Enter basic settings for your Hosting Account</value>
-	</data>
-	<data name="BasicSettings.Text">
-		<value>Basic Settings</value>
-	</data>
-	<data name="HostDetails.Text">
-		<value>Host Details</value>
-	</data>
-	<data name="plHostTitle.Help">
-		<value>Enter the name of your Hosting Account</value>
-	</data>
-	<data name="plHostURL.Help">
-		<value>Enter the url of your Hosting Account</value>
-	</data>
-	<data name="plHostEmail.Help">
-		<value>Enter a support email adress for your Hosting Account</value>
-	</data>
-	<data name="plHostSkin.Help">
-		<value>Select the default skin to use for your sites</value>
-	</data>
-	<data name="plHostContainer.Help">
-		<value>Select the default container to use for your sites</value>
-	</data>
-	<data name="plAdminSkin.Help">
-		<value>Select the default admin skin to use for your sites</value>
-	</data>
-	<data name="plAdminContainer.Help">
-		<value>Select the default admin container to use for your sites</value>
-	</data>
-	<data name="Appearance.Text">
-		<value>Appearance</value>
-	</data>
-	<data name="Payment.Text">
-		<value>Payment Settings</value>
-	</data>
-	<data name="Proxy.Text">
-		<value>Proxy Settings</value>
-	</data>
-	<data name="SMTP.Text">
-		<value>SMTP Server Settings</value>
-	</data>
-	<data name="AdvancedSettings.Text">
-		<value>Advanced Settings</value>
-	</data>
-	<data name="AdvancedSettingsHelp.Text">
-		<value>Enter advanced settings for your Hosting Account</value>
-	</data>
-	<data name="Other.Text">
-		<value>Other Settings</value>
-	</data>
-	<data name="plCopyright.Help">
-		<value>Select this to show the DotNetNuke copyright credits</value>
-	</data>
-	<data name="plUseCustomErrorMessages.Help">
-		<value>Select this to use Custom Error Messages</value>
-	</data>
-	<data name="plProcessor.Help">
-		<value>Select a Payment processor for accepting payments from Client sites</value>
-	</data>
-	<data name="plUserId.Help">
-		<value>Enter your UserId for the Payment Processor</value>
-	</data>
-	<data name="plPassword.Help">
-		<value>Enter your Pasword for the Payment Processor</value>
-	</data>
-	<data name="plHostFee.Help">
-		<value>Enter the base fee for site hosting</value>
-	</data>
-	<data name="plHostCurrency.Help">
-		<value>Select the currency for your fees</value>
-	</data>
-	<data name="plDemoPeriod.Help">
-		<value>Enter the number of days for a demo trial account</value>
-	</data>
-	<data name="plDemoSignup.Help">
-		<value>Select whether you will allow users to signup for a demo</value>
-	</data>
-	<data name="plHostSpace.Help">
-		<value>Enter the amount of file space allowed for an account</value>
-	</data>
-	<data name="plSMTPServer.Help">
-		<value>Enter the SMTP Server Address</value>
-	</data>
-	<data name="plSMTPAuthentication.Help">
-		<value>Enter the SMTP Server Authentication method ( default = Anonymous )</value>
-	</data>
-	<data name="SMTPAnonymous.Text">
-		<value>Anonymous</value>
-	</data>
-	<data name="SMTPBasic.Text">
-		<value>Basic</value>
-	</data>
-	<data name="SMTPNTLM.Text">
-		<value>NTLM</value>
-	</data>
-	<data name="plSMTPUsername.Help">
-		<value>Enter the Username for the SMTP Server</value>
-	</data>
-	<data name="plSMTPPassword.Help">
-		<value>Enter the Password for the SMTP Server</value>
-	</data>
-	<data name="plControlPanel.Text">
-		<value>Control Panel:</value>
-	</data>
-	<data name="plControlPanel.Help">
-		<value>You can specify an alternative control to use for Page Administration</value>
-	</data>
-	<data name="plFileExtensions.Help">
-		<value>Enter the allowable file extensions (separated by commas)</value>
-	</data>
-	<data name="plSkinUpload.Help">
-		<value>Select whether Skin Upload is restricted to the "Host" Account or can be done by Site Administrators</value>
-	</data>
-	<data name="Host.Text">
-		<value>Host</value>
-	</data>
-	<data name="Portal.Text">
-		<value>Portal</value>
-	</data>
-	<data name="plCache.Help">
-		<value>Set the length of time that objects remain in the cache</value>
-	</data>
-	<data name="plPerformance.Help">
-		<value>Select how to optimize performance.</value>
-	</data>
-	<data name="plProxyServer.Help">
-		<value>Enter the Proxy Server Address</value>
-	</data>
-	<data name="plProxyPort.Help">
-		<value>Enter the Proxy Server Port</value>
-	</data>
-	<data name="plProxyUsername.Help">
-		<value>Enter the User Name for the Proxy Server</value>
-	</data>
-	<data name="plProxyPassword.Help">
-		<value>Enter the Password for the Proxy Server</value>
-	</data>
-	<data name="plWebRequestTimeout.Help">
-		<value>Enter a time out value for a Web Request</value>
-	</data>
-	<data name="plSiteLogBuffer.Help">
-		<value>Enter the number of Items in the Site Log Buffer</value>
-	</data>
-	<data name="plSiteLogHistory.Help">
-		<value>Enter the number of Days of activity to keep in the Site Log</value>
-	</data>
-	<data name="plUsersOnline.Help">
-		<value>You can optionally disable the Users Online feature</value>
-	</data>
-	<data name="plUsersOnlineTime.Help">
-		<value>Enter the length of the Users Online Buffer</value>
-	</data>
-	<data name="plUseFriendlyUrls.Text">
-		<value>Use Friendly Urls?</value>
-	</data>
-	<data name="plUseFriendlyUrls.Help">
-		<value>Check to enable search engine friendly urls.</value>
-	</data>
-	<data name="plHostPortal.Help">
-		<value>Select the default portal</value>
-	</data>
-	<data name="ControlTitle_.Text">
-		<value>Host Settings</value>
-	</data>
-	<data name="SkinUpload.Text">
-		<value>Upload Skin</value>
-	</data>
-	<data name="ContainerUpload.Text">
-		<value>Upload Container</value>
-	</data>
-	<data name="plSiteLogStorage.Text">
-		<value>Site Log Storage:</value>
-	</data>
-	<data name="plSiteLogStorage.Help">
-		<value>Select the storage location for the Site Log</value>
-	</data>
-	<data name="Database.Text">
-		<value>Database</value>
-	</data>
-	<data name="FileSystem.Text">
-		<value>File System</value>
-	</data>
-	<data name="ModuleHelp.Text">
-		<value>&lt;h1&gt;About Host Settings&lt;/h1&gt;&lt;p&gt;The Super User can manage the configuration settings which apply to the entire site.&lt;/p&gt;</value>
-	</data>
-	<data name="plLogBuffer.Text">
-		<value>Enable Event Log Buffer?</value>
-	</data>
-	<data name="plLogBuffer.Help">
-		<value>Checking this will cause log entries to be logged to memory and then purged regularly to the data store.  Unchecking it will cause log entries to be written immediately.</value>
-	</data>
-	<data name="plAutoAccountUnlock.Text">
-		<value>Auto-Unlock Accounts After (Minutes):</value>
-	</data>
-	<data name="plAutoAccountUnlock.Help">
-		<value>After an account is locked out due to unsuccessful login attempts, it can be automatically unlocked with a successful authentication after a certain period of time has elapsed.  Enter the number of minutes to wait until the account can be automatically unlocked.  Enter "0" to disable the auto-unlock feature.</value>
-	</data>
-	<data name="plCacheMethod.Text">
-		<value>Module Caching Method:</value>
-	</data>
-	<data name="plCacheMethod.Help">
-		<value>Memory caching provides the most flexibility and is the highest performance method however it also consumes the most system resources. Disk caching is the least expensive on resources but does not offer any flexibility.</value>
-	</data>
-	<data name="Memory.Text">
-		<value>Memory</value>
-	</data>
-	<data name="Disk.Text">
-		<value>Disk</value>
-	</data>
-	<data name="ProcessorWebSite.Text">
-		<value>Go To Payment Processor WebSite</value>
-	</data>
-	<data name="plHelpUrl.Text">
-		<value>Help URL:</value>
-	</data>
-	<data name="plHelpUrl.Help">
-		<value>Enter the URL for the Online Help you will be providing.  If you leave the entry blank then no Online Help will be offered for the Admin/Host areas of DotNetNuke.</value>
-	</data>
-	<data name="plEnableHelp.Text">
-		<value>Enable Module Online Help:</value>
-	</data>
-	<data name="plEnableHelp.Help">
-		<value>You can enable or disable the Online Help Action Menu for Modules.  If enabled, you will need to provide the Help Url for the module, in the Module Definitions, although this may have been provided by the developer of the module.</value>
-	</data>
-	<data name="plCacheability.Text">
-		<value>Authenticated Cacheability:</value>
-	</data>
-	<data name="plCacheability.Help">
-		<value>Sets the Cache-Control HTTP header value for authenticated users.</value>
-	</data>
-	<data name="NoCache.Text">
-		<value>NoCache</value>
-	</data>
-	<data name="Private.Text">
-		<value>Private</value>
-	</data>
-	<data name="Public.Text">
-		<value>Public</value>
-	</data>
-	<data name="Server.Text">
-		<value>Server</value>
-	</data>
-	<data name="ServerAndNoCache.Text">
-		<value>ServerAndNoCache</value>
-	</data>
-	<data name="ServerAndPrivate.Text">
-		<value>ServerAndPrivate</value>
-	</data>
-	<data name="plUpgrade.Text">
-		<value>Check For Upgrades?</value>
-	</data>
-	<data name="plUpgrade.Help">
-		<value>Select this option if you would like the application to check if there are upgrades available.</value>
-	</data>
-	<data name="FriendlyUrl.Text">
-		<value>Friendly Url Settings</value>
-	</data>
-	<data name="plAvailable.Text">
-		<value>Upgrade Available?</value>
-	</data>
-	<data name="plAvailable.Help">
-		<value>Displays an icon if a new version of the application is available</value>
-	</data>
-	<data name="plLog.Text">
-		<value>View Upgrade Log For Version:</value>
-	</data>
-	<data name="plLog.Help">
-		<value>Allows you to view the database upgrade log for a specific version</value>
-	</data>
-	<data name="cmdRestart.Text">
-		<value>Restart Application</value>
-	</data>
-	<data name="plAutoSync.Text">
-		<value>Auto-Sync File System?</value>
-	</data>
-	<data name="plAutoSync.Help">
-		<value>Check this box to automatically synchronize the file system.</value>
-	</data>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Configuration.Text" xml:space="preserve">
+    <value>Site Configuration</value>
+  </data>
+  <data name="plVersion.Text" xml:space="preserve">
+    <value>DotNetNuke Version:</value>
+  </data>
+  <data name="plDataProvider.Text" xml:space="preserve">
+    <value>Data Provider:</value>
+  </data>
+  <data name="plFramework.Text" xml:space="preserve">
+    <value>.NET Framework:</value>
+  </data>
+  <data name="plIdentity.Text" xml:space="preserve">
+    <value>ASP.NET Identity:</value>
+  </data>
+  <data name="plHostName.Text" xml:space="preserve">
+    <value>Host Name:</value>
+  </data>
+  <data name="plVersion.Help" xml:space="preserve">
+    <value>The DotNetNuke application version you are running</value>
+  </data>
+  <data name="plDataProvider.Help" xml:space="preserve">
+    <value>The provider name which is identified as the default data provider in the web.config file</value>
+  </data>
+  <data name="plFramework.Help" xml:space="preserve">
+    <value>The .NET Framework version which the application is running on - specified through IIS</value>
+  </data>
+  <data name="plIdentity.Help" xml:space="preserve">
+    <value>The Windows user account under which the application is running. This is the account which needs to be granted folder permissions on the server.</value>
+  </data>
+  <data name="plHostName.Help" xml:space="preserve">
+    <value>The Host Name of the site.</value>
+  </data>
+  <data name="plHostPortal.Text" xml:space="preserve">
+    <value>Host Portal:</value>
+  </data>
+  <data name="plHostTitle.Text" xml:space="preserve">
+    <value>Host Title:</value>
+  </data>
+  <data name="plHostURL.Text" xml:space="preserve">
+    <value>Host URL:</value>
+  </data>
+  <data name="plHostEmail.Text" xml:space="preserve">
+    <value>Host Email:</value>
+  </data>
+  <data name="plHostSkin.Text" xml:space="preserve">
+    <value>Host Skin:</value>
+  </data>
+  <data name="plHostContainer.Text" xml:space="preserve">
+    <value>Host Container:</value>
+  </data>
+  <data name="plAdminSkin.Text" xml:space="preserve">
+    <value>Admin Skin:</value>
+  </data>
+  <data name="plAdminContainer.Text" xml:space="preserve">
+    <value>Admin Container:</value>
+  </data>
+  <data name="plProcessor.Text" xml:space="preserve">
+    <value>Payment Processor:</value>
+  </data>
+  <data name="plUserId.Text" xml:space="preserve">
+    <value>Processor UserId:</value>
+  </data>
+  <data name="plPassword.Text" xml:space="preserve">
+    <value>Processor Password:</value>
+  </data>
+  <data name="plHostFee.Text" xml:space="preserve">
+    <value>Hosting Fee:</value>
+  </data>
+  <data name="plHostCurrency.Text" xml:space="preserve">
+    <value>Hosting Currency:</value>
+  </data>
+  <data name="plHostSpace.Text" xml:space="preserve">
+    <value>Hosting Space (MB):</value>
+  </data>
+  <data name="plDemoPeriod.Text" xml:space="preserve">
+    <value>Demo Period (Days):</value>
+  </data>
+  <data name="plDemoSignup.Text" xml:space="preserve">
+    <value>Anonymous Demo Signup?</value>
+  </data>
+  <data name="plSiteLogBuffer.Text" xml:space="preserve">
+    <value>Site Log Buffer (Items):</value>
+  </data>
+  <data name="plSiteLogHistory.Text" xml:space="preserve">
+    <value>Site Log History (Days):</value>
+  </data>
+  <data name="plUsersOnline.Text" xml:space="preserve">
+    <value>Disable Users Online?</value>
+  </data>
+  <data name="plUsersOnlineTime.Text" xml:space="preserve">
+    <value>Users Online Time (Minutes):</value>
+  </data>
+  <data name="plProxyServer.Text" xml:space="preserve">
+    <value>Proxy Server:</value>
+  </data>
+  <data name="plProxyPort.Text" xml:space="preserve">
+    <value>Proxy Port:</value>
+  </data>
+  <data name="plProxyUsername.Text" xml:space="preserve">
+    <value>Proxy Username:</value>
+  </data>
+  <data name="plProxyPassword.Text" xml:space="preserve">
+    <value>Proxy Password:</value>
+  </data>
+  <data name="plWebRequestTimeout.Text" xml:space="preserve">
+    <value>Web Request Timeout:</value>
+  </data>
+  <data name="plSMTPServer.Text" xml:space="preserve">
+    <value>SMTP Server:</value>
+  </data>
+  <data name="EmailTest.Text" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="plSMTPAuthentication.Text" xml:space="preserve">
+    <value>SMTP Authentication:</value>
+  </data>
+  <data name="plSMTPUsername.Text" xml:space="preserve">
+    <value>SMTP Username:</value>
+  </data>
+  <data name="plSMTPPassword.Text" xml:space="preserve">
+    <value>SMTP Password:</value>
+  </data>
+  <data name="plSMTPEnableSSL.Text" xml:space="preserve">
+    <value>SMTP Enable SSL:</value>
+  </data>
+  <data name="plSMTPEnableSSL.Help" xml:space="preserve">
+    <value>Used for SMTP services that require secure connection (usually not needed)</value>
+  </data>
+  <data name="plFileExtensions.Text" xml:space="preserve">
+    <value>File Upload Extensions:</value>
+  </data>
+  <data name="plSkinUpload.Text" xml:space="preserve">
+    <value>Skin Upload Permission:</value>
+  </data>
+  <data name="plCache.Text" xml:space="preserve">
+    <value>Cache Timeout (seconds):</value>
+  </data>
+  <data name="ClearCache.Text" xml:space="preserve">
+    <value>Clear Cache</value>
+  </data>
+  <data name="plCopyright.Text" xml:space="preserve">
+    <value>Show Copyright Credits?</value>
+  </data>
+  <data name="plUseCustomErrorMessages.Text" xml:space="preserve">
+    <value>Use Custom Error Messages?</value>
+  </data>
+  <data name="UpgradeLog.Text" xml:space="preserve">
+    <value>Upgrade Log For Version</value>
+  </data>
+  <data name="EmailSentMessage.Text" xml:space="preserve">
+    <value>Email Sent Successfully</value>
+  </data>
+  <data name="SpecifyHostEmailMessage.Text" xml:space="preserve">
+    <value>You Must Specify The Host Email Address</value>
+  </data>
+  <data name="plSchedulerMode.Text" xml:space="preserve">
+    <value>Scheduler Mode:</value>
+  </data>
+  <data name="plSchedulerMode.Help" xml:space="preserve">
+    <value>The Timer Method maintains a separate thread to execute scheduled tasks while the worker process is alive. Alternatively, the Request Method executes tasks when HTTP Requests are made.  You can also disable the scheduler by selecting Disabled.</value>
+  </data>
+  <data name="Disabled.Text" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="TimerMethod.Text" xml:space="preserve">
+    <value>Timer Method</value>
+  </data>
+  <data name="RequestMethod.Text" xml:space="preserve">
+    <value>Request Method</value>
+  </data>
+  <data name="15Seconds.Text" xml:space="preserve">
+    <value>15 Seconds</value>
+  </data>
+  <data name="30Seconds.Text" xml:space="preserve">
+    <value>30 Seconds</value>
+  </data>
+  <data name="45Seconds.Text" xml:space="preserve">
+    <value>45 Seconds</value>
+  </data>
+  <data name="60Seconds.Text" xml:space="preserve">
+    <value>60 Seconds</value>
+  </data>
+  <data name="plPerformance.Text" xml:space="preserve">
+    <value>Performance Setting:</value>
+  </data>
+  <data name="HeavyCaching.Text" xml:space="preserve">
+    <value>Heavy Caching</value>
+  </data>
+  <data name="ModerateCaching.Text" xml:space="preserve">
+    <value>Moderate Caching</value>
+  </data>
+  <data name="LightCaching.Text" xml:space="preserve">
+    <value>Light Caching</value>
+  </data>
+  <data name="NoCaching.Text" xml:space="preserve">
+    <value>No Caching</value>
+  </data>
+  <data name="BasicSettingsHelp.Text" xml:space="preserve">
+    <value>Enter basic settings for your Hosting Account</value>
+  </data>
+  <data name="BasicSettings.Text" xml:space="preserve">
+    <value>Basic Settings</value>
+  </data>
+  <data name="HostDetails.Text" xml:space="preserve">
+    <value>Host Details</value>
+  </data>
+  <data name="plHostTitle.Help" xml:space="preserve">
+    <value>Enter the name of your Hosting Account</value>
+  </data>
+  <data name="plHostURL.Help" xml:space="preserve">
+    <value>Enter the url of your Hosting Account</value>
+  </data>
+  <data name="plHostEmail.Help" xml:space="preserve">
+    <value>Enter a support email adress for your Hosting Account</value>
+  </data>
+  <data name="plHostSkin.Help" xml:space="preserve">
+    <value>Select the default skin to use for your sites</value>
+  </data>
+  <data name="plHostContainer.Help" xml:space="preserve">
+    <value>Select the default container to use for your sites</value>
+  </data>
+  <data name="plAdminSkin.Help" xml:space="preserve">
+    <value>Select the default admin skin to use for your sites</value>
+  </data>
+  <data name="plAdminContainer.Help" xml:space="preserve">
+    <value>Select the default admin container to use for your sites</value>
+  </data>
+  <data name="Appearance.Text" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="Payment.Text" xml:space="preserve">
+    <value>Payment Settings</value>
+  </data>
+  <data name="Proxy.Text" xml:space="preserve">
+    <value>Proxy Settings</value>
+  </data>
+  <data name="SMTP.Text" xml:space="preserve">
+    <value>SMTP Server Settings</value>
+  </data>
+  <data name="AdvancedSettings.Text" xml:space="preserve">
+    <value>Advanced Settings</value>
+  </data>
+  <data name="AdvancedSettingsHelp.Text" xml:space="preserve">
+    <value>Enter advanced settings for your Hosting Account</value>
+  </data>
+  <data name="Other.Text" xml:space="preserve">
+    <value>Other Settings</value>
+  </data>
+  <data name="plCopyright.Help" xml:space="preserve">
+    <value>Select this to show the DotNetNuke copyright credits</value>
+  </data>
+  <data name="plUseCustomErrorMessages.Help" xml:space="preserve">
+    <value>Select this to use Custom Error Messages</value>
+  </data>
+  <data name="plProcessor.Help" xml:space="preserve">
+    <value>Select a Payment processor for accepting payments from Client sites</value>
+  </data>
+  <data name="plUserId.Help" xml:space="preserve">
+    <value>Enter your UserId for the Payment Processor</value>
+  </data>
+  <data name="plPassword.Help" xml:space="preserve">
+    <value>Enter your Pasword for the Payment Processor</value>
+  </data>
+  <data name="plHostFee.Help" xml:space="preserve">
+    <value>Enter the base fee for site hosting</value>
+  </data>
+  <data name="plHostCurrency.Help" xml:space="preserve">
+    <value>Select the currency for your fees</value>
+  </data>
+  <data name="plDemoPeriod.Help" xml:space="preserve">
+    <value>Enter the number of days for a demo trial account</value>
+  </data>
+  <data name="plDemoSignup.Help" xml:space="preserve">
+    <value>Select whether you will allow users to signup for a demo</value>
+  </data>
+  <data name="plHostSpace.Help" xml:space="preserve">
+    <value>Enter the amount of file space allowed for an account</value>
+  </data>
+  <data name="plSMTPServer.Help" xml:space="preserve">
+    <value>Enter the SMTP Server Address, you can also specify an alternate port by adding a colon and the port number (e.g. smtp.googlemail.com:587)</value>
+  </data>
+  <data name="plSMTPAuthentication.Help" xml:space="preserve">
+    <value>Enter the SMTP Server Authentication method ( default = Anonymous )</value>
+  </data>
+  <data name="SMTPAnonymous.Text" xml:space="preserve">
+    <value>Anonymous</value>
+  </data>
+  <data name="SMTPBasic.Text" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="SMTPNTLM.Text" xml:space="preserve">
+    <value>NTLM</value>
+  </data>
+  <data name="plSMTPUsername.Help" xml:space="preserve">
+    <value>Enter the Username for the SMTP Server</value>
+  </data>
+  <data name="plSMTPPassword.Help" xml:space="preserve">
+    <value>Enter the Password for the SMTP Server</value>
+  </data>
+  <data name="plControlPanel.Text" xml:space="preserve">
+    <value>Control Panel:</value>
+  </data>
+  <data name="plControlPanel.Help" xml:space="preserve">
+    <value>You can specify an alternative control to use for Page Administration</value>
+  </data>
+  <data name="plFileExtensions.Help" xml:space="preserve">
+    <value>Enter the allowable file extensions (separated by commas)</value>
+  </data>
+  <data name="plSkinUpload.Help" xml:space="preserve">
+    <value>Select whether Skin Upload is restricted to the "Host" Account or can be done by Site Administrators</value>
+  </data>
+  <data name="Host.Text" xml:space="preserve">
+    <value>Host</value>
+  </data>
+  <data name="Portal.Text" xml:space="preserve">
+    <value>Portal</value>
+  </data>
+  <data name="plCache.Help" xml:space="preserve">
+    <value>Set the length of time that objects remain in the cache</value>
+  </data>
+  <data name="plPerformance.Help" xml:space="preserve">
+    <value>Select how to optimize performance.</value>
+  </data>
+  <data name="plProxyServer.Help" xml:space="preserve">
+    <value>Enter the Proxy Server Address</value>
+  </data>
+  <data name="plProxyPort.Help" xml:space="preserve">
+    <value>Enter the Proxy Server Port</value>
+  </data>
+  <data name="plProxyUsername.Help" xml:space="preserve">
+    <value>Enter the User Name for the Proxy Server</value>
+  </data>
+  <data name="plProxyPassword.Help" xml:space="preserve">
+    <value>Enter the Password for the Proxy Server</value>
+  </data>
+  <data name="plWebRequestTimeout.Help" xml:space="preserve">
+    <value>Enter a time out value for a Web Request</value>
+  </data>
+  <data name="plSiteLogBuffer.Help" xml:space="preserve">
+    <value>Enter the number of Items in the Site Log Buffer</value>
+  </data>
+  <data name="plSiteLogHistory.Help" xml:space="preserve">
+    <value>Enter the number of Days of activity to keep in the Site Log</value>
+  </data>
+  <data name="plUsersOnline.Help" xml:space="preserve">
+    <value>You can optionally disable the Users Online feature</value>
+  </data>
+  <data name="plUsersOnlineTime.Help" xml:space="preserve">
+    <value>Enter the length of the Users Online Buffer</value>
+  </data>
+  <data name="plUseFriendlyUrls.Text" xml:space="preserve">
+    <value>Use Friendly Urls?</value>
+  </data>
+  <data name="plUseFriendlyUrls.Help" xml:space="preserve">
+    <value>Check to enable search engine friendly urls.</value>
+  </data>
+  <data name="plHostPortal.Help" xml:space="preserve">
+    <value>Select the default portal</value>
+  </data>
+  <data name="ControlTitle_.Text" xml:space="preserve">
+    <value>Host Settings</value>
+  </data>
+  <data name="SkinUpload.Text" xml:space="preserve">
+    <value>Upload Skin</value>
+  </data>
+  <data name="ContainerUpload.Text" xml:space="preserve">
+    <value>Upload Container</value>
+  </data>
+  <data name="plSiteLogStorage.Text" xml:space="preserve">
+    <value>Site Log Storage:</value>
+  </data>
+  <data name="plSiteLogStorage.Help" xml:space="preserve">
+    <value>Select the storage location for the Site Log</value>
+  </data>
+  <data name="Database.Text" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="FileSystem.Text" xml:space="preserve">
+    <value>File System</value>
+  </data>
+  <data name="ModuleHelp.Text" xml:space="preserve">
+    <value>&lt;h1&gt;About Host Settings&lt;/h1&gt;&lt;p&gt;The Super User can manage the configuration settings which apply to the entire site.&lt;/p&gt;</value>
+  </data>
+  <data name="plLogBuffer.Text" xml:space="preserve">
+    <value>Enable Event Log Buffer?</value>
+  </data>
+  <data name="plLogBuffer.Help" xml:space="preserve">
+    <value>Checking this will cause log entries to be logged to memory and then purged regularly to the data store.  Unchecking it will cause log entries to be written immediately.</value>
+  </data>
+  <data name="plAutoAccountUnlock.Text" xml:space="preserve">
+    <value>Auto-Unlock Accounts After (Minutes):</value>
+  </data>
+  <data name="plAutoAccountUnlock.Help" xml:space="preserve">
+    <value>After an account is locked out due to unsuccessful login attempts, it can be automatically unlocked with a successful authentication after a certain period of time has elapsed.  Enter the number of minutes to wait until the account can be automatically unlocked.  Enter "0" to disable the auto-unlock feature.</value>
+  </data>
+  <data name="plCacheMethod.Text" xml:space="preserve">
+    <value>Module Caching Method:</value>
+  </data>
+  <data name="plCacheMethod.Help" xml:space="preserve">
+    <value>Memory caching provides the most flexibility and is the highest performance method however it also consumes the most system resources. Disk caching is the least expensive on resources but does not offer any flexibility.</value>
+  </data>
+  <data name="Memory.Text" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="Disk.Text" xml:space="preserve">
+    <value>Disk</value>
+  </data>
+  <data name="ProcessorWebSite.Text" xml:space="preserve">
+    <value>Go To Payment Processor WebSite</value>
+  </data>
+  <data name="plHelpUrl.Text" xml:space="preserve">
+    <value>Help URL:</value>
+  </data>
+  <data name="plHelpUrl.Help" xml:space="preserve">
+    <value>Enter the URL for the Online Help you will be providing.  If you leave the entry blank then no Online Help will be offered for the Admin/Host areas of DotNetNuke.</value>
+  </data>
+  <data name="plEnableHelp.Text" xml:space="preserve">
+    <value>Enable Module Online Help:</value>
+  </data>
+  <data name="plEnableHelp.Help" xml:space="preserve">
+    <value>You can enable or disable the Online Help Action Menu for Modules.  If enabled, you will need to provide the Help Url for the module, in the Module Definitions, although this may have been provided by the developer of the module.</value>
+  </data>
+  <data name="plCacheability.Text" xml:space="preserve">
+    <value>Authenticated Cacheability:</value>
+  </data>
+  <data name="plCacheability.Help" xml:space="preserve">
+    <value>Sets the Cache-Control HTTP header value for authenticated users.</value>
+  </data>
+  <data name="NoCache.Text" xml:space="preserve">
+    <value>NoCache</value>
+  </data>
+  <data name="Private.Text" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="Public.Text" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="Server.Text" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="ServerAndNoCache.Text" xml:space="preserve">
+    <value>ServerAndNoCache</value>
+  </data>
+  <data name="ServerAndPrivate.Text" xml:space="preserve">
+    <value>ServerAndPrivate</value>
+  </data>
+  <data name="plUpgrade.Text" xml:space="preserve">
+    <value>Check For Upgrades?</value>
+  </data>
+  <data name="plUpgrade.Help" xml:space="preserve">
+    <value>Select this option if you would like the application to check if there are upgrades available.</value>
+  </data>
+  <data name="FriendlyUrl.Text" xml:space="preserve">
+    <value>Friendly Url Settings</value>
+  </data>
+  <data name="plAvailable.Text" xml:space="preserve">
+    <value>Upgrade Available?</value>
+  </data>
+  <data name="plAvailable.Help" xml:space="preserve">
+    <value>Displays an icon if a new version of the application is available</value>
+  </data>
+  <data name="plLog.Text" xml:space="preserve">
+    <value>View Upgrade Log For Version:</value>
+  </data>
+  <data name="plLog.Help" xml:space="preserve">
+    <value>Allows you to view the database upgrade log for a specific version</value>
+  </data>
+  <data name="cmdRestart.Text" xml:space="preserve">
+    <value>Restart Application</value>
+  </data>
+  <data name="plAutoSync.Text" xml:space="preserve">
+    <value>Auto-Sync File System?</value>
+  </data>
+  <data name="plAutoSync.Help" xml:space="preserve">
+    <value>Check this box to automatically synchronize the file system.</value>
+  </data>
+  <data name="plPageQuota.Help" xml:space="preserve">
+    <value>You can specify a maximum number of pages per portal.</value>
+  </data>
+  <data name="plPageQuota.Text" xml:space="preserve">
+    <value>Page Quota:</value>
+  </data>
+  <data name="plUserQuota.Help" xml:space="preserve">
+    <value>You can specify a maximum number of users per portal.</value>
+  </data>
+  <data name="plUserQuota.Text" xml:space="preserve">
+    <value>User Quota:</value>
+  </data>
+  <data name="Deflate.Text" xml:space="preserve">
+    <value>Deflate Compression</value>
+  </data>
+  <data name="GZip.Text" xml:space="preserve">
+    <value>GZip Compression</value>
+  </data>
+  <data name="NoCompression.Text" xml:space="preserve">
+    <value>No Compression</value>
+  </data>
+  <data name="plCompression.Help" xml:space="preserve">
+    <value>Select the type of Http Compression to use.</value>
+  </data>
+  <data name="plCompression.Text" xml:space="preserve">
+    <value>Compression Setting:</value>
+  </data>
+  <data name="plCompressionLevel.Help" xml:space="preserve">
+    <value>Select the level of compression to use for the Deflate Algorithm (this is ignored if the GZip algorith is selected)</value>
+  </data>
+  <data name="Performance.Text" xml:space="preserve">
+    <value>Performance Settings</value>
+  </data>
+  <data name="plCompressionLevel.Text" xml:space="preserve">
+    <value>Compression Level (Deflate):</value>
+  </data>
+  <data name="Page.Text" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="plPageState.Help" xml:space="preserve">
+    <value>Select the mode to use to persist a page's state.  This can either be a hidden field on the Page (Default) or in Memory (Cache).</value>
+  </data>
+  <data name="plPageState.Text" xml:space="preserve">
+    <value>Page State Persistence:</value>
+  </data>
+  <data name="plWhitespace.Help" xml:space="preserve">
+    <value>Select this to remove excess white space from the response sent to the client - this will result in a smaller download (10-15%) but it will make the html less readable.</value>
+  </data>
+  <data name="plWhitespace.Text" xml:space="preserve">
+    <value>Use Whitespace Filter:</value>
+  </data>
+  <data name="Compression.Text" xml:space="preserve">
+    <value>Compression Settings</value>
+  </data>
+  <data name="plExcludedMimeTypes.Text" xml:space="preserve">
+    <value>Excluded Mime Types:</value>
+  </data>
+  <data name="plExcludedMimeTypes.Help" xml:space="preserve">
+    <value>Enter a list of excluded Mime Types.</value>
+  </data>
+  <data name="plExcludedPaths.Text" xml:space="preserve">
+    <value>Excluded Paths:</value>
+  </data>
+  <data name="plExcludedPaths.Help" xml:space="preserve">
+    <value>Enter a list of excluded Paths.</value>
+  </data>
+  <data name="plWhitespaceFilter.Text" xml:space="preserve">
+    <value>Whitespace Filter:</value>
+  </data>
+  <data name="plWhitespaceFilter.Help" xml:space="preserve">
+    <value>Enter a Regular Expression filter for removing whitespace.</value>
+  </data>
 </root>

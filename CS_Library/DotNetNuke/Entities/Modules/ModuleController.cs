@@ -19,6 +19,7 @@
 #endregion
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
@@ -46,12 +47,11 @@ namespace DotNetNuke.Entities.Modules
                     ModulePermissionController objModulePermissionController = new ModulePermissionController();
                     ModulePermissionCollection objModulePermissions;
                     objModulePermissions = objModule.ModulePermissions;
-                    ModulePermissionInfo objModulePermission = new ModulePermissionInfo();
-                    foreach( ModulePermissionInfo tempLoopVar_objModulePermission in objModulePermissions )
+                    
+                    foreach( ModulePermissionInfo objModulePermission in objModulePermissions )
                     {
-                        objModulePermission = tempLoopVar_objModulePermission;
                         objModulePermission.ModuleID = objModule.ModuleID;
-                        objModulePermissionController.AddModulePermission( objModulePermission );
+                        objModulePermissionController.AddModulePermission( objModulePermission, objModule.TabID );
                     }
                 }
             }
@@ -77,401 +77,158 @@ namespace DotNetNuke.Entities.Modules
             {
                 // module already in the page, ignore error
             }
-
+            ClearCache( objModule.TabID );
             return objModule.ModuleID;
         }
 
-        private ModuleInfo FillModuleInfo( IDataReader dr )
+        private static void ClearCache(int TabId)
         {
-            return FillModuleInfo( dr, true, true );
+            DataCache.ClearModuleCache(TabId);
         }
 
-        private ModuleInfo FillModuleInfo( IDataReader dr, bool CheckForOpenDataReader )
+        private ModuleInfo FillModuleInfo(IDataReader dr)
         {
-            return FillModuleInfo( dr, CheckForOpenDataReader, true );
+            return FillModuleInfo(dr, true, true);
         }
 
-        private ModuleInfo FillModuleInfo( IDataReader dr, bool CheckForOpenDataReader, bool IncludePermissions )
+        private ModuleInfo FillModuleInfo(IDataReader dr, bool CheckForOpenDataReader)
+        {
+            return FillModuleInfo(dr, CheckForOpenDataReader, true);
+        }
+
+        private ModuleInfo FillModuleInfo(IDataReader dr, bool CheckForOpenDataReader, bool IncludePermissions)
         {
             ModuleInfo objModuleInfo = new ModuleInfo();
             ModulePermissionController objModulePermissionController = new ModulePermissionController();
             // read datareader
-            bool doContinue = true;
+            bool canContinue = true;
 
-            if( CheckForOpenDataReader )
+            if (CheckForOpenDataReader)
             {
-                doContinue = false;
-                if( dr.Read() )
+                canContinue = false;
+                if (dr.Read())
                 {
-                    doContinue = true;
+                    canContinue = true;
                 }
             }
-            if( doContinue )
+            if (canContinue)
             {
-                try
+                objModuleInfo.PortalID = Convert.ToInt32(Null.SetNull(dr["PortalID"], objModuleInfo.PortalID));
+                objModuleInfo.TabID = Convert.ToInt32(Null.SetNull(dr["TabID"], objModuleInfo.TabID));
+                objModuleInfo.TabModuleID = Convert.ToInt32(Null.SetNull(dr["TabModuleID"], objModuleInfo.TabModuleID));
+                objModuleInfo.ModuleID = Convert.ToInt32(Null.SetNull(dr["ModuleID"], objModuleInfo.ModuleID));
+                objModuleInfo.ModuleDefID = Convert.ToInt32(Null.SetNull(dr["ModuleDefID"], objModuleInfo.ModuleDefID));
+                objModuleInfo.ModuleOrder = Convert.ToInt32(Null.SetNull(dr["ModuleOrder"], objModuleInfo.ModuleOrder));
+                objModuleInfo.PaneName = Convert.ToString(Null.SetNull(dr["PaneName"], objModuleInfo.PaneName));
+                objModuleInfo.ModuleTitle = Convert.ToString(Null.SetNull(dr["ModuleTitle"], objModuleInfo.ModuleTitle));
+                objModuleInfo.CacheTime = Convert.ToInt32(Null.SetNull(dr["CacheTime"], objModuleInfo.CacheTime));
+                objModuleInfo.Alignment = Convert.ToString(Null.SetNull(dr["Alignment"], objModuleInfo.Alignment));
+                objModuleInfo.Color = Convert.ToString(Null.SetNull(dr["Color"], objModuleInfo.Color));
+                objModuleInfo.Border = Convert.ToString(Null.SetNull(dr["Border"], objModuleInfo.Border));
+                objModuleInfo.IconFile = Convert.ToString(Null.SetNull(dr["IconFile"], objModuleInfo.IconFile));
+                objModuleInfo.AllTabs = Convert.ToBoolean(Null.SetNull(dr["AllTabs"], objModuleInfo.AllTabs));
+                int intVisibility = 0;
+                if (((Convert.ToInt32(Null.SetNull(dr["Visibility"], intVisibility))) == 0) || ((Convert.ToInt32(Null.SetNull(dr["Visibility"], intVisibility))) == Null.NullInteger))
                 {
-                    objModuleInfo.PortalID = Convert.ToInt32( Null.SetNull( dr["PortalID"], objModuleInfo.PortalID ) );
+                    objModuleInfo.Visibility = VisibilityState.Maximized;
                 }
-                catch
+                else if ((Convert.ToInt32(Null.SetNull(dr["Visibility"], intVisibility))) == 1)
                 {
+                    objModuleInfo.Visibility = VisibilityState.Minimized;
                 }
-                try
+                else if ((Convert.ToInt32(Null.SetNull(dr["Visibility"], intVisibility))) == 2)
                 {
-                    objModuleInfo.TabID = Convert.ToInt32( Null.SetNull( dr["TabID"], objModuleInfo.TabID ) );
+                    objModuleInfo.Visibility = VisibilityState.None;
                 }
-                catch
+                objModuleInfo.IsDeleted = Convert.ToBoolean(Null.SetNull(dr["IsDeleted"], objModuleInfo.IsDeleted));
+                objModuleInfo.Header = Convert.ToString(Null.SetNull(dr["Header"], objModuleInfo.Header));
+                objModuleInfo.Footer = Convert.ToString(Null.SetNull(dr["Footer"], objModuleInfo.Footer));
+                objModuleInfo.StartDate = Convert.ToDateTime(Null.SetNull(dr["StartDate"], objModuleInfo.StartDate));
+                objModuleInfo.EndDate = Convert.ToDateTime(Null.SetNull(dr["EndDate"], objModuleInfo.EndDate));
+                objModuleInfo.ContainerSrc = Convert.ToString(Null.SetNull(dr["ContainerSrc"], objModuleInfo.ContainerSrc));
+                objModuleInfo.DisplayTitle = Convert.ToBoolean(Null.SetNull(dr["DisplayTitle"], objModuleInfo.DisplayTitle));
+                objModuleInfo.DisplayPrint = Convert.ToBoolean(Null.SetNull(dr["DisplayPrint"], objModuleInfo.DisplayPrint));
+                objModuleInfo.DisplaySyndicate = Convert.ToBoolean(Null.SetNull(dr["DisplaySyndicate"], objModuleInfo.DisplaySyndicate));
+                objModuleInfo.InheritViewPermissions = Convert.ToBoolean(Null.SetNull(dr["InheritViewPermissions"], objModuleInfo.InheritViewPermissions));
+                objModuleInfo.DesktopModuleID = Convert.ToInt32(Null.SetNull(dr["DesktopModuleID"], objModuleInfo.DesktopModuleID));
+                objModuleInfo.FriendlyName = Convert.ToString(Null.SetNull(dr["FriendlyName"], objModuleInfo.FriendlyName));
+                objModuleInfo.Description = Convert.ToString(Null.SetNull(dr["Description"], objModuleInfo.Description));
+                objModuleInfo.Version = Convert.ToString(Null.SetNull(dr["Version"], objModuleInfo.Version));
+                objModuleInfo.IsPremium = Convert.ToBoolean(Null.SetNull(dr["IsPremium"], objModuleInfo.IsPremium));
+                objModuleInfo.IsAdmin = Convert.ToBoolean(Null.SetNull(dr["IsAdmin"], objModuleInfo.IsAdmin));
+                objModuleInfo.BusinessControllerClass = Convert.ToString(Null.SetNull(dr["BusinessControllerClass"], objModuleInfo.BusinessControllerClass));
+                objModuleInfo.SupportedFeatures = Convert.ToInt32(Null.SetNull(dr["SupportedFeatures"], objModuleInfo.SupportedFeatures));
+                objModuleInfo.ModuleControlId = Convert.ToInt32(Null.SetNull(dr["ModuleControlId"], objModuleInfo.ModuleControlId));
+                objModuleInfo.ControlSrc = Convert.ToString(Null.SetNull(dr["ControlSrc"], objModuleInfo.ControlSrc));
+                int intControlType = 0;
+                if ((Convert.ToInt32(Null.SetNull(dr["ControlType"], intControlType))) == -3)
                 {
+                    objModuleInfo.ControlType = SecurityAccessLevel.ControlPanel;
                 }
-                try
+                else if ((Convert.ToInt32(Null.SetNull(dr["ControlType"], intControlType))) == -2)
                 {
-                    objModuleInfo.TabModuleID = Convert.ToInt32( Null.SetNull( dr["TabModuleID"], objModuleInfo.TabModuleID ) );
+                    objModuleInfo.ControlType = SecurityAccessLevel.SkinObject;
                 }
-                catch
+                else if (((Convert.ToInt32(Null.SetNull(dr["ControlType"], intControlType))) == -1) || ((Convert.ToInt32(Null.SetNull(dr["ControlType"], intControlType))) == Null.NullInteger))
                 {
+                    objModuleInfo.ControlType = SecurityAccessLevel.Anonymous;
                 }
-                try
+                else if ((Convert.ToInt32(Null.SetNull(dr["ControlType"], intControlType))) == 0)
                 {
-                    objModuleInfo.ModuleID = Convert.ToInt32( Null.SetNull( dr["ModuleID"], objModuleInfo.ModuleID ) );
+                    objModuleInfo.ControlType = SecurityAccessLevel.View;
                 }
-                catch
+                else if ((Convert.ToInt32(Null.SetNull(dr["ControlType"], intControlType))) == 1)
                 {
+                    objModuleInfo.ControlType = SecurityAccessLevel.Edit;
                 }
-                try
+                else if ((Convert.ToInt32(Null.SetNull(dr["ControlType"], intControlType))) == 2)
                 {
-                    objModuleInfo.ModuleDefID = Convert.ToInt32( Null.SetNull( dr["ModuleDefID"], objModuleInfo.ModuleDefID ) );
+                    objModuleInfo.ControlType = SecurityAccessLevel.Admin;
                 }
-                catch
+                else if ((Convert.ToInt32(Null.SetNull(dr["ControlType"], intControlType))) == 3)
                 {
+                    objModuleInfo.ControlType = SecurityAccessLevel.Host;
                 }
-                try
-                {
-                    objModuleInfo.ModuleOrder = Convert.ToInt32( Null.SetNull( dr["ModuleOrder"], objModuleInfo.ModuleOrder ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.PaneName = Convert.ToString( Null.SetNull( dr["PaneName"], objModuleInfo.PaneName ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.ModuleTitle = Convert.ToString( Null.SetNull( dr["ModuleTitle"], objModuleInfo.ModuleTitle ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.CacheTime = Convert.ToInt32( Null.SetNull( dr["CacheTime"], objModuleInfo.CacheTime ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.Alignment = Convert.ToString( Null.SetNull( dr["Alignment"], objModuleInfo.Alignment ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.Color = Convert.ToString( Null.SetNull( dr["Color"], objModuleInfo.Color ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.Border = Convert.ToString( Null.SetNull( dr["Border"], objModuleInfo.Border ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.IconFile = Convert.ToString( Null.SetNull( dr["IconFile"], objModuleInfo.IconFile ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.AllTabs = Convert.ToBoolean( Null.SetNull( dr["AllTabs"], objModuleInfo.AllTabs ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    int intVisibility = 0;
-                    if( Convert.ToInt32( Null.SetNull( dr["Visibility"], intVisibility ) ) == 0 )
-                    {
-                        objModuleInfo.Visibility = VisibilityState.Maximized;
-                    }
-                    else if( Convert.ToInt32( Null.SetNull( dr["Visibility"], intVisibility ) ) == Null.NullInteger )
-                    {
-                        objModuleInfo.Visibility = VisibilityState.Maximized;
-                    }
-                    else if( Convert.ToInt32( Null.SetNull( dr["Visibility"], intVisibility ) ) == 1 )
-                    {
-                        objModuleInfo.Visibility = VisibilityState.Minimized;
-                    }
-                    else if( Convert.ToInt32( Null.SetNull( dr["Visibility"], intVisibility ) ) == 2 )
-                    {
-                        objModuleInfo.Visibility = VisibilityState.None;
-                    }
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.IsDeleted = Convert.ToBoolean( Null.SetNull( dr["IsDeleted"], objModuleInfo.IsDeleted ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.Header = Convert.ToString( Null.SetNull( dr["Header"], objModuleInfo.Header ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.Footer = Convert.ToString( Null.SetNull( dr["Footer"], objModuleInfo.Footer ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.StartDate = Convert.ToDateTime( Null.SetNull( dr["StartDate"], objModuleInfo.StartDate ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.EndDate = Convert.ToDateTime( Null.SetNull( dr["EndDate"], objModuleInfo.EndDate ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.ContainerSrc = Convert.ToString( Null.SetNull( dr["ContainerSrc"], objModuleInfo.ContainerSrc ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.DisplayTitle = Convert.ToBoolean( Null.SetNull( dr["DisplayTitle"], objModuleInfo.DisplayTitle ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.DisplayPrint = Convert.ToBoolean( Null.SetNull( dr["DisplayPrint"], objModuleInfo.DisplayPrint ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.DisplaySyndicate = Convert.ToBoolean( Null.SetNull( dr["DisplaySyndicate"], objModuleInfo.DisplaySyndicate ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.InheritViewPermissions = Convert.ToBoolean( Null.SetNull( dr["InheritViewPermissions"], objModuleInfo.InheritViewPermissions ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.DesktopModuleID = Convert.ToInt32( Null.SetNull( dr["DesktopModuleID"], objModuleInfo.DesktopModuleID ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.FriendlyName = Convert.ToString( Null.SetNull( dr["FriendlyName"], objModuleInfo.FriendlyName ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.Description = Convert.ToString( Null.SetNull( dr["Description"], objModuleInfo.Description ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.Version = Convert.ToString( Null.SetNull( dr["Version"], objModuleInfo.Version ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.IsPremium = Convert.ToBoolean( Null.SetNull( dr["IsPremium"], objModuleInfo.IsPremium ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.IsAdmin = Convert.ToBoolean( Null.SetNull( dr["IsAdmin"], objModuleInfo.IsAdmin ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.BusinessControllerClass = Convert.ToString( Null.SetNull( dr["BusinessControllerClass"], objModuleInfo.BusinessControllerClass ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.SupportedFeatures = Convert.ToInt32( Null.SetNull( dr["SupportedFeatures"], objModuleInfo.SupportedFeatures ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.ModuleControlId = Convert.ToInt32( Null.SetNull( dr["ModuleControlId"], objModuleInfo.ModuleControlId ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.ControlSrc = Convert.ToString( Null.SetNull( dr["ControlSrc"], objModuleInfo.ControlSrc ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    int intControlType = 0;
-                    if( Convert.ToInt32( Null.SetNull( dr["ControlType"], intControlType ) ) == -3 )
-                    {
-                        objModuleInfo.ControlType = SecurityAccessLevel.ControlPanel;
-                    }
-                    else if( Convert.ToInt32( Null.SetNull( dr["ControlType"], intControlType ) ) == -2 )
-                    {
-                        objModuleInfo.ControlType = SecurityAccessLevel.SkinObject;
-                    }
-                    else if( Convert.ToInt32( Null.SetNull( dr["ControlType"], intControlType ) ) == -1 )
-                    {
-                        objModuleInfo.ControlType = SecurityAccessLevel.Anonymous;
-                    }
-                    else if( Convert.ToInt32( Null.SetNull( dr["ControlType"], intControlType ) ) == Null.NullInteger )
-                    {
-                        objModuleInfo.ControlType = SecurityAccessLevel.Anonymous;
-                    }
-                    else if( Convert.ToInt32( Null.SetNull( dr["ControlType"], intControlType ) ) == 0 )
-                    {
-                        objModuleInfo.ControlType = SecurityAccessLevel.View;
-                    }
-                    else if( Convert.ToInt32( Null.SetNull( dr["ControlType"], intControlType ) ) == 1 )
-                    {
-                        objModuleInfo.ControlType = SecurityAccessLevel.Edit;
-                    }
-                    else if( Convert.ToInt32( Null.SetNull( dr["ControlType"], intControlType ) ) == 2 )
-                    {
-                        objModuleInfo.ControlType = SecurityAccessLevel.Admin;
-                    }
-                    else if( Convert.ToInt32( Null.SetNull( dr["ControlType"], intControlType ) ) == 3 )
-                    {
-                        objModuleInfo.ControlType = SecurityAccessLevel.Host;
-                    }
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.ControlTitle = Convert.ToString( Null.SetNull( dr["ControlTitle"], objModuleInfo.ControlTitle ) );
-                }
-                catch
-                {
-                }
-                try
-                {
-                    objModuleInfo.HelpUrl = Convert.ToString( Null.SetNull( dr["HelpUrl"], objModuleInfo.HelpUrl ) );
-                }
-                catch
-                {
-                }
+                objModuleInfo.ControlTitle = Convert.ToString(Null.SetNull(dr["ControlTitle"], objModuleInfo.ControlTitle));
+                objModuleInfo.HelpUrl = Convert.ToString(Null.SetNull(dr["HelpUrl"], objModuleInfo.HelpUrl));
 
-                if( IncludePermissions )
+                if (IncludePermissions)
                 {
-                    if( objModuleInfo != null )
+                    if (objModuleInfo != null)
                     {
                         //Get the Module permissions first (then we can parse the collection to determine the View/Edit Roles)
-                        try
+                        objModuleInfo.ModulePermissions = objModulePermissionController.GetModulePermissionsCollectionByModuleID(objModuleInfo.ModuleID, objModuleInfo.TabID);
+                        objModuleInfo.AuthorizedEditRoles = objModulePermissionController.GetModulePermissions(objModuleInfo.ModulePermissions, "EDIT");
+                        if (objModuleInfo.AuthorizedEditRoles == ";")
                         {
-                            objModuleInfo.ModulePermissions = objModulePermissionController.GetModulePermissionsCollectionByModuleID( objModuleInfo.ModuleID );
-                        }
-                        catch
-                        {
-                        }
-                        try
-                        {
-                            objModuleInfo.AuthorizedEditRoles = objModulePermissionController.GetModulePermissionsByModuleID( objModuleInfo, "EDIT" );
-                            if( objModuleInfo.AuthorizedEditRoles == ";" )
+                            // this code is here for legacy support - the AuthorizedEditRoles were stored as a concatenated list of roleids prior to DNN 3.0
+                            try
                             {
-                                // this code is here for legacy support - the AuthorizedEditRoles were stored as a concatenated list of roleids prior to DNN 3.0
-                                try
-                                {
-                                    objModuleInfo.AuthorizedEditRoles = Convert.ToString( Null.SetNull( dr["AuthorizedEditRoles"], objModuleInfo.AuthorizedEditRoles ) );
-                                }
-                                catch
-                                {
-                                    // the AuthorizedEditRoles field was removed from the Tabs table in 3.0
-                                }
+                                objModuleInfo.AuthorizedEditRoles = Convert.ToString(Null.SetNull(dr["AuthorizedEditRoles"], objModuleInfo.AuthorizedEditRoles));
+                            }
+                            catch
+                            {
+                                // the AuthorizedEditRoles field was removed from the Tabs table in 3.0
                             }
                         }
-                        catch
-                        {
-                        }
                         try
                         {
-                            if( objModuleInfo.InheritViewPermissions )
+                            if (objModuleInfo.InheritViewPermissions)
                             {
                                 TabPermissionController objTabPermissionController = new TabPermissionController();
-                                ArrayList arrTabPermissions = objTabPermissionController.GetTabPermissionsByPortal( objModuleInfo.PortalID );
-                                objModuleInfo.AuthorizedViewRoles = objTabPermissionController.GetTabPermissionsByTabID( arrTabPermissions, objModuleInfo.TabID, "VIEW" );
+                                TabPermissionCollection objTabPermissionCollection = objTabPermissionController.GetTabPermissionsCollectionByTabID(objModuleInfo.TabID, objModuleInfo.PortalID);
+                                objModuleInfo.AuthorizedViewRoles = objTabPermissionController.GetTabPermissions(objTabPermissionCollection, "VIEW");
                             }
                             else
                             {
-                                objModuleInfo.AuthorizedViewRoles = objModulePermissionController.GetModulePermissionsByModuleID( objModuleInfo, "VIEW" );
+                                objModuleInfo.AuthorizedViewRoles = objModulePermissionController.GetModulePermissions(objModuleInfo.ModulePermissions, "VIEW");
                             }
-                            if( objModuleInfo.AuthorizedViewRoles == ";" )
+                            if (objModuleInfo.AuthorizedViewRoles == ";")
                             {
                                 // this code is here for legacy support - the AuthorizedViewRoles were stored as a concatenated list of roleids prior to DNN 3.0
                                 try
                                 {
-                                    objModuleInfo.AuthorizedViewRoles = Convert.ToString( Null.SetNull( dr["AuthorizedViewRoles"], objModuleInfo.AuthorizedViewRoles ) );
+                                    objModuleInfo.AuthorizedViewRoles = Convert.ToString(Null.SetNull(dr["AuthorizedViewRoles"], objModuleInfo.AuthorizedViewRoles));
                                 }
                                 catch
                                 {
@@ -492,39 +249,67 @@ namespace DotNetNuke.Entities.Modules
             return objModuleInfo;
         }
 
-        internal ArrayList FillModuleInfoCollection( IDataReader dr )
+        private ArrayList FillModuleInfoCollection(IDataReader dr)
         {
-            return FillModuleInfoCollection( dr, true );
+            return FillModuleInfoCollection(dr, true);
         }
 
-        internal ArrayList FillModuleInfoCollection( IDataReader dr, bool IncludePermissions )
+        private ArrayList FillModuleInfoCollection(IDataReader dr, bool IncludePermissions)
         {
             ArrayList arr = new ArrayList();
             try
             {
-                ModuleInfo obj;
-                while( dr.Read() )
+                while (dr.Read())
                 {
                     // fill business object
-                    obj = FillModuleInfo( dr, false, IncludePermissions );
+                    ModuleInfo obj = FillModuleInfo(dr, false, IncludePermissions);
                     // add to collection
-                    arr.Add( obj );
+                    arr.Add(obj);
                 }
             }
-            catch( Exception exc )
+            catch (Exception exc)
             {
-                Exceptions.LogException( exc );
+                Exceptions.LogException(exc);
             }
             finally
             {
                 // close datareader
-                if( dr != null )
+                if (dr != null)
                 {
                     dr.Close();
                 }
             }
 
             return arr;
+        }
+
+        private Dictionary<int, ModuleInfo> FillModuleInfoDictionary(IDataReader dr)
+        {
+            Dictionary<int, ModuleInfo> dic = new Dictionary<int, ModuleInfo>();
+            try
+            {
+                while (dr.Read())
+                {
+                    // fill business object
+                    ModuleInfo obj = FillModuleInfo(dr, false, true);
+                    // add to dictionary
+                    dic.Add(obj.ModuleID, obj);
+                }
+            }
+            catch (Exception exc)
+            {
+                Exceptions.LogException(exc);
+            }
+            finally
+            {
+                // close datareader
+                if (dr != null)
+                {
+                    dr.Close();
+                }
+            }
+
+            return dic;
         }
 
         public ArrayList GetAllModules()
@@ -537,20 +322,33 @@ namespace DotNetNuke.Entities.Modules
             return FillModuleInfoCollection( DataProvider.Instance().GetAllTabsModules( PortalID, AllTabs ) );
         }
 
-        public ModuleInfo GetModule( int ModuleId, int TabId )
+        public ModuleInfo GetModule(int ModuleId, int TabId, bool ignoreCache)
         {
-            IDataReader dr = DataProvider.Instance().GetModule( ModuleId, TabId );
-            try
+            ModuleInfo modInfo = null;
+            bool bFound = false;
+            if (!ignoreCache)
             {
-                return FillModuleInfo( dr );
+                //First try the cache
+                Dictionary<int, ModuleInfo> dicModules = GetTabModules(TabId);
+                bFound = dicModules.TryGetValue(ModuleId, out modInfo);
             }
-            finally
+
+            if (ignoreCache | !bFound)
             {
-                if( dr != null )
+                IDataReader dr = DataProvider.Instance().GetModule(ModuleId, TabId);
+                try
                 {
-                    dr.Close();
+                    modInfo = FillModuleInfo(dr);
+                }
+                finally
+                {
+                    if (dr != null)
+                    {
+                        dr.Close();
+                    }
                 }
             }
+            return modInfo;
         }
 
         public ModuleInfo GetModuleByDefinition( int PortalId, string FriendlyName )
@@ -586,11 +384,9 @@ namespace DotNetNuke.Entities.Modules
 
         public Hashtable GetModuleSettings( int ModuleId )
         {
-            Hashtable objSettings;
+            string strCacheKey = "GetModuleSettings" + ModuleId;
 
-            string strCacheKey = "GetModuleSettings" + ModuleId.ToString();
-
-            objSettings = (Hashtable)DataCache.GetCache( strCacheKey );
+            Hashtable objSettings = (Hashtable)DataCache.GetCache( strCacheKey );
 
             if( objSettings == null )
             {
@@ -620,23 +416,41 @@ namespace DotNetNuke.Entities.Modules
             return objSettings;
         }
 
-        public ArrayList GetPortalTabModules( int PortalId, int TabId )
+
+        public ArrayList GetSearchModules(int PortalId)
         {
-            return FillModuleInfoCollection( DataProvider.Instance().GetPortalTabModules( PortalId, TabId ) );
+            return FillModuleInfoCollection(DataProvider.Instance().GetSearchModules(PortalId));
         }
 
-        public ArrayList GetSearchModules( int PortalId )
+        public Dictionary<int, ModuleInfo> GetTabModules(int TabId)
         {
-            return FillModuleInfoCollection( DataProvider.Instance().GetSearchModules( PortalId ) );
+            string key = string.Format(DataCache.TabModuleCacheKey, TabId);
+
+            //First Check the Tab Cache
+            Dictionary<int, ModuleInfo> modules = DataCache.GetCache(key) as Dictionary<int, ModuleInfo>;
+
+            if (modules == null)
+            {
+                //tabmodule caching settings
+                Int32 timeOut = DataCache.TabModuleCacheTimeOut * Convert.ToInt32(Globals.PerformanceSetting);
+
+                //Get modules form Database
+                modules = FillModuleInfoDictionary(DataProvider.Instance().GetTabModules(TabId));
+
+                //Cache tabs
+                if (timeOut > 0)
+                {
+                    DataCache.SetCache(key, modules, TimeSpan.FromMinutes(timeOut));
+                }
+            }
+            return modules;
         }
 
         public Hashtable GetTabModuleSettings( int TabModuleId )
         {
-            Hashtable objSettings;
+            string strCacheKey = "GetTabModuleSettings" + TabModuleId;
 
-            string strCacheKey = "GetTabModuleSettings" + TabModuleId.ToString();
-
-            objSettings = (Hashtable)DataCache.GetCache( strCacheKey );
+            Hashtable objSettings = (Hashtable)DataCache.GetCache( strCacheKey );
 
             if( objSettings == null )
             {
@@ -680,7 +494,7 @@ namespace DotNetNuke.Entities.Modules
         public void CopyModule( int moduleId, int fromTabId, int toTabId, string toPaneName, bool includeSettings )
         {
             //First Get the Module itself
-            ModuleInfo objModule = GetModule( moduleId, fromTabId );
+            ModuleInfo objModule = GetModule( moduleId, fromTabId, false );
 
             //If the Destination Pane Name is not set, assume the same name as the source
             if( toPaneName == "" )
@@ -697,7 +511,7 @@ namespace DotNetNuke.Entities.Modules
                 //Optionally copy the TabModuleSettings
                 if( includeSettings )
                 {
-                    ModuleInfo toModule = GetModule( moduleId, toTabId );
+                    ModuleInfo toModule = GetModule( moduleId, toTabId, false );
                     CopyTabModuleSettings( objModule, toModule );
                 }
             }
@@ -705,6 +519,9 @@ namespace DotNetNuke.Entities.Modules
             {
                 // module already in the page, ignore error
             }
+
+            ClearCache( fromTabId );
+            ClearCache( toTabId );
         }
 
         /// <summary>
@@ -719,16 +536,12 @@ namespace DotNetNuke.Entities.Modules
         ///	<param name="includeSettings">A flag to indicate whether the settings are copied to the new Tab</param>
         public void CopyModule( int moduleId, int fromTabId, ArrayList toTabs, bool includeSettings )
         {
-            int intTab;
-            TabInfo objTab;
-
             //Iterate through collection copying the module to each Tab (except the source)
-            for( intTab = 0; intTab <= toTabs.Count - 1; intTab++ )
+            foreach (TabInfo objTab in toTabs)
             {
-                objTab = (TabInfo)toTabs[intTab];
-                if( objTab.TabID != fromTabId )
+                if (objTab.TabID != fromTabId)
                 {
-                    CopyModule( moduleId, fromTabId, objTab.TabID, "", includeSettings );
+                    CopyModule(moduleId, fromTabId, objTab.TabID, "", includeSettings);
                 }
             }
         }
@@ -768,24 +581,22 @@ namespace DotNetNuke.Entities.Modules
         ///	<param name="deleteBaseModule">A flag to indicate whether to delete the Module itself</param>
         public void DeleteAllModules( int moduleId, int tabId, ArrayList fromTabs, bool includeCurrent, bool deleteBaseModule )
         {
-            int intTab;
-            TabInfo objTab;
-
             //Iterate through collection deleting the module from each Tab (except the current)
-            for( intTab = 0; intTab <= fromTabs.Count - 1; intTab++ )
+            foreach (TabInfo objTab in fromTabs)
             {
-                objTab = (TabInfo)fromTabs[intTab];
-                if( objTab.TabID != tabId || includeCurrent )
+                if (objTab.TabID != tabId | includeCurrent)
                 {
-                    DeleteTabModule( objTab.TabID, moduleId );
+                    DeleteTabModule(objTab.TabID, moduleId);
                 }
             }
 
             //Optionally delete the Module
-            if( includeCurrent && deleteBaseModule )
+            if (includeCurrent & deleteBaseModule)
             {
-                DeleteModule( moduleId );
+                DeleteModule(moduleId);
             }
+
+            ClearCache(tabId);
         }
 
         public void DeleteModule( int ModuleId )
@@ -799,19 +610,19 @@ namespace DotNetNuke.Entities.Modules
         public void DeleteModuleSetting( int ModuleId, string SettingName )
         {
             DataProvider.Instance().DeleteModuleSetting( ModuleId, SettingName );
-            DataCache.RemoveCache( "GetModuleSettings" + ModuleId.ToString() );
+            DataCache.RemoveCache( "GetModuleSettings" + ModuleId );
         }
 
         public void DeleteModuleSettings( int ModuleId )
         {
             DataProvider.Instance().DeleteModuleSettings( ModuleId );
-            DataCache.RemoveCache( "GetModuleSettings" + ModuleId.ToString() );
+            DataCache.RemoveCache( "GetModuleSettings" + ModuleId );
         }
 
         public void DeleteTabModule( int TabId, int ModuleId )
         {
             // save moduleinfo
-            ModuleInfo objModule = GetModule( ModuleId, TabId );
+            ModuleInfo objModule = GetModule( ModuleId, TabId, false );
 
             if( objModule != null )
             {
@@ -822,7 +633,7 @@ namespace DotNetNuke.Entities.Modules
                 UpdateTabModuleOrder( TabId, objModule.PortalID );
 
                 // check if all modules instances have been deleted
-                if( GetModule( ModuleId, Null.NullInteger ).TabID == Null.NullInteger )
+                if( GetModule( ModuleId, Null.NullInteger, true ).TabID == Null.NullInteger )
                 {
                     // soft delete the module
                     objModule.TabID = Null.NullInteger;
@@ -833,18 +644,19 @@ namespace DotNetNuke.Entities.Modules
                     DataProvider.Instance().DeleteSearchItems( ModuleId );
                 }
             }
+            ClearCache( TabId );
         }
 
         public void DeleteTabModuleSetting( int TabModuleId, string SettingName )
         {
             DataProvider.Instance().DeleteTabModuleSetting( TabModuleId, SettingName );
-            DataCache.RemoveCache( "GetTabModuleSettings" + TabModuleId.ToString() );
+            DataCache.RemoveCache( "GetTabModuleSettings" + TabModuleId );
         }
 
         public void DeleteTabModuleSettings( int TabModuleId )
         {
             DataProvider.Instance().DeleteTabModuleSettings( TabModuleId );
-            DataCache.RemoveCache( "GetTabModuleSettings" + TabModuleId.ToString() );
+            DataCache.RemoveCache( "GetTabModuleSettings" + TabModuleId );
         }
 
         /// <summary>
@@ -874,14 +686,12 @@ namespace DotNetNuke.Entities.Modules
             // update module permissions
             ModulePermissionController objModulePermissionController = new ModulePermissionController();
             ModulePermissionCollection objCurrentModulePermissions;
-            objCurrentModulePermissions = objModulePermissionController.GetModulePermissionsCollectionByModuleID( objModule.ModuleID );
+            objCurrentModulePermissions = objModulePermissionController.GetModulePermissionsCollectionByModuleID( objModule.ModuleID, objModule.TabID );
             if( !objCurrentModulePermissions.CompareTo( objModule.ModulePermissions ) )
             {
-                objModulePermissionController.DeleteModulePermissionsByModuleID( objModule.ModuleID );
-                ModulePermissionInfo objModulePermission;
-                foreach( ModulePermissionInfo tempLoopVar_objModulePermission in objModule.ModulePermissions )
+                objModulePermissionController.DeleteModulePermissionsByModuleID(objModule.ModuleID);
+                foreach( ModulePermissionInfo objModulePermission in objModule.ModulePermissions )
                 {
-                    objModulePermission = tempLoopVar_objModulePermission;
                     objModulePermission.ModuleID = objModule.ModuleID;
                     if( objModule.InheritViewPermissions && objModulePermission.PermissionKey == "VIEW" )
                     {
@@ -891,7 +701,7 @@ namespace DotNetNuke.Entities.Modules
                     {
                         if( objModulePermission.AllowAccess )
                         {
-                            objModulePermissionController.AddModulePermission( objModulePermission );
+                            objModulePermissionController.AddModulePermission( objModulePermission, objModule.TabID );
                         }
                     }
                 }
@@ -913,61 +723,57 @@ namespace DotNetNuke.Entities.Modules
                 }
 
                 // apply settings to all desktop modules in portal
-                if( objModule.AllModules )
+                if (objModule.AllModules)
                 {
-                    ArrayList arrModules;
-                    ModuleInfo objTargetModule;
                     TabController objTabs = new TabController();
-                    ArrayList arrTabs = objTabs.GetTabs( objModule.PortalID );
-                    TabInfo objTab;
-                    foreach( TabInfo tempLoopVar_objTab in arrTabs )
+                    foreach (KeyValuePair<int, TabInfo> tabPair in objTabs.GetTabsByPortal(objModule.PortalID))
                     {
-                        objTab = tempLoopVar_objTab;
-                        if( !objTab.IsAdminTab )
+                        TabInfo objTab = tabPair.Value;
+                        if (!objTab.IsAdminTab)
                         {
-                            arrModules = GetPortalTabModules( objTab.PortalID, objTab.TabID );
-                            foreach( ModuleInfo tempLoopVar_objTargetModule in arrModules )
+                            foreach (KeyValuePair<int, ModuleInfo> modulePair in GetTabModules(objTab.TabID))
                             {
-                                objTargetModule = tempLoopVar_objTargetModule;
-                                DataProvider.Instance().UpdateTabModule( objTargetModule.TabID, objTargetModule.ModuleID, objTargetModule.ModuleOrder, objTargetModule.PaneName, objModule.CacheTime, objModule.Alignment, objModule.Color, objModule.Border, objModule.IconFile, (int)objModule.Visibility, objModule.ContainerSrc, objModule.DisplayTitle, objModule.DisplayPrint, objModule.DisplaySyndicate );
+                                ModuleInfo objTargetModule = modulePair.Value;
+                                DataProvider.Instance().UpdateTabModule(objTargetModule.TabID, objTargetModule.ModuleID, objTargetModule.ModuleOrder, objTargetModule.PaneName, objModule.CacheTime, objModule.Alignment, objModule.Color, objModule.Border, objModule.IconFile, (int)objModule.Visibility, objModule.ContainerSrc, objModule.DisplayTitle, objModule.DisplayPrint, objModule.DisplaySyndicate);
                             }
                         }
                     }
                 }
             }
+            ClearCache( objModule.TabID );
         }
 
         public void UpdateModuleOrder( int TabId, int ModuleId, int ModuleOrder, string PaneName )
         {
-            ModuleInfo objModule = GetModule( ModuleId, TabId );
-            if( objModule != null )
+            ModuleInfo objModule = GetModule(ModuleId, TabId, false);
+            if (objModule != null)
             {
-                // adding a module to a new pane - places the module at the bottom of the pane
-                if( ModuleOrder == -1 )
+                // adding a module to a new pane - places the module at the bottom of the pane 
+                if (ModuleOrder == -1)
                 {
-                    IDataReader dr = DataProvider.Instance().GetTabModuleOrder( TabId, PaneName );
-                    while( dr.Read() )
+                    IDataReader dr = DataProvider.Instance().GetTabModuleOrder(TabId, PaneName);
+                    while (dr.Read())
                     {
-                        ModuleOrder = Convert.ToInt32( dr["ModuleOrder"] );
+                        ModuleOrder = Convert.ToInt32(dr["ModuleOrder"]);
                     }
                     dr.Close();
                     ModuleOrder += 2;
                 }
 
-                DataProvider.Instance().UpdateModuleOrder( TabId, ModuleId, ModuleOrder, PaneName );
+                DataProvider.Instance().UpdateModuleOrder(TabId, ModuleId, ModuleOrder, PaneName);
 
                 // clear cache
-                if( objModule.AllTabs == false )
+                if (objModule.AllTabs == false)
                 {
-                    DataCache.ClearTabCache( TabId, objModule.PortalID );
+                    ClearCache(TabId);
                 }
                 else
                 {
                     TabController objTabs = new TabController();
-                    TabInfo objTab = objTabs.GetTab( TabId );
-                    if( objTab != null )
+                    foreach (KeyValuePair<int, TabInfo> tabPair in objTabs.GetTabsByPortal(objModule.PortalID))
                     {
-                        DataCache.ClearPortalCache( objTab.PortalID, true );
+                        TabInfo objTab = tabPair.Value;
+                        ClearCache(objTab.TabID);
                     }
                 }
             }
@@ -987,16 +793,15 @@ namespace DotNetNuke.Entities.Modules
             }
             dr.Close();
 
-            DataCache.RemoveCache( "GetModuleSettings" + ModuleId.ToString() );
+            DataCache.RemoveCache( "GetModuleSettings" + ModuleId );
         }
 
         public void UpdateTabModuleOrder( int TabId, int PortalId )
         {
-            int ModuleCounter;
             IDataReader dr = DataProvider.Instance().GetTabPanes( TabId );
             while( dr.Read() )
             {
-                ModuleCounter = 0;
+                int ModuleCounter = 0;
                 IDataReader dr2 = DataProvider.Instance().GetTabModuleOrder( TabId, Convert.ToString( dr["PaneName"] ) );
                 while( dr2.Read() )
                 {
@@ -1007,18 +812,34 @@ namespace DotNetNuke.Entities.Modules
             }
             dr.Close();
 
-            // clear tab cache
-            DataCache.ClearTabCache( TabId, PortalId );
+            // clear module cache
+            ClearCache( TabId );
+        }
+
+        [Obsolete("")]
+        public ModuleInfo GetModule(int ModuleId, int TabId)
+        {
+            return GetModule(ModuleId, TabId, true);
+        }
+
+        [Obsolete("Use the new GetTabModules(int TabId)")]
+        public ArrayList GetPortalTabModules(int PortalId, int TabId)
+        {
+            ArrayList arr = new ArrayList();
+            foreach (KeyValuePair<int, ModuleInfo> kvp in GetTabModules(TabId))
+            {
+                arr.Add(kvp.Value);
+            }
+            return arr;
         }
 
         [Obsolete( "Use the new UpdateTabModuleOrder(tabid,portalid)" )]
         public void UpdateTabModuleOrder( int TabId )
         {
-            int ModuleCounter;
             IDataReader dr = DataProvider.Instance().GetTabPanes( TabId );
             while( dr.Read() )
             {
-                ModuleCounter = 0;
+                int ModuleCounter = 0;
                 IDataReader dr2 = DataProvider.Instance().GetTabModuleOrder( TabId, Convert.ToString( dr["PaneName"] ) );
                 while( dr2.Read() )
                 {
@@ -1029,10 +850,8 @@ namespace DotNetNuke.Entities.Modules
             }
             dr.Close();
 
-            // clear tab cache
-            TabController objTabs = new TabController();
-            TabInfo objTab = objTabs.GetTab( TabId );
-            DataCache.ClearTabCache( TabId, objTab.PortalID );
+            // clear module cache
+            DataCache.ClearModuleCache( TabId );
         }
 
         public void UpdateTabModuleSetting( int TabModuleId, string SettingName, string SettingValue )
@@ -1049,7 +868,7 @@ namespace DotNetNuke.Entities.Modules
             }
             dr.Close();
 
-            DataCache.RemoveCache( "GetTabModuleSettings" + TabModuleId.ToString() );
+            DataCache.RemoveCache( "GetTabModuleSettings" + TabModuleId );
         }
     }
 }

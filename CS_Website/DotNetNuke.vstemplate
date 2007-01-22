@@ -58,6 +58,7 @@
             <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_help_bw.gif">iconbar_help_bw.gif</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_previewtab.gif">iconbar_previewtab.gif</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_previewtab_bw.gif">iconbar_previewtab_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_previewtab_on.gif">iconbar_previewtab_on.gif</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_roles.gif">iconbar_roles.gif</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_roles_bw.gif">iconbar_roles_bw.gif</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_site.gif">iconbar_site.gif</ProjectItem>
@@ -66,6 +67,8 @@
             <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_unpreviewtab_bw.gif">iconbar_unpreviewtab_bw.gif</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_users.gif">iconbar_users.gif</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_users_bw.gif">iconbar_users_bw.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_wizard.gif">iconbar_wizard.gif</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="iconbar_wizard_bw.gif">iconbar_wizard_bw.gif</ProjectItem>
           </Folder>
           <ProjectItem ReplaceParameters="false" TargetFileName="classic.ascx">classic.ascx</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="Classic.ascx.vb">Classic.ascx.vb</ProjectItem>
@@ -459,20 +462,15 @@
       </Folder>
       <Folder Name="bin" TargetFolderName="bin">
         <ProjectItem ReplaceParameters="false" TargetFileName="CountryListBox.dll">CountryListBox.dll</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.ASP2MenuNavigationProvider.dll">DotNetNuke.ASP2MenuNavigationProvider.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Authentication.ADSI.dll">DotNetNuke.Authentication.ADSI.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Authentication.ADSIProvider.dll">DotNetNuke.Authentication.ADSIProvider.dll</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Caching.BroadcastPollingCachingProvider.dll">DotNetNuke.Caching.BroadcastPollingCachingProvider.dll</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Caching.BroadcastPollingCachingProvider.SQLDataProvider.dll">DotNetNuke.Caching.BroadcastPollingCachingProvider.SQLDataProvider.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Caching.FileBasedCachingProvider.dll">DotNetNuke.Caching.FileBasedCachingProvider.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.dll">DotNetNuke.dll</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.DNNDropDownNavigationProvider.dll">DotNetNuke.DNNDropDownNavigationProvider.dll</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.DNNMenuNavigationProvider.dll">DotNetNuke.DNNMenuNavigationProvider.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.DNNScheduler.dll">DotNetNuke.DNNScheduler.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.DNNScheduler.SqlDataProvider.dll">DotNetNuke.DNNScheduler.SqlDataProvider.dll</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.DNNTreeNavigationProvider.dll">DotNetNuke.DNNTreeNavigationProvider.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Ftb3HtmlEditorProvider.dll">DotNetNuke.Ftb3HtmlEditorProvider.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.HttpModules.Authentication.dll">DotNetNuke.HttpModules.Authentication.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.HttpModules.Compression.dll">DotNetNuke.HttpModules.Compression.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.HttpModules.DNNMembership.dll">DotNetNuke.HttpModules.DNNMembership.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.HttpModules.Exception.dll">DotNetNuke.HttpModules.Exception.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.HttpModules.Personalization.dll">DotNetNuke.HttpModules.Personalization.dll</ProjectItem>
@@ -490,7 +488,6 @@
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.SqlDataProvider.dll">DotNetNuke.SqlDataProvider.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.WebControls.dll">DotNetNuke.WebControls.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.WebUtility.dll">DotNetNuke.WebUtility.dll</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.XMLLoggingProvider.dll">DotNetNuke.XMLLoggingProvider.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="FreeTextBox.dll">FreeTextBox.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Microsoft.ApplicationBlocks.Data.dll">Microsoft.ApplicationBlocks.Data.dll</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="SharpZipLib.dll">SharpZipLib.dll</ProjectItem>
@@ -506,6 +503,7 @@
         </Folder>
       </Folder>
       <Folder Name="Config" TargetFolderName="Config">
+        <ProjectItem ReplaceParameters="false" TargetFileName="Compression.config">Compression.config</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Features.config">Features.config</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="SiteUrls.config">SiteUrls.config</ProjectItem>
       </Folder>
@@ -869,30 +867,23 @@
           <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
         </Folder>
         <Folder Name="Module" TargetFolderName="Module">
-          <ProjectItem ReplaceParameters="false" TargetFileName="Announcements_03.03.05_Install.zip">Announcements_03.03.05_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Blog_3.02.00_Install.zip">Blog_3.02.00_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Contacts_3.1_Install.zip">Contacts_3.1_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Documents_03.01.05_Install.zip">Documents_03.01.05_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Events_3.2_Install.zip">Events_3.2_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="FAQs_3.1_Install.zip">FAQs_3.1_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Feedback_03.02.01_Install.zip">Feedback_03.02.01_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Forum_3.20.08_Install.zip">Forum_3.20.08_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Gallery_3.0.12_Install.zip">Gallery_3.0.12_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Help_2.0.4_Install.zip">Help_2.0.4_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="HTML_3.3.0_Install.zip">HTML_3.3.0_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="IFrame_3.2_Install.zip">IFrame_3.2_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Links_3.3_Install.zip">Links_3.3_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Media_03.02.02_Install.zip">Media_03.02.02_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="NewsFeeds_3.1.1_Install.zip">NewsFeeds_3.1.1_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Announcements_03.03.05_Install.resources">Announcements_03.03.05_Install.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Blog_3.02.00_Install.resources">Blog_3.02.00_Install.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Documents_03.01.05_Install.resources">Documents_03.01.05_Install.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="FAQs_03.01.00_Install.resources">FAQs_03.01.00_Install.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Forum_03.20.08_Install.resources">Forum_03.20.08_Install.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="HTML_03.03.00_Install.zip">HTML_03.03.00_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="IFrame_03.02.00_Install.resources">IFrame_03.02.00_Install.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Links_03.03.00_Install.zip">Links_03.03.00_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Media_03.02.03_Install.resources">Media_03.02.03_Install.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="NewsFeeds_03.01.01_Install.resources">NewsFeeds_03.01.01_Install.resources</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Reports_4.3.1_Source.zip">Reports_4.3.1_Source.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Repository_3.1.10_Install.zip">Repository_3.1.10_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Store_01.00.01_Install.zip">Store_01.00.01_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Survey_04.00.20_Install.zip">Survey_04.00.20_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="UserDefinedTable_03.03.06_Install.zip">UserDefinedTable_03.03.06_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="UsersOnline_3.1_Install.zip">UsersOnline_3.1_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="WhatsNew_3.3_Install.zip">WhatsNew_3.3_Install.zip</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="XML_3.1_Install.zip">XML_3.1_Install.zip</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Reports_04.03.01_Source.resources">Reports_04.03.01_Source.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Repository_03.01.10_Install.resources">Repository_03.01.10_Install.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Survey_04.00.20_Install.resources">Survey_04.00.20_Install.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="UserDefinedTable_03.03.06_Install.resources">UserDefinedTable_03.03.06_Install.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="UsersOnline_03.01.00_Install.resources">UsersOnline_03.01.00_Install.resources</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="XML_03.01.00_Install.resources">XML_03.01.00_Install.resources</ProjectItem>
         </Folder>
         <Folder Name="Portal" TargetFolderName="Portal">
           <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
@@ -906,7 +897,6 @@
         <Folder Name="Template" TargetFolderName="Template">
           <ProjectItem ReplaceParameters="false" TargetFileName="PlaceHolder.txt">PlaceHolder.txt</ProjectItem>
         </Folder>
-        <ProjectItem ReplaceParameters="false" TargetFileName="Club.install.config">Club.install.config</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.install.config">DotNetNuke.install.config</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="install.aspx">install.aspx</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Install.aspx.vb">Install.aspx.vb</ProjectItem>
@@ -914,8 +904,6 @@
         <ProjectItem ReplaceParameters="false" TargetFileName="Install.htm">Install.htm</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Install.template.htm">Install.template.htm</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="logo.gif">logo.gif</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="Personal.install.config">Personal.install.config</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="SmallBusiness.install.config">SmallBusiness.install.config</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="UnderConstruction.template.htm">UnderConstruction.template.htm</ProjectItem>
       </Folder>
       <Folder Name="js" TargetFolderName="js">
@@ -931,9 +919,14 @@
           <ProjectItem ReplaceParameters="false" TargetFileName="poweredbydnn537x36.gif">poweredbydnn537x36.gif</ProjectItem>
         </Folder>
         <ProjectItem ReplaceParameters="false" TargetFileName="ClientAPICaps.config">ClientAPICaps.config</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnninputtext.js">dnn.controls.dnninputtext.js</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnnlabeledit.js">dnn.controls.dnnlabeledit.js</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnnmenu.js">dnn.controls.dnnmenu.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnnrichtext.js">dnn.controls.dnnrichtext.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnntabstrip.js">dnn.controls.dnntabstrip.js</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnntextsuggest.js">dnn.controls.dnntextsuggest.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnntoolbar.js">dnn.controls.dnntoolbar.js</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnntoolbarstub.js">dnn.controls.dnntoolbarstub.js</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="dnn.controls.dnntree.js">dnn.controls.dnntree.js</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="dnn.diagnostics.js">dnn.diagnostics.js</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="dnn.dom.positioning.js">dnn.dom.positioning.js</ProjectItem>
@@ -1088,7 +1081,6 @@
           <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.template">DotNetNuke.template</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.template.resources">DotNetNuke.template.resources</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="portal.css">portal.css</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Portals.resources">Portals.resources</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="subhost.aspx">subhost.aspx</ProjectItem>
         </Folder>
       </Folder>
@@ -1159,6 +1151,8 @@
             <ProjectItem ReplaceParameters="false" TargetFileName="04.03.04.SqlDataProvider">04.03.04.SqlDataProvider</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="04.03.05.SqlDataProvider">04.03.05.SqlDataProvider</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="04.03.06.SqlDataProvider">04.03.06.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.03.07.SqlDataProvider">04.03.07.SqlDataProvider</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="04.04.00.SqlDataProvider">04.04.00.SqlDataProvider</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Data.SqlDataProvider">DotNetNuke.Data.SqlDataProvider</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.Schema.SqlDataProvider">DotNetNuke.Schema.SqlDataProvider</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="DotNetNuke.SetUp.SqlDataProvider">DotNetNuke.SetUp.SqlDataProvider</ProjectItem>

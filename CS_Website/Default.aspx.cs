@@ -38,9 +38,6 @@ using Globals=DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Framework
 {
-    /// <summary>
-    ///
-    /// </summary>
     /// <history>
     /// 	[sun1]	1/19/2004	Created
     /// </history>
@@ -49,9 +46,6 @@ namespace DotNetNuke.Framework
         /// <summary>
         /// Property to allow the programmatic assigning of ScrollTop position
         /// </summary>
-        /// <value></value>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[Jon Henning]	3/23/2005	Created
         /// </history>
@@ -75,9 +69,6 @@ namespace DotNetNuke.Framework
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
         /// <remarks>
         /// - Obtain PortalSettings from Current Context
         /// - redirect to a specific tab based on name
@@ -184,9 +175,7 @@ namespace DotNetNuke.Framework
 
             if (PortalSettings.ActiveTab.PageHeadText != Null.NullString)
             {
-                HtmlMeta pageMeta = new HtmlMeta();
-                pageMeta.Content = PortalSettings.ActiveTab.PageHeadText;
-                Page.Header.Controls.Add(pageMeta);
+                Page.Header.Controls.Add(new LiteralControl(PortalSettings.ActiveTab.PageHeadText));
             }
 
             if( PortalSettings.ActiveTab.PageHeadText != Null.NullString )
@@ -302,18 +291,53 @@ namespace DotNetNuke.Framework
                 if( PortalSecurity.IsInRoles( PortalSettings.AdministratorRoleName ) || PortalSecurity.IsInRoles( PortalSettings.ActiveTab.AdministratorRoles.ToString() ) )
                 {
                     // only display the error to administrators
-                    SkinError.Text += "<center>Could Not Load Skin: " + SkinPath + " Error: " + Server.HtmlEncode( exc.Message ) + "</center><br>";
+                    SkinError.Text += "<div style=\"text-align:center\">Could Not Load Skin: " + SkinPath + " Error: " + Server.HtmlEncode(exc.Message) + "</div><br>";                    
                     SkinError.Visible = true;
                 }
                 Exceptions.LogException( lex );
             }
 
+            // check for and read skin package level doctype
+            SetSkinDoctype( SkinPath );
+
             return ctlSkin;
         }
 
         /// <summary>
-        ///
+        /// look for skin level doctype configuration file, and inject the value into the top of default.aspx
+        /// when no configuration if found, the doctype for versions prior to 4.4 is used to maintain backwards compatibility with existing skins
         /// </summary>
+        /// <param name="SkinPath">location of currently loading skin</param>
+        /// <remarks></remarks>
+        /// <history>
+        /// 	[cathal]	11/29/2006	Created
+        /// </history>
+        private void SetSkinDoctype(string SkinPath)
+        {
+            string FileName = Globals.ApplicationMapPath + SkinPath.Replace(".ascx", ".doctype.xml");
+            //set doctype to legacy default
+            string DoctypeValue = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">";
+
+            if (File.Exists(FileName))
+            {
+                try
+                {
+                    System.Xml.XmlDocument SkinDoctype = new System.Xml.XmlDocument();
+                    SkinDoctype.Load(FileName);
+                    DoctypeValue = SkinDoctype.FirstChild.InnerText.ToString();
+                }
+                catch (Exception ex)
+                {
+                    //if exception is thrown, the xml is not formatted correctly, so use legacy default
+                    DoctypeValue = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">";
+                }
+            }
+            //Find the placeholder control and render the doctype
+            Control objDoctype = this.FindControl("skinDocType");
+            ((System.Web.UI.WebControls.Literal)objDoctype).Text = DoctypeValue;
+
+        }
+
         /// <remarks>
         /// - manage affiliates
         /// - log visit to site
@@ -574,10 +598,6 @@ namespace DotNetNuke.Framework
         /// <summary>
         /// Initialize the Scrolltop html control which controls the open / closed nature of each module
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[sun1]	1/19/2004	Created
         ///		[jhenning] 3/23/2005 No longer passing in parameter to __dnn_setScrollTop, instead pulling value from textbox on client

@@ -41,9 +41,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// <summary>
         /// Page_Load runs when the control is loaded.
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	5/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -52,10 +49,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         {
             try
             {
-                string strFolder;
-                string strFileName;
-                string strMessage;
-
                 // ensure portal signup is allowed
                 if( ( PortalSettings.ActiveTab.ParentId != PortalSettings.SuperTabId || UserInfo.IsSuperUser == false ) && Convert.ToString( Globals.HostSettings["DemoSignup"] ) != "Y" )
                 {
@@ -64,7 +57,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
 
                 if( ! Page.IsPostBack )
                 {
-                    strFolder = Globals.HostMapPath;
+                    string strFolder = Globals.HostMapPath;
                     if( Directory.Exists( strFolder ) )
                     {
                         // admin.template and a portal template are required at minimum
@@ -72,9 +65,9 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                         lblMessage.Text = Localization.GetString( "AdminMissing", this.LocalResourceFile );
                         cmdUpdate.Enabled = false;
 
-                        foreach( string tempLoopVar_strFileName in fileEntries )
+                        for( int i = 0; i < fileEntries.Length; i++ )
                         {
-                            strFileName = tempLoopVar_strFileName;
+                            string strFileName = fileEntries[i];
                             if( Path.GetFileNameWithoutExtension( strFileName ) == "admin" )
                             {
                                 lblMessage.Text = "";
@@ -103,7 +96,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     else
                     {
                         rowType.Visible = false;
-                        strMessage = string.Format(Localization.GetString("DemoMessage", this.LocalResourceFile), Convert.ToString((Convert.ToString(Globals.HostSettings["DemoPeriod"]) != "") ? (" for " + Convert.ToString(Globals.HostSettings["DemoPeriod"]) + " days") : ""), Globals.GetDomainName(Request));
+                        string strMessage = string.Format(Localization.GetString("DemoMessage", this.LocalResourceFile), Convert.ToString((Convert.ToString(Globals.HostSettings["DemoPeriod"]) != "") ? (" for " + Convert.ToString(Globals.HostSettings["DemoPeriod"]) + " days") : ""), Globals.GetDomainName(Request));
                         lblInstructions.Text = strMessage;
                         btnCustomizeHomeDir.Visible = false;
                     }
@@ -121,9 +114,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// <summary>
         /// cmdCancel_Click runs when the Cancel button is clicked
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	5/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -143,9 +133,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// <summary>
         /// cmdUpdate_Click runs when the Update button is clicked
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	5/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -160,7 +147,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     string strMessage = String.Empty;
                     string strPortalAlias;
                     int intCounter;
-                    int intPortalId;
                     string strServerPath;
                     
                     string strChildPath = String.Empty;
@@ -282,6 +268,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                         string strTemplateFile = cboTemplate.SelectedItem.Text + ".template";
 
                         //Attempt to create the portal
+                        int intPortalId;
                         try
                         {
                             intPortalId = objPortalController.CreatePortal( txtTitle.Text, txtFirstName.Text, txtLastName.Text, txtUsername.Text, objSecurity.Encrypt( Convert.ToString( Globals.HostSettings["EncryptionKey"] ), txtPassword.Text ), txtEmail.Text, txtDescription.Text, txtKeyWords.Text, Globals.HostMapPath, strTemplateFile, HomeDir, strPortalAlias, strServerPath, strChildPath, blnChild );
@@ -343,9 +330,6 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
         /// <summary>
         /// optType_SelectedIndexChanged runs when the Portal Type is changed
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	5/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation

@@ -38,8 +38,6 @@ namespace DotNetNuke.Modules.Admin.Security
     /// The Roles PortalModuleBase is used to manage the Security Roles for the
     /// portal.
     /// </summary>
-    /// <remarks>
-    /// </remarks>
     /// <history>
     /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
     ///                       and localisation
@@ -51,8 +49,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// BindData gets the roles from the Database and binds them to the DataGrid
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -102,14 +98,14 @@ namespace DotNetNuke.Modules.Admin.Security
         /// </history>
         private void BindGroups()
         {
-            ListItem liItem;
             ArrayList arrGroups = RoleController.GetRoleGroups( PortalId );
 
             if( arrGroups.Count > 0 )
             {
+                cboRoleGroups.Items.Clear();
                 cboRoleGroups.Items.Add( new ListItem( Localization.GetString( "AllRoles" ), "-2" ) );
 
-                liItem = new ListItem( Localization.GetString( "GlobalRoles" ), "-1" );
+                ListItem liItem = new ListItem( Localization.GetString( "GlobalRoles" ), "-1" );
                 if( RoleGroupId < 0 )
                 {
                     liItem.Selected = true;
@@ -139,8 +135,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// FormatPeriod filters out Null values from the Period column of the Grid
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -165,8 +159,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// FormatPrice correctly formats the fee
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -191,8 +183,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// Page_Init runs when the control is initialised
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -242,8 +232,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/10/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -270,8 +258,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// Runs when the Index of the RoleGroups combo box changes
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	01/06/2006  created
         /// </history>
@@ -284,8 +270,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// Runs when the Delete Button is clicked to delete a role group
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	01/06/2006  created
         /// </history>

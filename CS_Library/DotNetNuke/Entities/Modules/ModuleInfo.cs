@@ -795,7 +795,7 @@ namespace DotNetNuke.Entities.Modules
             if (Convert.ToString(settings["defaultmoduleid"]) != "" && Convert.ToString(settings["defaulttabid"]) != "")
             {
                 ModuleController objModules = new ModuleController();
-                ModuleInfo objModule = objModules.GetModule(int.Parse(Convert.ToString(settings["defaultmoduleid"])), int.Parse(Convert.ToString(settings["defaulttabid"])));
+                ModuleInfo objModule = objModules.GetModule(int.Parse(Convert.ToString(settings["defaultmoduleid"])), int.Parse(Convert.ToString(settings["defaulttabid"])), true);
                 if (objModule != null)
                 {
                     _CacheTime = objModule.CacheTime;

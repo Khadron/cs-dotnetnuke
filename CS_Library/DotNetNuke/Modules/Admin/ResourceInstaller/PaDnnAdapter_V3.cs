@@ -83,6 +83,13 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                 folder.CompatibleVersions = compatibleVersionsElement.InnerText.Trim();
             }
 
+            // V4.4.0 .dnn file format adds the optional supportsprobingprivatepath node to the folder node element
+            XmlElement supportsProbingPrivatePath = (XmlElement)(FolderElement.SelectSingleNode("supportsprobingprivatepath"));
+            if (supportsProbingPrivatePath != null)
+            {
+                folder.SupportsProbingPrivatePath = Convert.ToBoolean(supportsProbingPrivatePath.InnerText.Trim());
+            }
+
             return folder;
         }
 

@@ -149,18 +149,12 @@ namespace DotNetNuke.Services.Localization
         private bool PopulateTree( TreeNodeCollection Nodes, string _path )
         {
             string[] folders = Directory.GetDirectories( _path );
-            string folder;
             bool found = false;
-            FileInfo objFile;
-            DirectoryInfo objFolder;
-            TreeNode node;
-            TreeNode leaf;
 
-            foreach( string tempLoopVar_folder in folders )
+            foreach( string folder in folders )
             {
-                folder = tempLoopVar_folder;
-                objFolder = new DirectoryInfo( folder );
-                node = new TreeNode( objFolder.Name );
+                DirectoryInfo objFolder = new DirectoryInfo( folder );
+                TreeNode node = new TreeNode( objFolder.Name );
                 node.Key = objFolder.FullName;
                 node.ToolTip = objFolder.Name;
                 node.ImageIndex = (int)eImageType.Folder;
@@ -170,19 +164,17 @@ namespace DotNetNuke.Services.Localization
                 if( objFolder.Name == Localization.LocalResourceDirectory )
                 {
                     // found local resource folder, add resources
-                    foreach( FileInfo tempLoopVar_objFile in objFolder.GetFiles( "*.ascx.resx" ) )
+                    foreach( FileInfo objFile in objFolder.GetFiles( "*.ascx.resx" ) )
                     {
-                        objFile = tempLoopVar_objFile;
-                        leaf = new TreeNode( Path.GetFileNameWithoutExtension( objFile.Name ) );
+                        TreeNode leaf = new TreeNode( Path.GetFileNameWithoutExtension( objFile.Name ) );
                         leaf.Key = objFile.FullName;
                         leaf.ToolTip = objFile.Name;
                         leaf.ImageIndex = (int)eImageType.Page;
                         node.TreeNodes.Add( leaf );
                     }
-                    foreach( FileInfo tempLoopVar_objFile in objFolder.GetFiles( "*.aspx.resx" ) )
+                    foreach( FileInfo objFile in objFolder.GetFiles( "*.aspx.resx" ) )
                     {
-                        objFile = tempLoopVar_objFile;
-                        leaf = new TreeNode( Path.GetFileNameWithoutExtension( objFile.Name ) );
+                        TreeNode leaf = new TreeNode( Path.GetFileNameWithoutExtension( objFile.Name ) );
                         leaf.Key = objFile.FullName;
                         leaf.ToolTip = objFile.Name;
                         leaf.ImageIndex = (int)eImageType.Page;
@@ -191,8 +183,8 @@ namespace DotNetNuke.Services.Localization
                     // add LocalSharedResources if found
                     if( File.Exists( Path.Combine( folder, Localization.LocalSharedResourceFile ) ) )
                     {
-                        objFile = new FileInfo( Path.Combine( folder, Localization.LocalSharedResourceFile ) );
-                        leaf = new TreeNode( Path.GetFileNameWithoutExtension( objFile.Name ) );
+                        FileInfo objFile = new FileInfo( Path.Combine( folder, Localization.LocalSharedResourceFile ) );
+                        TreeNode leaf = new TreeNode( Path.GetFileNameWithoutExtension( objFile.Name ) );
                         leaf.Key = objFile.FullName;
                         leaf.ToolTip = objFile.Name;
                         leaf.ImageIndex = (int)eImageType.Page;
@@ -230,21 +222,18 @@ namespace DotNetNuke.Services.Localization
         private void BindLocaleList()
         {
             DataSet ds = new DataSet();
-            DataView dv;
-            int i;
-            string localeKey;
-            string localeName;
 
             ds.ReadXml( Server.MapPath( Localization.SupportedLocalesFile ) );
-            dv = ds.Tables[ 0 ].DefaultView;
+            DataView dv = ds.Tables[ 0 ].DefaultView;
             dv.Sort = "name ASC";
 
             cboLocales.Items.Clear();
-            for( i = 0; i <= dv.Count - 1; i++ )
+            for( int i = 0; i < dv.Count; i++ )
             {
-                localeKey = Convert.ToString( dv[ i ]["key"] );
+                string localeKey = Convert.ToString( dv[ i ]["key"] );
                 CultureInfo cinfo = new CultureInfo( localeKey );
 
+                string localeName;
                 try
                 {
                     if( rbDisplay.SelectedValue == "Native" )
@@ -355,10 +344,9 @@ namespace DotNetNuke.Services.Localization
         /// <summary>
         /// Returns the resource file name for a given resource and language
         /// </summary>
+        /// <param name="language"></param>
         /// <param name="mode">Identifies the resource being searched (System, Host, Portal)</param>
         /// <returns>Localized File Name</returns>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[vmasanas]	04/10/2004	Created
         /// 	[vmasanas]	25/03/2006	Modified to support new host resources and incremental saving
@@ -383,7 +371,7 @@ namespace DotNetNuke.Services.Localization
             }
             else if( mode == "Portal" )
             {
-                resourcefilename = resourcefilename.Substring( 0, resourcefilename.Length - 5 ) + "." + "Portal-" + PortalId.ToString() + ".resx";
+                resourcefilename = resourcefilename.Substring( 0, resourcefilename.Length - 5 ) + "." + "Portal-" + PortalId + ".resx";
             }
 
             return resourcefilename;
@@ -412,7 +400,6 @@ namespace DotNetNuke.Services.Localization
         /// </history>
         private Hashtable LoadFile( string mode, string type )
         {
-            string file;
             Hashtable ht = new Hashtable();
 
             switch( type )
@@ -420,7 +407,7 @@ namespace DotNetNuke.Services.Localization
                 case "Edit":
 
                     // Only load resources from the file being edited
-                    file = ResourceFile( cboLocales.SelectedValue, mode );
+                    string file = ResourceFile( cboLocales.SelectedValue, mode );
                     ht = LoadResource( ht, file );
                     break;
                 case "Default":
@@ -493,11 +480,9 @@ namespace DotNetNuke.Services.Localization
                 xmlLoaded = false;
             }
             if( xmlLoaded )
-            {
-                XmlNode n;
-                foreach( XmlNode tempLoopVar_n in d.SelectNodes( "root/data" ) )
+            {                
+                foreach( XmlNode n in d.SelectNodes( "root/data" ) )
                 {
-                    n = tempLoopVar_n;
                     if( n.NodeType != XmlNodeType.Comment )
                     {
                         string val = n.SelectSingleNode( "value" ).InnerXml;
@@ -738,18 +723,12 @@ namespace DotNetNuke.Services.Localization
         /// </history>
         protected void cmdUpdate_Click( Object sender, EventArgs e )
         {
-            DataGridItem di;
-            XmlNode node;
-            XmlNode nodeData;
-            XmlNode parent;
-            XmlAttribute attr;
             XmlDocument resDoc = new XmlDocument();
             XmlDocument defDoc = new XmlDocument();
-            string filename;
 
             try
             {
-                filename = ResourceFile( cboLocales.SelectedValue, rbMode.SelectedValue );
+                string filename = ResourceFile( cboLocales.SelectedValue, rbMode.SelectedValue );
                 if( ! File.Exists( filename ) )
                 {
                     // load system default
@@ -761,18 +740,19 @@ namespace DotNetNuke.Services.Localization
                 }
                 defDoc.Load( ResourceFile( Localization.SystemLocale, "System" ) );
 
+                XmlNode nodeData;
+                XmlAttribute attr;
                 switch( rbMode.SelectedValue )
                 {
                     case "System":
 
                         // this will save all items
-                        foreach( DataGridItem tempLoopVar_di in dgEditor.Items )
+                        foreach( DataGridItem di in dgEditor.Items )
                         {
-                            di = tempLoopVar_di;
                             if( di.ItemType == ListItemType.Item || di.ItemType == ListItemType.AlternatingItem )
                             {
                                 TextBox ctl1 = (TextBox)di.Cells[ 0 ].FindControl( "txtValue" );
-                                node = resDoc.SelectSingleNode( "//root/data[@name='" + di.Cells[ 1 ].Text + "']/value" );
+                                XmlNode node = resDoc.SelectSingleNode( "//root/data[@name='" + di.Cells[ 1 ].Text + "']/value" );
                                 if( node == null )
                                 {
                                     // missing entry
@@ -790,15 +770,14 @@ namespace DotNetNuke.Services.Localization
                         break;
                     case "Host":
                         // only items different from default will be saved
-                        foreach( DataGridItem tempLoopVar_di in dgEditor.Items )
+                        foreach( DataGridItem di in dgEditor.Items )
                         {
-                            di = tempLoopVar_di;
                             if( di.ItemType == ListItemType.Item || di.ItemType == ListItemType.AlternatingItem )
                             {
                                 TextBox ctl1 = (TextBox)di.Cells[ 0 ].FindControl( "txtValue" );
                                 Label ctl2 = (Label)di.Cells[ 0 ].FindControl( "lblDefault" );
 
-                                node = resDoc.SelectSingleNode( "//root/data[@name='" + di.Cells[ 1 ].Text + "']/value" );
+                                XmlNode node = resDoc.SelectSingleNode( "//root/data[@name='" + di.Cells[ 1 ].Text + "']/value" );
                                 if( ctl1.Text != ctl2.Text )
                                 {
                                     if( node == null )
@@ -826,15 +805,14 @@ namespace DotNetNuke.Services.Localization
                     case "Portal":
 
                         // only items different from default will be saved
-                        foreach( DataGridItem tempLoopVar_di in dgEditor.Items )
+                        foreach( DataGridItem di in dgEditor.Items )
                         {
-                            di = tempLoopVar_di;
                             if( di.ItemType == ListItemType.Item || di.ItemType == ListItemType.AlternatingItem )
                             {
                                 TextBox ctl1 = (TextBox)di.Cells[ 0 ].FindControl( "txtValue" );
                                 Label ctl2 = (Label)di.Cells[ 0 ].FindControl( "lblDefault" );
 
-                                node = resDoc.SelectSingleNode( "//root/data[@name='" + di.Cells[ 1 ].Text + "']/value" );
+                                XmlNode node = resDoc.SelectSingleNode( "//root/data[@name='" + di.Cells[ 1 ].Text + "']/value" );
                                 if( ctl1.Text != ctl2.Text )
                                 {
                                     if( node == null )
@@ -861,9 +839,9 @@ namespace DotNetNuke.Services.Localization
                 }
 
                 // remove obsolete keys
-                foreach( XmlNode tempLoopVar_node in resDoc.SelectNodes( "//root/data" ) )
+                XmlNode parent;
+                foreach( XmlNode node in resDoc.SelectNodes( "//root/data" ) )
                 {
-                    node = tempLoopVar_node;
                     if( defDoc.SelectSingleNode( "//root/data[@name='" + node.Attributes["name"].Value + "']" ) == null )
                     {
                         parent = node.ParentNode;
@@ -871,9 +849,8 @@ namespace DotNetNuke.Services.Localization
                     }
                 }
                 // remove duplicate keys
-                foreach( XmlNode tempLoopVar_node in resDoc.SelectNodes( "//root/data" ) )
+                foreach( XmlNode node in resDoc.SelectNodes( "//root/data" ) )
                 {
-                    node = tempLoopVar_node;
                     if( resDoc.SelectNodes( "//root/data[@name='" + node.Attributes["name"].Value + "']" ).Count > 1 )
                     {
                         parent = node.ParentNode;
@@ -1016,7 +993,7 @@ namespace DotNetNuke.Services.Localization
 
                     Label l;
                     l = (Label)e.Item.FindControl( "lblDefault" );
-                    l.Text = p.Second.ToString();
+                    l.Text = Server.HtmlDecode(p.Second.ToString());                    
                 }
             }
             catch( Exception exc ) //Module failed to load

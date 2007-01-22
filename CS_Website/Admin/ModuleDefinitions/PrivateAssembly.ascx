@@ -8,6 +8,22 @@
             <asp:textbox id="txtFileName" cssclass="NormalTextBox" width="390" columns="30" maxlength="150" runat="server"/>
         </td>
     </tr>
+    <tr>
+        <td class="SubHead" valign="top" width="150">
+            <dnn:Label ID="plManifest" runat="server" ControlName="chkManifest" Text="Create Manifest File (.dnn)?" />
+        </td>
+        <td>
+            <asp:CheckBox ID="chkManifest" runat="server" CssClass="NormalTextBox" /><br>
+        </td>
+    </tr>
+    <tr>
+        <td class="SubHead" valign="top" width="150">
+            <dnn:Label ID="plPrivate" runat="server" ControlName="chkPrivate" Text="Supports Private Assembly Folder?" />
+        </td>
+        <td>
+            <asp:CheckBox ID="chkPrivate" runat="server" CssClass="NormalTextBox" /><br>
+        </td>
+    </tr>
     <tr id="rowSource" runat="server" visible="false">
         <td class="SubHead" valign="top" style="width: 150;">
             <dnn:Label ID="plSource" runat="server" ControlName="chkSource" Text="Include Source?" />

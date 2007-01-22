@@ -85,7 +85,7 @@
         <value>Version:</value>
     </data>
     <data name="plVersion.Help">
-        <value>Enter the version number for this module.</value>
+        <value>Enter the version number for this module in the form ##.##.##</value>
     </data>
     <data name="plDefinitions.Text">
         <value>Definitions:</value>
@@ -194,5 +194,11 @@
     </data>
     <data name="chkDelete.Text">
         <value>Delete Files?</value>
+    </data>
+    <data name="valFriendlyName.ErrorMessage">
+        <value>&lt;br&gt;A Module must have a Friendly Name</value>
+    </data>
+    <data name="valVersion.ErrorMessage">
+        <value>&lt;br&gt;A Module must have a Version number in the form of ##.##.##</value>
     </data>
 </root>

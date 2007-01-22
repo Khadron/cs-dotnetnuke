@@ -1,6 +1,11 @@
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
+<%@ Register Assembly="DotNetNuke.WebControls" Namespace="DotNetNuke.UI.WebControls" TagPrefix="dnn" %>
 <%@ Control Language="C#" CodeFile="BannerOptions.ascx.cs" AutoEventWireup="true" Inherits="DotNetNuke.Modules.Admin.Vendors.BannerOptions" %>
-<br>
+<style type="text/css">
+.GroupSuggestMenu {
+    width: 250px;
+}
+</style>
 <table cellSpacing="2" cellPadding="0" width="560" summary="Banner Options Design Table">
 	<tr valign="bottom">
 		<td class="SubHead" width="125" vAlign="top"><dnn:label id="plSource" runat="server" controlname="optSource" suffix=":"></dnn:label></td>
@@ -20,9 +25,10 @@
 	</tr>
 	<tr valign="bottom">
 		<td class="SubHead" width="125" vAlign="top"><dnn:label id="plGroup" runat="server" controlname="txtGroup" suffix=":"></dnn:label></td>
-		<td vAlign="top">
-			<asp:TextBox id="txtGroup" Runat="server" CssClass="NormalTextBox" Columns="30" Width="250px"></asp:TextBox>
-		</td>
+        <td valign="top">
+            <dnn:DNNTextSuggest ID="DNNTxtBannerGroup" runat="server" Columns="30" CssClass="NormalTextBox" DefaultNodeCssClassOver="SuggestNodeOver" LookupDelay="500" MaxLength="100"
+                TextSuggestCssClass="SuggestTextMenu GroupSuggestMenu" Width="250px">
+            </dnn:DNNTextSuggest></td>
 	</tr>
 	<tr valign="bottom">
 		<td class="SubHead" width="125" vAlign="top"><dnn:label id="plCount" runat="server" controlname="txtCount" suffix=":"></dnn:label></td>

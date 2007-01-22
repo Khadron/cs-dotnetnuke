@@ -115,8 +115,15 @@ namespace DotNetNuke.UI.Skins.Controls
                                 // admin tab
                                 hypRegister.NavigateUrl = Globals.NavigateURL( "Register" );
                             }
+                        }                        
+                        if (PortalSettings.Users < PortalSettings.UserQuota | PortalSettings.UserQuota == 0)
+                        {
+                            hypRegister.Visible = true;
                         }
-                        hypRegister.Visible = true;
+                        else
+                        {
+                            hypRegister.Visible = false;
+                        }
                     }
                     else
                     {

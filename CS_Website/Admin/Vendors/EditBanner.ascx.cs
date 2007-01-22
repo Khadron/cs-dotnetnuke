@@ -17,8 +17,10 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
+using System.Data;
 using System.Web.UI.WebControls;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
@@ -28,7 +30,9 @@ using DotNetNuke.Services.Mail;
 using DotNetNuke.Services.Vendors;
 using DotNetNuke.UI.Skins.Controls;
 using DotNetNuke.UI.Utilities;
+using DotNetNuke.UI.WebControls;
 using Calendar=DotNetNuke.Common.Utilities.Calendar;
+using Globals=DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Modules.Admin.Vendors
 {
@@ -48,11 +52,15 @@ namespace DotNetNuke.Modules.Admin.Vendors
         protected Label lblBannerGroup;
         private int BannerId;
 
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            DNNTxtBannerGroup.PopulateOnDemand += new DNNTextSuggest.DNNTextSuggestEventHandler(DNNTxtBannerGroup_PopulateOnDemand);
+        }
+
+
         /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/21/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -76,7 +84,7 @@ namespace DotNetNuke.Modules.Admin.Vendors
 
                 if( Page.IsPostBack == false )
                 {
-                    ctlImage.FileFilter = Common.Globals.glbImageFileTypes;
+                    ctlImage.FileFilter = Globals.glbImageFileTypes;
                     ClientAPI.AddButtonConfirm( cmdDelete, Localization.GetString( "DeleteItem" ) );
 
                     BannerTypeController objBannerTypes = new BannerTypeController();
@@ -94,7 +102,8 @@ namespace DotNetNuke.Modules.Admin.Vendors
                         {
                             txtBannerName.Text = objBanner.BannerName;
                             cboBannerType.Items.FindByValue( objBanner.BannerTypeId.ToString() ).Selected = true;
-                            txtBannerGroup.Text = objBanner.GroupName;
+                            DNNTxtBannerGroup.Text = objBanner.GroupName;
+                            
                             ctlImage.Url = objBanner.ImageFile;
                             if( objBanner.Width != 0 )
                             {
@@ -156,8 +165,6 @@ namespace DotNetNuke.Modules.Admin.Vendors
         /// <summary>
         /// cmdCancel_Click runs when the Cancel Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/21/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -178,8 +185,6 @@ namespace DotNetNuke.Modules.Admin.Vendors
         /// <summary>
         /// cmdDelete_Click runs when the Delete Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/21/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -206,8 +211,6 @@ namespace DotNetNuke.Modules.Admin.Vendors
         /// <summary>
         /// cmdUpdate_Click runs when the Update Button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/21/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -241,7 +244,7 @@ namespace DotNetNuke.Modules.Admin.Vendors
                     objBanner.VendorId = VendorId;
                     objBanner.BannerName = txtBannerName.Text;
                     objBanner.BannerTypeId = Convert.ToInt32( cboBannerType.SelectedItem.Value );
-                    objBanner.GroupName = txtBannerGroup.Text;
+                    objBanner.GroupName = DNNTxtBannerGroup.Text;
                     objBanner.ImageFile = ctlImage.Url;
                     if( !String.IsNullOrEmpty(txtWidth.Text) )
                     {
@@ -354,8 +357,31 @@ namespace DotNetNuke.Modules.Admin.Vendors
 
         public string FormatItem( int vendorId, int bannerId, int BannerTypeId, string BannerName, string ImageFile, string Description, string URL, int Width, int Height )
         {
-            BannerController objBanners = new BannerController();            
-            return objBanners.FormatBanner(VendorId, BannerId, BannerTypeId, BannerName, ImageFile, Description, URL, Width, Height, System.Convert.ToString(((PortalSettings.BannerAdvertising == 1) ? "L" : "G")), PortalSettings.HomeDirectory);
+            BannerController objBanners = new BannerController();
+            return objBanners.FormatBanner(VendorId, BannerId, BannerTypeId, BannerName, ImageFile, Description, URL, Width, Height, Convert.ToString(((PortalId == -1) ? "G" : "L")), PortalSettings.HomeDirectory);            
+        }
+
+        /// <summary>
+        /// DNNTxtBannerGroup_PopulateOnDemand runs when something is entered on the
+        /// BannerGroup field
+        /// </summary>
+        /// <history>
+        /// 	[vmasanas]	9/29/2006	Implement a callback to display current groups
+        ///  to user so the BannerGroup can be easily selected
+        /// </history>
+        protected void DNNTxtBannerGroup_PopulateOnDemand(object source, DNNTextSuggestEventArgs e)
+        {
+            BannerController objBanners = new BannerController();
+            DataTable dt = objBanners.GetBannerGroups(PortalId);
+            dt.CaseSensitive = false;
+            DataRow[] dr = dt.Select("GroupName like '" + e.Text + "%'");
+            foreach (DataRow d in dr)
+            {
+                DNNNode objNode = new DNNNode(d["GroupName"].ToString());
+                objNode.ID = e.Nodes.Count.ToString();
+                e.Nodes.Add(objNode);
+            }
+
         }
 
         public new int PortalId

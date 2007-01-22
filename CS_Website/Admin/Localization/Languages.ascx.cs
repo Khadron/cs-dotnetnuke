@@ -55,11 +55,11 @@ namespace DotNetNuke.Services.Localization
         {
             try
             {
-                if( File.Exists( Server.MapPath( Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId.ToString() + ".xml" ) ) )
+                if( File.Exists( Server.MapPath( Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId + ".xml" ) ) )
                 {
                     try
                     {
-                        xmlLocales.Load( Server.MapPath( Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId.ToString() + ".xml" ) );
+                        xmlLocales.Load( Server.MapPath( Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId + ".xml" ) );
                         bXmlLoaded = true;
                     }
                     catch
@@ -69,9 +69,17 @@ namespace DotNetNuke.Services.Localization
 
                 if( ! Page.IsPostBack )
                 {
-                    //only host can add and delete
-                    pnlAdd.Visible = UserInfo.IsSuperUser;
-                    chkDeleteFiles.Visible = UserInfo.IsSuperUser;
+                    //only host can add and delete, this should also only be visible on the host menu
+                    if (UserInfo.IsSuperUser & (PortalSettings.ActiveTab.ParentId != PortalSettings.AdminTabId))
+                    {
+                        chkEnableBrowser.Text = Localization.GetString("EnableBrowserHost", LocalResourceFile);
+                    }
+                    else
+                    {
+                        chkEnableBrowser.Text = Localization.GetString("EnableBrowserPortal", LocalResourceFile);
+                        pnlAdd.Visible = false;
+                        chkDeleteFiles.Visible = false;
+                    }
 
                     //Localize Grid
                     Localization.LocalizeDataGrid( ref dgLocales, this.LocalResourceFile );
@@ -126,6 +134,34 @@ namespace DotNetNuke.Services.Localization
             }
         }
 
+        protected void dgLocales_ItemCreated(object sender, DataGridItemEventArgs e)
+        {
+            try
+            {
+                if (e.Item.ItemType == ListItemType.Item | e.Item.ItemType == ListItemType.AlternatingItem)
+                {
+//                    LinkButton ctldelete = (LinkButton)(e.Item.FindControl("cmdDelete"));
+//                    LinkButton ctldisable = (LinkButton)(e.Item.FindControl("cmdDisable"));
+
+                    if (PortalSettings.ActiveTab.ParentId == PortalSettings.AdminTabId)
+                    {
+                        // we are on the Admin menu, hide delete button, since this is only for host
+                        dgLocales.Columns[4].Visible = false;
+                    }
+                    else
+                    {
+                        // we are on the host menu, hide enable button and status, since this is only for admins
+                        dgLocales.Columns[2].Visible = false;
+                        dgLocales.Columns[3].Visible = false;
+                    }
+                }
+            }
+            catch (Exception exc) //Module failed to load
+            {
+                Exceptions.Exceptions.ProcessModuleLoadException(this, exc);
+            }
+        }
+
         protected void dgLocales_ItemDataBound( object sender, DataGridItemEventArgs e )
         {
             try
@@ -172,8 +208,8 @@ namespace DotNetNuke.Services.Localization
                             try
                             {
                                 // First access to file, create using template
-                                File.Copy( Server.MapPath( Localization.ApplicationResourceDirectory + "/Locales.Portal.xml.config" ), Server.MapPath( Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId.ToString() + ".xml" ) );
-                                xmlLocales.Load( Server.MapPath( Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId.ToString() + ".xml" ) );
+                                File.Copy( Server.MapPath( Localization.ApplicationResourceDirectory + "/Locales.Portal.xml.config" ), Server.MapPath( Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId + ".xml" ) );
+                                xmlLocales.Load( Server.MapPath( Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId + ".xml" ) );
                                 bXmlLoaded = true;
                             }
                             catch
@@ -226,17 +262,15 @@ namespace DotNetNuke.Services.Localization
                             {
                                 inactive.RemoveChild( current );
                             }
-                            xmlLocales.Save( Server.MapPath( Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId.ToString() + ".xml" ) );
+                            xmlLocales.Save( Server.MapPath( Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId + ".xml" ) );
                             BindGrid();
                         }
                         break;
                     case "Delete":
 
-                        string key;
-                        XmlNode node;
                         XmlDocument resDoc = new XmlDocument();
 
-                        key = e.Item.Cells[1].Text;
+                        string key = e.Item.Cells[1].Text;
                         if( key == Localization.SystemLocale )
                         {
                             UI.Skins.Skin.AddModuleMessage( this, Localization.GetString( "Delete.ErrorMessage", this.LocalResourceFile ), ModuleMessageType.YellowWarning );
@@ -260,7 +294,7 @@ namespace DotNetNuke.Services.Localization
                                 if( PortalSettings.DefaultLanguage != Convert.ToString( dgLocales.DataKeys[e.Item.ItemIndex] ) )
                                 {
                                     resDoc.Load( Server.MapPath( Localization.SupportedLocalesFile ) );
-                                    node = resDoc.SelectSingleNode( "//root/language[@key='" + key + "']" );
+                                    XmlNode node = resDoc.SelectSingleNode( "//root/language[@key='" + key + "']" );
                                     node.ParentNode.RemoveChild( node );
 
                                     try
@@ -298,6 +332,63 @@ namespace DotNetNuke.Services.Localization
             {
                 Exceptions.Exceptions.ProcessModuleLoadException( this, exc );
             }
+        }
+
+    
+        protected void chkEnableBrowser_CheckedChanged(object sender, EventArgs e)
+        {
+            XmlNode browserLanguage;
+
+            if (PortalSettings.ActiveTab.ParentId == PortalSettings.AdminTabId)
+            {
+                if (! bXmlLoaded)
+                {
+                    try
+                    {
+                        // First access to file, create using template
+                        File.Copy(Server.MapPath(Localization.ApplicationResourceDirectory + "/Locales.Portal.xml.config"), Server.MapPath(Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId + ".xml"));
+                        xmlLocales.Load(Server.MapPath(Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId + ".xml"));
+                        bXmlLoaded = true;
+                    }
+                    catch
+                    {
+                        UI.Skins.Skin.AddModuleMessage(this, Localization.GetString("Save.ErrorMessage", this.LocalResourceFile), ModuleMessageType.YellowWarning);
+                    }
+                }
+                if (bXmlLoaded)
+                {
+                    browserLanguage = xmlLocales.SelectSingleNode("//locales/browserDetection");
+                    if (browserLanguage == null)
+                    {
+//                        XmlNode attr = xmlLocales.CreateNode(XmlNodeType.Attribute, "enabled", "");
+                        XmlAttribute attr = xmlLocales.CreateAttribute("enabled", "");
+
+                        browserLanguage = xmlLocales.CreateElement("browserDetection");
+                        browserLanguage.Attributes.Append(attr);
+                        xmlLocales.SelectSingleNode("//locales").AppendChild(browserLanguage);
+                    }
+                    browserLanguage.Attributes["enabled"].Value = chkEnableBrowser.Checked.ToString().ToLower();
+                    xmlLocales.Save(Server.MapPath(Localization.ApplicationResourceDirectory + "/Locales.Portal-" + PortalId + ".xml"));
+                }
+            }
+            else
+            {
+                XmlDocument xmldoc = new XmlDocument();
+                xmldoc.Load(Server.MapPath(Localization.ApplicationResourceDirectory + "/Locales.xml"));
+                browserLanguage = xmldoc.SelectSingleNode("//root/browserDetection");
+                if (browserLanguage == null)
+                {
+//                    XmlNode attr = xmldoc.CreateNode(XmlNodeType.Attribute, "enabled", "");
+                    XmlAttribute attr = xmldoc.CreateAttribute("enabled", "");
+
+                    browserLanguage = xmldoc.CreateElement("browserDetection");
+                    browserLanguage.Attributes.Append(attr);
+                    xmldoc.SelectSingleNode("//root").AppendChild(browserLanguage);
+                }
+                browserLanguage.Attributes["enabled"].Value = chkEnableBrowser.Checked.ToString().ToLower();
+                xmldoc.Save(Server.MapPath(Localization.ApplicationResourceDirectory + "/Locales.xml"));
+            }
+
         }
 
         protected void rbDisplay_SelectedIndexChanged( Object sender, EventArgs e )
@@ -423,6 +514,36 @@ namespace DotNetNuke.Services.Localization
                 }
                 cboLocales.Items.Add(new ListItem(localeName, localeKey));
             }
+
+            chkEnableBrowser.Checked = true;
+            try
+            {
+                XmlNode browserLanguage;
+                if (PortalSettings.ActiveTab.ParentId == PortalSettings.AdminTabId)
+                {
+                    if (bXmlLoaded)
+                    {
+                        browserLanguage = xmlLocales.SelectSingleNode("//locales/browserDetection");
+                        if (browserLanguage != null)
+                        {
+                            chkEnableBrowser.Checked = bool.Parse(browserLanguage.Attributes["enabled"].InnerText);
+                        }
+                    }
+                }
+                else
+                {
+                    XmlDocument xmldoc = new XmlDocument();
+                    xmldoc.Load(Server.MapPath(Localization.ApplicationResourceDirectory + "/Locales.xml"));
+                    browserLanguage = xmldoc.SelectSingleNode("//root/browserDetection");
+                    if (browserLanguage != null)
+                    {
+                        chkEnableBrowser.Checked = bool.Parse(browserLanguage.Attributes["enabled"].InnerText);
+                    }
+                }
+            }
+            catch
+            {
+            }
         }
 
         public ModuleActionCollection ModuleActions
@@ -437,10 +558,10 @@ namespace DotNetNuke.Services.Localization
                 args[2] = "rtab=" + this.TabId;
 
                 ModuleActionCollection actions = new ModuleActionCollection();
-                actions.Add( GetNextActionID(), Localization.GetString( "Languages.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "", EditUrl( "language" ), false, SecurityAccessLevel.Admin, true, false );
-                actions.Add( GetNextActionID(), Localization.GetString( "TimeZones.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "", EditUrl( "timezone" ), false, SecurityAccessLevel.Host, true, false );
-                actions.Add( GetNextActionID(), Localization.GetString( "Verify.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "", EditUrl( "verify" ), false, SecurityAccessLevel.Host, true, false );
-                actions.Add( GetNextActionID(), Localization.GetString( "PackageGenerate.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "", EditUrl( "package" ), false, SecurityAccessLevel.Host, true, false );
+                actions.Add(GetNextActionID(), Localization.GetString("Languages.Action", LocalResourceFile), ModuleActionType.AddContent, "", "", EditUrl("language"), false, SecurityAccessLevel.Admin, true, false);
+                actions.Add(GetNextActionID(), Localization.GetString("TimeZones.Action", LocalResourceFile), ModuleActionType.AddContent, "", "", EditUrl("timezone"), false, SecurityAccessLevel.Host, true, false);
+                actions.Add(GetNextActionID(), Localization.GetString("Verify.Action", LocalResourceFile), ModuleActionType.AddContent, "", "", EditUrl("verify"), false, SecurityAccessLevel.Host, true, false);
+                actions.Add(GetNextActionID(), Localization.GetString("PackageGenerate.Action", LocalResourceFile), ModuleActionType.AddContent, "", "", EditUrl("package"), false, SecurityAccessLevel.Host, true, false);
                 actions.Add( GetNextActionID(), Localization.GetString( "PackageImport.Action", LocalResourceFile ), ModuleActionType.AddContent, "", "", Globals.NavigateURL( FileManagerModule.TabID, "Edit", args ), false, SecurityAccessLevel.Host, true, false );
                 return actions;
             }

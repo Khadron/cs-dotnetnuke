@@ -181,7 +181,7 @@ namespace DotNetNuke.UI.WebControls
         {
             if( !String.IsNullOrEmpty( objParent.JSFunction) )
             {
-                objParent.JSFunction = string.Format( "if({0}){{{1}}};", objParent.JSFunction, Page.GetPostBackClientEvent( Control.NavigationControl, objParent.ID ) );
+                objParent.JSFunction = string.Format("if({0}){{{1}}};", objParent.JSFunction, Page.ClientScript.GetPostBackEventReference(Control.NavigationControl, objParent.ID));
             }
 
             foreach( DNNNode dnnNode in objParent.DNNNodes )

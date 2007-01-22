@@ -23,6 +23,7 @@ using System.Web;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Profile;
+using DotNetNuke.Framework;
 using DotNetNuke.Modules.Admin.Users;
 using DotNetNuke.Security.Authentication;
 using DotNetNuke.Security.Membership;
@@ -370,8 +371,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// Page_Init runs when the control is initialised
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/8/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -384,13 +383,18 @@ namespace DotNetNuke.Modules.Admin.Security
 
             //Set the Profile Control Properties
             ctlProfile.ID = "Profile";
+
+            //Override the redirected page title
+            DotNetNuke.Framework.CDefault myPage = null;
+            myPage = (CDefault)this.Page;
+            myPage.Title = Localization.GetString("ControlTitle_login", this.LocalResourceFile);
+
+
         }
 
         /// <summary>
         /// Page_Load runs when the control is loaded
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/8/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -449,8 +453,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// cmdLogin_Click runs when the login button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/24/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -468,9 +470,12 @@ namespace DotNetNuke.Modules.Admin.Security
                 {
                     if( loginStatus == UserLoginStatus.LOGIN_FAILURE )
                     {
-                        //Try Windows Authorization
-                        //(user may be authorized in Windows, but not in DNN yet)
-                        objUser = WindowsAuthorization( loginStatus );
+                        Hashtable settings = Entities.Portals.PortalSettings.GetSiteSettings(PortalId);
+                        if (Convert.ToString(settings["WindowsAuthentication"]) == "True")
+                        {
+                            //Try Windows Authorization (user may be authorized in Windows, but not in DNN yet)
+                            objUser = WindowsAuthorization(loginStatus);
+                        }
                     }
                 }
 
@@ -530,8 +535,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// cmdPassword_Click runs when the Password Reminder button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	03/21/2006  Created
         /// </history>
@@ -543,8 +546,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// cmdProceed_Click runs when the Proceed Anyway button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	06/30/2006  Created
         /// </history>
@@ -557,8 +558,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// cmdRegister_Click runs when the register button is clicked
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	9/24/2004	Updated to reflect design changes for Help, 508 support
         ///                       and localisation
@@ -586,8 +585,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// PasswordUpdated runs when the password is updated
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	03/15/2006  Created
         /// </history>
@@ -614,8 +611,6 @@ namespace DotNetNuke.Modules.Admin.Security
         /// <summary>
         /// ProfileUpdated runs when the profile is updated
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         /// <history>
         /// 	[cnurse]	03/16/2006  Created
         /// </history>

@@ -20,13 +20,114 @@
 
 using System;
 using System.Collections;
+using System.Data;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Data;
+using DotNetNuke.Services.Exceptions;
 
 namespace DotNetNuke.Security.Permissions
 {
     public class FolderPermissionController
     {
+        private static FolderPermissionCollection FillFolderPermissionCollection(IDataReader dr)
+        {
+            FolderPermissionCollection arr = new FolderPermissionCollection();
+            try
+            {
+                while (dr.Read())
+                {
+                    // fill business object
+                    FolderPermissionInfo obj = FillFolderPermissionInfo(dr, false);
+                    // add to collection
+                    arr.Add(obj);
+                }
+            }
+            catch (Exception exc)
+            {
+                Exceptions.LogException(exc);
+            }
+            finally
+            {
+                // close datareader
+                if (dr != null)
+                {
+                    dr.Close();
+                }
+            }
+            return arr;
+        }
+
+        private static ArrayList FillFolderPermissionInfoList(IDataReader dr)
+        {
+            ArrayList arr = new ArrayList();
+            try
+            {
+                while (dr.Read())
+                {
+                    // fill business object
+                    FolderPermissionInfo obj = FillFolderPermissionInfo(dr, false);
+                    // add to collection
+                    arr.Add(obj);
+                }
+            }
+            catch (Exception exc)
+            {
+                Exceptions.LogException(exc);
+            }
+            finally
+            {
+                // close datareader
+                if (dr != null)
+                {
+                    dr.Close();
+                }
+            }
+            return arr;
+        }
+
+        private static FolderPermissionInfo FillFolderPermissionInfo(IDataReader dr)
+        {
+            return FillFolderPermissionInfo(dr, true);
+        }
+
+        private static FolderPermissionInfo FillFolderPermissionInfo(IDataReader dr, bool CheckForOpenDataReader)
+        {
+            FolderPermissionInfo permissionInfo;
+
+            // read datareader
+            bool canContinue = true;
+            if (CheckForOpenDataReader)
+            {
+                canContinue = false;
+                if (dr.Read())
+                {
+                    canContinue = true;
+                }
+            }
+
+            if (canContinue)
+            {
+                permissionInfo = new FolderPermissionInfo();
+                permissionInfo.FolderPermissionID = Convert.ToInt32(Null.SetNull(dr["FolderPermissionID"], permissionInfo.FolderPermissionID));
+                permissionInfo.FolderID = Convert.ToInt32(Null.SetNull(dr["FolderID"], permissionInfo.FolderID));
+                permissionInfo.FolderPath = Convert.ToString(Null.SetNull(dr["FolderPath"], permissionInfo.FolderPath));
+                permissionInfo.PermissionID = Convert.ToInt32(Null.SetNull(dr["PermissionID"], permissionInfo.PermissionID));
+                permissionInfo.RoleID = Convert.ToInt32(Null.SetNull(dr["RoleID"], permissionInfo.RoleID));
+                permissionInfo.RoleName = Convert.ToString(Null.SetNull(dr["RoleName"], permissionInfo.RoleName));
+                permissionInfo.AllowAccess = Convert.ToBoolean(Null.SetNull(dr["AllowAccess"], permissionInfo.AllowAccess));
+                permissionInfo.PermissionCode = Convert.ToString(Null.SetNull(dr["PermissionCode"], permissionInfo.PermissionCode));
+                permissionInfo.PermissionKey = Convert.ToString(Null.SetNull(dr["PermissionKey"], permissionInfo.PermissionKey));
+                permissionInfo.PermissionName = Convert.ToString(Null.SetNull(dr["PermissionName"], permissionInfo.PermissionName));
+            }
+            else
+            {
+                permissionInfo = null;
+            }
+
+            return permissionInfo;
+
+        }
+
         public int AddFolderPermission(FolderPermissionInfo objFolderPermission)
         {
             return Convert.ToInt32(DataProvider.Instance().AddFolderPermission(objFolderPermission.FolderID, objFolderPermission.PermissionID, objFolderPermission.RoleID, objFolderPermission.AllowAccess));
@@ -34,12 +135,28 @@ namespace DotNetNuke.Security.Permissions
 
         public FolderPermissionInfo GetFolderPermission(int FolderPermissionID)
         {
-            return ((FolderPermissionInfo)CBO.FillObject(DataProvider.Instance().GetFolderPermission(FolderPermissionID), typeof(FolderPermissionInfo)));
+            FolderPermissionInfo permission;
+
+            //Get permission from Database
+            IDataReader dr = DataProvider.Instance().GetFolderPermission(FolderPermissionID);
+            try
+            {
+                permission = FillFolderPermissionInfo(dr);
+            }
+            finally
+            {
+                if (dr != null)
+                {
+                    dr.Close();
+                }
+            }
+
+            return permission;
         }
 
         public ArrayList GetFolderPermissionsByFolder(int PortalID, string Folder)
         {
-            return CBO.FillCollection(DataProvider.Instance().GetFolderPermissionsByFolderPath(PortalID, Folder, -1), typeof(FolderPermissionInfo));
+            return FillFolderPermissionInfoList(DataProvider.Instance().GetFolderPermissionsByFolderPath(PortalID, Folder, -1));
         }
 
         public FolderPermissionCollection GetFolderPermissionsByFolder(ArrayList arrFolderPermissions, string FolderPath)
@@ -74,9 +191,7 @@ namespace DotNetNuke.Security.Permissions
 
         public FolderPermissionCollection GetFolderPermissionsCollectionByFolderPath(int PortalID, string FolderPath)
         {
-            IList objFolderPermissionCollection = new FolderPermissionCollection();
-            CBO.FillCollection(DataProvider.Instance().GetFolderPermissionsByFolderPath(PortalID, FolderPath, -1), typeof(FolderPermissionInfo), ref objFolderPermissionCollection);
-            return ((FolderPermissionCollection)objFolderPermissionCollection);
+            return FillFolderPermissionCollection(DataProvider.Instance().GetFolderPermissionsByFolderPath(PortalID, FolderPath, -1));
         }
 
         public FolderPermissionCollection GetFolderPermissionsCollectionByFolderPath(ArrayList arrFolderPermissions, string FolderPath)

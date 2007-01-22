@@ -17,14 +17,17 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Text;
 using System.Web;
 using System.Xml;
+using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Data;
 using DotNetNuke.Entities.Host;
@@ -42,9 +45,6 @@ using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Services.Log.EventLog;
 using DotNetNuke.Services.Personalization;
 using DotNetNuke.Services.Scheduling;
-using DotNetNuke.Services.FileSystem;
-using Globals=DotNetNuke.Common.Globals;
-using TabInfo=DotNetNuke.Entities.Tabs.TabInfo;
 
 namespace DotNetNuke.Services.Upgrade
 {
@@ -78,7 +78,7 @@ namespace DotNetNuke.Services.Upgrade
         private static TabInfo AddAdminPage(PortalInfo Portal, string TabName, string TabIconFile, bool IsVisible)
         {
             TabController objTabController = new TabController();
-            TabInfo AdminPage = objTabController.GetTab(Portal.AdminTabId);
+            TabInfo AdminPage = objTabController.GetTab(Portal.AdminTabId, Portal.PortalID, false);
 
             TabPermissionCollection objTabPermissions = new TabPermissionCollection();
             AddPagePermission(ref objTabPermissions, "View", Convert.ToInt32(Portal.AdministratorRoleId));
@@ -433,8 +433,6 @@ namespace DotNetNuke.Services.Upgrade
             DataProvider dataProvider = DataProvider.Instance();
             IDataReader dr;
             string strWarnings = Null.NullString;
-            StringBuilder sbWarnings = new StringBuilder();
-            bool hasRows = false;
 
             try
             {
@@ -691,28 +689,28 @@ namespace DotNetNuke.Services.Upgrade
             string strScript;
 
             //Install Common
-            HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Executing InstallCommon.sql<br>");
+            HtmlUtils.WriteFeedback(HttpContext.Current.Response, 2, "Installing Script: InstallCommon.sql<br>");
             objStreamReader = File.OpenText(strProviderPath + "InstallCommon.sql");
             strScript = objStreamReader.ReadToEnd();
             objStreamReader.Close();
             strExceptions += PortalSettings.ExecuteScript(strScript);
 
             //Install Membership
-            HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Executing InstallMembership.sql<br>");
+            HtmlUtils.WriteFeedback(HttpContext.Current.Response, 2, "Installing Script: InstallMembership.sql<br>");
             objStreamReader = File.OpenText(strProviderPath + "InstallMembership.sql");
             strScript = objStreamReader.ReadToEnd();
             objStreamReader.Close();
             strExceptions += PortalSettings.ExecuteScript(strScript);
 
             //Install Profile
-            HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Executing InstallProfile.sql<br>");
+            HtmlUtils.WriteFeedback(HttpContext.Current.Response, 2, "Installing Script: InstallProfile.sql<br>");
             objStreamReader = File.OpenText(strProviderPath + "InstallProfile.sql");
             strScript = objStreamReader.ReadToEnd();
             objStreamReader.Close();
             strExceptions += PortalSettings.ExecuteScript(strScript);
 
             //Install Roles
-            HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Executing InstallRoles.sql<br>");
+            HtmlUtils.WriteFeedback(HttpContext.Current.Response, 2, "Installing Script: InstallRoles.sql<br>");
             objStreamReader = File.OpenText(strProviderPath + "InstallRoles.sql");
             strScript = objStreamReader.ReadToEnd();
             objStreamReader.Close();
@@ -734,9 +732,6 @@ namespace DotNetNuke.Services.Upgrade
         private static string UpgradeApplication()
         {
             string strExceptions = "";
-
-            TabController objTabController = new TabController();
-            TabInfo HostPage = objTabController.GetTabByName("Host", Null.NullInteger);
 
             try
             {
@@ -793,19 +788,6 @@ namespace DotNetNuke.Services.Upgrade
 
                     //Add the Module/Page to all configured portals
                     AddAdminPages("Skins", "icon_skins_16px.gif", true, moduleDefId, "Skins", "icon_skins_16px.gif");
-                }
-
-                // add the template module to the portals tab
-                if (!CoreModuleExists("Template"))
-                {
-                    moduleDefId = AddModuleDefinition("Template", "Allows you to export a portal template to be used to build new portals.", "Export Template");
-                    AddModuleControl(moduleDefId, "", "Export Template", "Admin/Portal/Template.ascx", "", SecurityAccessLevel.Host, 1);
-
-                    //Create New Host Page (or get existing one)
-                    newPage = AddHostPage("Portals", "", true);
-
-                    //Add Module To Page
-                    AddModuleToPage(newPage, moduleDefId, "Export Template", "");
                 }
 
                 // add the language editor module to the host tab
@@ -1112,20 +1094,20 @@ namespace DotNetNuke.Services.Upgrade
                         objPermission.PermissionKey = "VIEW";
                         objPermission.PermissionName = "View";
                         objPermission.ModuleDefID = Null.NullInteger;
-                        intViewModulePermissionID = objPermissionController.AddPermission(objPermission);
+                        objPermissionController.AddPermission(objPermission);
 
                         objPermission.PermissionKey = "EDIT";
                         objPermission.PermissionName = "Edit";
-                        intEditModulePermissionID = objPermissionController.AddPermission(objPermission);
+                        objPermissionController.AddPermission(objPermission);
 
                         objPermission.PermissionCode = "SYSTEM_TAB";
                         objPermission.PermissionKey = "VIEW";
                         objPermission.PermissionName = "View Tab";
-                        intViewTabPermissionID = objPermissionController.AddPermission(objPermission);
+                        objPermissionController.AddPermission(objPermission);
 
                         objPermission.PermissionKey = "EDIT";
                         objPermission.PermissionName = "Edit Tab";
-                        intEditTabPermissionID = objPermissionController.AddPermission(objPermission);
+                        objPermissionController.AddPermission(objPermission);
 
                         objPermission.PermissionCode = "SYSTEM_FOLDER";
                         objPermission.PermissionKey = "READ";
@@ -1163,9 +1145,6 @@ namespace DotNetNuke.Services.Upgrade
                         //Transfer Users to the Membership Provider
                         MembershipProvider provider = MembershipProvider.Instance();
                         provider.TransferUsersToMembershipProvider();
-
-                        ModuleDefinitionController objModuleDefinitionController = new ModuleDefinitionController();
-                        ArrayList arrModuleDefinitions = objModuleDefinitionController.GetModuleDefinitions(Null.NullInteger);
 
                         ModuleController objModuleController = new ModuleController();
                         ArrayList arrModules = objModuleController.GetAllModules();
@@ -1341,10 +1320,8 @@ namespace DotNetNuke.Services.Upgrade
                             xmlDoc.Load(xmlConfigFile);
                         }
                         XmlNodeList LogType = xmlDoc.SelectNodes("/LogConfig/LogTypes/LogType");
-                        XmlNode LogTypeInfo;
-                        foreach (XmlNode tempLoopVar_LogTypeInfo in LogType)
+                        foreach (XmlNode LogTypeInfo in LogType)
                         {
-                            LogTypeInfo = tempLoopVar_LogTypeInfo;
                             LogTypeInfo objLogTypeInfo = new LogTypeInfo();
                             objLogTypeInfo.LogTypeKey = LogTypeInfo.Attributes["LogTypeKey"].Value;
                             objLogTypeInfo.LogTypeFriendlyName = LogTypeInfo.Attributes["LogTypeFriendlyName"].Value;
@@ -1355,10 +1332,8 @@ namespace DotNetNuke.Services.Upgrade
                         }
 
                         XmlNodeList LogTypeConfig = xmlDoc.SelectNodes("/LogConfig/LogTypeConfig");
-                        XmlNode LogTypeConfigInfo;
-                        foreach (XmlNode tempLoopVar_LogTypeConfigInfo in LogTypeConfig)
+                        foreach (XmlNode LogTypeConfigInfo in LogTypeConfig)
                         {
-                            LogTypeConfigInfo = tempLoopVar_LogTypeConfigInfo;
                             LogTypeConfigInfo objLogTypeConfig = new LogTypeConfigInfo();
                             objLogTypeConfig.EmailNotificationIsActive = Convert.ToBoolean((LogTypeConfigInfo.Attributes["EmailNotificationStatus"].Value == "On") ? true : false);
                             objLogTypeConfig.KeepMostRecent = LogTypeConfigInfo.Attributes["KeepMostRecent"].Value;
@@ -1411,9 +1386,8 @@ namespace DotNetNuke.Services.Upgrade
                         }
                         LogType = xmlSecDoc.SelectNodes("/LogConfig/LogTypes/LogType");
 
-                        foreach (XmlNode tempLoopVar_LogTypeInfo in LogType)
+                        foreach (XmlNode LogTypeInfo in LogType)
                         {
-                            LogTypeInfo = tempLoopVar_LogTypeInfo;
                             LogTypeInfo objLogTypeInfo = new LogTypeInfo();
                             objLogTypeInfo.LogTypeKey = LogTypeInfo.Attributes["LogTypeKey"].Value;
                             objLogTypeInfo.LogTypeFriendlyName = LogTypeInfo.Attributes["LogTypeFriendlyName"].Value;
@@ -1425,9 +1399,8 @@ namespace DotNetNuke.Services.Upgrade
 
                         LogTypeConfig = xmlSecDoc.SelectNodes("/LogConfig/LogTypeConfig");
 
-                        foreach (XmlNode tempLoopVar_LogTypeConfigInfo in LogTypeConfig)
+                        foreach (XmlNode LogTypeConfigInfo in LogTypeConfig)
                         {
-                            LogTypeConfigInfo = tempLoopVar_LogTypeConfigInfo;
                             LogTypeConfigInfo objLogTypeConfig = new LogTypeConfigInfo();
                             objLogTypeConfig.EmailNotificationIsActive = Convert.ToBoolean((LogTypeConfigInfo.Attributes["EmailNotificationStatus"].Value == "On") ? true : false);
                             objLogTypeConfig.KeepMostRecent = LogTypeConfigInfo.Attributes["KeepMostRecent"].Value;
@@ -1589,14 +1562,11 @@ namespace DotNetNuke.Services.Upgrade
         {
             ModuleController objModules = new ModuleController();
             ModuleInfo objModule;
-            int intIndex;
-            bool blnDuplicate;
 
-            blnDuplicate = false;
-            ArrayList arrModules = objModules.GetPortalTabModules(page.PortalID, page.TabID);
-            for (intIndex = 0; intIndex <= arrModules.Count - 1; intIndex++)
+            bool blnDuplicate = false;
+            foreach (KeyValuePair<int, ModuleInfo> kvp in objModules.GetTabModules(page.TabID))
             {
-                objModule = (ModuleInfo)arrModules[intIndex];
+                objModule = kvp.Value;
                 if (objModule.ModuleDefID == ModuleDefId)
                 {
                     blnDuplicate = true;
@@ -1744,11 +1714,8 @@ namespace DotNetNuke.Services.Upgrade
         public static void InstallDNN(string strProviderPath)
         {
             string strExceptions = "";
-            int intPortalId;
             string strHostPath = Globals.HostMapPath;
             XmlDocument xmlDoc = new XmlDocument();
-            XmlNode node;
-            XmlNodeList nodes;
             string strVersion = "";
             string strScript = "";
             string strLogFile = "";
@@ -1771,7 +1738,7 @@ namespace DotNetNuke.Services.Upgrade
             if (strErrorMessage == "")
             {
                 // parse host nodes
-                node = xmlDoc.SelectSingleNode("//dotnetnuke");
+                XmlNode node = xmlDoc.SelectSingleNode("//dotnetnuke");
                 if (node != null)
                 {
                     strVersion = XmlUtils.GetNodeValue(node, "version", "");
@@ -1864,13 +1831,13 @@ namespace DotNetNuke.Services.Upgrade
                 ExecuteScripts(strProviderPath);
 
                 // parse portal(s) if available
-                nodes = xmlDoc.SelectNodes("//dotnetnuke/portals/portal");
+                XmlNodeList nodes = xmlDoc.SelectNodes("//dotnetnuke/portals/portal");
                 foreach (XmlNode tempLoopVar_node in nodes)
                 {
                     node = tempLoopVar_node;
                     if (node != null)
                     {
-                        intPortalId = AddPortal(node, true, 2);
+                        int intPortalId = AddPortal(node, true, 2);
                         if (intPortalId > -1)
                         {
                             HtmlUtils.WriteFeedback(HttpContext.Current.Response, 2, "<font color='green'>Successfully Installed Portal " + intPortalId + ":</font><br>");
@@ -2093,7 +2060,6 @@ namespace DotNetNuke.Services.Upgrade
         {
             TabController objTabs = new TabController();
             ModuleController objModules = new ModuleController();
-            ModuleInfo objModule;
             int intIndex;
             int intModuleDefId = 0;
             int intDesktopModuleId;
@@ -2102,43 +2068,40 @@ namespace DotNetNuke.Services.Upgrade
             switch (ParentTabName)
             {
                 case "Host":
-
+                    //TODO - when we have a need to remove a Host Module
                     break;
-                //TODO - when we have a need to remove a Host Module
                 case "Admin":
-
                     PortalController objPortals = new PortalController();
 
-                    ArrayList arrPortals = objPortals.GetPortals();
-                    int intPortal;
+                    ArrayList arrPortals = objPortals.GetPortals();                  
 
                     //Iterate through the Portals to remove the Module from the Tab
-                    for (intPortal = 0; intPortal <= arrPortals.Count - 1; intPortal++)
+                    for (int intPortal = 0; intPortal < arrPortals.Count; intPortal++)
                     {
-                        PortalInfo objPortal = (PortalInfo)arrPortals[intPortal];
+                        PortalInfo objPortal = (PortalInfo)(arrPortals[intPortal]);
 
                         int ParentId = objPortal.AdminTabId;
                         TabInfo objTab = objTabs.GetTabByName(TabName, objPortal.PortalID, ParentId);
+                        int intCount = 0;
 
                         //Get the Modules on the Tab
-                        ArrayList arrModules = objModules.GetPortalTabModules(objPortal.PortalID, objTab.TabID);
-                        int intCount = arrModules.Count;
-
-                        //Iterate through Modules to find the one we want
-                        for (intIndex = 0; intIndex <= arrModules.Count - 1; intIndex++)
+                        foreach (KeyValuePair<int, ModuleInfo> kvp in objModules.GetTabModules(objTab.TabID))
                         {
-                            objModule = (ModuleInfo)arrModules[intIndex];
+                            ModuleInfo objModule = kvp.Value;
                             if (objModule.FriendlyName == DesktopModuleName)
                             {
                                 //Delete the Module from the Modules list
                                 objModules.DeleteModule(objModule.ModuleID);
                                 intModuleDefId = objModule.ModuleDefID;
-                                intCount--;
+                            }
+                            else
+                            {
+                                intCount += 1;
                             }
                         }
 
                         //If Tab has no modules optionally remove tab
-                        if (intCount == 0 && TabRemove)
+                        if (intCount == 0 & TabRemove)
                         {
                             objTabs.DeleteTab(objTab.TabID, objTab.PortalID);
                         }

@@ -1,69 +1,53 @@
 <%@ Control Language="C#" AutoEventWireup="true"  Inherits="DotNetNuke.Modules.Admin.Portals.Portals" CodeFile="Portals.ascx.cs" %>
-<asp:datagrid id="grdPortals" runat="server" Width="100%" EnableViewState="false" AutoGenerateColumns="false" CellSpacing="0" CellPadding="4" Border="0" summary="Portals Design Table" BorderStyle="None" BorderWidth="0px" GridLines="None">
-<Columns>
-<asp:TemplateColumn>
-<ItemStyle Width="20px">
-</ItemStyle>
-
-<ItemTemplate>
-				<asp:HyperLink NavigateUrl='<%# GetEditURL(Convert.ToInt32(DataBinder.Eval(Container.DataItem,"PortalID"))) %>' runat="server" ID="lnkEdit">
-<asp:Image ImageUrl="~/images/edit.gif" resourcekey="Edit" AlternateText="Edit this Portal" runat="server" ID="imgEdit"/></asp:HyperLink>
-			
-</ItemTemplate>
-</asp:TemplateColumn>
-<asp:TemplateColumn HeaderText="Title">
-<HeaderStyle CssClass="NormalBold">
-</HeaderStyle>
-
-<ItemStyle CssClass="Normal">
-</ItemStyle>
-
-<ItemTemplate>
-				<asp:Label ID="lblPortal" Runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "PortalName") %>'></asp:Label>
-			
-</ItemTemplate>
-</asp:TemplateColumn>
-<asp:TemplateColumn HeaderText="Portal Aliases">
-<HeaderStyle CssClass="NormalBold">
-</HeaderStyle>
-
-<ItemStyle CssClass="Normal">
-</ItemStyle>
-
-<ItemTemplate>
-				<asp:Label ID="lblPortalAliases" Runat="server" Text='<%# FormatPortalAliases(Convert.ToInt32(DataBinder.Eval(Container.DataItem, "PortalID"))) %>'></asp:Label>
-			
-</ItemTemplate>
-</asp:TemplateColumn>
-<asp:BoundColumn DataField="Users" HeaderText="Users">
-<HeaderStyle HorizontalAlign="Center" CssClass="NormalBold">
-</HeaderStyle>
-
-<ItemStyle HorizontalAlign="Center" CssClass="Normal">
-</ItemStyle>
-</asp:BoundColumn>
-<asp:BoundColumn DataField="HostSpace" HeaderText="DiskSpace">
-<HeaderStyle CssClass="NormalBold">
-</HeaderStyle>
-
-<ItemStyle CssClass="Normal">
-</ItemStyle>
-</asp:BoundColumn>
-<asp:BoundColumn DataField="HostFee" HeaderText="HostingFee" DataFormatString="{0:0.00}">
-<HeaderStyle CssClass="NormalBold">
-</HeaderStyle>
-
-<ItemStyle CssClass="Normal">
-</ItemStyle>
-</asp:BoundColumn>
-<asp:TemplateColumn HeaderText="Expires">
-<HeaderStyle CssClass="NormalBold">
-</HeaderStyle>
-
-<ItemTemplate>
-				<asp:Label runat="server" Text='<%#FormatExpiryDate(Convert.ToDateTime(DataBinder.Eval(Container.DataItem, "ExpiryDate"))) %>' CssClass="Normal" ID="Label1"/>
-			
-</ItemTemplate>
-</asp:TemplateColumn>
-</Columns>
-</asp:datagrid>
+<%@ Register Assembly="DotNetNuke" Namespace="DotNetNuke.UI.WebControls" TagPrefix="dnn" %>
+<asp:Panel ID="plLetterSearch" runat="server" HorizontalAlign="Center">
+    <asp:Repeater ID="rptLetterSearch" runat="server">
+        <ItemTemplate>
+            <asp:HyperLink ID="HyperLink1" runat="server" CssClass="CommandButton" NavigateUrl='<%# FilterURL((string)Container.DataItem,"1") %>' Text='<%# Container.DataItem %>'>
+            </asp:HyperLink>&nbsp;&nbsp;
+        </ItemTemplate>
+    </asp:Repeater>
+</asp:Panel>
+<asp:DataGrid ID="grdPortals" runat="server" AutoGenerateColumns="false" CellPadding="2" CssClass="DataGrid_Container" GridLines="None" Width="100%" OnDeleteCommand="grdPortals_DeleteCommand">
+    <HeaderStyle CssClass="NormalBold" HorizontalAlign="Center" VerticalAlign="Top" />
+    <ItemStyle CssClass="Normal" HorizontalAlign="Center" />
+    <AlternatingItemStyle CssClass="Normal" />
+    <EditItemStyle CssClass="NormalTextBox" />
+    <SelectedItemStyle CssClass="NormalRed" />
+    <FooterStyle CssClass="DataGrid_Footer" />
+    <PagerStyle CssClass="DataGrid_Pager" />
+    <Columns>
+        <dnn:imagecommandcolumn commandname="Edit" editmode="URL" imageurl="~/images/edit.gif" keyfield="PortalID">
+</dnn:imagecommandcolumn>
+        <dnn:imagecommandcolumn commandname="Delete" imageurl="~/images/delete.gif" keyfield="PortalID">
+</dnn:imagecommandcolumn>
+        <asp:TemplateColumn HeaderText="Title">
+            <ItemStyle HorizontalAlign="Left" />
+            <ItemTemplate>
+                <asp:Label ID="lblPortal" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "PortalName") %>'></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateColumn>
+        <asp:TemplateColumn HeaderText="Portal Aliases">
+            <ItemStyle HorizontalAlign="Left" />
+            <ItemTemplate>
+                <asp:Label ID="lblPortalAliases" runat="server" Text='<%# FormatPortalAliases(Convert.ToInt32(DataBinder.Eval(Container.DataItem, "PortalID"))) %>'></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateColumn>
+        <dnn:textcolumn datafield="Users" headertext="Users">
+</dnn:textcolumn>
+        <dnn:textcolumn datafield="Pages" headertext="Pages">
+</dnn:textcolumn>
+        <dnn:textcolumn datafield="HostSpace" headertext="DiskSpace">
+</dnn:textcolumn>
+        <asp:BoundColumn DataField="HostFee" DataFormatString="{0:0.00}" HeaderText="HostingFee"></asp:BoundColumn>
+        <asp:TemplateColumn HeaderText="Expires">
+            <HeaderStyle CssClass="NormalBold" />
+            <ItemTemplate>
+                <asp:Label ID="Label1" runat="server" CssClass="Normal" Text='<%#FormatExpiryDate(Convert.ToDateTime( DataBinder.Eval(Container.DataItem, "ExpiryDate"))) %>'></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateColumn>
+    </Columns>
+</asp:DataGrid>
+<br>
+<br>
+<dnn:pagingcontrol id="ctlPagingControl" runat="server"></dnn:pagingcontrol>

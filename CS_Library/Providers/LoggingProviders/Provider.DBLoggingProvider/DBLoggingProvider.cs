@@ -56,36 +56,36 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             return ( (LogProperties)xser.Deserialize( s ) );
         }
 
-        private LogInfo FillLogInfo( IDataReader dr )
+        private LogInfo FillLogInfo(IDataReader dr)
         {
             LogInfo obj = new LogInfo();
             try
             {
-                string LogGUID;
-                LogGUID = Convert.ToString( dr["LogGUID"] );
+                string LogGUID = null;
+                LogGUID = Convert.ToString(dr["LogGUID"]);
 
-                obj.LogCreateDate = Convert.ToDateTime( dr["LogCreateDate"] );
-                obj.LogGUID = Convert.ToString( dr["LogGUID"] );
-                if( dr["LogPortalID"] != DBNull.Value )
+                obj.LogCreateDate = Convert.ToDateTime(dr["LogCreateDate"]);
+                obj.LogGUID = Convert.ToString(dr["LogGUID"]);
+                if (! (Convert.IsDBNull(dr["LogPortalID"])))
                 {
-                    obj.LogPortalID = Convert.ToInt32( dr["LogPortalID"] );
+                    obj.LogPortalID = Convert.ToInt32(dr["LogPortalID"]);
                 }
-                if( dr["LogPortalName"] != DBNull.Value )
+                if (! (Convert.IsDBNull(dr["LogPortalName"])))
                 {
-                    obj.LogPortalName = Convert.ToString( dr["LogPortalName"] );
+                    obj.LogPortalName = Convert.ToString(dr["LogPortalName"]);
                 }
-                if( dr["LogServerName"] != DBNull.Value )
+                if (! (Convert.IsDBNull(dr["LogServerName"])))
                 {
-                    obj.LogServerName = Convert.ToString( dr["LogServerName"] );
+                    obj.LogServerName = Convert.ToString(dr["LogServerName"]);
                 }
-                if( dr["LogUserID"] != DBNull.Value )
+                if (! (Convert.IsDBNull(dr["LogUserID"])))
                 {
-                    obj.LogUserID = Convert.ToInt32( dr["LogUserID"] );
+                    obj.LogUserID = Convert.ToInt32(dr["LogUserID"]);
                 }
-                obj.LogTypeKey = Convert.ToString( dr["LogTypeKey"] );
-                obj.LogUserName = Convert.ToString( dr["LogUserName"] );
-                obj.LogConfigID = Convert.ToString( dr["LogConfigID"] );
-                obj.LogProperties = Deserialize( Convert.ToString( dr["LogProperties"] ) );
+                obj.LogTypeKey = Convert.ToString(dr["LogTypeKey"]);
+                obj.LogUserName = Convert.ToString(dr["LogUserName"]);
+                obj.LogConfigID = Convert.ToString(dr["LogConfigID"]);
+                obj.LogProperties.Deserialize(Convert.ToString(dr["LogProperties"]));
             }
             finally
             {
@@ -93,25 +93,23 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             return obj;
         }
 
-        private Hashtable FillLogTypeConfigInfoByKey( ArrayList arr )
+        private static Hashtable FillLogTypeConfigInfoByKey(ArrayList arr)
         {
             Hashtable ht = new Hashtable();
-            int i;
-            for( i = 0; i <= arr.Count - 1; i++ )
+            for (int i = 0; i < arr.Count; i++)
             {
-                LogTypeConfigInfo obj;
-                obj = (LogTypeConfigInfo)arr[i];
-                if( obj.LogTypeKey == "" )
+                LogTypeConfigInfo obj = (LogTypeConfigInfo)(arr[i]);
+                if (obj.LogTypeKey == "")
                 {
                     obj.LogTypeKey = "*";
                 }
-                if( obj.LogTypePortalID == "" )
+                if (obj.LogTypePortalID == "")
                 {
                     obj.LogTypePortalID = "*";
                 }
-                ht.Add( obj.LogTypeKey + "|" + obj.LogTypePortalID, obj );
+                ht.Add(obj.LogTypeKey + "|" + obj.LogTypePortalID, obj);
             }
-            DataCache.SetCache( "GetLogTypeConfigInfoByKey", ht );
+            DataCache.SetCache("GetLogTypeConfigInfoByKey", ht);
             return ht;
         }
 
@@ -121,10 +119,9 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             IDataReader dr = DataProvider.Instance().GetLog( PageSize, PageIndex );
             try
             {
-                LogInfo objLogInfo;
                 while( dr.Read() )
                 {
-                    objLogInfo = FillLogInfo( dr );
+                    LogInfo objLogInfo = FillLogInfo( dr );
                     objArr.Add( objLogInfo );
                 }
                 dr.NextResult();
@@ -149,10 +146,9 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             IDataReader dr = DataProvider.Instance().GetLog( LogType, PageSize, PageIndex );
             try
             {
-                LogInfo objLogInfo;
                 while( dr.Read() )
                 {
-                    objLogInfo = FillLogInfo( dr );
+                    LogInfo objLogInfo = FillLogInfo( dr );
                     objArr.Add( objLogInfo );
                 }
                 dr.NextResult();
@@ -181,10 +177,9 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             IDataReader dr = DataProvider.Instance().GetLog( PortalID, PageSize, PageIndex );
             try
             {
-                LogInfo objLogInfo;
                 while( dr.Read() )
                 {
-                    objLogInfo = FillLogInfo( dr );
+                    LogInfo objLogInfo = FillLogInfo( dr );
                     objArr.Add( objLogInfo );
                 }
                 dr.NextResult();
@@ -213,10 +208,9 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             IDataReader dr = DataProvider.Instance().GetLog( PortalID, LogType, PageSize, PageIndex );
             try
             {
-                LogInfo objLogInfo;
                 while( dr.Read() )
                 {
-                    objLogInfo = FillLogInfo( dr );
+                    LogInfo objLogInfo = FillLogInfo( dr );
                     objArr.Add( objLogInfo );
                 }
                 dr.NextResult();
@@ -241,10 +235,9 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             IDataReader dr = DataProvider.Instance().GetLog();
             try
             {
-                LogInfo objLogInfo;
                 while( dr.Read() )
                 {
-                    objLogInfo = FillLogInfo( dr );
+                    LogInfo objLogInfo = FillLogInfo( dr );
                     objArr.Add( objLogInfo );
                 }
             }
@@ -264,10 +257,9 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             IDataReader dr = DataProvider.Instance().GetLog( LogType );
             try
             {
-                LogInfo objLogInfo;
                 while( dr.Read() )
                 {
-                    objLogInfo = FillLogInfo( dr );
+                    LogInfo objLogInfo = FillLogInfo( dr );
                     objArr.Add( objLogInfo );
                 }
             }
@@ -291,10 +283,9 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             IDataReader dr = DataProvider.Instance().GetLog( PortalID );
             try
             {
-                LogInfo objLogInfo;
                 while( dr.Read() )
                 {
-                    objLogInfo = FillLogInfo( dr );
+                    LogInfo objLogInfo = FillLogInfo( dr );
                     objArr.Add( objLogInfo );
                 }
             }
@@ -318,10 +309,9 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             IDataReader dr = DataProvider.Instance().GetLog( PortalID, LogType );
             try
             {
-                LogInfo objLogInfo;
                 while( dr.Read() )
                 {
-                    objLogInfo = FillLogInfo( dr );
+                    LogInfo objLogInfo = FillLogInfo( dr );
                     objArr.Add( objLogInfo );
                 }
             }
@@ -358,25 +348,23 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             return ( (LogTypeConfigInfo)CBO.FillObject( DataProvider.Instance().GetLogTypeConfigInfoByID( Convert.ToInt32( ID ) ), typeof( LogTypeConfigInfo ) ) );
         }
 
-        private LogTypeConfigInfo GetLogTypeConfigInfoByKey( string LogTypeKey, string LogTypePortalID )
+        private LogTypeConfigInfo GetLogTypeConfigInfoByKey(string LogTypeKey, string LogTypePortalID)
         {
-            Hashtable ht;
-            ht = (Hashtable)DataCache.GetCache( "GetLogTypeConfigInfoByKey" );
-            if( ht == null )
+            Hashtable ht = (Hashtable)(DataCache.GetCache("GetLogTypeConfigInfoByKey"));
+            if (ht == null)
             {
-                ht = FillLogTypeConfigInfoByKey( GetLogTypeConfigInfo() );
+                ht = FillLogTypeConfigInfoByKey(GetLogTypeConfigInfo());
             }
-            LogTypeConfigInfo objLogTypeConfigInfo;
-            objLogTypeConfigInfo = (LogTypeConfigInfo)ht[LogTypeKey + "|" + LogTypePortalID];
-            if( objLogTypeConfigInfo == null )
+            LogTypeConfigInfo objLogTypeConfigInfo = (LogTypeConfigInfo)(ht[LogTypeKey + "|" + LogTypePortalID]);
+            if (objLogTypeConfigInfo == null)
             {
-                objLogTypeConfigInfo = (LogTypeConfigInfo)ht["*|" + LogTypePortalID];
-                if( objLogTypeConfigInfo == null )
+                objLogTypeConfigInfo = (LogTypeConfigInfo)(ht["*|" + LogTypePortalID]);
+                if (objLogTypeConfigInfo == null)
                 {
-                    objLogTypeConfigInfo = (LogTypeConfigInfo)ht[LogTypeKey + "|*"];
-                    if( objLogTypeConfigInfo == null )
+                    objLogTypeConfigInfo = (LogTypeConfigInfo)(ht[LogTypeKey + "|*"]);
+                    if (objLogTypeConfigInfo == null)
                     {
-                        objLogTypeConfigInfo = (LogTypeConfigInfo)ht["*|*"];
+                        objLogTypeConfigInfo = (LogTypeConfigInfo)(ht["*|*"]);
                     }
                     else
                     {
@@ -428,7 +416,7 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             {
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml( XmlUtils.Serialize( obj ) );
-                return ( (XmlNode)xmlDoc.DocumentElement );
+                return xmlDoc.DocumentElement;
             }
         }
 
@@ -535,9 +523,9 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             }
         }
 
-        public override void AddLogType( string LogTypeKey, string LogTypeFriendlyName, string LogTypeDescription, string LogTypeCSSClass, string LogTypeOwner )
+        public override void AddLogType(string LogTypeKey, string LogTypeFriendlyName, string LogTypeDescription, string LogTypeCSSClass, string LogTypeOwner)
         {
-            DataProvider.Instance().AddLogType( LogTypeKey, LogTypeFriendlyName, LogTypeDescription, LogTypeCSSClass, LogTypeOwner );
+            DataProvider.Instance().AddLogType(LogTypeKey, LogTypeFriendlyName, LogTypeDescription, LogTypeCSSClass, LogTypeOwner);
         }
 
         public override void AddLogTypeConfigInfo( string ID, bool LoggingIsActive, string LogTypeKey, string LogTypePortalID, string KeepMostRecent, string LogFileName, bool EmailNotificationIsActive, string Threshold, string ThresholdTime, string ThresholdTimeType, string MailFromAddress, string MailToAddress )
@@ -652,7 +640,7 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
                     while( dr.Read() )
                     {
                         LogInfo objLogInfo = this.FillLogInfo( dr );
-                        strLog += Serialize( objLogInfo ) + "\r\n" + "\r\n";
+                        //strLog += Serialize( objLogInfo ) + "\r\n" + "\r\n";
                     }
                 }
                 finally
@@ -662,7 +650,6 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
                         dr.Close();
                     }
                 }
-                dr = null;
                 Mail.Mail.SendMail( objLogConfig.MailFromAddress, objLogConfig.MailToAddress, "", "Event Notification", strLog, "", "", "", "", "", "" );
                 DataProvider.Instance().UpdateEventLogPendingNotif( Convert.ToInt32( objLogConfig.ID ) );
             }
@@ -704,33 +691,31 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
             DataCache.RemoveCache( "GetLogTypeConfigInfoByKey" );
         }
 
-        private void WriteLog( LogQueueItem objLogQueueItem )
+        private static void WriteLog(LogQueueItem objLogQueueItem)
         {
+
             LogTypeConfigInfo objLogTypeConfigInfo = null;
             try
             {
                 objLogTypeConfigInfo = objLogQueueItem.LogTypeConfigInfo;
-                if( objLogTypeConfigInfo != null )
+                if (objLogTypeConfigInfo != null)
                 {
-                    LogInfo objLogInfo;
-                    objLogInfo = objLogQueueItem.LogInfo;
-                    string LogProperties;
-                    LogProperties = Serialize( objLogInfo.LogProperties );
-                    DataProvider.Instance().AddLog( objLogInfo.LogGUID, objLogInfo.LogTypeKey, objLogInfo.LogUserID, objLogInfo.LogUserName, objLogInfo.LogPortalID, objLogInfo.LogPortalName, objLogInfo.LogCreateDate, objLogInfo.LogServerName, LogProperties, Convert.ToInt32( objLogInfo.LogConfigID ) );
+                    LogInfo objLogInfo = objLogQueueItem.LogInfo;
+                    string LogProperties = objLogInfo.LogProperties.Serialize();
 
-                    if( objLogTypeConfigInfo.EmailNotificationIsActive == true )
+                    DataProvider.Instance().AddLog(objLogInfo.LogGUID, objLogInfo.LogTypeKey, objLogInfo.LogUserID, objLogInfo.LogUserName, objLogInfo.LogPortalID, objLogInfo.LogPortalName, objLogInfo.LogCreateDate, objLogInfo.LogServerName, LogProperties, Convert.ToInt32(objLogInfo.LogConfigID));
+
+                    if (objLogTypeConfigInfo.EmailNotificationIsActive)
                     {
                         try
                         {
-                            lockNotif.AcquireWriterLock( ReaderLockTimeout );
-
-                            if( objLogTypeConfigInfo.NotificationThreshold == 0 )
+                            lockNotif.AcquireWriterLock(ReaderLockTimeout);
+                            if (objLogTypeConfigInfo.NotificationThreshold == 0)
                             {
-                                string str;
-                                str = XmlUtils.Serialize( objLogQueueItem.LogInfo );
-                                Mail.Mail.SendMail( objLogTypeConfigInfo.MailFromAddress, objLogTypeConfigInfo.MailToAddress, "", "Event Notification", str, "", "", "", "", "", "" );
+                                string str = objLogQueueItem.LogInfo.Serialize();
+                                Mail.Mail.SendMail(objLogTypeConfigInfo.MailFromAddress, objLogTypeConfigInfo.MailToAddress, "", "Event Notification", str, "", "", "", "", "", "");
                             }
-                            else if( objLogTypeConfigInfo.LogTypeKey != "LOG_NOTIFICATION_FAILURE" )
+                            else if (objLogTypeConfigInfo.LogTypeKey != "LOG_NOTIFICATION_FAILURE")
                             {
                                 //pending log notifications go here
                             }
@@ -742,31 +727,34 @@ namespace DotNetNuke.Services.Log.EventLog.DBLoggingProvider
                     }
                 }
 
-                if( objLogTypeConfigInfo.EmailNotificationIsActive == true )
+                if (objLogTypeConfigInfo.EmailNotificationIsActive)
                 {
-                    if( objLogTypeConfigInfo.NotificationThreshold == 0 )
+                    if (objLogTypeConfigInfo.NotificationThreshold == 0)
                     {
                         //SendNotification(objLogTypeConfigInfo.MailFromAddress, objLogTypeConfigInfo.MailToAddress, "", "Event Notification", xmlDoc.InnerXml)
                     }
-                    else if( objLogTypeConfigInfo.LogTypeKey != "LOG_NOTIFICATION_FAILURE" )
+                    else if (objLogTypeConfigInfo.LogTypeKey != "LOG_NOTIFICATION_FAILURE")
                     {
+
                     }
                 }
+
             }
-            catch( Exception exc )
+            catch (Exception exc)
             {
-                if( HttpContext.Current != null )
+                if (HttpContext.Current != null)
                 {
                     HttpResponse response = HttpContext.Current.Response;
-                    HtmlUtils.WriteHeader( response, "Unhandled Error" );
+                    HtmlUtils.WriteHeader(response, "Unhandled Error");
 
                     string strMessage = exc.Message;
-                    HtmlUtils.WriteError( response, objLogTypeConfigInfo.LogFileNameWithPath, strMessage );
+                    HtmlUtils.WriteError(response, objLogTypeConfigInfo.LogFileNameWithPath, strMessage);
 
-                    HtmlUtils.WriteFooter( response );
+                    HtmlUtils.WriteFooter(response);
                     response.End();
                 }
             }
+
         }
     }
 }

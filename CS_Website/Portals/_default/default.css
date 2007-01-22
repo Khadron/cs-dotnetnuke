@@ -833,3 +833,19 @@ A.OtherTabs:hover    {
 	border: solid 0px red;
 	background-color: Transparent;
 }
+
+/* style for the DNNTextSuggest control select menu */
+.SuggestTextMenu
+{
+	border: solid 1px black;
+	white-space: nowrap;
+	background: white;
+}
+/* style for the DNNTextSuggest control selected menu node */
+.SuggestNodeOver
+{
+    background-color: navy;
+    color: White;
+    
+}
+

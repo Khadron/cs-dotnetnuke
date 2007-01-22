@@ -187,7 +187,8 @@ namespace DotNetNuke.Security.Permissions.Controls
         private void GetTabPermissions()
         {
             TabPermissionController objTabPermissionController = new TabPermissionController();
-            TabPermissions = objTabPermissionController.GetTabPermissionsCollectionByTabID( this.TabID );
+            TabPermissions = objTabPermissionController.GetTabPermissionsCollectionByTabID(this.TabID, this.PortalId);
+
         }
 
         /// <summary>

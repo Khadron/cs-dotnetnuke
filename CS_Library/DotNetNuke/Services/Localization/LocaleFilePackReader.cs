@@ -266,7 +266,6 @@ namespace DotNetNuke.Services.Localization
                         }
                         else
                         {
-                            //TODO: Localize -- jmb 12/15/2004
                             ProgressLog.AddInfo(string.Format(EXCEPTION_LangPack_FileMissing, entry.Name));
                         }
                     }

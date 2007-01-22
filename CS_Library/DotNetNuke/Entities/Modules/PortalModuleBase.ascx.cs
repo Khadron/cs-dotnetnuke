@@ -17,6 +17,7 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -98,7 +99,7 @@ namespace DotNetNuke.Entities.Modules
         {
             get
             {
-                return CacheDirectory + "\\" + Globals.CleanFileName(CacheKey) + ".htm";
+                return CacheDirectory + "\\" + Globals.CleanFileName(CacheKey) + ".resources";
             }
         }
 
@@ -458,7 +459,24 @@ namespace DotNetNuke.Entities.Modules
             }
         }
 
-        private int GetActionsCount(int count, ModuleActionCollection actions)
+        private bool CanAddAction(SecurityAccessLevel access, bool checkAdminControl)
+        {
+            bool canAdd;
+            string userName = Null.NullString;
+            if (UserInfo != null)
+            {
+                userName = UserInfo.Username;
+            }
+            canAdd = PortalSecurity.HasNecessaryPermission(access, PortalSettings, ModuleConfiguration, userName);
+            if (canAdd && checkAdminControl)
+            {
+                canAdd = EditMode && !ModuleConfiguration.IsAdmin && !(Globals.IsAdminControl());
+            }
+
+            return canAdd;
+        }
+
+        private static int GetActionsCount(int count, ModuleActionCollection actions)
         {
             foreach (ModuleAction action in actions)
             {
@@ -524,7 +542,7 @@ namespace DotNetNuke.Entities.Modules
             if (_moduleConfiguration != null)
             {
                 // if user does not have EDIT rights for the module ( content editors can not see cached versions of modules )
-                if (PortalSecurity.HasEditPermissions(_moduleConfiguration.ModuleID) == false)
+                if (PortalSecurity.HasEditPermissions(_moduleConfiguration.ModulePermissions) == false)
                 {
                     // Attempt to resolve previously cached content
                     if (_moduleConfiguration.CacheTime != 0)
@@ -579,6 +597,10 @@ namespace DotNetNuke.Entities.Modules
                         PortalModuleBase objPortalModuleBase = (PortalModuleBase)Page.LoadControl(_moduleConfiguration.ControlSrc);
                         objPortalModuleBase.ModuleConfiguration = this.ModuleConfiguration;
 
+                        // set the control ID to the resource file name ( ie. controlname.ascx = controlname )
+                        // this is necessary for the Localization in PageBase
+                        objPortalModuleBase.ID = Path.GetFileNameWithoutExtension(_moduleConfiguration.ControlSrc);
+
                         // In skin.vb, the call to Me.Controls.Add(objPortalModuleBase) calls CreateChildControls() therefore
                         // we need to indicate the control has already been created. We will manipulate the CacheTime property for this purpose.
                         objPortalModuleBase.ModuleConfiguration.CacheTime = -(objPortalModuleBase.ModuleConfiguration.CacheTime);
@@ -604,7 +626,9 @@ namespace DotNetNuke.Entities.Modules
         /// </remarks>
         private void LoadActions()
         {
+
             _actions = new ModuleActionCollection();
+            int maxActionId = Null.NullInteger;
 
             //check if module Implements Entities.Modules.IActionable interface
             if (this is IActionable)
@@ -612,85 +636,95 @@ namespace DotNetNuke.Entities.Modules
                 // load module actions
                 ModuleActionCollection ModuleActions = ((IActionable)this).ModuleActions;
 
-                _actions.AddRange(ModuleActions);
-                _actions.Add(GetNextActionID(), "~", "", "", "", "", false, SecurityAccessLevel.Anonymous, true, false);
-                foreach (ModuleAction action in _actions)
+                foreach (ModuleAction action in ModuleActions)
                 {
-                    if (action.Icon == "")
+                    if (CanAddAction(action.Secure, false))
                     {
-                        action.Icon = "edit.gif";
+                        if (action.Icon == "")
+                        {
+                            action.Icon = "edit.gif";
+                        }
+                        if (action.ID > maxActionId)
+                        {
+                            maxActionId = action.ID;
+                        }
+                        _actions.Add(action);
                     }
                 }
             }
 
             //Make sure the Next Action Id counter is correct
             int actionCount = GetActionsCount(_actions.Count, _actions);
-            if (_nextActionId != actionCount)
+            if (_nextActionId < maxActionId)
+            {
+                _nextActionId = maxActionId;
+            }
+            if (_nextActionId < actionCount)
             {
                 _nextActionId = actionCount;
             }
 
-            // check if module implements IPortable interface
-            if (this.ModuleConfiguration.IsPortable && !Globals.IsAdminControl() && !String.IsNullOrEmpty(this.ModuleConfiguration.BusinessControllerClass))
+            if (! (string.IsNullOrEmpty(ModuleConfiguration.BusinessControllerClass)))
             {
-                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ImportModule, Localization.GlobalResourceFile), "", "", "rt.gif", Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "ImportModule", "moduleid=" + ModuleId), "", false, SecurityAccessLevel.Admin, EditMode, false);
-                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ExportModule, Localization.GlobalResourceFile), "", "", "lt.gif", Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "ExportModule", "moduleid=" + ModuleId), "", false, SecurityAccessLevel.Admin, EditMode, false);
-            }
+                // check if module implements IPortable interface, and user has Admin permissions
+                if (ModuleConfiguration.IsPortable & CanAddAction(SecurityAccessLevel.Admin, true))
+                {
+                    _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ImportModule, Localization.GlobalResourceFile), "", "", "rt.gif", Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "ImportModule", "moduleid=" + ModuleId), "", false, SecurityAccessLevel.Admin, EditMode, false);
+                    _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ExportModule, Localization.GlobalResourceFile), "", "", "lt.gif", Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "ExportModule", "moduleid=" + ModuleId), "", false, SecurityAccessLevel.Admin, EditMode, false);
+                }
 
-            //If TypeOf objPortalModuleBase Is ISearchable Then
-            if (this.ModuleConfiguration.IsSearchable && !Globals.IsAdminControl() && !String.IsNullOrEmpty(this.ModuleConfiguration.BusinessControllerClass))
-            {
-                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.SyndicateModule, Localization.GlobalResourceFile), ModuleActionType.SyndicateModule, "", "xml.gif", Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "", "moduleid=" + ModuleId).Replace(Globals.glbDefaultPage, "RSS.aspx"), "", false, SecurityAccessLevel.Anonymous, true, true);
+                //If TypeOf objPortalModuleBase Is ISearchable Then
+                if (ModuleConfiguration.IsSearchable & CanAddAction(SecurityAccessLevel.Anonymous, true))
+                {
+                    _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.SyndicateModule, Localization.GlobalResourceFile), ModuleActionType.SyndicateModule, "", "xml.gif", Globals.NavigateURL(PortalSettings.ActiveTab.TabID, "", "moduleid=" + ModuleId).Replace(Globals.glbDefaultPage, "RSS.aspx"), "", false, SecurityAccessLevel.Anonymous, true, true);
+                }
             }
 
             // help module actions available to content editors and administrators
-            if (ModuleConfiguration.ControlType != SecurityAccessLevel.Anonymous && Request.QueryString["ctl"] != "Help")
+            if (ModuleConfiguration.ControlType != SecurityAccessLevel.Anonymous & Request.QueryString["ctl"] != "Help")
             {
                 SetHelpVisibility();
             }
 
             //Add Print Action
-            if (ModuleConfiguration.DisplayPrint)
+            if (ModuleConfiguration.DisplayPrint & CanAddAction(SecurityAccessLevel.Anonymous, true))
             {
                 // print module action available to everyone
                 _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.PrintModule, Localization.GlobalResourceFile), ModuleActionType.PrintModule, "", "print.gif", Globals.NavigateURL(TabId, "", "mid=" + ModuleId, "SkinSrc=" + Globals.QueryStringEncode("[G]" + SkinInfo.RootSkin + "/" + Globals.glbHostSkinFolder + "/" + "No Skin"), "ContainerSrc=" + Globals.QueryStringEncode("[G]" + SkinInfo.RootContainer + "/" + Globals.glbHostSkinFolder + "/" + "No Container"), "dnnprintmode=true"), "", false, SecurityAccessLevel.Anonymous, true, true);
             }
 
-            // core module actions only available to administrators
-            if (EditMode && ModuleConfiguration.IsAdmin == false && Globals.IsAdminControl() == false)
+            // core module actions only available to administrators 
+            if (CanAddAction(SecurityAccessLevel.Admin, true))
             {
                 // module settings
-                _actions.Add(GetNextActionID(), "~", "", "", "", "", false, SecurityAccessLevel.Anonymous, true, false);
-                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ModuleSettings, Localization.GlobalResourceFile), ModuleActionType.ModuleSettings, "", "settings.gif", Globals.NavigateURL(TabId, "Module", "ModuleId=" + ModuleId), false, SecurityAccessLevel.Admin, true, false);
+                _actions.Add(GetNextActionID(), "~", "");
+                _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ModuleSettings, Localization.GlobalResourceFile), ModuleActionType.ModuleSettings, "", "settings.gif", Globals.NavigateURL(TabId, "Module", "ModuleId=" + ModuleId), false, SecurityAccessLevel.Admin, true);
                 _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.DeleteModule, Localization.GlobalResourceFile), ModuleActionType.DeleteModule, ModuleConfiguration.ModuleID.ToString(), "delete.gif", "", "confirm('" + ClientAPI.GetSafeJSString(Localization.GetString("DeleteModule.Confirm")) + "')", false, SecurityAccessLevel.Admin, true, false);
                 if (ModuleConfiguration.CacheTime != 0)
                 {
-                    _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ClearCache, Localization.GlobalResourceFile), ModuleActionType.ClearCache, ModuleConfiguration.ModuleID.ToString(), "restore.gif", "", false, SecurityAccessLevel.Admin, true, false);
+                    _actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.ClearCache, Localization.GlobalResourceFile), ModuleActionType.ClearCache, ModuleConfiguration.ModuleID.ToString(), "restore.gif","",false, SecurityAccessLevel.Admin, true);
                 }
 
                 // module movement
-                _actions.Add(GetNextActionID(), "~", "", "", "", "", false, SecurityAccessLevel.Anonymous, true, false);
+                _actions.Add(GetNextActionID(), "~", "");
                 ModuleAction MoveActionRoot = new ModuleAction(GetNextActionID(), Localization.GetString(ModuleActionType.MoveRoot, Localization.GlobalResourceFile), "", "", "", "", "", false, SecurityAccessLevel.Admin, EditMode);
 
                 // move module up/down
                 if (ModuleConfiguration != null)
                 {
-                    SetMoveMenuVisibility(MoveActionRoot.Actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.MoveTop, Localization.GlobalResourceFile), ModuleActionType.MoveTop, ModuleConfiguration.PaneName, "top.gif", "", false, SecurityAccessLevel.Admin, EditMode, false));
-                    SetMoveMenuVisibility(MoveActionRoot.Actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.MoveUp, Localization.GlobalResourceFile), ModuleActionType.MoveUp, ModuleConfiguration.PaneName, "up.gif", "", false, SecurityAccessLevel.Admin, EditMode, false));
-                    SetMoveMenuVisibility(MoveActionRoot.Actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.MoveDown, Localization.GlobalResourceFile), ModuleActionType.MoveDown, ModuleConfiguration.PaneName, "dn.gif", "", false, SecurityAccessLevel.Admin, EditMode, false));
-                    SetMoveMenuVisibility(MoveActionRoot.Actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.MoveBottom, Localization.GlobalResourceFile), ModuleActionType.MoveBottom, ModuleConfiguration.PaneName, "bottom.gif", "", false, SecurityAccessLevel.Admin, EditMode, false));
+                    SetMoveMenuVisibility(MoveActionRoot.Actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.MoveTop, Localization.GlobalResourceFile), ModuleActionType.MoveTop, ModuleConfiguration.PaneName, "top.gif","", false, SecurityAccessLevel.Admin, EditMode));
+                    SetMoveMenuVisibility(MoveActionRoot.Actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.MoveUp, Localization.GlobalResourceFile), ModuleActionType.MoveUp, ModuleConfiguration.PaneName, "up.gif", "",false,SecurityAccessLevel.Admin, EditMode));
+                    SetMoveMenuVisibility(MoveActionRoot.Actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.MoveDown, Localization.GlobalResourceFile), ModuleActionType.MoveDown, ModuleConfiguration.PaneName, "dn.gif","",false, SecurityAccessLevel.Admin, EditMode));
+                    SetMoveMenuVisibility(MoveActionRoot.Actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.MoveBottom, Localization.GlobalResourceFile), ModuleActionType.MoveBottom, ModuleConfiguration.PaneName, "bottom.gif","",false, SecurityAccessLevel.Admin, EditMode));
                 }
 
                 // move module to pane
-                int intItem;
-                for (intItem = 0; intItem <= PortalSettings.ActiveTab.Panes.Count - 1; intItem++)
+                for (int intItem = 0; intItem < PortalSettings.ActiveTab.Panes.Count; intItem++)
                 {
-                    SetMoveMenuVisibility(MoveActionRoot.Actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.MovePane, Localization.GlobalResourceFile) + " " + Convert.ToString(PortalSettings.ActiveTab.Panes[intItem]), ModuleActionType.MovePane, Convert.ToString(PortalSettings.ActiveTab.Panes[intItem]), "move.gif", "", false, SecurityAccessLevel.Admin, EditMode, false));
+                    SetMoveMenuVisibility(MoveActionRoot.Actions.Add(GetNextActionID(), Localization.GetString(ModuleActionType.MovePane, Localization.GlobalResourceFile) + " " + Convert.ToString(PortalSettings.ActiveTab.Panes[intItem]), ModuleActionType.MovePane, Convert.ToString(PortalSettings.ActiveTab.Panes[intItem]), "move.gif", "",false,SecurityAccessLevel.Admin, EditMode));
                 }
-                ModuleAction ma;
-                foreach (ModuleAction tempLoopVar_ma in MoveActionRoot.Actions)
+                foreach (ModuleAction ma in MoveActionRoot.Actions)
                 {
-                    ma = tempLoopVar_ma;
                     if (ma.Visible)
                     {
                         _actions.Add(MoveActionRoot);
@@ -713,7 +747,7 @@ namespace DotNetNuke.Entities.Modules
             if (_moduleConfiguration != null)
             {
                 // If no caching is specified or in admin mode, render the child tree and return
-                if (_moduleConfiguration.CacheTime == 0 || (PortalSecurity.IsInRoles(PortalSettings.AdministratorRoleName) || PortalSecurity.IsInRoles(PortalSettings.ActiveTab.AdministratorRoles.ToString())))
+                if (_moduleConfiguration.CacheTime == 0 | PortalSecurity.HasEditPermissions(_moduleConfiguration.ModulePermissions))
                 {
                     base.Render(output);
                 }

@@ -17,36 +17,45 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Configuration;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.Caching;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Xml;
 
 namespace DotNetNuke.UI.Utilities
 {
-    /// <Summary>Library responsible for interacting with DNN Client API.</Summary>
+    /// Project	 : DotNetNuke
+    /// Class	 : ClientAPI
+    /// <summary>
+    /// Library responsible for interacting with DNN Client API.
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <history>
+    /// 	[Jon Henning]	8/3/2004	Created
+    /// </history>
     public class ClientAPI
     {
-        public const string DNNVARIABLE_CONTROLID = "__dnnVariable";
-
-        /// <Summary>
-        /// Private variable holding location of client side js files.  Shared by entire application.
-        /// </Summary>
-        private static string m_sScriptPath;
+        #region Public Constants
 
         public const string SCRIPT_CALLBACKID = "__DNNCAPISCI";
-        public const string SCRIPT_CALLBACKPAGEID = "__DNNCAPISCPAGEID";
+        public const string SCRIPT_CALLBACKTYPE = "__DNNCAPISCT";
         public const string SCRIPT_CALLBACKPARAM = "__DNNCAPISCP";
-        public const string SCRIPT_CALLBACKSTATUSDESCID = "__DNNCAPISCSDI";
+        public const string SCRIPT_CALLBACKPAGEID = "__DNNCAPISCPAGEID";
         public const string SCRIPT_CALLBACKSTATUSID = "__DNNCAPISCSI";
+        public const string SCRIPT_CALLBACKSTATUSDESCID = "__DNNCAPISCSDI";
 
-        public enum ClientFunctionality
+        public const string DNNVARIABLE_CONTROLID = "__dnnVariable";
+
+        #endregion
+
+        #region Public Enums
+
+        public enum ClientFunctionality : int
         {
             DHTML = 1,
             XML = 2,
@@ -58,264 +67,66 @@ namespace DotNetNuke.UI.Utilities
             SingleCharDelimiters = 128,
         }
 
-        public enum ClientNamespaceReferences
+        /// <summary>
+        /// Enumerates each namespace with a seperate js file
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	8/3/2004	Created
+        /// </history>
+        public enum ClientNamespaceReferences : int
         {
-            dnn = 0,
-            dnn_dom = 1,
-            dnn_dom_positioning = 2,
-            dnn_xml = 3,
-            dnn_xmlhttp = 4,
+            dnn,
+            dnn_dom,
+            dnn_dom_positioning,
+            dnn_xml,
+            dnn_xmlhttp
         }
 
-        private static HtmlInputHidden get_ClientVariableControl( Page objPage )
+        #endregion
+
+        #region Private Shared Members
+
+        /// <summary>Private variable holding location of client side js files.  Shared by entire application.</summary>
+        private static string m_sScriptPath;
+
+        private static string m_ClientAPIDisabled = string.Empty;
+
+        #endregion
+
+        #region Private Shared Properties
+
+        /// <summary>
+        /// Finds __dnnVariable control on page, if not found it attempts to add its own.
+        /// </summary>
+        /// <param name="objPage">Current page rendering content</param>
+        /// <value></value>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	8/3/2004	Created
+        /// </history>
+        //ORIGINAL LINE: Private Shared ReadOnly Property ClientVariableControl(ByVal objPage As Page) As HtmlInputHidden
+        //INSTANT C# NOTE: C# does not support parameterized properties - the following property has been rewritten as a function:
+        private static HtmlInputHidden GetClientVariableControl( Page objPage )
         {
             return RegisterDNNVariableControl( objPage );
         }
 
-        /// <Summary>Character used for delimiting name from value</Summary>
-        public static string COLUMN_DELIMITER
-        {
-            get
-            {
-                if( ! BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
-                {
-                    return "~|~";
-                }
-                else
-                {
-                    return "";
-                }
-            }
-        }
-
-        /// <Summary>Character used for delimiting name from value</Summary>
-        public static string CUSTOM_COLUMN_DELIMITER
-        {
-            get
-            {
-                if( ! BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
-                {
-                    return "~.~";
-                }
-                else
-                {
-                    return "";
-                }
-            }
-        }
-
-        /// <Summary>Character used for delimiting name/value pairs</Summary>
-        public static string CUSTOM_ROW_DELIMITER
-        {
-            get
-            {
-                if( ! BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
-                {
-                    return "~,~";
-                }
-                else
-                {
-                    return "";
-                }
-            }
-        }
-
-        /// <Summary>
-        /// In order to reduce payload, substitute out " with different char, since when put in a hidden control it uses "
-        /// </Summary>
-        public static string QUOTE_REPLACEMENT
-        {
-            get
-            {
-                if( ! BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
-                {
-                    return "~!~";
-                }
-                else
-                {
-                    return "";
-                }
-            }
-        }
-
-        /// <Summary>Character used for delimiting name/value pairs</Summary>
-        public static string ROW_DELIMITER
-        {
-            get
-            {
-                if( ! BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
-                {
-                    return "~`~";
-                }
-                else
-                {
-                    return "";
-                }
-            }
-        }
-
-        /// <Summary>Path where js files are placed</Summary>
-        public static string ScriptPath
-        {
-            get
-            {
-                
-                if( !String.IsNullOrEmpty( m_sScriptPath) )
-                {
-                    return m_sScriptPath;
-                }
-                if( HttpContext.Current == null )
-                {
-                    return String.Empty;
-                }
-                if( HttpContext.Current.Request.ApplicationPath.EndsWith( "/" ) )
-                {
-                    return ( HttpContext.Current.Request.ApplicationPath + "js/" );
-                }
-                else
-                {
-                    return ( HttpContext.Current.Request.ApplicationPath + "/js/" );
-                }
-            }
-            set
-            {
-                m_sScriptPath = value;
-            }
-        }
-
-        private static void AddAttribute( Control objControl, string strName, string strValue )
-        {
-            if( objControl is HtmlControl )
-            {
-                ( (HtmlControl)objControl ).Attributes.Add( strName, strValue );
-                return;
-            }
-            if( ! ( objControl is WebControl ) )
-            {
-                return;
-            }
-            ( (WebControl)objControl ).Attributes.Add( strName, strValue );
-        }
-
-        /// <Summary>Common way to handle confirmation prompts on client</Summary>
-        /// <Param name="objButton">Button to trap click event</Param>
-        /// <Param name="strText">Text to display in confirmation</Param>
-        public static void AddButtonConfirm( WebControl objButton, string strText )
-        {
-            objButton.Attributes.Add( "onClick", ( "javascript:return confirm('" + GetSafeJSString( strText ) + "');" ) );
-        }
-
-        public static bool BrowserSupportsFunctionality( ClientFunctionality eFunctionality )
-        {
-            if( HttpContext.Current == null )
-            {
-                return true;
-            }
-            HttpRequest httpRequest = HttpContext.Current.Request;
-            if( ClientAPIDisabled() )
-            {
-                return false;
-            }
-            XmlDocument xmlDocument = GetClientAPICapsDOM();
-            string browser = httpRequest.Browser.Browser;
-            double dblVersion = ( httpRequest.Browser.MajorVersion + httpRequest.Browser.MinorVersion );
-            string s = Enum.GetName( eFunctionality.GetType(), eFunctionality );
-            bool supportsFunctionality = CapsMatchFound( xmlDocument.SelectSingleNode( ( "/capabilities/functionality[@nm='" + s + "']/supports" ) ), httpRequest.UserAgent, browser, dblVersion );
-            if( ! CapsMatchFound( xmlDocument.SelectSingleNode( ( "/capabilities/functionality[@nm='" + s + "']/excludes" ) ), httpRequest.UserAgent, browser, dblVersion ) )
-            {
-                return supportsFunctionality;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <Summary>
-        /// Looks for a browser match (name supplied by .NET Framework) and processes
-        /// matches where UserAgent contains specified text
-        /// </Summary>
-        private static bool CapsMatchFound( XmlNode objNode, string strAgent, string strBrowser, double dblVersion )
-        {
-            if( objNode == null )
-            {
-                return false;
-            }
-            if( strAgent.Length <= 0 )
-            {
-                return false;
-            }
-            if( Convert.ToDouble( Convert.ToDecimal( GetSafeXMLAttr( objNode.SelectSingleNode( ( "browser[@nm='" + strBrowser + "']" ) ), "minversion", "999" ) ) ) <= dblVersion )
-            {
-                return true;
-            }
-            if( objNode.SelectSingleNode( "browser[@nm='*']" ) != null )
-            {
-                return true;
-            }
-            foreach( XmlNode xmlNode in objNode.SelectNodes( "browser[@contains]" ) )
-            {
-                if( strAgent.ToLower().IndexOf( GetSafeXMLAttr( xmlNode, "contains", "\0" ).ToLower() ) > -1 )
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public static bool ClientAPIDisabled()
-        {
-            return ( String.Compare( ConfigurationManager.AppSettings["ClientAPI"], "0", false ) == 0 );
-        }
-
-        /// <Summary>
-        /// Registers a button inside a table for the ability to perform client-side reordering
-        /// </Summary>
-        /// <Param name="objButton">
-        /// Button responsible for moving the row up or down.
-        /// </Param>
-        /// <Param name="objPage">
-        /// Page the table belongs to.  Can't just use objButton.Page because inside ItemCreated event of grid the button has no page yet.
-        /// </Param>
-        /// <Param name="blnUp">
-        /// Determines if the button is responsible for moving the row up or down
-        /// </Param>
-        /// <Param name="strKey">
-        /// Unique key for the table/grid to be used to obtain the new order on postback.  Needed when calling GetClientSideReOrder
-        /// </Param>
-        public static void EnableClientSideReorder( Control objButton, Page objPage, bool blnUp, string strKey )
-        {
-            Control parent;
-            if( ! BrowserSupportsFunctionality( ClientFunctionality.DHTML ) )
-            {
-                return;
-            }
-            RegisterClientReference( objPage, ClientNamespaceReferences.dnn_dom );
-            if( ! IsClientScriptBlockRegistered( objPage, "dnn.util.tablereorder.js" ) )
-            {
-                RegisterClientScriptBlock( objPage, "dnn.util.tablereorder.js", ( "<script src=\"" + ScriptPath + "dnn.util.tablereorder.js\"></script>" ) );
-            }
-            string[] args = new string[] {"if (dnn.util.tableReorderMove(this,", Convert.ToString( ( - ( blnUp ? 1 : 0 ) ) ), ",'", strKey, "')) return false;"};
-            AddAttribute( objButton, "onclick", string.Concat( args ) );
-            for( parent = objButton.Parent; ( parent != null ); parent = parent.Parent )
-            {
-                if( parent is TableRow )
-                {
-                    AddAttribute( parent, "origidx", "-1" );
-                }
-            }
-        }
-
-        /// <Summary>Loop up parent controls to find form</Summary>
+        /// <summary>
+        /// Loop up parent controls to find form
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	2/2/2006	Commented
+        /// </history>
         private static Control FindForm( Control oCtl )
         {
-            while( ! ( oCtl is HtmlForm ) )
+            while( !( oCtl is HtmlForm ) )
             {
-                if( oCtl == null )
-                {
-                    return null;
-                }
-                if( oCtl is Page )
+                if( oCtl == null || oCtl is Page )
                 {
                     return null;
                 }
@@ -324,13 +135,326 @@ namespace DotNetNuke.UI.Utilities
             return oCtl;
         }
 
+        /// <summary>
+        /// Returns __dnnVariable control if present
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	4/6/2005	Commented
+        /// </history>
+        private static HtmlInputHidden GetDNNVariableControl( Control objParent )
+        {
+            return (HtmlInputHidden)( Globals.FindControlRecursive( objParent.Page, DNNVARIABLE_CONTROLID ) );
+        }
+
+        #endregion
+
+        #region Public Shared Properties
+
+        /// <summary>Character used for delimiting name from value</summary>
+        public static string COLUMN_DELIMITER
+        {
+            get
+            {
+                if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
+                {
+                    return " ";
+                }
+                else
+                {
+                    return "~|~";
+                }
+            }
+        }
+
+        /// <summary>Character used for delimiting name from value</summary>
+        public static string CUSTOM_COLUMN_DELIMITER
+        {
+            get
+            {
+                if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
+                {
+                    return " ";
+                }
+                else
+                {
+                    return "~.~";
+                }
+            }
+        }
+
+        /// <summary>Character used for delimiting name/value pairs</summary>
+        public static string CUSTOM_ROW_DELIMITER
+        {
+            get
+            {
+                if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
+                {
+                    return " ";
+                }
+                else
+                {
+                    return "~,~";
+                }
+            }
+        }
+
+        /// <summary>In order to reduce payload, substitute out " with different char, since when put in a hidden control it uses &quot;</summary>
+        public static string QUOTE_REPLACEMENT
+        {
+            get
+            {
+                if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
+                {
+                    return " ";
+                }
+                else
+                {
+                    return "~!~";
+                }
+            }
+        }
+
+        /// <summary>Character used for delimiting name/value pairs</summary>
+        public static string ROW_DELIMITER
+        {
+            get
+            {
+                if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
+                {
+                    return " ";
+                }
+                else
+                {
+                    return "~`~";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Path where js files are placed
+        /// </summary>
+        /// <value></value>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	8/19/2004	Created
+        /// </history>
+        public static string ScriptPath
+        {
+            get
+            {
+                string script = "";
+                if( m_sScriptPath.Length > 0 )
+                {
+                    script = m_sScriptPath;
+                }
+                else if( HttpContext.Current != null )
+                {
+                    if( HttpContext.Current.Request.ApplicationPath.EndsWith( "/" ) )
+                    {
+                        script = HttpContext.Current.Request.ApplicationPath + "js/";
+                    }
+                    else
+                    {
+                        script = HttpContext.Current.Request.ApplicationPath + "/js/";
+                    }
+                }
+                return script;
+            }
+            set
+            {
+                m_sScriptPath = value;
+            }
+        }
+
+        #endregion
+
+        #region Private Shared Methods
+
+        private static void AddAttribute( Control objControl, string strName, string strValue )
+        {
+            if( objControl is HtmlControl )
+            {
+                ( (HtmlControl)objControl ).Attributes.Add( strName, strValue );
+            }
+            else if( objControl is WebControl )
+            {
+                ( (WebControl)objControl ).Attributes.Add( strName, strValue );
+            }
+        }
+
+        /// <summary>
+        /// Parses DNN Variable control contents and returns out the delimited name/value pair
+        /// </summary>
+        /// <param name="objPage">Current page rendering content</param>
+        /// <param name="strVar">Name to retrieve</param>
+        /// <returns>Delimited name/value pair string</returns>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	8/3/2004	Created
+        /// </history>
+        private static string GetClientVariableNameValuePair( Page objPage, string strVar )
+        {
+            HtmlInputHidden ctlVar = GetClientVariableControl( objPage );
+            string strValue = "";
+            if( ctlVar != null )
+            {
+                strValue = ctlVar.Value;
+            }
+            if( strValue.Length == 0 ) //using request object in case we are loading before controls have values set
+            {
+                strValue = HttpContext.Current.Request[DNNVARIABLE_CONTROLID];
+            }
+            if( strValue.Length > 0 )
+            {
+                strValue = strValue.Replace( QUOTE_REPLACEMENT, "\"" );
+                int intIndex = strValue.IndexOf( ROW_DELIMITER + strVar + COLUMN_DELIMITER );
+                if( intIndex > -1 )
+                {
+                    intIndex += COLUMN_DELIMITER.Length;
+                    int intEndIndex = strValue.IndexOf( ROW_DELIMITER, intIndex );
+                    if( intEndIndex > -1 )
+                    {
+                        return strValue.Substring( intIndex, intEndIndex - intIndex );
+                    }
+                    else
+                    {
+                        return strValue.Substring( intIndex );
+                    }
+                }
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// Returns javascript to call dnncore.js key handler logic
+        /// </summary>
+        /// <param name="intKeyAscii">ASCII value to trap</param>
+        /// <param name="strJavascript">Javascript to execute</param>
+        /// <returns>Javascript to handle key press</returns>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	2/17/2005	Created
+        /// </history>
+        private static string GetKeyDownHandler( int intKeyAscii, string strJavascript )
+        {
+            return "return __dnn_KeyDown('" + intKeyAscii + "', '" + strJavascript.Replace( "'", "%27" ) + "', event);";
+        }
+
+        #endregion
+
+        #region Public Shared Methods
+
+        /// <summary>
+        /// Common way to handle confirmation prompts on client
+        /// </summary>
+        /// <param name="objButton">Button to trap click event</param>
+        /// <param name="strText">Text to display in confirmation</param>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	2/17/2005	Created
+        /// </history>
+        public static void AddButtonConfirm( WebControl objButton, string strText )
+        {
+            objButton.Attributes.Add( "onClick", "javascript:return confirm('" + GetSafeJSString( strText ) + "');" );
+        }
+
+        /// <summary>
+        /// Determines of browser currently requesting page adaquately supports passed un client-side functionality
+        /// </summary>
+        /// <param name="eFunctionality">Desired Functionality</param>
+        /// <returns>True when browser supports it</returns>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	8/3/2004	Created
+        /// </history>
+        public static bool BrowserSupportsFunctionality( ClientFunctionality eFunctionality )
+        {
+            if( HttpContext.Current == null )
+            {
+                return true;
+            }
+            bool blnSupports = false;
+
+            if( ClientAPIDisabled() == false )
+            {
+                BrowserCaps objCaps = BrowserCaps.GetBrowserCaps();
+                if( objCaps != null )
+                {
+                    HttpRequest objRequest = HttpContext.Current.Request;
+                    string strUserAgent = objRequest.UserAgent;
+                    if( strUserAgent.Length > 0 )
+                    {
+                        //First check whether we have checked this browser before
+                        if( objCaps.FunctionalityDictionary.ContainsKey( strUserAgent ) == false )
+                        {
+                            string strBrowser = objRequest.Browser.Browser;
+                            double dblVersion = Convert.ToDouble( objRequest.Browser.MajorVersion + objRequest.Browser.MinorVersion );
+                            int iBitValue = 0;
+                            FunctionalityInfo objFuncInfo = null;
+                            //loop through all functionalities for this UserAgent and determine the bitvalue 
+                            foreach( ClientFunctionality eFunc in Enum.GetValues( typeof( ClientFunctionality ) ) )
+                            {
+                                objFuncInfo = objCaps.Functionality[eFunc];
+                                if( objFuncInfo.HasMatch( strUserAgent, strBrowser, dblVersion ) )
+                                {
+                                    iBitValue += (int)eFunc;
+                                }
+                            }
+                            objCaps.FunctionalityDictionary[strUserAgent] = iBitValue;
+                        }
+                        blnSupports = ( ( (int)( objCaps.FunctionalityDictionary[strUserAgent] ) ) & (int)eFunctionality ) != 0;
+                    }
+                }
+            }
+
+            return blnSupports;
+        }
+
+        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack )
+        {
+            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, null, "" );
+        }
+
+        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, ClientAPICallBackResponse.CallBackTypeCode eCallbackType )
+        {
+            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, null, null, eCallbackType );
+        }
+
+        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, Control objPostChildrenOf )
+        {
+            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, null, objPostChildrenOf.ClientID, ClientAPICallBackResponse.CallBackTypeCode.Simple );
+        }
+
+        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack )
+        {
+            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, null, ClientAPICallBackResponse.CallBackTypeCode.Simple );
+        }
+
+        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack, ClientAPICallBackResponse.CallBackTypeCode eCallbackType )
+        {
+            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, null, eCallbackType );
+        }
+
         public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack, Control objPostChildrenOf )
         {
-            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, objPostChildrenOf.ClientID );
+            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, objPostChildrenOf.ClientID, ClientAPICallBackResponse.CallBackTypeCode.Simple );
         }
 
         public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack, string strPostChildrenOfId )
         {
+            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, strPostChildrenOfId, ClientAPICallBackResponse.CallBackTypeCode.Simple );
+        }
+
+        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack, string strPostChildrenOfId, ClientAPICallBackResponse.CallBackTypeCode eCallbackType )
+        {
+            string strCallbackType = Convert.ToInt32( eCallbackType ).ToString();
             if( strArgument == null )
             {
                 strArgument = "null";
@@ -351,101 +475,45 @@ namespace DotNetNuke.UI.Utilities
             {
                 strPostChildrenOfId = "null";
             }
-            else if( ! strPostChildrenOfId.StartsWith( "'" ) )
+            else if( strPostChildrenOfId.StartsWith( "'" ) == false )
             {
-                strPostChildrenOfId = ( "'" + strPostChildrenOfId + "'" );
+                strPostChildrenOfId = "'" + strPostChildrenOfId + "'";
             }
-            string string2 = objControl.ID;
-            if( ! BrowserSupportsFunctionality( ClientFunctionality.XMLHTTP ) )
+            string strControlID = objControl.ID;
+            if( BrowserSupportsFunctionality( ClientFunctionality.XMLHTTP ) && BrowserSupportsFunctionality( ClientFunctionality.XML ) )
+            {
+                RegisterClientReference( objControl.Page, ClientNamespaceReferences.dnn_xml );
+                RegisterClientReference( objControl.Page, ClientNamespaceReferences.dnn_xmlhttp );
+
+                if( ( objControl ) is Page && strControlID.Length == 0 ) //page doesn't usually have an ID so we need to make one up
+                {
+                    strControlID = SCRIPT_CALLBACKPAGEID;
+                }
+
+                if( ( objControl ) is Page == false )
+                {
+                    strControlID = strControlID + " " + objControl.ClientID; //ID is not unique (obviously)
+                }
+
+                return string.Format( "dnn.xmlhttp.doCallBack('{0}',{1},{2},{3},{4},{5},{6},{7},{8});", strControlID, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, "null", strPostChildrenOfId, strCallbackType );
+            }
+            else
             {
                 return "";
             }
-            if( ! BrowserSupportsFunctionality( ClientFunctionality.XML ) )
-            {
-                return "";
-            }
-            RegisterClientReference( objControl.Page, ClientNamespaceReferences.dnn_xml );
-            RegisterClientReference( objControl.Page, ClientNamespaceReferences.dnn_xmlhttp );
-            if( ( objControl is Page ) && ( string2.Length == 0 ) )
-            {
-                string2 = "__DNNCAPISCPAGEID";
-            }
-            if( ! ( objControl is Page ) )
-            {
-                string2 = ( string2 + " " + objControl.ClientID );
-            }
-            object[] objectArray1 = new object[] {string2, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, "null", strPostChildrenOfId};
-            return string.Format( "dnn.xmlhttp.doCallBack('{0}',{1},{2},{3},{4},{5},{6},{7});", objectArray1 );
         }
 
-        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, Control objPostChildrenOf )
-        {
-            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, null, objPostChildrenOf );
-        }
-
-        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack )
-        {
-            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, null, "" );
-        }
-
-        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack )
-        {
-            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, "" );
-        }
-
-        /// <Summary>
-        /// Retrieves XML Document representing the featuresets that each browser handles
-        /// </Summary>
-        private static XmlDocument GetClientAPICapsDOM()
-        {
-            string mapPath = "";
-            XmlDocument clientAPICapsDOM = ( (XmlDocument)DataCache.GetCache( "ClientAPICaps" ) );
-            if( clientAPICapsDOM != null )
-            {
-                return clientAPICapsDOM;
-            }
-            try
-            {
-                clientAPICapsDOM = new XmlDocument();
-                mapPath = HttpContext.Current.Server.MapPath( ( ScriptPath + "/ClientAPICaps.config" ) );
-            }
-            catch( Exception )
-            {
-            }
-            if( mapPath == null )
-            {
-                return clientAPICapsDOM;
-            }
-            if( ! File.Exists( mapPath ) )
-            {
-                return clientAPICapsDOM;
-            }
-            if( clientAPICapsDOM != null ) clientAPICapsDOM.Load( mapPath );
-            DataCache.SetCache( "ClientAPICaps", clientAPICapsDOM, new CacheDependency( mapPath ) );
-            return clientAPICapsDOM;
-        }
-
-        /// <Summary>Retrieves an array of the new order for the rows</Summary>
-        /// <Param name="strKey">
-        /// Unique key for the table/grid to be used to obtain the new order on postback.  Needed when calling GetClientSideReOrder
-        /// </Param>
-        /// <Param name="objPage">
-        /// Page the table belongs to.  Can't just use objButton.Page because inside ItemCreated event of grid the button has no page yet.
-        /// </Param>
-        public static string[] GetClientSideReorder( string strKey, Page objPage )
-        {
-            if( GetClientVariable( objPage, strKey ).Length <= 0 )
-            {
-                return new string[0];
-            }
-            char[] separator = new char[] {','};
-            return GetClientVariable( objPage, strKey ).Split( separator );
-        }
-
-        /// <Summary>Retrieves DNN Client Variable value</Summary>
-        /// <Param name="objPage">Current page rendering content</Param>
-        /// <Param name="strVar">Variable name to retrieve value for</Param>
-        /// <Returns>Value of variable</Returns>
+        /// <summary>
+        /// Retrieves DNN Client Variable value
+        /// </summary>
+        /// <param name="objPage">Current page rendering content</param>
+        /// <param name="strVar">Variable name to retrieve value for</param>
+        /// <returns>Value of variable</returns>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	8/3/2004	Created
+        /// </history>
         public static string GetClientVariable( Page objPage, string strVar )
         {
             string s = GetClientVariableNameValuePair( objPage, strVar );
@@ -455,16 +523,23 @@ namespace DotNetNuke.UI.Utilities
             }
             else
             {
-                string[] splitter = { COLUMN_DELIMITER };
-                return s.Split(splitter, StringSplitOptions.None)[0];                  
+                string[] splitter = {COLUMN_DELIMITER};
+                return s.Split( splitter, StringSplitOptions.None )[0];
             }
         }
 
-        /// <Summary>Retrieves DNN Client Variable value</Summary>
-        /// <Param name="objPage">Current page rendering content</Param>
-        /// <Param name="strVar">Variable name to retrieve value for</Param>
-        /// <Param name="strDefaultValue">Default value if variable not found</Param>
-        /// <Returns>Value of variable</Returns>
+        /// <summary>
+        /// Retrieves DNN Client Variable value
+        /// </summary>
+        /// <param name="objPage">Current page rendering content</param>
+        /// <param name="strVar">Variable name to retrieve value for</param>
+        /// <param name="strDefaultValue">Default value if variable not found</param>
+        /// <returns>Value of variable</returns>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	8/3/2004	Created
+        /// </history>
         public static string GetClientVariable( Page objPage, string strVar, string strDefaultValue )
         {
             string s = GetClientVariableNameValuePair( objPage, strVar );
@@ -475,64 +550,411 @@ namespace DotNetNuke.UI.Utilities
             else
             {
                 string[] splitter = {COLUMN_DELIMITER};
-                return s.Split( splitter, StringSplitOptions.None )[0];                
+                return s.Split( splitter, StringSplitOptions.None )[0];
             }
         }
 
-        /// <Summary>
-        /// Parses DNN Variable control contents and returns out the delimited name/value pair
-        /// </Summary>
-        /// <Param name="objPage">Current page rendering content</Param>
-        /// <Param name="strVar">Name to retrieve</Param>
-        /// <Returns>Delimited name/value pair string</Returns>
-        private static string GetClientVariableNameValuePair( Page objPage, string strVar )
+        /// <summary>
+        /// Escapes string to be safely used in client side javascript.  
+        /// </summary>
+        /// <param name="strString">String to escape</param>
+        /// <returns>Escaped string</returns>
+        /// <remarks>
+        /// Currently this only escapes out quotes and apostrophes
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	2/17/2005	Created
+        /// </history>
+        public static string GetSafeJSString( string strString )
         {
-            HtmlInputHidden htmlInputHidden = get_ClientVariableControl( objPage );
-            string replace = "";
-            if( htmlInputHidden != null )
+            if( strString.Length > 0 )
             {
-                replace = htmlInputHidden.Value;
-            }
-            if( replace.Length == 0 )
-            {
-                replace = HttpContext.Current.Request["__dnnVariable"];
-            }
-            if( replace == null || replace.Length <= 0 )
-            {
-                return "";
-            }
-            replace = replace.Replace( QUOTE_REPLACEMENT, "\"" );
-            int ii = replace.IndexOf( ( ROW_DELIMITER + strVar + COLUMN_DELIMITER ) );
-            if( ii <= -1 )
-            {
-                return "";
-            }
-            ii += COLUMN_DELIMITER.Length;
-            int i2 = replace.IndexOf( ROW_DELIMITER, ii );
-            if( i2 <= -1 )
-            {
-                return replace.Substring( ii );
+                //Return System.Text.RegularExpressions.Regex.Replace(strString, "(['""])", "\$1")
+                return Regex.Replace( strString, "(['\"\\\\])", "\\$1" );
             }
             else
             {
-                return replace.Substring( ii, i2 - ii );
+                return strString;
             }
         }
 
-        /// <Summary>Returns __dnnVariable control if present</Summary>
-        private static HtmlInputHidden GetDNNVariableControl( Control objParent )
+        public static bool IsInCallback( Page objPage )
         {
-            return ( (HtmlInputHidden)Globals.FindControlRecursive( objParent.Page, "__dnnVariable" ) );
+            return objPage.Request[SCRIPT_CALLBACKID].Length > 0;
         }
 
-        /// <Summary>Returns javascript to call dnncore.js key handler logic</Summary>
-        /// <Param name="intKeyAscii">ASCII value to trap</Param>
-        /// <Param name="strJavascript">Javascript to execute</Param>
-        /// <Returns>Javascript to handle key press</Returns>
-        private static string GetKeyDownHandler( int intKeyAscii, string strJavascript )
+        public static void HandleClientAPICallbackEvent( Page objPage )
         {
-            string[] stringArray1 = new string[] {"return __dnn_KeyDown('", Convert.ToString( intKeyAscii ), "', '", strJavascript.Replace( "'", "%27" ), "', event);"};
-            return string.Concat( stringArray1 );
+            ClientAPICallBackResponse.CallBackTypeCode eType = ClientAPICallBackResponse.CallBackTypeCode.Simple;
+            if( objPage.Request[SCRIPT_CALLBACKTYPE].Length > 0 )
+            {
+                eType = (ClientAPICallBackResponse.CallBackTypeCode)Enum.Parse( typeof( ClientAPICallBackResponse.CallBackTypeCode ), objPage.Request[SCRIPT_CALLBACKTYPE] );
+            }
+            HandleClientAPICallbackEvent( objPage, eType );
+        }
+
+        public static void HandleClientAPICallbackEvent( Page objPage, ClientAPICallBackResponse.CallBackTypeCode eType )
+        {
+            if( IsInCallback( objPage ) )
+            {
+                if( eType != ClientAPICallBackResponse.CallBackTypeCode.ProcessPage )
+                {
+                    string[] arrIDs = objPage.Request[SCRIPT_CALLBACKID].Split( Convert.ToChar( " " ) );
+                    string strControlID = arrIDs[0];
+                    string strClientID = "";
+                    if( arrIDs.Length > 1 )
+                    {
+                        strClientID = arrIDs[1];
+                    }
+
+                    string strParam = objPage.Server.UrlDecode( objPage.Request[SCRIPT_CALLBACKPARAM] );
+                    Control objControl = null;
+                    IClientAPICallbackEventHandler objInterface = null;
+                    ClientAPICallBackResponse objResponse = new ClientAPICallBackResponse( objPage, ClientAPICallBackResponse.CallBackTypeCode.Simple );
+
+                    try
+                    {
+                        objPage.Response.Clear(); //clear response stream
+                        if( strControlID == SCRIPT_CALLBACKPAGEID )
+                        {
+                            objControl = objPage;
+                        }
+                        else
+                        {
+                            objControl = Globals.FindControlRecursive( objPage, strControlID, strClientID );
+                        }
+                        if( objControl != null )
+                        {
+                            if( ( objControl ) is HtmlForm ) //form doesn't implement interface, so use page instead
+                            {
+                                objInterface = (IClientAPICallbackEventHandler)objPage;
+                            }
+                            else
+                            {
+                                objInterface = (IClientAPICallbackEventHandler)objControl;
+                            }
+
+                            if( objInterface != null )
+                            {
+                                try
+                                {
+                                    objResponse.Response = objInterface.RaiseClientAPICallbackEvent( strParam );
+                                    objResponse.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.OK;
+                                }
+                                catch( Exception ex )
+                                {
+                                    objResponse.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.GenericFailure;
+                                    objResponse.StatusDesc = ex.Message;
+                                }
+                            }
+                            else
+                            {
+                                objResponse.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.InterfaceNotSupported;
+                                objResponse.StatusDesc = "Interface Not Supported";
+                            }
+                        }
+                        else
+                        {
+                            objResponse.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.ControlNotFound;
+                            objResponse.StatusDesc = "Control Not Found";
+                        }
+                    }
+                    catch( Exception ex )
+                    {
+                        objResponse.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.GenericFailure;
+                        objResponse.StatusDesc = ex.Message;
+                    }
+                    finally
+                    {
+                        objResponse.Write();
+                        //objPage.Response.Flush()
+                        objPage.Response.End();
+                    }
+                }
+                else
+                {
+                    objPage.SetRenderMethodDelegate( new RenderMethod( CallbackRenderMethod ) );
+                }
+            }
+        }
+
+        private static void CallbackRenderMethod( HtmlTextWriter output, Control container )
+        {
+            Page objPage = (Page)container;
+            HandleClientAPICallbackEvent( objPage, ClientAPICallBackResponse.CallBackTypeCode.Simple );
+        }
+
+        /// <summary>
+        /// Determines if DNNVariable control is present in page's control collection
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	4/6/2005	Commented
+        /// </history>
+        public static bool NeedsDNNVariable( Control objParent )
+        {
+            return GetDNNVariableControl( objParent ) == null;
+        }
+
+        /// <summary>
+        /// Responsible for registering client side js libraries and its dependecies.
+        /// </summary>
+        /// <param name="objPage">Current page rendering content</param>
+        /// <param name="eRef">Enumerator of library to reference</param>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	8/3/2004	Created
+        /// </history>
+        public static void RegisterClientReference( Page objPage, ClientNamespaceReferences eRef )
+        {
+            switch( eRef )
+            {
+                case ClientNamespaceReferences.dnn:
+                    if( !( IsClientScriptBlockRegistered( objPage, "dnn.js" ) ) )
+                    {
+                        RegisterClientScriptBlock( objPage, "dnn.js", "<script src=\"" + ScriptPath + "dnn.js\"></script>" );
+                        if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) == false )
+                        {
+                            RegisterClientVariable( objPage, "__scdoff", "1", true ); //SingleCharDelimiters Off!!!
+                        }
+                    }
+                    break;
+                case ClientNamespaceReferences.dnn_dom:
+                    RegisterClientReference( objPage, ClientNamespaceReferences.dnn );
+                    break;
+                case ClientNamespaceReferences.dnn_dom_positioning:
+                    RegisterClientReference( objPage, ClientNamespaceReferences.dnn );
+                    if( !( IsClientScriptBlockRegistered( objPage, "dnn.positioning.js" ) ) )
+                    {
+                        RegisterClientScriptBlock( objPage, "dnn.positioning.js", "<script src=\"" + ScriptPath + "dnn.dom.positioning.js\"></script>" );
+                    }
+                    break;
+                case ClientNamespaceReferences.dnn_xml:
+                    RegisterClientReference( objPage, ClientNamespaceReferences.dnn );
+
+                    if( !( IsClientScriptBlockRegistered( objPage, "dnn.xml.js" ) ) )
+                    {
+                        string strScript = "<script src=\"" + ScriptPath + "dnn.xml.js\"></script>";
+                        //only register the js parser if browsers needs it
+                        if( BrowserSupportsFunctionality( ClientFunctionality.XMLJS ) ) //TODO: detect when using uplevel parser and only send this when necessary
+                        {
+                            strScript += "<script src=\"" + ScriptPath + "dnn.xml.jsparser.js\"></script>";
+                        }
+                        RegisterClientScriptBlock( objPage, "dnn.xml.js", strScript );
+                    }
+                    break;
+                case ClientNamespaceReferences.dnn_xmlhttp:
+                    RegisterClientReference( objPage, ClientNamespaceReferences.dnn );
+                    if( !( IsClientScriptBlockRegistered( objPage, "dnn.xmlhttp.js" ) ) )
+                    {
+                        string strScript = "<script src=\"" + ScriptPath + "dnn.xmlhttp.js\"></script>";
+                        if( BrowserSupportsFunctionality( ClientFunctionality.XMLHTTPJS ) )
+                        {
+                            strScript += "<script src=\"" + ScriptPath + "dnn.xmlhttp.jsxmlhttprequest.js\"></script>";
+                        }
+                        RegisterClientScriptBlock( objPage, "dnn.xmlhttp.js", strScript );
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Registers a client side variable (name/value) pair
+        /// </summary>
+        /// <param name="objPage">Current page rendering content</param>
+        /// <param name="strVar">Variable name</param>
+        /// <param name="strValue">Value</param>
+        /// <param name="blnOverwrite">Determins if a replace or append is applied when variable already exists</param>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	8/3/2004	Created
+        /// </history>
+        public static void RegisterClientVariable( Page objPage, string strVar, string strValue, bool blnOverwrite )
+        {
+            //only add once
+            HtmlInputHidden ctlVar = GetClientVariableControl( objPage );
+            string strPair = GetClientVariableNameValuePair( objPage, strVar );
+            if( strPair.Length > 0 )
+            {
+                strPair = strPair.Replace( "\"", QUOTE_REPLACEMENT ); //since we are searching for existing string we need it in its posted format (without quotes)
+                if( blnOverwrite )
+                {
+                    ctlVar.Value = ctlVar.Value.Replace( ROW_DELIMITER + strPair, ROW_DELIMITER + strVar + COLUMN_DELIMITER + strValue );
+                }
+                else
+                {
+                    //appending value
+                    string strOrig = GetClientVariable( objPage, strVar );
+                    ctlVar.Value = ctlVar.Value.Replace( ROW_DELIMITER + strPair, ROW_DELIMITER + strVar + COLUMN_DELIMITER + strOrig + strValue );
+                }
+            }
+            else
+            {
+                ctlVar.Value += ROW_DELIMITER + strVar + COLUMN_DELIMITER + strValue;
+            }
+            ctlVar.Value = ctlVar.Value.Replace( "\"", QUOTE_REPLACEMENT ); //reduce payload of &quot;
+        }
+
+        /// <summary>
+        /// Responsible for inputting the hidden field necessary for the ClientAPI to pass variables back in forth
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	4/6/2005	Commented
+        /// </history>
+        public static HtmlInputHidden RegisterDNNVariableControl( Control objParent )
+        {
+            HtmlInputHidden ctlVar = GetDNNVariableControl( objParent );
+            if( ctlVar == null )
+            {
+                Control oForm = FindForm( objParent );
+                if( oForm != null )
+                {
+                    ctlVar = new HtmlInputHidden();
+                    ctlVar.ID = DNNVARIABLE_CONTROLID;
+                    //oForm.Controls.AddAt(0, ctlVar)
+                    oForm.Controls.Add( ctlVar );
+                }
+            }
+            return ctlVar;
+        }
+
+        /// <summary>
+        /// Traps client side keydown event looking for passed in key press (ASCII) and hooks it up with server side postback handler
+        /// </summary>
+        /// <param name="objControl">Control that should trap the keydown</param>
+        /// <param name="objPostbackControl">Server-side control that has its onclick event handled server-side</param>
+        /// <param name="intKeyAscii">ASCII value of key to trap</param>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	2/17/2005	Commented
+        /// </history>
+        public static void RegisterKeyCapture( Control objControl, Control objPostbackControl, int intKeyAscii )
+        {
+            Globals.SetAttribute( objControl, "onkeydown", GetKeyDownHandler( intKeyAscii, GetPostBackClientHyperlink( objPostbackControl, "" ) ) );
+        }
+
+        /// <summary>
+        /// Traps client side keydown event looking for passed in key press (ASCII) and hooks it up with client-side javascript
+        /// </summary>
+        /// <param name="objControl">Control that should trap the keydown</param>
+        /// <param name="strJavascript">Javascript to execute when event fires</param>
+        /// <param name="intKeyAscii">ASCII value of key to trap</param>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	2/17/2005	Commented
+        /// </history>
+        public static void RegisterKeyCapture( Control objControl, string strJavascript, int intKeyAscii )
+        {
+            Globals.SetAttribute( objControl, "onkeydown", GetKeyDownHandler( intKeyAscii, strJavascript ) );
+        }
+
+        /// <summary>
+        /// Allows a listener to be associated to a client side post back
+        /// </summary>
+        /// <param name="objParent">The current control on the page or the page itself.  Depending on where the page is in its lifecycle it may not be possible to add a control directly to the page object, therefore we will use the current control being rendered to append the postback control.</param>
+        /// <param name="strEventName">Name of the event to sync.  If a page contains more than a single client side event only the events associated with the passed in name will be raised.</param>
+        /// <param name="objDelegate">Server side AddressOf the function to handle the event</param>
+        /// <param name="blnMultipleHandlers">Boolean flag to determine if multiple event handlers can be associated to an event.</param>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	9/15/2004	Created
+        /// </history>
+        public static void RegisterPostBackEventHandler( Control objParent, string strEventName, ClientAPIPostBackControl.PostBackEvent objDelegate, bool blnMultipleHandlers )
+        {
+            const string CLIENTAPI_POSTBACKCTL_ID = "ClientAPIPostBackCtl";
+            Control objCtl = Globals.FindControlRecursive( objParent.Page, CLIENTAPI_POSTBACKCTL_ID ); //DotNetNuke.Globals.FindControlRecursive(objParent, CLIENTAPI_POSTBACKCTL_ID)
+            if( objCtl == null )
+            {
+                objCtl = new ClientAPIPostBackControl( objParent.Page, strEventName, objDelegate );
+                objCtl.ID = CLIENTAPI_POSTBACKCTL_ID;
+                objParent.Controls.Add( objCtl );
+                RegisterClientVariable( objParent.Page, "__dnn_postBack", GetPostBackClientHyperlink( objCtl, "[DATA]" ), true );
+            }
+            else if( blnMultipleHandlers )
+            {
+                ( (ClientAPIPostBackControl)objCtl ).AddEventHandler( strEventName, objDelegate );
+            }
+        }
+
+        /// <summary>
+        /// Registers a button inside a table for the ability to perform client-side reordering
+        /// </summary>
+        /// <param name="objButton">Button responsible for moving the row up or down.</param>
+        /// <param name="objPage">Page the table belongs to.  Can't just use objButton.Page because inside ItemCreated event of grid the button has no page yet.</param>
+        /// <param name="blnUp">Determines if the button is responsible for moving the row up or down</param>
+        /// <param name="strKey">Unique key for the table/grid to be used to obtain the new order on postback.  Needed when calling GetClientSideReOrder</param>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	3/10/2006	Created
+        /// </history>
+        public static void EnableClientSideReorder( Control objButton, Page objPage, bool blnUp, string strKey )
+        {
+            if( BrowserSupportsFunctionality( ClientFunctionality.DHTML ) )
+            {
+                RegisterClientReference( objPage, ClientNamespaceReferences.dnn_dom );
+                if( !( IsClientScriptBlockRegistered( objPage, "dnn.util.tablereorder.js" ) ) )
+                {
+                    RegisterClientScriptBlock( objPage, "dnn.util.tablereorder.js", "<script src=\"" + ScriptPath + "dnn.util.tablereorder.js\"></script>" );
+                }
+
+                AddAttribute( objButton, "onclick", "if (dnn.util.tableReorderMove(this," + Convert.ToInt32( blnUp ) + ",'" + strKey + "')) return false;" );
+                Control objParent = objButton.Parent;
+                while( objParent != null )
+                {
+                    if( objParent is TableRow )
+                    {
+                        AddAttribute( objParent, "origidx", "-1" ); //mark row as one that we care about, it will be numbered correctly on client
+                    }
+                    objParent = objParent.Parent;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Retrieves an array of the new order for the rows
+        /// </summary>
+        /// <param name="strKey">Unique key for the table/grid to be used to obtain the new order on postback.  Needed when calling GetClientSideReOrder</param>
+        /// <param name="objPage">Page the table belongs to.  Can't just use objButton.Page because inside ItemCreated event of grid the button has no page yet.</param>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[Jon Henning]	3/10/2006	Created
+        /// </history>
+        public static string[] GetClientSideReorder( string strKey, Page objPage )
+        {
+            if( GetClientVariable( objPage, strKey ).Length > 0 )
+            {
+                return GetClientVariable( objPage, strKey ).Split( ',' );
+            }
+            else
+            {
+                return new string[] {};
+            }
+        }
+
+        public static bool ClientAPIDisabled()
+        {
+            if( m_ClientAPIDisabled == string.Empty )
+            {
+                if( ConfigurationManager.AppSettings["ClientAPI"] == null )
+                {
+                    m_ClientAPIDisabled = "1";
+                }
+                else
+                {
+                    m_ClientAPIDisabled = ConfigurationManager.AppSettings["ClientAPI"];
+                }
+            }
+            return m_ClientAPIDisabled == "0";
         }
 
         public static string GetPostBackClientEvent( Page objPage, Control objControl, string arg )
@@ -542,7 +964,7 @@ namespace DotNetNuke.UI.Utilities
 
         public static string GetPostBackClientHyperlink( Control objControl, string strArgument )
         {
-            return ( "javascript:" + GetPostBackEventReference( objControl, strArgument ) );
+            return "javascript:" + GetPostBackEventReference( objControl, strArgument );
         }
 
         public static string GetPostBackEventReference( Control objControl, string strArgument )
@@ -550,210 +972,9 @@ namespace DotNetNuke.UI.Utilities
             return objControl.Page.ClientScript.GetPostBackEventReference( objControl, strArgument );
         }
 
-        /// <Summary>
-        /// Escapes string to be safely used in client side javascript.
-        /// </Summary>
-        /// <Param name="strString">String to escape</Param>
-        /// <Returns>Escaped string</Returns>
-        public static string GetSafeJSString( string strString )
-        {
-            if( strString != null && strString.Length > 0 )
-            {
-                //Return System.Text.RegularExpressions.Regex.Replace(strString, "(['""\\])", "\$1")
-                return Regex.Replace( strString, "(['\"\\\\])", "\\$1" );
-            }
-            else
-            {
-                return strString;
-            }
-        }
-
-        /// <Summary>
-        /// A Safe way of accessing XML Attributes - clean way to handle nodes and attributes
-        /// that are set to nothing.  When not found a "nice" default value is returned.
-        /// </Summary>
-        private static string GetSafeXMLAttr( XmlNode objNode, string strAttr, string strDef )
-        {
-            if( objNode == null )
-            {
-                return strDef;
-            }
-            XmlNode xmlNode1 = objNode.Attributes.GetNamedItem( strAttr );
-            if( xmlNode1 == null )
-            {
-                return strDef;
-            }
-            else
-            {
-                return xmlNode1.Value;
-            }
-        }
-
-        public static void HandleClientAPICallbackEvent( Page objPage )
-        {
-            if (objPage.Request["__DNNCAPISCI"] == null)
-            {
-                return;
-            }
-            
-            if (objPage.Request["__DNNCAPISCI"].Length <= 0)
-            {
-                return;
-            }
-            char[] separator = new char[] {' '};
-            string[] strings = objPage.Request["__DNNCAPISCI"].Split( separator );
-            string controlName = strings[0];
-            string clientID = "";
-            if( strings.Length > 1 )
-            {
-                clientID = strings[1];
-            }
-            string eventArgument = objPage.Server.UrlDecode( objPage.Request["__DNNCAPISCP"] );
-            ClientAPICallBackResponse clientAPICallBackResponse1 = new ClientAPICallBackResponse( objPage, ClientAPICallBackResponse.CallBackTypeCode.Simple );
-            try
-            {
-                try
-                {
-                    objPage.Response.Clear();
-                    Control control;
-                    if( String.Compare( controlName, "__DNNCAPISCPAGEID", false ) == 0 )
-                    {
-                        control = objPage;
-                    }
-                    else
-                    {
-                        control = Globals.FindControlRecursive( objPage, controlName, clientID );
-                    }
-                    if( control == null )
-                    {
-                        clientAPICallBackResponse1.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.ControlNotFound;
-                        clientAPICallBackResponse1.StatusDesc = "Control Not Found";
-                        return;
-                    }
-                    IClientAPICallbackEventHandler callbackEventHandler;
-                    if( control is HtmlForm )
-                    {
-                        callbackEventHandler = ( (IClientAPICallbackEventHandler)objPage );
-                    }
-                    else
-                    {
-                        callbackEventHandler = ( (IClientAPICallbackEventHandler)control );
-                    }
-                    if( callbackEventHandler != null )
-                    {
-                        try
-                        {
-                            clientAPICallBackResponse1.Response = callbackEventHandler.RaiseClientAPICallbackEvent( eventArgument );
-                            clientAPICallBackResponse1.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.OK;
-                            return;
-                        }
-                        catch( Exception exception )
-                        {
-                            
-                            clientAPICallBackResponse1.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.GenericFailure;
-                            clientAPICallBackResponse1.StatusDesc = exception.Message;
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        clientAPICallBackResponse1.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.InterfaceNotSupported;
-                        clientAPICallBackResponse1.StatusDesc = "Interface Not Supported";
-                        return;
-                    }
-                }
-                catch( Exception exception )
-                {
-                    
-                    clientAPICallBackResponse1.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.GenericFailure;
-                    clientAPICallBackResponse1.StatusDesc = exception.Message;
-                    return;
-                }
-            }
-            finally
-            {
-                clientAPICallBackResponse1.Write();
-                objPage.Response.End();
-            }
-        }
-
         public static bool IsClientScriptBlockRegistered( Page objPage, string key )
         {
             return objPage.ClientScript.IsClientScriptBlockRegistered( key );
-        }
-
-        /// <Summary>
-        /// Determines if DNNVariable control is present in page's control collection
-        /// </Summary>
-        public static bool NeedsDNNVariable( Control objParent )
-        {
-            return ( GetDNNVariableControl( objParent ) == null );
-        }
-
-        public static void RegisterClientReference( Page objPage, ClientNamespaceReferences eRef )
-        {
-            switch( eRef )
-            {
-                case ClientNamespaceReferences.dnn:
-                    {
-                        if( IsClientScriptBlockRegistered( objPage, "dnn.js" ) )
-                        {
-                            return;
-                        }
-                        RegisterClientScriptBlock( objPage, "dnn.js", ( "<script type='text/javascript' src='" + ScriptPath + "dnn.js'></script>" ) );
-                        if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
-                        {
-                            return;
-                        }
-                        RegisterClientVariable( objPage, "__scdoff", "1", true );
-                        return;
-                    }
-                case ClientNamespaceReferences.dnn_dom:
-                    {
-                        RegisterClientReference( objPage, ClientNamespaceReferences.dnn );
-                        return;
-                    }
-                case ClientNamespaceReferences.dnn_dom_positioning:
-                    {
-                        RegisterClientReference( objPage, ClientNamespaceReferences.dnn );
-                        if( IsClientScriptBlockRegistered( objPage, "dnn.positioning.js" ) )
-                        {
-                            return;
-                        }
-                        RegisterClientScriptBlock(objPage, "dnn.positioning.js", ("<script type='text/javascript' src='" + ScriptPath + "dnn.dom.positioning.js'></script>"));
-                        return;
-                    }
-                case ClientNamespaceReferences.dnn_xml:
-                    {
-                        RegisterClientReference( objPage, ClientNamespaceReferences.dnn );
-                        if( IsClientScriptBlockRegistered( objPage, "dnn.xml.js" ) )
-                        {
-                            return;
-                        }
-                        string string1 = ("<script type='text/javascript' src='" + ScriptPath + "dnn.xml.js'></script>");
-                        if( BrowserSupportsFunctionality( ClientFunctionality.XMLJS ) )
-                        {
-                            string1 = (string1 + "<script type='text/javascript' src='" + ScriptPath + "dnn.xml.jsparser.js'></script>");
-                        }
-                        RegisterClientScriptBlock( objPage, "dnn.xml.js", string1 );
-                        return;
-                    }
-                case ClientNamespaceReferences.dnn_xmlhttp:
-                    {
-                        RegisterClientReference( objPage, ClientNamespaceReferences.dnn );
-                        if( IsClientScriptBlockRegistered( objPage, "dnn.xmlhttp.js" ) )
-                        {
-                            return;
-                        }
-                        string string2 = ("<script type='text/javascript' src='" + ScriptPath + "dnn.xmlhttp.js'></script>");
-                        if( BrowserSupportsFunctionality( ClientFunctionality.XMLHTTPJS ) )
-                        {
-                            string2 = (string2 + "<script type='text/javascript' src='" + ScriptPath + "dnn.xmlhttp.jsxmlhttprequest.js'></script>");
-                        }
-                        RegisterClientScriptBlock( objPage, "dnn.xmlhttp.js", string2 );
-                        return;
-                    }
-            }
         }
 
         public static void RegisterClientScriptBlock( Page objPage, string key, string strScript )
@@ -761,107 +982,11 @@ namespace DotNetNuke.UI.Utilities
             objPage.ClientScript.RegisterClientScriptBlock( objPage.GetType(), key, strScript );
         }
 
-        /// <Summary>Registers a client side variable (name/value) pair</Summary>
-        /// <Param name="objPage">Current page rendering content</Param>
-        /// <Param name="strVar">Variable name</Param>
-        /// <Param name="strValue">Value</Param>
-        /// <Param name="blnOverwrite">
-        /// Determins if a replace or append is applied when variable already exists
-        /// </Param>
-        public static void RegisterClientVariable( Page objPage, string strVar, string strValue, bool blnOverwrite )
-        {
-            string[] stringArray1;
-            HtmlInputHidden htmlInputHidden1 = get_ClientVariableControl( objPage );
-            string string1 = GetClientVariableNameValuePair( objPage, strVar );
-            if( string1.Length > 0 )
-            {
-                string1 = string1.Replace( "\"", QUOTE_REPLACEMENT );
-                if( blnOverwrite )
-                {
-                    htmlInputHidden1.Value = htmlInputHidden1.Value.Replace( ( ROW_DELIMITER + string1 ), ( ROW_DELIMITER + strVar + COLUMN_DELIMITER + strValue ) );
-                }
-                else
-                {
-                    string string2 = GetClientVariable( objPage, strVar );
-                    stringArray1 = new string[] {ROW_DELIMITER, strVar, COLUMN_DELIMITER, string2, strValue};
-                    htmlInputHidden1.Value = htmlInputHidden1.Value.Replace( ( ROW_DELIMITER + string1 ), string.Concat( stringArray1 ) );
-                }
-            }
-            else
-            {
-                HtmlInputHidden htmlInputHidden2 = htmlInputHidden1;
-                stringArray1 = new string[] {htmlInputHidden2.Value, ROW_DELIMITER, strVar, COLUMN_DELIMITER, strValue};
-                htmlInputHidden2.Value = string.Concat( stringArray1 );
-            }
-            htmlInputHidden1.Value = htmlInputHidden1.Value.Replace( "\"", QUOTE_REPLACEMENT );
-        }
-
-        /// <Summary>
-        /// Responsible for inputting the hidden field necessary for the ClientAPI to pass variables back in forth
-        /// </Summary>
-        public static HtmlInputHidden RegisterDNNVariableControl( Control objParent )
-        {
-            HtmlInputHidden htmlInputHidden1 = GetDNNVariableControl( objParent );
-            if( htmlInputHidden1 != null )
-            {
-                return htmlInputHidden1;
-            }
-            Control control1 = FindForm( objParent );
-            if( control1 == null )
-            {
-                return htmlInputHidden1;
-            }
-            htmlInputHidden1 = new HtmlInputHidden();
-            htmlInputHidden1.ID = "__dnnVariable";
-            control1.Controls.Add( htmlInputHidden1 );
-            return htmlInputHidden1;
-        }
-
-        /// <Summary>
-        /// Traps client side keydown event looking for passed in key press (ASCII) and hooks it up with client-side javascript
-        /// </Summary>
-        /// <Param name="objControl">Control that should trap the keydown</Param>
-        /// <Param name="strJavascript">Javascript to execute when event fires</Param>
-        /// <Param name="intKeyAscii">ASCII value of key to trap</Param>
-        public static void RegisterKeyCapture( Control objControl, string strJavascript, int intKeyAscii )
-        {
-            Globals.SetAttribute( objControl, "onkeydown", GetKeyDownHandler( intKeyAscii, strJavascript ) );
-        }
-
-        /// <Summary>
-        /// Traps client side keydown event looking for passed in key press (ASCII) and hooks it up with server side postback handler
-        /// </Summary>
-        /// <Param name="objControl">Control that should trap the keydown</Param>
-        /// <Param name="objPostbackControl">
-        /// Server-side control that has its onclick event handled server-side
-        /// </Param>
-        /// <Param name="intKeyAscii">ASCII value of key to trap</Param>
-        public static void RegisterKeyCapture( Control objControl, Control objPostbackControl, int intKeyAscii )
-        {
-            Globals.SetAttribute( objControl, "onkeydown", GetKeyDownHandler( intKeyAscii, GetPostBackClientHyperlink( objPostbackControl, "" ) ) );
-        }
-
-        public static void RegisterPostBackEventHandler( Control objParent, string strEventName, ClientAPIPostBackControl.PostBackEvent objDelegate, bool blnMultipleHandlers )
-        {
-            Control control1 = Globals.FindControlRecursive( objParent.Page, "ClientAPIPostBackCtl" );
-            if( control1 == null )
-            {
-                control1 = new ClientAPIPostBackControl( objParent.Page, strEventName, objDelegate );
-                control1.ID = "ClientAPIPostBackCtl";
-                objParent.Controls.Add( control1 );
-                RegisterClientVariable( objParent.Page, "__dnn_postBack", GetPostBackClientHyperlink( control1, "[DATA]" ), true );
-                return;
-            }
-            if( ! blnMultipleHandlers )
-            {
-                return;
-            }
-            ( (ClientAPIPostBackControl)control1 ).AddEventHandler( strEventName, objDelegate );
-        }
-
         public static void RegisterStartUpScript( Page objPage, string key, string script )
         {
             objPage.ClientScript.RegisterStartupScript( objPage.GetType(), key, script );
         }
+
+        #endregion
     }
 }

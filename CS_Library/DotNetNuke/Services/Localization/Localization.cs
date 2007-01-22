@@ -29,6 +29,7 @@ using System.Web.Caching;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
+using System.Xml.XPath;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Host;
 using DotNetNuke.Entities.Portals;
@@ -50,6 +51,8 @@ namespace DotNetNuke.Services.Localization
             Portal = 1,
             Host = 2,
         }
+        private static string strShowMissingKeys = "";
+        private static string strUseBrowserLanguageDefault = "";
         public const string ApplicationResourceDirectory = "~/App_GlobalResources";
         public const string ApplicationConfigDirectory = "~/Config";
         public const string GlobalResourceFile = "~/App_GlobalResources/GlobalResources.resx";
@@ -270,6 +273,33 @@ namespace DotNetNuke.Services.Localization
             return dateStr;
         }
 
+        /// <summary>
+        /// The ShowMissingKeys property returns the web.config setting that determines 
+        /// whether to render a visual indicator that a key is missing
+        /// is 'key'.
+        /// </summary>
+        /// <history>
+        /// 	[cnurse]	11/20/2006	Documented
+        /// </history>
+        public static bool ShowMissingKeys
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(strShowMissingKeys))
+                {
+                    if (Config.GetSetting("ShowMissingKeys") == null)
+                    {
+                        strShowMissingKeys = "false";
+                    }
+                    else
+                    {
+                        strShowMissingKeys = Config.GetSetting("ShowMissingKeys").ToLower();
+                    }
+                }
+                return bool.Parse(strShowMissingKeys);
+            }
+        }
+
         /// <Summary>
         /// GetResource is used by GetString to load the resources Hashtable
         /// </Summary>
@@ -319,8 +349,12 @@ namespace DotNetNuke.Services.Localization
             userFile = GetResourceFileName(resourceFileRoot, userLanguage);
 
             //Set the cachekey as the userFile + the PortalId
-            string filePath = HttpContext.Current.Server.MapPath(userFile);
-            string cacheKey = filePath.Replace(Globals.ApplicationMapPath, "").ToLower() + portalId;
+            if (!(string.IsNullOrEmpty(Globals.ApplicationPath)))
+            {
+                userFile = userFile.Replace(Globals.ApplicationPath, "");
+            }
+            string cacheKey = userFile.Replace("~/", "/").ToLower() + portalId;
+
 
             //Attempt to get the resources from the cache
             resources = (Hashtable)DataCache.GetCache(cacheKey);
@@ -454,16 +488,22 @@ namespace DotNetNuke.Services.Localization
             return resourceFile;
         }
 
-        /// <Summary>
+        /// <overloads>One of six overloads</overloads>
+        /// <summary>
         /// GetString gets the localized string corresponding to the resourcekey
-        /// </Summary>
-        /// <Param name="name">The resourcekey to find</Param>
-        /// <Param name="ResourceFileRoot">The Local Resource root</Param>
-        /// <Param name="objPortalSettings">The current portals Portal Settings</Param>
-        /// <Param name="strLanguage">A specific language to lookup the string</Param>
-        /// <Returns>The localized Text</Returns>
-        public static string GetString( string name, string resourceFileRoot, PortalSettings portalSettings, string language )
+        /// </summary>
+        /// <param name="name">The resourcekey to find</param>
+        /// <param name="resourceFileRoot">The Local Resource root</param>
+        /// <param name="portalSettings">The current portals Portal Settings</param>
+        /// <param name="language">A specific language to lookup the string</param>
+        /// <param name="disableShowMissingKeys">Disables the show missing keys flag</param>
+        /// <returns>The localized Text</returns>
+        /// <history>
+        /// 	[cnurse]	10/06/2004	Documented
+        /// </history>
+        public static string GetString(string name, string resourceFileRoot, PortalSettings portalSettings, string language, bool disableShowMissingKeys)
         {
+
             if(String.IsNullOrEmpty(name))
             {
                 return String.Empty;
@@ -475,17 +515,7 @@ namespace DotNetNuke.Services.Localization
                 name += ".Text";
             }
 
-            //check for setting in web.config
-            bool showMissingKeys;
-            if (Config.GetSetting("ShowMissingKeys") == null)
-            {
-                showMissingKeys = false;
-            }
-            else
-            {
-                showMissingKeys = bool.Parse(Config.GetSetting("ShowMissingKeys"));
-            }
-
+           
             //Load the Local Resource Files resources
             Hashtable resources = GetResource(resourceFileRoot, portalSettings, language);
 
@@ -529,7 +559,7 @@ namespace DotNetNuke.Services.Localization
             else
             {
                 //If the key still can't be found then it doesn't exist in the Localization Resources
-                if (showMissingKeys)
+                if (ShowMissingKeys && ! disableShowMissingKeys)
                 {
                     if ( resources[name] == null)
                     {
@@ -557,51 +587,121 @@ namespace DotNetNuke.Services.Localization
 //            return resources[name].ToString();
         }
 
-        /// <Summary>
+        /// <overloads>One of six overloads</overloads>
+        /// <summary>
         /// GetString gets the localized string corresponding to the resourcekey
-        /// </Summary>
-        /// <Param name="name">The resourcekey to find</Param>
-        /// <Param name="ResourceFileRoot">The Local Resource root</Param>
-        /// <Param name="strLanguage">A specific language to lookup the string</Param>
-        /// <Returns>The localized Text</Returns>
-        public static string GetString( string name, string resourceFileRoot, string strlanguage )
+        /// </summary>
+        /// <param name="name">The resourcekey to find</param>
+        /// <returns>The localized Text</returns>
+        /// <history>
+        /// 	[cnurse]	10/06/2004	Documented
+        /// </history>
+        public static string GetString(string name)
         {
-            PortalSettings settings = ( (PortalSettings)HttpContext.Current.Items["PortalSettings"] );
-            return GetString( name, resourceFileRoot, settings, strlanguage );
+
+            PortalSettings objPortalSettings = (PortalSettings)(HttpContext.Current.Items["PortalSettings"]);
+
+            return GetString(name, null, objPortalSettings, null, false);
+
         }
 
-        /// <Summary>
+        /// <overloads>One of six overloads</overloads>
+        /// <summary>
         /// GetString gets the localized string corresponding to the resourcekey
-        /// </Summary>
-        /// <Param name="name">The resourcekey to find</Param>
-        /// <Param name="ResourceFileRoot">The Local Resource root</Param>
-        /// <Returns>The localized Text</Returns>
-        public static string GetString( string name, string resourceFileRoot )
+        /// </summary>
+        /// <param name="name">The resourcekey to find</param>
+        /// <param name="objPortalSettings">The current portals Portal Settings</param>
+        /// <returns>The localized Text</returns>
+        /// <history>
+        /// 	[cnurse]	10/06/2004	Documented
+        /// </history>
+        public static string GetString(string name, PortalSettings objPortalSettings)
         {
-            PortalSettings settings = ( (PortalSettings)HttpContext.Current.Items["PortalSettings"] );
-            return GetString( name, resourceFileRoot, settings, null );
+
+            return GetString(name, null, objPortalSettings, null, false);
+
         }
 
-        /// <Summary>
+        /// <overloads>One of six overloads</overloads>
+        /// <summary>
         /// GetString gets the localized string corresponding to the resourcekey
-        /// </Summary>
-        /// <Param name="name">The resourcekey to find</Param>
-        /// <Param name="objPortalSettings">The current portals Portal Settings</Param>
-        /// <Returns>The localized Text</Returns>
-        public static string GetString( string name, PortalSettings objPortalSettings )
+        /// </summary>
+        /// <param name="name">The resourcekey to find</param>
+        /// <param name="ResourceFileRoot">The Local Resource root</param>
+        /// <returns>The localized Text</returns>
+        /// <history>
+        /// 	[cnurse]	10/06/2004	Documented
+        /// </history>
+        public static string GetString(string name, string ResourceFileRoot)
         {
-            return GetString( name, null, objPortalSettings, null );
+
+            PortalSettings objPortalSettings = (PortalSettings)(HttpContext.Current.Items["PortalSettings"]);
+
+            return GetString(name, ResourceFileRoot, objPortalSettings, null, false);
+
         }
 
-        /// <Summary>
-        /// GetString gets the localized string corresponding to the resourcekey
-        /// </Summary>
-        /// <Param name="name">The resourcekey to find</Param>
-        /// <Returns>The localized Text</Returns>
-        public static string GetString( string name )
+        /// <summary>
+        /// GetStringUrl gets the localized string corresponding to the resourcekey
+        /// </summary>
+        /// <param name="name">The resourcekey to find</param>
+        /// <param name="ResourceFileRoot">The Local Resource root</param>
+        /// <returns>The localized Text</returns>
+        /// <remarks>
+        /// This function should be used to retrieve strings to be used on URLs.
+        /// It is the same as <see cref="GetString">GetString(name,ResourceFileRoot</see> method
+        /// but it disables the ShowMissingKey flag, so even it testing scenarios, the correct string
+        /// is returned
+        /// </remarks>
+        /// <history>
+        /// 	[vmasanas]	11/21/2006	Added
+        /// </history>
+        public static string GetStringUrl(string name, string ResourceFileRoot)
         {
-            PortalSettings settings = ( (PortalSettings)HttpContext.Current.Items["PortalSettings"] );
-            return GetString( name, null, settings, null );
+
+            PortalSettings objPortalSettings = (PortalSettings)(HttpContext.Current.Items["PortalSettings"]);
+
+            return GetString(name, ResourceFileRoot, objPortalSettings, null, true);
+
+        }
+
+        /// <overloads>One of six overloads</overloads>
+        /// <summary>
+        /// GetString gets the localized string corresponding to the resourcekey
+        /// </summary>
+        /// <param name="name">The resourcekey to find</param>
+        /// <param name="ResourceFileRoot">The Local Resource root</param>
+        /// <param name="strLanguage">A specific language to lookup the string</param>
+        /// <returns>The localized Text</returns>
+        /// <history>
+        /// 	[cnurse]	10/06/2004	Documented
+        /// </history>
+        public static string GetString(string name, string ResourceFileRoot, string strlanguage)
+        {
+
+            PortalSettings objPortalSettings = (PortalSettings)(HttpContext.Current.Items["PortalSettings"]);
+
+            return GetString(name, ResourceFileRoot, objPortalSettings, strlanguage, false);
+
+        }
+
+        /// <overloads>One of six overloads</overloads>
+        /// <summary>
+        /// GetString gets the localized string corresponding to the resourcekey
+        /// </summary>
+        /// <param name="name">The resourcekey to find</param>
+        /// <param name="ResourceFileRoot">The Local Resource root</param>
+        /// <param name="objPortalSettings">The current portals Portal Settings</param>
+        /// <param name="strLanguage">A specific language to lookup the string</param>
+        /// <returns>The localized Text</returns>
+        /// <history>
+        /// 	[cnurse]	10/06/2004	Documented
+        /// </history>
+        public static string GetString(string name, string ResourceFileRoot, PortalSettings objPortalSettings, string strLanguage)
+        {
+
+            return GetString(name, ResourceFileRoot, objPortalSettings, strLanguage, false);
+
         }
 
         /// <Summary>
@@ -637,19 +737,17 @@ namespace DotNetNuke.Services.Localization
 
                 CacheDependency dp = new CacheDependency(filePath);
 
-                XmlDocument d = new XmlDocument();
-                d.Load(filePath);
-
-                foreach (XmlNode n in d.SelectNodes("root/language"))
+                XPathDocument doc = new XPathDocument(filePath);
+                foreach (XPathNavigator nav in doc.CreateNavigator().Select("root/language"))
                 {
-                    if (n.NodeType != XmlNodeType.Comment)
+                    if (nav.NodeType != XPathNodeType.Comment)
                     {
                         Locale objLocale = new Locale();
-                        objLocale.Text = n.Attributes["name"].Value;
-                        objLocale.Code = n.Attributes["key"].Value;
-                        objLocale.Fallback = n.Attributes["fallback"].Value;
+                        objLocale.Text = nav.GetAttribute("name", "");
+                        objLocale.Code = nav.GetAttribute("key", "");
+                        objLocale.Fallback = nav.GetAttribute("fallback", "");
 
-                        supportedLocales.Add(n.Attributes["key"].Value, objLocale);
+                        supportedLocales.Add(nav.GetAttribute("key", ""), objLocale);
                     }
                 }
                 if (Globals.PerformanceSetting != Globals.PerformanceSettings.NoCaching)
@@ -974,10 +1072,10 @@ namespace DotNetNuke.Services.Localization
 
             CacheDependency dp = new CacheDependency(filePath);
             bool xmlLoaded;
-            XmlDocument d = new XmlDocument();
+            XPathDocument doc = null;
             try
             {
-                d.Load(filePath);
+                doc = new XPathDocument( filePath );
                 xmlLoaded = true;
             }
             catch //exc As Exception
@@ -986,19 +1084,11 @@ namespace DotNetNuke.Services.Localization
             }
             if (xmlLoaded)
             {
-                foreach (XmlNode n in d.SelectNodes("root/data"))
+                foreach (XPathNavigator nav in doc.CreateNavigator().Select("root/data"))
                 {
-                    if (n.NodeType != XmlNodeType.Comment)
+                    if (nav.NodeType != XPathNodeType.Comment)
                     {
-                        string val = n.SelectSingleNode("value").InnerText;
-                        if (target[n.Attributes["name"].Value] == null)
-                        {
-                            target.Add(n.Attributes["name"].Value, val);
-                        }
-                        else
-                        {
-                            target[n.Attributes["name"].Value] = val;
-                        }
+                        target[nav.GetAttribute("name", string.Empty)] = nav.SelectSingleNode("value").Value;
                     }
                 }
 
@@ -1054,6 +1144,76 @@ namespace DotNetNuke.Services.Localization
                 //item could not be retrieved  or error
                 return false;
             }
+        }
+
+        public static bool UseBrowserLanguage()
+        {
+            PortalSettings objPortalSettings = PortalController.GetCurrentPortalSettings();
+
+            // check default host setting
+            if (string.IsNullOrEmpty(strUseBrowserLanguageDefault))
+            {
+                XmlDocument xmldoc = new XmlDocument();
+                XmlNode browserLanguage = null;
+
+                xmldoc.Load(HttpContext.Current.Server.MapPath(ApplicationResourceDirectory + "/Locales.xml"));
+                browserLanguage = xmldoc.SelectSingleNode("//root/browserDetection");
+                if (browserLanguage != null)
+                {
+                    strUseBrowserLanguageDefault = browserLanguage.Attributes["enabled"].InnerText;
+                }
+                else
+                {
+                    strUseBrowserLanguageDefault = "true";
+                }
+            }
+            bool usebrowser = bool.Parse(strUseBrowserLanguageDefault);
+
+            // check current portal setting
+            string FilePath = HttpContext.Current.Server.MapPath(ApplicationResourceDirectory + "/Locales.Portal-" + objPortalSettings.PortalId.ToString() + ".xml");
+            if (File.Exists(FilePath))
+            {
+                string cacheKey = "dotnetnuke-usebrowserlanguage" + objPortalSettings.PortalId;
+                try
+                {
+                    object o = DataCache.GetCache(cacheKey);
+                    if (o == null)
+                    {
+                        XmlDocument xmlLocales = new XmlDocument();
+                        bool bXmlLoaded;
+
+                        xmlLocales.Load(FilePath);
+                        bXmlLoaded = true;
+
+                        XmlDocument d = new XmlDocument();
+                        d.Load(FilePath);
+
+                        if (bXmlLoaded && xmlLocales.SelectSingleNode("//locales/browserDetection") != null)
+                        {
+                            usebrowser = bool.Parse(xmlLocales.SelectSingleNode("//locales/browserDetection").Attributes["enabled"].InnerText);
+                        }
+                        if (Globals.PerformanceSetting != Globals.PerformanceSettings.NoCaching)
+                        {
+                            CacheDependency dp = new CacheDependency(FilePath);
+                            DataCache.SetCache(cacheKey, usebrowser, dp);
+                        }
+                    }
+                    else
+                    {
+                        usebrowser = Convert.ToBoolean(o);
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+
+                return usebrowser;
+            }
+            else
+            {
+                return true;
+            }
+
         }
 
         /// <Summary>Localizes ModuleControl Titles</Summary>

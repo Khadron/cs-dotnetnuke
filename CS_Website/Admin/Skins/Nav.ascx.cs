@@ -34,14 +34,9 @@ namespace DotNetNuke.UI.Skins.Controls
                 // This setting determines if the submenu arrows will be used
                 bool blnIndicateChildren = bool.Parse( GetValue( this.IndicateChildren, "True" ) ); 
                 // This setting determines if the submenu will be shown
-                //Dim blnRootOnly As Boolean = Boolean.Parse(GetValue(RootOnly, "False"))				
                 string strRightArrow;
                 string strDownArrow;
 
-                //If blnRootOnly Then blnIndicateChildren = False
-
-//                SkinController objSkins = new SkinController();
-                
                 //image for right facing arrow
                 if( !String.IsNullOrEmpty(IndicateChildImageSub))
                 {
@@ -49,7 +44,9 @@ namespace DotNetNuke.UI.Skins.Controls
                 }
                 else
                 {
-                    strRightArrow = "[APPIMAGEPATH]breadcrumb.gif";
+                    //strRightArrow = "[APPIMAGEPATH]breadcrumb.gif";                    
+                    strRightArrow = "breadcrumb.gif"; //removed APPIMAGEPATH token - http://www.dotnetnuke.com/Community/ForumsDotNetNuke/tabid/795/forumid/76/threadid/85554/scope/posts/Default.aspx
+
                 }
                 //image for down facing arrow
                 if( !String.IsNullOrEmpty(IndicateChildImageRoot))
@@ -58,7 +55,8 @@ namespace DotNetNuke.UI.Skins.Controls
                 }
                 else
                 {
-                    strDownArrow = "[APPIMAGEPATH]menu_down.gif";
+                    //strDownArrow = "[APPIMAGEPATH]menu_down.gif";
+                    strDownArrow = "menu_down.gif";	//removed APPIMAGEPATH token - http://www.dotnetnuke.com/Community/ForumsDotNetNuke/tabid/795/forumid/76/threadid/85554/scope/posts/Default.aspx
                 }
 
                 //Set correct image path for all separator images
@@ -157,7 +155,7 @@ namespace DotNetNuke.UI.Skins.Controls
             }
         }
 
-        private string FixImagePath( string strPath )
+        private static string FixImagePath( string strPath )
         {
             if( strPath.IndexOf( "src=" ) != - 1 )
             {

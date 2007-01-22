@@ -109,7 +109,7 @@ namespace DotNetNuke.UI.Containers
             {
                 ModuleController objModule = new ModuleController();
                 PortalModuleBase objPortalModule = Container.GetPortalModuleBase( this );
-                ModuleInfo objModInfo = objModule.GetModule( objPortalModule.ModuleId, objPortalModule.TabId );
+                ModuleInfo objModInfo = objModule.GetModule(objPortalModule.ModuleId, objPortalModule.TabId, false);
 
                 objModInfo.ModuleTitle = e.Text;
                 objModule.UpdateModule( objModInfo );

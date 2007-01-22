@@ -67,14 +67,9 @@ namespace DotNetNuke.Services.Cache.FileBasedCachingProvider
             return objCache.GetEnumerator();
         }
 
-        public override object GetItem( string CacheKey )
+        public override object GetItem(string CacheKey)
         {
-            object obj = objCache[CacheKey];
-            if( obj != null )
-            {
-                return objCache[CacheKey];
-            }
-            return obj;
+            return objCache[CacheKey];
         }
 
         public override object GetPersistentCacheItem( string CacheKey, Type objType )

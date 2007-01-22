@@ -30,7 +30,6 @@ dnn_control.prototype.DNNTextSuggest = function (o)
 	this.cssIcon = dnn.dom.getAttr(o, 'cssicon', '');
 
 	this.sysImgPath = dnn.dom.getAttr(o, 'sysimgpath', '');
-	//this.imageList = dnn.dom.getAttr(o, 'imagelist', '').split(',');
 	this.workImg = 'dnnanim.gif';
 		
 	this.target = dnn.dom.getAttr(o, 'target', '');	
@@ -47,6 +46,7 @@ dnn_control.prototype.DNNTextSuggest = function (o)
 	this.selIndex=-1;
 	//this.delay = new Array();
 	this.lookupDelay = dnn.dom.getAttr(o, 'ludelay', '500');
+	this.lostFocusDelay = dnn.dom.getAttr(o, 'lfdelay', '500');
 
 	this.anim = dnn.dom.getAttr(o, 'anim', '');	//expand
 	this.inAnimObj = null;
@@ -55,6 +55,8 @@ dnn_control.prototype.DNNTextSuggest = function (o)
 	dnn.dom.addSafeHandler(o, 'onkeyup', this, 'keyUp');
 	//dnn.dom.addSafeHandler(o, 'onkeydown', this, 'keyDown');
 	dnn.dom.addSafeHandler(o, 'onkeypress', this, 'keyPress');
+	dnn.dom.addSafeHandler(o, 'onblur', this, 'onblur');
+	dnn.dom.addSafeHandler(o, 'onfocus', this, 'onfocus');
 
 	o.setAttribute('autocomplete', 'off');	
 	this.delimiter = dnn.dom.getAttr(o, 'del', '');
@@ -64,6 +66,7 @@ dnn_control.prototype.DNNTextSuggest = function (o)
 		this.maxRows = 9999;
 	this.minChar = new Number(dnn.dom.getAttr(o, 'minChar', '1'));
 	this.caseSensitive = dnn.dom.getAttr(o, 'casesens', '0') == '1';
+
 
 	this.prevLookupText = '';
 	this.prevLookupOffset = 0;	
@@ -80,14 +83,27 @@ keyPress: function (e, element)
 		return false;
 },
 
+onblur: function (e, element) 
+{
+	dnn.doDelay(this.ns + 'ob', this.lostFocusDelay, dnn.dom.getObjMethRef(this, 'blurHide'));
+},
+
+onfocus: function (e, element) 
+{
+	dnn.cancelDelay(this.ns + 'ob');
+},
+
+blurHide: function()
+{
+	this.clearResults(true);
+},
+
 keyUp: function (e, element) 
 {
 	var KEY_UP_ARROW = 38;
 	var KEY_DOWN_ARROW = 40;
 	var KEY_RETURN = 13;
 	var KEY_ESCAPE = 27;
-	dnn.cancelDelay(this.ns + 'kd');
-	dnn.doDelay(this.ns + 'kd', this.lookupDelay, dnn.dom.getObjMethRef(this, 'doLookup'));
 	this.prevText = this.container.value;
 	if (e.keyCode == KEY_UP_ARROW)
 		this.setNodeIndex(this.selIndex - 1);
@@ -97,12 +113,17 @@ keyUp: function (e, element)
 	{
 		if (this.selIndex > -1)
 		{
-			this.selectNode(new dnn.controls.DNNTextSuggestNode(this.rootNode.childNodes(this.selIndex)));
-			this.clearResults();
+			this.selectNode(this.getNodeByIndex(this.selIndex));
+			this.clearResults(true);
 		}
 	}
 	else if(e.keyCode == KEY_ESCAPE)
-		this.clear();
+		this.clearResults(true);
+	else
+	{
+		dnn.cancelDelay(this.ns + 'kd');
+		dnn.doDelay(this.ns + 'kd', this.lookupDelay, dnn.dom.getObjMethRef(this, 'doLookup'));	
+	}
 		
 },
 
@@ -135,6 +156,7 @@ nodeClick: function(evt, element)
 	{
 		var oTSNode = new dnn.controls.DNNTextSuggestNode(oNode);
 		this.selectNode(oTSNode);
+		this.clearResults(true);
 	}
 },
 
@@ -168,8 +190,8 @@ setText: function (s, id)
 		ary[this.getTextOffset()] = s;
 
 		this.container.value = ary.join(this.delimiter);
-		if (this.container.value.lastIndexOf(';') != this.container.value.length - 1)
-			this.container.value += ';';
+		if (this.container.value.lastIndexOf(this.delimiter) != this.container.value.length - 1)
+			this.container.value += this.delimiter;
 		
 	}
 	else
@@ -201,15 +223,26 @@ highlightNode: function(iIndex, bHighlight)
 {
 	if (iIndex > -1)
 	{
-		var oTSNode = new dnn.controls.DNNTextSuggestNode(this.rootNode.childNodes(this.selIndex));
+		var oTSNode = this.getNodeByIndex(iIndex);
 		oTSNode.hover = bHighlight;
 		this.assignCss(oTSNode);				
 	}
 },
 
+getNodeByIndex: function(iIndex)
+{
+	var oEl = this.resultCtr.childNodes[iIndex];
+	if (oEl)
+	{
+		var oNode = this.rootNode.findNode('n', 'id', oEl.nodeid);
+		if (oNode)
+			return new dnn.controls.DNNTextSuggestNode(oNode);
+	}
+},
+
 setNodeIndex: function(iIndex)
 {
-	if (iIndex > -1 && iIndex < this.rootNode.childNodeCount())
+	if (iIndex > -1 && iIndex < this.resultCtr.childNodes.length)
 	{
 		this.highlightNode(this.selIndex, false);
 		this.selIndex = iIndex;
@@ -221,7 +254,6 @@ selectNode: function (oTSNode)
 {		
 	if (this.selNode != null)
 	{
-		//dnn.dom.getById(__dm_getControlID(this.ns, this.selNode.id, 't')).className = this.nodeCss;
 		this.selNode.selected = null;
 		this.assignCss(this.selNode);
 	}		
@@ -269,13 +301,26 @@ positionMenu: function ()
 	this.resultCtr.style.top = oPDims.t + oPDims.h;
 },
 
-clearResults: function () 
+showResults: function()
+{
+	if (this.resultCtr)
+		this.resultCtr.style.display = '';
+},
+
+hideResults: function()
+{
+	if (this.resultCtr)
+		this.resultCtr.style.display = 'none';
+},
+
+clearResults: function (bHide) 
 {
 	if (this.resultCtr != null)
 		this.resultCtr.innerHTML = '';
 	this.selIndex = -1;
 	this.selNode = null;
-		
+	if (bHide)
+		this.hideResults();
 },
 
 clear: function () 
@@ -352,6 +397,7 @@ renderResults: function (sXML)
 		this.clearResults();
 		for (var i=0; i<this.rootNode.childNodeCount(); i++)
 			this.renderNode(this.rootNode.childNodes(i), this.resultCtr);
+		this.showResults();
 	}
 },
 

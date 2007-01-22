@@ -17,8 +17,10 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Collections;
+using System.Data;
 using System.Web.UI.WebControls;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Modules;
@@ -26,11 +28,16 @@ using DotNetNuke.Entities.Portals;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Vendors;
+using DotNetNuke.UI.WebControls;
 
 namespace DotNetNuke.Modules.Admin.Vendors
 {
     public partial class BannerOptions : PortalModuleBase
     {
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            DNNTxtBannerGroup.PopulateOnDemand += new DNNTextSuggest.DNNTextSuggestEventHandler(DNNTxtBannerGroup_PopulateOnDemand);
+        }
         // The Page_Load event handler on this User Control is used to
         // obtain a DataReader of banner information from the Banners
         // table, and then databind the results to a templated DataList
@@ -66,7 +73,7 @@ namespace DotNetNuke.Modules.Admin.Vendors
                         {
                             cboType.Items.FindByValue( Convert.ToString( settings["bannertype"] ) ).Selected = true;
                         }
-                        txtGroup.Text = Convert.ToString( settings["bannergroup"] );
+                        DNNTxtBannerGroup.Text = Convert.ToString(Settings["bannergroup"]);
                         if( optOrientation.Items.FindByValue( Convert.ToString( settings["orientation"] ) ) != null )
                         {
                             optOrientation.Items.FindByValue( Convert.ToString( settings["orientation"] ) ).Selected = true;
@@ -128,7 +135,7 @@ namespace DotNetNuke.Modules.Admin.Vendors
                     {
                         objModules.UpdateModuleSetting( ModuleId, "bannertype", cboType.SelectedItem.Value );
                     }
-                    objModules.UpdateModuleSetting( ModuleId, "bannergroup", txtGroup.Text );
+                    objModules.UpdateModuleSetting(ModuleId, "bannergroup", DNNTxtBannerGroup.Text);
                     if( optOrientation.SelectedItem != null )
                     {
                         objModules.UpdateModuleSetting( ModuleId, "orientation", optOrientation.SelectedItem.Value );
@@ -160,6 +167,33 @@ namespace DotNetNuke.Modules.Admin.Vendors
             {
                 Exceptions.ProcessModuleLoadException( this, exc );
             }
+        }
+
+        /// <summary>
+        /// DNNTxtBannerGroup_PopulateOnDemand runs when something is entered on the
+        /// BannerGroup field
+        /// </summary>
+        /// <history>
+        /// 	[vmasanas]	9/29/2006	Implement a callback to display current groups
+        ///  to user so the BannerGroup can be easily selected
+        /// </history>
+        protected void DNNTxtBannerGroup_PopulateOnDemand(object source, DNNTextSuggestEventArgs e)
+        {
+            DataTable dt = null;
+            DNNNode objNode = null;
+
+            BannerController objBanners = new BannerController();
+            dt = objBanners.GetBannerGroups(PortalId);
+            DataRow[] dr = null;
+            dt.CaseSensitive = false;
+            dr = dt.Select("GroupName like '" + e.Text + "%'");
+            foreach (DataRow d in dr)
+            {
+                objNode = new DNNNode(d["GroupName"].ToString());
+                objNode.ID = e.Nodes.Count.ToString();
+                e.Nodes.Add(objNode);
+            }
+
         }
     }
 }

@@ -60,5 +60,10 @@ namespace DotNetNuke.Common.Utilities
                 return "";
             }
         }
+
+        public static void OpenNewWindow(string Url)
+        {
+            HttpContext.Current.Response.Write("<script>window.open('" + Url + "', 'new');</script>");
+        }
     }
 }

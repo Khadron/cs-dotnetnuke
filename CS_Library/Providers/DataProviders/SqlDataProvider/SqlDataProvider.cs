@@ -17,6 +17,7 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 #endregion
+
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -33,7 +34,7 @@ namespace DotNetNuke.Data
     {
         private const string ProviderType = "data";
 
-        private ProviderConfiguration _providerConfiguration = ProviderConfiguration.GetProviderConfiguration(ProviderType);
+        private ProviderConfiguration _providerConfiguration = ProviderConfiguration.GetProviderConfiguration( ProviderType );
         private string connectionString;
         private string providerPath;
         private string objectQualifier;
@@ -59,13 +60,13 @@ namespace DotNetNuke.Data
             providerPath = objProvider.Attributes["providerPath"];
 
             objectQualifier = objProvider.Attributes["objectQualifier"];
-            if( !String.IsNullOrEmpty(objectQualifier) && objectQualifier.EndsWith( "_" ) == false )
+            if( !String.IsNullOrEmpty( objectQualifier ) && objectQualifier.EndsWith( "_" ) == false )
             {
                 objectQualifier += "_";
             }
 
             databaseOwner = objProvider.Attributes["databaseOwner"];
-            if( !String.IsNullOrEmpty(databaseOwner) && databaseOwner.EndsWith( "." ) == false )
+            if( !String.IsNullOrEmpty( databaseOwner ) && databaseOwner.EndsWith( "." ) == false )
             {
                 databaseOwner += ".";
             }
@@ -120,11 +121,8 @@ namespace DotNetNuke.Data
             }
         }
 
-        private void ExecuteADOScript( SqlTransaction trans, string SQL )
+        private static void ExecuteADOScript( SqlTransaction trans, string SQL )
         {
-            //Get the connection
-            SqlConnection connection = trans.Connection;
-
             //Create a new command (with no timeout)
             SqlCommand command = new SqlCommand( SQL, trans.Connection );
             command.Transaction = trans;
@@ -193,7 +191,7 @@ namespace DotNetNuke.Data
 
             returnValue = ProviderPath;
 
-            if( !String.IsNullOrEmpty(returnValue) )
+            if( !String.IsNullOrEmpty( returnValue ) )
             {
                 returnValue = objHttpContext.Server.MapPath( returnValue );
 
@@ -471,19 +469,24 @@ namespace DotNetNuke.Data
         }
 
         // portal
-        public override int AddPortalInfo( string PortalName, string Currency, string FirstName, string LastName, string Username, string Password, string Email, DateTime ExpiryDate, double HostFee, double HostSpace, int SiteLogHistory, string HomeDirectory )
+        public override int AddPortalInfo( string PortalName, string Currency, string FirstName, string LastName, string Username, string Password, string Email, DateTime ExpiryDate, double HostFee, double HostSpace, int PageQuota, int UserQuota, int SiteLogHistory, string HomeDirectory )
         {
-            return Convert.ToInt32( SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "AddPortalInfo", PortalName, Currency, GetNull( ExpiryDate ), HostFee, HostSpace, GetNull( SiteLogHistory ), HomeDirectory ) );
+            return Convert.ToInt32( SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "AddPortalInfo", PortalName, Currency, GetNull( ExpiryDate ), HostFee, HostSpace, PageQuota, UserQuota, GetNull( SiteLogHistory ), HomeDirectory ) );
         }
 
-        public override int CreatePortal( string PortalName, string Currency, DateTime ExpiryDate, double HostFee, double HostSpace, int SiteLogHistory, string HomeDirectory )
+        public override int CreatePortal( string PortalName, string Currency, DateTime ExpiryDate, double HostFee, double HostSpace, int PageQuota, int UserQuota, int SiteLogHistory, string HomeDirectory )
         {
-            return Convert.ToInt32( SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "AddPortalInfo", PortalName, Currency, GetNull( ExpiryDate ), HostFee, HostSpace, GetNull( SiteLogHistory ), HomeDirectory ) );
+            return Convert.ToInt32( SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "AddPortalInfo", PortalName, Currency, GetNull( ExpiryDate ), HostFee, HostSpace, PageQuota, UserQuota, GetNull( SiteLogHistory ), HomeDirectory ) );
         }
 
         public override void DeletePortalInfo( int PortalId )
         {
             SqlHelper.ExecuteNonQuery( ConnectionString, DatabaseOwner + ObjectQualifier + "DeletePortalInfo", PortalId );
+        }
+
+        public override IDataReader GetExpiredPortals()
+        {
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetExpiredPortals" );
         }
 
         public override IDataReader GetPortal( int PortalId )
@@ -501,9 +504,19 @@ namespace DotNetNuke.Data
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetPortalByTab", TabId, PortalAlias );
         }
 
+        public override int GetPortalCount()
+        {
+            return Convert.ToInt32( SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "GetPortalCount" ) );
+        }
+
         public override IDataReader GetPortals()
         {
-            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetPortals", null );
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetPortals" );
+        }
+
+        public override IDataReader GetPortalsByName( string nameToMatch, int pageIndex, int pageSize )
+        {
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetPortalsByName", nameToMatch, pageIndex, pageSize );
         }
 
         public override IDataReader GetPortalSpaceUsed( int PortalId )
@@ -511,9 +524,9 @@ namespace DotNetNuke.Data
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetPortalSpaceUsed", GetNull( PortalId ) );
         }
 
-        public override void UpdatePortalInfo( int PortalId, string PortalName, string LogoFile, string FooterText, DateTime ExpiryDate, int UserRegistration, int BannerAdvertising, string Currency, int AdministratorId, double HostFee, double HostSpace, string PaymentProcessor, string ProcessorUserId, string ProcessorPassword, string Description, string KeyWords, string BackgroundFile, int SiteLogHistory, int SplashTabId, int HomeTabId, int LoginTabId, int UserTabId, string DefaultLanguage, int TimeZoneOffset, string HomeDirectory )
+        public override void UpdatePortalInfo( int PortalId, string PortalName, string LogoFile, string FooterText, DateTime ExpiryDate, int UserRegistration, int BannerAdvertising, string Currency, int AdministratorId, double HostFee, double HostSpace, int PageQuota, int UserQuota, string PaymentProcessor, string ProcessorUserId, string ProcessorPassword, string Description, string KeyWords, string BackgroundFile, int SiteLogHistory, int SplashTabId, int HomeTabId, int LoginTabId, int UserTabId, string DefaultLanguage, int TimeZoneOffset, string HomeDirectory )
         {
-            SqlHelper.ExecuteNonQuery( ConnectionString, DatabaseOwner + ObjectQualifier + "UpdatePortalInfo", PortalId, PortalName, GetNull( LogoFile ), GetNull( FooterText ), GetNull( ExpiryDate ), UserRegistration, BannerAdvertising, Currency, GetNull( AdministratorId ), HostFee, HostSpace, GetNull( PaymentProcessor ), GetNull( ProcessorUserId ), GetNull( ProcessorPassword ), GetNull( Description ), GetNull( KeyWords ), GetNull( BackgroundFile ), GetNull( SiteLogHistory ), GetNull( SplashTabId ), GetNull( HomeTabId ), GetNull( LoginTabId ), GetNull( UserTabId ), GetNull( DefaultLanguage ), GetNull( TimeZoneOffset ), HomeDirectory );
+            SqlHelper.ExecuteNonQuery( ConnectionString, DatabaseOwner + ObjectQualifier + "UpdatePortalInfo", PortalId, PortalName, GetNull( LogoFile ), GetNull( FooterText ), GetNull( ExpiryDate ), UserRegistration, BannerAdvertising, Currency, GetNull( AdministratorId ), HostFee, HostSpace, PageQuota, UserQuota, GetNull( PaymentProcessor ), GetNull( ProcessorUserId ), GetNull( ProcessorPassword ), GetNull( Description ), GetNull( KeyWords ), GetNull( BackgroundFile ), GetNull( SiteLogHistory ), GetNull( SplashTabId ), GetNull( HomeTabId ), GetNull( LoginTabId ), GetNull( UserTabId ), GetNull( DefaultLanguage ), GetNull( TimeZoneOffset ), HomeDirectory );
         }
 
         public override void UpdatePortalSetup( int PortalId, int AdministratorId, int AdministratorRoleId, int RegisteredRoleId, int SplashTabId, int HomeTabId, int LoginTabId, int UserTabId, int AdminTabId )
@@ -560,12 +573,12 @@ namespace DotNetNuke.Data
 
         public override IDataReader GetTabs( int PortalId )
         {
-            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetTabs", PortalId );
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetTabs", GetNull( PortalId ) );
         }
 
         public override IDataReader GetAllTabs()
         {
-            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetAllTabs", null );
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetAllTabs" );
         }
 
         public override IDataReader GetTab( int TabId )
@@ -576,6 +589,11 @@ namespace DotNetNuke.Data
         public override IDataReader GetTabByName( string TabName, int PortalId )
         {
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetTabByName", TabName, GetNull( PortalId ) );
+        }
+
+        public override int GetTabCount( int PortalId )
+        {
+            return Convert.ToInt32( SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "GetTabCount", PortalId ) );
         }
 
         public override IDataReader GetTabsByParentId( int ParentId )
@@ -590,7 +608,12 @@ namespace DotNetNuke.Data
 
         public override IDataReader GetPortalTabModules( int PortalId, int TabId )
         {
-            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetPortalTabModules", PortalId, TabId );
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetTabModules", TabId );
+        }
+
+        public override IDataReader GetTabModules( int TabId )
+        {
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetTabModules", TabId );
         }
 
         // module
@@ -750,13 +773,14 @@ namespace DotNetNuke.Data
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetDesktopModulesByPortal", PortalId );
         }
 
-        public override int AddDesktopModule(string ModuleName, string FolderName, string FriendlyName, string Description, string Version, bool IsPremium, bool IsAdmin, string BusinessControllerClass, int SupportedFeatures, string CompatibleVersions)
+        public override int AddDesktopModule( string ModuleName, string FolderName, string FriendlyName, string Description, string Version, bool IsPremium, bool IsAdmin, string BusinessControllerClass, int SupportedFeatures, string CompatibleVersions )
         {
-            return System.Convert.ToInt32(SqlHelper.ExecuteScalar(ConnectionString, DatabaseOwner + ObjectQualifier + "AddDesktopModule", ModuleName, FolderName, FriendlyName, GetNull(Description), GetNull(Version), IsPremium, IsAdmin, BusinessControllerClass, SupportedFeatures, GetNull(CompatibleVersions)));
+            return Convert.ToInt32( SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "AddDesktopModule", ModuleName, FolderName, FriendlyName, GetNull( Description ), GetNull( Version ), IsPremium, IsAdmin, BusinessControllerClass, SupportedFeatures, GetNull( CompatibleVersions ) ) );
         }
-        public override void UpdateDesktopModule(int DesktopModuleId, string ModuleName, string FolderName, string FriendlyName, string Description, string Version, bool IsPremium, bool IsAdmin, string BusinessControllerClass, int SupportedFeatures, string CompatibleVersions)
+
+        public override void UpdateDesktopModule( int DesktopModuleId, string ModuleName, string FolderName, string FriendlyName, string Description, string Version, bool IsPremium, bool IsAdmin, string BusinessControllerClass, int SupportedFeatures, string CompatibleVersions )
         {
-            SqlHelper.ExecuteNonQuery(ConnectionString, DatabaseOwner + ObjectQualifier + "UpdateDesktopModule", DesktopModuleId, ModuleName, FolderName, FriendlyName, GetNull(Description), GetNull(Version), IsPremium, IsAdmin, BusinessControllerClass, SupportedFeatures, GetNull(CompatibleVersions));
+            SqlHelper.ExecuteNonQuery( ConnectionString, DatabaseOwner + ObjectQualifier + "UpdateDesktopModule", DesktopModuleId, ModuleName, FolderName, FriendlyName, GetNull( Description ), GetNull( Version ), IsPremium, IsAdmin, BusinessControllerClass, SupportedFeatures, GetNull( CompatibleVersions ) );
         }
 
         public override void DeleteDesktopModule( int DesktopModuleId )
@@ -916,29 +940,29 @@ namespace DotNetNuke.Data
             SqlHelper.ExecuteNonQuery( ConnectionString, DatabaseOwner + ObjectQualifier + "DeleteSiteLog", DateTime, PortalId );
         }
 
-        public override IDataReader ExecuteSQL(string SQL)
+        public override IDataReader ExecuteSQL( string SQL )
         {
-            return ExecuteSQL(SQL, null);
+            return ExecuteSQL( SQL, null );
         }
 
-        public override IDataReader ExecuteSQL(string SQL, params IDataParameter[] commandParameters)
+        public override IDataReader ExecuteSQL( string SQL, params IDataParameter[] commandParameters )
         {
             SqlParameter[] sqlCommandParameters = null;
-            if (commandParameters != null)
+            if( commandParameters != null )
             {
                 sqlCommandParameters = new SqlParameter[commandParameters.Length];
-                for (int intIndex = 0; intIndex < commandParameters.Length; intIndex++)
+                for( int intIndex = 0; intIndex < commandParameters.Length; intIndex++ )
                 {
-                    sqlCommandParameters[intIndex] = (SqlParameter)(commandParameters[intIndex]);
+                    sqlCommandParameters[intIndex] = (SqlParameter)( commandParameters[intIndex] );
                 }
             }
 
-            SQL = SQL.Replace("{databaseOwner}", DatabaseOwner);
-            SQL = SQL.Replace("{objectQualifier}", ObjectQualifier);
+            SQL = SQL.Replace( "{databaseOwner}", DatabaseOwner );
+            SQL = SQL.Replace( "{objectQualifier}", ObjectQualifier );
 
             try
             {
-                return SqlHelper.ExecuteReader(ConnectionString, CommandType.Text, SQL, sqlCommandParameters);
+                return SqlHelper.ExecuteReader( ConnectionString, CommandType.Text, SQL, sqlCommandParameters );
             }
             catch
             {
@@ -1020,6 +1044,11 @@ namespace DotNetNuke.Data
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetBanner", BannerId, VendorId, GetNull( PortalId ) );
         }
 
+        public override DataTable GetBannerGroups( int PortalId )
+        {
+            return SqlHelper.ExecuteDataset( ConnectionString, DatabaseOwner + ObjectQualifier + "GetBannerGroups", GetNull( PortalId ) ).Tables[0];
+        }
+
         public override void DeleteBanner( int BannerId )
         {
             SqlHelper.ExecuteNonQuery( ConnectionString, DatabaseOwner + ObjectQualifier + "DeleteBanner", BannerId );
@@ -1085,6 +1114,11 @@ namespace DotNetNuke.Data
         public override IDataReader GetSkin( string SkinRoot, int PortalId, int SkinType )
         {
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetSkin", SkinRoot, GetNull( PortalId ), SkinType );
+        }
+
+        public override IDataReader GetSkins( int PortalId )
+        {
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetSkins", GetNull( PortalId ) );
         }
 
         public override void DeleteSkin( string SkinRoot, int PortalId, int SkinType )
@@ -1225,9 +1259,9 @@ namespace DotNetNuke.Data
         }
 
         //Permission
-        public override IDataReader GetPermissionsByModuleDefID(int ModuleDefID)
+        public override IDataReader GetPermissionsByModuleDefID( int ModuleDefID )
         {
-            return SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner + ObjectQualifier + "GetPermissionsByModuleDefID", ModuleDefID);
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetPermissionsByModuleDefID", ModuleDefID );
         }
 
         public override IDataReader GetPermissionsByModuleID( int ModuleID )
@@ -1286,6 +1320,11 @@ namespace DotNetNuke.Data
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetModulePermissionsByPortal", PortalID );
         }
 
+        public override IDataReader GetModulePermissionsByTabID( int TabID )
+        {
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetModulePermissionsByTabID", TabID );
+        }
+
         public override void DeleteModulePermissionsByModuleID( int ModuleID )
         {
             SqlHelper.ExecuteNonQuery( ConnectionString, DatabaseOwner + ObjectQualifier + "DeleteModulePermissionsByModuleID", ModuleID );
@@ -1309,7 +1348,7 @@ namespace DotNetNuke.Data
         //TabPermission
         public override IDataReader GetTabPermissionsByPortal( int PortalID )
         {
-            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetTabPermissionsByPortal", PortalID );
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetTabPermissionsByPortal", GetNull( PortalID ) );
         }
 
         public override IDataReader GetTabPermissionsByTabID( int TabID, int PermissionID )
@@ -1343,28 +1382,31 @@ namespace DotNetNuke.Data
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetFolders", GetNull( PortalID ), - 1, "" );
         }
 
-        public override IDataReader GetFoldersByUser(int PortalID, int UserID, bool IncludeSecure, bool IncludeDatabase, bool AllowAccess, string Permissions)
+        public override IDataReader GetFoldersByUser( int PortalID, int UserID, bool IncludeSecure, bool IncludeDatabase, bool AllowAccess, string Permissions )
         {
-            return SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner + ObjectQualifier + "GetFoldersByUser", GetNull(PortalID), GetNull(UserID), IncludeSecure, IncludeDatabase, AllowAccess, Permissions);
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetFoldersByUser", GetNull( PortalID ), GetNull( UserID ), IncludeSecure, IncludeDatabase, AllowAccess, Permissions );
         }
-        public override IDataReader GetFolder(int PortalID, int FolderID)
-        {
-            return SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner + ObjectQualifier + "GetFolderByFolderID", GetNull(PortalID), FolderID);
-        }
-        public override IDataReader GetFolder(int PortalID, string FolderPath)
-        {
-            return SqlHelper.ExecuteReader(ConnectionString, DatabaseOwner + ObjectQualifier + "GetFolderByFolderPath", GetNull(PortalID), FolderPath);
-        }        
 
-        public override int AddFolder(int PortalID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached, System.DateTime LastUpdated)
+        public override IDataReader GetFolder( int PortalID, int FolderID )
         {
-            return System.Convert.ToInt32(SqlHelper.ExecuteScalar(ConnectionString, DatabaseOwner + ObjectQualifier + "AddFolder", GetNull(PortalID), FolderPath, StorageLocation, IsProtected, IsCached, GetNull(LastUpdated)));
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetFolderByFolderID", GetNull( PortalID ), FolderID );
         }
-        public override void UpdateFolder(int PortalID, int FolderID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached, System.DateTime LastUpdated)
+
+        public override IDataReader GetFolder( int PortalID, string FolderPath )
         {
-            SqlHelper.ExecuteScalar(ConnectionString, DatabaseOwner + ObjectQualifier + "UpdateFolder", GetNull(PortalID), FolderID, FolderPath, StorageLocation, IsProtected, IsCached, GetNull(LastUpdated));
+            return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetFolderByFolderPath", GetNull( PortalID ), FolderPath );
         }
-        
+
+        public override int AddFolder( int PortalID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached, DateTime LastUpdated )
+        {
+            return Convert.ToInt32( SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "AddFolder", GetNull( PortalID ), FolderPath, StorageLocation, IsProtected, IsCached, GetNull( LastUpdated ) ) );
+        }
+
+        public override void UpdateFolder( int PortalID, int FolderID, string FolderPath, int StorageLocation, bool IsProtected, bool IsCached, DateTime LastUpdated )
+        {
+            SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "UpdateFolder", GetNull( PortalID ), FolderID, FolderPath, StorageLocation, IsProtected, IsCached, GetNull( LastUpdated ) );
+        }
+
         public override void DeleteFolder( int PortalID, string FolderPath )
         {
             SqlHelper.ExecuteScalar( ConnectionString, DatabaseOwner + ObjectQualifier + "DeleteFolder", GetNull( PortalID ), FolderPath );
@@ -1579,7 +1621,5 @@ namespace DotNetNuke.Data
         {
             return SqlHelper.ExecuteReader( ConnectionString, DatabaseOwner + ObjectQualifier + "GetPortalAliasByPortalAliasID", PortalAliasID );
         }
-
-        
     }
 }

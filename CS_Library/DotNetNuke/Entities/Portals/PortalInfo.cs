@@ -20,6 +20,9 @@
 using System;
 using System.Xml.Serialization;
 using DotNetNuke.Common;
+using DotNetNuke.Common.Utilities;
+using DotNetNuke.Entities.Tabs;
+using DotNetNuke.Entities.Users;
 using DotNetNuke.Services.FileSystem;
 
 namespace DotNetNuke.Entities.Portals
@@ -44,6 +47,8 @@ namespace DotNetNuke.Entities.Portals
         private int _HomeTabId;
         private float _HostFee;
         private int _HostSpace;
+        private int _PageQuota;
+        private int _UserQuota;
         private string _KeyWords;
         private int _LoginTabId;
         private string _LogoFile;
@@ -59,11 +64,12 @@ namespace DotNetNuke.Entities.Portals
         private int _SuperTabId;
         private int _TimeZoneOffset;
         private int _UserRegistration;
-        private int _Users;
+        private int _Users = Null.NullInteger;
+        private int _Pages = Null.NullInteger;
         private int _UserTabId;
         private string _Version;
 
-        [XmlElementAttribute( "administratorid" )]
+        [XmlElement( "administratorid" )]
         public int AdministratorId
         {
             get
@@ -76,7 +82,32 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "administratorroleid" )]
+        [XmlElement("pagequota")]
+        public int PageQuota
+        {
+            get
+            {
+                return _PageQuota;
+            }
+            set
+            {
+                _PageQuota = value;
+            }
+        }
+        [XmlElement("userquota")]
+        public int UserQuota
+        {
+            get
+            {
+                return _UserQuota;
+            }
+            set
+            {
+                _UserQuota = value;
+            }
+        }
+
+        [XmlElement( "administratorroleid" )]
         public int AdministratorRoleId
         {
             get
@@ -89,7 +120,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "administratorrolename" )]
+        [XmlElement( "administratorrolename" )]
         public string AdministratorRoleName
         {
             get
@@ -102,7 +133,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "admintabid" )]
+        [XmlElement( "admintabid" )]
         public int AdminTabId
         {
             get
@@ -115,7 +146,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "backgroundfile" )]
+        [XmlElement( "backgroundfile" )]
         public string BackgroundFile
         {
             get
@@ -128,7 +159,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "banneradvertising" )]
+        [XmlElement( "banneradvertising" )]
         public int BannerAdvertising
         {
             get
@@ -141,7 +172,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "currency" )]
+        [XmlElement( "currency" )]
         public string Currency
         {
             get
@@ -154,7 +185,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "defaultlanguage" )]
+        [XmlElement( "defaultlanguage" )]
         public string DefaultLanguage
         {
             get
@@ -167,7 +198,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "description" )]
+        [XmlElement( "description" )]
         public string Description
         {
             get
@@ -180,7 +211,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "email" )]
+        [XmlElement( "email" )]
         public string Email
         {
             get
@@ -193,7 +224,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "expirydate" )]
+        [XmlElement( "expirydate" )]
         public DateTime ExpiryDate
         {
             get
@@ -206,7 +237,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "footertext" )]
+        [XmlElement( "footertext" )]
         public string FooterText
         {
             get
@@ -219,7 +250,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public Guid GUID
         {
             get
@@ -232,7 +263,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "homedirectory" )]
+        [XmlElement( "homedirectory" )]
         public string HomeDirectory
         {
             get
@@ -245,7 +276,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public string HomeDirectoryMapPath
         {
             get
@@ -255,7 +286,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "hometabid" )]
+        [XmlElement( "hometabid" )]
         public int HomeTabId
         {
             get
@@ -268,7 +299,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "hostfee" )]
+        [XmlElement( "hostfee" )]
         public float HostFee
         {
             get
@@ -281,7 +312,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "hostspace" )]
+        [XmlElement( "hostspace" )]
         public int HostSpace
         {
             get
@@ -294,7 +325,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "keywords" )]
+        [XmlElement( "keywords" )]
         public string KeyWords
         {
             get
@@ -307,7 +338,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "logintabid" )]
+        [XmlElement( "logintabid" )]
         public int LoginTabId
         {
             get
@@ -320,7 +351,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "logofile" )]
+        [XmlElement( "logofile" )]
         public string LogoFile
         {
             get
@@ -333,7 +364,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "paymentprocessor" )]
+        [XmlElement( "paymentprocessor" )]
         public string PaymentProcessor
         {
             get
@@ -346,7 +377,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "portalid" )]
+        [XmlElement( "portalid" )]
         public int PortalID
         {
             get
@@ -359,7 +390,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "portalname" )]
+        [XmlElement( "portalname" )]
         public string PortalName
         {
             get
@@ -372,7 +403,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "processorpassword" )]
+        [XmlElement( "processorpassword" )]
         public string ProcessorPassword
         {
             get
@@ -385,7 +416,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "processoruserid" )]
+        [XmlElement( "processoruserid" )]
         public string ProcessorUserId
         {
             get
@@ -398,7 +429,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "registeredroleid" )]
+        [XmlElement( "registeredroleid" )]
         public int RegisteredRoleId
         {
             get
@@ -411,7 +442,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "registeredrolename" )]
+        [XmlElement( "registeredrolename" )]
         public string RegisteredRoleName
         {
             get
@@ -424,7 +455,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "siteloghistory" )]
+        [XmlElement( "siteloghistory" )]
         public int SiteLogHistory
         {
             get
@@ -437,7 +468,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "splashtabid" )]
+        [XmlElement( "splashtabid" )]
         public int SplashTabId
         {
             get
@@ -450,7 +481,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "supertabid" )]
+        [XmlElement( "supertabid" )]
         public int SuperTabId
         {
             get
@@ -463,7 +494,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "timezoneoffset" )]
+        [XmlElement( "timezoneoffset" )]
         public int TimeZoneOffset
         {
             get
@@ -476,7 +507,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "userregistration" )]
+        [XmlElement( "userregistration" )]
         public int UserRegistration
         {
             get
@@ -489,11 +520,15 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "users" )]
+        [XmlElement( "users" )]
         public int Users
         {
             get
-            {
+            {                
+                if (_Users < 0)
+                {
+                    _Users = UserController.GetUserCountByPortal(PortalID);
+                }
                 return this._Users;
             }
             set
@@ -502,7 +537,25 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "usertabid" )]
+        [XmlElement("pages")]
+        public int Pages
+        {
+            get
+            {
+                if (_Pages < 0)
+                {
+                    TabController objTabController = new TabController();
+                    _Pages = objTabController.GetTabCount(PortalID);
+                }
+                return _Pages;
+            }
+            set
+            {
+                _Pages = value;
+            }
+        }
+
+        [XmlElement( "usertabid" )]
         public int UserTabId
         {
             get
@@ -515,7 +568,7 @@ namespace DotNetNuke.Entities.Portals
             }
         }
 
-        [XmlElementAttribute( "version" )]
+        [XmlElement( "version" )]
         public string Version
         {
             get

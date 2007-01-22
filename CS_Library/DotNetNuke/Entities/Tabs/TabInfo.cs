@@ -495,8 +495,7 @@ namespace DotNetNuke.Entities.Tabs
                     case TabType.File:
 
                         // file url
-                        PortalSettings settings = PortalController.GetCurrentPortalSettings();
-                        strUrl = settings.HomeDirectory + _Url;
+                        strUrl = Globals.LinkClick( _Url, TabID, Null.NullInteger );
                         break;
                     case TabType.Url:
 
@@ -539,7 +538,7 @@ namespace DotNetNuke.Entities.Tabs
         {
             get
             {
-                if (IsSuperTab || PortalID == Null.NullInteger)
+                if (IsSuperTab | PortalID == Null.NullInteger)
                 {
                     //Host Tab
                     return true;
@@ -553,16 +552,24 @@ namespace DotNetNuke.Entities.Tabs
 
                     if (settings == null)
                     {
-                        //If there is no setings (no context) Get PortalInfo object from DB
-                        PortalController objPortalController = new PortalController();
-                        PortalInfo objPortal = objPortalController.GetPortal(PortalID);
+                        //If there are no settings try the PortalSettings Cache as this property is
+                        //used during the creation of the PortalSettings
+                        PortalInfo objPortal = (PortalInfo)(DataCache.GetPersistentCacheItem("GetPortalSettings" + PortalID.ToString(), typeof(PortalInfo)));
 
-                        return (TabID == objPortal.AdminTabId) || (ParentId == objPortal.AdminTabId);
+                        if (objPortal == null)
+                        {
+                            //If there is no portal in the Cache Get PortalInfo object from DB
+                            PortalController objPortalController = new PortalController();
+                            objPortal = objPortalController.GetPortal(PortalID);
+                        }
+
+                        return (TabID == objPortal.AdminTabId) | (ParentId == objPortal.AdminTabId);
                     }
                     else
                     {
-                        return (TabID == settings.AdminTabId) || (ParentId == settings.AdminTabId);
+                        return (TabID == settings.AdminTabId) | (ParentId == settings.AdminTabId);
                     }
+
                 }
             }
         }

@@ -1,6 +1,6 @@
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="DotNetNuke.Framework.DefaultPage" CodeFile="Default.aspx.cs" %>
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Common.Controls" Assembly="DotNetNuke" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<asp:literal id="skinDocType" runat="server"></asp:literal>
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head id="Head" runat="server">

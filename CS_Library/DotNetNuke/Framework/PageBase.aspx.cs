@@ -40,6 +40,12 @@ using AttributeCollection=System.Web.UI.AttributeCollection;
 
 namespace DotNetNuke.Framework
 {
+    /// <summary>
+    /// PageBase provides a custom DotNetNuke base class for pages
+    /// </summary>
+    /// <history>
+    ///		[cnurse]	11/30/2006	documented
+    /// </history>
     public abstract class PageBase : Page
     {
         private ArrayList _localizedControls;
@@ -124,9 +130,8 @@ namespace DotNetNuke.Framework
                             }
                         }
                     }
-                }
-
-                if (ci == null)
+                }               
+                if (ci == null && Localization.UseBrowserLanguage())
                 {
                     // use Request.UserLanguages to get the preferred language
                     if (HttpContext.Current != null)
@@ -247,6 +252,35 @@ namespace DotNetNuke.Framework
         public PageBase()
         {
             _localizedControls = new ArrayList();
+        }
+
+        /// <summary>
+        /// PageStatePersister returns an instance of the class that will be used to persist the Page State
+        /// </summary>
+        /// <returns>A System.Web.UI.PageStatePersister</returns>
+        /// <history>
+        /// 	[cnurse]	    11/30/2005	Created
+        /// </history>
+        protected override PageStatePersister PageStatePersister
+        {
+            get
+            {
+                //Set ViewState Persister to default (as defined in Base Class)
+                PageStatePersister _persister = base.PageStatePersister;
+                if (Globals.HostSettings["PageStatePersister"] != null)
+                {
+                    switch ((string)(Globals.HostSettings["PageStatePersister"]))
+                    {
+                        case "M":
+                            _persister = new CachePageStatePersister(this);
+                            break;
+                        case "D":
+                            _persister = new DiskPageStatePersister(this);
+                            break;
+                    }
+                }
+                return _persister;
+            }
         }
 
         /// <summary>
@@ -519,8 +553,7 @@ namespace DotNetNuke.Framework
             //' Manual Override to ResolveUrl
             if (c is Image)
             {
-                Image ctrl;
-                ctrl = (Image)c;
+                Image ctrl = (Image)c;
                 if (ctrl.ImageUrl.IndexOf("~") != -1)
                 {
                     ctrl.ImageUrl = Page.ResolveUrl(ctrl.ImageUrl);

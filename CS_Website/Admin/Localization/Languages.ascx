@@ -6,7 +6,7 @@
 <table id="tblBasic" runat="server" border="0" cellpadding="1" cellspacing="1">
     <tr>
         <td nowrap="nowrap">
-            <asp:DataGrid ID="dgLocales" runat="server" AutoGenerateColumns="False" CellPadding="4" CssClass="Normal" GridLines="None" OnItemCommand="dgLocales_ItemCommand">
+            <asp:DataGrid ID="dgLocales" runat="server" AutoGenerateColumns="False" CellPadding="4" CssClass="Normal" GridLines="None" OnItemCommand="dgLocales_ItemCommand" OnItemCreated="dgLocales_ItemCreated" OnItemDataBound="dgLocales_ItemDataBound">
                 <AlternatingItemStyle Wrap="False" />
                 <ItemStyle Wrap="False" />
                 <HeaderStyle Font-Bold="True" Wrap="False" />
@@ -30,8 +30,8 @@
                     </asp:TemplateColumn>
                 </Columns>
             </asp:DataGrid>
-            <p>
-                <asp:CheckBox ID="chkDeleteFiles" runat="server" CssClass="Normal" resourcekey="DeleteFiles" Text="Delete all resources of this locale, too" /></p>
+            <asp:CheckBox ID="chkDeleteFiles" runat="server" CssClass="Normal" resourcekey="DeleteFiles" Text="Delete all resources of this locale, too" />
+            <p><asp:CheckBox ID="chkEnableBrowser" runat="server" AutoPostBack="True" CssClass="SubHead" Text="Enable Browser Language Detection" TextAlign="left" OnCheckedChanged="chkEnableBrowser_CheckedChanged" />&nbsp;</p>
         </td>
     </tr>
 </table>
