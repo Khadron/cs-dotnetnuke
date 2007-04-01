@@ -109,9 +109,9 @@ namespace DotNetNuke.UI.Utilities
         /// </history>
         //ORIGINAL LINE: Private Shared ReadOnly Property ClientVariableControl(ByVal objPage As Page) As HtmlInputHidden
         //INSTANT C# NOTE: C# does not support parameterized properties - the following property has been rewritten as a function:
-        private static HtmlInputHidden GetClientVariableControl( Page objPage )
+        private static HtmlInputHidden GetClientVariableControl(Page objPage)
         {
-            return RegisterDNNVariableControl( objPage );
+            return RegisterDNNVariableControl(objPage);
         }
 
         /// <summary>
@@ -122,11 +122,11 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	2/2/2006	Commented
         /// </history>
-        private static Control FindForm( Control oCtl )
+        private static Control FindForm(Control oCtl)
         {
-            while( !( oCtl is HtmlForm ) )
+            while (!(oCtl is HtmlForm))
             {
-                if( oCtl == null || oCtl is Page )
+                if (oCtl == null || oCtl is Page)
                 {
                     return null;
                 }
@@ -143,9 +143,9 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	4/6/2005	Commented
         /// </history>
-        private static HtmlInputHidden GetDNNVariableControl( Control objParent )
+        private static HtmlInputHidden GetDNNVariableControl(Control objParent)
         {
-            return (HtmlInputHidden)( Globals.FindControlRecursive( objParent.Page, DNNVARIABLE_CONTROLID ) );
+            return (HtmlInputHidden)(Globals.FindControlRecursive(objParent.Page, DNNVARIABLE_CONTROLID));
         }
 
         #endregion
@@ -157,7 +157,7 @@ namespace DotNetNuke.UI.Utilities
         {
             get
             {
-                if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
+                if (BrowserSupportsFunctionality(ClientFunctionality.SingleCharDelimiters))
                 {
                     return " ";
                 }
@@ -173,7 +173,7 @@ namespace DotNetNuke.UI.Utilities
         {
             get
             {
-                if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
+                if (BrowserSupportsFunctionality(ClientFunctionality.SingleCharDelimiters))
                 {
                     return " ";
                 }
@@ -189,7 +189,7 @@ namespace DotNetNuke.UI.Utilities
         {
             get
             {
-                if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
+                if (BrowserSupportsFunctionality(ClientFunctionality.SingleCharDelimiters))
                 {
                     return " ";
                 }
@@ -205,7 +205,7 @@ namespace DotNetNuke.UI.Utilities
         {
             get
             {
-                if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
+                if (BrowserSupportsFunctionality(ClientFunctionality.SingleCharDelimiters))
                 {
                     return " ";
                 }
@@ -221,7 +221,7 @@ namespace DotNetNuke.UI.Utilities
         {
             get
             {
-                if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) )
+                if (BrowserSupportsFunctionality(ClientFunctionality.SingleCharDelimiters))
                 {
                     return " ";
                 }
@@ -246,13 +246,13 @@ namespace DotNetNuke.UI.Utilities
             get
             {
                 string script = "";
-                if( m_sScriptPath.Length > 0 )
+                if (m_sScriptPath.Length > 0)
                 {
                     script = m_sScriptPath;
                 }
-                else if( HttpContext.Current != null )
+                else if (HttpContext.Current != null)
                 {
-                    if( HttpContext.Current.Request.ApplicationPath.EndsWith( "/" ) )
+                    if (HttpContext.Current.Request.ApplicationPath.EndsWith("/"))
                     {
                         script = HttpContext.Current.Request.ApplicationPath + "js/";
                     }
@@ -273,15 +273,15 @@ namespace DotNetNuke.UI.Utilities
 
         #region Private Shared Methods
 
-        private static void AddAttribute( Control objControl, string strName, string strValue )
+        private static void AddAttribute(Control objControl, string strName, string strValue)
         {
-            if( objControl is HtmlControl )
+            if (objControl is HtmlControl)
             {
-                ( (HtmlControl)objControl ).Attributes.Add( strName, strValue );
+                ((HtmlControl)objControl).Attributes.Add(strName, strValue);
             }
-            else if( objControl is WebControl )
+            else if (objControl is WebControl)
             {
-                ( (WebControl)objControl ).Attributes.Add( strName, strValue );
+                ((WebControl)objControl).Attributes.Add(strName, strValue);
             }
         }
 
@@ -296,35 +296,42 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	8/3/2004	Created
         /// </history>
-        private static string GetClientVariableNameValuePair( Page objPage, string strVar )
+        private static string GetClientVariableNameValuePair(Page objPage, string strVar)
         {
-            HtmlInputHidden ctlVar = GetClientVariableControl( objPage );
+            HtmlInputHidden ctlVar = GetClientVariableControl(objPage);
             string strValue = "";
-            if( ctlVar != null )
+            if (ctlVar != null)
             {
                 strValue = ctlVar.Value;
             }
-            if( strValue.Length == 0 ) //using request object in case we are loading before controls have values set
+            if (strValue.Length == 0) //using request object in case we are loading before controls have values set
             {
                 strValue = HttpContext.Current.Request[DNNVARIABLE_CONTROLID];
             }
-            if( strValue.Length > 0 )
+            try
             {
-                strValue = strValue.Replace( QUOTE_REPLACEMENT, "\"" );
-                int intIndex = strValue.IndexOf( ROW_DELIMITER + strVar + COLUMN_DELIMITER );
-                if( intIndex > -1 )
+                if (strValue.Length > 0)
                 {
-                    intIndex += COLUMN_DELIMITER.Length;
-                    int intEndIndex = strValue.IndexOf( ROW_DELIMITER, intIndex );
-                    if( intEndIndex > -1 )
+                    strValue = strValue.Replace(QUOTE_REPLACEMENT, "\"");
+                    int intIndex = strValue.IndexOf(ROW_DELIMITER + strVar + COLUMN_DELIMITER);
+                    if (intIndex > -1)
                     {
-                        return strValue.Substring( intIndex, intEndIndex - intIndex );
-                    }
-                    else
-                    {
-                        return strValue.Substring( intIndex );
+                        intIndex += COLUMN_DELIMITER.Length;
+                        int intEndIndex = strValue.IndexOf(ROW_DELIMITER, intIndex);
+                        if (intEndIndex > -1)
+                        {
+                            return strValue.Substring(intIndex, intEndIndex - intIndex);
+                        }
+                        else
+                        {
+                            return strValue.Substring(intIndex);
+                        }
                     }
                 }
+            }
+            catch
+            {
+                // strValue is null.
             }
             return "";
         }
@@ -340,9 +347,9 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	2/17/2005	Created
         /// </history>
-        private static string GetKeyDownHandler( int intKeyAscii, string strJavascript )
+        private static string GetKeyDownHandler(int intKeyAscii, string strJavascript)
         {
-            return "return __dnn_KeyDown('" + intKeyAscii + "', '" + strJavascript.Replace( "'", "%27" ) + "', event);";
+            return "return __dnn_KeyDown('" + intKeyAscii + "', '" + strJavascript.Replace("'", "%27") + "', event);";
         }
 
         #endregion
@@ -359,9 +366,9 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	2/17/2005	Created
         /// </history>
-        public static void AddButtonConfirm( WebControl objButton, string strText )
+        public static void AddButtonConfirm(WebControl objButton, string strText)
         {
-            objButton.Attributes.Add( "onClick", "javascript:return confirm('" + GetSafeJSString( strText ) + "');" );
+            objButton.Attributes.Add("onClick", "javascript:return confirm('" + GetSafeJSString(strText) + "');");
         }
 
         /// <summary>
@@ -374,42 +381,42 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	8/3/2004	Created
         /// </history>
-        public static bool BrowserSupportsFunctionality( ClientFunctionality eFunctionality )
+        public static bool BrowserSupportsFunctionality(ClientFunctionality eFunctionality)
         {
-            if( HttpContext.Current == null )
+            if (HttpContext.Current == null)
             {
                 return true;
             }
             bool blnSupports = false;
 
-            if( ClientAPIDisabled() == false )
+            if (ClientAPIDisabled() == false)
             {
                 BrowserCaps objCaps = BrowserCaps.GetBrowserCaps();
-                if( objCaps != null )
+                if (objCaps != null)
                 {
                     HttpRequest objRequest = HttpContext.Current.Request;
                     string strUserAgent = objRequest.UserAgent;
-                    if( strUserAgent.Length > 0 )
+                    if (strUserAgent.Length > 0)
                     {
                         //First check whether we have checked this browser before
-                        if( objCaps.FunctionalityDictionary.ContainsKey( strUserAgent ) == false )
+                        if (objCaps.FunctionalityDictionary.ContainsKey(strUserAgent) == false)
                         {
                             string strBrowser = objRequest.Browser.Browser;
-                            double dblVersion = Convert.ToDouble( objRequest.Browser.MajorVersion + objRequest.Browser.MinorVersion );
+                            double dblVersion = Convert.ToDouble(objRequest.Browser.MajorVersion + objRequest.Browser.MinorVersion);
                             int iBitValue = 0;
                             FunctionalityInfo objFuncInfo = null;
                             //loop through all functionalities for this UserAgent and determine the bitvalue 
-                            foreach( ClientFunctionality eFunc in Enum.GetValues( typeof( ClientFunctionality ) ) )
+                            foreach (ClientFunctionality eFunc in Enum.GetValues(typeof(ClientFunctionality)))
                             {
                                 objFuncInfo = objCaps.Functionality[eFunc];
-                                if( objFuncInfo.HasMatch( strUserAgent, strBrowser, dblVersion ) )
+                                if (objFuncInfo.HasMatch(strUserAgent, strBrowser, dblVersion))
                                 {
                                     iBitValue += (int)eFunc;
                                 }
                             }
                             objCaps.FunctionalityDictionary[strUserAgent] = iBitValue;
                         }
-                        blnSupports = ( ( (int)( objCaps.FunctionalityDictionary[strUserAgent] ) ) & (int)eFunctionality ) != 0;
+                        blnSupports = (((int)(objCaps.FunctionalityDictionary[strUserAgent])) & (int)eFunctionality) != 0;
                     }
                 }
             }
@@ -417,85 +424,85 @@ namespace DotNetNuke.UI.Utilities
             return blnSupports;
         }
 
-        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack )
+        public static string GetCallbackEventReference(Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack)
         {
-            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, null, "" );
+            return GetCallbackEventReference(objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, null, "");
         }
 
-        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, ClientAPICallBackResponse.CallBackTypeCode eCallbackType )
+        public static string GetCallbackEventReference(Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, ClientAPICallBackResponse.CallBackTypeCode eCallbackType)
         {
-            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, null, null, eCallbackType );
+            return GetCallbackEventReference(objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, null, null, eCallbackType);
         }
 
-        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, Control objPostChildrenOf )
+        public static string GetCallbackEventReference(Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, Control objPostChildrenOf)
         {
-            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, null, objPostChildrenOf.ClientID, ClientAPICallBackResponse.CallBackTypeCode.Simple );
+            return GetCallbackEventReference(objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, null, objPostChildrenOf.ClientID, ClientAPICallBackResponse.CallBackTypeCode.Simple);
         }
 
-        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack )
+        public static string GetCallbackEventReference(Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack)
         {
-            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, null, ClientAPICallBackResponse.CallBackTypeCode.Simple );
+            return GetCallbackEventReference(objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, null, ClientAPICallBackResponse.CallBackTypeCode.Simple);
         }
 
-        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack, ClientAPICallBackResponse.CallBackTypeCode eCallbackType )
+        public static string GetCallbackEventReference(Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack, ClientAPICallBackResponse.CallBackTypeCode eCallbackType)
         {
-            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, null, eCallbackType );
+            return GetCallbackEventReference(objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, null, eCallbackType);
         }
 
-        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack, Control objPostChildrenOf )
+        public static string GetCallbackEventReference(Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack, Control objPostChildrenOf)
         {
-            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, objPostChildrenOf.ClientID, ClientAPICallBackResponse.CallBackTypeCode.Simple );
+            return GetCallbackEventReference(objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, objPostChildrenOf.ClientID, ClientAPICallBackResponse.CallBackTypeCode.Simple);
         }
 
-        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack, string strPostChildrenOfId )
+        public static string GetCallbackEventReference(Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack, string strPostChildrenOfId)
         {
-            return GetCallbackEventReference( objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, strPostChildrenOfId, ClientAPICallBackResponse.CallBackTypeCode.Simple );
+            return GetCallbackEventReference(objControl, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, strPostChildrenOfId, ClientAPICallBackResponse.CallBackTypeCode.Simple);
         }
 
-        public static string GetCallbackEventReference( Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack, string strPostChildrenOfId, ClientAPICallBackResponse.CallBackTypeCode eCallbackType )
+        public static string GetCallbackEventReference(Control objControl, string strArgument, string strClientCallBack, string strContext, string srtClientErrorCallBack, string strClientStatusCallBack, string strPostChildrenOfId, ClientAPICallBackResponse.CallBackTypeCode eCallbackType)
         {
-            string strCallbackType = Convert.ToInt32( eCallbackType ).ToString();
-            if( strArgument == null )
+            string strCallbackType = Convert.ToInt32(eCallbackType).ToString();
+            if (strArgument == null)
             {
                 strArgument = "null";
             }
-            if( strContext == null )
+            if (strContext == null)
             {
                 strContext = "null";
             }
-            if( srtClientErrorCallBack == null )
+            if (srtClientErrorCallBack == null)
             {
                 srtClientErrorCallBack = "null";
             }
-            if( strClientStatusCallBack == null )
+            if (strClientStatusCallBack == null)
             {
                 strClientStatusCallBack = "null";
             }
-            if( strPostChildrenOfId.Length == 0 )
+            if (strPostChildrenOfId.Length == 0)
             {
                 strPostChildrenOfId = "null";
             }
-            else if( strPostChildrenOfId.StartsWith( "'" ) == false )
+            else if (strPostChildrenOfId.StartsWith("'") == false)
             {
                 strPostChildrenOfId = "'" + strPostChildrenOfId + "'";
             }
             string strControlID = objControl.ID;
-            if( BrowserSupportsFunctionality( ClientFunctionality.XMLHTTP ) && BrowserSupportsFunctionality( ClientFunctionality.XML ) )
+            if (BrowserSupportsFunctionality(ClientFunctionality.XMLHTTP) && BrowserSupportsFunctionality(ClientFunctionality.XML))
             {
-                RegisterClientReference( objControl.Page, ClientNamespaceReferences.dnn_xml );
-                RegisterClientReference( objControl.Page, ClientNamespaceReferences.dnn_xmlhttp );
+                RegisterClientReference(objControl.Page, ClientNamespaceReferences.dnn_xml);
+                RegisterClientReference(objControl.Page, ClientNamespaceReferences.dnn_xmlhttp);
 
-                if( ( objControl ) is Page && strControlID.Length == 0 ) //page doesn't usually have an ID so we need to make one up
+                if ((objControl) is Page && strControlID.Length == 0) //page doesn't usually have an ID so we need to make one up
                 {
                     strControlID = SCRIPT_CALLBACKPAGEID;
                 }
 
-                if( ( objControl ) is Page == false )
+                if ((objControl) is Page == false)
                 {
                     strControlID = strControlID + " " + objControl.ClientID; //ID is not unique (obviously)
                 }
 
-                return string.Format( "dnn.xmlhttp.doCallBack('{0}',{1},{2},{3},{4},{5},{6},{7},{8});", strControlID, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, "null", strPostChildrenOfId, strCallbackType );
+                return string.Format("dnn.xmlhttp.doCallBack('{0}',{1},{2},{3},{4},{5},{6},{7},{8});", strControlID, strArgument, strClientCallBack, strContext, srtClientErrorCallBack, strClientStatusCallBack, "null", strPostChildrenOfId, strCallbackType);
             }
             else
             {
@@ -514,17 +521,17 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	8/3/2004	Created
         /// </history>
-        public static string GetClientVariable( Page objPage, string strVar )
+        public static string GetClientVariable(Page objPage, string strVar)
         {
-            string s = GetClientVariableNameValuePair( objPage, strVar );
-            if( s.IndexOf( COLUMN_DELIMITER ) <= -1 )
+            string s = GetClientVariableNameValuePair(objPage, strVar);
+            if (s.IndexOf(COLUMN_DELIMITER) <= -1)
             {
                 return "";
             }
             else
             {
-                string[] splitter = {COLUMN_DELIMITER};
-                return s.Split( splitter, StringSplitOptions.None )[0];
+                string[] splitter = { COLUMN_DELIMITER };
+                return s.Split(splitter, StringSplitOptions.None)[0];
             }
         }
 
@@ -540,17 +547,17 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	8/3/2004	Created
         /// </history>
-        public static string GetClientVariable( Page objPage, string strVar, string strDefaultValue )
+        public static string GetClientVariable(Page objPage, string strVar, string strDefaultValue)
         {
-            string s = GetClientVariableNameValuePair( objPage, strVar );
-            if( s.IndexOf( COLUMN_DELIMITER ) <= -1 )
+            string s = GetClientVariableNameValuePair(objPage, strVar);
+            if (s.IndexOf(COLUMN_DELIMITER) <= -1)
             {
                 return strDefaultValue;
             }
             else
             {
-                string[] splitter = {COLUMN_DELIMITER};
-                return s.Split( splitter, StringSplitOptions.None )[0];
+                string[] splitter = { COLUMN_DELIMITER };
+                return s.Split(splitter, StringSplitOptions.None)[0];
             }
         }
 
@@ -565,12 +572,12 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	2/17/2005	Created
         /// </history>
-        public static string GetSafeJSString( string strString )
+        public static string GetSafeJSString(string strString)
         {
-            if( strString.Length > 0 )
+            if (strString.Length > 0)
             {
                 //Return System.Text.RegularExpressions.Regex.Replace(strString, "(['""])", "\$1")
-                return Regex.Replace( strString, "(['\"\\\\])", "\\$1" );
+                return Regex.Replace(strString, "(['\"\\\\])", "\\$1");
             }
             else
             {
@@ -578,54 +585,64 @@ namespace DotNetNuke.UI.Utilities
             }
         }
 
-        public static bool IsInCallback( Page objPage )
+        public static bool IsInCallback(Page objPage)
         {
-            return objPage.Request[SCRIPT_CALLBACKID].Length > 0;
+            // HACK : Modified to handle null value of the 
+            // objPage.Request[SCRIPT_CALLBACKID] object.  
+            // Original VB code did not require specific test 
+            // for null value.
+            //return objPage.Request[SCRIPT_CALLBACKID].Length > 0;
+            return !String.IsNullOrEmpty(objPage.Request[SCRIPT_CALLBACKID]);
         }
 
-        public static void HandleClientAPICallbackEvent( Page objPage )
+        public static void HandleClientAPICallbackEvent(Page objPage)
         {
             ClientAPICallBackResponse.CallBackTypeCode eType = ClientAPICallBackResponse.CallBackTypeCode.Simple;
-            if( objPage.Request[SCRIPT_CALLBACKTYPE].Length > 0 )
+            // HACK : Modified to handle null value of the 
+            // objPage.Request[SCRIPT_CALLBACKID] object.  
+            // Original VB code did not require specific test 
+            // for null value.
+            //if(objPage.Request[SCRIPT_CALLBACKTYPE].Length > 0 )
+            if (!String.IsNullOrEmpty(objPage.Request[SCRIPT_CALLBACKTYPE]))
             {
-                eType = (ClientAPICallBackResponse.CallBackTypeCode)Enum.Parse( typeof( ClientAPICallBackResponse.CallBackTypeCode ), objPage.Request[SCRIPT_CALLBACKTYPE] );
+                eType = (ClientAPICallBackResponse.CallBackTypeCode)Enum.Parse(typeof(ClientAPICallBackResponse.CallBackTypeCode), objPage.Request[SCRIPT_CALLBACKTYPE]);
             }
-            HandleClientAPICallbackEvent( objPage, eType );
+            HandleClientAPICallbackEvent(objPage, eType);
         }
 
-        public static void HandleClientAPICallbackEvent( Page objPage, ClientAPICallBackResponse.CallBackTypeCode eType )
+        public static void HandleClientAPICallbackEvent(Page objPage, ClientAPICallBackResponse.CallBackTypeCode eType)
         {
-            if( IsInCallback( objPage ) )
+            if (IsInCallback(objPage))
             {
-                if( eType != ClientAPICallBackResponse.CallBackTypeCode.ProcessPage )
+                if (eType != ClientAPICallBackResponse.CallBackTypeCode.ProcessPage)
                 {
-                    string[] arrIDs = objPage.Request[SCRIPT_CALLBACKID].Split( Convert.ToChar( " " ) );
+                    string[] arrIDs = objPage.Request[SCRIPT_CALLBACKID].Split(Convert.ToChar(" "));
                     string strControlID = arrIDs[0];
                     string strClientID = "";
-                    if( arrIDs.Length > 1 )
+                    if (arrIDs.Length > 1)
                     {
                         strClientID = arrIDs[1];
                     }
 
-                    string strParam = objPage.Server.UrlDecode( objPage.Request[SCRIPT_CALLBACKPARAM] );
+                    string strParam = objPage.Server.UrlDecode(objPage.Request[SCRIPT_CALLBACKPARAM]);
                     Control objControl = null;
                     IClientAPICallbackEventHandler objInterface = null;
-                    ClientAPICallBackResponse objResponse = new ClientAPICallBackResponse( objPage, ClientAPICallBackResponse.CallBackTypeCode.Simple );
+                    ClientAPICallBackResponse objResponse = new ClientAPICallBackResponse(objPage, ClientAPICallBackResponse.CallBackTypeCode.Simple);
 
                     try
                     {
                         objPage.Response.Clear(); //clear response stream
-                        if( strControlID == SCRIPT_CALLBACKPAGEID )
+                        if (strControlID == SCRIPT_CALLBACKPAGEID)
                         {
                             objControl = objPage;
                         }
                         else
                         {
-                            objControl = Globals.FindControlRecursive( objPage, strControlID, strClientID );
+                            objControl = Globals.FindControlRecursive(objPage, strControlID, strClientID);
                         }
-                        if( objControl != null )
+                        if (objControl != null)
                         {
-                            if( ( objControl ) is HtmlForm ) //form doesn't implement interface, so use page instead
+                            if ((objControl) is HtmlForm) //form doesn't implement interface, so use page instead
                             {
                                 objInterface = (IClientAPICallbackEventHandler)objPage;
                             }
@@ -634,14 +651,14 @@ namespace DotNetNuke.UI.Utilities
                                 objInterface = (IClientAPICallbackEventHandler)objControl;
                             }
 
-                            if( objInterface != null )
+                            if (objInterface != null)
                             {
                                 try
                                 {
-                                    objResponse.Response = objInterface.RaiseClientAPICallbackEvent( strParam );
+                                    objResponse.Response = objInterface.RaiseClientAPICallbackEvent(strParam);
                                     objResponse.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.OK;
                                 }
-                                catch( Exception ex )
+                                catch (Exception ex)
                                 {
                                     objResponse.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.GenericFailure;
                                     objResponse.StatusDesc = ex.Message;
@@ -659,7 +676,7 @@ namespace DotNetNuke.UI.Utilities
                             objResponse.StatusDesc = "Control Not Found";
                         }
                     }
-                    catch( Exception ex )
+                    catch (Exception ex)
                     {
                         objResponse.StatusCode = ClientAPICallBackResponse.CallBackResponseStatusCode.GenericFailure;
                         objResponse.StatusDesc = ex.Message;
@@ -673,15 +690,15 @@ namespace DotNetNuke.UI.Utilities
                 }
                 else
                 {
-                    objPage.SetRenderMethodDelegate( new RenderMethod( CallbackRenderMethod ) );
+                    objPage.SetRenderMethodDelegate(new RenderMethod(CallbackRenderMethod));
                 }
             }
         }
 
-        private static void CallbackRenderMethod( HtmlTextWriter output, Control container )
+        private static void CallbackRenderMethod(HtmlTextWriter output, Control container)
         {
             Page objPage = (Page)container;
-            HandleClientAPICallbackEvent( objPage, ClientAPICallBackResponse.CallBackTypeCode.Simple );
+            HandleClientAPICallbackEvent(objPage, ClientAPICallBackResponse.CallBackTypeCode.Simple);
         }
 
         /// <summary>
@@ -692,9 +709,9 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	4/6/2005	Commented
         /// </history>
-        public static bool NeedsDNNVariable( Control objParent )
+        public static bool NeedsDNNVariable(Control objParent)
         {
-            return GetDNNVariableControl( objParent ) == null;
+            return GetDNNVariableControl(objParent) == null;
         }
 
         /// <summary>
@@ -707,54 +724,54 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	8/3/2004	Created
         /// </history>
-        public static void RegisterClientReference( Page objPage, ClientNamespaceReferences eRef )
+        public static void RegisterClientReference(Page objPage, ClientNamespaceReferences eRef)
         {
-            switch( eRef )
+            switch (eRef)
             {
                 case ClientNamespaceReferences.dnn:
-                    if( !( IsClientScriptBlockRegistered( objPage, "dnn.js" ) ) )
+                    if (!(IsClientScriptBlockRegistered(objPage, "dnn.js")))
                     {
-                        RegisterClientScriptBlock( objPage, "dnn.js", "<script src=\"" + ScriptPath + "dnn.js\"></script>" );
-                        if( BrowserSupportsFunctionality( ClientFunctionality.SingleCharDelimiters ) == false )
+                        RegisterClientScriptBlock(objPage, "dnn.js", "<script src=\"" + ScriptPath + "dnn.js\"></script>");
+                        if (BrowserSupportsFunctionality(ClientFunctionality.SingleCharDelimiters) == false)
                         {
-                            RegisterClientVariable( objPage, "__scdoff", "1", true ); //SingleCharDelimiters Off!!!
+                            RegisterClientVariable(objPage, "__scdoff", "1", true); //SingleCharDelimiters Off!!!
                         }
                     }
                     break;
                 case ClientNamespaceReferences.dnn_dom:
-                    RegisterClientReference( objPage, ClientNamespaceReferences.dnn );
+                    RegisterClientReference(objPage, ClientNamespaceReferences.dnn);
                     break;
                 case ClientNamespaceReferences.dnn_dom_positioning:
-                    RegisterClientReference( objPage, ClientNamespaceReferences.dnn );
-                    if( !( IsClientScriptBlockRegistered( objPage, "dnn.positioning.js" ) ) )
+                    RegisterClientReference(objPage, ClientNamespaceReferences.dnn);
+                    if (!(IsClientScriptBlockRegistered(objPage, "dnn.positioning.js")))
                     {
-                        RegisterClientScriptBlock( objPage, "dnn.positioning.js", "<script src=\"" + ScriptPath + "dnn.dom.positioning.js\"></script>" );
+                        RegisterClientScriptBlock(objPage, "dnn.positioning.js", "<script src=\"" + ScriptPath + "dnn.dom.positioning.js\"></script>");
                     }
                     break;
                 case ClientNamespaceReferences.dnn_xml:
-                    RegisterClientReference( objPage, ClientNamespaceReferences.dnn );
+                    RegisterClientReference(objPage, ClientNamespaceReferences.dnn);
 
-                    if( !( IsClientScriptBlockRegistered( objPage, "dnn.xml.js" ) ) )
+                    if (!(IsClientScriptBlockRegistered(objPage, "dnn.xml.js")))
                     {
                         string strScript = "<script src=\"" + ScriptPath + "dnn.xml.js\"></script>";
                         //only register the js parser if browsers needs it
-                        if( BrowserSupportsFunctionality( ClientFunctionality.XMLJS ) ) //TODO: detect when using uplevel parser and only send this when necessary
+                        if (BrowserSupportsFunctionality(ClientFunctionality.XMLJS)) //TODO: detect when using uplevel parser and only send this when necessary
                         {
                             strScript += "<script src=\"" + ScriptPath + "dnn.xml.jsparser.js\"></script>";
                         }
-                        RegisterClientScriptBlock( objPage, "dnn.xml.js", strScript );
+                        RegisterClientScriptBlock(objPage, "dnn.xml.js", strScript);
                     }
                     break;
                 case ClientNamespaceReferences.dnn_xmlhttp:
-                    RegisterClientReference( objPage, ClientNamespaceReferences.dnn );
-                    if( !( IsClientScriptBlockRegistered( objPage, "dnn.xmlhttp.js" ) ) )
+                    RegisterClientReference(objPage, ClientNamespaceReferences.dnn);
+                    if (!(IsClientScriptBlockRegistered(objPage, "dnn.xmlhttp.js")))
                     {
                         string strScript = "<script src=\"" + ScriptPath + "dnn.xmlhttp.js\"></script>";
-                        if( BrowserSupportsFunctionality( ClientFunctionality.XMLHTTPJS ) )
+                        if (BrowserSupportsFunctionality(ClientFunctionality.XMLHTTPJS))
                         {
                             strScript += "<script src=\"" + ScriptPath + "dnn.xmlhttp.jsxmlhttprequest.js\"></script>";
                         }
-                        RegisterClientScriptBlock( objPage, "dnn.xmlhttp.js", strScript );
+                        RegisterClientScriptBlock(objPage, "dnn.xmlhttp.js", strScript);
                     }
                     break;
             }
@@ -772,30 +789,30 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	8/3/2004	Created
         /// </history>
-        public static void RegisterClientVariable( Page objPage, string strVar, string strValue, bool blnOverwrite )
+        public static void RegisterClientVariable(Page objPage, string strVar, string strValue, bool blnOverwrite)
         {
             //only add once
-            HtmlInputHidden ctlVar = GetClientVariableControl( objPage );
-            string strPair = GetClientVariableNameValuePair( objPage, strVar );
-            if( strPair.Length > 0 )
+            HtmlInputHidden ctlVar = GetClientVariableControl(objPage);
+            string strPair = GetClientVariableNameValuePair(objPage, strVar);
+            if (strPair.Length > 0)
             {
-                strPair = strPair.Replace( "\"", QUOTE_REPLACEMENT ); //since we are searching for existing string we need it in its posted format (without quotes)
-                if( blnOverwrite )
+                strPair = strPair.Replace("\"", QUOTE_REPLACEMENT); //since we are searching for existing string we need it in its posted format (without quotes)
+                if (blnOverwrite)
                 {
-                    ctlVar.Value = ctlVar.Value.Replace( ROW_DELIMITER + strPair, ROW_DELIMITER + strVar + COLUMN_DELIMITER + strValue );
+                    ctlVar.Value = ctlVar.Value.Replace(ROW_DELIMITER + strPair, ROW_DELIMITER + strVar + COLUMN_DELIMITER + strValue);
                 }
                 else
                 {
                     //appending value
-                    string strOrig = GetClientVariable( objPage, strVar );
-                    ctlVar.Value = ctlVar.Value.Replace( ROW_DELIMITER + strPair, ROW_DELIMITER + strVar + COLUMN_DELIMITER + strOrig + strValue );
+                    string strOrig = GetClientVariable(objPage, strVar);
+                    ctlVar.Value = ctlVar.Value.Replace(ROW_DELIMITER + strPair, ROW_DELIMITER + strVar + COLUMN_DELIMITER + strOrig + strValue);
                 }
             }
             else
             {
                 ctlVar.Value += ROW_DELIMITER + strVar + COLUMN_DELIMITER + strValue;
             }
-            ctlVar.Value = ctlVar.Value.Replace( "\"", QUOTE_REPLACEMENT ); //reduce payload of &quot;
+            ctlVar.Value = ctlVar.Value.Replace("\"", QUOTE_REPLACEMENT); //reduce payload of &quot;
         }
 
         /// <summary>
@@ -806,18 +823,18 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	4/6/2005	Commented
         /// </history>
-        public static HtmlInputHidden RegisterDNNVariableControl( Control objParent )
+        public static HtmlInputHidden RegisterDNNVariableControl(Control objParent)
         {
-            HtmlInputHidden ctlVar = GetDNNVariableControl( objParent );
-            if( ctlVar == null )
+            HtmlInputHidden ctlVar = GetDNNVariableControl(objParent);
+            if (ctlVar == null)
             {
-                Control oForm = FindForm( objParent );
-                if( oForm != null )
+                Control oForm = FindForm(objParent);
+                if (oForm != null)
                 {
                     ctlVar = new HtmlInputHidden();
                     ctlVar.ID = DNNVARIABLE_CONTROLID;
                     //oForm.Controls.AddAt(0, ctlVar)
-                    oForm.Controls.Add( ctlVar );
+                    oForm.Controls.Add(ctlVar);
                 }
             }
             return ctlVar;
@@ -834,9 +851,9 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	2/17/2005	Commented
         /// </history>
-        public static void RegisterKeyCapture( Control objControl, Control objPostbackControl, int intKeyAscii )
+        public static void RegisterKeyCapture(Control objControl, Control objPostbackControl, int intKeyAscii)
         {
-            Globals.SetAttribute( objControl, "onkeydown", GetKeyDownHandler( intKeyAscii, GetPostBackClientHyperlink( objPostbackControl, "" ) ) );
+            Globals.SetAttribute(objControl, "onkeydown", GetKeyDownHandler(intKeyAscii, GetPostBackClientHyperlink(objPostbackControl, "")));
         }
 
         /// <summary>
@@ -850,9 +867,9 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	2/17/2005	Commented
         /// </history>
-        public static void RegisterKeyCapture( Control objControl, string strJavascript, int intKeyAscii )
+        public static void RegisterKeyCapture(Control objControl, string strJavascript, int intKeyAscii)
         {
-            Globals.SetAttribute( objControl, "onkeydown", GetKeyDownHandler( intKeyAscii, strJavascript ) );
+            Globals.SetAttribute(objControl, "onkeydown", GetKeyDownHandler(intKeyAscii, strJavascript));
         }
 
         /// <summary>
@@ -867,20 +884,20 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	9/15/2004	Created
         /// </history>
-        public static void RegisterPostBackEventHandler( Control objParent, string strEventName, ClientAPIPostBackControl.PostBackEvent objDelegate, bool blnMultipleHandlers )
+        public static void RegisterPostBackEventHandler(Control objParent, string strEventName, ClientAPIPostBackControl.PostBackEvent objDelegate, bool blnMultipleHandlers)
         {
             const string CLIENTAPI_POSTBACKCTL_ID = "ClientAPIPostBackCtl";
-            Control objCtl = Globals.FindControlRecursive( objParent.Page, CLIENTAPI_POSTBACKCTL_ID ); //DotNetNuke.Globals.FindControlRecursive(objParent, CLIENTAPI_POSTBACKCTL_ID)
-            if( objCtl == null )
+            Control objCtl = Globals.FindControlRecursive(objParent.Page, CLIENTAPI_POSTBACKCTL_ID); //DotNetNuke.Globals.FindControlRecursive(objParent, CLIENTAPI_POSTBACKCTL_ID)
+            if (objCtl == null)
             {
-                objCtl = new ClientAPIPostBackControl( objParent.Page, strEventName, objDelegate );
+                objCtl = new ClientAPIPostBackControl(objParent.Page, strEventName, objDelegate);
                 objCtl.ID = CLIENTAPI_POSTBACKCTL_ID;
-                objParent.Controls.Add( objCtl );
-                RegisterClientVariable( objParent.Page, "__dnn_postBack", GetPostBackClientHyperlink( objCtl, "[DATA]" ), true );
+                objParent.Controls.Add(objCtl);
+                RegisterClientVariable(objParent.Page, "__dnn_postBack", GetPostBackClientHyperlink(objCtl, "[DATA]"), true);
             }
-            else if( blnMultipleHandlers )
+            else if (blnMultipleHandlers)
             {
-                ( (ClientAPIPostBackControl)objCtl ).AddEventHandler( strEventName, objDelegate );
+                ((ClientAPIPostBackControl)objCtl).AddEventHandler(strEventName, objDelegate);
             }
         }
 
@@ -896,23 +913,23 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	3/10/2006	Created
         /// </history>
-        public static void EnableClientSideReorder( Control objButton, Page objPage, bool blnUp, string strKey )
+        public static void EnableClientSideReorder(Control objButton, Page objPage, bool blnUp, string strKey)
         {
-            if( BrowserSupportsFunctionality( ClientFunctionality.DHTML ) )
+            if (BrowserSupportsFunctionality(ClientFunctionality.DHTML))
             {
-                RegisterClientReference( objPage, ClientNamespaceReferences.dnn_dom );
-                if( !( IsClientScriptBlockRegistered( objPage, "dnn.util.tablereorder.js" ) ) )
+                RegisterClientReference(objPage, ClientNamespaceReferences.dnn_dom);
+                if (!(IsClientScriptBlockRegistered(objPage, "dnn.util.tablereorder.js")))
                 {
-                    RegisterClientScriptBlock( objPage, "dnn.util.tablereorder.js", "<script src=\"" + ScriptPath + "dnn.util.tablereorder.js\"></script>" );
+                    RegisterClientScriptBlock(objPage, "dnn.util.tablereorder.js", "<script src=\"" + ScriptPath + "dnn.util.tablereorder.js\"></script>");
                 }
 
-                AddAttribute( objButton, "onclick", "if (dnn.util.tableReorderMove(this," + Convert.ToInt32( blnUp ) + ",'" + strKey + "')) return false;" );
+                AddAttribute(objButton, "onclick", "if (dnn.util.tableReorderMove(this," + Convert.ToInt32(blnUp) + ",'" + strKey + "')) return false;");
                 Control objParent = objButton.Parent;
-                while( objParent != null )
+                while (objParent != null)
                 {
-                    if( objParent is TableRow )
+                    if (objParent is TableRow)
                     {
-                        AddAttribute( objParent, "origidx", "-1" ); //mark row as one that we care about, it will be numbered correctly on client
+                        AddAttribute(objParent, "origidx", "-1"); //mark row as one that we care about, it will be numbered correctly on client
                     }
                     objParent = objParent.Parent;
                 }
@@ -929,23 +946,23 @@ namespace DotNetNuke.UI.Utilities
         /// <history>
         /// 	[Jon Henning]	3/10/2006	Created
         /// </history>
-        public static string[] GetClientSideReorder( string strKey, Page objPage )
+        public static string[] GetClientSideReorder(string strKey, Page objPage)
         {
-            if( GetClientVariable( objPage, strKey ).Length > 0 )
+            if (GetClientVariable(objPage, strKey).Length > 0)
             {
-                return GetClientVariable( objPage, strKey ).Split( ',' );
+                return GetClientVariable(objPage, strKey).Split(',');
             }
             else
             {
-                return new string[] {};
+                return new string[] { };
             }
         }
 
         public static bool ClientAPIDisabled()
         {
-            if( m_ClientAPIDisabled == string.Empty )
+            if (m_ClientAPIDisabled == string.Empty)
             {
-                if( ConfigurationManager.AppSettings["ClientAPI"] == null )
+                if (ConfigurationManager.AppSettings["ClientAPI"] == null)
                 {
                     m_ClientAPIDisabled = "1";
                 }
@@ -957,34 +974,34 @@ namespace DotNetNuke.UI.Utilities
             return m_ClientAPIDisabled == "0";
         }
 
-        public static string GetPostBackClientEvent( Page objPage, Control objControl, string arg )
+        public static string GetPostBackClientEvent(Page objPage, Control objControl, string arg)
         {
-            return objPage.ClientScript.GetPostBackEventReference( objControl, arg );
+            return objPage.ClientScript.GetPostBackEventReference(objControl, arg);
         }
 
-        public static string GetPostBackClientHyperlink( Control objControl, string strArgument )
+        public static string GetPostBackClientHyperlink(Control objControl, string strArgument)
         {
-            return "javascript:" + GetPostBackEventReference( objControl, strArgument );
+            return "javascript:" + GetPostBackEventReference(objControl, strArgument);
         }
 
-        public static string GetPostBackEventReference( Control objControl, string strArgument )
+        public static string GetPostBackEventReference(Control objControl, string strArgument)
         {
-            return objControl.Page.ClientScript.GetPostBackEventReference( objControl, strArgument );
+            return objControl.Page.ClientScript.GetPostBackEventReference(objControl, strArgument);
         }
 
-        public static bool IsClientScriptBlockRegistered( Page objPage, string key )
+        public static bool IsClientScriptBlockRegistered(Page objPage, string key)
         {
-            return objPage.ClientScript.IsClientScriptBlockRegistered( key );
+            return objPage.ClientScript.IsClientScriptBlockRegistered(key);
         }
 
-        public static void RegisterClientScriptBlock( Page objPage, string key, string strScript )
+        public static void RegisterClientScriptBlock(Page objPage, string key, string strScript)
         {
-            objPage.ClientScript.RegisterClientScriptBlock( objPage.GetType(), key, strScript );
+            objPage.ClientScript.RegisterClientScriptBlock(objPage.GetType(), key, strScript);
         }
 
-        public static void RegisterStartUpScript( Page objPage, string key, string script )
+        public static void RegisterStartUpScript(Page objPage, string key, string script)
         {
-            objPage.ClientScript.RegisterStartupScript( objPage.GetType(), key, script );
+            objPage.ClientScript.RegisterStartupScript(objPage.GetType(), key, script);
         }
 
         #endregion

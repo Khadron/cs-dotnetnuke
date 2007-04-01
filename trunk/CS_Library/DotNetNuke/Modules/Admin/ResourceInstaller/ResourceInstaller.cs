@@ -38,10 +38,12 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
             // delete the file
             try
             {
-                File.SetAttributes(fileName, FileAttributes.Normal);
-                File.Delete(fileName);
+                // HACK : commenting these lines out so the modules and
+                // things are not deleted during the install process.
+                //File.SetAttributes(fileName, FileAttributes.Normal);
+                //File.Delete(fileName);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 // error removing the file
             }
@@ -185,7 +187,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                                     }
                                 }
                                 break;
-                        } 
+                        }
                     }
                 }
             }
