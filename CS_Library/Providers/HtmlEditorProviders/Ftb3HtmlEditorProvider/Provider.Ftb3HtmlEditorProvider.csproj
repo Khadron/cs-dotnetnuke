@@ -71,7 +71,7 @@
   <ItemGroup>
     <Reference Include="FreeTextBox">
       <Name>FreeTextBox</Name>
-      <HintPath>bin\FreeTextBox.dll</HintPath>
+      <HintPath>..\..\..\..\Build\FreeTextBox.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>

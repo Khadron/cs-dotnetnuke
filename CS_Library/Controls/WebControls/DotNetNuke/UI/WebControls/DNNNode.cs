@@ -45,7 +45,8 @@ namespace DotNetNuke.UI.WebControls
         /// <history>
         /// 	[Jon Henning]	12/22/2004	Created
         /// </history>
-        public DNNNode() : this( new XmlDocument().CreateNode( XmlNodeType.Element, "n", "" ) )
+        public DNNNode()
+            : this(new XmlDocument().CreateNode(XmlNodeType.Element, "n", ""))
         {
         }
 
@@ -62,16 +63,17 @@ namespace DotNetNuke.UI.WebControls
         /// <history>
         /// 	[Jon Henning]	12/22/2004	Created
         /// </history>
-        public DNNNode( string strText ) : this()
+        public DNNNode(string strText)
+            : this()
         {
             this.Text = strText;
         }
 
-        public DNNNode( string NodeText, string navigateUrl )
+        public DNNNode(string NodeText, string navigateUrl)
         {
-            if( NodeText == null || navigateUrl == null )
+            if (NodeText == null || navigateUrl == null)
             {
-                throw ( new ArgumentNullException() );
+                throw (new ArgumentNullException());
             }
             Text = NodeText;
             navigateUrl = navigateUrl;
@@ -89,7 +91,7 @@ namespace DotNetNuke.UI.WebControls
         /// <history>
         /// 	[Jon Henning]	12/22/2004	Created
         /// </history>
-        public DNNNode( XmlNode objXmlNode )
+        public DNNNode(XmlNode objXmlNode)
         {
             m_objXMLNode = objXmlNode;
             m_objXMLDoc = objXmlNode.OwnerDocument;
@@ -182,9 +184,9 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                if( this.XmlNode.ParentNode != null && this.XmlNode.ParentNode.NodeType != XmlNodeType.Document )
+                if (this.XmlNode.ParentNode != null && this.XmlNode.ParentNode.NodeType != XmlNodeType.Document)
                 {
-                    return new DNNNode( this.XmlNode.ParentNode );
+                    return new DNNNode(this.XmlNode.ParentNode);
                 }
                 else
                 {
@@ -206,9 +208,9 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                if( m_objNodes == null )
+                if (m_objNodes == null)
                 {
-                    m_objNodes = new DNNNodeCollection( this.XmlNode );
+                    m_objNodes = new DNNNodeCollection(this.XmlNode);
                 }
                 return m_objNodes;
             }
@@ -244,8 +246,8 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                bool blnHas = Convert.ToBoolean( CustomAttribute( "hasNodes", "false" ) );
-                if( blnHas == false )
+                bool blnHas = Convert.ToBoolean(CustomAttribute("hasNodes", "false"));
+                if (blnHas == false)
                 {
                     return this.DNNNodes.Count > 0;
                 }
@@ -257,7 +259,7 @@ namespace DotNetNuke.UI.WebControls
             set
             {
                 //CustomAttribute("hasNodes", 0) = Value
-                this.SetCustomAttribute( "hasNodes", ( value ? "true" : "false" ).ToString() );
+                this.SetCustomAttribute("hasNodes", (value ? "true" : "false").ToString());
             }
         }
 
@@ -275,16 +277,16 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                
+
                 if (m_strParentNS == null || m_strParentNS.Length == 0)
                 {
                     m_strParentNS = "";
-                    if( XmlNode.ParentNode != null && ( XmlNode.ParentNode ) is XmlElement )
+                    if (XmlNode.ParentNode != null && (XmlNode.ParentNode) is XmlElement)
                     {
-                        m_strParentNS = XmlNode.ParentNode.Attributes.GetNamedItem( "id" ).Value;
+                        m_strParentNS = XmlNode.ParentNode.Attributes.GetNamedItem("id").Value;
                     }
                 }
-                
+
                 return m_strParentNS;
             }
         }
@@ -303,15 +305,15 @@ namespace DotNetNuke.UI.WebControls
             get
             {
                 //If IsInHierarchy AndAlso Not Me.ParentNode Is Nothing Then
-                if( this.ParentNode != null )
+                if (this.ParentNode != null)
                 {
                     XmlNode objParent = this.XmlNode;
-                    int intLevel = - 1;
-                    while( objParent != null && ( objParent ) is XmlElement )
+                    int intLevel = -1;
+                    while (objParent != null && (objParent) is XmlElement)
                     {
                         intLevel++;
                         objParent = objParent.ParentNode;
-                        if( objParent != null && objParent.Name == "root" )
+                        if (objParent != null && objParent.Name == "root")
                         {
                             break;
                         }
@@ -320,7 +322,7 @@ namespace DotNetNuke.UI.WebControls
                 }
                 else
                 {
-                    return - 1;
+                    return -1;
                 }
             }
         }
@@ -335,11 +337,11 @@ namespace DotNetNuke.UI.WebControls
         /// <history>
         /// 	[Jon Henning]	12/22/2004	Created
         /// </history>
-        public string CustomAttribute( string Key )
+        public string CustomAttribute(string Key)
         {
-            if( !Convert.ToBoolean( XmlNode.Attributes.GetNamedItem( Key ) == null ) )
+            if (!Convert.ToBoolean(XmlNode.Attributes.GetNamedItem(Key) == null))
             {
-                return XmlNode.Attributes.GetNamedItem( Key ).Value;
+                return XmlNode.Attributes.GetNamedItem(Key).Value;
             }
             else
             {
@@ -347,31 +349,31 @@ namespace DotNetNuke.UI.WebControls
             }
         }
 
-        public void SetCustomAttribute( string Key, string Value )
+        public void SetCustomAttribute(string Key, string Value)
         {
             try
             {
-                if( !Convert.ToBoolean( XmlNode.Attributes.GetNamedItem( Key ) == null ) )
+                if (!Convert.ToBoolean(XmlNode.Attributes.GetNamedItem(Key) == null))
                 {
-                    if( Value == null )
+                    if (Value == null)
                     {
-                        XmlNode.Attributes.Remove( (XmlAttribute)XmlNode.Attributes.GetNamedItem( Key ) );
+                        XmlNode.Attributes.Remove((XmlAttribute)XmlNode.Attributes.GetNamedItem(Key));
                     }
                     else
                     {
-                        XmlNode.Attributes.GetNamedItem( Key ).Value = Value;
+                        XmlNode.Attributes.GetNamedItem(Key).Value = Value;
                     }
                 }
-                else if( Value != null )
+                else if (Value != null)
                 {
-                    XmlAttribute objAttr = XMLDoc.CreateAttribute( Key );
+                    XmlAttribute objAttr = XMLDoc.CreateAttribute(Key);
                     objAttr.Value = Value;
-                    XmlNode.Attributes.Append( objAttr );
+                    XmlNode.Attributes.Append(objAttr);
                 }
             }
-            catch( Exception ex )
+            catch (Exception ex)
             {
-                throw ( ex );
+                throw (ex);
             }
         }
 
@@ -390,26 +392,26 @@ namespace DotNetNuke.UI.WebControls
         /// <history>
         /// 	[Jon Henning]	12/22/2004	Created
         /// </history>
-        public string CustomAttribute( string Key, string DefaultValue )
+        public string CustomAttribute(string Key, string DefaultValue)
         {
-            string value = CustomAttribute( Key );
-            if(( value == null ) || ( value.Length == 0 ))
+            string value = CustomAttribute(Key);
+            if ((value == null) || (value.Length == 0))
             {
                 return DefaultValue;
             }
             else
             {
-                return CustomAttribute( Key );
+                return CustomAttribute(Key);
             }
         }
 
-        public void SetCustomAttribute( string Key, string DefaultValue, string Value )
+        public void SetCustomAttribute(string Key, string DefaultValue, string Value)
         {
-            if( Value == DefaultValue )
+            if (Value == DefaultValue)
             {
                 Value = "";
             }
-            SetCustomAttribute( Key, Value );
+            SetCustomAttribute(Key, Value);
         }
 
         /// <summary>
@@ -425,11 +427,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return CustomAttribute( "id" );
+                return CustomAttribute("id");
             }
             set
             {
-                SetCustomAttribute( "id", value );
+                SetCustomAttribute("id", value);
             }
         }
 
@@ -447,7 +449,7 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return this.ID.Replace( ":", "_" );
+                return this.ID.Replace(":", "_");
             }
         }
 
@@ -464,11 +466,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return CustomAttribute( "key" );
+                return CustomAttribute("key");
             }
             set
             {
-                SetCustomAttribute( "key", value );
+                SetCustomAttribute("key", value);
             }
         }
 
@@ -485,11 +487,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return CustomAttribute( "txt" );
+                return CustomAttribute("txt");
             }
             set
             {
-                SetCustomAttribute( "txt", value );
+                SetCustomAttribute("txt", value);
             }
         }
 
@@ -507,18 +509,18 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return CustomAttribute( "url" );
+                return CustomAttribute("url");
             }
             set
             {
-                if( value.Length > 0 )
+                if (value.Length > 0)
                 {
                     this.ClickAction = eClickAction.Navigate;
-                    SetCustomAttribute( "url", value );
+                    SetCustomAttribute("url", value);
                 }
                 else
                 {
-                    SetCustomAttribute( "url", null ); //don't render attribute
+                    SetCustomAttribute("url", null); //don't render attribute
                 }
             }
         }
@@ -536,11 +538,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return CustomAttribute( "js" );
+                return CustomAttribute("js");
             }
             set
             {
-                SetCustomAttribute( "js", value );
+                SetCustomAttribute("js", value);
             }
         }
 
@@ -557,11 +559,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return CustomAttribute( "tar" );
+                return CustomAttribute("tar");
             }
             set
             {
-                SetCustomAttribute( "tar", value );
+                SetCustomAttribute("tar", value);
             }
         }
 
@@ -578,17 +580,17 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return CustomAttribute( "tTip" );
+                return CustomAttribute("tTip");
             }
             set
             {
-                if( value.Length == 0 )
+                if (value.Length == 0)
                 {
-                    SetCustomAttribute( "tTip", null ); //don't render attribute
+                    SetCustomAttribute("tTip", null); //don't render attribute
                 }
                 else
                 {
-                    SetCustomAttribute( "tTip", value );
+                    SetCustomAttribute("tTip", value);
                 }
             }
         }
@@ -606,11 +608,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return Convert.ToBoolean( CustomAttribute( "enabled", "true" ) );
+                return Convert.ToBoolean(CustomAttribute("enabled", "true"));
             }
             set
             {
-                SetCustomAttribute( "enabled", ( value ? "true" : "false" ).ToString() );
+                SetCustomAttribute("enabled", (value ? "true" : "false").ToString());
             }
         }
 
@@ -627,11 +629,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return CustomAttribute( "css" );
+                return CustomAttribute("css");
             }
             set
             {
-                SetCustomAttribute( "css", value );
+                SetCustomAttribute("css", value);
             }
         }
 
@@ -648,11 +650,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return CustomAttribute( "cssSel" );
+                return CustomAttribute("cssSel");
             }
             set
             {
-                SetCustomAttribute( "cssSel", value );
+                SetCustomAttribute("cssSel", value);
             }
         }
 
@@ -669,11 +671,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return CustomAttribute( "cssHover" );
+                return CustomAttribute("cssHover");
             }
             set
             {
-                SetCustomAttribute( "cssHover", value );
+                SetCustomAttribute("cssHover", value);
             }
         }
 
@@ -690,11 +692,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return CustomAttribute( "cssIcon" );
+                return CustomAttribute("cssIcon");
             }
             set
             {
-                SetCustomAttribute( "cssIcon", value );
+                SetCustomAttribute("cssIcon", value);
             }
         }
 
@@ -711,11 +713,11 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return CustomAttribute( "img" );
+                return CustomAttribute("img");
             }
             set
             {
-                SetCustomAttribute( "img", value );
+                SetCustomAttribute("img", value);
             }
         }
 
@@ -753,7 +755,7 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                return Convert.ToBoolean( this.CustomAttribute( "bcrumb", "false" ) );
+                return Convert.ToBoolean(this.CustomAttribute("bcrumb", "false"));
             }
             set
             {
@@ -765,10 +767,10 @@ namespace DotNetNuke.UI.WebControls
         {
             get
             {
-                if( this.CustomAttribute( "ca" ).Length > 0 )
+                if (this.CustomAttribute("ca").Length > 0)
                 {
-                    eClickAction eAction = (eClickAction)Convert.ToInt32( this.CustomAttribute( "ca" ) );
-                    return ( eAction );
+                    eClickAction eAction = (eClickAction)Convert.ToInt32(this.CustomAttribute("ca"));
+                    return (eAction);
                 }
                 else
                 {
@@ -777,7 +779,12 @@ namespace DotNetNuke.UI.WebControls
             }
             set
             {
-                this.SetCustomAttribute( "ca", value.ToString() );
+                // HACK : The 'get' for this property was erroring because
+                // it could not convert a string to an int as it was in 
+                // the original code.  Cast the value to an int and then 
+                // to a string to be saved so it will work on the way out.
+                //this.SetCustomAttribute( "ca", value.ToString() );
+                this.SetCustomAttribute("ca", ((int)value).ToString());
             }
         }
 
@@ -809,50 +816,50 @@ namespace DotNetNuke.UI.WebControls
 
         public string ToJSON()
         {
-            return ToJSON( true );
+            return ToJSON(true);
         }
 
-        public string ToJSON( bool blnDeep )
+        public string ToJSON(bool blnDeep)
         {
             //blnDeep not supported yet...
 
             StringBuilder sb = new StringBuilder();
             XmlAttribute oAttr;
-            foreach( XmlAttribute tempLoopVar_oAttr in this.XmlNode.Attributes )
+            foreach (XmlAttribute tempLoopVar_oAttr in this.XmlNode.Attributes)
             {
                 oAttr = tempLoopVar_oAttr;
-                if( sb.Length == 0 )
+                if (sb.Length == 0)
                 {
-                    sb.Append( "{" );
+                    sb.Append("{");
                 }
                 else
                 {
-                    sb.Append( "," );
+                    sb.Append(",");
                 }
                 //xml contains abbreviations... but when we are using this on the client we want to use it as if it was a real DNNNode (DNNTreeNode) object so we want the long names
-                switch( oAttr.Name )
+                switch (oAttr.Name)
                 {
                     case "txt":
 
-                        sb.Append( "text" );
+                        sb.Append("text");
                         break;
                     case "tar":
 
-                        sb.Append( "target" );
+                        sb.Append("target");
                         break;
                     case "tTip":
 
-                        sb.Append( "toolTip" );
+                        sb.Append("toolTip");
                         break;
                     default:
 
-                        sb.Append( oAttr.Name );
+                        sb.Append(oAttr.Name);
                         break;
                 }
-                sb.Append( ":" );
-                sb.Append( "\"" + ClientAPI.GetSafeJSString( oAttr.Value ) + "\"" );
+                sb.Append(":");
+                sb.Append("\"" + ClientAPI.GetSafeJSString(oAttr.Value) + "\"");
             }
-            sb.Append( "};" );
+            sb.Append("};");
             return sb.ToString();
         }
 
@@ -880,7 +887,7 @@ namespace DotNetNuke.UI.WebControls
         /// <history>
         /// 	[Jon Henning]	12/22/2004	Created
         /// </history>
-        internal void AssociateXmlNode( XmlNode objXmlNode )
+        internal void AssociateXmlNode(XmlNode objXmlNode)
         {
             m_objXMLNode = objXmlNode;
             m_objXMLDoc = objXmlNode.OwnerDocument;
@@ -888,13 +895,13 @@ namespace DotNetNuke.UI.WebControls
 
         public DNNNode Clone()
         {
-            return Clone( true );
+            return Clone(true);
         }
 
-        public DNNNode Clone( bool blnDeep )
+        public DNNNode Clone(bool blnDeep)
         {
-            XmlNode objXmlNode = this.XmlNode.CloneNode( blnDeep );
-            return new DNNNode( objXmlNode );
+            XmlNode objXmlNode = this.XmlNode.CloneNode(blnDeep);
+            return new DNNNode(objXmlNode);
         }
     }
 }

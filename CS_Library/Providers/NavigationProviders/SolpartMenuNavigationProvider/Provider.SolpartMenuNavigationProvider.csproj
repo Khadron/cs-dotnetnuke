@@ -71,7 +71,7 @@
   <ItemGroup>
     <Reference Include="SolpartWebControls">
       <Name>SolpartWebControls</Name>
-      <HintPath>..\..\..\controls\SolpartMenu\bin\SolpartWebControls.dll</HintPath>
+      <HintPath>..\..\..\..\Build\SolpartWebControls.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>

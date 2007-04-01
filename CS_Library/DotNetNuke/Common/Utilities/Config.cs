@@ -121,7 +121,7 @@ namespace DotNetNuke.Common.Utilities
         public static XmlDocument Load()
         {
             // open the web.config file
-            return Load( "web.config" );
+            return Load("web.config");
         }
 
         public static XmlDocument Load(string filename)
@@ -132,12 +132,18 @@ namespace DotNetNuke.Common.Utilities
             return xmlDoc;
         }
 
+        // HACK : Bug Fix Id 3
         public static string Save(XmlDocument xmlDoc)
+        {
+            return Save(xmlDoc, "web.config");
+        }
+
+        public static string Save(XmlDocument xmlDoc, string filename)
         {
             try
             {
                 // save the config file
-                XmlTextWriter writer = new XmlTextWriter(Globals.ApplicationMapPath + "\\web.config", null);
+                XmlTextWriter writer = new XmlTextWriter(Globals.ApplicationMapPath + "\\" + filename, null);
                 writer.Formatting = Formatting.Indented;
                 xmlDoc.WriteTo(writer);
                 writer.Flush();
@@ -149,11 +155,6 @@ namespace DotNetNuke.Common.Utilities
                 // the file may be read-only or the file permissions may not be set properly
                 return exc.Message;
             }
-        }
-
-        public static string Save(XmlDocument xmlDoc, string filename)
-        {
-            return Save( xmlDoc, "web.config" );
         }
 
         public static bool Touch()
@@ -177,7 +178,7 @@ namespace DotNetNuke.Common.Utilities
 
             return xmlConfig;
         }
-        
+
         public static void AddCodeSubDirectory(string name)
         {
             XmlDocument xmlConfig = Load();
