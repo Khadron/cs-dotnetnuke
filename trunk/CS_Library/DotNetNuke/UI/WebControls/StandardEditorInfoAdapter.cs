@@ -59,6 +59,9 @@ namespace DotNetNuke.UI.WebControls
             EditorInfo editInfo = new EditorInfo();
 
             //Get the Name of the property
+            editInfo.Name = objProperty.Name;
+
+            //Get the value of the property
             editInfo.Value = objProperty.GetValue(dataSource, null);
 
             //Get the type of the property
