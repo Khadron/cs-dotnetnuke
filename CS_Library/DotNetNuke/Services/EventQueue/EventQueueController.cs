@@ -145,7 +145,9 @@ namespace DotNetNuke.Services.EventQueue
                     {
                         objEventLogInfo.AddProperty( key, message.Attributes[key] );
                     }
-                    if( message.ExceptionMessage.Length > 0 )
+                    // HACK : Modified to not error if object is null.
+                    //if( message.ExceptionMessage.Length > 0 )
+                    if (!String.IsNullOrEmpty(message.ExceptionMessage))
                     {
                         objEventLogInfo.AddProperty( "ExceptionMessage", message.ExceptionMessage );
                     }

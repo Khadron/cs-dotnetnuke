@@ -35,7 +35,7 @@ namespace DotNetNuke.UI.Utilities
         {            
             this.EventArguments = new Hashtable();
             string[] splitter = { ClientAPI.COLUMN_DELIMITER };
-            string[] strings = strEventArgument.Split(splitter, StringSplitOptions.None);              
+            string[] strings = strEventArgument.Split(splitter, StringSplitOptions.None);
             if( strings.Length > 0 )
             {
                 this.EventName = strings[0];

@@ -69,7 +69,9 @@ public class NavDataSourceView : HierarchicalDataSourceView
         DNNNodeCollection objNodes;
         DNNNode objNode;
         objNodes = DotNetNuke.UI.Navigation.GetNavigationNodes(m_sNamespace);
-        if (m_sKey.Length > 0)
+        // HACK : Modified to not error if object is null.
+        //if (m_sKey.Length > 0)
+        if (!string.IsNullOrEmpty(m_sKey))
         {
             objNodes = objNodes.FindNodeByKey(m_sKey).DNNNodes;
         }

@@ -50,7 +50,9 @@ namespace DotNetNuke.UI.Utilities
                 {
                     control = FindControlRecursive( parent, strControlName, strClientID );
                 }
-                if( ( ( control != null ) && ( strClientID.Length > 0 ) ) && ( String.Compare( control.ClientID, strClientID, false ) != 0 ) )
+                // HACK : Modified to not error if object is null.
+                //if( ( ( control != null ) && ( strClientID.Length > 0 ) ) && ( String.Compare( control.ClientID, strClientID, false ) != 0 ) )
+                if (((control != null) && (!String.IsNullOrEmpty(strClientID))) && (String.Compare(control.ClientID, strClientID, false) != 0))
                 {
                     control = null;
                 }
@@ -81,7 +83,9 @@ namespace DotNetNuke.UI.Utilities
         public static void SetAttribute( Control objControl, string strAttr, string strValue )
         {
             string s = GetAttribute( objControl, strAttr );
-            if( s != null ) if( s.Length > 0 )
+            // HACK : Modified to not error if object is null.
+            //if( s != null ) if( s.Length > 0 )
+            if (!String.IsNullOrEmpty(s))
             {
                 strValue = ( s + strValue );
             }            

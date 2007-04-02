@@ -448,8 +448,9 @@ namespace DotNetNuke.UI.Containers
                 else
                 {
                     // custom action
-
-                    if (action.Url.Length > 0 && action.UseActionEvent == false)
+                    // HACK : Modified to not error if object is null.
+                    //if (action.Url.Length > 0 && action.UseActionEvent == false)
+                    if ((!String.IsNullOrEmpty(action.Url)) && action.UseActionEvent == false)
                     {
                         DoAction(action);
                     }

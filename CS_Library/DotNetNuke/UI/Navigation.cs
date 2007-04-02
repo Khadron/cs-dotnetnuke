@@ -114,7 +114,9 @@ namespace DotNetNuke.UI
                             objNode.ID = objAction.ID.ToString();
                             objNode.Key = objAction.ID.ToString();
                             objNode.Text = objAction.Title; //no longer including SPACE in generic node collection, each control must handle how they want to display
-                            if (objAction.ClientScript.Length > 0)
+                            // HACK : Modified to not error if object is null.
+                            //if (objAction.ClientScript.Length > 0)
+                            if (!String.IsNullOrEmpty(objAction.ClientScript))
                             {
                                 objNode.JSFunction = objAction.ClientScript;
                                 objNode.ClickAction = eClickAction.None;

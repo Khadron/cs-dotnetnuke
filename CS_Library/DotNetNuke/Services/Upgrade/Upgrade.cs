@@ -1364,7 +1364,7 @@ namespace DotNetNuke.Services.Upgrade
                         objScheduleItem.RetainHistoryNum = 10;
                         objScheduleItem.Servers = "";
                         objScheduleItem.TimeLapse = 2;
-                        objScheduleItem.TimeLapseMeasurement = "h";
+                        objScheduleItem.TimeLapseMeasurement = "hz";
                         objScheduleItem.RetryTimeLapse = 30;
                         objScheduleItem.RetryTimeLapseMeasurement = "m";
                         SchedulingProvider.Instance().AddSchedule(objScheduleItem);
@@ -2205,7 +2205,9 @@ namespace DotNetNuke.Services.Upgrade
 
                     LogInfo objEventLogInfo = new LogInfo();
                     objEventLogInfo.AddProperty("Upgraded DotNetNuke", "Version: " + intMajor + "." + intMinor + "." + intBuild);
-                    if (strExceptions.Length > 0)
+                    // HACK : Modified to not error if object is null.
+                    //if (strExceptions.Length > 0)
+                    if (!String.IsNullOrEmpty(strExceptions))
                     {
                         objEventLogInfo.AddProperty("Warnings", strExceptions);
                     }

@@ -127,7 +127,9 @@ namespace DotNetNuke.Services.EventQueue.Config
                 configXML.Append("</EventName>");
                 configXML.Append("\r\n");
                 configXML.Append('\t', 3);
-                if (this.PublishedEvents[key].Subscribers.Length > 0)
+                // HACK : Modified to not error if object is null.
+                //if (this.PublishedEvents[key].Subscribers.Length > 0)
+                if (!String.IsNullOrEmpty(this.PublishedEvents[key].Subscribers))
                 {
                     configXML.Append("<Subscribers>");
                     configXML.Append(this.PublishedEvents[key].Subscribers);
@@ -160,7 +162,9 @@ namespace DotNetNuke.Services.EventQueue.Config
                 configXML.Append("</ID>");
                 configXML.Append("\r\n");
                 configXML.Append('\t', 3);
-                if (this.EventQueueSubscribers[key].Name.Length > 0)
+                // HACK : Modified to not error if object is null.
+                //if (this.EventQueueSubscribers[key].Name.Length > 0)
+                if (!String.IsNullOrEmpty(this.EventQueueSubscribers[key].Name))
                 {
                     configXML.Append("<Name>");
                     configXML.Append(this.EventQueueSubscribers[key].Name);
@@ -172,7 +176,9 @@ namespace DotNetNuke.Services.EventQueue.Config
                 }
                 configXML.Append("\r\n");
                 configXML.Append('\t', 3);
-                if (this.EventQueueSubscribers[key].Address.Length > 0)
+                // HACK : Modified to not error if object is null.
+                //if (this.EventQueueSubscribers[key].Address.Length > 0)
+                if (!String.IsNullOrEmpty(this.EventQueueSubscribers[key].Address))
                 {
                     configXML.Append("<Address>");
                     configXML.Append(this.EventQueueSubscribers[key].Address);
@@ -184,7 +190,9 @@ namespace DotNetNuke.Services.EventQueue.Config
                 }
                 configXML.Append("\r\n");
                 configXML.Append('\t', 3);
-                if (this.EventQueueSubscribers[key].Description.Length > 0)
+                // HACK : Modified to not error if object is null.
+                //if (this.EventQueueSubscribers[key].Description.Length > 0)
+                if (!String.IsNullOrEmpty(this.EventQueueSubscribers[key].Description))
                 {
                     configXML.Append("<Description>");
                     configXML.Append(this.EventQueueSubscribers[key].Description);
@@ -196,7 +204,9 @@ namespace DotNetNuke.Services.EventQueue.Config
                 }
                 configXML.Append("\r\n");
                 configXML.Append('\t', 3);
-                if (this.EventQueueSubscribers[key].PrivateKey.Length > 0)
+                // HACK : Modified to not error if object is null.
+                //if (this.EventQueueSubscribers[key].PrivateKey.Length > 0)
+                if (!String.IsNullOrEmpty(this.EventQueueSubscribers[key].PrivateKey))
                 {
                     configXML.Append("<PrivateKey>");
                     configXML.Append(this.EventQueueSubscribers[key].PrivateKey);

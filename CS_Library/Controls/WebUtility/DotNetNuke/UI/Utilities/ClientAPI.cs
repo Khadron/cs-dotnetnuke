@@ -159,7 +159,7 @@ namespace DotNetNuke.UI.Utilities
             {
                 if (BrowserSupportsFunctionality(ClientFunctionality.SingleCharDelimiters))
                 {
-                    return " ";
+                    return ((char)18).ToString();
                 }
                 else
                 {
@@ -175,7 +175,7 @@ namespace DotNetNuke.UI.Utilities
             {
                 if (BrowserSupportsFunctionality(ClientFunctionality.SingleCharDelimiters))
                 {
-                    return " ";
+                    return ((char)16).ToString();
                 }
                 else
                 {
@@ -191,7 +191,7 @@ namespace DotNetNuke.UI.Utilities
             {
                 if (BrowserSupportsFunctionality(ClientFunctionality.SingleCharDelimiters))
                 {
-                    return " ";
+                    return ((char)15).ToString();
                 }
                 else
                 {
@@ -207,7 +207,7 @@ namespace DotNetNuke.UI.Utilities
             {
                 if (BrowserSupportsFunctionality(ClientFunctionality.SingleCharDelimiters))
                 {
-                    return " ";
+                    return ((char)19).ToString();
                 }
                 else
                 {
@@ -223,7 +223,7 @@ namespace DotNetNuke.UI.Utilities
             {
                 if (BrowserSupportsFunctionality(ClientFunctionality.SingleCharDelimiters))
                 {
-                    return " ";
+                    return ((char)17).ToString();
                 }
                 else
                 {
@@ -246,7 +246,9 @@ namespace DotNetNuke.UI.Utilities
             get
             {
                 string script = "";
-                if (m_sScriptPath.Length > 0)
+                // HACK : Modified to not error if object is null.
+                //if (m_sScriptPath.Length > 0)
+                if (!String.IsNullOrEmpty(m_sScriptPath))
                 {
                     script = m_sScriptPath;
                 }
@@ -307,32 +309,27 @@ namespace DotNetNuke.UI.Utilities
             if (strValue.Length == 0) //using request object in case we are loading before controls have values set
             {
                 strValue = HttpContext.Current.Request[DNNVARIABLE_CONTROLID];
-            }
-            try
+            }            
+            // HACK : Modified to not error if object is null.
+            //if (strValue.Length > 0)
+            if (!String.IsNullOrEmpty(strValue))
             {
-                if (strValue.Length > 0)
+                strValue = strValue.Replace(QUOTE_REPLACEMENT, "\"");
+                int intIndex = strValue.IndexOf(ROW_DELIMITER + strVar + COLUMN_DELIMITER);
+                if (intIndex > -1)
                 {
-                    strValue = strValue.Replace(QUOTE_REPLACEMENT, "\"");
-                    int intIndex = strValue.IndexOf(ROW_DELIMITER + strVar + COLUMN_DELIMITER);
-                    if (intIndex > -1)
+                    intIndex += COLUMN_DELIMITER.Length;
+                    int intEndIndex = strValue.IndexOf(ROW_DELIMITER, intIndex);
+                    if (intEndIndex > -1)
                     {
-                        intIndex += COLUMN_DELIMITER.Length;
-                        int intEndIndex = strValue.IndexOf(ROW_DELIMITER, intIndex);
-                        if (intEndIndex > -1)
-                        {
-                            return strValue.Substring(intIndex, intEndIndex - intIndex);
-                        }
-                        else
-                        {
-                            return strValue.Substring(intIndex);
-                        }
+                        return strValue.Substring(intIndex, intEndIndex - intIndex);
+                    }
+                    else
+                    {
+                        return strValue.Substring(intIndex);
                     }
                 }
-            }
-            catch
-            {
-                // strValue is null.
-            }
+            }           
             return "";
         }
 
@@ -396,7 +393,9 @@ namespace DotNetNuke.UI.Utilities
                 {
                     HttpRequest objRequest = HttpContext.Current.Request;
                     string strUserAgent = objRequest.UserAgent;
-                    if (strUserAgent.Length > 0)
+                    // HACK : Modified to not error if object is null.
+                    //if (strUserAgent.Length > 0)
+                    if (!String.IsNullOrEmpty(strUserAgent))
                     {
                         //First check whether we have checked this browser before
                         if (objCaps.FunctionalityDictionary.ContainsKey(strUserAgent) == false)
@@ -478,7 +477,9 @@ namespace DotNetNuke.UI.Utilities
             {
                 strClientStatusCallBack = "null";
             }
-            if (strPostChildrenOfId.Length == 0)
+            // HACK : Modified to not error if object is null.
+            //if (strPostChildrenOfId.Length == 0)
+            if (String.IsNullOrEmpty(strPostChildrenOfId))
             {
                 strPostChildrenOfId = "null";
             }
@@ -574,7 +575,9 @@ namespace DotNetNuke.UI.Utilities
         /// </history>
         public static string GetSafeJSString(string strString)
         {
-            if (strString.Length > 0)
+            // HACK : Modified to not error if object is null.
+            //if (strString.Length > 0)
+            if (!string.IsNullOrEmpty(strString))
             {
                 //Return System.Text.RegularExpressions.Regex.Replace(strString, "(['""])", "\$1")
                 return Regex.Replace(strString, "(['\"\\\\])", "\\$1");
@@ -794,7 +797,9 @@ namespace DotNetNuke.UI.Utilities
             //only add once
             HtmlInputHidden ctlVar = GetClientVariableControl(objPage);
             string strPair = GetClientVariableNameValuePair(objPage, strVar);
-            if (strPair.Length > 0)
+            // HACK : Modified to not error if object is null.
+            //if (strPair.Length > 0)
+            if (!String.IsNullOrEmpty(strPair))
             {
                 strPair = strPair.Replace("\"", QUOTE_REPLACEMENT); //since we are searching for existing string we need it in its posted format (without quotes)
                 if (blnOverwrite)
@@ -948,7 +953,9 @@ namespace DotNetNuke.UI.Utilities
         /// </history>
         public static string[] GetClientSideReorder(string strKey, Page objPage)
         {
-            if (GetClientVariable(objPage, strKey).Length > 0)
+            // HACK : Modified to not error if object is null.
+            //if (GetClientVariable(objPage, strKey).Length > 0)
+            if (!String.IsNullOrEmpty(GetClientVariable(objPage, strKey)))
             {
                 return GetClientVariable(objPage, strKey).Split(',');
             }

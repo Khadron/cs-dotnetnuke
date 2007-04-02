@@ -117,7 +117,9 @@ namespace DotNetNuke.Common.Utilities
             string retValue = "";
 
             retValue += CheckValidFileName( fileName );
-            if( retValue.Length > 0 )
+            // HACK : Modified to not error if object is null.
+            //if( retValue.Length > 0 )
+            if(!String.IsNullOrEmpty(retValue))
             {
                 return retValue;
             }
