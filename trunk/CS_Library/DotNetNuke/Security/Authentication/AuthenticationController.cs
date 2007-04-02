@@ -165,8 +165,9 @@ namespace DotNetNuke.Security.Authentication
             UserController authUserController = new UserController();
             string authCookies = Configuration.AUTHENTICATION_KEY + "_" + _portalSettings.PortalId;
             string LoggedOnUserName = HttpContext.Current.Request.ServerVariables[Configuration.LOGON_USER_VARIABLE];
-
-            if( LoggedOnUserName.Length > 0 )
+            // HACK : Modified to not error if object is null.
+            //if( LoggedOnUserName.Length > 0 )
+            if (!String.IsNullOrEmpty(LoggedOnUserName))
             {
                 UserInfo authUser;
 

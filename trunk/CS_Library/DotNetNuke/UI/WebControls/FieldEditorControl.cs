@@ -527,7 +527,9 @@ namespace DotNetNuke.UI.WebControls
 
             HtmlGenericControl divEdit = new HtmlGenericControl("div");
             string side = GetOppositeSide(editInfo.LabelMode);
-            if (side.Length > 0)
+            // HACK : Modified to not error if object is null.
+            //if (side.Length > 0)
+            if (!String.IsNullOrEmpty(side))
             {
                 string style = "float: " + side;
                 style += "; width: " + EditControlWidth.ToString();

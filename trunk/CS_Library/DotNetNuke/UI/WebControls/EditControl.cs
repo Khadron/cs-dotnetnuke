@@ -185,7 +185,11 @@ namespace DotNetNuke.UI.WebControls
         public virtual bool LoadPostData( string postDataKey, NameValueCollection postCollection )
         {
             bool dataChanged = false;
-            string presentValue = Value.ToString();
+            string presentValue = String.Empty;
+            if (Value != null)
+            {
+                presentValue = Value.ToString();
+            }
             string postedValue = postCollection[postDataKey];
             if (!presentValue.Equals(postedValue))
             {

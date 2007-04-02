@@ -210,7 +210,9 @@ namespace DotNetNuke.Services.Scheduling
             set
             {
                 value = value.Trim();
-                if (value.Length > 0)
+                // HACK : Modified to not error if object is null.
+                //if (value.Length > 0)
+                if (!String.IsNullOrEmpty(value))
                 {
                     if (value.IndexOf(",") > 0)
                     {

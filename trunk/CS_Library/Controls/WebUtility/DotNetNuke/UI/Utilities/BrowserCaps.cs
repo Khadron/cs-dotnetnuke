@@ -73,7 +73,9 @@ namespace DotNetNuke.UI.Utilities
             objBrowser.Name = objNav.GetAttribute("nm", "");
             string strMinVersion = objNav.GetAttribute("minversion", "");
             //If Not String.IsNullOrEmpty(strMinVersion) Then    '.NET 2.0 specific
-            if (strMinVersion.Length > 0)
+            // HACK : Modified to not error if object is null.
+            //if (strMinVersion.Length > 0)
+            if (!String.IsNullOrEmpty(strMinVersion))
             {
                 objBrowser.MinVersion = double.Parse(strMinVersion);
             }

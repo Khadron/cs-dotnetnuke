@@ -227,6 +227,9 @@ namespace DotNetNuke.Security.Permissions.Controls
             //Persist the ModulePermissions
             StringBuilder sb = new StringBuilder();
             bool addDelimiter = false;
+            // HACK : This is for testing, remove when done.  JT
+            if (ModulePermissions != null)
+            {
             foreach( ModulePermissionInfo objModulePermission in ModulePermissions )
             {
                 if( addDelimiter )
@@ -238,6 +241,7 @@ namespace DotNetNuke.Security.Permissions.Controls
                     addDelimiter = true;
                 }
                 sb.Append( BuildKey( objModulePermission.AllowAccess, objModulePermission.PermissionID, objModulePermission.ModulePermissionID, objModulePermission.RoleID, objModulePermission.RoleName ) );
+            }
             }
             allStates[3] = sb.ToString();
 

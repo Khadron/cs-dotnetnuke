@@ -96,13 +96,13 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Controls\WebControls\WebControls.csproj">
+    <ProjectReference Include="..\..\..\Controls\WebControls\DotNetNuke.WebControls.csproj">
       <Project>{2C2FC1EF-C61F-448A-AD25-87391E1208F6}</Project>
-      <Name>WebControls</Name>
+      <Name>DotNetNuke.WebControls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Controls\WebUtility\WebUtility.csproj">
+    <ProjectReference Include="..\..\..\Controls\WebUtility\DotNetNuke.WebUtility.csproj">
       <Project>{54F96926-802C-408E-A04B-F56859C0308C}</Project>
-      <Name>WebUtility</Name>
+      <Name>DotNetNuke.WebUtility</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\DotNetNuke.Library.csproj">
       <Project>{BD54C946-FE71-4E5F-B4B0-61BE98FCBF35}</Project>

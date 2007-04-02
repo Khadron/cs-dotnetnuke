@@ -1207,12 +1207,10 @@ namespace DotNetNuke.Common
             // Binary, else '?' isn't taken literally; only interested in one (left) string
             URI = Request.Url.ToString();
             string hostHeader = Config.GetSetting("HostHeader");
-            if (hostHeader != null)
+            // HACK : Modified to use IsNullOrEmpty method instead of two if statements.          
+            if (!String.IsNullOrEmpty(hostHeader))
             {
-                if (hostHeader.Length > 0)
-                {
-                    URI = URI.ToLower().Replace(hostHeader.ToLower(), "");
-                }
+                URI = URI.ToLower().Replace(hostHeader.ToLower(), "");
             }
             intURL = (URI.IndexOf("?", 0) + 1);
             if (intURL > 0)

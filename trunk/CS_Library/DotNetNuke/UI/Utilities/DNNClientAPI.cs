@@ -126,7 +126,9 @@ namespace DotNetNuke.UI.Utilities
         {
             if (objControl is HtmlControl)
             {
-                if (strValue.Length > 0)
+                // HACK : Modified to not error if object is null.
+                //if (strValue.Length > 0)
+                if (!String.IsNullOrEmpty(strValue))
                 {
                     ((HtmlControl)objControl).Style.Add(strName, strValue);
                 }
@@ -137,7 +139,9 @@ namespace DotNetNuke.UI.Utilities
             }
             else if (objControl is WebControl)
             {
-                if (strValue.Length > 0)
+                // HACK : Modified to not error if object is null.
+                //if (strValue.Length > 0)
+                if (!String.IsNullOrEmpty(strValue))
                 {
                     ((WebControl)objControl).Style.Add(strName, strValue);
                 }
@@ -201,7 +205,9 @@ namespace DotNetNuke.UI.Utilities
 
                         AddAttribute(objButton, "onclick", "if (__dnn_SectionMaxMin(this,  '" + objContent.ClientID + "')) return false;");
 
-                        if (strMinIconLoc.Length > 0)
+                        // HACK : Modified to not error if object is null.
+                        //if (strMinIconLoc.Length > 0)
+                        if (!String.IsNullOrEmpty(strMaxIconLoc))
                         {
                             AddAttribute(objButton, "max_icon", strMaxIconLoc);
                             AddAttribute(objButton, "min_icon", strMinIconLoc);
@@ -211,7 +217,9 @@ namespace DotNetNuke.UI.Utilities
 
                         AddAttribute(objButton, "onclick", "if (__dnn_SectionMaxMin(this,  '" + objContent.ClientID + "')) return false;");
 
-                        if (strMinIconLoc.Length > 0)
+                        // HACK : Modified to not error if object is null.
+                        //if (strMinIconLoc.Length > 0)
+                        if (!String.IsNullOrEmpty(strMaxIconLoc))
                         {
                             AddAttribute(objButton, "max_icon", strMaxIconLoc);
                             AddAttribute(objButton, "min_icon", strMinIconLoc);
@@ -250,7 +258,10 @@ namespace DotNetNuke.UI.Utilities
                 {
                     objContent.Visible = true;
                 }
-                if (strMinIconLoc.Length > 0)
+
+                // HACK : Modified to not error if object is null.
+                //if (strMinIconLoc.Length > 0)
+                if (!String.IsNullOrEmpty(strMaxIconLoc))
                 {
                     SetMinMaxProperties(objButton, strMinIconLoc, Localization.GetString("Minimize"), Localization.GetString("Minimize"));
                 }
@@ -265,7 +276,10 @@ namespace DotNetNuke.UI.Utilities
                 {
                     objContent.Visible = false;
                 }
-                if (strMaxIconLoc.Length > 0)
+
+                // HACK : Modified to not error if object is null.
+                //if (strMaxIconLoc.Length > 0)
+                if (!String.IsNullOrEmpty(strMaxIconLoc))
                 {
                     SetMinMaxProperties(objButton, strMaxIconLoc, Localization.GetString("Maximize"), Localization.GetString("Maximize"));
                 }

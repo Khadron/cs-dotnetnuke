@@ -651,7 +651,9 @@ namespace DotNetNuke.UI.WebControls
 
             Controls.Clear();
 
-            if (Groups.Length > 0)
+            // HACK : Modified to not error if object is null.
+            //if (Groups.Length > 0)
+            if (!String.IsNullOrEmpty(Groups))
             {
                 arrGroups = Groups.Split(',');
             }

@@ -282,7 +282,9 @@ namespace DotNetNuke.Security.Authentication
             objModules.UpdateModuleSetting(intModuleId, "AuthenticationType", AuthenticationType);
 
             //Only update password if it has been changed
-            if (AuthenticationPassword.Length > 0)
+            // HACK : Modified to not error if object is null.
+            //if (AuthenticationPassword.Length > 0)
+            if (!String.IsNullOrEmpty(AuthenticationPassword))
             {
                 objModules.UpdateModuleSetting(intModuleId, "AuthenticationPassword", Convert.ToString(objSecurity.Encrypt(AUTHENTICATION_KEY, AuthenticationPassword)));
             }

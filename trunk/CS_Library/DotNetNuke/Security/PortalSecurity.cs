@@ -379,8 +379,9 @@ namespace DotNetNuke.Security
                     }
                     break;
                 case SecurityAccessLevel.Host: // host
-
-                    if( UserName.Length > 0 )
+                    // HACK : Modified to not error if object is null.
+                    //if( UserName.Length > 0 )
+                    if (!String.IsNullOrEmpty(UserName))
                     {
                         UserInfo objUserInfo = UserController.GetCurrentUserInfo();
                         if( !objUserInfo.IsSuperUser )
