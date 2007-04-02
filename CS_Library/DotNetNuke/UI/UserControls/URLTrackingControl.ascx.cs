@@ -69,6 +69,7 @@ namespace DotNetNuke.UI.UserControls
         public URLTrackingControl()
         {
             Load += new EventHandler( this.Page_Load );
+            this.cmdDisplay = new LinkButton();
             this.cmdDisplay.Click += new EventHandler(cmdDisplay_Click);
             this._URL = "";
             this._FormattedURL = "";
