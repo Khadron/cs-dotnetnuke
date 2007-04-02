@@ -440,7 +440,10 @@ namespace DotNetNuke.UI.WebControls
             {
 
                 img = new Image();
-                if (RequiredUrl == Null.NullString)
+                // HACK : Modified to catch a null or an empty value for
+                // RequiredUrl.
+                //if (RequiredUrl == Null.NullString)
+                if (String.IsNullOrEmpty(RequiredUrl))
                 {
                     img.ImageUrl = "~/images/required.gif";
                 }
