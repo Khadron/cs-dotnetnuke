@@ -37,7 +37,9 @@ namespace DotNetNuke.Modules.Admin.Users
     /// </history>
     public partial class EditProfileDefinition : PortalModuleBase
     {
-        private int PropertyDefinitionId;
+        // HACK : PropertyDefinitionId was not initialized so it was causing an
+        // error when loading the profile definition page.
+        private int PropertyDefinitionId = Null.NullInteger;
 
         /// <summary>
         /// Gets whether we are dealing with SuperUsers
