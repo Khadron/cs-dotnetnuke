@@ -114,7 +114,7 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Controls\WebUtility\DotNetNuke.WebUtility.csproj">
+    <ProjectReference Include="..\..\..\Controls\WebUtility\WebUtility.csproj">
       <Project>{54F96926-802C-408E-A04B-F56859C0308C}</Project>
       <Name>DotNetNuke.WebUtility</Name>
     </ProjectReference>

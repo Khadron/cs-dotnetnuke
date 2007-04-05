@@ -244,12 +244,12 @@ namespace DotNetNuke.Security.Permissions.Controls
         private void ParsePermissionKeys(string[] settings, ArrayList permisions)
         {
             FolderPermissionInfo pi = new FolderPermissionInfo();
-            pi.PermissionID = Convert.ToInt32(settings[1]);
-            pi.RoleID = Convert.ToInt32(settings[4]);
-            pi.RoleName = settings[3];
+            pi.PermissionID = settings.Length > 1 ? Convert.ToInt32(settings[1]) : 0;
+            pi.RoleID = settings.Length > 4 ? Convert.ToInt32(settings[4]) : 0;
+            pi.RoleName = settings.Length > 3 ? settings[3] : "";
             pi.AllowAccess = true;
 
-            if (settings[2] == "")
+            if (settings.Length < 2 || settings[2] == "")
             {
                 pi.FolderPermissionID = -1;
             }

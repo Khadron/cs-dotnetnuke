@@ -1238,7 +1238,7 @@ namespace DotNetNuke.Common
                         //   - and to do that, we need to ensure the string we test against is long enough;
                         if (URL[intURL].Length >= ".aspx".Length) //long enough for both tests
                         {
-                            if ((URL[intURL].LastIndexOf(".aspx") + 1) == (URL[intURL].Length - (".aspx".Length - 1)) | (URL[intURL].LastIndexOf(".axd") + 1) == (URL[intURL].Length - (".axd".Length - 1)))
+                            if ((URL[intURL].LastIndexOf(".aspx") + 1) == (URL[intURL].Length - (".aspx".Length - 1))||(URL[intURL].LastIndexOf(".axd") + 1) == (URL[intURL].Length - (".axd".Length - 1)))
                             {
                                 goto ExitLabel1;
                             }
@@ -1424,7 +1424,7 @@ namespace DotNetNuke.Common
                 IDataReader dr = objFiles.GetFiles(PortalId, objFolder.FolderID);
                 while (dr.Read())
                 {
-                    if ((strExtensions.ToUpper().IndexOf(dr["Extension"].ToString().ToUpper(), 0) + 1) != 0 | strExtensions == "")
+                    if ((strExtensions.ToUpper().IndexOf(dr["Extension"].ToString().ToUpper(), 0) + 1) != 0||strExtensions == "")
                     {
                         string filePath = (portalRoot + dr["Folder"].ToString() + dr["fileName"].ToString()).Replace("/", "\\");
                         int StorageLocation = 0;
@@ -2521,7 +2521,7 @@ namespace DotNetNuke.Common
                     strExtension = File.Substring((File.LastIndexOf(".") + 1));
                 }
                 string FileName = File.Substring(currentDirectory.FullName.Length);
-                if ((strExtensions.ToUpper().IndexOf(strExtension.ToUpper(), 0) + 1) != 0 | strExtensions == "")
+                if ((strExtensions.ToUpper().IndexOf(strExtension.ToUpper(), 0) + 1) != 0 || strExtensions == "")
                 {
                     arrFileList.Add(new FileItem(FileName, FileName));
                 }
