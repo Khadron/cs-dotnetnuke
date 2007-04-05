@@ -113,7 +113,7 @@
       <Project>{2C2FC1EF-C61F-448A-AD25-87391E1208F6}</Project>
       <Name>DotNetNuke.WebControls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Controls\WebUtility\DotNetNuke.WebUtility.csproj">
+    <ProjectReference Include="..\..\..\Controls\WebUtility\WebUtility.csproj">
       <Project>{54F96926-802C-408E-A04B-F56859C0308C}</Project>
       <Name>DotNetNuke.WebUtility</Name>
     </ProjectReference>

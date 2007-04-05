@@ -488,6 +488,105 @@ namespace DotNetNuke.Services.Localization
             return resourceFile;
         }
 
+        // HACK : This method is all wrong!!!
+        // Repalced with new code, see below the commented out code.
+
+//        /// <overloads>One of six overloads</overloads>
+//        /// <summary>
+//        /// GetString gets the localized string corresponding to the resourcekey
+//        /// </summary>
+//        /// <param name="name">The resourcekey to find</param>
+//        /// <param name="resourceFileRoot">The Local Resource root</param>
+//        /// <param name="portalSettings">The current portals Portal Settings</param>
+//        /// <param name="language">A specific language to lookup the string</param>
+//        /// <param name="disableShowMissingKeys">Disables the show missing keys flag</param>
+//        /// <returns>The localized Text</returns>
+//        /// <history>
+//        /// 	[cnurse]	10/06/2004	Documented
+//        /// </history>
+//        public static string GetString(string name, string resourceFileRoot, PortalSettings portalSettings, string language, bool disableShowMissingKeys)
+//        {
+
+//            if(String.IsNullOrEmpty(name))
+//            {
+//                return String.Empty;
+//            }
+
+//            //make the default translation property ".Text"
+//            if (name.IndexOf(".") < 1)
+//            {
+//                name += ".Text";
+//            }
+
+           
+//            //Load the Local Resource Files resources
+//            Hashtable resources = GetResource(resourceFileRoot, portalSettings, language);
+
+//            //If the key can't be found try the Local Shared Resource File resources
+//            if (resourceFileRoot != null && (resources == null || resources[name] == null))
+//            {
+//                //try to use a module specific shared resource file
+//                string localSharedFile = resourceFileRoot.Substring(0, resourceFileRoot.LastIndexOf("/") + 1) + LocalSharedResourceFile;
+//                resources = GetResource(localSharedFile, portalSettings);
+//            }
+
+//            //If the key can't be found try the Shared Resource Files resources
+//            if (resources == null || resources[name] == null)
+//            {
+//                resources = GetResource(SharedResourceFile, portalSettings);
+//            }
+
+//            if (resources == null || resources[name] == null)
+//            {
+//                if(resourceFileRoot!=null && resourceFileRoot.IndexOf(LocalGlobalResourceFile) > 0)
+//                {
+//                    if (ResourceLoader.GetGlobalString(name) == null)
+//                    {
+//                        return "GF" + resourceFileRoot;  // NF is short for Not Found.
+//                    }
+//                    else
+//                    {
+//                        return ResourceLoader.GetGlobalString(name);
+//                    }
+//                }                
+
+//                if (ResourceLoader.GetSharedString(name) == null)
+//                {
+//                    return "SF" + resourceFileRoot;  // NF is short for Not Found.
+//                }
+//                else
+//                {
+//                    return ResourceLoader.GetSharedString(name);
+//                }
+//            }
+//            else
+//            {
+//                //If the key still can't be found then it doesn't exist in the Localization Resources
+//                if (ShowMissingKeys && ! disableShowMissingKeys)
+//                {
+//                    if ( resources[name] == null)
+//                    {
+//                        return "RESX:" + name;
+//                    }
+//                    else
+//                    {
+//                        return "[L]" + resources[name];
+//                    }
+//                }
+
+//                if (resources[name] == null)
+//                {
+//                    return "NF" + resourceFileRoot;  // NF is short for Not Found.
+//                }
+//                else
+//                {
+//                    return resources[name].ToString();
+//                }  
+//            }
+////            return resources[name].ToString();
+//        }
+
+        /// -----------------------------------------------------------------------------
         /// <overloads>One of six overloads</overloads>
         /// <summary>
         /// GetString gets the localized string corresponding to the resourcekey
@@ -501,13 +600,16 @@ namespace DotNetNuke.Services.Localization
         /// <history>
         /// 	[cnurse]	10/06/2004	Documented
         /// </history>
+        /// -----------------------------------------------------------------------------
         public static string GetString(string name, string resourceFileRoot, PortalSettings portalSettings, string language, bool disableShowMissingKeys)
         {
-
             if(String.IsNullOrEmpty(name))
             {
                 return String.Empty;
             }
+            
+            //Load the Local Resource Files resources
+            Hashtable resources = GetResource(resourceFileRoot, portalSettings, language);
 
             //make the default translation property ".Text"
             if (name.IndexOf(".") < 1)
@@ -515,76 +617,43 @@ namespace DotNetNuke.Services.Localization
                 name += ".Text";
             }
 
-           
-            //Load the Local Resource Files resources
-            Hashtable resources = GetResource(resourceFileRoot, portalSettings, language);
-
             //If the key can't be found try the Local Shared Resource File resources
-            if (resourceFileRoot != null && (resources == null || resources[name] == null))
+            if (String.IsNullOrEmpty(resourceFileRoot) && (resources == null || resources[name] == null))
             {
                 //try to use a module specific shared resource file
-                string localSharedFile = resourceFileRoot.Substring(0, resourceFileRoot.LastIndexOf("/") + 1) + LocalSharedResourceFile;
+                string localSharedFile = resourceFileRoot.Substring(0, resourceFileRoot.LastIndexOf("/") + 1) + Localization.LocalSharedResourceFile;
                 resources = GetResource(localSharedFile, portalSettings);
             }
 
             //If the key can't be found try the Shared Resource Files resources
-            if (resources == null || resources[name] == null)
+            if (resources == null || resources[name] == null) 
             {
-                resources = GetResource(SharedResourceFile, portalSettings);
+                resources = GetResource(Localization.SharedResourceFile, portalSettings);
             }
 
-            if (resources == null || resources[name] == null)
+            //If the key still can't be found then it doesn't exist in the Localization Resources
+            if (ShowMissingKeys && !disableShowMissingKeys)
             {
-                if(resourceFileRoot!=null && resourceFileRoot.IndexOf(LocalGlobalResourceFile) > 0)
+                if (resources == null || resources[name] == null)
                 {
-                    if (ResourceLoader.GetGlobalString(name) == null)
-                    {
-                        return "GF" + resourceFileRoot;  // NF is short for Not Found.
-                    }
-                    else
-                    {
-                        return ResourceLoader.GetGlobalString(name);
-                    }
-                }                
-
-                if (ResourceLoader.GetSharedString(name) == null)
-                {
-                    return "SF" + resourceFileRoot;  // NF is short for Not Found.
+                    return "RESX:" + name;
                 }
                 else
                 {
-                    return ResourceLoader.GetSharedString(name);
+                    return "[L]" + resources[name].ToString();
                 }
             }
             else
             {
-                //If the key still can't be found then it doesn't exist in the Localization Resources
-                if (ShowMissingKeys && ! disableShowMissingKeys)
+                if (resources == null || resources[name] == null)
                 {
-                    if ( resources[name] == null)
-                    {
-                        return "RESX:" + name;
-                    }
-                    else
-                    {
-                        return "[L]" + resources[name];
-                    }
-                }
-
-                if (resources[name] == null)
-                {
-                    return "NF" + resourceFileRoot;  // NF is short for Not Found.
+                    return String.Empty;
                 }
                 else
                 {
                     return resources[name].ToString();
-                }  
+                }
             }
-
-            
-            
-            
-//            return resources[name].ToString();
         }
 
         /// <overloads>One of six overloads</overloads>

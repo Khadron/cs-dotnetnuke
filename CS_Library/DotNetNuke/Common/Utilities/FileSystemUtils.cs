@@ -134,7 +134,7 @@ namespace DotNetNuke.Common.Utilities
             int intFileID = objFileController.AddFile( portalId, sourceFileName, extension, length, Null.NullInteger, Null.NullInteger, contentType, folderName, folder.FolderID, clearCache );
 
             //Save file to File Storage
-            if( folder.StorageLocation != (int)FolderController.StorageLocationTypes.InsecureFileSystem | synchronize == false )
+            if( folder.StorageLocation != (int)FolderController.StorageLocationTypes.InsecureFileSystem || synchronize == false )
             {
                 WriteStream( intFileID, inStream, fileName, folder.StorageLocation, closeInputStream );
             }
@@ -373,7 +373,7 @@ namespace DotNetNuke.Common.Utilities
                         objResponse.ClearHeaders();
 
                         // force download dialog
-                        if( ForceDownload | objFile.Extension.ToLower().Equals( "pdf" ) )
+                        if( ForceDownload || objFile.Extension.ToLower().Equals( "pdf" ) )
                         {
                             objResponse.AppendHeader( "content-disposition", "attachment; filename=" + objFile.FileName );
                         }
@@ -924,7 +924,7 @@ namespace DotNetNuke.Common.Utilities
                         {
                             string strExtension = Path.GetExtension( strFileName ).Replace( ".", "" );
                             string a = "," + settings.HostSettings["FileExtensions"].ToString().ToLower();
-                            if( ( a.IndexOf( "," + strExtension.ToLower(), 0 ) + 1 ) != 0 | isHost )
+                            if( ( a.IndexOf( "," + strExtension.ToLower(), 0 ) + 1 ) != 0 || isHost )
                             {
                                 try
                                 {
@@ -1406,7 +1406,7 @@ namespace DotNetNuke.Common.Utilities
 
                 if( folder != null )
                 {
-                    if( syncFiles == true & ( isInSync == false | forceFolderSync == true ) )
+                    if( syncFiles == true & ( isInSync == false || forceFolderSync == true ) )
                     {
                         //Get Physical Files in this Folder and sync them
                         string[] strFiles = Directory.GetFiles( physicalPath );
@@ -1563,8 +1563,11 @@ namespace DotNetNuke.Common.Utilities
                 Image imgImage = null;
                 int imageWidth = 0;
                 int imageHeight = 0;
-
-                if( Convert.ToBoolean( ( Globals.glbImageFileTypes + ",".IndexOf( extension.ToLower() + ",", 0 ) + 1 ) ) )
+                
+                // HACK : VB version of this line used InStr() and converted the outputed
+                // int to a boolean to check if the file extention was an image type,
+                // which does not work in C# hence the line as it is now.
+                if((Globals.glbImageFileTypes.IndexOf(extension.ToLower())+1) > 0)
                 {
                     try
                     {

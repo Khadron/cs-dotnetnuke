@@ -532,7 +532,7 @@ namespace DotNetNuke.UI.Utilities
             else
             {
                 string[] splitter = { COLUMN_DELIMITER };
-                return s.Split(splitter, StringSplitOptions.None)[0];
+                return s.Split(splitter, StringSplitOptions.None)[1];
             }
         }
 
@@ -558,7 +558,7 @@ namespace DotNetNuke.UI.Utilities
             else
             {
                 string[] splitter = { COLUMN_DELIMITER };
-                return s.Split(splitter, StringSplitOptions.None)[0];
+                return s.Split(splitter, StringSplitOptions.None)[1];
             }
         }
 

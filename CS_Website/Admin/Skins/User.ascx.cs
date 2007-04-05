@@ -116,7 +116,7 @@ namespace DotNetNuke.UI.Skins.Controls
                                 hypRegister.NavigateUrl = Globals.NavigateURL( "Register" );
                             }
                         }                        
-                        if (PortalSettings.Users < PortalSettings.UserQuota | PortalSettings.UserQuota == 0)
+                        if (PortalSettings.Users < PortalSettings.UserQuota||PortalSettings.UserQuota == 0)
                         {
                             hypRegister.Visible = true;
                         }

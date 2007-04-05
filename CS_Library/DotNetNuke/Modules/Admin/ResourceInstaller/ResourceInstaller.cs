@@ -41,7 +41,7 @@ namespace DotNetNuke.Modules.Admin.ResourceInstaller
                 File.SetAttributes(fileName, FileAttributes.Normal);
                 // HACK : commenting these lines out so the modules and
                 // things are not deleted during the install process.
-                //File.Delete(fileName);
+                File.Delete(fileName);
             }
             catch (Exception)
             {

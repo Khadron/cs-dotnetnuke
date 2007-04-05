@@ -716,7 +716,6 @@ namespace DotNetNuke.UI.WebControls
                     //Create a new table
                     tbl = new Table();
                     tbl.ID = "tbl";
-
                     foreach (object obj in UnderlyingDataSource)
                     {
                         //Add the Editor Row to the Table
@@ -725,7 +724,6 @@ namespace DotNetNuke.UI.WebControls
                             AddEditorRow(ref tbl, obj);
                         }
                     }
-
 
                     //Add the Table to the Controls Collection
                     Controls.Add(tbl);
