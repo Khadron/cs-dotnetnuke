@@ -22,6 +22,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DotNetNuke.Modules.NavigationProvider;
 using DotNetNuke.UI.WebControls;
+using DotNetNuke.UI.UserControls;
 
 namespace DotNetNuke.NavigationControl
 {

@@ -47,7 +47,7 @@ namespace DotNetNuke.Entities.Users
         private int _AffiliateID;
         private UserMembership _Membership;
         private UserProfile _Profile;
-        private string[] _Roles;
+        private string[] _Roles;       
 
         public UserInfo()
         {
@@ -285,7 +285,7 @@ namespace DotNetNuke.Entities.Users
                 //in their own code
                 this.Membership.Username = value;
             }
-        }
+        }        
 
         /// <summary>
         /// IsInRole determines whether the user is in the role passed

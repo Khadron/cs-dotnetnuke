@@ -1,0 +1,253 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{92275BB2-2780-4279-8BC8-C79935B2B114}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>DotNetNuke.WebControls</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <RootNamespace>
+    </RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>DotNetNuke.WebControls.xml</DocumentationFile>
+    <BaseAddress>1380712448</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>DotNetNuke.WebControls.xml</DocumentationFile>
+    <BaseAddress>1380712448</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management">
+      <Name>System.Management</Name>
+      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+      <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.XML.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Management" />
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\DNNNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\DNNNodeCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\HTMLElement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\HTMLElementCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\Interfaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\NodeImage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\NodeImageCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\WebControls.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\XmlCollectionBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNLabelEdit\DNNLabelEdit.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNLabelEdit\DNNLabelEditEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNMenu\DNNMenu.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNMenu\DNNMenuDesigner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNMenu\DNNMenuEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNMenu\DNNMenuNodeClickEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNMenu\DNNMenuUpLevelWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNMenu\DNNMenuWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNMenu\MenuNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNMenu\MenuNodeCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNMenu\MenuNodeWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTabStrip\DNNTab.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTabStrip\DNNTabLabel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTabStrip\DNNTabStrip.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTabStrip\DNNTabStripDesigner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTabStrip\TabStripTabCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTextSuggest\DNNTextSuggest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTextSuggest\DNNTextSuggestDesigner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTextSuggest\DNNTextSuggestEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNToolbar\DNNToolBar.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNToolbar\DNNToolBarButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNToolbar\DNNToolBarButtonActionTypeConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNToolbar\DNNToolBarButtonCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNToolbar\DNNToolBarDesigner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTree\DNNTree.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTree\DNNTreeDesigner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTree\DNNTreeEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTree\DNNTreeNodeClickEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTree\DNNTreeUpLevelWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTree\DNNTreeWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTree\TreeNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTree\TreeNodeCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DNNTree\TreeNodeWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="DNNTree\DotNetNuke.Web.UI.WebControls.DnnTree.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebUtility\DotNetNuke.WebUtility.csproj">
+      <Project>{54F96926-802C-408E-A04B-F56859C0308C}</Project>
+      <Name>DotNetNuke.WebUtility</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

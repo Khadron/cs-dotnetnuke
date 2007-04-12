@@ -61,7 +61,7 @@ namespace DotNetNuke.UI.Utilities
         {
             get
             {
-                if( this.m_objPage.Request.Form["ctx"].Length <= 0 )
+                if(this.m_objPage.Request.Form["ctx"] == null || string.IsNullOrEmpty(this.m_objPage.Request.Form["ctx"].ToString()) )
                 {
                     return TransportTypeCode.XMLHTTP;
                 }

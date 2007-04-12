@@ -52,21 +52,25 @@ namespace DotNetNuke.Services.Localization
             Host = 2,
         }
         private static string strShowMissingKeys = "";
-        private static string strUseBrowserLanguageDefault = "";
-        public const string ApplicationResourceDirectory = "~/App_GlobalResources";
+        private static string strUseBrowserLanguageDefault = "";        
         public const string ApplicationConfigDirectory = "~/Config";
-        public const string GlobalResourceFile = "~/App_GlobalResources/GlobalResources.resx";
+        private static string _defaultKeyName;
+        public const string LocalGlobalResourceFile = "GlobalResources.resx";
+
         internal const string keyConst = "resourcekey";
+        public const string SystemLocale = "en-US";
+        public const string SharedResourceFile = ApplicationResourceDirectory + "/SharedResources.resx";
         public const string LocalResourceDirectory = "App_LocalResources";
         public const string LocalSharedResourceFile = "SharedResources.resx";
-        public const string LocalGlobalResourceFile = "GlobalResources.resx";
-        public const string SharedResourceFile = "~/App_GlobalResources/SharedResources.resx";
-        public const string SupportedLocalesFile = "~/Config/Locales.xml";
-        public const string SystemLocale = "en-US";
-        public const int SystemTimeZoneOffset = -480;
-        public const string TimezonesFile = "~/Config/TimeZones.xml";
-        private static string _defaultKeyName;
-
+        public const string ApplicationResourceDirectory = "~/App_GlobalResources";
+        //public const string GlobalResourceFile = "~/App_GlobalResources/GlobalResources.resx";
+        public const string GlobalResourceFile = ApplicationResourceDirectory + "/GlobalResources.resx";
+        //public const string SupportedLocalesFile = "~/Config/Locales.xml";
+        public const string SupportedLocalesFile = ApplicationResourceDirectory + "/Locales.xml";
+        //public const string TimezonesFile = "~/Config/TimeZones.xml";
+        public const string TimezonesFile = ApplicationResourceDirectory + "/TimeZones.xml";
+        public const int SystemTimeZoneOffset = -480;        
+        
         /// <Summary>
         /// The CurrentCulture returns the current Culture being used is 'key'.
         /// </Summary>

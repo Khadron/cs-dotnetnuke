@@ -245,12 +245,12 @@ namespace DotNetNuke.Security.Permissions.Controls
             TabPermissionInfo objTabPermission;
 
             objTabPermission = new TabPermissionInfo();
-            objTabPermission.PermissionID = Convert.ToInt32( Settings[1] );
-            objTabPermission.RoleID = Convert.ToInt32( Settings[4] );
-            objTabPermission.RoleName = Settings[3];
+            objTabPermission.PermissionID = Settings.Length <= 1 ? 0 : Convert.ToInt32( Settings[1] );
+            objTabPermission.RoleID = Settings.Length <= 4 ? 0 : Convert.ToInt32(Settings[4]);
+            objTabPermission.RoleName = Settings.Length <= 3 ? "" : Settings[3];
             objTabPermission.AllowAccess = true;
 
-            if( Settings[2] == "" )
+            if(Settings.Length <= 2 || String.IsNullOrEmpty(Settings[2]))
             {
                 objTabPermission.TabPermissionID = -1;
             }
