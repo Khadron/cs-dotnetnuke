@@ -383,9 +383,9 @@ namespace DotNetNuke.UI.Skins.Controls
             this.Bind( objNodes );
 
             //technically this should always be a dnntree.  If using dynamic controls Nav.ascx should be used.  just being safe.
-            if( this.Control.NavigationControl is DnnTree )
+            if( this.Control.NavigationControl is DNNTree )
             {
-                DnnTree objTree = (DnnTree)this.Control.NavigationControl;
+                DNNTree objTree = (DNNTree)this.Control.NavigationControl;
                 if( objTree.SelectedTreeNodes.Count > 0 )
                 {
                     TreeNode objTNode = (TreeNode)objTree.SelectedTreeNodes[1];
@@ -403,7 +403,7 @@ namespace DotNetNuke.UI.Skins.Controls
             //	objParent.HasNodes = False
             //End If
 
-            if( objParent.Image.Length > 0 )
+            if( !String.IsNullOrEmpty(objParent.Image) )
             {
                 //imagepath applied in provider...
             }
@@ -434,52 +434,52 @@ namespace DotNetNuke.UI.Skins.Controls
         /// </history>
         private void InitializeTree()
         {
-            if( this.PathImage.Length == 0 )
+            if( String.IsNullOrEmpty(this.PathImage) )
             {
                 this.PathImage = PortalSettings.HomeDirectory;
             }
-            if( this.PathSystemImage.Length == 0 )
+            if( String.IsNullOrEmpty(this.PathSystemImage) )
             {
                 this.PathSystemImage = ResolveUrl( "~/images/" );
             }
             //DNNTree.IndentWidth = TreeIndentWidth	'FIX!
-            if( this.IndicateChildImageRoot.Length == 0 )
+            if( String.IsNullOrEmpty(this.IndicateChildImageRoot) )
             {
                 this.IndicateChildImageRoot = ResolveUrl( NodeExpandImage );
             }
-            if( this.IndicateChildImageSub.Length == 0 )
+            if( String.IsNullOrEmpty(this.IndicateChildImageSub) )
             {
                 this.IndicateChildImageSub = ResolveUrl( NodeExpandImage );
             }
-            if( this.IndicateChildImageExpandedRoot.Length == 0 )
+            if( String.IsNullOrEmpty(this.IndicateChildImageExpandedRoot) )
             {
                 this.IndicateChildImageExpandedRoot = ResolveUrl( NodeCollapseImage );
             }
-            if( this.IndicateChildImageExpandedSub.Length == 0 )
+            if( String.IsNullOrEmpty(this.IndicateChildImageExpandedSub) )
             {
                 this.IndicateChildImageExpandedSub = ResolveUrl( NodeCollapseImage );
             }
-            if( this.CSSNode.Length == 0 )
+            if( String.IsNullOrEmpty(this.CSSNode) )
             {
                 this.CSSNode = NodeChildCssClass; //.DefaultChildNodeCssClass
             }
-            if( this.CSSNodeRoot.Length == 0 )
+            if( String.IsNullOrEmpty(this.CSSNodeRoot) )
             {
                 this.CSSNodeRoot = NodeCssClass; //DefaultNodeCssClass	???
             }
-            if( this.CSSNodeHover.Length == 0 )
+            if( String.IsNullOrEmpty(this.CSSNodeHover) )
             {
                 this.CSSNodeHover = NodeOverCssClass; //DefaultNodeCssClassOver
             }
-            if( this.CSSNodeSelectedRoot.Length == 0 )
+            if( String.IsNullOrEmpty(this.CSSNodeSelectedRoot) )
             {
                 this.CSSNodeSelectedRoot = NodeSelectedCssClass; //DefaultNodeCssClassSelected
             }
-            if( this.CSSNodeSelectedSub.Length == 0 )
+            if( String.IsNullOrEmpty(this.CSSNodeSelectedSub) )
             {
                 this.CSSNodeSelectedSub = NodeSelectedCssClass; //DefaultNodeCssClassSelected
             }
-            if( this.CSSControl.Length == 0 )
+            if( String.IsNullOrEmpty(this.CSSControl) )
             {
                 this.CSSControl = TreeCssClass; //CssClass
             }
@@ -588,7 +588,7 @@ namespace DotNetNuke.UI.Skins.Controls
             Response.Redirect( Globals.ApplicationURL( int.Parse( args.Node.Key ) ), true );
         }
 
-        private void DNNTree_PopulateOnDemand( NavigationEventArgs args ) //Handles DnnTree.PopulateOnDemand
+        private void DNNTree_PopulateOnDemand( NavigationEventArgs args ) //Handles DNNTree.PopulateOnDemand
         {
             if( args.Node == null )
             {

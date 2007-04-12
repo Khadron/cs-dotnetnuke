@@ -1,0 +1,3773 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotNetNuke.WebControls</name>
+    </assembly>
+    <members>
+        <member name="M:DotNetNuke.UI.Design.WebControls.DNNTabStripDesigner.GetDesignTimeHtml">
+            -----------------------------------------------------------------------------
+            <summary>
+            This class allows us to render the design time mode with custom HTML
+            </summary>
+            <remarks>
+            The reason for implementing this class is to allow a default tabstrip to be 
+            shown at design-time, when no tabs are present in the html
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.Design.WebControls.DNNToolBarDesigner.GetDesignTimeHtml">
+            -----------------------------------------------------------------------------
+            <summary>
+            This class allows us to render the design time mode with custom HTML
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	9/20/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTab.AddAttributesToRender(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Adds HTML attributes and styles that need to be rendered to the specified System.Web.UI.HtmlTextWriter. 
+            </summary>
+            <value></value>
+            <remarks>
+            The attributes handled by this method include:  display, label id, tabid, and class (css)
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTab.SetTabState(System.Boolean)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows tab to have its postback property set
+            </summary>
+            <value></value>
+            <remarks>
+            Assigned based off of posted data during tabstrip load
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTab.SetParent(DotNetNuke.UI.WebControls.DNNTabStrip)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows tab to be assigned a parent.  
+            </summary>
+            <value></value>
+            <remarks>
+            Needed for callback scenerios where the tab is passed as a parameter
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTab.RaiseSetupDefaultsEvent(System.Boolean)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Need a way to raise the event 
+            </summary>
+            <value></value>
+            <remarks>
+            Couldn't think of a better name
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTab.RenderLabel(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            There are 2 parts to render for each tab.  The Label and the panel with the contents.
+            The contents are rendered through the normal rendering methods, however, an explicit call
+            is made to render the label since we may render the label but not the contents
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTab.IsPostBack">
+            -----------------------------------------------------------------------------
+            <summary>
+            This property allows the developer to determine whether or not the controls
+            contained within the tab are part of the postback.
+            </summary>
+            <value></value>
+            <remarks>
+            The controls within a tab that is rendered on demand will need to use this
+            property instead of the Page's IsPostback method.
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTab.IsCallBack">
+            -----------------------------------------------------------------------------
+            <summary>
+            This property allows the developer to determine whether or not the controls
+            contained within the tab are part of the callback.
+            </summary>
+            <value></value>
+            <remarks>
+            The controls within a tab that is rendered on demand will possibly use this
+            property for defaulting data.
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTab.ParentControl">
+            -----------------------------------------------------------------------------
+            <summary>
+            Access to the control containing this tab is necessary in order to pull
+            properties pertaining to the tab.  For example, css.
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTab.IsSelected">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows developer to determine if this tab is currently selected or not
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTab.TabRenderMode">
+            -----------------------------------------------------------------------------
+            <summary>
+            Assigns how the tabs will be rendered.
+            </summary>
+            <value></value>
+            <remarks>
+            All - All tabs along with the html of the controls are sent down to the client.   
+            When user changes the tab dhtml is used to display
+            Postback - Only the selected tab and the html of the controls within it are sent 
+            to the client.  When the user clicks another tab a postback occurs causing a new tab 
+            to display.
+            Callback - Only the selected tab and the html of the controls within it are sent 
+            to the client.  When the user clicks another tab a callback occurs to retrieve the html
+            for the new tab.
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTab.TabCallbackPostMode">
+            -----------------------------------------------------------------------------
+            <summary>
+            If tab is rendered through callback, this property determines what data is available
+            to the callback handler
+            </summary>
+            <value></value>
+            <remarks>
+            None - Only the minimal information to perform a callback is passed.   
+            DNNVariable - Only the variables set through the ClientAPI are posted
+            Tab - All form data from the rendered tab's conrols is posted
+            Form - The entire form's data is posted
+            </remarks>
+            <history>
+            	[Jon Henning]	8/23/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTab.CallBackType">
+            -----------------------------------------------------------------------------
+            <summary>
+            This property determines what type of callback is used
+            </summary>
+            <value></value>
+            <remarks>
+            The Simple callback short-circuits at the Page Init event while the ProcessPage
+            will run the page through the entire page's lifecycle.
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="T:DotNetNuke.UI.WebControls.IDNNTreeWriter">
+            <summary>
+            IDNNTreeWriter interface declaration. All the objects which want to implement
+            a writer class for the DNNTree should inherit from this interface.
+            </summary>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.IDNNTreeWriter.RenderTree(System.Web.UI.HtmlTextWriter,DotNetNuke.UI.WebControls.DNNTree)">
+            <summary>
+            When implemented renders the tree.
+            </summary>
+            <param name="writer"></param>
+            <param name="tree"></param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTreeUpLevelWriter.#ctor">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTreeUpLevelWriter.RenderTree(System.Web.UI.HtmlTextWriter,DotNetNuke.UI.WebControls.DNNTree)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="tree"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTreeUpLevelWriter.RenderContents(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            	[jhenning] 2/22/2005	Added properties
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTreeUpLevelWriter.RenderChildren(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabLabel.Text">
+            -----------------------------------------------------------------------------
+            <summary>
+            Text to display on the Tab
+            </summary>
+            <value></value>
+            <remarks>
+            NotifyParentPropertyAttribute - (with the constructor argument equal to true) applied to the Text property causes the editor to serialize changes in these properties into their parent property, an instance of the Tab class.
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabLabel.CssClassSelected">
+            -----------------------------------------------------------------------------
+            <summary>
+            Css class name to use for a selected tab
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabLabel.CssClassHover">
+            -----------------------------------------------------------------------------
+            <summary>
+            Css class name to use for a hovered tab
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabLabel.CssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            Css class name to use for a tab
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabLabel.CssClassDisabled">
+            -----------------------------------------------------------------------------
+            <summary>
+            Css class name to use for a tab
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabLabel.ImageUrl">
+            -----------------------------------------------------------------------------
+            <summary>
+            Url of image to display next to text of tab
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="T:DotNetNuke.UI.WebControls.ITreeNodeWriter">
+            <summary>
+            ITreeNodeWriter interface declaration. All the objects which want to implement
+            a writer class for the TreeNode should inherit from this interface.
+            </summary>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.ITreeNodeWriter.RenderNode(System.Web.UI.HtmlTextWriter,DotNetNuke.UI.WebControls.TreeNode)">
+            <summary>
+            When implemented renders an Node inside the tree.
+            </summary>
+            <param name="writer"></param>
+            <param name="Node"></param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeWriter.RenderNode(System.Web.UI.HtmlTextWriter,DotNetNuke.UI.WebControls.TreeNode)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="Node"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeWriter.Render(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            	[Jon Henning] 11/28/2005 Added iscrawler logic
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeWriter.RenderContents(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeWriter.RenderOpenTag(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeWriter.RenderExpandNodeIcon(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            	[Jon Henning] 11/28/2005 Added iscrawler logic
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeWriter.RenderNodeCheckbox(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeWriter.RenderNodeIcon(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeWriter.RenderNodeText(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeWriter.RenderSpacer(System.Web.UI.HtmlTextWriter,System.Int32)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="Width"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeWriter.RenderChildren(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNLabelEditEventArgs.#ctor(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="nodes"></param>
+            <param name="text"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNLabelEdit.#ctor">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	10/10/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNLabelEdit.SaveViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	10/10/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNLabelEdit.LoadViewState(System.Object)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="state"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	10/10/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNLabelEdit.TrackViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	10/10/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNLabelEdit.RegisterClientScript">
+            -----------------------------------------------------------------------------
+            <summary>
+            Determines if client supports an uplevel rendering, and if so it registers
+            the appropriate scripts.
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNLabelEdit.LostFocusSave">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns whether the LabelEdit will save when contol looses focus
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNLabelEdit.IsDownLevel">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns whether the LabelEdit will render DownLevel or not
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Commented
+            	[Jon Henning]	3/9/2005	Requiring XML support on client for uplevel
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNLabelEdit.ClientAPIScriptPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of ClientAPI js files 
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNLabelEdit.LabelEditScriptPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of dnn.controls.DNNLabelEdit.js file
+            </summary>
+            <value></value>
+            <remarks>
+            Since 1.1 this path will be the same as the ClientAPI path.
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNLabelEdit.SystemImagesPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of system images (i.e. spacer.gif)
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNLabelEdit.CallbackStatusFunction">
+            -----------------------------------------------------------------------------
+            <summary>
+            If callbacks are supported/enabled, this javascript function will be invoked
+            with each status change of the xmlhttp request.
+            </summary>
+            <value></value>
+            <remarks>
+            The Javascript transport does not raise any events.
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNLabelEdit.CallBackType">
+            -----------------------------------------------------------------------------
+            <summary>
+            This property determines what type of callback is used
+            </summary>
+            <value></value>
+            <remarks>
+            The Simple callback short-circuits at the Page Init event while the ProcessPage
+            will run the page through the entire page's lifecycle.
+            </remarks>
+            <history>
+            	[Jon Henning]	9/14/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNLabelEdit.BeforeSaveFunction">
+            -----------------------------------------------------------------------------
+            <summary>
+            This javascript function will be invoked just before persisting the data
+            </summary>
+            <value></value>
+            <remarks>
+            To cancel a tab from changing return false from this function
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTreeEventArgs.#ctor(DotNetNuke.UI.WebControls.TreeNode)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="node"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTreeEventArgs.Node">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="T:DotNetNuke.UI.WebControls.IDNNMenuWriter">
+            <summary>
+            IDNNMenuWriter interface declaration. All the objects which want to implement
+            a writer class for the DNNMenu should inherit from this interface.
+            </summary>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.IDNNMenuWriter.RenderMenu(System.Web.UI.HtmlTextWriter,DotNetNuke.UI.WebControls.DNNMenu)">
+            <summary>
+            When implemented renders the Menu.
+            </summary>
+            <param name="writer"></param>
+            <param name="Menu"></param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenuWriter.#ctor">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[jhenning]	9/21/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenuWriter.RenderMenu(System.Web.UI.HtmlTextWriter,DotNetNuke.UI.WebControls.DNNMenu)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="Menu"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jhenning]	9/21/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenuWriter.RenderContents(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jhenning]	9/21/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenuWriter.RenderChildren(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jhenning]	9/21/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenu.#ctor">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenu.Render(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Responsible for rendering the DNNMenu and in an uplevel rendering of the Menu, sending down the xml for the child nodes in a ClientAPI variable.
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            	[Jon Henning 4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenu.OnInit(System.EventArgs)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenu.SaveViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenu.LoadViewState(System.Object)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="state"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenu.TrackViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenu.RaisePostBackEvent(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="eventArgument"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenu.OnNodeClick(DotNetNuke.UI.WebControls.DNNMenuNodeClickEventArgs)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	10/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenu.RegisterDNNVariableControl">
+            -----------------------------------------------------------------------------
+            <summary>
+            Responsible for inputting the hidden field necessary for the ClientAPI to pass variables back in forth
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenu.RegisterClientScript">
+            -----------------------------------------------------------------------------
+            <summary>
+            Determines if client supports an uplevel rendering, and if so it registers
+            the appropriate scripts.
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenu.FindNode(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Finds Node by passed in Key. 
+            </summary>
+            <param name="strID">ID of node</param>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	11/17/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenu.FindNodeByKey(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Finds Node by passed in Key. 
+            </summary>
+            <param name="strKey">Key of node</param>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	11/17/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.ForceDownLevel">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows developer to force the rendering of the Menu in DownLevel mode
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.IsDownLevel">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns whether the Menu will render DownLevel or not
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Commented
+            	[Jon Henning]	3/9/2005	Requiring XML support on client for uplevel
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.ClientAPIScriptPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of ClientAPI js files 
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.MenuScriptPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of dnn.controls.DNNMenu.js file
+            </summary>
+            <value></value>
+            <remarks>
+            Since 1.1 this path will be the same as the ClientAPI path.
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.SystemImagesPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of system images (i.e. spacer.gif)
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.MenuNodes">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.SelectedMenuNodes">
+            -----------------------------------------------------------------------------
+            <summary>
+            Holds collection of selected node objects
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.RootArrowImage">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.ChildArrowImage">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.Target">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.ImageList">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.DefaultNodeCssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.DefaultChildNodeCssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.DefaultNodeCssClassOver">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.MenuBarCssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.MenuWriter">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.JSFunction">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows you to have a common JS function be invoked for all nodes, unless
+            a different JS function is provided on the node level.
+            </summary>
+            <value></value>
+            <remarks>
+            If the client-side function returns false, the action associated to the node 
+            selection will be canceled
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.PopulateNodesFromClient">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows the nodes to be populated on the client 
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenu.CallbackStatusFunction">
+            -----------------------------------------------------------------------------
+            <summary>
+            If callbacks are supported/enabled, this javascript function will be invoked
+            with each status change of the xmlhttp request.
+            </summary>
+            <value></value>
+            <remarks>
+            The Javascript transport does not raise any events.
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.XmlCollectionBase.#ctor(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Constructor to call when creating a Root Node
+            </summary>
+            <param name="strNamespace">Namespace of node hierarchy</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.XmlCollectionBase.#ctor(System.String,System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Loads node collection based off of XML string
+            </summary>
+            <param name="strXML">XML string</param>
+            <param name="strXSLFile">XSL FileName.  Leave empty if no transform needed</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.XmlCollectionBase.#ctor(System.Xml.XmlNode)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Constructor for all nodes that are not the root.  
+            </summary>
+            <param name="objXmlNode">Node whose children will be exposed by this class</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNNodeCollection.#ctor(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Constructor to call when creating a Root Node
+            </summary>
+            <param name="strNamespace">Namespace of node hierarchy</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNNodeCollection.#ctor(System.String,System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Loads node collection based off of XML string
+            </summary>
+            <param name="strXML">XML string</param>
+            <param name="strXSLFile">XSL FileName.  Leave empty if no transform needed</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNNodeCollection.#ctor(System.Xml.XmlNode)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Constructor for all nodes that are not the root.  
+            </summary>
+            <param name="objXmlNode">Node whose children will be exposed by this class</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.MenuNodeCollection.#ctor(System.String,DotNetNuke.UI.WebControls.DNNMenu)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Constructor to call when creating a Root Node
+            </summary>
+            <param name="strNamespace">Namespace of node hierarchy</param>
+            <param name="objControl">DnnMenu control associated to MenuNodeCollection</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.MenuNodeCollection.#ctor(System.String,System.String,DotNetNuke.UI.WebControls.DNNMenu)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Loads node collection based off of XML string
+            </summary>
+            <param name="strXML">XML String</param>
+            <param name="strXSLFile">XSL FileName.  Leave empty if no transform needed</param>
+            <param name="objControl">DNN Menu control</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.MenuNodeCollection.#ctor(System.Xml.XmlNode,DotNetNuke.UI.WebControls.DNNMenu)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Constructor for all nodes that are not the root.  
+            </summary>
+            <param name="objXmlNode">Node whose children will be exposed by this class</param>
+            <param name="objControl">DNN Menu control</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeCollection.#ctor(System.String,DotNetNuke.UI.WebControls.DNNTree)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Constructor to call when creating a Root Node
+            </summary>
+            <param name="strNamespace">Namespace of node hierarchy</param>
+            <param name="objControl">DNNTree control associated to TreeNodeCollection</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeCollection.#ctor(System.String,System.String,DotNetNuke.UI.WebControls.DNNTree)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Loads node collection based off of XML string
+            </summary>
+            <param name="strXML">XML String</param>
+            <param name="strXSLFile">XSL FileName.  Leave empty if no transform needed</param>
+            <param name="objControl">DNN Tree control</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeCollection.#ctor(System.Xml.XmlNode,DotNetNuke.UI.WebControls.DNNTree)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Constructor for all nodes that are not the root.  
+            </summary>
+            <param name="objXmlNode">Node whose children will be exposed by this class</param>
+            <param name="objControl">DNN Tree control</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeCollection.LoadViewState(System.Object)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="state"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeCollection.SaveViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNodeCollection.TrackViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="F:DotNetNuke.UI.WebControls.DNNTabStrip.m_iSelectedIndex">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns the index of the tab that is currently selected
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.DNNTabStrip_Init(System.Object,System.EventArgs)">
+            -----------------------------------------------------------------------------
+            <summary>
+            The init handler is responsible to register the dnnvariable control.
+            We are also loading the posted values in this method
+            </summary>
+            <param name="e"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.OnPreRender(System.EventArgs)">
+            -----------------------------------------------------------------------------
+            <summary>
+            The prerender event handler is responsible for registering the required scripts along with 
+            setting up the postback logic
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/8/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+            
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.AddAttributesToRender(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            This method is overriden to make sure the custom attributes for our control
+            get written
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.RenderContents(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            The overridden sub is responsible for rendering our tab's labels along with
+            the tabs content panels that either are selected, previously rendered, or are 
+            supposed to be rendered based off of TabRenderMode
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.AddParsedSubObject(System.Object)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Make sure controls added between opening and closing tags are of type DNNTab
+            </summary>
+            <param name="obj"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.RaiseClientAPICallbackEvent(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            This funciton is called during a callback.  It is responsible for returning the
+            html of the passed in tab
+            </summary>
+            <param name="eventArgument"></param>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.RaisePostBackEvent(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Handles tab's postback
+            </summary>
+            <param name="eventArgument"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.GetTabContents(DotNetNuke.UI.WebControls.DNNTab)">
+            -----------------------------------------------------------------------------
+            <summary>
+            This method is responsible for obtaining the HTML of a given tab.
+            </summary>
+            <param name="objTab"></param>
+            <returns></returns>
+            <remarks>
+            The original technique used here is the same as the one found on this site.
+            http://aspnet.4guysfromrolla.com/articles/102203-1.2.aspx
+            
+            EventValidation must be disabled in order to work (.NET 2.0 specific)
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.LoadPostedVars">
+            -----------------------------------------------------------------------------
+            <summary>
+            Loads state of tabs through the ClientAPIs variables set
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.AssignSelectedIndex">
+            -----------------------------------------------------------------------------
+            <summary>
+            Assigns the selected index for the currently selected tab
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.GetTabIds">
+            -----------------------------------------------------------------------------
+            <summary>
+            Obtains a list of client-side tabids
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.ParentOnLoad(System.Object,System.EventArgs)">
+            -----------------------------------------------------------------------------
+            <summary>
+            This routine is necessary in some cases to register the DNNVariable hidden input
+            </summary>
+            <param name="Sender"></param>
+            <param name="e"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTabStrip.RegisterClientScript">
+            -----------------------------------------------------------------------------
+            <summary>
+            Registers client-side script for the control
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.CallbackStatusFunction">
+            -----------------------------------------------------------------------------
+            <summary>
+            If callbacks are supported/enabled, this javascript function will be invoked
+            with each status change of the xmlhttp request.
+            </summary>
+            <value></value>
+            <remarks>
+            The Javascript transport does not raise any events.
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.TabClickFunction">
+            -----------------------------------------------------------------------------
+            <summary>
+            This javascript function will be invoked whenever the user clicks on a tab
+            other than the currently selected one
+            </summary>
+            <value></value>
+            <remarks>
+            To cancel a tab from changing return false from this function
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.SelectedIndexChangedFunction">
+            -----------------------------------------------------------------------------
+            <summary>
+            This javascript function will be invoked whenever the selectedIndex changes
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.ClientAPIScriptPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of ClientAPI js files 
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.TabStripScriptPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of dnn.controls.dnntabstrip.js file
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.ForceDownLevel">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows developer to force the rendering of the Menu in DownLevel mode
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.IsCrawler">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows developer to force the rendering of the control as it is shown to a crawler
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.IsDownLevel">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns whether the TabStrip will render DownLevel or not
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.TabRenderMode">
+            -----------------------------------------------------------------------------
+            <summary>
+            Assigns how the tabs will be rendered.
+            </summary>
+            <value></value>
+            <remarks>
+            All - All tabs along with the html of the controls are sent down to the client.   
+            When user changes the tab dhtml is used to display
+            Postback - Only the selected tab and the html of the controls within it are sent 
+            to the client.  When the user clicks another tab a postback occurs causing a new tab 
+            to display.
+            Callback - Only the selected tab and the html of the controls within it are sent 
+            to the client.  When the user clicks another tab a callback occurs to retrieve the html
+            for the new tab.
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.SelectedTab">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns the tab that is currently selected
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.Tabs">
+            -----------------------------------------------------------------------------
+            <summary>
+            This property Exposes the tabstrip's tab collection
+            </summary>
+            <value></value>
+            <remarks>
+            DesignerSerializationVisibilityAttribute - Setting the Content parameter specifies that a visual designer should serialize the contents of the property. In the example, the property contains Tab objects.
+            PersistenceModeAttribute - Passing the InnerDefaultProperty parameter specifies that a visual designer should persist the property to which the attribute is applied as an inner default property. This means that a visual designer persists the property within the control's tags. The attribute can be applied to only one property, because only one property can be persisted within the control's tags. The property value is not wrapped in a special tag.
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.DefaultLabel">
+            -----------------------------------------------------------------------------
+            <summary>
+            Default properties to use for a tab's label
+            </summary>
+            <value></value>
+            <remarks>
+            This is more efficient to use (less payload) than specifying the same properties
+            on each individual tab
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.DefaultContainerCssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            Default css class name to use for a tab's container
+            </summary>
+            <value></value>
+            <remarks>
+            This is more efficient to use (less payload) than specifying the same css class
+            name on each individual tab
+            </remarks>
+            <history>
+            	[Jon Henning]	8/7/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.CssTabContainer">
+            -----------------------------------------------------------------------------
+            <summary>
+            css class name to use for all tab's container
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	1/15/2007	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.CssContentContainer">
+            -----------------------------------------------------------------------------
+            <summary>
+            css class name to use for element holding all content
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	1/15/2007	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.WorkImage">
+            -----------------------------------------------------------------------------
+            <summary>
+            Image to display during a callback
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTabStrip.CallBackType">
+            -----------------------------------------------------------------------------
+            <summary>
+            This property determines what type of callback is used
+            </summary>
+            <value></value>
+            <remarks>
+            The Simple callback short-circuits at the Page Init event while the ProcessPage
+            will run the page through the entire page's lifecycle.
+            </remarks>
+            <history>
+            	[Jon Henning]	8/9/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenuEventArgs.#ctor(DotNetNuke.UI.WebControls.MenuNode)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="node"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNMenuEventArgs.Node">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTreeBuilder.GetChildControlType(System.String,System.Collections.IDictionary)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="tagName"></param>
+            <param name="attribs"></param>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.#ctor">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.Render(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Responsible for rendering the DNNTree and in an uplevel rendering of the tree, sending down the xml for the child nodes in a ClientAPI variable.
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            	[Jon Henning 4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.OnInit(System.EventArgs)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.SaveViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.LoadViewState(System.Object)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="state"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.TrackViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.RaisePostBackEvent(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="eventArgument"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.OnExpand(DotNetNuke.UI.WebControls.DNNTreeEventArgs)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.OnCollapse(DotNetNuke.UI.WebControls.DNNTreeEventArgs)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.OnNodeClick(DotNetNuke.UI.WebControls.DNNTreeNodeClickEventArgs)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	10/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.RegisterDNNVariableControl">
+            -----------------------------------------------------------------------------
+            <summary>
+            Responsible for inputting the hidden field necessary for the ClientAPI to pass variables back in forth
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.RegisterClientScript">
+            -----------------------------------------------------------------------------
+            <summary>
+            Determines if client supports an uplevel rendering, and if so it registers
+            the appropriate scripts.
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.FindNode(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Finds Node by passed in Key. 
+            </summary>
+            <param name="strID">ID of node</param>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	11/17/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.FindNodeByKey(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Finds Node by passed in Key. 
+            </summary>
+            <param name="strKey">Key of node</param>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	11/17/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.SelectNode(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Finds Node by passed in ID and selects it.  Additionally it will expand 
+            all parent nodes.
+            </summary>
+            <param name="strID">ID of node</param>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	11/17/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTree.SelectNodeByKey(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Finds Node by passed in Key and selects it.  Additionally it will expand 
+            all parent nodes.
+            </summary>
+            <param name="strKey">Key of node</param>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	11/17/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.ForceDownLevel">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows developer to force the rendering of the tree in DownLevel mode
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.IsDownLevel">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns whether the tree will render DownLevel or not
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Commented
+            	[Jon Henning]	3/9/2005	Requiring XML support on client for uplevel
+            	[Jon Henning]	11/28/2005	rendering downlevel if it is a crawler
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.ClientAPIScriptPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of ClientAPI js files 
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.TreeScriptPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of dnn.controls.dnntree.js file
+            </summary>
+            <value></value>
+            <remarks>
+            Since 1.1 this path will be the same as the ClientAPI path.
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.SystemImagesPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of system images (i.e. spacer.gif)
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.TreeNodes">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.SelectedTreeNodes">
+            -----------------------------------------------------------------------------
+            <summary>
+            Holds collection of selected node objects
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.IndentWidth">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.CollapsedNodeImage">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.ExpandedNodeImage">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.CheckBoxes">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.Target">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.ImageList">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.DefaultNodeCssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.DefaultChildNodeCssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.DefaultNodeCssClassOver">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.TreeWriter">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.JSFunction">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows you to have a common JS function be invoked for all nodes, unless
+            a different JS function is provided on the node level.
+            </summary>
+            <value></value>
+            <remarks>
+            If the client-side function returns false, the action associated to the node 
+            selection will be canceled
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.PopulateNodesFromClient">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows the nodes to be populated on the client 
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTree.CallbackStatusFunction">
+            -----------------------------------------------------------------------------
+            <summary>
+            If callbacks are supported/enabled, this javascript function will be invoked
+            with each status change of the xmlhttp request.
+            </summary>
+            <value></value>
+            <remarks>
+            The Javascript transport does not raise any events.
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNToolBar.CssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            Css class name to use for a tab
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	9/15/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNToolBar.DefaultButtonCssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            Css class name to use on all buttons
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	9/27/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNToolBar.DefaultButtonHoverCssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            Css class name to use on all buttons when hovered
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	9/27/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNToolBar.MouseOutDelay">
+            -----------------------------------------------------------------------------
+            <summary>
+            Number of milliseconds to wait befor hiding sub-menu on mouse out
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	9/16/2006	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTextSuggestEventArgs.#ctor(DotNetNuke.UI.WebControls.DNNNodeCollection,System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="nodes"></param>
+            <param name="text"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggestEventArgs.Nodes">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTextSuggest.#ctor">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTextSuggest.RaisePostBackEvent(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="eventArgument"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            	[Jon Henning]	2/21/2006	Fixed arg to not pass Click text
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTextSuggest.OnNodeClick(DotNetNuke.UI.WebControls.DNNTextSuggestEventArgs)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	10/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTextSuggest.RegisterClientScript">
+            -----------------------------------------------------------------------------
+            <summary>
+            Determines if client supports an uplevel rendering, and if so it registers
+            the appropriate scripts.
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTextSuggest.FindNode(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Finds Node by passed in Key. 
+            </summary>
+            <param name="strID">ID of node</param>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	11/17/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTextSuggest.FindNodeByKey(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Finds Node by passed in Key. 
+            </summary>
+            <param name="strKey">Key of node</param>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	11/17/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.ForceDownLevel">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows developer to force the rendering of the Menu in DownLevel mode
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.IsDownLevel">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns whether the TextSuggest will render DownLevel or not
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Commented
+            	[Jon Henning]	3/9/2005	Requiring XML support on client for uplevel
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.ClientAPIScriptPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of ClientAPI js files 
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.TextSuggestScriptPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of dnn.controls.DNNTextSuggest.js file
+            </summary>
+            <value></value>
+            <remarks>
+            Since 1.1 this path will be the same as the ClientAPI path.
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.SystemImagesPath">
+            -----------------------------------------------------------------------------
+            <summary>
+            Location of system images (i.e. spacer.gif)
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/22/2005	Created 
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.DNNNodes">
+            -----------------------------------------------------------------------------
+            <summary>
+            This property really makes no sense for this control and should not be here, 
+            but due to concerns for backwards compatibility I am keeping.
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.SelectedNodes">
+            -----------------------------------------------------------------------------
+            <summary>
+            Holds collection of selected node objects
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.Target">
+            -----------------------------------------------------------------------------
+            <summary>
+            If ClickAction for a node is set to navigate this is the target frame that 
+            will do the navigating.
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.DefaultNodeCssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            Default Classname for node.
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.DefaultChildNodeCssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            Default Classname for child node.
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.DefaultNodeCssClassOver">
+            -----------------------------------------------------------------------------
+            <summary>
+            Default Classname for node when hovered.
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.DefaultNodeCssClassSelected">
+            -----------------------------------------------------------------------------
+            <summary>
+            Default Classname for node when selected.
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.TextSuggestCssClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            Default Classname container holding all of suggestion nodes.
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	5/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.JSFunction">
+            -----------------------------------------------------------------------------
+            <summary>
+            Allows you to have a common JS function be invoked for all nodes, unless
+            a different JS function is provided on the node level.
+            </summary>
+            <value></value>
+            <remarks>
+            If the client-side function returns false, the action associated to the node 
+            selection will be canceled
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Commented
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.CallbackStatusFunction">
+            -----------------------------------------------------------------------------
+            <summary>
+            If callbacks are supported/enabled, this javascript function will be invoked
+            with each status change of the xmlhttp request.
+            </summary>
+            <value></value>
+            <remarks>
+            The Javascript transport does not raise any events.
+            </remarks>
+            <history>
+            	[Jon Henning]	4/6/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.Delimiter">
+            -----------------------------------------------------------------------------
+            <summary>
+            Specifies a delimiter to be used to allow for multiple entries to be added.
+            </summary>
+            <value></value>
+            <remarks>
+            This should be a safe character that is not going to be used as an entry itself.
+            </remarks>
+            <history>
+            	[Jon Henning]	2/24/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.IDToken">
+            -----------------------------------------------------------------------------
+            <summary>
+            Specifies a type of character to be used to surround/delimit the underlying 
+            value/id of the selected item
+            </summary>
+            <value></value>
+            <remarks>
+            An example of the text generated with this set to Brackets would be Smith [123]
+            </remarks>
+            <history>
+            	[Jon Henning]	2/24/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.MinCharacterLookup">
+            -----------------------------------------------------------------------------
+            <summary>
+            Number of characters typed before a lookup is performed
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/24/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.MaxSuggestRows">
+            -----------------------------------------------------------------------------
+            <summary>
+            Maximum number of rows to display.  
+            </summary>
+            <value></value>
+            <remarks>
+            This is important since it will allow the client side code to determine when
+            a new lookup is needed.  As a developer you need to return MaxSuggestRows + 1
+            results down to the client in order for it to determine when a lookup is required.
+            </remarks>
+            <history>
+            	[Jon Henning]	2/24/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.LookupDelay">
+            -----------------------------------------------------------------------------
+            <summary>
+            Number of milliseconds to wait after keypress before a lookup takes place
+            </summary>
+            <value></value>
+            <remarks>
+            Defaults to half a second (500)
+            </remarks>
+            <history>
+            	[Jon Henning]	2/24/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.LostFocusDelay">
+            -----------------------------------------------------------------------------
+            <summary>
+            Number of milliseconds to wait after lostfocus before a menu is hidden
+            </summary>
+            <value></value>
+            <remarks>
+            Defaults to half a second (500)
+            </remarks>
+            <history>
+            	[Jon Henning]	9/29/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.CaseSensitive">
+            -----------------------------------------------------------------------------
+            <summary>
+            Determines if lookup uses a case sensitve match
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	2/24/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNTextSuggest.CallBackType">
+            -----------------------------------------------------------------------------
+            <summary>
+            This property determines what type of callback is used
+            </summary>
+            <value></value>
+            <remarks>
+            The Simple callback short-circuits at the Page Init event while the ProcessPage
+            will run the page through the entire page's lifecycle.
+            </remarks>
+            <history>
+            	[Jon Henning]	9/14/2006	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImage.#ctor">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImage.#ctor(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="NewImageUrl"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImage.TrackViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImage.SaveViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImage.LoadViewState(System.Object)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="state"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImage.SetDirty">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.NodeImage.IsTrackingViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.NodeImage.ImageUrl">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+                [cnurse]    11/3/2004   Fixed to work under Option Strict On
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.NodeImage.ViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="T:DotNetNuke.UI.WebControls.IMenuNodeWriter">
+            <summary>
+            IMenuNodeWriter interface declaration. All the objects which want to implement
+            a writer class for the MenuNode should inherit from this interface.
+            </summary>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.IMenuNodeWriter.RenderNode(System.Web.UI.HtmlTextWriter,DotNetNuke.UI.WebControls.MenuNode)">
+            <summary>
+            When implemented renders an Node inside the Menu.
+            </summary>
+            <param name="writer"></param>
+            <param name="Node"></param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNNode.#ctor">
+            -----------------------------------------------------------------------------
+            <summary>
+            Default constructor
+            </summary>
+            <remarks>
+            When using this constructor your node will not have properties that are related
+            to the xml node hierarchy until you associate the node with the hierarchy.  This is 
+            accomplished by adding it to the DNNNodeCollection or by calling Import
+            directly
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNNode.#ctor(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Constructor providing the defaulting of the Text property
+            </summary>
+            <param name="strText">Text for the Node</param>
+            <remarks>
+            When using this constructor your node will not have properties that are related
+            to the xml node hierarchy until you associate the node with the hierarchy.  This is 
+            accomplished by adding it to the DNNNodeCollection or by calling Import
+            directly
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNNode.#ctor(System.Xml.XmlNode)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Constructor to create a Node already associated to a hierarchy
+            </summary>
+            <param name="objXmlNode"></param>
+            <remarks>
+            Preferred method for creating a node.  Since the node wraps the XmlNode object
+            there will be no need for an intermediate holder of the attributes, they can
+            be directly written to the XmlNode object that belongs to the hierarchy.
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNNode.CustomAttribute(System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Property to access attribute collection for the node
+            </summary>
+            <param name="Key">Attribute Name</param>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history> 
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNNode.CustomAttribute(System.String,System.String)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Property to access attribute collection for the node.  If property is not set, 
+            the passed in default value will be returned
+            </summary>
+            <param name="Key">Attribute Name</param>
+            <param name="DefaultValue">Value to return when attribute not set</param>
+            <value></value>
+            <remarks>
+            Until the node is in a hierarchy, thus allowing the creation of an XmlNode,
+            the attributes will be stored in a hashtable.  Once the node is associated
+            with a hierarchy, these attributes will be transferred to the XmlNode
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNNode.ToXML">
+            -----------------------------------------------------------------------------
+            <summary>
+            Retrieves Xml for the node
+            </summary>
+            <returns>Xml of current node and all its children</returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNNode.AssociateXmlNode(System.Xml.XmlNode)">
+            -----------------------------------------------------------------------------
+            <summary>
+            Since an XmlNode cannot exist without a document, and since the node's 
+            interface allows the creation of a node without a document, we need 
+            to expose a way for the node to be added to a document.
+            </summary>
+            <param name="objXmlNode">XmlNode to associate with the DNNNode object</param>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.IsInHierarchy">
+            -----------------------------------------------------------------------------
+            <summary>
+            A node that is instantiated without knowledge of its parent is created "stand-alone",
+            therefore, it does not belong to an xmldocument, until associated with a DNNNodeCollection
+            Until this association takes place, the node will not be able to 
+            expose a property/method that requires the hierarchy.  This property indicates
+            the node's membership to a hierarchy.
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.XMLDoc">
+            -----------------------------------------------------------------------------
+            <summary>
+            Exposes the XmlDocument that the OwnerDocument of the XmlNode the class is wrapping
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.XmlNode">
+            -----------------------------------------------------------------------------
+            <summary>
+            Exposes the XmlNode the node is wrapping
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.RootNode">
+            -----------------------------------------------------------------------------
+            <summary>
+            Exposes the root XmlNode
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.ParentNode">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns the parent DNNNode
+            </summary>
+            <value></value>
+            <remarks>
+            Requires node to be associated or nothing will return
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.DNNNodes">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns a collection of the children DNNNodes
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.XmlNodes">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns a colleciton of the children XmlNodes
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.HasNodes">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns a flag indicating whether the node has children
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.ParentNameSpace">
+            -----------------------------------------------------------------------------
+            <summary>
+            Gets the node's parent namespace by walking the chain up until it reaches the 
+            root.  This name plus a unique identifier for the node will be unique.
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.Level">
+            -----------------------------------------------------------------------------
+            <summary>
+            Returns the level (depth) of the node within the hierarchy
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.ID">
+            -----------------------------------------------------------------------------
+            <summary>
+            ID of Node
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.ClientID">
+            -----------------------------------------------------------------------------
+            <summary>
+            ClientID of Node
+            </summary>
+            <value></value>
+            <remarks>
+            Since the client browsers do not like :, we are replacing with _
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.Key">
+            -----------------------------------------------------------------------------
+            <summary>
+            Key to identify the node
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.Text">
+            -----------------------------------------------------------------------------
+            <summary>
+            Text for the node to display
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.NavigateURL">
+            -----------------------------------------------------------------------------
+            <summary>
+            URL to navigate to when node is selected
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            	[Jon Henning]	11/14/2005  When assigning a NavigateUrl, set clickaction to navigate to maintain backwards compat
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.JSFunction">
+            -----------------------------------------------------------------------------
+            <summary>
+            Function to execute when node is selected
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.Target">
+            -----------------------------------------------------------------------------
+            <summary>
+            Target frame to do the navigation
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.ToolTip">
+            -----------------------------------------------------------------------------
+            <summary>
+            ToolTip for the node to display
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.Enabled">
+            -----------------------------------------------------------------------------
+            <summary>
+            Flag to determine if node is enabled
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.CSSClass">
+            -----------------------------------------------------------------------------
+            <summary>
+            CSS Class Name of node
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.CSSClassSelected">
+            -----------------------------------------------------------------------------
+            <summary>
+            CSS Class Name of node when selected
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.CSSClassHover">
+            -----------------------------------------------------------------------------
+            <summary>
+            CSS Class Name of node when hovered
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.CSSIcon">
+            -----------------------------------------------------------------------------
+            <summary>
+            CSS Class Name of Icon
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	12/22/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.Image">
+            -----------------------------------------------------------------------------
+            <summary>
+            image for the node to display
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/7/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.Selected">
+            -----------------------------------------------------------------------------
+            <summary>
+            Determines if node is selected
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/7/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.DNNNode.BreadCrumb">
+            -----------------------------------------------------------------------------
+            <summary>
+            Determines if node is part of the breadcrumb
+            </summary>
+            <value></value>
+            <remarks>
+            </remarks>
+            <history>
+            	[Jon Henning]	4/7/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNode.LoadViewState(System.Object)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="state"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNode.SaveViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.TreeNode.TrackViewState">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTreeWriter.#ctor">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTreeWriter.RenderTree(System.Web.UI.HtmlTextWriter,DotNetNuke.UI.WebControls.DNNTree)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="tree"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTreeWriter.RenderContents(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNTreeWriter.RenderChildren(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="T:DotNetNuke.UI.WebControls.NodeImageCollection">
+            <summary>
+            Represents a collection of <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> objects.
+            </summary>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetNuke.UI.WebControls.NodeImageCollection">NodeImageCollection</see> class.
+            </summary>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.#ctor(DotNetNuke.UI.WebControls.NodeImageCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetNuke.UI.WebControls.NodeImageCollection">NodeImageCollection</see> class containing the elements of the specified source collection.
+            </summary>
+            <param name="value">A <see cref="T:DotNetNuke.UI.WebControls.NodeImageCollection">NodeImageCollection</see> with which to initialize the collection.</param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.#ctor(DotNetNuke.UI.WebControls.NodeImage[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetNuke.UI.WebControls.NodeImageCollection">NodeImageCollection</see> class containing the specified array of <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> objects.
+            </summary>
+            <param name="value">An array of <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> objects with which to initialize the collection. </param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.Add(DotNetNuke.UI.WebControls.NodeImage)">
+            <summary>
+            Add an element of the specified <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> to the end of the collection.
+            </summary>
+            <param name="value">An object of type <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> to add to the collection.</param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.Add(System.String)">
+            <summary>
+            Add an element of the specified <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> to the end of the collection.
+            </summary>
+            <param name="ImageUrl">An object of type <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> to add to the collection.</param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.AddRange(DotNetNuke.UI.WebControls.NodeImage[])">
+            <summary>
+            Copies the elements of the specified <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> array to the end of the collection.
+            </summary>
+            <param name="value">An array of type <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> containing the objects to add to the collection.</param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.AddRange(DotNetNuke.UI.WebControls.NodeImageCollection)">
+            <summary>
+            Adds the contents of another <see cref="T:DotNetNuke.UI.WebControls.NodeImageCollection">NodeImageCollection</see> to the end of the collection.
+            </summary>
+            <param name="value">A <see cref="T:DotNetNuke.UI.WebControls.NodeImageCollection">NodeImageCollection</see> containing the objects to add to the collection. </param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.IndexOf(DotNetNuke.UI.WebControls.NodeImage)">
+            <summary>
+            Gets the index in the collection of the specified <see cref="T:DotNetNuke.UI.WebControls.NodeImageCollection">NodeImageCollection</see>, if it exists in the collection.
+            </summary>
+            <param name="value">The <see cref="T:DotNetNuke.UI.WebControls.NodeImageCollection">NodeImageCollection</see> to locate in the collection.</param>
+            <returns>The index in the collection of the specified object, if found; otherwise, -1.</returns>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.Contains(DotNetNuke.UI.WebControls.NodeImage)">
+            <summary>
+            Gets a value indicating whether the collection contains the specified <see cref="T:DotNetNuke.UI.WebControls.NodeImageCollection">NodeImageCollection</see>.
+            </summary>
+            <param name="value">The <see cref="T:DotNetNuke.UI.WebControls.NodeImageCollection">NodeImageCollection</see> to search for in the collection.</param>
+            <returns><b>true</b> if the collection contains the specified object; otherwise, <b>false</b>.</returns>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.Insert(System.Int32,DotNetNuke.UI.WebControls.NodeImage)">
+            <summary>
+            Add an element of the specified <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> to the collection at the designated index.
+            </summary>
+            <param name="index">An <see cref="!:system.int32">Integer</see> to indicate the location to add the object to the collection.</param>
+            <param name="value">An object of type <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> to add to the collection.</param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.Remove(DotNetNuke.UI.WebControls.NodeImage)">
+            <summary>
+            Remove the specified object of type <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> from the collection.
+            </summary>
+            <param name="value">An object of type <see cref="T:DotNetNuke.UI.WebControls.NodeImage">NodeImage</see> to remove to the collection.</param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.CopyTo(DotNetNuke.UI.WebControls.NodeImage[],System.Int32)">
+            <summary>
+            Copies the collection objects to a one-dimensional <see cref="T:System.Array">Array</see> instance beginning at the specified index.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array">Array</see> that is the destination of the values copied from the collection.</param>
+            <param name="index">The index of the array at which to begin inserting.</param>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.ToArray">
+            <summary>
+            Creates a one-dimensional <see cref="T:System.Array">Array</see> instance containing the collection items.
+            </summary>
+            <returns>Array of type NodeImage</returns>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.TrackViewState">
+            <summary>
+            (TrackViewState)
+            Instructs the NodeImageCollection to track changes to its view state.
+            </summary>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.SaveViewState">
+            <summary>
+            (IStateManager.SaveViewState)
+            Saves the changes of NodeImageCollection's view state to an Object.
+            </summary>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.NodeImageCollection.LoadViewState(System.Object)">
+            <summary>
+            (IStateManager.LoadViewState)
+            Loads the NodeImageCollection's previously saved view state.
+            </summary>
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.NodeImageCollection.Item(System.Int32)">
+            <summary>
+            Gets the <see cref="T:DotNetNuke.UI.WebControls.NodeImageCollection">NodeImageCollection</see> at the specified index in the collection.
+            <para>
+            In VB.Net, this property is the indexer for the <see cref="T:DotNetNuke.UI.WebControls.NodeImageCollection">NodeImageCollection</see> class.
+            </para>
+            </summary>
+        </member>
+        <member name="P:DotNetNuke.UI.WebControls.NodeImageCollection.IsTrackingViewState">
+            <summary>
+            (IStateManager.IsTrackingViewState)
+            Gets a value indicating whether the NodeImageCollection is tracking its view state changes.
+            </summary>
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.MenuNodeWriter.RenderNode(System.Web.UI.HtmlTextWriter,DotNetNuke.UI.WebControls.MenuNode)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="Node"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jhenning]	9/21/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.MenuNodeWriter.Render(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jhenning]	9/21/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.MenuNodeWriter.RenderContents(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jhenning]	9/21/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.MenuNodeWriter.RenderOpenTag(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jhenning]	9/21/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.MenuNodeWriter.RenderNodeIcon(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jhenning]	9/21/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.MenuNodeWriter.RenderNodeText(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jhenning]	9/21/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.MenuNodeWriter.RenderChildren(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jhenning]	9/21/2005	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenuUpLevelWriter.#ctor">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenuUpLevelWriter.RenderMenu(System.Web.UI.HtmlTextWriter,DotNetNuke.UI.WebControls.DNNMenu)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="Menu"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenuUpLevelWriter.RenderContents(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            	[jhenning] 2/22/2005	Added properties
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+        <member name="M:DotNetNuke.UI.WebControls.DNNMenuUpLevelWriter.RenderChildren(System.Web.UI.HtmlTextWriter)">
+            -----------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <remarks>
+            </remarks>
+            <history>
+            	[jbrinkman]	5/6/2004	Created
+            </history>
+            -----------------------------------------------------------------------------
+        </member>
+    </members>
+</doc>

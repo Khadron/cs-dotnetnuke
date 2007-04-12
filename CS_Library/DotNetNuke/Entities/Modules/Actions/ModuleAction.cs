@@ -39,40 +39,41 @@ namespace DotNetNuke.Entities.Modules.Actions
         private string _url;
         private bool _useActionEvent;
         private bool _visible;
+        private bool _testBool;
 
-        public ModuleAction( int ID ) : this( ID, "", "", "", "", "", "", false, SecurityAccessLevel.Anonymous, true, false )
+        public ModuleAction( int id ) : this( id, "", "", "", "", "", "", false, SecurityAccessLevel.Anonymous, true, false )
         {
         }
 
-        public ModuleAction( int ID, string Title, string CmdName ) : this( ID, Title, CmdName, "", "", "", "", false, SecurityAccessLevel.Anonymous, true, false )
+        public ModuleAction( int id, string title, string cmdName ) : this( id, title, cmdName, "", "", "", "", false, SecurityAccessLevel.Anonymous, true, false )
         {
         }
 
-        public ModuleAction( int ID, string Title, string CmdName, string CmdArg ) : this( ID, Title, CmdName, CmdArg, "", "", "", false, SecurityAccessLevel.Anonymous, true, false )
+        public ModuleAction( int id, string title, string cmdName, string cmdArg ) : this( id, title, cmdName, cmdArg, "", "", "", false, SecurityAccessLevel.Anonymous, true, false )
         {
         }
 
-        public ModuleAction( int ID, string Title, string CmdName, string CmdArg, string Icon ) : this( ID, Title, CmdName, CmdArg, Icon, "", "", false, SecurityAccessLevel.Anonymous, true, false )
+        public ModuleAction( int id, string title, string cmdName, string cmdArg, string icon ) : this( id, title, cmdName, cmdArg, icon, "", "", false, SecurityAccessLevel.Anonymous, true, false )
         {
         }
 
-        public ModuleAction( int ID, string Title, string CmdName, string CmdArg, string Icon, string Url ) : this( ID, Title, CmdName, CmdArg, Icon, Url, "", false, SecurityAccessLevel.Anonymous, true, false )
+        public ModuleAction( int id, string title, string cmdName, string cmdArg, string icon, string url ) : this( id, title, cmdName, cmdArg, icon, url, "", false, SecurityAccessLevel.Anonymous, true, false )
         {
         }
 
-        public ModuleAction( int ID, string Title, string CmdName, string CmdArg, string Icon, string Url, string ClientScript ) : this( ID, Title, CmdName, CmdArg, Icon, Url, ClientScript, false, SecurityAccessLevel.Anonymous, true, false )
+        public ModuleAction( int id, string title, string cmdName, string cmdArg, string icon, string url, string clientScript ) : this( id, title, cmdName, cmdArg, icon, url, clientScript, false, SecurityAccessLevel.Anonymous, true, false )
         {
         }
 
-        public ModuleAction( int ID, string Title, string CmdName, string CmdArg, string Icon, string Url, string ClientScript, bool UseActionEvent ) : this( ID, Title, CmdName, CmdArg, Icon, Url, ClientScript, UseActionEvent, SecurityAccessLevel.Anonymous, true, false )
+        public ModuleAction( int id, string title, string cmdName, string cmdArg, string icon, string url, string clientScript, bool useActionEvent ) : this( id, title, cmdName, cmdArg, icon, url, clientScript, useActionEvent, SecurityAccessLevel.Anonymous, true, false )
         {
         }
 
-        public ModuleAction( int ID, string Title, string CmdName, string CmdArg, string Icon, string Url, string ClientScript, bool UseActionEvent, SecurityAccessLevel Secure ) : this( ID, Title, CmdName, CmdArg, Icon, Url, ClientScript, UseActionEvent, Secure, true, false )
+        public ModuleAction( int id, string title, string cmdName, string cmdArg, string icon, string url, string clientScript, bool useActionEvent, SecurityAccessLevel secure ) : this( id, title, cmdName, cmdArg, icon, url, clientScript, useActionEvent, secure, true, false )
         {
         }
 
-        public ModuleAction( int ID, string Title, string CmdName, string CmdArg, string Icon, string Url, string ClientScript, bool UseActionEvent, SecurityAccessLevel Secure, bool Visible ) : this( ID, Title, CmdName, CmdArg, Icon, Url, ClientScript, UseActionEvent, Secure, Visible, false )
+        public ModuleAction( int id, string title, string cmdName, string cmdArg, string icon, string url, string clientScript, bool useActionEvent, SecurityAccessLevel secure, bool visible ) : this( id, title, cmdName, cmdArg, icon, url, clientScript, useActionEvent, secure, visible, false )
         {
         }
 
@@ -83,7 +84,7 @@ namespace DotNetNuke.Entities.Modules.Actions
         /// <Param name="Title">
         /// This is the title that will be displayed for this action
         /// </Param>
-        /// <Param name="CmdName">
+        /// <Param name="cmdName">
         /// The command name passed to the client when this action is clicked.
         /// </Param>
         /// <Param name="CmdArg">
@@ -100,19 +101,19 @@ namespace DotNetNuke.Entities.Modules.Actions
         /// The security access level required for access to this action
         /// </Param>
         /// <Param name="Visible">Whether this action will be displayed</Param>
-        public ModuleAction( int ID, string Title, string CmdName, string CmdArg, string Icon, string Url, string ClientScript, bool UseActionEvent, SecurityAccessLevel Secure, bool Visible, bool NewWindow )
+        public ModuleAction( int id, string title, string cmdName, string cmdArg, string icon, string url, string clientScript, bool useActionEvent, SecurityAccessLevel secure, bool visible, bool newWindow )
         {
-            this._id = ID;
-            this._title = Title;
-            this._commandName = CmdName;
-            this._commandArgument = CmdArg;
-            this._icon = Icon;
-            this._url = Url;
-            this._clientScript = ClientScript;
-            this._useActionEvent = UseActionEvent;
-            this._secure = Secure;
-            this._visible = Visible;
-            this._newwindow = NewWindow;
+            this._id = id;
+            this._title = title;
+            this._commandName = cmdName;
+            this._commandArgument = cmdArg;
+            this._icon = icon;
+            this._url = url;
+            this._clientScript = clientScript;
+            this._useActionEvent = useActionEvent;
+            this._secure = secure;
+            this._visible = visible;
+            this._newwindow = newWindow;
         }
 
         /// <Summary>
@@ -300,7 +301,7 @@ namespace DotNetNuke.Entities.Modules.Actions
         public bool Visible
         {
             get
-            {
+            {               
                 return this._visible;
             }
             set

@@ -257,5 +257,5 @@
     <asp:LinkButton ID="cmdCancel" runat="server" BorderStyle="none" CausesValidation="False" CssClass="CommandButton" OnClick="cmdCancel_Click" resourcekey="cmdCancel"
         Text="Cancel"></asp:LinkButton>&nbsp;&nbsp;
     <asp:LinkButton ID="cmdDelete" runat="server" BorderStyle="none" CausesValidation="False" CssClass="CommandButton" OnClick="cmdDelete_Click" resourcekey="cmdDelete"
-        Text="Delete"></asp:LinkButton>h    
+        Text="Delete"></asp:LinkButton>   
 </p>

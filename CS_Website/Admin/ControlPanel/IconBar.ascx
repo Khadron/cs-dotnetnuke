@@ -76,7 +76,7 @@
 													<asp:ListItem Value="-1" resourcekey="Bottom">Bottom</asp:ListItem>
 												</asp:dropdownlist>&nbsp;&nbsp;
 											</td>
-											<td align="center" class="Normal" nowrap><asp:linkbutton id="cmdAddModule" runat="server" cssclass="CommandButton" CausesValidation="False" OnClick="AddModule_Click">Add</asp:linkbutton></td>
+											<td align="center" class="Normal" nowrap><asp:linkbutton id="cmdAddModule" runat="server" cssclass="CommandButton" CausesValidation="False">Add</asp:linkbutton></td>
 										</tr>
 										<tr valign="bottom">
 											<td class="SubHead" align="right" nowrap><asp:Label ID="lblPermission" Runat="server" CssClass="SubHead" resourcekey="Permission" enableviewstate="False">Visibility:</asp:Label>&nbsp;</td>

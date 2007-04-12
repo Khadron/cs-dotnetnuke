@@ -68,227 +68,227 @@ namespace DotNetNuke.Entities.Modules.Actions
         /// <Summary>
         /// Add an element of the specified  to the end of the collection.
         /// </Summary>
-        /// <Param name="ID">This is the identifier to use for this action.</Param>
-        /// <Param name="Title">
+        /// <Param name="id">This is the identifier to use for this action.</Param>
+        /// <Param name="title">
         /// This is the title that will be displayed for this action
         /// </Param>
-        /// <Param name="CmdName">
+        /// <Param name="cmdName">
         /// The command name passed to the client when this action is clicked.
         /// </Param>
         /// <Returns>The index of the newly added</Returns>
-        public ModuleAction Add( int ID, string Title, string CmdName )
+        public ModuleAction Add( int id, string title, string cmdName )
         {
-            return Add( ID, Title, CmdName, "", "", "", false, SecurityAccessLevel.Anonymous, true, false );
+            return Add( id, title, cmdName, "", "", "", false, SecurityAccessLevel.Anonymous, true, false );
         }
 
         /// <Summary>
         /// Add an element of the specified  to the end of the collection.
         /// </Summary>
-        /// <Param name="ID">This is the identifier to use for this action.</Param>
-        /// <Param name="Title">
+        /// <Param name="id">This is the identifier to use for this action.</Param>
+        /// <Param name="title">
         /// This is the title that will be displayed for this action
         /// </Param>
-        /// <Param name="CmdName">
+        /// <Param name="cmdName">
         /// The command name passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="CmdArg">
+        /// <Param name="cmdArg">
         /// The command argument passed to the client when this action is clicked.
         /// </Param>
         /// <Returns>The index of the newly added</Returns>
-        public ModuleAction Add( int ID, string Title, string CmdName, string CmdArg )
+        public ModuleAction Add( int id, string title, string cmdName, string cmdArg )
         {
-            return Add( ID, Title, CmdName, CmdArg, "", "", false, SecurityAccessLevel.Anonymous, true, false );
+            return Add( id, title, cmdName, cmdArg, "", "", false, SecurityAccessLevel.Anonymous, true, false );
         }
 
         /// <Summary>
         /// Add an element of the specified  to the end of the collection.
         /// </Summary>
-        /// <Param name="ID">This is the identifier to use for this action.</Param>
-        /// <Param name="Title">
+        /// <Param name="id">This is the identifier to use for this action.</Param>
+        /// <Param name="title">
         /// This is the title that will be displayed for this action
         /// </Param>
-        /// <Param name="CmdName">
+        /// <Param name="cmdName">
         /// The command name passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="CmdArg">
+        /// <Param name="cmdArg">
         /// The command argument passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="Icon">The URL of the Icon to place next to this action</Param>
+        /// <Param name="icon">The URL of the icon to place next to this action</Param>
         /// <Returns>The index of the newly added</Returns>
-        public ModuleAction Add( int ID, string Title, string CmdName, string CmdArg, string Icon )
+        public ModuleAction Add( int id, string title, string cmdName, string cmdArg, string icon )
         {
-            return Add( ID, Title, CmdName, CmdArg, Icon, "", false, SecurityAccessLevel.Anonymous, true, false );
+            return Add( id, title, cmdName, cmdArg, icon, "", false, SecurityAccessLevel.Anonymous, true, false );
         }
 
         /// <Summary>
         /// Add an element of the specified  to the end of the collection.
         /// </Summary>
-        /// <Param name="ID">This is the identifier to use for this action.</Param>
-        /// <Param name="Title">
+        /// <Param name="id">This is the identifier to use for this action.</Param>
+        /// <Param name="title">
         /// This is the title that will be displayed for this action
         /// </Param>
-        /// <Param name="CmdName">
+        /// <Param name="cmdName">
         /// The command name passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="CmdArg">
+        /// <Param name="cmdArg">
         /// The command argument passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="Icon">The URL of the Icon to place next to this action</Param>
-        /// <Param name="Url">
+        /// <Param name="icon">The URL of the icon to place next to this action</Param>
+        /// <Param name="url">
         /// The destination URL to redirect the client browser when this action is clicked.
         /// </Param>
         /// <Returns>The index of the newly added</Returns>
-        public ModuleAction Add( int ID, string Title, string CmdName, string CmdArg, string Icon, string Url )
+        public ModuleAction Add( int id, string title, string cmdName, string cmdArg, string icon, string url )
         {
-            return Add( ID, Title, CmdName, CmdArg, Icon, Url, false, SecurityAccessLevel.Anonymous, true, false );
+            return Add( id, title, cmdName, cmdArg, icon, url, false, SecurityAccessLevel.Anonymous, true, false );
         }
 
         /// <Summary>
         /// Add an element of the specified  to the end of the collection.
         /// </Summary>
-        /// <Param name="ID">This is the identifier to use for this action.</Param>
-        /// <Param name="Title">
+        /// <Param name="id">This is the identifier to use for this action.</Param>
+        /// <Param name="title">
         /// This is the title that will be displayed for this action
         /// </Param>
-        /// <Param name="CmdName">
+        /// <Param name="cmdName">
         /// The command name passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="CmdArg">
+        /// <Param name="cmdArg">
         /// The command argument passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="Icon">The URL of the Icon to place next to this action</Param>
-        /// <Param name="Url">
+        /// <Param name="icon">The URL of the icon to place next to this action</Param>
+        /// <Param name="url">
         /// The destination URL to redirect the client browser when this action is clicked.
         /// </Param>
-        /// <Param name="UseActionEvent">
+        /// <Param name="useActionEvent">
         /// Determines whether client will receive an event notification
         /// </Param>
         /// <Returns>The index of the newly added</Returns>
-        public ModuleAction Add( int ID, string Title, string CmdName, string CmdArg, string Icon, string Url, bool UseActionEvent )
+        public ModuleAction Add( int id, string title, string cmdName, string cmdArg, string icon, string url, bool useActionEvent )
         {
-            return Add( ID, Title, CmdName, CmdArg, Icon, Url, UseActionEvent, SecurityAccessLevel.Anonymous, true, false );
+            return Add( id, title, cmdName, cmdArg, icon, url, useActionEvent, SecurityAccessLevel.Anonymous, true, false );
         }
 
         /// <Summary>
         /// Add an element of the specified  to the end of the collection.
         /// </Summary>
-        /// <Param name="ID">This is the identifier to use for this action.</Param>
-        /// <Param name="Title">
+        /// <Param name="id">This is the identifier to use for this action.</Param>
+        /// <Param name="title">
         /// This is the title that will be displayed for this action
         /// </Param>
-        /// <Param name="CmdName">
+        /// <Param name="cmdName">
         /// The command name passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="CmdArg">
+        /// <Param name="cmdArg">
         /// The command argument passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="Icon">The URL of the Icon to place next to this action</Param>
-        /// <Param name="Url">
+        /// <Param name="icon">The URL of the icon to place next to this action</Param>
+        /// <Param name="url">
         /// The destination URL to redirect the client browser when this action is clicked.
         /// </Param>
-        /// <Param name="UseActionEvent">
+        /// <Param name="useActionEvent">
         /// Determines whether client will receive an event notification
         /// </Param>
-        /// <Param name="Secure">
+        /// <Param name="secure">
         /// The security access level required for access to this action
         /// </Param>
         /// <Returns>The index of the newly added</Returns>
-        public ModuleAction Add( int ID, string Title, string CmdName, string CmdArg, string Icon, string Url, bool UseActionEvent, SecurityAccessLevel Secure )
+        public ModuleAction Add( int id, string title, string cmdName, string cmdArg, string icon, string url, bool useActionEvent, SecurityAccessLevel secure )
         {
-            return Add( ID, Title, CmdName, CmdArg, Icon, Url, UseActionEvent, Secure, true, false );
+            return Add( id, title, cmdName, cmdArg, icon, url, useActionEvent, secure, true, false );
         }
 
         /// <Summary>
         /// Add an element of the specified  to the end of the collection.
         /// </Summary>
-        /// <Param name="ID">This is the identifier to use for this action.</Param>
-        /// <Param name="Title">
+        /// <Param name="id">This is the identifier to use for this action.</Param>
+        /// <Param name="title">
         /// This is the title that will be displayed for this action
         /// </Param>
-        /// <Param name="CmdName">
+        /// <Param name="cmdName">
         /// The command name passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="CmdArg">
+        /// <Param name="cmdArg">
         /// The command argument passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="Icon">The URL of the Icon to place next to this action</Param>
-        /// <Param name="Url">
+        /// <Param name="icon">The URL of the icon to place next to this action</Param>
+        /// <Param name="url">
         /// The destination URL to redirect the client browser when this action is clicked.
         /// </Param>
-        /// <Param name="UseActionEvent">
+        /// <Param name="useActionEvent">
         /// Determines whether client will receive an event notification
         /// </Param>
-        /// <Param name="Secure">
+        /// <Param name="secure">
         /// The security access level required for access to this action
         /// </Param>
-        /// <Param name="Visible">Whether this action will be displayed</Param>
+        /// <Param name="visible">Whether this action will be displayed</Param>
         /// <Returns>The index of the newly added</Returns>
-        public ModuleAction Add( int ID, string Title, string CmdName, string CmdArg, string Icon, string Url, bool UseActionEvent, SecurityAccessLevel Secure, bool Visible )
+        public ModuleAction Add( int id, string title, string cmdName, string cmdArg, string icon, string url, bool useActionEvent, SecurityAccessLevel secure, bool visible )
         {
-            return Add( ID, Title, CmdName, CmdArg, Icon, Url, UseActionEvent, Secure, Visible, false );
+            return Add( id, title, cmdName, cmdArg, icon, url, useActionEvent, secure, visible, false );
         }
 
         /// <Summary>
         /// Add an element of the specified  to the end of the collection.
         /// </Summary>
-        /// <Param name="ID">This is the identifier to use for this action.</Param>
-        /// <Param name="Title">
+        /// <Param name="id">This is the identifier to use for this action.</Param>
+        /// <Param name="title">
         /// This is the title that will be displayed for this action
         /// </Param>
-        /// <Param name="CmdName">
+        /// <Param name="cmdName">
         /// The command name passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="CmdArg">
+        /// <Param name="cmdArg">
         /// The command argument passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="Icon">The URL of the Icon to place next to this action</Param>
-        /// <Param name="Url">
+        /// <Param name="icon">The URL of the icon to place next to this action</Param>
+        /// <Param name="url">
         /// The destination URL to redirect the client browser when this action is clicked.
         /// </Param>
-        /// <Param name="UseActionEvent">
+        /// <Param name="useActionEvent">
         /// Determines whether client will receive an event notification
         /// </Param>
-        /// <Param name="Secure">
+        /// <Param name="secure">
         /// The security access level required for access to this action
         /// </Param>
-        /// <Param name="Visible">Whether this action will be displayed</Param>
+        /// <Param name="visible">Whether this action will be displayed</Param>
         /// <Returns>The index of the newly added</Returns>
-        public ModuleAction Add( int ID, string Title, string CmdName, string CmdArg, string Icon, string Url, bool UseActionEvent, SecurityAccessLevel Secure, bool Visible, bool NewWindow )
+        public ModuleAction Add( int id, string title, string cmdName, string cmdArg, string icon, string url, bool useActionEvent, SecurityAccessLevel secure, bool visible, bool newWindow )
         {
-            return this.Add( ID, Title, CmdName, CmdArg, Icon, Url, "", UseActionEvent, Secure, Visible, NewWindow );
+            return this.Add( id, title, cmdName, cmdArg, icon, url, "", useActionEvent, secure, visible, newWindow );
         }
 
         /// <Summary>
         /// Add an element of the specified  to the end of the collection.
         /// </Summary>
-        /// <Param name="ID">This is the identifier to use for this action.</Param>
-        /// <Param name="Title">
+        /// <Param name="id">This is the identifier to use for this action.</Param>
+        /// <Param name="title">
         /// This is the title that will be displayed for this action
         /// </Param>
-        /// <Param name="CmdName">
+        /// <Param name="cmdName">
         /// The command name passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="CmdArg">
+        /// <Param name="cmdArg">
         /// The command argument passed to the client when this action is clicked.
         /// </Param>
-        /// <Param name="Icon">The URL of the Icon to place next to this action</Param>
-        /// <Param name="Url">
+        /// <Param name="icon">The URL of the icon to place next to this action</Param>
+        /// <Param name="url">
         /// The destination URL to redirect the client browser when this action is clicked.
         /// </Param>
-        /// <Param name="ClientScript">
+        /// <Param name="clientScript">
         /// Client side script to be run when the this action is clicked.
         /// </Param>
-        /// <Param name="UseActionEvent">
+        /// <Param name="useActionEvent">
         /// Determines whether client will receive an event notification
         /// </Param>
-        /// <Param name="Secure">
+        /// <Param name="secure">
         /// The security access level required for access to this action
         /// </Param>
-        /// <Param name="Visible">Whether this action will be displayed</Param>
+        /// <Param name="visible">Whether this action will be displayed</Param>
         /// <Returns>The index of the newly added</Returns>
-        public ModuleAction Add( int ID, string Title, string CmdName, string CmdArg, string Icon, string Url, string ClientScript, bool UseActionEvent, SecurityAccessLevel Secure, bool Visible, bool NewWindow )
+        public ModuleAction Add( int id, string title, string cmdName, string cmdArg, string icon, string url, string clientScript, bool useActionEvent, SecurityAccessLevel secure, bool visible, bool newWindow )
         {
-            ModuleAction moduleAction = new ModuleAction( ID, Title, CmdName, CmdArg, Icon, Url, ClientScript, UseActionEvent, Secure, Visible, NewWindow );
+            ModuleAction moduleAction = new ModuleAction( id, title, cmdName, cmdArg, icon, url, clientScript, useActionEvent, secure, visible, newWindow );
             this.Add( moduleAction );
             return moduleAction;
         }

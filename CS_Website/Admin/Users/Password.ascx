@@ -33,7 +33,7 @@
 					<tr><td colspan="2" valign="bottom"><asp:label id="lblChangeHelp" cssclass="Normal" runat="server"></asp:label></td></tr>
 					<tr><td colspan="2" height="10"></td></tr>
 					<tr id="trOldPassword" runat="server" height="25">
-						<td class="SubHead" width="175"><dnn:label id="plOldPassword" runat="server" controlname="txtOldPassword" text="Old Password:"></dnn:label></td>
+						<td class="SubHead" width="175"><dnn:label id="plOldPassword" runat="server" controlname="txtOldPassword" text="Old Password:" Visible="true"></dnn:label></td>
 						<td><asp:textbox id="txtOldPassword" runat="server" cssclass="NormalTextBox" textmode="Password" size="25" maxlength="20"></asp:textbox></td>
 					</tr>
 					<tr height="25">
@@ -50,7 +50,7 @@
 				</table>
 				<br>
 			</asp:panel>
-				<asp:panel id="pnlReset" runat="server">
+		    <asp:panel id="pnlReset" runat="server">
 				<dnn:sectionhead id="dshReset" cssclass="Head" runat="server" 
 					text="Reset Password" section="tblReset" resourcekey="ResetPassword" 
 					isexpanded="True" includerule="True" />

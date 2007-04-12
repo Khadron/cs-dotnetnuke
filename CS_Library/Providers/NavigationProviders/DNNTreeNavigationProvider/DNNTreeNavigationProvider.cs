@@ -26,7 +26,7 @@ namespace DotNetNuke.NavigationControl
 {
     public class DNNTreeNavigationProvider : NavigationProvider
     {
-        private DnnTree m_objTree;
+        private DNNTree m_objTree;
         private string m_strControlID;
         private string m_strCSSBreadCrumbSub;
         private string m_strCSSBreadCrumbRoot;
@@ -47,7 +47,7 @@ namespace DotNetNuke.NavigationControl
         private bool m_blnIndicateChildren;
         private string m_strPathImage;
 
-        public DnnTree Tree
+        public DNNTree Tree
         {
             get
             {
@@ -349,10 +349,10 @@ namespace DotNetNuke.NavigationControl
 
         public override void Initialize()
         {
-            m_objTree = new DnnTree();
+            m_objTree = new DNNTree();
             Tree.ID = m_strControlID;
-            Tree.NodeClick += new DnnTree.DNNTreeNodeClickHandler( DNNTree_NodeClick );
-            Tree.PopulateOnDemand += new DnnTree.DNNTreeEventHandler( DNNTree_PopulateOnDemand );
+            Tree.NodeClick += new DNNTree.DNNTreeNodeClickHandler( DNNTree_NodeClick );
+            Tree.PopulateOnDemand += new DNNTree.DNNTreeEventHandler( DNNTree_PopulateOnDemand );
         }
 
         public override void Bind( DNNNodeCollection objNodes )

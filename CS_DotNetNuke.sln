@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost/CS_DotNetNuke/", "http://localhost/CS_DotNetNuke", "{D9A541D6-A0AA-4849-9146-3AA74B151C7C}"
 	ProjectSection(WebsiteProperties) = preProject
-		ProjectReferences = "{2F6470AF-AF81-4F6B-AA16-A87A700B18DB}|DotNetNuke.Authentication.ADSI.dll;{42E4A15C-198C-49CE-BCD8-9E5EB1168D00}|DotNetNuke.HttpModules.Authentication.dll;{6F0A5B23-E09F-431A-879A-993CB77E23D8}|DotNetNuke.HttpModules.DNNMembership.dll;{24AEAE9B-99C5-487C-9962-EFF88A3C6230}|DotNetNuke.HttpModules.Exception.dll;{565221D8-79DC-483C-A92F-23E7A77F4197}|DotNetNuke.HttpModules.Personalization.dll;{F336D16D-E512-42CC-876A-9E0118F87514}|DotNetNuke.HttpModules.UrlRewrite.dll;{7B7C5C9A-23B0-492C-8E9B-EDA4DF6BA101}|DotNetNuke.HttpModules.UsersOnline.dll;{EB5D23A1-7E8C-43BA-BD20-F43398D60D26}|DotNetNuke.Authentication.ADSIProvider.dll;{282FB137-A43A-42B8-AC9E-B8B39CC2B636}|DotNetNuke.Caching.BroadcastPollingCachingProvider.dll;{E50121FB-510D-415B-81AC-4CE768070EF1}|DotNetNuke.Caching.BroadcastPollingCachingProvider.SQLDataProvider.dll;{D206D80A-DE26-4441-A8CD-0C70D2EB0C38}|DotNetNuke.Caching.FileBasedCachingProvider.dll;{A566C3FB-176F-4EF7-A2EB-CB22F2741082}|DotNetNuke.Provider.DBLoggingProvider.dll;{7A901229-482F-41AE-B43E-1B2B77560822}|DotNetNuke.Provider.DBLoggingProvider.SqlDataProvider.dll;{982CB668-91F8-43BB-AC80-D4E178E6D2B4}|DotNetNuke.DNNDropDownNavigationProvider.dll;{78BC5861-5023-4370-A30A-EC7629E93ED1}|DotNetNuke.DNNMenuNavigationProvider.dll;{6F610B3E-218D-4209-8028-E8978A76CFB9}|DotNetNuke.DNNScheduler.dll;{31B8EEE0-1302-44AB-ABBF-6BF2F1D6EC60}|DotNetNuke.DNNScheduler.SqlDataProvider.dll;{4F30AA90-BE74-4354-B3E1-DE0004F5E395}|DotNetNuke.DNNTreeNavigationProvider.dll;{0D7E8101-E36A-4904-AD9F-567D5F396A02}|DotNetNuke.Ftb3HtmlEditorProvider.dll;{A45415E3-625B-4C90-9345-8E8C7DD9D28D}|DotNetNuke.Search.DataStore.dll;{FD8FCDFF-64FC-4EAE-BECC-A9546E1DCB44}|DotNetNuke.Search.Index.dll;{1A19AB44-33A4-4222-A420-7B213E91C647}|DotNetNuke.SolpartMenuNavigationProvider.dll;{F8623BD1-92F0-40D8-A32C-364D26B228FE}|DotNetNuke.SqlDataProvider.dll;{4EB18E71-DB16-4E61-9493-7DB3EBDF3D2B}|DotNetNuke.XMLLoggingProvider.dll;{89093FD0-076F-48CD-9232-B665226CDBF0}|CountryListBox.dll;{6A2C6160-2905-407B-9575-16210528F4C8}|DotNetNuke.Provider.AspNetProvider.dll;{C2F70937-7E98-489C-8675-29E12790A471}|DotNetNuke.Provider.Membership.SqlDataProvider.dll;{B15A45FA-02F8-4F09-A04B-13B7920CABCE}|DotNetNuke.Membership.Dataprovider.dll;{DE2B348A-1DAD-4630-9F55-788F8CCBAD02}|DotNetNuke.Provider.DNNProvider.dll;{1012996F-79CF-4175-81D7-B3B131A81489}|DotNetNuke.ASP2MenuNavigationProvider.dll;{BD54C946-FE71-4E5F-B4B0-61BE98FCBF35}|DotNetNuke.dll;{2C2FC1EF-C61F-448A-AD25-87391E1208F6}|DotNetNuke.WebControls.dll;{54F96926-802C-408E-A04B-F56859C0308C}|DotNetNuke.WebUtility.dll;"
+		ProjectReferences = "{2F6470AF-AF81-4F6B-AA16-A87A700B18DB}|DotNetNuke.Authentication.ADSI.dll;{42E4A15C-198C-49CE-BCD8-9E5EB1168D00}|DotNetNuke.HttpModules.Authentication.dll;{6F0A5B23-E09F-431A-879A-993CB77E23D8}|DotNetNuke.HttpModules.DNNMembership.dll;{24AEAE9B-99C5-487C-9962-EFF88A3C6230}|DotNetNuke.HttpModules.Exception.dll;{565221D8-79DC-483C-A92F-23E7A77F4197}|DotNetNuke.HttpModules.Personalization.dll;{F336D16D-E512-42CC-876A-9E0118F87514}|DotNetNuke.HttpModules.UrlRewrite.dll;{7B7C5C9A-23B0-492C-8E9B-EDA4DF6BA101}|DotNetNuke.HttpModules.UsersOnline.dll;{EB5D23A1-7E8C-43BA-BD20-F43398D60D26}|DotNetNuke.Authentication.ADSIProvider.dll;{282FB137-A43A-42B8-AC9E-B8B39CC2B636}|DotNetNuke.Caching.BroadcastPollingCachingProvider.dll;{E50121FB-510D-415B-81AC-4CE768070EF1}|DotNetNuke.Caching.BroadcastPollingCachingProvider.SQLDataProvider.dll;{D206D80A-DE26-4441-A8CD-0C70D2EB0C38}|DotNetNuke.Caching.FileBasedCachingProvider.dll;{A566C3FB-176F-4EF7-A2EB-CB22F2741082}|DotNetNuke.Provider.DBLoggingProvider.dll;{7A901229-482F-41AE-B43E-1B2B77560822}|DotNetNuke.Provider.DBLoggingProvider.SqlDataProvider.dll;{982CB668-91F8-43BB-AC80-D4E178E6D2B4}|DotNetNuke.DNNDropDownNavigationProvider.dll;{78BC5861-5023-4370-A30A-EC7629E93ED1}|DotNetNuke.DNNMenuNavigationProvider.dll;{6F610B3E-218D-4209-8028-E8978A76CFB9}|DotNetNuke.DNNScheduler.dll;{31B8EEE0-1302-44AB-ABBF-6BF2F1D6EC60}|DotNetNuke.DNNScheduler.SqlDataProvider.dll;{4F30AA90-BE74-4354-B3E1-DE0004F5E395}|DotNetNuke.DNNTreeNavigationProvider.dll;{0D7E8101-E36A-4904-AD9F-567D5F396A02}|DotNetNuke.Ftb3HtmlEditorProvider.dll;{A45415E3-625B-4C90-9345-8E8C7DD9D28D}|DotNetNuke.Search.DataStore.dll;{FD8FCDFF-64FC-4EAE-BECC-A9546E1DCB44}|DotNetNuke.Search.Index.dll;{1A19AB44-33A4-4222-A420-7B213E91C647}|DotNetNuke.SolpartMenuNavigationProvider.dll;{F8623BD1-92F0-40D8-A32C-364D26B228FE}|DotNetNuke.SqlDataProvider.dll;{4EB18E71-DB16-4E61-9493-7DB3EBDF3D2B}|DotNetNuke.XMLLoggingProvider.dll;{89093FD0-076F-48CD-9232-B665226CDBF0}|CountryListBox.dll;{6A2C6160-2905-407B-9575-16210528F4C8}|DotNetNuke.Provider.AspNetProvider.dll;{C2F70937-7E98-489C-8675-29E12790A471}|DotNetNuke.Provider.Membership.SqlDataProvider.dll;{B15A45FA-02F8-4F09-A04B-13B7920CABCE}|DotNetNuke.Membership.Dataprovider.dll;{DE2B348A-1DAD-4630-9F55-788F8CCBAD02}|DotNetNuke.Provider.DNNProvider.dll;{1012996F-79CF-4175-81D7-B3B131A81489}|DotNetNuke.ASP2MenuNavigationProvider.dll;{BD54C946-FE71-4E5F-B4B0-61BE98FCBF35}|DotNetNuke.dll;{54F96926-802C-408E-A04B-F56859C0308C}|DotNetNuke.WebUtility.dll;{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}|DotNetNuke.HttpModules.Compression.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/CS_PreCompiled"
 		Debug.AspNetCompiler.PhysicalPath = "CS_Website\"
 		Debug.AspNetCompiler.TargetPath = "CS_PreCompiled\"
@@ -22,56 +22,154 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost/CS_DotNetN
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetNuke.Library", "CS_Library\DotNetNuke.Library.csproj", "{BD54C946-FE71-4E5F-B4B0-61BE98FCBF35}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetNuke.WebUtility", "CS_Library\Controls\WebUtility\DotNetNuke.WebUtility.csproj", "{54F96926-802C-408E-A04B-F56859C0308C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetNuke.WebControls", "CS_Library\Controls\WebControls\DotNetNuke.WebControls.csproj", "{2C2FC1EF-C61F-448A-AD25-87391E1208F6}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpModule.DNNMembership", "CS_Library\HttpModules\DNNMembership\HttpModule.DNNMembership.csproj", "{6F0A5B23-E09F-431A-879A-993CB77E23D8}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpModule.Exception", "CS_Library\HttpModules\Exception\HttpModule.Exception.csproj", "{24AEAE9B-99C5-487C-9962-EFF88A3C6230}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpModule.Personalization", "CS_Library\HttpModules\Personalization\HttpModule.Personalization.csproj", "{565221D8-79DC-483C-A92F-23E7A77F4197}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpModule.UrlRewrite", "CS_Library\HttpModules\UrlRewrite\HttpModule.UrlRewrite.csproj", "{F336D16D-E512-42CC-876A-9E0118F87514}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpModule.UsersOnline", "CS_Library\HttpModules\UsersOnline\HttpModule.UsersOnline.csproj", "{7B7C5C9A-23B0-492C-8E9B-EDA4DF6BA101}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Caching.BroadcastPollingCachingProvider", "CS_Library\Providers\CachingProviders\BroadcastPollingCachingProvider\Provider.Caching.BroadcastPollingCachingProvider.csproj", "{282FB137-A43A-42B8-AC9E-B8B39CC2B636}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Caching.BroadcastPollingCachingProvider.SQLDataProvider", "CS_Library\Providers\CachingProviders\BroadcastPollingCachingProvider\Providers\SQLDataProvider\Provider.Caching.BroadcastPollingCachingProvider.SQLDataProvider.csproj", "{E50121FB-510D-415B-81AC-4CE768070EF1}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Caching.FileBasedCachingProvider", "CS_Library\Providers\CachingProviders\FileBasedCachingProvider\Provider.Caching.FileBasedCachingProvider.csproj", "{D206D80A-DE26-4441-A8CD-0C70D2EB0C38}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.SqlDataProvider", "CS_Library\Providers\DataProviders\SqlDataProvider\Provider.SqlDataProvider.csproj", "{F8623BD1-92F0-40D8-A32C-364D26B228FE}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Ftb3HtmlEditorProvider", "CS_Library\Providers\HtmlEditorProviders\Ftb3HtmlEditorProvider\Provider.Ftb3HtmlEditorProvider.csproj", "{0D7E8101-E36A-4904-AD9F-567D5F396A02}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.DBLoggingProvider", "CS_Library\Providers\LoggingProviders\Provider.DBLoggingProvider\Provider.DBLoggingProvider.csproj", "{A566C3FB-176F-4EF7-A2EB-CB22F2741082}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.DBLoggingProvider.SqlDataProvider", "CS_Library\Providers\LoggingProviders\Provider.DBLoggingProvider\Providers\SqlDataProvider\Provider.DBLoggingProvider.SqlDataProvider.csproj", "{7A901229-482F-41AE-B43E-1B2B77560822}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.XMLLoggingProvider", "CS_Library\Providers\LoggingProviders\XMLLoggingProvider\Provider.XMLLoggingProvider.csproj", "{4EB18E71-DB16-4E61-9493-7DB3EBDF3D2B}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.DNNDropDownNavigationProvider", "CS_Library\Providers\NavigationProviders\DNNDropDownNavigationProvider\Provider.DNNDropDownNavigationProvider.csproj", "{982CB668-91F8-43BB-AC80-D4E178E6D2B4}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.DNNMenuNavigationProvider", "CS_Library\Providers\NavigationProviders\DNNMenuNavigationProvider\Provider.DNNMenuNavigationProvider.csproj", "{78BC5861-5023-4370-A30A-EC7629E93ED1}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.DNNTreeNavigationProvider", "CS_Library\Providers\NavigationProviders\DNNTreeNavigationProvider\Provider.DNNTreeNavigationProvider.csproj", "{4F30AA90-BE74-4354-B3E1-DE0004F5E395}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.SolpartMenuNavigationProvider", "CS_Library\Providers\NavigationProviders\SolpartMenuNavigationProvider\Provider.SolpartMenuNavigationProvider.csproj", "{1A19AB44-33A4-4222-A420-7B213E91C647}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.DNNScheduler", "CS_Library\Providers\SchedulingProviders\DNNScheduler\Provider.DNNScheduler.csproj", "{6F610B3E-218D-4209-8028-E8978A76CFB9}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.DNNScheduler.SQLDataProvider", "CS_Library\Providers\SchedulingProviders\DNNScheduler\Providers\SqlDataProvider\Provider.DNNScheduler.SQLDataProvider.csproj", "{31B8EEE0-1302-44AB-ABBF-6BF2F1D6EC60}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Search.Index", "CS_Library\Providers\SearchProviders\ModuleIndexer\Provider.Search.Index.csproj", "{FD8FCDFF-64FC-4EAE-BECC-A9546E1DCB44}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Search.DataStore", "CS_Library\Providers\SearchProviders\SearchDataStore\Provider.Search.DataStore.csproj", "{A45415E3-625B-4C90-9345-8E8C7DD9D28D}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryListBox", "CS_Library\Controls\CountryListBox\CountryListBox.csproj", "{89093FD0-076F-48CD-9232-B665226CDBF0}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6E370A5-ECF3-4AAD-AF79-3D392D963861}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(FolderStartupServices) = postProject
 		{B4F97281-0DBD-4835-9ED8-7DFB966E87FF} = {B4F97281-0DBD-4835-9ED8-7DFB966E87FF}
 		{B4F97281-0DBD-4835-9ED8-7DFB966E87FF} = {B4F97281-0DBD-4835-9ED8-7DFB966E87FF}
@@ -613,24 +711,70 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpModule.Authentication", "CS_Library\HttpModules\Authentication\HttpModule.Authentication.csproj", "{42E4A15C-198C-49CE-BCD8-9E5EB1168D00}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Authentication.ADSI", "CS_Library\Providers\AuthenticationProviders\ADSIProvider\Provider.Authentication.ADSI.csproj", "{EB5D23A1-7E8C-43BA-BD20-F43398D60D26}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.ADSI", "CS_Library\Components\ADSI\Authentication.ADSI.csproj", "{2F6470AF-AF81-4F6B-AA16-A87A700B18DB}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Membership.AspNetProvider", "CS_Library\Providers\MembershipProviders\AspNetMembershipProvider\Provider.Membership.AspNetProvider.csproj", "{6A2C6160-2905-407B-9575-16210528F4C8}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.ASP2MenuNavigationProvider", "CS_Library\Providers\NavigationProviders\ASP2MenuNavigationProvider\Provider.ASP2MenuNavigationProvider.csproj", "{1012996F-79CF-4175-81D7-B3B131A81489}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Membership.DNNProvider", "CS_Library\Providers\MembershipProviders\DNNMembershipProvider\Provider.Membership.DNNProvider.csproj", "{DE2B348A-1DAD-4630-9F55-788F8CCBAD02}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Membership.DataProvider", "CS_Library\Providers\MembershipProviders\DataProvider\Provider.Membership.DataProvider.csproj", "{B15A45FA-02F8-4F09-A04B-13B7920CABCE}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Membership.SqlDataProvider", "CS_Library\Providers\MembershipProviders\SqlDataProvider\Provider.Membership.SqlDataProvider.csproj", "{C2F70937-7E98-489C-8675-29E12790A471}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{2CFEAB61-6A3B-4EB8-B523-560B4BEEF521}") = "CS_DotNetNuke", "CS_DotNetNuke\CS_DotNetNuke.wdproj", "{7EBE0B62-E96A-4EA9-99A2-C1BF30C2250E}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpModule.Compression", "CS_Library\HttpModules\Compression\HttpModule.Compression.csproj", "{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetNuke.WebControls", "..\CS-DNN-Dev\CS-DNN\CS_Library\Controls\DotNetNuke.WebControls\DotNetNuke.WebControls.csproj", "{92275BB2-2780-4279-8BC8-C79935B2B114}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -677,16 +821,6 @@ Global
 		{54F96926-802C-408E-A04B-F56859C0308C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{54F96926-802C-408E-A04B-F56859C0308C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{54F96926-802C-408E-A04B-F56859C0308C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{2C2FC1EF-C61F-448A-AD25-87391E1208F6}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{2C2FC1EF-C61F-448A-AD25-87391E1208F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C2FC1EF-C61F-448A-AD25-87391E1208F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2C2FC1EF-C61F-448A-AD25-87391E1208F6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{2C2FC1EF-C61F-448A-AD25-87391E1208F6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{2C2FC1EF-C61F-448A-AD25-87391E1208F6}.Release|.NET.ActiveCfg = Release|Any CPU
-		{2C2FC1EF-C61F-448A-AD25-87391E1208F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2C2FC1EF-C61F-448A-AD25-87391E1208F6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2C2FC1EF-C61F-448A-AD25-87391E1208F6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{2C2FC1EF-C61F-448A-AD25-87391E1208F6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6F0A5B23-E09F-431A-879A-993CB77E23D8}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{6F0A5B23-E09F-431A-879A-993CB77E23D8}.Debug|.NET.Build.0 = Debug|Any CPU
 		{6F0A5B23-E09F-431A-879A-993CB77E23D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -1066,6 +1200,16 @@ Global
 		{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{92275BB2-2780-4279-8BC8-C79935B2B114}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{92275BB2-2780-4279-8BC8-C79935B2B114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92275BB2-2780-4279-8BC8-C79935B2B114}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92275BB2-2780-4279-8BC8-C79935B2B114}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{92275BB2-2780-4279-8BC8-C79935B2B114}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{92275BB2-2780-4279-8BC8-C79935B2B114}.Release|.NET.ActiveCfg = Release|Any CPU
+		{92275BB2-2780-4279-8BC8-C79935B2B114}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92275BB2-2780-4279-8BC8-C79935B2B114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92275BB2-2780-4279-8BC8-C79935B2B114}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{92275BB2-2780-4279-8BC8-C79935B2B114}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

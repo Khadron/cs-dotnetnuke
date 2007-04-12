@@ -998,7 +998,7 @@ namespace DotNetNuke.UI.Utilities
 
         public static bool IsClientScriptBlockRegistered(Page objPage, string key)
         {
-            return objPage.ClientScript.IsClientScriptBlockRegistered(key);
+            return objPage.ClientScript.IsClientScriptBlockRegistered(objPage.GetType(), key);
         }
 
         public static void RegisterClientScriptBlock(Page objPage, string key, string strScript)

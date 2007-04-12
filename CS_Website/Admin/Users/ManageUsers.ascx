@@ -51,11 +51,11 @@
 			<td colspan="3" valign="bottom">
 				<asp:label id="lblTitle" cssclass="Head" runat="server"></asp:label>
 				<asp:image id="imgLockedOut" imageurl="~/images/icon_securityroles_16px.gif" runat="server" visible="False" />
-				<asp:image id="imgOnline" imageurl="~/images/userOnline.gif" runat="server" visible="False" />
-			</td>
+				<asp:image id="imgOnline" imageurl="~/images/userOnline.gif" runat="server" visible="False" /></td>
 		</tr>
 		<tr id="trHelp" runat="server" visible="false"><td colspan="3" valign="bottom"><asp:label id="lblUserHelp" cssclass="Normal" runat="server"></asp:label></td></tr>
-		<tr><td colspan="3" height="10"></td></tr>
+		<tr><td colspan="3" height="10">
+            </td></tr>
 		<tr id="UserRow" runat="server">
 			<td valign="top"><dnn:user id="ctlUser" runat="Server" /></td>
 			<td width="10" rowspan="5"></td>
