@@ -97,14 +97,14 @@ namespace DotNetNuke.UI.WebControls
 					}
 					else
 					{
-						_expanded = this.CustomAttribute("expanded", "false");
+						_expanded = this.CustomAttribute("expanded", "0");
 					}
 				}
 				else
 				{
-					_expanded = this.CustomAttribute("expanded", "false");
+					_expanded = this.CustomAttribute("expanded", "0");
 				}
-				return Convert.ToBoolean(_expanded);
+                   return _expanded == "1" ? true : false;
 			}
 		}
 
@@ -202,7 +202,7 @@ namespace DotNetNuke.UI.WebControls
 		{
 			if (HasNodes)
 			{
-				this.SetCustomAttribute("expanded", "true");
+				this.SetCustomAttribute("expanded", "1");
 				DNNTree.OnExpand(new DNNTreeEventArgs(this));
 			}
 		}
@@ -211,7 +211,7 @@ namespace DotNetNuke.UI.WebControls
 		{
 			if (HasNodes)
 			{
-				this.SetCustomAttribute("expanded", "false");
+				this.SetCustomAttribute("expanded", "0");
 				DNNTree.OnCollapse(new DNNTreeEventArgs(this));
 			}
 		}

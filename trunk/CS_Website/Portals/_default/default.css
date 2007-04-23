@@ -301,7 +301,7 @@ A.TreeMenu_Node:hover, A.TreeMenu_NodeSelected:hover    {
     font-family: Tahoma, Arial, Helvetica;
     font-size: 11px;
     font-weight: normal;
-	background-color: #dcdcdc; 
+	background-color: #dcdcdc;
 }
 
 A.FileManagerTreeNode:link, A.FileManagerTreeNodeSelected:link {

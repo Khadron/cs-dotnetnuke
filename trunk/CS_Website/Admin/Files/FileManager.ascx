@@ -8,7 +8,7 @@
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnntv" Namespace="DotNetNuke.UI.WebControls" Assembly="DotNetNuke.WebControls" %>
 
-<script type="text/javascript">
+<script language="javascript">
 //Localization Vars
 var m_sLocaleOk = '<%=ClientAPI.GetSafeJSString(Localization.GetString("Ok", LocalResourceFile))%>';
 var m_sLocaleCancel = '<%=ClientAPI.GetSafeJSString(Localization.GetString("Cancel", LocalResourceFile))%>';
@@ -99,7 +99,7 @@ function cancelMove()
 	setMoveStatus('');
 	blCopying=false;
 	CheckAllFiles(false);
-	dnn.dom.getById(m_sUCPrefixID + 'lblCurFolder').innerHTML = getSourcePath().replace(m_arReplaceTitle[0],m_arReplaceTitle[1]) + '\';
+	dnn.dom.getById(m_sUCPrefixID + 'lblCurFolder').innerHTML = getSourcePath().replace(m_arReplaceTitle[0],m_arReplaceTitle[1]) + '\\';
 }
 
 function clearErrorMessage()
@@ -127,7 +127,7 @@ function confirmMoveFiles(strDestFolder)
 	var strConfirmMessage='<table cellspacing=0 cellpadding=0><tr><td class=NormalBold>' + getProperPath(strDestFolder) + '</td></tr>';
 	strConfirmMessage+='<tr><td height=15>&nbsp;</td><tr>'
 	strConfirmMessage+='<tr><td align=center>';
-	strConfirmMessage+='<INPUT id=btnMoveOK style="width:82px;" Class="NormalBold" onclick="__doPostBack('' + m_sUCPrefixName + 'lnkMoveFiles' + '');" type=button value="' + m_sLocaleOk + '">&nbsp;&nbsp;&nbsp;&nbsp;';
+	strConfirmMessage+='<INPUT id=btnMoveOK style="width:82px;" Class="NormalBold" onclick="__doPostBack(\'' + m_sUCPrefixName + 'lnkMoveFiles' + '\');" type=button value="' + m_sLocaleOk + '">&nbsp;&nbsp;&nbsp;&nbsp;';
 	strConfirmMessage+='<INPUT id=btnNoConfirmMove style="width:82px;" Class="NormalBold" onclick=hideDataGrid(); type=button value="' + m_sLocaleCancel + '">';
 	strConfirmMessage+='</td></tr></table>';
 	showErrorMessage(strConfirmTitle, strConfirmMessage);
@@ -253,7 +253,7 @@ function fldScroll()
 
 function getFolderID(fldname) 
 {
-	var arvalues=fldname.split('\');
+	var arvalues=fldname.split('\\');
 	return arvalues[0];
 }
 
@@ -268,7 +268,7 @@ function getFolderScrollPos()
 
 function getProperPath(s)
 {
-	s=s.replace('\/', '\');
+	s=s.replace('\/', '\\');
 	var sFldID=getFolderID(s);
 	return s.replace(sFldID,m_arReplaceTitle[sFldID]);
 }
@@ -445,7 +445,7 @@ function gridCheckAll(sender)
 
 </script>
 <asp:panel id="pnlMainScripts" Runat="server"></asp:panel>
-<div style="DISPLAY: none"><asp:literal id="ctrlScripts1" Runat="server" EnableViewState="true"></asp:literal><asp:linkbutton id="lnkSelectFolder" Runat="server" EnableViewState="False"></asp:linkbutton><asp:textbox id="txtCurFolderID" Runat="server" EnableViewState="true"></asp:textbox><asp:textbox id="txtFldScrollPos" EnableViewState="true" runat="server"></asp:textbox></div>
+<div style="DISPLAY: none"><asp:literal id="ctrlScripts1" Runat="server" EnableViewState="true"></asp:literal><asp:linkbutton id="lnkSelectFolder" Runat="server" EnableViewState="False" OnCommand="lnkSelectFolder_Command"></asp:linkbutton><asp:textbox id="txtCurFolderID" Runat="server" EnableViewState="true"></asp:textbox><asp:textbox id="txtFldScrollPos" EnableViewState="true" runat="server"></asp:textbox></div>
 <asp:panel id="pnlScripts" Runat="server"></asp:panel>
 <table class="FileManager" cellSpacing="0" cellPadding="0" width="760" align="center" border="0">
 	<!-- ToolBar Row Begin -->
@@ -459,7 +459,7 @@ function gridCheckAll(sender)
 					<td vAlign="middle" width="100"><asp:textbox id="txtNewFolder" Runat="server" EnableViewState="False" CssClass="NormalTextBox"
 							Width="100"></asp:textbox></td>
 					<td vAlign="middle" width="100">
-						<asp:linkbutton id="lnkAddFolder" EnableViewState="False" runat="server" Visible="False"></asp:linkbutton>
+						<asp:linkbutton id="lnkAddFolder" EnableViewState="False" runat="server" Visible="False" OnCommand="lnkAddFolder_Command"></asp:linkbutton>
 						<span style="CURSOR: pointer" onclick="return canAddFolder();">
 							<asp:image id="lnkAddFolderIMG" Runat="server" resourcekey="AddFolderImg.AlternateText" AlternateText="Add Folder"
 								ImageUrl="~/images/FileManager/ToolBarAddFolderEnabled.gif" name="lnkAddFolderIMG"></asp:image>
@@ -467,7 +467,7 @@ function gridCheckAll(sender)
 						</span>
 					</td>
 					<td vAlign="middle" width="120">
-						<asp:linkbutton id="lnkDeleteFolder" EnableViewState="False" runat="server" Visible="False"></asp:linkbutton>
+						<asp:linkbutton id="lnkDeleteFolder" EnableViewState="False" runat="server" Visible="False" OnCommand="lnkDeleteFolder_Command"></asp:linkbutton>
 						<span style="CURSOR: pointer" onclick="return deleteFolder();">
 							<asp:image id="lnkDelFolderIMG" Runat="server" resourcekey="DeleteFolderImg.AlternateText"
 								AlternateText="Delete Folder" ImageUrl="~/images/FileManager/ToolBarDelFolderEnabled.gif"
@@ -476,7 +476,7 @@ function gridCheckAll(sender)
 						</span>
 					</td>
 					<td align="right" vAlign="middle" width="210">
-						<asp:linkbutton id="lnkSyncFolder" EnableViewState="False" runat="server" Visible="False"></asp:linkbutton>
+						<asp:linkbutton id="lnkSyncFolder" EnableViewState="False" runat="server" Visible="False" OnCommand="lnkSyncFolder_Command"></asp:linkbutton>
 						<span style="CURSOR: pointer" onclick="__doPostBack(m_sUCPrefixName + 'lnkSyncFolder', '');">
 							<asp:image id="lnkSyncFolderIMG" Runat="server" resourcekey="lnkSyncFolderIMG.AlternateText"
 								AlternateText="Synchronize Folder" ImageUrl="~/images/FileManager/ToolBarSynchronize.gif"
@@ -493,7 +493,7 @@ function gridCheckAll(sender)
 					<td width="5"></td>
 					<td width="60"><asp:label id="lblFileBar" Runat="server" CssClass="SubHead" resourcekey="FileBar"></asp:label></td>
 					<td vAlign="middle">
-						<asp:linkbutton id="lnkRefresh" EnableViewState="False" runat="server" Visible="False"></asp:linkbutton>
+						<asp:linkbutton id="lnkRefresh" EnableViewState="False" runat="server" Visible="False" OnCommand="lnkRefresh_Command"></asp:linkbutton>
 						<span style="CURSOR: pointer" onclick="__doPostBack(m_sUCPrefixName + 'lnkRefresh', '');">
 							<asp:image id="lnkRefreshIMG" Runat="server" resourcekey="RefreshImg.AlternateText" AlternateText="Refresh"
 								ImageUrl="~/images/FileManager/ToolBarRefreshEnabled.gif" name="lnkRefreshIMG"></asp:image>
@@ -506,7 +506,7 @@ function gridCheckAll(sender)
 								ImageUrl="~/images/FileManager/ToolBarMoveEnabled.gif" name="lnkMove"></asp:image><asp:label id="lblMove" EnableViewState="False" runat="server" CssClass="Normal" resourcekey="MoveFiles">Move Files</asp:label>&nbsp;
 						</span>
 					</td>
-					<td vAlign="middle"><asp:linkbutton id="lnkUpload" EnableViewState="False" runat="server" Visible="False"></asp:linkbutton><span style="CURSOR: pointer" onclick="__doPostBack(m_sUCPrefixName + 'lnkUpload', '');"><asp:image id="lnkUploadIMG" Runat="server" resourcekey="UploadImg.AlternateText" AlternateText="Upload"
+					<td vAlign="middle"><asp:linkbutton id="lnkUpload" EnableViewState="False" runat="server" Visible="False" OnCommand="lnkUpload_Command"></asp:linkbutton><span style="CURSOR: pointer" onclick="__doPostBack(m_sUCPrefixName + 'lnkUpload', '');"><asp:image id="lnkUploadIMG" Runat="server" resourcekey="UploadImg.AlternateText" AlternateText="Upload"
 								ImageUrl="~/images/FileManager/ToolBarUploadEnabled.gif" name="lnkUploadIMG"></asp:image><asp:label id="lblUpload" EnableViewState="False" runat="server" CssClass="Normal" resourcekey="Upload">Upload</asp:label>&nbsp;
 						</span>
 					</td>
@@ -517,7 +517,7 @@ function gridCheckAll(sender)
 					<td vAlign="middle"><asp:image id="lnkFilterIMG" style="CURSOR: pointer" onclick="__doPostBack(m_sUCPrefixName + 'lnkFilter', '');;"
 							Runat="server" resourcekey="FilterImg.AlternateText" AlternateText="Filter" ImageUrl="~/images/FileManager/ToolBarFilterEnabled.gif"
 							name="lnkFilterIMG"></asp:image></td>
-					<td vAlign="middle"><asp:linkbutton id="lnkFilter" EnableViewState="False" runat="server" Visible="False"></asp:linkbutton>&nbsp;</td>
+					<td vAlign="middle"><asp:linkbutton id="lnkFilter" EnableViewState="False" runat="server" Visible="False" OnCommand="lnkFilter_Command"></asp:linkbutton>&nbsp;</td>
 					<td vAlign="middle"><asp:textbox id="txtFilter" EnableViewState="False" runat="server" CssClass="NormalTextBox"></asp:textbox>&nbsp;</td>
 				</tr>
 			</table>
@@ -537,7 +537,7 @@ function gridCheckAll(sender)
 					<td vAlign="top"><span id="pnlFolders" style="WIDTH: 200px; HEIGHT: 300px; BACKGROUND-COLOR: #ffffff" onscroll="fldScroll();"
 							runat="server"><asp:panel id="pnlTreeInitScripts" style="MARGIN-LEFT: 2px" Runat="server" width="200" Height="300">
 								<dnntv:DNNTree id="DNNTree" runat="server" DefaultNodeCssClassSelected="FileManagerTreeNodeSelected"
-									DefaultNodeCssClass="FileManagerTreeNode" DefaultChildNodeCssClass="FileManagerTreeNode"></dnntv:DNNTree>
+									DefaultNodeCssClass="FileManagerTreeNode" DefaultChildNodeCssClass="FileManagerTreeNode" ForceDownLevel="False" IndentWidth="0" OnNodeClick="DNNTree_NodeClick" OnPopulateOnDemand="DNNTree_PopulateOnDemand"></dnntv:DNNTree>
 							</asp:panel></span></td>
 				</tr>
 			</table>
@@ -552,7 +552,7 @@ function gridCheckAll(sender)
 					</td>
 					<td id="tdGrid" vAlign="top" width="100%"><asp:datagrid id="dgFileList" runat="server" Width="100%" GridlInes="Horizontal" AllowPaging="True"
 							AutoGenerateColumns="False" PageSize="10" CellPadding="0" AllowSorting="True" HeaderStyle-CssClass="FileManager_Header" ItemStyle-CssClass="FileManager_Item"
-							EditItemStyle-CssClass="Normal" AlternatingItemStyle-CssClass="FileManager_AltItem" SelectedItemStyle-CssClass="FileManager_SelItem">
+							EditItemStyle-CssClass="Normal" AlternatingItemStyle-CssClass="FileManager_AltItem" SelectedItemStyle-CssClass="FileManager_SelItem" OnItemDataBound="dgFileList_ItemDataBound" OnSortCommand="dgFileList_SortCommand">
 							<Columns>
 								<asp:TemplateColumn>
 									<ItemTemplate>
@@ -648,10 +648,10 @@ function gridCheckAll(sender)
 								<td vAlign="bottom" align="right" style="padding-right:5px">
 									<table cellSpacing="2" cellPadding="2" border="0">
 										<tr vAlign="middle">
-											<td width="19"><asp:linkbutton id="lnkMoveFirst" runat="server"></asp:linkbutton></td>
-											<td width="19"><asp:linkbutton id="lnkMovePrevious" runat="server"></asp:linkbutton></td>
-											<td width="19"><asp:linkbutton id="lnkMoveNext" runat="server"></asp:linkbutton></td>
-											<td width="19"><asp:linkbutton id="lnkMoveLast" runat="server"></asp:linkbutton></td>
+											<td width="19"><asp:linkbutton id="lnkMoveFirst" runat="server" OnCommand="lnkMoveFirst_Command"></asp:linkbutton></td>
+											<td width="19"><asp:linkbutton id="lnkMovePrevious" runat="server" OnCommand="lnkMovePrevious_Command"></asp:linkbutton></td>
+											<td width="19"><asp:linkbutton id="lnkMoveNext" runat="server" OnCommand="lnkMoveNext_Command"></asp:linkbutton></td>
+											<td width="19"><asp:linkbutton id="lnkMoveLast" runat="server" OnCommand="lnkMoveLast_Command"></asp:linkbutton></td>
 										</tr>
 									</table>
 								</td>
@@ -673,7 +673,7 @@ function gridCheckAll(sender)
 					<td width="25%"><asp:label id="lblFileSpace" Runat="server" CssClass="NormalBold"></asp:label></td>
 					<td class="NormalBold" align="right" width="25%">&nbsp;
 						<asp:label id="lblItemsPerPage" runat="server" CssClass="NormalBold" resourcekey="ItemsPerPage">Items Per Page:</asp:label>&nbsp;
-						<asp:dropdownlist id="selPageSize" Runat="server" CssClass="Normal" AutoPostBack="True">
+						<asp:dropdownlist id="selPageSize" Runat="server" CssClass="Normal" AutoPostBack="True" OnSelectedIndexChanged="selPageSize_SelectedIndexChanged">
 							<asp:ListItem Selected="True" Value="10">10</asp:ListItem>
 							<asp:ListItem Value="15">15</asp:ListItem>
 							<asp:ListItem Value="20">20</asp:ListItem>
@@ -687,7 +687,7 @@ function gridCheckAll(sender)
 		</td>
 	</tr>
 	<!-- Status Bar Row End --></table>
-<div style="DISPLAY: none"><asp:linkbutton id="lnkMoveFiles" Runat="server" EnableViewState="False"></asp:linkbutton><asp:linkbutton id="lnkGetMoreNodes" Runat="server" EnableViewState="False">GetMoreNodes</asp:linkbutton><asp:textbox id="txtMailData" Runat="server" EnableViewState="False"></asp:textbox><asp:textbox id="txtMailText" Runat="server" EnableViewState="False"></asp:textbox><asp:linkbutton id="lnkDeleteAllCheckedFiles" Runat="server" EnableViewState="False"></asp:linkbutton><asp:textbox id="txtLastPath" Runat="server" EnableViewState="False"></asp:textbox><asp:linkbutton id="lnkCancelMoveFiles" Runat="server" EnableViewState="False"></asp:linkbutton><asp:hyperlink id="lnkUploadRedir" Runat="server" EnableViewState="False" Visible="False"></asp:hyperlink></div>
+<div style="DISPLAY: none"><asp:linkbutton id="lnkMoveFiles" Runat="server" EnableViewState="False" OnCommand="lnkMoveFiles_Command"></asp:linkbutton><asp:linkbutton id="lnkGetMoreNodes" Runat="server" EnableViewState="False">GetMoreNodes</asp:linkbutton><asp:textbox id="txtMailData" Runat="server" EnableViewState="False"></asp:textbox><asp:textbox id="txtMailText" Runat="server" EnableViewState="False"></asp:textbox><asp:linkbutton id="lnkDeleteAllCheckedFiles" Runat="server" EnableViewState="False" OnCommand="lnkDeleteAllCheckedFiles_Command"></asp:linkbutton><asp:textbox id="txtLastPath" Runat="server" EnableViewState="False"></asp:textbox><asp:linkbutton id="lnkCancelMoveFiles" Runat="server" EnableViewState="False"></asp:linkbutton><asp:hyperlink id="lnkUploadRedir" Runat="server" EnableViewState="False" Visible="False"></asp:hyperlink></div>
 <asp:panel id="pnlSecurity" Runat="server" Visible="False">
 <dnn:sectionhead id="dshSecurity" runat="server" resourcekey="Security" cssclass="Head" text="Security Settings"
 		section="tblSecurity"></dnn:sectionhead>
@@ -706,7 +706,7 @@ function gridCheckAll(sender)
 			</TD>
 		</TR>
 	</TABLE>
-<asp:linkbutton cssclass="CommandButton" id="cmdUpdate" runat="server" resourcekey="cmdUpdate" text="Update"></asp:linkbutton>&nbsp;&nbsp; 
-<asp:linkbutton cssclass="CommandButton" id="cmdCancel" runat="server" resourcekey="cmdCancel" text="Cancel"></asp:linkbutton>&nbsp;&nbsp; 
+<asp:linkbutton cssclass="CommandButton" id="cmdUpdate" runat="server" resourcekey="cmdUpdate" text="Update" OnClick="cmdUpdate_Click"></asp:linkbutton>&nbsp;&nbsp; 
+<asp:linkbutton cssclass="CommandButton" id="cmdCancel" runat="server" resourcekey="cmdCancel" text="Cancel" OnClick="cmdCancel_Click"></asp:linkbutton>&nbsp;&nbsp; 
 </asp:panel>
 <asp:panel id="pnlScripts2" Runat="server" EnableViewState="False"></asp:panel>

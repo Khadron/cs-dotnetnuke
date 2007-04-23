@@ -29,7 +29,6 @@ using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Log.EventLog;
 using DotNetNuke.UI.Skins.Controls;
 using DotNetNuke.UI.Utilities;
-using Microsoft.VisualBasic;
 using Globals=DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Modules.Admin.Security
@@ -138,9 +137,9 @@ namespace DotNetNuke.Modules.Admin.Security
                                 cboRoleGroups.ClearSelection();
                                 cboRoleGroups.Items.FindByValue( objRoleInfo.RoleGroupID.ToString() ).Selected = true;
                             }
-                            if( Strings.Format( objRoleInfo.ServiceFee, "#,##0.00" ) != "0.00" )
+                            if( string.Format("{0:#,##0.00}" , objRoleInfo.ServiceFee) != "0.00" )
                             {
-                                txtServiceFee.Text = Strings.Format( objRoleInfo.ServiceFee, "#,##0.00" );
+                                txtServiceFee.Text = string.Format("{0:#,##0.00}", objRoleInfo.ServiceFee);
                                 txtBillingPeriod.Text = objRoleInfo.BillingPeriod.ToString();
                                 if( cboBillingFrequency.Items.FindByValue( objRoleInfo.BillingFrequency ) != null )
                                 {
@@ -150,7 +149,7 @@ namespace DotNetNuke.Modules.Admin.Security
                             }
                             if( objRoleInfo.TrialFrequency != "N" )
                             {
-                                txtTrialFee.Text = Strings.Format( objRoleInfo.TrialFee, "#,##0.00" );
+                                txtTrialFee.Text = string.Format("{0:#,##0.00}", objRoleInfo.TrialFee);
                                 txtTrialPeriod.Text = objRoleInfo.TrialPeriod.ToString();
                                 if( cboTrialFrequency.Items.FindByValue( objRoleInfo.TrialFrequency ) != null )
                                 {

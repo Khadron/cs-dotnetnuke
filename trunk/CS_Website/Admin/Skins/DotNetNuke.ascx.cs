@@ -68,7 +68,7 @@ namespace DotNetNuke.UI.Skins.Controls
             }
 
             // get Product Name and Legal Copyright from constants (Medium Trust)
-            hypDotNetNuke.Text = Strings.Replace( Globals.glbLegalCopyright, "YYYY", DateAndTime.Year( DateTime.Now ).ToString(), 1, -1, 0 );
+            hypDotNetNuke.Text = Globals.glbLegalCopyright.Replace("YYYY", DateTime.Now.Year.ToString());
             hypDotNetNuke.NavigateUrl = Globals.glbAppUrl;
 
             // show copyright credits?

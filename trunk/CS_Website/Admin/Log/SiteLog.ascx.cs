@@ -29,7 +29,6 @@ using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Log.SiteLog;
 using DotNetNuke.UI.Skins.Controls;
-using Microsoft.VisualBasic;
 using Calendar=DotNetNuke.Common.Utilities.Calendar;
 using Globals=DotNetNuke.Common.Globals;
 
@@ -220,8 +219,8 @@ namespace DotNetNuke.Modules.Admin.SiteLog
                     cboReportType.DataBind();
                     cboReportType.SelectedIndex = 0;
 
-                    txtStartDate.Text = DateAndTime.DateAdd( DateInterval.Day, - 6, DateTime.Today ).ToShortDateString();
-                    txtEndDate.Text = DateAndTime.DateAdd( DateInterval.Day, 1, DateTime.Today ).ToShortDateString();
+                    txtStartDate.Text = DateTime.Today.AddDays(-6).ToShortDateString();
+                    txtEndDate.Text = DateTime.Today.AddDays(1).ToShortDateString();
 
                     // Store URL Referrer to return to portal
                     if( Request.UrlReferrer != null )

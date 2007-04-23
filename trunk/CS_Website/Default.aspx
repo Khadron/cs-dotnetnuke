@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" Inherits="DotNetNuke.Framework.DefaultPage" CodeFile="Default.aspx.cs" %>
+<%@ Page EnableViewStateMac="true" Language="C#" AutoEventWireup="true" Inherits="DotNetNuke.Framework.DefaultPage" CodeFile="Default.aspx.cs" %>
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Common.Controls" Assembly="DotNetNuke" %>
 
 <asp:literal id="skinDocType" runat="server"></asp:literal>

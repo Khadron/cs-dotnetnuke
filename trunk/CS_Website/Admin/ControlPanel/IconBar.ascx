@@ -97,7 +97,7 @@
 											<td align="center" nowrap>&nbsp;</td>
 										</tr>
                                         <tr id="rowInstallModule" runat="server" valign="bottom">
-                                            <td align="center" colspan="5" width="100%">
+                                            <td align="center" colspan="5" width="100%" style="height: 27px">
                                                 <asp:LinkButton ID="cmdInstallFeatures" runat="server" CausesValidation="False" CssClass="CommandButton">Install New Application Features</asp:LinkButton>
                                             </td>
                                         </tr>

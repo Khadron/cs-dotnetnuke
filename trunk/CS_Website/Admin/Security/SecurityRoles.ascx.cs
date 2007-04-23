@@ -34,7 +34,6 @@ using DotNetNuke.Services.Log.EventLog;
 using DotNetNuke.Services.Mail;
 using DotNetNuke.UI.Skins.Controls;
 using DotNetNuke.UI.Utilities;
-using Microsoft.VisualBasic;
 using Calendar=DotNetNuke.Common.Utilities.Calendar;
 using Globals=DotNetNuke.Common.Globals;
 
@@ -253,19 +252,19 @@ namespace DotNetNuke.Modules.Admin.Security
                     {
                         case "D":
 
-                            strExpiryDate = DateAndTime.DateAdd( DateInterval.Day, objRole.BillingPeriod, DateTime.Now ).ToShortDateString();
+                            strExpiryDate = DateTime.Now.AddDays(objRole.BillingPeriod).ToShortDateString();
                             break;
                         case "W":
 
-                            strExpiryDate = DateAndTime.DateAdd( DateInterval.Day, ( objRole.BillingPeriod*7 ), DateTime.Now ).ToShortDateString();
+                            strExpiryDate = DateTime.Now.AddDays(objRole.BillingPeriod * 7).ToShortDateString();
                             break;
                         case "M":
 
-                            strExpiryDate = DateAndTime.DateAdd( DateInterval.Month, objRole.BillingPeriod, DateTime.Now ).ToShortDateString();
+                            strExpiryDate = DateTime.Now.AddMonths(objRole.BillingPeriod).ToShortDateString();
                             break;
                         case "Y":
 
-                            strExpiryDate = DateAndTime.DateAdd( DateInterval.Year, objRole.BillingPeriod, DateTime.Now ).ToShortDateString();
+                            strExpiryDate = DateTime.Now.AddYears(objRole.BillingPeriod).ToShortDateString();
                             break;
                     }
                 }

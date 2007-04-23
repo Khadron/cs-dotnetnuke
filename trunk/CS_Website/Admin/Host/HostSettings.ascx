@@ -478,7 +478,7 @@
 	</tr>
 </table>
 <p>
-	<asp:linkbutton cssclass="CommandButton" id="cmdUpdate" resourcekey="cmdUpdate" runat="server" text="Update" OnClick="cmdUpdate_Click"></asp:linkbutton>
+	<asp:Linkbutton cssclass="CommandButton" id="cmdUpdate" resourcekey="cmdUpdate" runat="server" text="Update" OnClick="cmdUpdate_Click"></asp:Linkbutton>&nbsp;
     <asp:LinkButton ID="cmdRestart" runat="server" CssClass="CommandButton" OnClick="cmdRestart_Click" resourcekey="cmdRestart" Text="Restart Application"></asp:LinkButton>
 </p>
 <hr noshade size="1"/>

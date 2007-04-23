@@ -283,11 +283,11 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
         /// <summary>
         /// UpgradeStatusURL returns the imageurl for the upgrade button for the module
         /// </summary>
-        public string UpgradeStatusURL(string Version, string ModuleName)
+        public string UpgradeStatusURL(string version, string moduleName)
         {
-            if (Convert.ToString(Globals.HostSettings["CheckUpgrade"]) != "N" & ModuleName != "" & Version != "")
+            if (Convert.ToString(Globals.HostSettings["CheckUpgrade"]) != "N" & !String.IsNullOrEmpty(moduleName) & !String.IsNullOrEmpty(version))
             {
-                return Globals.glbUpgradeUrl + "/update.aspx?version=" + Version.Replace(".", "") + "&modulename=" + ModuleName;
+                return Globals.glbUpgradeUrl + "/update.aspx?version=" + version.Replace(".", "") + "&modulename=" + moduleName;
             }
             else
             {

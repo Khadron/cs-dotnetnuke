@@ -1,8 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost/CS_DotNetNuke/", "http://localhost/CS_DotNetNuke", "{D9A541D6-A0AA-4849-9146-3AA74B151C7C}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost/CS_DNN_DEV/", "http://localhost/CS_DNN_DEV", "{D9A541D6-A0AA-4849-9146-3AA74B151C7C}"
 	ProjectSection(WebsiteProperties) = preProject
-		ProjectReferences = "{2F6470AF-AF81-4F6B-AA16-A87A700B18DB}|DotNetNuke.Authentication.ADSI.dll;{42E4A15C-198C-49CE-BCD8-9E5EB1168D00}|DotNetNuke.HttpModules.Authentication.dll;{6F0A5B23-E09F-431A-879A-993CB77E23D8}|DotNetNuke.HttpModules.DNNMembership.dll;{24AEAE9B-99C5-487C-9962-EFF88A3C6230}|DotNetNuke.HttpModules.Exception.dll;{565221D8-79DC-483C-A92F-23E7A77F4197}|DotNetNuke.HttpModules.Personalization.dll;{F336D16D-E512-42CC-876A-9E0118F87514}|DotNetNuke.HttpModules.UrlRewrite.dll;{7B7C5C9A-23B0-492C-8E9B-EDA4DF6BA101}|DotNetNuke.HttpModules.UsersOnline.dll;{EB5D23A1-7E8C-43BA-BD20-F43398D60D26}|DotNetNuke.Authentication.ADSIProvider.dll;{282FB137-A43A-42B8-AC9E-B8B39CC2B636}|DotNetNuke.Caching.BroadcastPollingCachingProvider.dll;{E50121FB-510D-415B-81AC-4CE768070EF1}|DotNetNuke.Caching.BroadcastPollingCachingProvider.SQLDataProvider.dll;{D206D80A-DE26-4441-A8CD-0C70D2EB0C38}|DotNetNuke.Caching.FileBasedCachingProvider.dll;{A566C3FB-176F-4EF7-A2EB-CB22F2741082}|DotNetNuke.Provider.DBLoggingProvider.dll;{7A901229-482F-41AE-B43E-1B2B77560822}|DotNetNuke.Provider.DBLoggingProvider.SqlDataProvider.dll;{982CB668-91F8-43BB-AC80-D4E178E6D2B4}|DotNetNuke.DNNDropDownNavigationProvider.dll;{78BC5861-5023-4370-A30A-EC7629E93ED1}|DotNetNuke.DNNMenuNavigationProvider.dll;{6F610B3E-218D-4209-8028-E8978A76CFB9}|DotNetNuke.DNNScheduler.dll;{31B8EEE0-1302-44AB-ABBF-6BF2F1D6EC60}|DotNetNuke.DNNScheduler.SqlDataProvider.dll;{4F30AA90-BE74-4354-B3E1-DE0004F5E395}|DotNetNuke.DNNTreeNavigationProvider.dll;{0D7E8101-E36A-4904-AD9F-567D5F396A02}|DotNetNuke.Ftb3HtmlEditorProvider.dll;{A45415E3-625B-4C90-9345-8E8C7DD9D28D}|DotNetNuke.Search.DataStore.dll;{FD8FCDFF-64FC-4EAE-BECC-A9546E1DCB44}|DotNetNuke.Search.Index.dll;{1A19AB44-33A4-4222-A420-7B213E91C647}|DotNetNuke.SolpartMenuNavigationProvider.dll;{F8623BD1-92F0-40D8-A32C-364D26B228FE}|DotNetNuke.SqlDataProvider.dll;{4EB18E71-DB16-4E61-9493-7DB3EBDF3D2B}|DotNetNuke.XMLLoggingProvider.dll;{89093FD0-076F-48CD-9232-B665226CDBF0}|CountryListBox.dll;{6A2C6160-2905-407B-9575-16210528F4C8}|DotNetNuke.Provider.AspNetProvider.dll;{C2F70937-7E98-489C-8675-29E12790A471}|DotNetNuke.Provider.Membership.SqlDataProvider.dll;{B15A45FA-02F8-4F09-A04B-13B7920CABCE}|DotNetNuke.Membership.Dataprovider.dll;{DE2B348A-1DAD-4630-9F55-788F8CCBAD02}|DotNetNuke.Provider.DNNProvider.dll;{1012996F-79CF-4175-81D7-B3B131A81489}|DotNetNuke.ASP2MenuNavigationProvider.dll;{BD54C946-FE71-4E5F-B4B0-61BE98FCBF35}|DotNetNuke.dll;{54F96926-802C-408E-A04B-F56859C0308C}|DotNetNuke.WebUtility.dll;{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}|DotNetNuke.HttpModules.Compression.dll;"
+		ProjectReferences = "{2F6470AF-AF81-4F6B-AA16-A87A700B18DB}|DotNetNuke.Authentication.ADSI.dll;{42E4A15C-198C-49CE-BCD8-9E5EB1168D00}|DotNetNuke.HttpModules.Authentication.dll;{6F0A5B23-E09F-431A-879A-993CB77E23D8}|DotNetNuke.HttpModules.DNNMembership.dll;{24AEAE9B-99C5-487C-9962-EFF88A3C6230}|DotNetNuke.HttpModules.Exception.dll;{565221D8-79DC-483C-A92F-23E7A77F4197}|DotNetNuke.HttpModules.Personalization.dll;{F336D16D-E512-42CC-876A-9E0118F87514}|DotNetNuke.HttpModules.UrlRewrite.dll;{7B7C5C9A-23B0-492C-8E9B-EDA4DF6BA101}|DotNetNuke.HttpModules.UsersOnline.dll;{EB5D23A1-7E8C-43BA-BD20-F43398D60D26}|DotNetNuke.Authentication.ADSIProvider.dll;{282FB137-A43A-42B8-AC9E-B8B39CC2B636}|DotNetNuke.Caching.BroadcastPollingCachingProvider.dll;{E50121FB-510D-415B-81AC-4CE768070EF1}|DotNetNuke.Caching.BroadcastPollingCachingProvider.SQLDataProvider.dll;{D206D80A-DE26-4441-A8CD-0C70D2EB0C38}|DotNetNuke.Caching.FileBasedCachingProvider.dll;{A566C3FB-176F-4EF7-A2EB-CB22F2741082}|DotNetNuke.Provider.DBLoggingProvider.dll;{7A901229-482F-41AE-B43E-1B2B77560822}|DotNetNuke.Provider.DBLoggingProvider.SqlDataProvider.dll;{982CB668-91F8-43BB-AC80-D4E178E6D2B4}|DotNetNuke.DNNDropDownNavigationProvider.dll;{78BC5861-5023-4370-A30A-EC7629E93ED1}|DotNetNuke.DNNMenuNavigationProvider.dll;{6F610B3E-218D-4209-8028-E8978A76CFB9}|DotNetNuke.DNNScheduler.dll;{31B8EEE0-1302-44AB-ABBF-6BF2F1D6EC60}|DotNetNuke.DNNScheduler.SqlDataProvider.dll;{4F30AA90-BE74-4354-B3E1-DE0004F5E395}|DotNetNuke.DNNTreeNavigationProvider.dll;{0D7E8101-E36A-4904-AD9F-567D5F396A02}|DotNetNuke.Ftb3HtmlEditorProvider.dll;{A45415E3-625B-4C90-9345-8E8C7DD9D28D}|DotNetNuke.Search.DataStore.dll;{FD8FCDFF-64FC-4EAE-BECC-A9546E1DCB44}|DotNetNuke.Search.Index.dll;{1A19AB44-33A4-4222-A420-7B213E91C647}|DotNetNuke.SolpartMenuNavigationProvider.dll;{F8623BD1-92F0-40D8-A32C-364D26B228FE}|DotNetNuke.SqlDataProvider.dll;{4EB18E71-DB16-4E61-9493-7DB3EBDF3D2B}|DotNetNuke.XMLLoggingProvider.dll;{89093FD0-076F-48CD-9232-B665226CDBF0}|CountryListBox.dll;{6A2C6160-2905-407B-9575-16210528F4C8}|DotNetNuke.Provider.AspNetProvider.dll;{C2F70937-7E98-489C-8675-29E12790A471}|DotNetNuke.Provider.Membership.SqlDataProvider.dll;{B15A45FA-02F8-4F09-A04B-13B7920CABCE}|DotNetNuke.Membership.Dataprovider.dll;{DE2B348A-1DAD-4630-9F55-788F8CCBAD02}|DotNetNuke.Provider.DNNProvider.dll;{1012996F-79CF-4175-81D7-B3B131A81489}|DotNetNuke.ASP2MenuNavigationProvider.dll;{BD54C946-FE71-4E5F-B4B0-61BE98FCBF35}|DotNetNuke.dll;{54F96926-802C-408E-A04B-F56859C0308C}|DotNetNuke.WebUtility.dll;{92275BB2-2780-4279-8BC8-C79935B2B114}|DotNetNuke.WebControls.dll;{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}|DotNetNuke.HttpModules.Compression.dll;{30933672-466E-4F67-A111-ABF267539146}|Microsoft.ApplicationBlocks.Data.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/CS_PreCompiled"
 		Debug.AspNetCompiler.PhysicalPath = "CS_Website\"
 		Debug.AspNetCompiler.TargetPath = "CS_PreCompiled\"
@@ -758,19 +758,49 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Membership.SqlData
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{2CFEAB61-6A3B-4EB8-B523-560B4BEEF521}") = "CS_DotNetNuke", "CS_DotNetNuke\CS_DotNetNuke.wdproj", "{7EBE0B62-E96A-4EA9-99A2-C1BF30C2250E}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpModule.Compression", "CS_Library\HttpModules\Compression\HttpModule.Compression.csproj", "{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetNuke.WebControls", "..\CS-DNN-Dev\CS-DNN\CS_Library\Controls\DotNetNuke.WebControls\DotNetNuke.WebControls.csproj", "{92275BB2-2780-4279-8BC8-C79935B2B114}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetNuke.WebControls", "CS_Library\Controls\DotNetNuke.WebControls\DotNetNuke.WebControls.csproj", "{92275BB2-2780-4279-8BC8-C79935B2B114}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.ApplicationBlocks.Data", "CS_Library\Components\ApplicationBlocks\Microsoft.ApplicationBlocks.Data.csproj", "{30933672-466E-4F67-A111-ABF267539146}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.OracleDataProvider", "CS_Library\Providers\DataProviders\OracleDataProvider\Provider.OracleDataProvider.csproj", "{9C303C6B-1264-433D-B639-4E5A4759B009}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Membership.OracleDataProvider", "CS_Library\Providers\MembershipProviders\OracleDataProvider\Provider.Membership.OracleDataProvider.csproj", "{F11BB118-861A-4A9C-9925-BBA4EA300E79}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Caching.BroadcastPollingCachingProvider.OracleDataProvider", "CS_Library\Providers\CachingProviders\BroadcastPollingCachingProvider\Providers\OracleDataProvider\Provider.Caching.BroadcastPollingCachingProvider.OracleDataProvider.csproj", "{EC473409-9EB4-4722-9E31-0CF40B3567B4}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.DBLoggingProvider.OracleDataProvider", "CS_Library\Providers\LoggingProviders\Provider.DBLoggingProvider\Providers\OracleDataProvider\Provider.DBLoggingProvider.OracleDataProvider.csproj", "{5ADCAA27-BCF2-45A2-AA8C-35B0D089CCBA}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.DNNScheduler.OracleDataProvider", "CS_Library\Providers\SchedulingProviders\DNNScheduler\Providers\OracleDataProvider\Provider.DNNScheduler.OracleDataProvider.csproj", "{549DAE86-082E-4F2C-9F95-7494159A6F1E}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -791,7 +821,6 @@ Global
 		{D9A541D6-A0AA-4849-9146-3AA74B151C7C}.Debug|Any CPU.ActiveCfg = Debug|.NET
 		{D9A541D6-A0AA-4849-9146-3AA74B151C7C}.Debug|Any CPU.Build.0 = Debug|.NET
 		{D9A541D6-A0AA-4849-9146-3AA74B151C7C}.Debug|Mixed Platforms.ActiveCfg = Debug|.NET
-		{D9A541D6-A0AA-4849-9146-3AA74B151C7C}.Debug|Mixed Platforms.Build.0 = Debug|.NET
 		{D9A541D6-A0AA-4849-9146-3AA74B151C7C}.Release|.NET.ActiveCfg = Debug|.NET
 		{D9A541D6-A0AA-4849-9146-3AA74B151C7C}.Release|.NET.Build.0 = Debug|.NET
 		{D9A541D6-A0AA-4849-9146-3AA74B151C7C}.Release|Any CPU.ActiveCfg = Debug|.NET
@@ -1181,14 +1210,6 @@ Global
 		{C2F70937-7E98-489C-8675-29E12790A471}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C2F70937-7E98-489C-8675-29E12790A471}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C2F70937-7E98-489C-8675-29E12790A471}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{7EBE0B62-E96A-4EA9-99A2-C1BF30C2250E}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{7EBE0B62-E96A-4EA9-99A2-C1BF30C2250E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7EBE0B62-E96A-4EA9-99A2-C1BF30C2250E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{7EBE0B62-E96A-4EA9-99A2-C1BF30C2250E}.Release|.NET.ActiveCfg = Release|Any CPU
-		{7EBE0B62-E96A-4EA9-99A2-C1BF30C2250E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7EBE0B62-E96A-4EA9-99A2-C1BF30C2250E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7EBE0B62-E96A-4EA9-99A2-C1BF30C2250E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{7EBE0B62-E96A-4EA9-99A2-C1BF30C2250E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}.Debug|.NET.Build.0 = Debug|Any CPU
 		{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -1210,6 +1231,66 @@ Global
 		{92275BB2-2780-4279-8BC8-C79935B2B114}.Release|Any CPU.Build.0 = Release|Any CPU
 		{92275BB2-2780-4279-8BC8-C79935B2B114}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{92275BB2-2780-4279-8BC8-C79935B2B114}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{30933672-466E-4F67-A111-ABF267539146}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{30933672-466E-4F67-A111-ABF267539146}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30933672-466E-4F67-A111-ABF267539146}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30933672-466E-4F67-A111-ABF267539146}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{30933672-466E-4F67-A111-ABF267539146}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{30933672-466E-4F67-A111-ABF267539146}.Release|.NET.ActiveCfg = Release|Any CPU
+		{30933672-466E-4F67-A111-ABF267539146}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30933672-466E-4F67-A111-ABF267539146}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30933672-466E-4F67-A111-ABF267539146}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{30933672-466E-4F67-A111-ABF267539146}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9C303C6B-1264-433D-B639-4E5A4759B009}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{9C303C6B-1264-433D-B639-4E5A4759B009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C303C6B-1264-433D-B639-4E5A4759B009}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C303C6B-1264-433D-B639-4E5A4759B009}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9C303C6B-1264-433D-B639-4E5A4759B009}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9C303C6B-1264-433D-B639-4E5A4759B009}.Release|.NET.ActiveCfg = Release|Any CPU
+		{9C303C6B-1264-433D-B639-4E5A4759B009}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C303C6B-1264-433D-B639-4E5A4759B009}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C303C6B-1264-433D-B639-4E5A4759B009}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9C303C6B-1264-433D-B639-4E5A4759B009}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F11BB118-861A-4A9C-9925-BBA4EA300E79}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{F11BB118-861A-4A9C-9925-BBA4EA300E79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F11BB118-861A-4A9C-9925-BBA4EA300E79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F11BB118-861A-4A9C-9925-BBA4EA300E79}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F11BB118-861A-4A9C-9925-BBA4EA300E79}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F11BB118-861A-4A9C-9925-BBA4EA300E79}.Release|.NET.ActiveCfg = Release|Any CPU
+		{F11BB118-861A-4A9C-9925-BBA4EA300E79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F11BB118-861A-4A9C-9925-BBA4EA300E79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F11BB118-861A-4A9C-9925-BBA4EA300E79}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F11BB118-861A-4A9C-9925-BBA4EA300E79}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EC473409-9EB4-4722-9E31-0CF40B3567B4}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{EC473409-9EB4-4722-9E31-0CF40B3567B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC473409-9EB4-4722-9E31-0CF40B3567B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC473409-9EB4-4722-9E31-0CF40B3567B4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EC473409-9EB4-4722-9E31-0CF40B3567B4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EC473409-9EB4-4722-9E31-0CF40B3567B4}.Release|.NET.ActiveCfg = Release|Any CPU
+		{EC473409-9EB4-4722-9E31-0CF40B3567B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC473409-9EB4-4722-9E31-0CF40B3567B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC473409-9EB4-4722-9E31-0CF40B3567B4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EC473409-9EB4-4722-9E31-0CF40B3567B4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5ADCAA27-BCF2-45A2-AA8C-35B0D089CCBA}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{5ADCAA27-BCF2-45A2-AA8C-35B0D089CCBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ADCAA27-BCF2-45A2-AA8C-35B0D089CCBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ADCAA27-BCF2-45A2-AA8C-35B0D089CCBA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5ADCAA27-BCF2-45A2-AA8C-35B0D089CCBA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5ADCAA27-BCF2-45A2-AA8C-35B0D089CCBA}.Release|.NET.ActiveCfg = Release|Any CPU
+		{5ADCAA27-BCF2-45A2-AA8C-35B0D089CCBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ADCAA27-BCF2-45A2-AA8C-35B0D089CCBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ADCAA27-BCF2-45A2-AA8C-35B0D089CCBA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5ADCAA27-BCF2-45A2-AA8C-35B0D089CCBA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{549DAE86-082E-4F2C-9F95-7494159A6F1E}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{549DAE86-082E-4F2C-9F95-7494159A6F1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{549DAE86-082E-4F2C-9F95-7494159A6F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{549DAE86-082E-4F2C-9F95-7494159A6F1E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{549DAE86-082E-4F2C-9F95-7494159A6F1E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{549DAE86-082E-4F2C-9F95-7494159A6F1E}.Release|.NET.ActiveCfg = Release|Any CPU
+		{549DAE86-082E-4F2C-9F95-7494159A6F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{549DAE86-082E-4F2C-9F95-7494159A6F1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{549DAE86-082E-4F2C-9F95-7494159A6F1E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{549DAE86-082E-4F2C-9F95-7494159A6F1E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

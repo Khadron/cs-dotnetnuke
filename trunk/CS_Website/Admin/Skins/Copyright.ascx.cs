@@ -75,7 +75,7 @@ namespace DotNetNuke.UI.Skins.Controls
             }
             else
             {
-                lblCopyright.Text = string.Format( Localization.GetString( "Copyright", Localization.GetResourceFile( this, MyFileName ) ), DateAndTime.Year( DateTime.Now ), PortalSettings.PortalName );
+                lblCopyright.Text = string.Format( Localization.GetString( "Copyright", Localization.GetResourceFile( this, MyFileName ) ), DateTime.Now.Year, PortalSettings.PortalName );
             }
         }
     }

@@ -31,7 +31,6 @@ using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Log.EventLog;
 using DotNetNuke.Services.Mail;
-using Microsoft.VisualBasic;
 using Globals=DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Modules.Admin.PortalManagement
@@ -171,8 +170,8 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                     }
 
                     //Set Portal Name
-                    txtPortalName.Text = Strings.LCase( txtPortalName.Text );
-                    txtPortalName.Text = Strings.Replace( txtPortalName.Text, "http://", "", 1, -1, 0 );
+                    txtPortalName.Text = txtPortalName.Text.ToLower();
+                    txtPortalName.Text = txtPortalName.Text.Replace("http://", "");
 
                     //Validate Portal Name
                     if( PortalSettings.ActiveTab.ParentId != PortalSettings.SuperTabId )
@@ -182,7 +181,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
                         // child portal
                         for( intCounter = 1; intCounter <= txtPortalName.Text.Length; intCounter++ )
                         {
-                            if( Strings.InStr( 1, "abcdefghijklmnopqrstuvwxyz0123456789-", Strings.Mid( txtPortalName.Text, intCounter, 1 ), 0 ) == 0 )
+                            if( "abcdefghijklmnopqrstuvwxyz0123456789-".IndexOf(txtPortalName.Text.Substring(intCounter, 1 )) == 0 )
                             {
                                 strMessage += "<br>" + Localization.GetString( "InvalidName", this.LocalResourceFile );
                             }
@@ -196,7 +195,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
 
                         if( blnChild )
                         {
-                            strPortalAlias = Strings.Mid( txtPortalName.Text, Strings.InStrRev( txtPortalName.Text, "/", -1, 0 ) + 1 );
+                            strPortalAlias = txtPortalName.Text.Substring(txtPortalName.Text.LastIndexOf("/") + 1);
                         }
                         else
                         {
@@ -211,7 +210,7 @@ namespace DotNetNuke.Modules.Admin.PortalManagement
 
                         for( intCounter = 1; intCounter <= strPortalAlias.Length; intCounter++ )
                         {
-                            if( Strings.InStr( 1, strValidChars, strPortalAlias.Substring( intCounter - 1, 1 ), 0 ) == 0 )
+                            if (strValidChars.IndexOf(strPortalAlias.Substring(intCounter - 1, 1)) == 0)
                             {
                                 strMessage += "<br>" + Localization.GetString( "InvalidName", this.LocalResourceFile );
                             }

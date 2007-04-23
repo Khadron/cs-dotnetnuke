@@ -18,6 +18,7 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
+using System;
 using System.Globalization;
 using System.Web.UI.WebControls;
 using DotNetNuke.Services.Localization;
@@ -67,7 +68,7 @@ namespace DotNetNuke.Common.Utilities
             string strToday = ClientAPI.GetSafeJSString( Localization.GetString( "Today" ) );
             string strClose = ClientAPI.GetSafeJSString( Localization.GetString( "Close" ) );
             string strCalendar = ClientAPI.GetSafeJSString( Localization.GetString( "Calendar" ) );
-            return "javascript:popupCal('Cal','" + Field.ClientID + "','" + FormatString + "','" + MonthNameString + "','" + DayNameString + "','" + strToday + "','" + strClose + "','" + strCalendar + "'," + DateTimeFormatInfo.CurrentInfo.FirstDayOfWeek + ");";
+            return "javascript:popupCal('Cal','" + Field.ClientID + "','" + FormatString + "','" + MonthNameString + "','" + DayNameString + "','" + strToday + "','" + strClose + "','" + strCalendar + "'," + (int)DateTimeFormatInfo.CurrentInfo.FirstDayOfWeek + ");";
         }
     }
 }

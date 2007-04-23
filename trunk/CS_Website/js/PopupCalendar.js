@@ -20,6 +20,7 @@ var popCalWin;
 function popupCal()
 {
 	//debugger;			//remove slashes to activate debugging in Visual Studio
+	alert('test');
 	var tmpDate         = new Date();
 	var tmpString       = "";
 	var tmpNum          = 0;

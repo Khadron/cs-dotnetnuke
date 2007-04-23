@@ -337,9 +337,7 @@
 </table>
 <p>
     <asp:LinkButton ID="cmdUpdate" runat="server" CssClass="CommandButton" OnClick="cmdUpdate_Click" resourcekey="cmdUpdate" Text="Update"></asp:LinkButton>&nbsp;&nbsp;
-    <asp:LinkButton ID="cmdCancel" runat="server" BorderStyle="none" CausesValidation="False" CssClass="CommandButton" OnClick="cmdCancel_Click" resourcekey="cmdCancel"
-        Text="Cancel"></asp:LinkButton>&nbsp;&nbsp;
-    <asp:LinkButton ID="cmdDelete" runat="server" BorderStyle="none" CausesValidation="False" CssClass="CommandButton" OnClick="cmdDelete_Click" resourcekey="cmdDelete"
-        Text="Delete"></asp:LinkButton>&nbsp;&nbsp;
+    <asp:LinkButton ID="cmdCancel" runat="server" BorderStyle="none" CausesValidation="False" CssClass="CommandButton" OnClick="cmdCancel_Click" resourcekey="cmdCancel" Text="Cancel"></asp:LinkButton>&nbsp;&nbsp;
+    <asp:LinkButton ID="cmdDelete" runat="server" BorderStyle="none" CausesValidation="False" CssClass="CommandButton" OnClick="cmdDelete_Click" resourcekey="cmdDelete" Text="Delete"></asp:LinkButton>&nbsp;&nbsp;
     <asp:LinkButton ID="cmdGoogle" runat="server" CssClass="CommandButton" OnClick="cmdGoogle_Click" resourcekey="cmdGoogle" Text="Submit Site To Google"></asp:LinkButton>
 </p>

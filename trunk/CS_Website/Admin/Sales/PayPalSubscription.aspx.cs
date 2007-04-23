@@ -103,7 +103,7 @@ namespace DotNetNuke.Modules.Admin.Sales
                             {
                                 // build the payment PayPal URL
                                 strPayPalURL += "&redirect_cmd=_xclick&business=" + Globals.HTTPPOSTEncode( strProcessorUserId );
-                                strPayPalURL += "&item_name=" + Globals.HTTPPOSTEncode( PortalSettings.PortalName + " - " + objRole.RoleName + " ( " + Strings.Format( objRole.ServiceFee, "0.00" ) + " " + PortalSettings.Currency + " )" );
+                                strPayPalURL += "&item_name=" + Globals.HTTPPOSTEncode( PortalSettings.PortalName + " - " + objRole.RoleName + " ( " + string.Format("{0:0.00}", objRole.ServiceFee) + " " + PortalSettings.Currency + " )" );
                                 strPayPalURL += "&item_number=" + Globals.HTTPPOSTEncode( intRoleId.ToString() );
                                 strPayPalURL += "&no_shipping=1&no_note=1";
                                 strPayPalURL += "&quantity=1";
@@ -114,7 +114,7 @@ namespace DotNetNuke.Modules.Admin.Sales
                             {
                                 // build the subscription PayPal URL
                                 strPayPalURL += "&redirect_cmd=_xclick-subscriptions&business=" + Globals.HTTPPOSTEncode( strProcessorUserId );
-                                strPayPalURL += "&item_name=" + Globals.HTTPPOSTEncode( PortalSettings.PortalName + " - " + objRole.RoleName + " ( " + Strings.Format( objRole.ServiceFee, "0.00" ) + " " + PortalSettings.Currency + " every " + intBillingPeriod.ToString() + " " + GetBillingFrequencyCode( objRole.BillingFrequency ) + " )" );
+                                strPayPalURL += "&item_name=" + Globals.HTTPPOSTEncode(PortalSettings.PortalName + " - " + objRole.RoleName + " ( " + string.Format("{0:0.00}", objRole.ServiceFee) + " " + PortalSettings.Currency + " every " + intBillingPeriod.ToString() + " " + GetBillingFrequencyCode(objRole.BillingFrequency) + " )");
                                 strPayPalURL += "&item_number=" + Globals.HTTPPOSTEncode( intRoleId.ToString() );
                                 strPayPalURL += "&no_shipping=1&no_note=1";
                                 if( objRole.TrialFrequency != "N" )
