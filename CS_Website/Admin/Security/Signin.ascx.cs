@@ -20,6 +20,7 @@
 using System;
 using System.Collections;
 using System.Web;
+using System.Web.Security;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Profile;
@@ -540,7 +541,24 @@ namespace DotNetNuke.Modules.Admin.Security
         /// </history>
         protected void cmdPassword_Click( Object sender, EventArgs e )
         {
-            Response.Redirect( Globals.NavigateURL( "SendPassword" ), true );
+            switch (System.Web.Security.Membership.Provider.PasswordFormat)
+            {
+                case MembershipPasswordFormat.Clear:
+                    {
+                        Response.Redirect(Globals.NavigateURL("SendPassword"), true);
+                        break;
+                    }
+                case MembershipPasswordFormat.Hashed:
+                    {
+                        Response.Redirect(Globals.NavigateURL("ResetPassword"), true);
+                        break;
+                    }
+                case MembershipPasswordFormat.Encrypted:
+                    {
+                        Response.Redirect(Globals.NavigateURL("SendPassword"), true);
+                        break;
+                    }
+            }
         }
 
         /// <summary>

@@ -289,7 +289,7 @@ namespace DotNetNuke.Modules.Admin.Users
                 return;
             }
 
-            //4. Check New Password is ddifferent
+            //4. Check New Password is different
             if( ! IsAdmin && txtNewPassword.Text == txtOldPassword.Text )
             {
                 OnPasswordUpdated( new PasswordUpdatedEventArgs( PasswordUpdateStatus.PasswordNotDifferent ) );

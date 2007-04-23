@@ -224,11 +224,11 @@ namespace DotNetNuke.UI.WebControls
 			//TreeNodeCollection = New TreeNodeCollection(m_strNamespace, m_objDNNTree)
 			if ((this.XMLNode != null))
 			{
-				XmlNodeList objNodeList = this.XMLNode.SelectNodes("//n[@selected='1']");
+				XmlNodeList objNodeList = this.XMLNode.SelectNodes("//n[@selected=\"1\"]");
                     foreach (XmlNode objNode in objNodeList)
                     {
-					colTreeNodes.Add(new TreeNode(objNode, m_objDNNTree));
-				}
+                        colTreeNodes.Add(new TreeNode(objNode, m_objDNNTree));
+                    }
 			}
 			return colTreeNodes;
 		}

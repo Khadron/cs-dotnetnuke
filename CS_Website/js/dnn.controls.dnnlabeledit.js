@@ -225,7 +225,7 @@ persistEdit: function()
 	if (this.editWrapper.getText() != this.prevText)
 	{
 		if (this.raiseEvent('beforeSaveFunc', null, this))
-		{
+		{			
 			this.editControl.className = this.control.className + ' ' + this.cssWork;
 			eval(this.callBack.replace('[TEXT]', dnn.escapeForEval(this.editWrapper.getText())));
 		}

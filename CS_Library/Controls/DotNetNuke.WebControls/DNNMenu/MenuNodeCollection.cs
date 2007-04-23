@@ -237,7 +237,7 @@ namespace DotNetNuke.UI.WebControls
 			//MenuNodeCollection = New MenuNodeCollection(m_strNamespace, m_objDNNMenu)
 			if ((this.XMLNode != null))
 			{
-				XmlNodeList objNodeList = this.XMLNode.SelectNodes("//n[@selected='1']");
+				XmlNodeList objNodeList = this.XMLNode.SelectNodes("//n[@selected=\"1\"]");
 				foreach (XmlNode objNode in objNodeList) {
 					colMenuNodes.Add(new MenuNode(objNode, m_objDNNMenu));
 				}

@@ -12,7 +12,7 @@
 		<td colspan="2" class="SubHead"><dnn:label id="plCaptcha" controlname="ctlCaptcha" runat="server" text="Password:"></dnn:label></td>
 	</tr>
 	<tr id="trCaptcha2" runat="server">
-		<td colspan="2"><dnn:captchacontrol id="ctlCaptcha" captchawidth="130" captchaheight="40" cssclass="Normal" runat="server" errorstyle-cssclass="NormalRed" /></td>
+		<td colspan="2" style="height: 115px"><dnn:captchacontrol id="ctlCaptcha" captchawidth="130" captchaheight="40" cssclass="Normal" runat="server" errorstyle-cssclass="NormalRed" /></td>
 	</tr>
 	<tr>
 		<td>

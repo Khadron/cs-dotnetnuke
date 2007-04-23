@@ -469,7 +469,8 @@ namespace DotNetNuke.UI.ControlPanels
         
         protected void cmdInstallFeatures_Click(object sender, EventArgs e)
         {
-            string URL = BuildURL(PortalSettings.PortalId, "Module Definitions");
+            string URL = Request.RawUrl;
+            URL = BuildURL(Null.NullInteger, "Module Definitions");
             Response.Redirect(URL, true);
         }
     }

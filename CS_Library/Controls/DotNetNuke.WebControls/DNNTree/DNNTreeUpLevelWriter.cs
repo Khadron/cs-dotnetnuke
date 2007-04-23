@@ -109,7 +109,7 @@ namespace DotNetNuke.UI.WebControls
 
 			if (!String.IsNullOrEmpty(_tree.JSFunction)) writer.AddAttribute("js", _tree.JSFunction); 
 
-			if (!String.IsNullOrEmpty(_tree.WorkImage)) writer.AddAttribute("workimg", _tree.WorkImage); 
+			if (!String.IsNullOrEmpty(_tree.WorkImage)) writer.AddAttribute("working", _tree.WorkImage); 
 			if (_tree.AnimationFrames != 5) writer.AddAttribute("animf", _tree.AnimationFrames.ToString()); 
 			writer.AddAttribute("expimg", _tree.ExpandedNodeImage);
 			writer.AddAttribute("colimg", _tree.CollapsedNodeImage);

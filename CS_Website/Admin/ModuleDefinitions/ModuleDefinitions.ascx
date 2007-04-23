@@ -30,7 +30,7 @@
                         <asp:TemplateColumn>
                             <ItemStyle Width="20px" />
                             <ItemTemplate>
-                                <asp:HyperLink ID="Hyperlink1" runat="server" NavigateUrl='<%# EditUrl("desktopmoduleid",(string)DataBinder.Eval(Container.DataItem,"DesktopModuleId")) %>' Visible="<%# IsEditable %>">
+                                <asp:HyperLink ID="Hyperlink1" runat="server" NavigateUrl='<%# EditUrl("desktopmoduleid",DataBinder.Eval(Container.DataItem,"DesktopModuleId").ToString()) %>' Visible="<%# IsEditable %>">
                                     <asp:Image ID="Hyperlink1Image" runat="server" AlternateText="Edit" ImageUrl="~/images/edit.gif" resourcekey="Edit" Visible="<%# IsEditable %>" />
                                 </asp:HyperLink>
                             </ItemTemplate>

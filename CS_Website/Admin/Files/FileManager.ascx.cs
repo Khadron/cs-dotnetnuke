@@ -1076,7 +1076,7 @@ namespace DotNetNuke.Modules.Admin.FileSystem
         {
             try
             {
-                //FileManager requires at a bare minimum the dnn namespace, so regardless of wheter the ClientAPI is disabled of not we
+                //FileManager requires at a bare minimum the dnn namespace, so regardless of whether the ClientAPI is disabled of not we
                 //need to register it.
                 ClientAPI.RegisterClientReference( this.Page, ClientAPI.ClientNamespaceReferences.dnn );
 
@@ -1263,6 +1263,45 @@ namespace DotNetNuke.Modules.Admin.FileSystem
             }
         }
 
+        /// -----------------------------------------------------------------------------
+        /// <summary>
+        /// The dgFileList_SortCommand server event handler on this user control runs when one
+        /// of the Column Header Links is clicked
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
+        /// <remarks>
+        /// </remarks>
+        /// <history>
+        /// 	[cnurse]	01/12/2007	Created
+        /// </history>
+        /// -----------------------------------------------------------------------------
+        protected void dgFileList_SortCommand(object source, DataGridSortCommandEventArgs e)
+        {
+            BindFolderTree();
+            this.IsRefresh = true;
+            LastSort = Sort;
+            if (Sort.Replace(" ASC", "").Replace(" DESC", "") == e.SortExpression)
+            {
+                //Switch order
+                if (Sort.Contains("ASC"))
+                {
+                    Sort = Sort.Replace("ASC", "DESC");
+                }        
+                else
+                {
+                    Sort = Sort.Replace("DESC", "ASC");
+                }
+            }
+            else
+            {
+                Sort = e.SortExpression + " ASC";
+            }
+            MoveStatus = "";
+            FilterFiles = "";
+            BindFileList();
+        }
+
         /// <summary>
         /// The DNNTree_NodeClick server event handler on this user control runs when a
         /// Node (Folder in the) in the TreeView is clicked
@@ -1320,12 +1359,12 @@ namespace DotNetNuke.Modules.Admin.FileSystem
                 ArrayList colNodes = DNNTree.SelectedTreeNodes;
                 if( colNodes.Count > 0 )
                 {
-                    TreeNode parentNode = (TreeNode)colNodes[1];
+                    TreeNode parentNode = (TreeNode)colNodes[0];
 
                     string filterFolderName;
                     filterFolderName = txtNewFolder.Text.Replace( ".", "_" );
                     //Add Folder to Database
-                    FileSystemUtils.AddFolder( PortalSettings, strSourcePath, filterFolderName, int.Parse( ddlStorageLocation.SelectedValue ) );
+                    FileSystemUtils.AddFolder( PortalSettings, strSourcePath, filterFolderName, Convert.ToInt16( ddlStorageLocation.SelectedValue ) );
                     DestPath = MaskPath( FileSystemUtils.AddTrailingSlash( strSourcePath ) + filterFolderName );
 
                     DataCache.RemoveCache( "Folders:" + FolderPortalID );
@@ -1408,7 +1447,7 @@ namespace DotNetNuke.Modules.Admin.FileSystem
                 ArrayList colNodes = DNNTree.SelectedTreeNodes;
                 if( colNodes.Count > 0 )
                 {
-                    TreeNode objNode = (TreeNode)colNodes[1];
+                    TreeNode objNode = (TreeNode)colNodes[0];
                     objNode.Selected = false;
                     objNode.Parent.Selected = true;
                     objNode.Parent.DNNNodes.Remove( objNode );

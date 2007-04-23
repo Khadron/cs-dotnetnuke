@@ -298,7 +298,7 @@ namespace DotNetNuke.UI.WebControls
 			ArrayList colNodes = new ArrayList();
 			if ((this.XMLNode != null))
 			{
-				XmlNodeList objNodeList = this.XMLNode.SelectNodes("//n[@selected='1']");
+				XmlNodeList objNodeList = this.XMLNode.SelectNodes("//n[@selected=\"1\"]");
                     foreach (XmlNode objNode in objNodeList)
                     {
 					colNodes.Add(new DNNNode(objNode));

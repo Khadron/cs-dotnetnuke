@@ -249,7 +249,7 @@ namespace DotNetNuke.UI.WebControls
 		/// -----------------------------------------------------------------------------
 		public bool HasNodes {
 			get {
-				bool blnHas = !String.IsNullOrEmpty(CustomAttribute("hasNodes", "false"));
+                    Boolean blnHas = this.CustomAttribute("hasNodes", "0") == "1" ? true : false;
 				if (blnHas == false)
 				{
 					return this.DNNNodes.Count > 0;
@@ -259,9 +259,12 @@ namespace DotNetNuke.UI.WebControls
 					return blnHas;
 					//False
 				}
-			}
-               //CustomAttribute("hasNodes", 0) = Value
-			set { this.SetCustomAttribute("hasNodes", "false", value.ToString()); }
+			}              
+			set 
+               {
+                   string strValue = value == true ? "1" : "0";
+                   this.SetCustomAttribute("hasNodes", strValue); 
+               }
 		}
 
 		/// -----------------------------------------------------------------------------
@@ -577,8 +580,14 @@ namespace DotNetNuke.UI.WebControls
 		/// </history>
 		/// -----------------------------------------------------------------------------
 		public bool Enabled {
-			get { return Convert.ToBoolean(CustomAttribute("enabled", "true")); }
-			set { SetCustomAttribute("enabled", value.ToString()); }
+               get 
+               { 
+                   return this.CustomAttribute("enabled", "1") == "1" ? true : false; }
+			set 
+               {
+                   string strValue = value == true ? "1" : "0";
+                   this.SetCustomAttribute("enabled", strValue); 
+               }
 		}
 
 		/// -----------------------------------------------------------------------------
@@ -673,8 +682,14 @@ namespace DotNetNuke.UI.WebControls
 		/// </history>
 		/// -----------------------------------------------------------------------------
 		public bool Selected {
-			get { return Convert.ToBoolean(this.CustomAttribute("selected", "false")); }
-			set { this.SetCustomAttribute("selected", value.ToString()); }
+			get 
+               { 
+                   return this.CustomAttribute("selected", "0") == "1" ? true : false; }
+			set 
+               {
+                   string strValue = value == true ? "1" : "0";
+                   this.SetCustomAttribute("selected", strValue); 
+               }
 		}
 
 		/// -----------------------------------------------------------------------------
@@ -689,8 +704,14 @@ namespace DotNetNuke.UI.WebControls
 		/// </history>
 		/// -----------------------------------------------------------------------------
 		public bool BreadCrumb {
-			get { return Convert.ToBoolean(this.CustomAttribute("bcrumb", "false")); }
-			set { this.SetCustomAttribute("bcrumb", value.ToString()); }
+              get 
+               { 
+                   return this.CustomAttribute("bcrumb", "0") == "1" ? true : false; }
+			set 
+               {
+                   string strValue = value == true ? "1" : "0";
+                   this.SetCustomAttribute("bcrumb", strValue); 
+               }
 		}
 
 		public eClickAction ClickAction 
@@ -711,8 +732,14 @@ namespace DotNetNuke.UI.WebControls
 		}
 
 		public bool IsBreak {
-			get { return Convert.ToBoolean(this.CustomAttribute("break", "false")); }
-			set { this.SetCustomAttribute("break", value.ToString()); }
+              get 
+               { 
+                   return this.CustomAttribute("break", "0") == "1" ? true : false; }
+			set 
+               {
+                   string strValue = value == true ? "1" : "0";
+                   this.SetCustomAttribute("break", strValue); 
+               }
 		}
 
 		#endregion

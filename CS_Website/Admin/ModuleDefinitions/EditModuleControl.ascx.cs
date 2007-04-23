@@ -28,7 +28,6 @@ using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Skins.Controls;
 using DotNetNuke.UI.Utilities;
-using Microsoft.VisualBasic;
 using Globals=DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Modules.Admin.ModuleDefinitions
@@ -109,7 +108,8 @@ namespace DotNetNuke.Modules.Admin.ModuleDefinitions
                 {
                     string strFile = tempLoopVar_strFile;
                     string strExtension = Path.GetExtension( strFile ).Replace( ".", "" );
-                    if( Strings.InStr( 1, Globals.glbImageFileTypes + ",", strExtension + ",", 0 ) != 0 )
+                    string strImageFileTypes = Globals.glbImageFileTypes + ",";
+                    if(strImageFileTypes.IndexOf(strExtension + ",", 1, StringComparison.InvariantCultureIgnoreCase) != 0)
                     {
                         cboIcon.Items.Add( new ListItem( Path.GetFileName( strFile ), Path.GetFileName( strFile ).ToLower() ) );
                     }

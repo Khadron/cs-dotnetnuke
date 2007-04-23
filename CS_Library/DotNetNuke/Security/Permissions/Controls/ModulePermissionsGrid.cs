@@ -324,18 +324,18 @@ namespace DotNetNuke.Security.Permissions.Controls
             ModulePermissionInfo objModulePermission;
 
             objModulePermission = new ModulePermissionInfo();
-            objModulePermission.PermissionID = Convert.ToInt32( Settings[1] );
-            objModulePermission.RoleID = Convert.ToInt32( Settings[4] );
+            objModulePermission.PermissionID = Convert.ToInt32( Settings.Length > 1 ? Settings[1] : "1" );
+            objModulePermission.RoleID = Convert.ToInt32(Settings.Length > 4 ? Settings[4] : "0" );
 
-            if( Settings[2] == "" )
+            if (Settings.Length < 2)
             {
                 objModulePermission.ModulePermissionID = -1;
             }
             else
             {
-                objModulePermission.ModulePermissionID = Convert.ToInt32( Settings[2] );
+                objModulePermission.ModulePermissionID = Convert.ToInt32(Settings[2].Equals("") ? "-1" : Settings[2]);
             }
-            objModulePermission.RoleName = Settings[3];
+            objModulePermission.RoleName = Settings.Length > 3 ? Settings[3] : String.Empty;
             objModulePermission.AllowAccess = true;
 
             objModulePermission.ModuleID = ModuleID;

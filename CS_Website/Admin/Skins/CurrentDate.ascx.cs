@@ -90,7 +90,7 @@ namespace DotNetNuke.UI.Skins.Controls
             UserTime objUserTime = new UserTime();
             if( !String.IsNullOrEmpty(DateFormat) )
             {
-                lblDate.Text = Strings.Format( objUserTime.CurrentUserTime, DateFormat );
+                lblDate.Text = string.Format(DateFormat, objUserTime.CurrentUserTime);
             }
             else
             {

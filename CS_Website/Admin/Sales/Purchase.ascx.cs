@@ -26,7 +26,6 @@ using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Exceptions;
-using Microsoft.VisualBasic;
 using Globals=DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Modules.Admin.Sales
@@ -67,14 +66,14 @@ namespace DotNetNuke.Modules.Admin.Sales
                             {
                                 if( ! Null.IsNull( PortalSettings.HostFee ) )
                                 {
-                                    lblFee.Text = Strings.Format( PortalSettings.HostFee, "#,##0.00" );
+                                    lblFee.Text = string.Format("{0:#,##0.00}", PortalSettings.HostFee );
                                 }
                             }
                             else
                             {
                                 if( ! Null.IsNull( objRole.ServiceFee ) )
                                 {
-                                    lblFee.Text = Strings.Format( objRole.ServiceFee, "#,##0.00" );
+                                    lblFee.Text = string.Format("{0:#,##0.00}", objRole.ServiceFee);
                                 }
                             }
                             if( ! Null.IsNull( objRole.BillingFrequency ) )
@@ -114,9 +113,9 @@ namespace DotNetNuke.Modules.Admin.Sales
                 {
                     strCurrency = PortalSettings.Currency;
                 }
-
-                dblTotal = Conversion.Val( lblFee.Text )*Conversion.Val( txtUnits.Text );
-                lblTotal.Text = Strings.Format( dblTotal, "#,##0.00" );
+                
+                dblTotal = Convert.ToDouble(lblFee.Text) * Convert.ToDouble(txtUnits.Text);
+                lblTotal.Text = string.Format("{0:#,##0.00}", dblTotal  );
 
                 lblFeeCurrency.Text = strCurrency;
                 lblTotalCurrency.Text = strCurrency;
@@ -210,10 +209,10 @@ namespace DotNetNuke.Modules.Admin.Sales
                 string strResponse = sr.ReadToEnd();
                 sr.Close();
 
-                int intPos1 = Strings.InStr( 1, strResponse, ToCurrency + "</B>", 0 );
-                int intPos2 = Strings.InStrRev( strResponse, "<B>", intPos1, 0 );
+                int intPos1 = strResponse.IndexOf(ToCurrency + "</B>");
+                int intPos2 = strResponse.LastIndexOf("<B>", intPos1);
 
-                returnValue = Conversion.Val( strResponse.Substring( intPos2 + 3 - 1, ( intPos1 - intPos2 ) - 4 ) );
+                returnValue = Convert.ToDouble( strResponse.Substring( intPos2 + 3 - 1, ( intPos1 - intPos2 ) - 4 ) );
             }
             catch( Exception exc ) //Module failed to load
             {

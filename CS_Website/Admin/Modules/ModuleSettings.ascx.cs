@@ -31,7 +31,6 @@ using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Skins;
 using DotNetNuke.UI.Utilities;
-using Microsoft.VisualBasic;
 using Calendar=DotNetNuke.Common.Utilities.Calendar;
 using Globals=DotNetNuke.Common.Globals;
 
@@ -125,7 +124,7 @@ namespace DotNetNuke.Modules.Admin.Modules
 
                 // populate view roles
                 ArrayList arrAssignedAuthViewRoles = new ArrayList();
-                Array arrAuthViewRoles = Strings.Split( objModule.AuthorizedViewRoles, ";", -1, 0 );
+                Array arrAuthViewRoles = objModule.AuthorizedViewRoles.Split(new char[] { ';' });
                 foreach( string strRole in arrAuthViewRoles )
                 {
                     if( !String.IsNullOrEmpty( strRole ) )
@@ -144,7 +143,7 @@ namespace DotNetNuke.Modules.Admin.Modules
 
                 // populate edit roles
                 ArrayList arrAssignedAuthEditRoles = new ArrayList();
-                Array arrAuthEditRoles = Strings.Split( objModule.AuthorizedEditRoles, ";", -1, 0 );
+                Array arrAuthEditRoles = objModule.AuthorizedEditRoles.Split(new char[] { ';' });
                 foreach( string strRole in arrAuthEditRoles )
                 {
                     

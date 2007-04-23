@@ -86,7 +86,7 @@
 					</tr>
 					<tr height="25">
 						<td class="SubHead" width="175"><dnn:label id="plEditQuestion" runat="server" controlname="lblQuetxtEditQuestionstion" text="Password Question:"></dnn:label></td>
-						<td><asp:textbox id="txtEditQuestion" runat="server" cssclass="NormalTextBox" size="25" maxlength="20"></asp:textbox></td>
+						<td><asp:textbox id="txtEditQuestion" runat="server" cssclass="NormalTextBox" size="25" maxlength="50"></asp:textbox></td>
 					</tr>
 					<tr height="25">
 						<td class="SubHead" width="175"><dnn:label id="plEditAnswer" runat="server" controlname="txtEditAnswer" text="Password Answer:"></dnn:label></td>
