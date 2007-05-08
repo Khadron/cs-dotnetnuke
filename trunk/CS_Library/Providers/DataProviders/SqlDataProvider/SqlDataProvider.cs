@@ -26,7 +26,6 @@ using System.Web;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Framework.Providers;
 using Microsoft.ApplicationBlocks.Data;
-using Microsoft.VisualBasic;
 
 namespace DotNetNuke.Data
 {
@@ -238,9 +237,10 @@ namespace DotNetNuke.Data
         {
             string SQL = "";
             string Exceptions = "";
-            string Delimiter = "GO" + "\r\n";
+            string[] Delimiter = new string[1] {"GO" + "\r\n"};
 
-            string[] arrSQL = Strings.Split( Script, Delimiter, -1, CompareMethod.Text );
+            //string[] arrSQL = Strings.Split( Script, Delimiter, -1, CompareMethod.Text );
+            string[] arrSQL = Script.Split(Delimiter, StringSplitOptions.RemoveEmptyEntries);
 
             if( UseTransactions )
             {
