@@ -1,6 +1,6 @@
 #How to build a working copy from SVN
 
-= Introduction =
+= Creating a build for development from SVN =
 
 Step 1:
 
